@@ -28,11 +28,11 @@ class RedirectRestrictedUser
      */
     public function handle($request, Closure $next)
     {
-        $superUsers = explode(",", env('BACKEND_SUPERUSERS'));
+        /*$superUsers = explode(",", env('BACKEND_SUPERUSERS'));
 
         if (in_array(Session::get('userId'), $superUsers)) {
             return $next($request);
-        }
+        }*/
 
         $type = Session::get('userType');
         $role = Session::get('role');

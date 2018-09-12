@@ -116,29 +116,26 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_fonts');
             Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage'])->name('v1_inksoft_design');
 
-            //Master Lists
-            Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex'])->name('v1_patterns');
-
             Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index'])->name('v1_colors');
             Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex'])->name('v1_master_colors');
 
             // Colors Sets
             Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index'])->name('v1_color_sets');
-            Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm']);
-            Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
-            Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
-            Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@editColorsSetForm']);
+            Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm'])->name('v1_add_color_set');
+            Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store'])->name('v1_store_color_set');
+            Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store'])->name('v1_update_color_set');
+            Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@editColorsSetForm'])->name('v1_edit_color_set');
 
             Route::get('master_fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex'])->name('v1_master_fabrics');
-            Route::get('master_fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+            Route::get('master_fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_master_fonts');
 
             //Patterns
             Route::get('master_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex'])->name('v1_master_patterns');
-            Route::get('patterns/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@index']);
-            Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@addPatternForm']);
-            Route::post('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
-            Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@editPatternForm']);
-            Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
+            Route::get('patterns/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@index'])->name('v1_patterns');
+            Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@addPatternForm'])->name('v1_add_pattern');
+            Route::post('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store'])->name('v1_store_pattern');
+            Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@editPatternForm'])->name('v1_edit_pattern');
+            Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store'])->name('v1_update_pattern');
 
             Route::get('ordersMinified/{from?}/{to?}/{test_order?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
             
@@ -153,34 +150,34 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index'])->name('v1_users');
             Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
-            Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_updated_user');
+            Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_update_user');
             Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
 
             Route::get('mascots/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index'])->name('v1_mascots');
-            Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm']);
-            Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
-            Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@editMascotForm']);
-            Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
+            Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm'])->name('v1_add_mascot');
+            Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store'])->name('v1_store_mascot');
+            Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@editMascotForm'])->name('v1_edit_mascot');
+            Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store'])->name('v1_update_mascot');
 
             /* Materials */
             Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@index'])->name('v1_materials_index');
             Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport']);
             Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexFull']);
             Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store'])->name('v1_material_store');
-            Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store']);
+            Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store'])->name('v1_update_material');
             Route::get('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@addMaterialForm'])->name('v1_material_add');
             Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editMaterialForm'])->name('v1_material_edit');
             Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@getMaterialOptions'])->name('v1_view_material_option');
             Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
-            Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm']);
+            Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm'])->name('v1_edit_piping');
             Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings'])->name('v1_piping_add');
             Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed'])->name('v1_random_feed');
-            Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping']);
+            Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping'])->name('v1_update_single_piping');
             Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings'])->name('v1_update_piping');
             Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateRandomFeed'])->name('v1_update_random_feed');
             Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@dropZone'])->name('v1_material_options_dropzone');
-            Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDropzoneImage']);
-            Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet']);
+            Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDropzoneImage'])->name('v1_insert_material_image');
+            Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet'])->name('v1_insert_material_design_sheet');
 
             Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@updateMaterialOptions'])->name('v1_update_material_options');
             Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@storeMultiple'])->name('v1_save_material_option');
