@@ -56,6 +56,9 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -437,7 +440,7 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
-
+            
             if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.sport = ub.current_material.material.uniform_category;
@@ -1015,6 +1018,15 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+            
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get the Thread Color from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
 
             if (object_name === 'cuts_links') {
 

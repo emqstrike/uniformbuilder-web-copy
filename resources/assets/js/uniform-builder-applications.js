@@ -4349,6 +4349,21 @@ $(document).ready(function() {
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
+                // Add `thread_colors` flag in ub.current_material.settings
+                // if the category of uniform is `Socks (Apparel)`
+                // and base on the truthiness of the flag, thread colors will be used
+                if ( _.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)') 
+                    && ub.funcs.isKnitted() ) {
+
+                    if ( _.isEqual(ub.page, 'builder') 
+                        || ub.current_material.settings.thread_colors === 'undefined' ) {
+
+                        ub.current_material.settings.thread_colors = true;
+
+                    }
+
+                }
+
                 ub.funcs.initTeamColors();
                 $pd.hide();
                 $('div#right-main-window').css('overflow','hidden');
