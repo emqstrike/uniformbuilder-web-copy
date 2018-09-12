@@ -72,7 +72,12 @@ $(document).ready(function() {
     // console.log(sports);
 
     $(document).on('change', '.active-sport', function() {
-        window.location = "/administration/materials/"+$(this).val();
+        // check for current version of the dashboard
+        if (window.location.href.search('v1-0') > 0) {
+            window.location = "/administration/v1-0/materials/" + $(this).val();
+        } else {
+            window.location = "/administration/materials/" + $(this).val();
+        }
     });
 
     $('img[data-toggle=popover]').popover({
