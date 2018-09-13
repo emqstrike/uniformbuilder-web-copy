@@ -797,7 +797,7 @@ $(document).ready(function () {
         // then use thread colors instead of the default colors
         if (ub.current_material.settings.thread_colors) {
 
-            _colorSet = ub.data.threadColors;
+            _colorSet =  _.sortBy(ub.data.threadColors, 'order');
 
         } else {
 
