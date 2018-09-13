@@ -754,4 +754,12 @@ class MaterialsController extends Controller
         ]);
 
     }
+
+    public function logoPosition($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration-lte-2.master-pages.materials.material-logo-position', [
+            'material' => $material
+        ]);
+    }
 }

@@ -1,36 +1,24 @@
 $(document).ready(function() {
 
-colors = getColors().colors;
+    colors = getColors().colors;
 
-window.piping_sets = [
-                    "Yoke Piping",
-                    "Neck Piping",
-                    "Center Piping",
-                    "Left End of Sleeve Piping",
-                    "Left Sleeve Piping 1 inch Up",
-                    "Left Raglan Piping",
-                    "Left Set-in Piping",
-                    "Right End of Sleeve Piping",
-                    "Right Sleeve Piping 1 inch Up",
-                    "Right Raglan Piping",
-                    "Right Set-in Piping",
-                    "Tunnel Piping",
-                    "Right Pant Piping",
-                    "Left Pant Piping",
-                    "Sleeve Piping 1 inch Up",
-                ];
+    window.position_sets = [
+                        "Right Chest",
+                        "Left Sleeve",
+                        "Back Neck"
+                    ];
 
-function buildSetsDropdown(value){
-    var dropdown = '<select class="form-control piping-set">';
-    window.piping_sets.forEach(function(entry) {
-        if(entry == value) {
-            dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
-        } else {
-            dropdown += '<option value="'+entry+'">'+entry+'</option>';
-        }
-    });
-    return dropdown;
-}
+    function buildSetsDropdown(value){
+        var dropdown = '<select class="form-control position-set">';
+        window.piping_sets.forEach(function(entry) {
+            if(entry == value){
+                dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
+            } else {
+                dropdown += '<option value="'+entry+'">'+entry+'</option>';
+            }
+        });
+        return dropdown;
+    }
 
     $(".global-color").append(globalColorSelector(colors));
 
@@ -97,16 +85,16 @@ function buildSetsDropdown(value){
             pos3checked = 'checked';
         }
 
-        var selectbox = '<select class="form-control piping-size">';
-        var piping_sizes = ["1/8", "1/4", "1/2"];
-        piping_sizes.forEach(function(entry) {
-            if(entry == size){
-                selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
-            } else {
-                selectbox += '<option value="'+entry+'">'+entry+'</option>';
-            }
-        });
-        selectbox += '</select>';
+        // var selectbox = '<select class="form-control piping-size">';
+        // var piping_sizes = ["1/8", "1/4", "1/2"];
+        // piping_sizes.forEach(function(entry) {
+        //     if(entry == size){
+        //         selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
+        //     } else {
+        //         selectbox += '<option value="'+entry+'">'+entry+'</option>';
+        //     }
+        // });
+        // selectbox += '</select>';
 
         if(!entry.colors_array){
             entry.colors_array = ["","","",];
@@ -117,11 +105,11 @@ function buildSetsDropdown(value){
 
         var set = buildSetsDropdown(entry.set);
 
-        var template = `<table class="table table-striped table-bordered table-hover piping-table">
+        var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
         <tr>
             <td colspan="6">
-                <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Piping Details</b>
-                <a href="#" class="btn btn-flat btn-danger pull-right delete-piping">Remove</a>
+                <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Logo Position Details</b>
+                <a href="#" class="btn btn-flat btn-danger pull-right delete-logo-position">Remove</a>
             </td>
         </tr>
         <tr>
@@ -217,11 +205,8 @@ function buildSetsDropdown(value){
         });
     }
 
-    $('.add-piping').on('click', function(e){
+    $(document).on('click', '.add-logo-position', function(e){
         e.preventDefault();
-        var selectedFirst = $(".global-color-selector option:selected").eq(0).val();
-        var selectedSecond = $(".global-color-selector option:selected").eq(1).val();
-        var selectedThird = $(".global-color-selector option:selected").eq(2).val();
 
         var sets_dropdown = buildSetsDropdown();
 
@@ -236,18 +221,8 @@ function buildSetsDropdown(value){
         <tr>
             <td>
                 <div>
-                    <label>Sizing</label>
-                    <select class="form-control piping-size">
-                        <option value="1/8">1/8</option>
-                        <option value="1/4">1/4</option>
-                        <option value="1/2">1/2</option>
-                    </select>
-                </div>
-            </td>
-            <td>
-                <div>
                     <label>Name</label>
-                    <input type="text" class="form-control piping-name">
+                    <input type="text" class="form-control logo-name">
                 </div>
             </td>
             <td>
@@ -313,7 +288,7 @@ function buildSetsDropdown(value){
             </tr>
         </tbody>
         </table>`;
-        $('.pipings-content').prepend(elem);
+        $('logo-position-content').prepend(elem);
         deletePiping();
         changeImage();
         changeEvent();
