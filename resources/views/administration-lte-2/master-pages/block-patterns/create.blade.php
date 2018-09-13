@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_store_block_pattern') }}" enctype="multipart/form-data" id='create-color-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/{{ env('ENDPOINT_VERSION') }}/block_pattern/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="neck_options" id="neck_options" value="">
 
