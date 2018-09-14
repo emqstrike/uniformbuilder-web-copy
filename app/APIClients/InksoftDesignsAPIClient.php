@@ -68,7 +68,7 @@ class InksoftDesignsAPIClient extends APIClient
     {
         $user = '';
         if (!is_null($user_id)) {
-            $user = '&user_id=' . $user;
+            $user = '&user_id=' . $user_id;
         }
 
         $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/inksoft_designs/paginate?page='.$current_page . $user);

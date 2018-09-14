@@ -57,7 +57,8 @@ class InksoftDesignsController extends Controller
             'inksoft_designs' => $inksoft_designs,
             'paginator' => $paginator,
             'current_page' => $current_page,
-            'users' => $users
+            'users' => $users,
+            'active_user' => $user_id
         ]);
 
     }

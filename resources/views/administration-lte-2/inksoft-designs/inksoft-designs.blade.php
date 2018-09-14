@@ -25,7 +25,11 @@
                                     <option value="all">All</option>
                                     @foreach ($users as $user)
                                     @if (! is_null($user->id) && (! $user->id == ""))
-                                        <option value="{{ $user->id }}">{{ $user->last_name }}, {{ $user->first_name }}</option>
+                                        @if ($active_user == $user->id)
+                                            <option value="{{ $user->id }}" selected="selected">{{ $user->last_name }}, {{ $user->first_name }}</option>
+                                        @else
+                                            <option value="{{ $user->id }}">{{ $user->last_name }}, {{ $user->first_name }}</option>
+                                        @endif
                                     @endif
                                     @endforeach
                                 </select>
@@ -196,8 +200,12 @@
     $(document).on('change', '#active_user', function(e){
         e.preventDefault();
         $user = $(this).val();
-        var url = "{{ route('inksoft_designs') }}?user=" + $user;
-        console.log(url);
+        if($user != 'all') {
+            var url = "{{ route('inksoft_designs') }}?user=" + $user;
+        } else {
+            var url = "{{ route('inksoft_designs') }}";
+        }
+        window.location.href = url;
     });
 
     $('.file-link').on('click', function(){
