@@ -56,6 +56,9 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -437,7 +440,7 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
-
+            
             if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.sport = ub.current_material.material.uniform_category;
@@ -948,7 +951,7 @@ $(document).ready(function () {
         };
  
         ub.callback = function (obj, object_name) {
-
+            
             var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
 
             ub.displayDoneAt(_alias + ' loaded.');
@@ -1015,6 +1018,15 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+            
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get the Thread Color from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
 
             if (object_name === 'cuts_links') {
 
@@ -2563,6 +2575,7 @@ $(document).ready(function () {
                 if (typeof e.pattern.pattern_obj !== 'undefined') {
 
                     if (e.pattern.pattern_obj.name === "Blank") { return; }
+                    
                     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
          
                 }    
@@ -3162,7 +3175,7 @@ $(document).ready(function () {
             var _layerCount = 0;
 
             _.each(material_options, function (obj, index) {
-
+                
                 _layerCount +=1;
 
                 var name = obj.name.toCodeCase();
@@ -6206,6 +6219,9 @@ $(document).ready(function () {
     };
 
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
+        
+        //set the default to 100
+        var opacity = (_.isEqual(opacity, 0)) ? opacity=100: opacity;
 
         var uniform_type = ub.current_material.material.type;
         var target_name = target.toTitleCase();
@@ -6253,6 +6269,8 @@ $(document).ready(function () {
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
+
+                sprite.alpha = parseInt(opacity) / 100;
 
                 ///
                 var _hexCode = (sprite.tint).toString(16);
