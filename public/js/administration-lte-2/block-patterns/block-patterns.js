@@ -157,19 +157,15 @@ $(document).ready(function(){
                 var placeholder_class = ".neck-option-placeholder-overrides.layer" + ctr;
                 $(this).find(placeholder_class).addClass('neck-option-placeholder-overrides');
 
+                $(this).find('.neck-option-existing-file').removeClass().addClass('neck-option-existing-file');
+                $(this).find('.neck-option-existing-file').addClass(thisLayer);
+
                 var existing_file_class = ".neck-option-existing-file.layer" + ctr;
 
                 layers_properties[ctr]['name'] = $(this).find(name_class).val();
                 layers_properties[ctr]['placeholder_overrides'] = $(this).find(placeholder_class).val();
-                if( edit == 1 ){
-
-                    layers_properties[ctr]['thumbnail_path'] = $(this).find(existing_file_class).val();
-
-                } else {
-
-                    layers_properties[ctr]['thumbnail_path'] = $(this).find(file_class).val();
-
-                }
+                
+                layers_properties[ctr]['thumbnail_path'] = $(this).find(existing_file_class).val();
             }
             ctr++;
             $('.btn-remove-option').on('click', function(){
@@ -206,7 +202,7 @@ $(document).ready(function(){
             updater(1);
 
             var open            = '<tr class="layers-row">';
-            var existing_file   = '<input type="hidden" class="neck-option-existing-file layer' + x + '" value="' + data[x].thumbnail_path + '">';
+            var existing_file   = '<input type="hidden" name="neck_option_existing_file[]" class="neck-option-existing-file layer' + x + '" value="' + data[x].thumbnail_path + '">';
             var name            = '<td><input type="text" class="neck-option-name form-control layer' + x + '" value="' + data[x].name + '" name="neck_option_name[]"></td>';
             var file            = '<td><input type="file" class="neck-option-file layer' + x + '" name="neck_option_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].thumbnail_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
@@ -228,21 +224,15 @@ $(document).ready(function(){
             });
 
             $('.neck-option-name').keyup(function(){
-
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
-
             });
 
             $('.neck-option-placeholder-overrides').keyup(function(){
-
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
-
             });
-
         }
-
     }
 
     $('.toggle-block-pattern').on('click', function() {
