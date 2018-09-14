@@ -21,7 +21,14 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Fonts')
-                    <h1>Fonts</h1>
+                    <h1>
+                        Fonts
+
+                        <a href="{{ route('v1_create_fonts') }}" class='btn btn-flat btn-xs btn-success'>
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Add New Font
+                        </a>
+                    </h1>
                 </div>
 
                 <div class="box-body">

@@ -10,6 +10,11 @@
         #font-size-table .form-inline {
             margin-top: 10px;
         }
+
+        .modal-body textarea {
+            height: 300px;
+            resize: none;
+        }
     </style>
 @endsection
 
@@ -23,7 +28,7 @@
                 </div>
 
                 <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/font/update" enctype="multipart/form-data" id='edit-font-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_font') }}" enctype="multipart/form-data" id='edit-font-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
@@ -296,10 +301,8 @@
 
                                     <div class="col-md-6 text-right">
                                         <a data-toggle="modal" href="#myModal" class="btn btn-flat btn-primary">Copy data</a>
-                                        <a href="#" class="fix-fst-button btn btn-flat btn-primary">Apply New Data</a>
+                                        <a data-toggle="modal" href="#load-twill-font-size-data" class="btn btn-flat btn-primary">Load data</a>
                                         <a href="#" class="btn btn-warning btn-flat reset-fst">Reset Font Size Tables data</a>
-
-                                        <textarea id="fst-fix" style="display: none;"></textarea>
                                     </div>
                                 </div>
 
@@ -446,10 +449,8 @@
 
                                     <div class="col-md-6 text-right">
                                         <a data-toggle="modal" href="#myModalB" class="btn btn-flat btn-primary">Copy data</a>
-                                        <a href="#" class="fix-fst-sublimated-button btn btn-flat btn-primary">Apply New Data</a>
-                                        <a href="#" class="btn btn-warning btn-flat reset-sublimated-fst">Reset Font Size Tables data</a>
-
-                                        <textarea id="fst-fix-sublimated" style="display: none;"></textarea>
+                                        <a data-toggle="modal" href="#load-sublimated-font-size-data" class="btn btn-flat btn-primary">Apply new data</a>
+                                        <a href="#" class="btn btn-warning btn-flat reset-sublimated-fst">Reset font size tables data</a>
                                     </div>
                                 </div>
                             </div>
@@ -657,34 +658,23 @@
                                     Update Uniform font
                                 </button>
 
-                                <a href="/administration/fonts" class="btn btn-flat btn-danger">
+                                <a href="{{ route('v1_fonts_index') }}" class="btn btn-flat btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
                             </div>
                         </div>
+
+                        @include('administration-lte-2.fonts.modal.twill-font-size-copy-data')
+                        @include('administration-lte-2.fonts.modal.twill-font-size-load-data')
+
+                        @include('administration-lte-2.fonts.modal.sublimated-font-size-copy-data')
+                        @include('administration-lte-2.fonts.modal.sublimated-font-size-load-data')
                     </form>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4> Twill Font size tables data</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="form">
-                        <div>
-                            <textarea class="fst-data-field form-control animated"></textarea>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
@@ -952,18 +942,25 @@
                 $('.animated').autosize({append: "\n"});
             }
 
-            $("#edit-font-form").on("click", ".fix-fst-sublimated-button", function(e){
+            $(".fix-fst-sublimated-button").click(function(e) {
                 e.preventDefault();
+
                 console.log('before clear');
+
                 $('.front-fst-body-sublimated').html('');
                 $('.back-fst-body-sublimated').html('');
                 $('.left-fst-body-sublimated').html('');
                 $('.right-fst-body-sublimated').html('');
+
                 console.log('after clear');
+
                 var old_font_size_tables = JSON.parse($('#fst-fix-sublimated').val());
+
                 console.log($('#fst-fix-sublimated').val());
+
                 window.sublimated_backup = old_font_size_tables;
                 console.log(old_font_size_tables);
+
                 old_font_size_tables.forEach(function(entry) {
                     var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
                     entry.sizes.forEach(function(item) {
@@ -972,28 +969,10 @@
                         $(tbl_class).append(elem);
                     });
                 });
-                refreshMultipleSublimatedFST();
-            });
 
-            $("#edit-font-form").on("click", ".fix-fst-button", function(e){
-                e.preventDefault();
-                $('.front-fst-body').html('');
-                $('.back-fst-body').html('');
-                $('.left-fst-body').html('');
-                $('.right-fst-body').html('');
-                var old_font_size_tables = JSON.parse($('#fst-fix').val());
-                console.log($('#fst-fix').val());
-                window.backup = old_font_size_tables;
-                console.log(old_font_size_tables);
-                old_font_size_tables.forEach(function(entry) {
-                    var tbl_class = '.'+entry.perspective+'-fst-body';
-                    entry.sizes.forEach(function(item) {
-                        console.log(item.inputSize);
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
-                        $(tbl_class).append(elem);
-                    });
-                });
-                refreshMultipleFST();
+                refreshMultipleSublimatedFST();
+                $('#load-sublimated-font-size-data').modal('hide');
+                $('#fst-fix-sublimated').val('');
             });
 
             $("#edit-font-form").on("click", ".reset-fst", function(e){

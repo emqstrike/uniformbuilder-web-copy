@@ -57,6 +57,7 @@ $(document).ready(function(){
     }
 
     $('.fix-fst-button').on('click', function(e){
+        e.preventDefault();
         // loadFontSizeTable(JSON.parse($('#fst-fix').val()));
 
         var fstbls_old = $('#fst-fix').val();
@@ -68,7 +69,7 @@ $(document).ready(function(){
                 var tbl_class = '.'+entry.perspective+'-fst-body';
                 entry.sizes.forEach(function(item) {
                     console.log(item.inputSize);
-                    var elem = '<tr><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                    var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="form-control inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="form-control inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="form-control inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="form-control inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="form-control inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="form-control inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn-flat btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                     $(tbl_class).append(elem);
                 });
                 // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
@@ -76,6 +77,9 @@ $(document).ready(function(){
                 // $(tbl_class).prepend(elem);
             });
         }
+
+        $('#load-twill-font-size-data').modal('hide');
+        $('#fst-fix').val('');
     });
 
     function loadFontSizeTable(old_fst){
@@ -309,7 +313,7 @@ $(document).ready(function(){
         var perspective = $(this).data('perspective');
         var tbl_class = '.'+perspective+'-fst-body';
         e.preventDefault();
-        var elem = '<tr><td><input type="number" step="any" class="inputs application-number"></td><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number"></td><td><input type="number" step="any" class="form-control inputs input-size"></td><td><input type="number" step="any" class="form-control inputs output-size"></td><td><input type="number" step="any" class="form-control inputs x-offset"></td><td><input type="number" step="any" class="form-control inputs y-offset"></td><td><input type="number" step="any" class="form-control inputs x-scale"></td><td><input type="number" step="any" class="form-control inputs y-scale"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>'
         // $('.front-fst-body').prepend(elem);
         $(tbl_class).prepend(elem);
         refreshMultipleFST();
@@ -319,7 +323,7 @@ $(document).ready(function(){
         var perspective = $(this).data('perspective');
         var tbl_class = '.'+perspective+'-fst-body-sublimated';
         e.preventDefault();
-        var elem = '<tr><td><input type="number" step="any" class="inputs application-number"></td><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number"></td><td><input type="number" step="any" class="form-control inputs input-size"></td><td><input type="number" step="any" class="form-control inputs output-size"></td><td><input type="number" step="any" class="form-control inputs x-offset"></td><td><input type="number" step="any" class="form-control inputs y-offset"></td><td><input type="number" step="any" class="form-control inputs x-scale"></td><td><input type="number" step="any" class="form-control inputs y-scale"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>'
         // $('.front-fst-body').prepend(elem);
         $(tbl_class).prepend(elem);
         refreshMultipleSublimatedFST();
