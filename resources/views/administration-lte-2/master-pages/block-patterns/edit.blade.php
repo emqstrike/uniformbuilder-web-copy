@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <label class="col-md-4 control-label">Cut Preview</label>
                             <div class="col-md-6">
                                 @if ($block_pattern->cut_preview)
                                     <img  class="img-cut-preview" src="{{ $block_pattern->cut_preview }}" style="height: 210px; width: 140px;">
