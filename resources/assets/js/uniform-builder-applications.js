@@ -8119,8 +8119,6 @@ $(document).ready(function() {
 
     }
 
-
-
     ub.funcs.popupsVisible = function () {
 
         return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
