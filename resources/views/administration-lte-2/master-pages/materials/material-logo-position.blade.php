@@ -63,7 +63,6 @@
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
                                 <a href="#" class="btn btn-flat btn-default copy-piping">
-                                    <span class="glyphicon glyphicon-copy"></span>
                                     Copy
                                 </a>
 
@@ -76,8 +75,8 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_logo_position') }}" enctype="multipart/form-data" id='edit-logo-position-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
-                            <input type="hidden" id="logo_position_data" value="{{ $material->pipings }}">
-                            <input type="hidden" name="logo-position" id="logo-position">
+                            <input type="text" id="logo_position_data" value="{{ $material->pipings }}">
+                            <input type="text" name="logo_position" id="logo-position">
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -88,7 +87,6 @@
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-md-6">
                                     <a href="#" class="btn btn-flat btn-success add-logo-position">
-                                        <span class="glyphicon glyphicon-plus"></span>
                                         Add Logo Position
                                     </a>
                                 </div>
@@ -105,11 +103,9 @@
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-flat btn-primary edit-logo-position">
-                                        <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Update Logo Position
                                     </button>
                                     <a href="{{ route('v1_materials_index') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
-                                        <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
                                 </div>
@@ -121,22 +117,20 @@
         </div>
     </section>
 
-    @include('administration-lte-2.master-pages.materials.modal.copy-piping-data')
-    @include('administration-lte-2.master-pages.materials.modal.load-data')
+    @include('administration-lte-2.master-pages.materials.modal.copy-logo-position-data')
+    @include('administration-lte-2.master-pages.materials.modal.load-logo-position-data')
 
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-    <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
-    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+
     <script type="text/javascript" src="/js/administration-lte-2/materials/logo-position.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#copy-data-to-clipboard').click(function() {
-                $('#copy-piping-data-modal textarea').select();
+                $('#copy-logo-position-data-modal textarea').select();
                 document.execCommand('copy');
 
                 $('#copy-to-clipboard-tooltip').fadeIn();
@@ -146,8 +140,8 @@
                 }, 500);
             });
 
-            $('.open-load-piping-modal-button').click(function() {
-                $('#load-piping-data-modal').modal('show');
+            $('.open-load-logo-position-modal-button').click(function() {
+                $('#load-logo-position-data-modal').modal('show');
             });
         });
     </script>

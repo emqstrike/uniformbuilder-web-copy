@@ -762,4 +762,25 @@ class MaterialsController extends Controller
             'material' => $material
         ]);
     }
+
+    public function updateLogoPosition(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $random_feed = $request->input('logo_position');
+
+        $data = [
+            'id' => $material_id,
+            'logo_position' => $logo_position
+        ];
+
+        $response = $this->client->updateLogoPosition($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_materials_index')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', $response->message);
+        }
+    }
 }
