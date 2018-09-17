@@ -2,6 +2,31 @@ $(document).ready(function() {
 
 	ub.fabric = {};
 
+    ub.fabric.fabricSelectionBlocks = {
+        
+        items: [
+            {
+                blockPattern: ["PTS Pro Select Raglan", "PTS Pro Select Sleeveless"],
+                layers: [98, 99, 100, 101],
+            }, 
+            {
+                blockPattern: ["PTS Signature Raglan"],
+                layers: [98, 99, 100, 101, 102, 103],
+            }, 
+        ],
+
+        isFabricSelectionEnabled: function () {
+
+            var _result = _.filter(ub.fabric.fabricSelectionBlocks.items, function (item) {
+                return _.includes(item.blockPattern, ub.config.blockPattern)
+            });
+
+            return _result;
+
+        },
+
+    }
+
 	ub.fabric.testFabric = function () {
 
 		// 103 - 102: Highlights / Shadows 
@@ -10,44 +35,63 @@ $(document).ready(function() {
 	}
 
 	// 98 - 99
+    // ub.fabric.fabricCollections is being filled at ubjs@ub.setup_material_options
+
 	ub.fabric.fabricOne = function () {
 		_.each(ub.fabric.fabricCollections, function (fc) {
-			if (fc.id === 98 || fc.id === 99) { fc.obj.visibility = true; }
-			if (fc.id === 101 || fc.id === 100 || fc.id === 102 || fc.id === 103) { fc.obj.visible = false; }
-		});
+
+            if (fc.id === 98 || fc.id === 99) { fc.obj.visible = true; }
+
+            if (fc.id === 100 || fc.id === 101) { fc.obj.visible = false; }
+            if (fc.id === 102 || fc.id === 103) { fc.obj.visible = false; }
+
+        });
 	}
 
 	// 101 - 100
 	ub.fabric.fabricTwo = function () {
+
 		_.each(ub.fabric.fabricCollections, function (fc) {
 
 			if (fc.id === 100 || fc.id === 101) { fc.obj.visible = true; }
+
+            if (fc.id === 98 || fc.id === 99) { fc.obj.visible = false; }
 			if (fc.id === 102 || fc.id === 103) { fc.obj.visible = false; }
 
 		});
+
 	}
 
 	// 103 - 102
 	ub.fabric.fabricThree = function () {
+
 		_.each(ub.fabric.fabricCollections, function (fc) {
 
 			if (fc.id === 103 || fc.id === 102) { fc.obj.visible = true; }
+
+            if (fc.id === 98 || fc.id === 99) { fc.obj.visible = false; }
 			if (fc.id === 100 || fc.id === 101) { fc.obj.visible = false; }
 
 		});
+
 	}
 
 	ub.fabric.fabricInitSample = function () {
 
-		ub.fabric.fabricThree();
+		ub.fabric.fabricTwo();
+        ub.fabric.activateFabrics();
 		
 		$('span.table-btn').fadeIn();
 		$('span.table-btn').on('click', function () {
-
-			ub.fabric.activateFabrics();	
-
+			ub.fabric.activateFabrics();
 		});
 
+        if (ub.config.blockPattern === "PTS Pro Select Raglan" || ub.config.blockPattern === "PTS Pro Select Sleeveless") { 
+            console.log('Hiding Mixed Button');
+            $('span#mixed').fadeOut();
+        } else {
+            console.log('Mixed Button Shown');
+        }
 
 	}
 
@@ -79,12 +123,21 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=				'<button class="fabric-button" id="all-mesh">All Mesh (100 - 101)</button>';
+        _htmlBuilder        +=              '<button class="fabric-button" id="solid">Solid (98 - 99)</button>';
         _htmlBuilder        +=          '</div>';
 
+
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=				'<button  class="fabric-button active" id="mixed">Mixed (102 - 103)</button>';
+        _htmlBuilder        +=				'<button class="fabric-button active" id="all-mesh">All Mesh (100 - 101)</button>';
         _htmlBuilder        +=          '</div>';
+
+        if (ub.config.blockPattern !== "PTS Pro Select Raglan" && ub.config.blockPattern !== "PTS Pro Select Sleeveless") { 
+
+            _htmlBuilder        +=          '<div class="ui-row">';
+            _htmlBuilder        +=				'<button  class="fabric-button" id="mixed">Mixed (102 - 103)</button>';
+            _htmlBuilder        +=          '</div>';
+
+        }
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=      '</div>';
@@ -102,7 +155,9 @@ $(document).ready(function() {
 
             	$('button.fabric-button').removeClass('active');
 
-            	if (_id === "all-mesh") {
+                if (_id === "solid") {
+                    ub.fabric.fabricOne();
+                } else if (_id === "all-mesh") {
 					ub.fabric.fabricTwo();
             	} else if (_id === "mixed") {
             		ub.fabric.fabricThree();
