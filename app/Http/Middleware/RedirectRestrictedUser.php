@@ -46,7 +46,10 @@ class RedirectRestrictedUser
             foreach ($result->page_rules as $pageRule) {
                 if (($type == $pageRule->type) && ($role == $pageRule->role)) {
                     $allowedPages = json_decode($pageRule->allowed_pages, true);
-                    $allowedPages = array_merge($allowedPages, $userAllowedPages);
+
+                    if ($userAllowedPages) {
+                        $allowedPages = array_merge($allowedPages, $userAllowedPages);
+                    }
                 } else {
                     $allowedPages = $userAllowedPages;
                 }
