@@ -10014,6 +10014,7 @@ ub.funcs.fontOffSets = [
             'Cage Jacket (Apparel)',
             'Wrestling 2018',
             'Tennis',
+            'Baseball'
         ],
         options: [
             'Fight Short',
