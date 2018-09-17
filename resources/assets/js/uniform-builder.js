@@ -7739,7 +7739,7 @@ $(document).ready(function () {
         $('body').removeClass('generic-canvas');
 
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash_new.png)');
-        $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
+        //$('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
         ub.funcs.hideRosterAndOrderForm();
 
