@@ -766,7 +766,7 @@ class MaterialsController extends Controller
     public function updateLogoPosition(Request $request)
     {
         $material_id = $request->input('material_id');
-        $random_feed = $request->input('logo_position');
+        $logo_position = $request->input('logo_position');
 
         $data = [
             'id' => $material_id,

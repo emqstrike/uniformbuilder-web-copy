@@ -6,7 +6,7 @@ $(document).ready(function() {
                         "Back Neck"
                     ];
 
-    function buildSetsDropdown(value){
+    function buildPositionDropdown(value){
         var dropdown = '<select class="form-control logo-position">';
         window.position_sets.forEach(function(entry) {
             var entry_val = entry.toLowerCase().replace(/ /g,"_");
@@ -18,8 +18,6 @@ $(document).ready(function() {
         });
         return dropdown;
     }
-
-    // $(".global-color").append(globalColorSelector(colors));
 
     $('.copy-logo-position').on('click', function(e){
         var data = $('#logo_position_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
@@ -33,181 +31,102 @@ $(document).ready(function() {
         loadLogoPosition(data);
     });
 
-    // var pipings_data = $('#pipings_data').val();
+    var logo_position_data = $('#logo_position_data').val();
 
-    // if(pipings_data){
-    //     if(pipings_data != null && pipings_data != '""'){
-    //         console.log('Has value');
-    //         loadPipings();
-    //     } else {
-    //         console.log('None');
-    //     }
-    // }
+    if(logo_position_data){
+        if(logo_position_data != null && logo_position_data != '""'){
+            loadLogoPosition();
+        } else {
+            console.log('No Logo Position');
+        }
+    }
 
-    // function loadPipings(copydata){
+    function loadLogoPosition(data){
 
-    //     var pipings, x;
-    //     if(!copydata){
-    //         var pipings_data = $('#pipings_data').val();
-    //         pipings = pipings_data.slice(1, -1);
-    //         pipings = pipings.replace(new RegExp("\\\\", "g"), "");
-    //         x = pipings;
-    //         pipings = JSON.parse(pipings);
-    //     } else {
-    //         $('.pipings-content').html('');
+        var logo_position, x;
+        if(!data){
+            var logo_position_data = $('#logo_position_data').val();
+            logo_position = logo_position_data.slice(1, -1);
+            logo_position = logo_position.replace(new RegExp("\\\\", "g"), "");
+            x = logo_position;
+            logo_position = JSON.parse(logo_position);
+        } else {
+            $('.logo-position-content').html('');
 
-    //         pipings = JSON.parse(copydata);
-    //         x = pipings;
-    //     }
+            logo_position = JSON.parse(data);
+            x = logo_position;
+        }
 
-    //     pipings.forEach(function(entry) {
-    //         console.log(entry);
-    //         var size = entry.size;
+        logo_position.forEach(function(entry) {
 
-    //     var ischecked = '';
-    //     if(entry.enabled == "1"){
-    //         ischecked = 'checked';
-    //     }
+            var ischecked = '';
+            if(entry.enabled == "1"){
+                ischecked = 'checked';
+            }
 
-    //     var pos1checked = '';
-    //     if(entry.color1 == true){
-    //         pos1checked = 'checked';
-    //     }
+            var layer = '';
+            if(entry.layer == "1"){
+                layer = 'checked';
+            }
 
-    //     var pos2checked = '';
-    //     if(entry.color2 == true){
-    //         pos2checked = 'checked';
-    //     }
+            var position_dropdown = buildPositionDropdown(entry.position);
 
-    //     var pos3checked = '';
-    //     if(entry.color3 == true){
-    //         pos3checked = 'checked';
-    //     }
+            var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
+            <tr>
+                <td colspan="6">
+                    <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Logo Position Details</b>
+                    <a href="#" class="btn btn-flat btn-danger pull-right delete-logo-position">Remove</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="col-md-10">
+                        <label>Position</label>
+                         `+position_dropdown+`
+                    </div>
+                </td>
+                <td colspan="2"></td>
+                <td>
+                    <div>
+                        <label>Enable Logo Position</label><br>
+                        <input type="checkbox" class="logo-position-toggler big-checkbox" value="`+ entry.enabled +`" `+ ischecked +`>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Front</th>
+                <th>Back</th>
+                <th>Left</th>
+                <th>Right</th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>Layer</label>
+                        <input type="checkbox" class="layer" value="`+layer+`" `+ layer +`>
+                    </td>
+                    <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                </tr>
+            </tbody>
+            </table>`;
 
-        // var selectbox = '<select class="form-control piping-size">';
-        // var piping_sizes = ["1/8", "1/4", "1/2"];
-        // piping_sizes.forEach(function(entry) {
-        //     if(entry == size){
-        //         selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
-        //     } else {
-        //         selectbox += '<option value="'+entry+'">'+entry+'</option>';
-        //     }
-        // });
-        // selectbox += '</select>';
+            $('.logo-position-content').append(template);
 
-    //     if(!entry.colors_array){
-    //         entry.colors_array = ["","","",];
-    //     }
-    //     if(!entry.team_color_id_array){
-    //         entry.team_color_id_array = ["","","",];
-    //     }
-
-    //     var set = buildSetsDropdown(entry.set);
-
-    //     var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
-    //     <tr>
-    //         <td colspan="6">
-    //             <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Logo Position Details</b>
-    //             <a href="#" class="btn btn-flat btn-danger pull-right delete-logo-position">Remove</a>
-    //         </td>
-    //     </tr>
-    //     <tr>
-    //         <td>
-    //             <div>
-    //                 <label>Sizing</label>
-    //                 `+selectbox+`
-    //             </div>
-    //         <td>
-    //             <div>
-    //                 <label>Name</label>
-    //                 <input type="text" class="form-control piping-name" value="`+entry.name+`">
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <label>Set</label>
-    //             ` +set+`
-    //         </td>
-    //         <td></td>
-    //         <td></td>
-    //         <td>
-    //             <div>
-    //                 <label>Enable Piping</label><br>
-    //                 <input type="checkbox" class="piping-toggler big-checkbox" value="1" `+ischecked+`>
-    //             </div>
-    //         </td>
-    //     </tr>
-    //     <tr>
-    //         <th></th>
-    //         <th>Team Color ID</th>
-    //         <th>Front</th>
-    //         <th>Back</th>
-    //         <th>Left</th>
-    //         <th>Right</th>
-    //     </tr>
-    //     <tbody>
-    //         <tr>
-    //             <td>
-    //                 <label>Position 1</label>
-    //                 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
-    //                 `+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
-    //             </td>
-    //             <td><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
-    //             <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-    //             <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-    //             <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-    //             <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
-    //         </tr>
-    //         <tr>
-
-    //             <td>
-    //                 <label>Position 2</label>
-    //                 <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
-    //                 `+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
-    //             </td>
-    //             <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
-    //             <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-    //             <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-    //             <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-    //             <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
-    //         </tr>
-    //         <tr>
-    //             <td>
-    //                 <label>Position 3</label>
-    //                 <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
-    //                 `+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
-    //             </td>
-    //             <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
-    //             <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-    //             <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-    //             <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-    //             <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
-    //         </tr>
-    //     </tbody>
-    //     </table>`;
-
-    //     $('.pipings-content').append(template);
-
-
-    //     }); // loop closing
-    //     deletePiping();
-    //     changeImage();
-    //     changeEvent();
-    //     refreshJSON();
-    //     $('#load-piping-data-modal').modal('hide');
-    //     $('#ta_load_pipings').val('');
-    // }
-
-    // function deletePiping(){
-    //     $('.delete-piping').on('click', function(e){
-    //         $(this).parent().parent().parent().parent().remove();
-    //         refreshJSON();
-    //     });
-    // }
+        });
+        deleteLogoPosition();
+        changeImage();
+        changeEvent();
+        refreshJSON();
+    }
 
     $(document).on('click', '.add-logo-position', function(e){
         e.preventDefault();
 
-        var sets_dropdown = buildSetsDropdown();
+        var position_dropdown = buildPositionDropdown();
 
         var elem = `<table class="table table-striped table-bordered table-hover logo-position-table">
                         <tr>
@@ -220,7 +139,7 @@ $(document).ready(function() {
                             <td colspan="2">
                                 <div class="col-md-10">
                                     <label>Position</label>
-                                     `+sets_dropdown+`
+                                     `+position_dropdown+`
                                 </div>
                             </td>
                             <td colspan="2"></td>
@@ -253,94 +172,18 @@ $(document).ready(function() {
                     </table>`;
 
         $('.logo-position-content').prepend(elem);
+        deleteLogoPosition();
         changeImage();
         changeEvent();
         refreshJSON();
-
     });
-    //     var elem = `<table class="table table-striped table-bordered table-hover piping-table">
-    //     <tr>
-    //         <td colspan="6">
-    //             <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Piping Details</b>
-    //             <a href="#" class="btn btn-flat btn-danger pull-right delete-piping">Remove</a>
-    //         </td>
-    //     </tr>
-    //     <tr>
-    //         <td>
-    //             <div>
-    //                 <label>Name</label>
-    //                 <input type="text" class="form-control logo-name">
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <div>
-    //                 <label>Set</label>
-    //                 `+sets_dropdown+`
-    //             </div>
-    //         </td>
-    //         <td></td>
-    //         <td></td>
-    //         <td>
-    //             <div>
-    //                 <label>Enable Piping</label><br>
-    //                 <input type="checkbox" class="piping-toggler big-checkbox" value="1">
-    //             </div>
-    //         </td>
-    //     </tr>
-    //     <tr>
-    //         <th></th>
-    //         <th>Team Color ID</th>
-    //         <th>Front</th>
-    //         <th>Back</th>
-    //         <th>Left</th>
-    //         <th>Right</th>
-    //     </tr>
-    //     <tbody>
-    //         <tr>
-    //             <td>
-    //                 <label>Position 1</label>
-    //                 <input type="checkbox" class="position-1" value="1">
-    //                 `+ getSelectColorTemplate(colors,selectedFirst)  +`
-    //             </td>
-    //             <td><br><input class="form-control team_color_id_array" type="number"></td>
-    //             <td><input type="file" class="form-control file-f-1 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-b-1 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
-    //         </tr>
-    //         <tr>
 
-    //             <td>
-    //                 <label>Position 2</label>
-    //                 <input type="checkbox" class="position-2" value="1">
-    //                 `+ getSelectColorTemplate(colors,selectedSecond)  +`
-    //             </td>
-    //             <td><br><input class="form-control team_color_id_array" type="number"></td>
-    //             <td><input type="file" class="form-control file-f-2 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-b-2 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-l-2 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-r-2 image" data-img-url=""></td>
-    //         </tr>
-    //         <tr>
-    //             <td>
-    //                 <label>Position 3</label>
-    //                 <input type="checkbox" class="position-3" value="1">
-    //                 `+ getSelectColorTemplate(colors,selectedThird)  +`
-    //             </td>
-    //             <td><br><input class="form-control team_color_id_array" type="number"></td>
-    //             <td><input type="file" class="form-control file-f-3 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-b-3 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-l-3 image" data-img-url=""></td>
-    //             <td><input type="file" class="form-control file-r-3 image" data-img-url=""></td>
-    //         </tr>
-    //     </tbody>
-    //     </table>`;
-    //     $('logo-position-content').prepend(elem);
-    //     deletePiping();
-    //     changeImage();
-    //     changeEvent();
-    //     refreshJSON();
-    // });
+    function deleteLogoPosition(){
+        $('.delete-logo-position').on('click', function(e){
+            $(this).parent().parent().parent().parent().remove();
+            refreshJSON();
+        });
+    }
 
     function detectImages(){
         $(".image").each(function(i) {
