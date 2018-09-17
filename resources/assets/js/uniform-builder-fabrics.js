@@ -79,7 +79,8 @@ $(document).ready(function() {
 	ub.fabric.fabricInitSample = function () {
 
 		ub.fabric.fabricTwo();
-        ub.fabric.activateFabrics();
+        
+        // ub.fabric.activateFabrics();
 		
 		$('span.table-btn').fadeIn();
 		$('span.table-btn').on('click', function () {
