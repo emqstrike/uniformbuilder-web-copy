@@ -635,7 +635,7 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
-            if (ub.config.material_id === 4237) { ub.fabric.fabricInitSample(); }
+            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
         };
 
