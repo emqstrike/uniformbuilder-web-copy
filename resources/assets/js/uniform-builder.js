@@ -8756,7 +8756,7 @@ $(document).ready(function () {
 
             if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
 
-            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0});
 
             return _colorObj;
 
