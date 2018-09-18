@@ -7,6 +7,7 @@ $(document).ready(function() {
         "ordering": false,
         "info": true,
         "autoWidth": true,
+        "stateSave": true,
         initComplete: function () {
             this.api().columns().every( function () {
 
