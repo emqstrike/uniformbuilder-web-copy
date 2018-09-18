@@ -32,6 +32,36 @@
                 </div>
 
                 <div class="box-body">
+                    <div class="form-inline">
+                        <label>Sports</label>
+                        <select id="sportsFilter" class="form-control">
+                            @if ($sportsFilter == 'all')
+                                <option value="all" selected="selected">All</option>
+                            @else
+                                <option value="all">All</option>
+                            @endif
+
+                            @foreach ($sports as $sport)
+                                @if (! is_null($sport->name) && ($sport->name != ""))
+                                    @if ($sportsFilter == $sport->name)
+                                        <option value="{{ $sport->name }}" selected="selected">{{ $sport->name }}</option>
+                                    @else
+                                        <option value="{{ $sport->name }}">{{ $sport->name }}</option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+
+                        <label style="margin-left: 25px;">Brands</label>
+                        <select id="brandsFilter" class="form-control">
+                            <option value="all" @if ($brandsFilter == 'all') selected="selected" @endif>All</option>
+                            <option value="prolook" @if ($brandsFilter == 'prolook') selected="selected" @endif>Prolook</option>
+                            <option value="richardson" @if ($brandsFilter == 'richardson') selected="selected" @endif>Richardson</option>
+                        </select>
+                    </div>
+
+                    <hr>
+
                     <table data-toggle='table' class='table table-bordered fonts' id="fonts_table">
                         <thead>
                             <tr>
@@ -208,6 +238,20 @@
                 "paging": true,
                 "searching": true,
                 "autoWidth": false,
+            });
+
+            $('#sportsFilter').change(function() {
+                var brand = $('#brandsFilter').val();
+                var sports = $(this).val();
+
+                window.location = "{{ route('v1_fonts_index') }}/?sports=" + sports + "&brand=" + brand; 
+            });
+
+            $('#brandsFilter').change(function() {
+                var brand = $(this).val();
+                var sports = $('#sportsFilter').val();
+
+                window.location = "{{ route('v1_fonts_index') }}/?sports=" + sports + "&brand=" + brand; 
             })
         });
     </script>

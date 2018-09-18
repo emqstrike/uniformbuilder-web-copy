@@ -11,6 +11,7 @@ use App\Utilities\FileUploader;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use App\APIClients\FontsAPIClient as APIClient;
 
 class FontsController extends Controller
@@ -24,7 +25,19 @@ class FontsController extends Controller
 
     public function index()
     {
-        $fonts = $this->client->getFonts();
+        $sportsFilter = 'all';
+        $brandsFilter = 'all';
+
+        if (Input::get('sports')) {
+            $sportsFilter = Input::get('sports');
+        }
+
+        if (Input::get('brand')) {
+            $brandsFilter = Input::get('brand');
+        }
+
+        $fonts = $this->client->getFilteredFonts($sportsFilter, $brandsFilter);
+
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
 
@@ -33,9 +46,16 @@ class FontsController extends Controller
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
 
+        // sort sports according to name
+        usort($sports, function($currentSport, $nextSport) {
+            return strcmp($currentSport->name, $nextSport->name);
+        });
+
         return view('administration-lte-2.fonts.index', [
             'fonts' => $fonts,
-            'sports' => $sports
+            'sports' => $sports,
+            'sportsFilter' => $sportsFilter,
+            'brandsFilter' => $brandsFilter
         ]);
     }
 
