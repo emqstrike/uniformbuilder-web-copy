@@ -748,7 +748,18 @@ $(document).ready(function () {
     ub.funcs.initTeamColors = function () {
         
         var _colorSet       = '';
-        _colorSet           = ub.funcs.getBaseColors();
+        
+        // If `thread_colors` value is true in ub.current_material.settings
+        // then use thread colors instead of the default colors
+        if (ub.current_material.settings.threadColors) {
+
+            _colorSet =  _.sortBy(ub.data.threadColors, 'order');
+
+        } else {
+
+            _colorSet = ub.funcs.getBaseColors(); 
+
+        }
 
         $("span.part_label").html('Team Colors');
         $("span.nOf").html('Select the colors you will use');

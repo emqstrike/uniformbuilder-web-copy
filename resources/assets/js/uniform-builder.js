@@ -56,6 +56,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
+
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -633,9 +637,9 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.branding.useAllColors) {
-                ub.funcs.addAllColorToTeamColors();
-            }
+            if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
+
+            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
         };
 
@@ -967,6 +971,7 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
+                'colors_sets'
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1015,6 +1020,15 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get Thread Colors from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
 
             if (object_name === 'cuts_links') {
 
@@ -3147,6 +3161,8 @@ $(document).ready(function () {
 
     window.ub.setup_material_options = function () {
 
+        ub.fabric.fabricCollections = [];
+
         ub.current_material.options_distinct_names = {};
 
         ub.maxLayers = 0;
@@ -3165,14 +3181,29 @@ $(document).ready(function () {
 
                 var name = obj.name.toCodeCase();
 
-                current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
+                var _sprite = ub.pixi.new_sprite(obj.material_option_path);
+
+                current_view_objects[name] = _sprite;
                 var current_object = current_view_objects[name];
 
                 current_object.name = name;
 
+                if (name === "highlights" || name === "shadows") {
+
+                    ub.fabric.fabricCollections.push({
+                        code: name,
+                        name: name + '_' + obj.layer_level,
+                        id: obj.layer_level,
+                        perspective: obj.perspective,
+                        obj: _sprite,
+                    });
+
+                }
+                
                 // Multiplied to negative one because
                 // UpdateLayers order puts the least zIndex on the topmost position
 
+                current_object.spriteID = name + '_' + obj.layer_level;
                 current_object.zIndex = (obj.layer_level * ub.zIndexMultiplier) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
                 
@@ -3201,9 +3232,11 @@ $(document).ready(function () {
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                    current_object.layerID = obj.layer_level;
 
                 } else if (obj.setting_type === 'shadows') {
 
+                    current_object.layerID = obj.layer_level;
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                 } else {

@@ -21,6 +21,11 @@ $(document).ready(function () {
 
             if (_match.block_pattern_options !== "" && typeof _match.block_pattern_options !== "undefined") {
                 _blockPatternOptions = JSON.parse(_match.block_pattern_options);
+            } else {
+
+                // Returned and array
+                if (sport === "Compression (Apparel)") {  _properties = JSON.parse(_match[0].properties); }
+                
             }
 
             if (_match.properties !== "" && typeof _match.properties !== "undefined") {
