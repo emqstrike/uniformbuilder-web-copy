@@ -75,8 +75,8 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_logo_position') }}" enctype="multipart/form-data" id='edit-logo-position-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
-                            <input type="text" id="logo_position_data" value="{{ $material->logo_position }}">
-                            <input type="text" name="logo_position" id="logo-position">
+                            <input type="hidden" id="logo_position_data" value="{{ $material->logo_position }}">
+                            <input type="hidden" name="logo_position" id="logo-position">
 
                             <div class="row">
                                 <div class="col-md-12">
