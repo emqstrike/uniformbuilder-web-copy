@@ -77,7 +77,8 @@
         </div>
     
         <div>
-            <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
+            <!-- <h1 class="text-center" id="header_text">{{ $app_title }}</h1> -->
+            <h1 class="text-center" id="header_text">CUSTOMIZER</h1>
         </div>
 
         <div class='user-profile pull-right'>
