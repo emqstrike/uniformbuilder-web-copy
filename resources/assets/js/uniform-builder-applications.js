@@ -10681,6 +10681,17 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         _partToMakeActive =  _perspective.toTitleCase() + " Body";
+
+                        $('div.part-container span').each(function(i) {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
                         $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
 
                     }
