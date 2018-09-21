@@ -172,6 +172,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet']);
         Route::get('material/{id}/logo_position', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@logoPosition'])->name('v1_logo_position');
         Route::post('material/updateLogoPosition', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateLogoPosition'])->name('v1_update_logo_position');
+        Route::get('material/{id}/gradient', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@gradient'])->name('v1_material_gradient');
+        Route::post('material/updateGradient', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateGradient'])->name('v1_update_material_gradient');
 
         Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@updateMaterialOptions'])->name('v1_update_material_options');
         Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@storeMultiple'])->name('v1_save_material_option');

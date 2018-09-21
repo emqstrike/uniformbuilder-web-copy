@@ -6,7 +6,7 @@
     @foreach ($paginator->getPages() as $page)
         @if ($page['url'])
             <li @if ($page['isCurrent']) class="active" @endif>
-                <a href="{{ $page['url'] }}/{{ $page['num'] }}">
+                <a href="{{ $page['url'] }}/{{ $page['num'] }}?{{ $queryString }}">
                     {{ $page['num'] }}
                 </a>
             </li>

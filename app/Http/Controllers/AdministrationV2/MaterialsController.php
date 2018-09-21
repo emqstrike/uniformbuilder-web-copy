@@ -783,4 +783,33 @@ class MaterialsController extends Controller
             return redirect()->route('v1_materials_index')->with('message', $response->message);
         }
     }
+
+    public function gradient($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration-lte-2.master-pages.materials.material-gradient', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateGradient(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $gradient = $request->input('gradient');
+
+        $data = [
+            'id' => $material_id,
+            'gradient' => $gradient
+        ];
+
+        $response = $this->client->updateGradient($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_materials_index')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', $response->message);
+        }
+    }
 }
