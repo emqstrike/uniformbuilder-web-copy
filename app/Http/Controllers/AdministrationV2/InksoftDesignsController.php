@@ -47,6 +47,8 @@ class InksoftDesignsController extends Controller
             }
         }
 
+        $queryString = $_SERVER['QUERY_STRING'];
+
         $result = $this->client->getPaginated($current_page, $user_id);
         $inksoft_designs = $result['inksoft_designs'];
         $total = $inksoft_designs->total;
@@ -58,7 +60,8 @@ class InksoftDesignsController extends Controller
             'paginator' => $paginator,
             'current_page' => $current_page,
             'users' => $users,
-            'active_user' => $user_id
+            'active_user' => $user_id,
+            'queryString' => $queryString
         ]);
 
     }

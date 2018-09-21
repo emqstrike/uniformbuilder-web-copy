@@ -191,6 +191,7 @@
             </div>
         </div>
     </section>
+    @include('partials.confirmation-modal')
 @endsection
 
 @section('scripts')
@@ -228,10 +229,8 @@
     });
 
     function getComments(thisObj) {
-      var jsonVal = thisObj.parent().parent().find('.comments').val();
-      var pJson = JSON.parse(jsonVal);
-      var sJson = JSON.stringify(pJson, undefined, 2);
-      $('#design').jJsonViewer(sJson, {expanded: true});
+      var comment = thisObj.parent().parent().find('.comments').val();
+      $('#design').text(comment);
     }
 
     $(document).on('click', '.view-design-summary', function(e){
@@ -264,10 +263,10 @@
     }
 
 
-    $(document).on('click', '.delete-inksoft-design', function(){
+    $(document).on('click', '.delete-inksoft-design', function(e){
+      e.preventDefault();
        var id = [];
        id.push( $(this).data('inksoft-design-id'));
-       console.log(id);
        modalConfirm('Remove Design', 'Are you sure you want to delete the Inksoft Design?', id);
    });
 
@@ -291,7 +290,7 @@
                        type: 'success',
                        hide: true
                    });
-                   $('#confirmation-modal').modal('hide');
+                  $('#confirmation-modal').modal('hide');
                   $.each(id, function (index, value) {
                      console.log(value);
                      $('.inksoft-design-' + value).fadeOut();
