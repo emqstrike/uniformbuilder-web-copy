@@ -3,7 +3,9 @@ $(document).ready(function() {
     window.position_sets = [
                         "Right Chest",
                         "Left Sleeve",
-                        "Back Neck"
+                        "Back Neck",
+                        "Front Left Hip",
+                        "Back Center Tunnel"
                     ];
 
     function buildPositionDropdown(value){
@@ -64,9 +66,18 @@ $(document).ready(function() {
                 ischecked = 'checked';
             }
 
-            var layer = '';
-            if(entry.layer == "1"){
-                layer = 'checked';
+            var layer1 = '';
+            if(entry.layer1 == "1"){
+                layer1 = 'checked';
+            }
+
+            var layer2 = '';
+            if(entry.layer2 == "1"){
+                layer2 = 'checked';
+            }
+            var layer3 = '';
+            if(entry.layer3 == "1"){
+                layer3 = 'checked';
             }
 
             var position_dropdown = buildPositionDropdown(entry.position);
@@ -103,13 +114,34 @@ $(document).ready(function() {
             <tbody>
                 <tr>
                     <td>
-                        <label>Layer</label>
-                        <input type="checkbox" class="layer" value="`+layer+`" `+ layer +`>
+                        <label>Layer 1</label>
+                        <input type="checkbox" class="layer1" value="`+entry.layer1+`" `+ layer1 +`>
                     </td>
                     <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
                     <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
                     <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
                     <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                </tr>
+                <tr>
+
+                <td>
+                    <label>Layer 2</label>
+                    <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
+                </td>
+                    <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+                </tr>
+                <tr>
+                <td>
+                    <label>Layer 3</label>
+                    <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
+                </td>
+                    <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
                 </tr>
             </tbody>
             </table>`;
@@ -160,14 +192,35 @@ $(document).ready(function() {
                         <tbody>
                         <tr>
                             <td>
-                                <label>Layer</label>
-                                <input type="checkbox" class="layer" value="1">
+                                <label>Layer 1</label>
+                                <input type="checkbox" class="layer1" value="1">
                             </td>
                             <td><input type="file" class="form-control file-f-1 image" data-img-url=""></td>
                             <td><input type="file" class="form-control file-b-1 image" data-img-url=""></td>
                             <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
                             <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
                         </tr>
+                        <tr>
+                            <td>
+                                <label>Layer 2</label>
+                                <input type="checkbox" class="layer2" value="1">
+                            </td>
+                            <td><input type="file" class="form-control file-f-2 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-b-2 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-l-2 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-r-2 image" data-img-url=""></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Layer 3</label>
+                                <input type="checkbox" class="layer3" value="1">
+                            </td>
+                            <td><input type="file" class="form-control file-f-3 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-b-3 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-l-3 image" data-img-url=""></td>
+                            <td><input type="file" class="form-control file-r-3 image" data-img-url=""></td>
+                        </tr>
+
                     </tbody>
                     </table>`;
 
@@ -217,12 +270,25 @@ $(document).ready(function() {
             } else {
                 info.enabled = 0;
             }
-
-            var layer = $(this).find('.layer');
-            if(layer.is(":checked")){
-                info.layer = true;
+            var layer1 = $(this).find('.layer1');
+            if(layer1.is(":checked")){
+                info.layer1 = 1;
             } else {
-                info.layer = false;
+                info.layer1 = 0;
+            }
+
+            var layer2 = $(this).find('.layer2');
+            if(layer2.is(":checked")){
+                info.layer2 = 1;
+            } else {
+                info.layer2 = 0;
+            }
+
+            var layer3 = $(this).find('.layer3');
+            if(layer3.is(":checked")){
+                info.layer3 = 1;
+            } else {
+                info.layer3 = 0;
             }
 
             var perspectives = [];
@@ -230,6 +296,12 @@ $(document).ready(function() {
             var front_perspective = [{
                 "layer" : 1,
                 "filename" : $(this).find('.file-f-1').attr('data-img-url')
+            }, {
+                "layer" : 2,
+                "filename" : $(this).find('.file-f-2').attr('data-img-url')
+            }, {
+                "layer" : 3,
+                "filename" : $(this).find('.file-f-3').attr('data-img-url')
             }];
 
             var front_data = {
@@ -240,6 +312,12 @@ $(document).ready(function() {
             var back_perspective = [{
                 "layer" : 1,
                 "filename" : $(this).find('.file-b-1').attr('data-img-url')
+            }, {
+                "layer" : 2,
+                "filename" : $(this).find('.file-b-2').attr('data-img-url')
+            }, {
+                "layer" : 3,
+                "filename" : $(this).find('.file-b-3').attr('data-img-url')
             }];
 
             var back_data = {
@@ -250,6 +328,12 @@ $(document).ready(function() {
             var left_perspective = [{
                 "layer" : 1,
                 "filename" : $(this).find('.file-l-1').attr('data-img-url')
+            }, {
+                "layer" : 2,
+                "filename" : $(this).find('.file-l-2').attr('data-img-url')
+            }, {
+                "layer" : 3,
+                "filename" : $(this).find('.file-l-3').attr('data-img-url')
             }];
 
             var left_data = {
@@ -260,6 +344,12 @@ $(document).ready(function() {
             var right_perspective = [{
                 "layer" : 1,
                 "filename" : $(this).find('.file-r-1').attr('data-img-url')
+            }, {
+                "layer" : 2,
+                "filename" : $(this).find('.file-r-2').attr('data-img-url')
+            }, {
+                "layer" : 3,
+                "filename" : $(this).find('.file-r-3').attr('data-img-url')
             }];
 
             var right_data = {
@@ -288,8 +378,6 @@ $(document).ready(function() {
 
                     var _filename = fileUploadAttachment(this.files[0], elem, function (filename, extension, valid, element) {
                         if (typeof filename === 'undefined') {
-                            $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                            $('span.additional-attachment-message').html('Error Uploading File');
                             return;
                         }
 
@@ -298,8 +386,6 @@ $(document).ready(function() {
                             refreshJSON();
                         } else {
 
-                            $('span.additional-attachment-message').html('Invalid File Type: ' + extension);
-                            $.smkAlert({text: 'Invalid File Type: ' + extension, type:'warning', time: 3, marginTop: '80px'});
                         }
                     });
                 }
@@ -309,25 +395,18 @@ $(document).ready(function() {
 
     fileUploadAttachment = function (file, elem, callback) {
 
-        $('span.ok_btn').attr('data-status', 'processing');
-        $('em.unsupported-file').html('');
-
         var _file = file;
         var formData = new FormData();
         var x = elem;
 
         formData.append('file', file);
 
-        if (typeof $.ajaxSettings.headers !== "undefined") {
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
-        }
-
         $.ajax({
 
             data: formData,
             url: "//" + api_host + "/api/fileUpload",
             type: "POST",
-            processData: false,  // tell jQuery not to process the data
+            processData: false,
             contentType: false,
             crossDomain: true,
 
