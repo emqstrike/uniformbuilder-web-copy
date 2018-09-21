@@ -185,6 +185,8 @@
             </div>
         </div>
     </section>
+
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 @endsection
 
 @section('scripts')

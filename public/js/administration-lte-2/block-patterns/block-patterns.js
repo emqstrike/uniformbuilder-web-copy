@@ -45,11 +45,9 @@ $(document).ready(function(){
         });
     }
 
-    $('.delete-block-pattern').on('click', function(){
-
+    $('body').on('click', '.delete-block-pattern', function(){
         var id = $(this).data('block-pattern-id');
         modalConfirm('Remove Block Pattern', 'Are you sure you want to delete the block pattern?', id);
-
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
