@@ -180,6 +180,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@dropZone'])->name('v1_material_options_dropzone');
         Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDropzoneImage']);
         Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet']);
+        Route::get('material/{id}/logo_position', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@logoPosition'])->name('v1_logo_position');
+        Route::post('material/updateLogoPosition', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateLogoPosition'])->name('v1_update_logo_position');
+        Route::get('material/{id}/gradient', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@gradient'])->name('v1_material_gradient');
+        Route::post('material/updateGradient', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateGradient'])->name('v1_update_material_gradient');
 
         Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@updateMaterialOptions'])->name('v1_update_material_options');
         Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@storeMultiple'])->name('v1_save_material_option');
@@ -189,6 +193,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index']);
         Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index']);
         Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index']);
+        
+        Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
     });
 
     // Logins

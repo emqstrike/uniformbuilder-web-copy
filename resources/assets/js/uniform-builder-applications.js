@@ -4177,6 +4177,21 @@ $(document).ready(function() {
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
+                // Add `thread_colors` flag in ub.current_material.settings
+                // if the category of uniform is `Socks (Apparel)`
+                // and base on the truthiness of the flag, thread colors will be used
+                if ( _.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)') 
+                    && ub.funcs.isKnitted() ) {
+
+                    if ( _.isEqual(ub.page, 'builder') 
+                        || ub.current_material.settings.threadColors === 'undefined' ) {
+
+                        ub.current_material.settings.threadColors = true;
+
+                    }
+
+                }
+
                 ub.funcs.initTeamColors();
                 $pd.hide();
                 $('div#right-main-window').css('overflow','hidden');
@@ -10666,6 +10681,17 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         _partToMakeActive =  _perspective.toTitleCase() + " Body";
+
+                        $('div.part-container span').each(function(i) {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
                         $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
 
                     }
@@ -10829,9 +10855,33 @@ $(document).ready(function() {
 
             }
 
-            // Catch all expression when nothing is selected, just select first
+            // Catch all expression when nothing is selected, just select first if perspective is not Front or Back
             if(!$('span.part').hasClass('active')) {
-                $('span.part').first().addClass('active');
+
+                var $perspective = $('div.perspective-container').find('span.perspective.active');
+
+                if ($perspective.text() === "Back" || $perspective.text() === "Front") {
+
+                    var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+
+                    $('div.part-container span').each(function(i) {
+                        
+                        var part = $(this).text();
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            _partToMakeActive = part;
+                        }
+
+                    });
+
+                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                } else {
+
+                    $('span.part').first().addClass('active');
+
+                }
+
             }
 
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
