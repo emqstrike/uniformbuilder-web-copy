@@ -10855,9 +10855,33 @@ $(document).ready(function() {
 
             }
 
-            // Catch all expression when nothing is selected, just select first
+            // Catch all expression when nothing is selected, just select first if perspective is not Front or Back
             if(!$('span.part').hasClass('active')) {
-                $('span.part').first().addClass('active');
+
+                var $perspective = $('div.perspective-container').find('span.perspective.active');
+
+                if ($perspective.text() === "Back" || $perspective.text() === "Front") {
+
+                    var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+
+                    $('div.part-container span').each(function(i) {
+                        
+                        var part = $(this).text();
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            _partToMakeActive = part;
+                        }
+
+                    });
+
+                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                } else {
+
+                    $('span.part').first().addClass('active');
+
+                }
+
             }
 
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
