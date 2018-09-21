@@ -2,7 +2,7 @@
 
 @section('styles')
     <style>
-        .logo-position-table td {
+        .gradient-table td {
             vertical-align: bottom !important;
         }
 
@@ -14,8 +14,8 @@
             display: inline-block;
         }
 
-        #copy-logo-position-data-modal textarea,
-        #load-logo-position-data-modal textarea {
+        #copy-gradient-data-modal textarea,
+        #load-gradient-data-modal textarea {
             height: 20em;
             padding: 10px;
             resize: none;
@@ -54,29 +54,24 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        @section('page-title', 'Modify Logo Position')
+                        @section('page-title', 'Modify Gradient')
 
                         <div class="row">
                             <div class="col-md-6">
-                                <h1>Modify Logo Position</h1>
+                                <h1>Modify Gradient</h1>
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
-                     <!--            <a href="#" class="btn btn-flat btn-default copy-piping">
-                                    Copy
-                                </a>
-
-                                <a href="#" class="btn btn-flat btn-default open-load-logo-position-modal-button">Load</a> -->
                             </div>
                         </div>
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_logo_position') }}" enctype="multipart/form-data" id='edit-logo-position-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_material_gradient') }}" enctype="multipart/form-data" id='edit-gradient-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
-                            <input type="hidden" id="logo_position_data" value="{{ $material->logo_position }}">
-                            <input type="hidden" name="logo_position" id="logo-position">
+                            <input type="hidden" id="gradient_data" value="{{ $material->gradient }}">
+                            <input type="hidden" name="gradient" id="gradient">
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -86,8 +81,8 @@
 
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-md-6">
-                                    <a href="#" class="btn btn-flat btn-success add-logo-position">
-                                        Add Logo Position
+                                    <a href="#" class="btn btn-flat btn-success add-gradient">
+                                        Add Gradient
                                     </a>
                                 </div>
 
@@ -96,14 +91,14 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="logo-position-content"></div>
+                                    <div class="gradient-content"></div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-flat btn-primary edit-logo-position">
-                                        Update Logo Position
+                                    <button type="submit" class="btn btn-flat btn-primary edit-gradient">
+                                        Update Gradient
                                     </button>
                                     <a href="{{ route('v1_materials_index') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         Cancel
@@ -116,21 +111,17 @@
             </div>
         </div>
     </section>
-
-    @include('administration-lte-2.master-pages.materials.modal.copy-logo-position-data')
-    @include('administration-lte-2.master-pages.materials.modal.load-logo-position-data')
-
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 @endsection
 
 @section('scripts')
 
-    <script type="text/javascript" src="/js/administration-lte-2/materials/logo-position.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials/gradient.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#copy-data-to-clipboard').click(function() {
-                $('#copy-logo-position-data-modal textarea').select();
+                $('#copy-gradient-data-modal textarea').select();
                 document.execCommand('copy');
 
                 $('#copy-to-clipboard-tooltip').fadeIn();
@@ -140,8 +131,8 @@
                 }, 500);
             });
 
-            $('.open-load-logo-position-modal-button').click(function() {
-                $('#load-logo-position-data-modal').modal('show');
+            $('.open-load-gradient-modal-button').click(function() {
+                $('#load-gradient-data-modal').modal('show');
             });
         });
     </script>

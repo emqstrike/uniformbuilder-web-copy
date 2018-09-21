@@ -193,4 +193,12 @@ class MaterialsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
+
+    public function updateGradient($data)
+    {
+        $response = $this->post('material/updateGradient', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }
