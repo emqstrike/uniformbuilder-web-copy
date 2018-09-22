@@ -166,11 +166,13 @@
                                             Edit
                                         </a>
 
-                                        <a href="#" class="btn btn-flat btn-default btn-xs clone-font" data-font-id="{{ $font->id }}" role="button">
-                                            <i class="glyphicon glyphicon-copy"></i>
-                                            Clone
-                                        </a>
-
+                                        @if ($font->active)
+                                            <a href="#" class="btn btn-flat btn-default btn-xs clone-font" data-font-id="{{ $font->id }}" role="button">
+                                                <i class="glyphicon glyphicon-copy"></i>
+                                                Clone
+                                            </a>
+                                        @endif
+                                        
                                         <a href="#" class="btn btn-flat btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
                                             <i class="glyphicon glyphicon-trash"></i>
                                             Remove
