@@ -161,18 +161,18 @@
                                         {{ $font->updated_at }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('v1_edit_font', ['id' => $font->id]) }}" class="btn btn-flat btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                            Edit
-                                        </a>
-
                                         @if ($font->active)
+                                            <a href="{{ route('v1_edit_font', ['id' => $font->id]) }}" class="btn btn-flat btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                                Edit
+                                            </a>
+                                        
                                             <a href="#" class="btn btn-flat btn-default btn-xs clone-font" data-font-id="{{ $font->id }}" role="button">
                                                 <i class="glyphicon glyphicon-copy"></i>
                                                 Clone
                                             </a>
                                         @endif
-                                        
+
                                         <a href="#" class="btn btn-flat btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
                                             <i class="glyphicon glyphicon-trash"></i>
                                             Remove
