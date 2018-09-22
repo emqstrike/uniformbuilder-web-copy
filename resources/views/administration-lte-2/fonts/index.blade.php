@@ -227,7 +227,7 @@
 
 @section('scripts')
     <script type="text/javascript" src="/js/administration/common.js"></script>
-    <script type="text/javascript" src="/js/administration/fonts.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/fonts/fonts.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("tr").each(function(i) {

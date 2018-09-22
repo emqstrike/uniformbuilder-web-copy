@@ -552,6 +552,7 @@ $(document).ready(function(){
                         $('.font-' + value).fadeOut();
                     });
 
+                    location.reload();
                 }
             }
         });
