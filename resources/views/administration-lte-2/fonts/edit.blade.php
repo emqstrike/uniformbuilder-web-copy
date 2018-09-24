@@ -15,6 +15,10 @@
             height: 300px;
             resize: none;
         }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            color: #000000;
+        }
     </style>
 @endsection
 
@@ -1083,7 +1087,8 @@
                 bindBPOS(cond);
             });
 
-            $('.sports').select2('val', sports);
+            $('.sports').val(sports);
+            $('.sports').trigger('change');
 
             $(document).on('change', 'input, select', function() {
                 var newLength = $('.layers-row').length;
