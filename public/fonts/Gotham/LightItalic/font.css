@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Gotham-LightItalic';
+  src: url('Gotham-LightItalic.eot');
+  src: url('Gotham-LightItalic.woff2') format('woff2'),
+       url('Gotham-LightItalic.woff') format('woff'),
+       url('Gotham-LightItalic.ttf') format('truetype'),
+       url('Gotham-LightItalic.svg#Gotham-LightItalic') format('svg'),
+       url('Gotham-LightItalic.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
