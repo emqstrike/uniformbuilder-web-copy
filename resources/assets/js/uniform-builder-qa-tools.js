@@ -32,7 +32,7 @@ $(document).ready(function () {
         ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
-        ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
+        ub.utilities.info('Hidden Body: ' + ub.config.hiddenBody);
         ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
         ub.utilities.info('Customizer Available: ' + ub.current_material.material.customizer_available);
 

@@ -10330,285 +10330,285 @@ ub.funcs.fontOffSets = [
 
     };
 
-    ub.data.hiddenBody = {
+    // ub.data.hiddenBody = {
 
-        sports: [
-            "Hoodie (Apparel)", 
-            "Cinch Sack (Apparel)", 
-            "Polo (Apparel)", 
-            "Quarter Zip Jacket (Apparel)", 
-            "Fan Replica Jersey (Apparel)", 
-            "Soccer", 
-            "2017 Team Short with Pockets (Apparel)", 
-            "Signature Coaches Short (Apparel)", 
-            "Baseball", 
-            "Fastpitch", 
-            "Compression (Apparel)", 
-            "Tech-Tee (Apparel)", 
-            "Game Day Jackets (Apparel)",
-            'Tennis',
-            "Compression Pant (Apparel)",
-            "Cage Jacket (Apparel)",
-            ],
-        options: [
-                {
-                    sport: 'Wrestling',
-                    option: "Fight Short",
-                },
-                {
-                    sport: 'Baseball',
-                    option: "Long Sleeve",
-                },
-                {
-                    sport: 'Baseball',
-                    option: "Short Sleeve",
-                },
+    //     sports: [
+    //         "Hoodie (Apparel)", 
+    //         "Cinch Sack (Apparel)", 
+    //         "Polo (Apparel)", 
+    //         "Quarter Zip Jacket (Apparel)", 
+    //         "Fan Replica Jersey (Apparel)",
+    //         "Soccer", 
+    //         "2017 Team Short with Pockets (Apparel)", 
+    //         "Signature Coaches Short (Apparel)", 
+    //         "Baseball", 
+    //         "Fastpitch", 
+    //         "Compression (Apparel)", 
+    //         "Tech-Tee (Apparel)", 
+    //         "Game Day Jackets (Apparel)",
+    //         'Tennis',
+    //         "Compression Pant (Apparel)",
+    //         "Cage Jacket (Apparel)",
+    //         ],
+    //     options: [
+    //             {
+    //                 sport: 'Wrestling',
+    //                 option: "Fight Short",
+    //             },
+    //             {
+    //                 sport: 'Baseball',
+    //                 option: "Long Sleeve",
+    //             },
+    //             {
+    //                 sport: 'Baseball',
+    //                 option: "Short Sleeve",
+    //             },
               
-                // Volleyball
-                {
-                    sport: 'Volleyball',
-                    option: "Cap Sleeve",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Long Sleeve",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Compression Shorts",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Short Sleeve",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Men Volleyball Jersey",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Crew Neck Sleeveless Shirt",
-                },
-                {
-                    sport: 'Volleyball',
-                    option: "Sublimated Short",
-                },
-                // End Volleyball
+    //             // Volleyball
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Cap Sleeve",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Long Sleeve",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Compression Shorts",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Short Sleeve",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Men Volleyball Jersey",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Crew Neck Sleeveless Shirt",
+    //             },
+    //             {
+    //                 sport: 'Volleyball',
+    //                 option: "Sublimated Short",
+    //             },
+    //             // End Volleyball
 
-                // Hockey 
-                {
-                    sport: 'Hockey',
-                    option: "Game Jersey",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Sublimated Jersey",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Game Scooped V-Neck with Buckle",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Scooped-V",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Scooped-V with Buckle",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Grinder V-Neck",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Grinder V-Neck with Buckle",
-                },
-                {
-                    sport: 'Hockey',
-                    option: "Game V-Neck",
-                },
-                // End Hockey
+    //             // Hockey 
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Game Jersey",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Sublimated Jersey",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Game Scooped V-Neck with Buckle",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Scooped-V",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Scooped-V with Buckle",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Grinder V-Neck",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Grinder V-Neck with Buckle",
+    //             },
+    //             {
+    //                 sport: 'Hockey',
+    //                 option: "Game V-Neck",
+    //             },
+    //             // End Hockey
 
-                {
-                    sport: 'Fan Replica Jersey (Apparel)',
-                    option: "Men's",
-                },
-                {
-                    sport: 'Fan Replica Jersey (Apparel)',
-                    option: "Women's",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "4ARW6R~6 Jersey",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "4-inch panel Jersey",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "Side Seam Jersey",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "4MH8Z5~G Short",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "4-inch panel Short",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "Side seam Short",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "2 Panel Short",
-                },
-                {
-                    sport: 'Lacrosse',
-                    option: "4ARW6R~6 Jersey",
-                },
-                // 
-                {
-                    sport: 'Basketball',
-                    option: "USA Jersey (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "USA Jersey (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "USA Short (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "USA Short (W)",
-                },
-                {
-                    sport: 'Soccer',
-                    option: "Short (W)",
-                },
-                {
-                    sport: 'Soccer',
-                    option: "Goalie (W)",
-                },
-                {
-                    sport: 'Field Hockey',
-                    option: "Jersey (W)",
-                },
-                {
-                    sport: 'Wrestling Compression Shorts (Apparel)',
-                    option: "Compression Shorts",  
-                },
-                {
-                    sport: 'Football 2017',
-                    option: "Jersey",  
-                },
-                {
-                    sport: 'Football 2017',
-                    option: "Full Length",  
-                },
-                {
-                    sport: 'Football 2017',
-                    option: "Waist",  
-                },
-                {
-                    sport: 'Football 2017',
-                    option: "Waist 2017 Reversible",  
-                },
+    //             {
+    //                 sport: 'Fan Replica Jersey (Apparel)',
+    //                 option: "Men's",
+    //             },
+    //             {
+    //                 sport: 'Fan Replica Jersey (Apparel)',
+    //                 option: "Women's",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "4ARW6R~6 Jersey",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "4-inch panel Jersey",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "Side Seam Jersey",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "4MH8Z5~G Short",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "4-inch panel Short",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "Side seam Short",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "2 Panel Short",
+    //             },
+    //             {
+    //                 sport: 'Lacrosse',
+    //                 option: "4ARW6R~6 Jersey",
+    //             },
+    //             // 
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "USA Jersey (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "USA Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "USA Short (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "USA Short (W)",
+    //             },
+    //             {
+    //                 sport: 'Soccer',
+    //                 option: "Short (W)",
+    //             },
+    //             {
+    //                 sport: 'Soccer',
+    //                 option: "Goalie (W)",
+    //             },
+    //             {
+    //                 sport: 'Field Hockey',
+    //                 option: "Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Wrestling Compression Shorts (Apparel)',
+    //                 option: "Compression Shorts",  
+    //             },
+    //             {
+    //                 sport: 'Football 2017',
+    //                 option: "Jersey",  
+    //             },
+    //             {
+    //                 sport: 'Football 2017',
+    //                 option: "Full Length",  
+    //             },
+    //             {
+    //                 sport: 'Football 2017',
+    //                 option: "Waist",  
+    //             },
+    //             {
+    //                 sport: 'Football 2017',
+    //                 option: "Waist 2017 Reversible",  
+    //             },
 
-                // SFN 
-                {
-                    sport: 'Basketball',
-                    option: "SFN 2018 Short (M)",  
-                },
-                // 2018 Basketball 
-                {
-                    sport: 'Basketball',
-                    option: "Cavaliers Neck",  
-                },
-                {
-                    sport: 'Basketball',
-                    option: "V-Neck",  
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Lakers Neck",  
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Round Neck",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Side Seam Jersey",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Kentucky Jersey (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Kentucky Jersey (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Laker Neck Jersey (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Laker Neck Jersey (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Wildcat Neck Jersey (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Wildcat Neck Jersey (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Wildcat Neck Jersey (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "4 Inch Side Panel Short (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "4 Inch Side Panel Short (M)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "4 Inch Side Panel Short (W)",
-                },
-                {
-                    sport: 'Basketball',
-                    option: "Kentucky Jersey(M)",
-                },
+    //             // SFN 
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "SFN 2018 Short (M)",  
+    //             },
+    //             // 2018 Basketball 
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Cavaliers Neck",  
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "V-Neck",  
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Lakers Neck",  
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Round Neck",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Side Seam Jersey",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Kentucky Jersey (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Kentucky Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Laker Neck Jersey (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Laker Neck Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Wildcat Neck Jersey (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Wildcat Neck Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Wildcat Neck Jersey (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "4 Inch Side Panel Short (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "4 Inch Side Panel Short (M)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "4 Inch Side Panel Short (W)",
+    //             },
+    //             {
+    //                 sport: 'Basketball',
+    //                 option: "Kentucky Jersey(M)",
+    //             },
 
-        ],
-        currentUniformOk: function () {
+    //     ],
+    //     currentUniformOk: function () {
 
-            return  (
-                        _.contains(this.sports, ub.current_material.material.uniform_category) || 
-                        (typeof _.find(this.options, {sport: ub.current_material.material.uniform_category, option: ub.current_material.material.neck_option}) !== "undefined")
-                    ) &&
+    //         return  (
+    //                     _.contains(this.sports, ub.current_material.material.uniform_category) || 
+    //                     (typeof _.find(this.options, {sport: ub.current_material.material.uniform_category, option: ub.current_material.material.neck_option}) !== "undefined")
+    //                 ) &&
 
-                    // Hidden Body for baseball and fastpitch except when its a lower uniform
-                    (
-                        !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
-                    ) && !(
-                        ub.config.sport === "Tennis" && ub.current_material.material.neck_option === "Skort"
-                    );
+    //                 // Hidden Body for baseball and fastpitch except when its a lower uniform
+    //                 (
+    //                     !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
+    //                 ) && !(
+    //                     ub.config.sport === "Tennis" && ub.current_material.material.neck_option === "Skort"
+    //                 );
 
-        } 
+    //     } 
 
-    }
+    // }
 
     ub.data.randomFeedArrangement = {
 
@@ -11558,8 +11558,8 @@ ub.funcs.fontOffSets = [
             if (code === "body" || code === "extra") { console.log(code); }
             
             return (typeof _result !== "undefined") || 
-                ((ub.data.hiddenBody.currentUniformOk() && code === "body") || 
-                    (ub.data.hiddenBody.currentUniformOk() && code === "extra"));
+                ((ub.config.hiddenBody && code === "body") || 
+                    (ub.config.hiddenBody && code === "extra"));
 
         }
 

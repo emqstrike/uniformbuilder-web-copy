@@ -63,7 +63,11 @@ $(document).ready(function () {
 
                 // Application Sizes
                 ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
-                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
+
+                // Hidden Bodies
+                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
+                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_body', ub.callback);  
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -442,7 +446,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
-            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
+            ub.current_material.settings.hiddenBody = ub.config.hiddenBody;
 
             ub.funcs.activatePartByIndex(0);
 
@@ -967,6 +971,7 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
+                'hidden_body',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1015,6 +1020,8 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
+            if (object_name === 'hidden_body') { ub.funcs.setupHiddenBody(obj); }
 
             if (object_name === 'cuts_links') {
 
@@ -2438,7 +2445,7 @@ $(document).ready(function () {
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
             _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
 
-            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+            if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                 ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
                 ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
@@ -2620,7 +2627,7 @@ $(document).ready(function () {
 
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
-                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+                if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                     if (application_obj.application.layer === "Body") {
 
