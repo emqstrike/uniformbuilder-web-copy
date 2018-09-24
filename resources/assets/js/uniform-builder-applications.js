@@ -33,6 +33,12 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.setupHiddenBody = function (obj) {
+
+        return ub.config.hiddenBody = obj;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -4056,7 +4062,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _hideBody = ub.data.hiddenBody.currentUniformOk();
+        var _hideBody = ub.config.hiddenBody;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
