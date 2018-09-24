@@ -91,7 +91,7 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">Font File</label>
                             <div class="col-md-4">
-                                <input type="file" class="form-control font-file" name="font_path" accept="font/*">
+                                <input type="file" class="form-control font-file" name="font_path" accept="font/*" @if (! $font->font_path) style="border: 2px solid red;" @endif>
                             </div>
                         </div>
 
