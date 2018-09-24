@@ -9,7 +9,7 @@
                     <div class="panel-heading">Edit Material</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_material_store') }}" enctype="multipart/form-data" id='edit-material-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='edit-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
 
