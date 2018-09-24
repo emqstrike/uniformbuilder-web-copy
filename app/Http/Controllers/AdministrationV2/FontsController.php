@@ -167,12 +167,7 @@ class FontsController extends Controller
             }
         } catch (S3Exception $e) {
             $message = $e->getMessage();
-            if (Session::get('fontsMinifiedOnly')){
-                return Redirect::to('/administration/fonts_minified')
-                            ->with('message', 'There was a problem uploading your files');
-            } else {
-                return redirect()->route('v1_fonts_index')->with('message', 'There was a problem uploading your files');
-            }
+            return redirect()->route('v1_fonts_index')->with('message', 'There was a problem uploading your files');
         }
 
         // $myJson['0'] = {};
@@ -235,22 +230,12 @@ class FontsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            if (Session::get('fontsMinifiedOnly')){
-                return Redirect::to('/administration/fonts_minified')
-                            ->with('message', $response->message);
-            } else {
-                return redirect()->route('v1_fonts_index')->with('message', $response->message);
-            }
+            return redirect()->route('v1_fonts_index')->with('message', $response->message);
         }
         else
         {
             Log::info('Failed');
-            if (Session::get('fontsMinifiedOnly')){
-                return Redirect::to('/administration/fonts_minified')
-                            ->with('message', $response->message);
-            } else {
-                return redirect()->route('v1_fonts_index')->with('message', 'There was a problem saving your font');
-            }
+            return redirect()->route('v1_fonts_index')->with('message', 'There was a problem saving your font');
         }
     }
 
@@ -265,19 +250,12 @@ class FontsController extends Controller
         $su_array = explode(',', $superusers);
 
         if (in_array($user_id, $su_array)) {
-                return view('administration-lte-2.fonts.create', [
-                    'fonts' => $fonts,
-                    'categories' => $uniformCategories
-                ]);
+            return view('administration-lte-2.fonts.create', [
+                'fonts' => $fonts,
+                'categories' => $uniformCategories
+            ]);
         } else {
-            if (Session::get('fontsMinifiedOnly')) {
-                return view('administration-lte-2.fonts.create', [
-                    'fonts' => $fonts,
-                    'categories' => $uniformCategories
-                ]);
-            } else {
-                return back();
-            }
+            return back();
         }
     }
 }

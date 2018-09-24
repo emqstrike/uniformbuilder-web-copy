@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/font/add" enctype="multipart/form-data" id='create-font-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/font/add" enctype="multipart/form-data" id='create-font-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="font_size_tables" id="font_size_tables">
