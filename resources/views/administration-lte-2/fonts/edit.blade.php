@@ -1181,7 +1181,7 @@
                         renumberRows(length);
                     });
                     var open = "<tr class=\"layers-row\">";
-                    var layer = "<td><select class=\"fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
+                    var layer = "<td><select class=\"form-control fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
 
                     var type_options = '';
                     var fonts_options = '';
@@ -1211,13 +1211,18 @@
                         }
                     });
 
-                    var name = '<td><input type="text" class="fo-name layer' + length + '" name="fo_name[]" value="' + myJson[length].name + '"></td>';
-                    var file = '<td><input type="file" class="fo-file layer"' + length + '" name="fo_file[]"></td>';
-                    var file_ref = '<input type="hidden" class="fo-file-ref layer' + length + '" value="' + myJson[length].font_path + '">';
-                    var type = '<td><select name="fo_type[]" class="fo-type layer"' + length + '">"' + type_options + '"</select></td>';
-                    var parent_font = '<td><select name="fo_parent[]" class="fo-parent layer"' + length + '">"' + fonts_options + '"</select></td>';
+                    var name = '<td><input type="text" class="form-control fo-name teetest layer' + length + '" name="fo_name[]" value="' + myJson[length].name + '"></td>';
+                    var file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]"></td>';
+                    var file_ref = '<input type="hidden" class="form-control fo-file-ref layer' + length + '" value="' + myJson[length].font_path + '">';
 
-                    var remove = "<td><a class=\"btn btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
+                    if (myJson[length].font_path != 'undefined') {
+                        file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]" style="border: 2px solid red;"></td>';
+                    }
+
+                    var type = '<td><select name="fo_type[]" class="form-control fo-type layer"' + length + '">"' + type_options + '"</select></td>';
+                    var parent_font = '<td><select name="fo_parent[]" class="form-control fo-parent layer"' + length + '">"' + fonts_options + '"</select></td>';
+
+                    var remove = "<td><a class=\"btn btn-flat btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
                     var close = "<tr>";
                     $('#layers-row-container').append(open+layer+name+file+file_ref+type+parent_font+remove+close);
                     length--;
