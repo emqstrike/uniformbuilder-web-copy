@@ -807,8 +807,6 @@
                 $('#block_patterns_value').val($(this).val());
             });
 
-            $('.block-patterns').select2('val', bps);
-
             if($('#block_pattern_options_value').val()){
 
                 var xx = $('#block_pattern_options_value').val().split(",");
@@ -826,8 +824,6 @@
             $(".block-pattern-options").change(function() {
                 $('#block_pattern_options_value').val($(this).val());
             });
-
-            $('.block-pattern-options').select2('val', bpos);
 
             $( "#static_row" ).hide();
 
@@ -1296,6 +1292,9 @@
                     newRowCount--;
                 });
             });
+
+            $('.block-patterns').select2().val(bps).trigger('change');
+            $('.block-pattern-options').select2().val(bpos).trigger('change');
         });
     </script>
 @endsection
