@@ -597,13 +597,26 @@ $(document).ready(function() {
 
         }
 
-        if (ub.data.sportsMain.currentOk() ) {
+        if (ub.data.sportsMain.currentOk()) {
 
             if (ub.current_material.material.one_inch_in_px === null) { 
                 ub.utilities.warn('No one_inch_in_px set for this uniform.'); 
             }
 
             _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+                
+        }
+
+        if (!ub.data.sportsMain.currentOk()) {
+
+            // enable new Font Metrics (one_inch_in_px) if the sport's one_inch_in_px is set, and not equal to 0, undefined or null.
+            if (ub.current_material.material.one_inch_in_px     !== 0 
+                && ub.current_material.material.one_inch_in_px  !== 'undefined'
+                && ub.current_material.material.one_inch_in_px  !== null) {
+
+                _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+
+            }
                 
         }
 

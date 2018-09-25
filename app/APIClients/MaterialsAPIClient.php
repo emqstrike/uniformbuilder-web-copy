@@ -33,7 +33,7 @@ class MaterialsAPIClient extends APIClient
         if ($result->success) {
             $count = $result->count;
         }
-        
+
         return $count;
     }
 
@@ -83,7 +83,7 @@ class MaterialsAPIClient extends APIClient
     {
         $response = $this->get('material/' . $id);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
 
@@ -104,7 +104,7 @@ class MaterialsAPIClient extends APIClient
     {
         $response = $this->get('material/qs/' . $id);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             $material = $result->material;
@@ -184,5 +184,21 @@ class MaterialsAPIClient extends APIClient
             }
         }
         return !is_null($material);
+    }
+
+    public function updateLogoPosition($data)
+    {
+        $response = $this->post('material/updateLogoPosition', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateGradient($data)
+    {
+        $response = $this->post('material/updateGradient', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
     }
 }
