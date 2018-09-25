@@ -13,7 +13,12 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Inksoft Designs')
-                    <h1>Inksoft Designs</h1>
+                    <h1>
+                        Inksoft Designs
+                        <a href="/administration/v1-0/inksoft_designs/search" class='btn btn-sm btn-default'>
+                            Search
+                        </a>
+                    </h1>
                 </div>
 
                 <div class="box-body">
