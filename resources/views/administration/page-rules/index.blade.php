@@ -9,6 +9,11 @@
             overflow-y: scroll;
             max-height: 500px;
         }
+
+        table.data-table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
     </style>
 @endsection
 
