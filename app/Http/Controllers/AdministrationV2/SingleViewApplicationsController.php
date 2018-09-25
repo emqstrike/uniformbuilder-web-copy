@@ -6,13 +6,12 @@ use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\Random;
 use App\Http\Controllers\Controller;
-use App\APIClients\HiddenBodiesAPIClient as APIClient;
+use App\APIClients\SingleViewApplicationsAPIClient as APIClient;
 
-class HiddenBodiesController extends Controller
+class SingleViewApplicationsController extends Controller
 {
-    protected $client;
+
     public function __construct(
         APIClient $apiClient
     )
@@ -22,10 +21,11 @@ class HiddenBodiesController extends Controller
 
     public function index()
     {
-        $hidden_body = $this->client->getAll();
+        $single_view_applications = $this->client->getAll();
 
-        return view('administration-lte-2.hidden-body.hidden-body', [
-            'hidden_body' => $hidden_body
+        return view('administration-lte-2.single-view-applications.single-view-applications', [
+            'single_view_applications' => $single_view_applications
         ]);
+
     }
 }

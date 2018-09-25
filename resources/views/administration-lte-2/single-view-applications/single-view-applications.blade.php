@@ -56,42 +56,36 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Hidden Body')
-                    <h1>
-                        <span class="fa fa-eye-slash"></span>
-                        Hidden Body
+                    @section('page-title', 'Single View Applications')
+                    <h2>
+                        <span class="fa fa-eye"></span>
+                        Categories with Single View Applications
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
-                    </h1>
+                    </h2>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered hidden-body display' id='hidden-body'>
+                    <table data-toggle='table' class='data-table table-bordered single-view-applications display' id='single-view-applications'>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
+                            <th>Uniform Category</th>
                             <th>Block Pattern</th>
                             <th>Options</th>
                             <th id="select-filter">Type</th>
-                            <th id="select-filter">Uniform Appliction Type</th>
-                            <th id="select-filter">Brand</th>
                             <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                    @forelse ($hidden_bodies as $item)
+                    @forelse ($single_view_applications as $item)
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="td-item-name col-md-1">{{ $item->name }}</td>
-                            <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->uniform_category}}"></td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern }}</td>
-                            <td class="td-item-option col-md-1">{{ $item->options }}</td>
+                            <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->uniform_category_id}}"></td>
+                            <td class="td-item-block-pattern col-md-1">{{ $item->block_patterns }}</td>
+                            <td class="td-item-option col-md-1">{{ $item->neck_options }}</td>
                             <td class="td-item-type col-md-1">{{ $item->type }}</td>
-                            <td class="td-item-uniform-application-type col-md-1">{{ $item->uniform_application_type }}</td>
-                            <td class="td-item-brand col-md-1">{{ $item->brand }}</td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -109,7 +103,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='10'>
+                            <td colspan='7'>
                                 No Hidden Body
                             </td>
                         </tr>
@@ -125,9 +119,6 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                         </tr>
                     </tfoot>
                     </table>
@@ -136,7 +127,7 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.hidden-body.hidden-body-modal')
+@include('administration-lte-2.single-view-applications.single-view-applications-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -235,7 +226,6 @@ $(document).ready(function(){
     $('.block-pattern').trigger('change');
 
     $("#myModal").on("hidden.bs.modal", function() {
-        $('.input-item-name').val('');
         $('.sport').val('none');
         $('.sport').trigger('change');
         $('.block-pattern-val').val('');
@@ -243,65 +233,54 @@ $(document).ready(function(){
         $('.neck-option-val').val('');
         $('#neck_option').val('');
         $('.input-item-type').val('');
-        $('.uniform-application-type').val('');
-        $('.input-brand').val('');
         $('.submit-new-record').removeAttr('disabled');
     });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Hidden Body Information');
+        $('.modal-title').text('Add Category with Single View Application Information');
         $('.submit-new-record').text('Add Record');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Hidden Body Information');
+        $('.modal-title').text('Edit Category with Single View Application Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
-        data.name = $(this).parent().parent().parent().find('.td-item-name').text();
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-item-sport').val();
         var raw_bp = $(this).parent().parent().parent().find('.td-item-block-pattern').text();
         data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
         var raw_bpo = $(this).parent().parent().parent().find('.td-item-option').text();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
         data.type = $(this).parent().parent().parent().find('.td-item-type').text();
-        data.uniform_application_type = $(this).parent().parent().parent().find('.td-item-uniform-application-type').text();
-        data.brand = $(this).parent().parent().parent().find('.td-item-brand').text();
 
         $('.input-item-id').val(data.id);
-        $('.input-item-name').val(data.name);
         $('.sport').val(data.uniform_category_id).trigger('change');
         $('.block-pattern-val').val(data.block_pattern);
         $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
         $('.neck-option-val').val(data.neck_option);
         $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
         $('.input-item-type').val(data.type);
-        $('.uniform-application-type').val(data.uniform_application_type);
-        $('.input-brand').val(data.brand);
     });
 
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
-        data.name = $('.input-item-name').val();
-        data.uniform_category = $('.sport').find(":selected").val();
+        data.uniform_category_id = $('.sport').find(":selected").val();
         var raw_bp = $('.block-pattern-val').val();
-        data.block_pattern = raw_bp.split(",");
+        data.block_patterns = raw_bp.split(",");
         var raw_bpo = $('.neck-option-val').val();
-        data.options = raw_bpo.split(",");
+        data.neck_options = raw_bpo.split(",");
         data.type = $('.input-item-type').find(":selected").val();
-        data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
-        data.brand = $('.input-brand').find(":selected").val();
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/v1-0/hidden_body";
+            var url = "//" + api_host +"/api/v1-0/single_view_applications";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-item-id').val();
-            var url = "//" + api_host +"/api/v1-0/hidden_body/update";
+            var url = "//" + api_host +"/api/v1-0/single_view_applications/update";
         }
 
         addUpdateRecord(data, url);
@@ -343,12 +322,12 @@ $(document).ready(function(){
     $(document).on('click', '.delete-item', function() {
        var id = [];
        id.push( $(this).data('item-id'));
-       modalConfirm('Remove Hidden Body', 'Are you sure you want to delete the hidden body?', id);
+       modalConfirm('Remove Single View Application', 'Are you sure you want to delete the Single View?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/hidden_body/delete";
+        var url = "//" + api_host + "/api/v1-0/single_view_applications/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -384,7 +363,7 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).data('item-id');
         console.log(id);
-         var url = "//" + api_host + "/api/v1-0/hidden_body/toggle";
+         var url = "//" + api_host + "/api/v1-0/single_view_applications/toggle";
          $.ajax({
             url: url,
             type: "POST",
