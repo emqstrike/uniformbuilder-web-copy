@@ -28,6 +28,9 @@
                                     <center>
                                         <br>
                                         <button type="submit" class="btn btn-success btn-flat search-inksoft-design">Search</button>
+                                        <a href="/administration/v1-0/inksoft_designs" class='btn btn-flat btn-danger'>
+                                            Back
+                                        </a>
                                     </center>
                                 </td>
                             </tr>
@@ -35,7 +38,7 @@
                     </center>
                     <br>
                     <center>
-                        
+
                     </center>
                     <br>
                     <table class="table table-bordered table-striped">
@@ -78,7 +81,7 @@ $(document).ready(function(){
                 generateResults();
             }
         });
-        
+
     });
 
     function generateResults(){
