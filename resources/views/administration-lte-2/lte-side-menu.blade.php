@@ -176,6 +176,7 @@
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/application_sizes"><i class="fa fa-arrows"></i>Application Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascot_sizes"><i class="fa fa-arrows"></i>Mascot Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/single_view_applications"><i class="fa fa-eye"></i>Single View Application<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 
