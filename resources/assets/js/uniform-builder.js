@@ -2772,9 +2772,9 @@ $(document).ready(function () {
 
         }
 
-        if (ub.funcs.isSocks()) {
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
-            // Activate Left View when a sock is loaded
+            // Activate Left View on all Socks (Apparel) except on 'Hockey Sock' block pattern
             ub.funcs.activateLeftView();
 
         }
