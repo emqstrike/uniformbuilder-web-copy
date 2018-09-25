@@ -79,6 +79,7 @@
                         Analytics
                     </a>
                 </li>
+                <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/hidden_bodies"><i class="fa fa-eye-slash"></i> Hidden Body</a></li>
             </ul>
         </li>
 
@@ -105,7 +106,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="../tables/simple.html"><i class="fa fa-comments"></i> Feedbacks</a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs/search"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
             <li><a href="{{ route('saved_designs') }}"><i class="fa fa-image"></i> Saved Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
