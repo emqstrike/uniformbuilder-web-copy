@@ -56,32 +56,29 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Mascot Categories ')
+                    @section('page-title', 'Mascot Groups Categories')
                     <h2>
-                        <span class="fa fa-th-list"></span>
-                        Mascots Categories
+                        <span class="fa fa-th-large"></span>
+                        Mascot Groups Categories
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h2>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered mascots-categories display' id='mascots-categories'>
+                    <table data-toggle='table' class='data-table table-bordered mascots-groups-categories display' id='mascots-groups-categories'>
                     <thead>
                         <tr>
                             <td>ID</td>
                             <th>Name</th>
-                            <th id="select-filter">Group</th>
                             <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                    @forelse ($mascots_categories as $item)
-
+                    @forelse ($mascots_groups_categories as $item)
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="td-item-name col-md-2">{{ $item->name }}<input type="hidden" class="td-item-group" value="{{ $item->mascots_group_category_id }}"></td>
-                            <td class="col-md-2">{{ $item->group_name }}</td>
+                            <td class="td-item-name col-md-2">{{ $item->name }}</td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -100,7 +97,7 @@
                     @empty
                         <tr>
                             <td colspan='4'>
-                                No Mascot Categories
+                                No Mascot Groups Categories
                             </td>
                         </tr>
                     @endforelse
@@ -120,7 +117,7 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.mascots.mascot-categories-modal')
+@include('administration-lte-2.mascots.mascot-groups-categories-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -131,13 +128,6 @@
 $(document).ready(function(){
 
     window.modal_action = null;
-    window.group_categories = null;
-
-    getGroupCategories(function(group_categories){
-        window.group_categories = group_categories;
-    });
-
-    loadGroupCategories();
 
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-item-id').val('');
@@ -149,23 +139,21 @@ $(document).ready(function(){
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Mascot Category Information');
+        $('.modal-title').text('Add Mascot Groups Category Information');
         $('.submit-new-record').text('Add Record');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Mascot Category Information');
+        $('.modal-title').text('Edit Mascot Groups Category Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
         data.name = $(this).parent().parent().parent().find('.td-item-name').text();
-        data.mascots_group_category_id = $(this).parent().parent().parent().find('.td-item-group').val();
 
         $('.input-item-id').val(data.id);
         $('.input-item-name').val(data.name);
-        $('.mascot-group-category').val(data.mascots_group_category_id);
     });
 
     $("#myForm").submit(function(e) {
@@ -175,10 +163,10 @@ $(document).ready(function(){
         data.name = $('.input-item-name').val();
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/mascot_category";
+            var url = "//" + api_host +"/api/mascot_group_category";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-item-id').val();
-            var url = "//" + api_host +"/api/mascot_category/update";
+            var url = "//" + api_host +"/api/mascot_group_category/update";
         }
         addUpdateRecord(data, url);
         $('.submit-new-record').attr('disabled', 'true');
@@ -219,12 +207,12 @@ $(document).ready(function(){
     $(document).on('click', '.delete-item', function() {
        var id = [];
        id.push( $(this).data('item-id'));
-       modalConfirm('Remove Mascot Category', 'Are you sure you want to delete the Category?', id);
+       modalConfirm('Remove Mascot Group Category', 'Are you sure you want to delete the Group?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/mascot_category/delete";
+        var url = "//" + api_host + "/api/mascot_group_category/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -260,7 +248,7 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).data('item-id');
         console.log(id);
-         var url = "//" + api_host + "/api/mascot_category/toggle";
+         var url = "//" + api_host + "/api/mascot_group_category/toggle";
          $.ajax({
             url: url,
             type: "POST",
@@ -315,31 +303,6 @@ $(document).ready(function(){
         });
     } catch(e) {
         console.log(e.message);
-    }
-
-    function loadGroupCategories() {
-        var group_categories_elem = "";
-        _.each(window.group_categories, function(group_categories) {
-            group_categories_elem += `<option value=` + group_categories.id + `>` + group_categories.name + `</option>`;
-        });
-        $('.mascot-group-category').append(group_categories_elem);
-    }
-
-    function getGroupCategories(callback){
-        var categories;
-        var url = "//" +api_host+ "/api/mascots_groups_categories";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                categories = data['mascots_groups_categories'];
-                if(typeof callback === "function") callback(categories);
-            }
-        });
     }
 });
 </script>

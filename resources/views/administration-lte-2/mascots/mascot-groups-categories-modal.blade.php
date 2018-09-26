@@ -11,7 +11,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                  Add Mascot Category
+                  Add New Mascot Group Category
                 </h4>
             </div>
 
@@ -22,11 +22,6 @@
                   <div class="form-group">
                     <label>Name</label>
                       <input type="name" class="form-control input-item-name" name="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Mascot Group</label>
-                      <select name="group_category" class="form-control mascot-group-category" required>
-                      </select>
                   </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
