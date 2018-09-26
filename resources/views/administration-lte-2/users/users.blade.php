@@ -101,7 +101,7 @@
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-xs btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
-                                    <a href="#" class="btn btn-success btn-xs btn-flat edit-allowed-pages @if(! $user->role) disabled @endif" data-target="#allowedPagesModal" data-toggle="modal">Edit allowed pages</a>
+                                    <a href="#" class="btn btn-success btn-xs btn-flat edit-allowed-pages @if((! $user->role) || (! $user->active)) disabled @endif" data-target="#allowedPagesModal" data-toggle="modal">Edit allowed pages</a>
                                     @if (1 == 0)
                                         @if ($user->email != Session::get('email'))
                                         <a href="#" class="btn btn-danger pull-right btn-xs btn-flat delete-user" data-user-id="{{ $user->id }}" role="button">Delete</a>
