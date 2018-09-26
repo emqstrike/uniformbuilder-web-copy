@@ -607,17 +607,19 @@ $(document).ready(function() {
                 
         }
 
-        if (!ub.data.sportsMain.currentOk()) {
-
-            // enable new Font Metrics (one_inch_in_px) if the sport's one_inch_in_px is set, and not equal to 0, undefined or null.
-            if (ub.current_material.material.one_inch_in_px     !== 0 
-                && ub.current_material.material.one_inch_in_px  !== 'undefined'
-                && ub.current_material.material.one_inch_in_px  !== null) {
-
-                _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
-
-            }
+        // apply new Font Metrics (one_inch_in_px) on sports that has false value 'ub.data.sportsMain.currentOk()'
+        // and has application_type of 'sublimated' and 'knitted'
+        if (!ub.data.sportsMain.currentOk() 
+            && (ub.current_material.material.uniform_application_type === "sublimated" || ub.current_material.material.uniform_application_type === "knitted")) {
                 
+                if (ub.current_material.material.one_inch_in_px     !== 0 
+                    && ub.current_material.material.one_inch_in_px  !== 'undefined'
+                    && ub.current_material.material.one_inch_in_px  !== null) {
+
+                    _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+
+                }
+
         }
 
         return _fontSizeData;

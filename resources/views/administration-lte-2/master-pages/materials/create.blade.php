@@ -11,7 +11,7 @@
                     <div class="panel-body">
                         @include('administration.partials.validation-error')
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_material_store') }}" enctype="multipart/form-data" id='create-material-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='create-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">

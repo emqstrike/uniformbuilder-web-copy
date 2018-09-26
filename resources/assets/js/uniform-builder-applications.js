@@ -10819,8 +10819,9 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isSocks()) {
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
+                // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
 

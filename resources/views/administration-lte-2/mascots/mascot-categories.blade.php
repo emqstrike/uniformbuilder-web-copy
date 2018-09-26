@@ -56,42 +56,32 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Hidden Body')
-                    <h1>
-                        <span class="fa fa-eye-slash"></span>
-                        Hidden Body
+                    @section('page-title', 'Mascot Categories ')
+                    <h2>
+                        <span class="fa fa-th-list"></span>
+                        Mascots Categories
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
-                    </h1>
+                    </h2>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered hidden-body display' id='hidden-body'>
+                    <table data-toggle='table' class='data-table table-bordered single-view-applications display' id='single-view-applications'>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <td>ID</td>
                             <th>Name</th>
-                            <th>Category</th>
-                            <th>Block Pattern</th>
-                            <th>Options</th>
-                            <th id="select-filter">Type</th>
-                            <th id="select-filter">Uniform Appliction Type</th>
-                            <th id="select-filter">Brand</th>
+                            <th id="select-filter">Group</th>
                             <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                    @forelse ($hidden_bodies as $item)
+                    @forelse ($mascots_categories as $item)
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="td-item-name col-md-1">{{ $item->name }}</td>
-                            <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->uniform_category}}"></td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern }}</td>
-                            <td class="td-item-option col-md-1">{{ $item->options }}</td>
-                            <td class="td-item-type col-md-1">{{ $item->type }}</td>
-                            <td class="td-item-uniform-application-type col-md-1">{{ $item->uniform_application_type }}</td>
-                            <td class="td-item-brand col-md-1">{{ $item->brand }}</td>
+                            <td class="td-item-name col-md-2">{{ $item->name }}<input type="hidden" class="td-item-group" value="{{ $item->mascots_group_category_id }}"></td>
+                            <td class="col-md-2">{{ $item->group_name }}</td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -100,7 +90,7 @@
                                     </label>
                                 </div>
                             </td>
-                            <td class="col-md-2">
+                            <td class="col-md-1">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-item" data-item-id="{{ $item->id }}" role="button">Delete</a>
@@ -109,8 +99,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='10'>
-                                No Hidden Body
+                            <td colspan='4'>
+                                No Mascot Categories
                             </td>
                         </tr>
                     @endforelse
@@ -118,12 +108,6 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -136,7 +120,7 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.hidden-body.hidden-body-modal')
+@include('administration-lte-2.mascots.mascot-categories-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -147,163 +131,55 @@
 $(document).ready(function(){
 
     window.modal_action = null;
-    window.categories = null;
-    window.block_patterns = null;
+    window.group_categories = null;
 
-
-    getUniformCategories(function(categories){
-        window.categories = categories;
+    getGroupCategories(function(group_categories){
+        window.group_categories = group_categories;
     });
 
-    getBlockPatterns(function(block_patterns){
-        window.block_patterns = block_patterns;
-    });
-
-    loadUniformCategories();
-
-    var sport = null;
-    $(document).on('change', '.sport', function() {
-        sport = $('.sport').val();
-            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-            var sportOK = _.filter(window.block_patterns, function(e) {
-                            return e.uniform_category_id == sport;
-                            });
-            $( '#block_pattern' ).html('');
-            $.each(sportOK, function(i, item) {
-                $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-            });
-        $('#block_pattern').trigger('change');
-    });
-    $('.sport').trigger('change');
-
-    var z = window.block_patterns;
-    $(document).on('change', '#block_pattern', function() {
-        var options = [];
-        var bps = $('#block_pattern_value').val();
-        var bps_name = bps.toString().split(",");
-            bps_name.forEach( function(item_name) {
-                var name = item_name;
-                $.each(z, function(i, item) {
-                   if( item.name == name ){
-                        var optx = JSON.parse(item.neck_options);
-                        $.each(optx, function(i, item) {
-                            options.push(item.name);
-                        });
-                    } else {
-                    }
-                });
-            });
-
-        var y = _.sortBy(_.uniq(options));
-        $( '#neck_option' ).html('');
-        y.forEach(function(i) {
-            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
-        });
-        $('.material-neck-option').trigger('change');
-    });
-
-    if($('#neck_option_value').val()){
-        var bpos = JSON.parse($('#neck_option_value').val());
-    }
-    $('.material-neck-option').select2({
-        placeholder: "Select block pattern option",
-        multiple: true,
-        allowClear: true
-    });
-
-    $(".material-neck-option").change(function() {
-        $('#neck_option_value').val($(this).val());
-    });
-
-    $('.material-neck-option').val(bpos);
-    $('.material-neck-option').trigger('change');
-
-    if($('#block_pattern_value').val()){
-        var bp = JSON.parse($('#block_pattern_value').val());
-    }
-    $('.block-pattern').select2({
-        placeholder: "Select block pattern",
-        multiple: true,
-        allowClear: true
-    });
-
-    $(".block-pattern").change(function() {
-        $('#block_pattern_value').val($(this).val());
-    });
-
-    $('.block-pattern').val(bp);
-    $('.block-pattern').trigger('change');
+    loadGroupCategories();
 
     $("#myModal").on("hidden.bs.modal", function() {
+        $('.input-item-id').val('');
         $('.input-item-name').val('');
-        $('.sport').val('none');
-        $('.sport').trigger('change');
-        $('.block-pattern-val').val('');
-        $('#block_pattern').val('');
-        $('.neck-option-val').val('');
-        $('#neck_option').val('');
-        $('.input-item-type').val('');
-        $('.uniform-application-type').val('');
-        $('.input-brand').val('');
+        $('.mascot-group-category-name').val('');
         $('.submit-new-record').removeAttr('disabled');
     });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Hidden Body Information');
+        $('.modal-title').text('Add Mascot Category Information');
         $('.submit-new-record').text('Add Record');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Hidden Body Information');
+        $('.modal-title').text('Edit Mascot Category Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
         data.name = $(this).parent().parent().parent().find('.td-item-name').text();
-        data.uniform_category_id = $(this).parent().parent().parent().find('.td-item-sport').val();
-        var raw_bp = $(this).parent().parent().parent().find('.td-item-block-pattern').text();
-        data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-        var raw_bpo = $(this).parent().parent().parent().find('.td-item-option').text();
-        data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
-        data.type = $(this).parent().parent().parent().find('.td-item-type').text();
-        data.uniform_application_type = $(this).parent().parent().parent().find('.td-item-uniform-application-type').text();
-        data.brand = $(this).parent().parent().parent().find('.td-item-brand').text();
+        data.mascots_group_category_id = $(this).parent().parent().parent().find('.td-item-group').val();
 
         $('.input-item-id').val(data.id);
         $('.input-item-name').val(data.name);
-        $('.sport').val(data.uniform_category_id).trigger('change');
-        $('.block-pattern-val').val(data.block_pattern);
-        $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
-        $('.neck-option-val').val(data.neck_option);
-        $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
-        $('.input-item-type').val(data.type);
-        $('.uniform-application-type').val(data.uniform_application_type);
-        $('.input-brand').val(data.brand);
+        $('.mascot-group-category').val(data.mascots_group_category_id);
     });
 
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
+        data.mascots_group_category_id = $('.mascot-group-category').find(":selected").val();
         data.name = $('.input-item-name').val();
-        data.uniform_category = $('.sport').find(":selected").val();
-        var raw_bp = $('.block-pattern-val').val();
-        data.block_pattern = raw_bp.split(",");
-        var raw_bpo = $('.neck-option-val').val();
-        data.options = raw_bpo.split(",");
-        data.type = $('.input-item-type').find(":selected").val();
-        data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
-        data.brand = $('.input-brand').find(":selected").val();
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/v1-0/hidden_body";
+            var url = "//" + api_host +"/api/mascot_category";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-item-id').val();
-            var url = "//" + api_host +"/api/v1-0/hidden_body/update";
+            var url = "//" + api_host +"/api/mascot_category/update";
         }
-
         addUpdateRecord(data, url);
         $('.submit-new-record').attr('disabled', 'true');
     });
@@ -343,12 +219,12 @@ $(document).ready(function(){
     $(document).on('click', '.delete-item', function() {
        var id = [];
        id.push( $(this).data('item-id'));
-       modalConfirm('Remove Hidden Body', 'Are you sure you want to delete the hidden body?', id);
+       modalConfirm('Remove Mascot Category', 'Are you sure you want to delete the Category?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/hidden_body/delete";
+        var url = "//" + api_host + "/api/mascot_category/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -384,7 +260,7 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).data('item-id');
         console.log(id);
-         var url = "//" + api_host + "/api/v1-0/hidden_body/toggle";
+         var url = "//" + api_host + "/api/mascot_category/toggle";
          $.ajax({
             url: url,
             type: "POST",
@@ -442,17 +318,17 @@ $(document).ready(function(){
     }
 
 
-    function loadUniformCategories() {
-        var category_elem = "";
-        _.each(window.categories, function(category) {
-            category_elem += `<option value=` + category.id + `>` + category.name + `</option>`;
+    function loadGroupCategories() {
+        var group_categories_elem = "";
+        _.each(window.group_categories, function(group_categories) {
+            group_categories_elem += `<option value=` + group_categories.id + `>` + group_categories.name + `</option>`;
         });
-        $('.sport').append(category_elem);
+        $('.mascot-group-category').append(group_categories_elem);
     }
 
-    function getUniformCategories(callback){
+    function getGroupCategories(callback){
         var categories;
-        var url = "//" +api_host+ "/api/categories";
+        var url = "//" +api_host+ "/api/mascots_groups_categories";
         $.ajax({
             url: url,
             async: false,
@@ -461,29 +337,11 @@ $(document).ready(function(){
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                categories = data['categories'];
+                categories = data['mascots_groups_categories'];
                 if(typeof callback === "function") callback(categories);
             }
         });
     }
-
-    function getBlockPatterns(callback){
-            var block_patterns;
-            var url = "//" +api_host+ "/api/block_patterns";
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    block_patterns = data['block_patterns'];
-                    if(typeof callback === "function") callback(block_patterns);
-                }
-            });
-    }
-
 });
 </script>
 @endsection
