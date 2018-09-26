@@ -80,8 +80,8 @@
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="td-item-name col-md-2">{{ $item->name }}</td>
-                            <td class="col-md-2">{{ $item->group_name }}<input type="hidden" class="td-item-group" value="{{ $item->mascots_group_category_id }}"></td>
+                            <td class="td-item-name col-md-2">{{ $item->name }}<input type="hidden" class="td-item-group" value="{{ $item->mascots_group_category_id }}"></td>
+                            <td class="col-md-2">{{ $item->group_name }}</td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
