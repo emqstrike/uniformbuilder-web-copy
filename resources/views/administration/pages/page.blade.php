@@ -35,6 +35,7 @@
                             <thead>
                                 <tr>
                                     <th>Code</th>
+                                    <th>Page Name</th>
                                     <th>Brand</th>
                                     <th>Action</th>
                                 </tr>
@@ -45,6 +46,7 @@
                                     @foreach ($pages as $page)
                                         <tr>
                                             <td>{{ $page->code }}</td>
+                                            <td>{{ $page->page_name }}</td>
                                             <td>{{ $page->brand }}</td>
                                             <td>
                                                 <a href="{{ route('edit_page', ['id' => $page->id]) }}" class="btn btn-primary btn-xs"  role="button">

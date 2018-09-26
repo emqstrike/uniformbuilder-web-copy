@@ -37,6 +37,13 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Page Name</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="page_name" value="{{ old('page_name') }}" required>
+                                </div>
+                            </div>
+
                             <div class="form group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button class="btn btn-primary" type="submit">
