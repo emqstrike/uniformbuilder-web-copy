@@ -33,6 +33,12 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.setupHiddenBody = function (obj) {
+
+        return ub.config.hiddenBody = obj;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -4056,7 +4062,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _hideBody = ub.data.hiddenBody.currentUniformOk();
+        var _hideBody = ub.config.hiddenBody;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -10680,9 +10686,10 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        _partToMakeActive =  _perspective.toTitleCase();
 
-                        $('div.part-container span').each(function(i) {
+                        $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
@@ -10863,9 +10870,10 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    var _partToMakeActive =  $perspective.text().toTitleCase();
 
-                    $('div.part-container span').each(function(i) {
+                    $('div.part-container span').each(function() {
                         
                         var part = $(this).text();
 
