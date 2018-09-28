@@ -10680,9 +10680,10 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        _partToMakeActive =  _perspective.toTitleCase();
 
-                        $('div.part-container span').each(function(i) {
+                        $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
@@ -10819,8 +10820,9 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isSocks()) {
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
+                // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
 
@@ -10862,9 +10864,10 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    var _partToMakeActive =  $perspective.text().toTitleCase();
 
-                    $('div.part-container span').each(function(i) {
+                    $('div.part-container span').each(function() {
                         
                         var part = $(this).text();
 
