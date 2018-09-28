@@ -29,7 +29,6 @@ class AuthenticationController extends Controller
 
         $email = $request->input('email');
         $password = $request->input('password');
-
         if (in_array($email, $rep_emails)) {
             Session::put('adminFullAccess', false);
         } else {
@@ -38,16 +37,12 @@ class AuthenticationController extends Controller
 
         try
         {
-            $response = $this->client->post('user/login', [
-                'json' => [
-                    'email' => $email,
-                    'password' => $password
-                ]
-            ]);
-
-            $decoder = new JsonDecoder();
-
-            $result = $decoder->decode($response->getBody());
+            $data = [
+                'email' => $email,
+                'password' => $password,
+                'login_origin' => 'backend'
+            ];
+            $result = $this->client->login($data);
 
             // Only 'administrator' Account Type can login
             if ($result->success && $result->user->type == 'administrator')
