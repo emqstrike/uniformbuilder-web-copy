@@ -1216,7 +1216,9 @@
                     var file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]"></td>';
                     var file_ref = '<input type="hidden" class="form-control fo-file-ref layer' + length + '" value="' + myJson[length].font_path + '">';
 
-                    if ((myJson[length].font_path == undefined) || (myJson[length].font_path == 'undefined')) {
+                    console.log('font path');
+                    console.log(myJson[length].font_path);
+                    if ((myJson[length].font_path == undefined) || (myJson[length].font_path == 'undefined') || (myJson[length].font_path == "")) {
                         file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]" style="border: 2px solid red;"></td>';
                     }
 
