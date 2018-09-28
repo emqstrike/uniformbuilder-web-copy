@@ -132,6 +132,7 @@ class AuthenticationController extends AdminAuthController
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
+                $decoder = new JsonDecoder();
                 $response = $this->client->get('get_feature_by_name/' . config('teamstores.feature_name'));
                 $response = $decoder->decode($response->getBody());
 
