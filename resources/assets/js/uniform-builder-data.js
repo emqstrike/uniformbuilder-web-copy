@@ -12099,6 +12099,7 @@ ub.funcs.fontOffSets = [
             'Wrestling 2018',
             'Tennis',
             'Baseball',
+            'Socks (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
