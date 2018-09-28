@@ -10680,9 +10680,10 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        _partToMakeActive =  _perspective.toTitleCase();
 
-                        $('div.part-container span').each(function(i) {
+                        $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
@@ -10863,9 +10864,10 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    var _partToMakeActive =  $perspective.text().toTitleCase();
 
-                    $('div.part-container span').each(function(i) {
+                    $('div.part-container span').each(function() {
                         
                         var part = $(this).text();
 
