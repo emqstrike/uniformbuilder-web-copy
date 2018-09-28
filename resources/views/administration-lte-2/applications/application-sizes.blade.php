@@ -254,8 +254,12 @@ $(document).ready(function(){
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
-
+        var props = $(this).parent().parent().parent().find('.td-size-props').val();
+        if (props.length > 1) {
+            data.properties = JSON.parse(props);
+        } else {
+            data.properties = null;
+        }
         $('.input-size-id').val(data.id);
         $('.input-size-name').val(data.name);
         $('.sport').val(data.uniform_category_id).trigger('change');
@@ -267,7 +271,9 @@ $(document).ready(function(){
         $('.uniform-application-type').val(data.uniform_application_type);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
-        loadConfigurations(data.properties);
+        if (data.properties != null) {
+            loadConfigurations(data.properties);
+        }
     });
 
     $("#myForm").submit(function(e) {
