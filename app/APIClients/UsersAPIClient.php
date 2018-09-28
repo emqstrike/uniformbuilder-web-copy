@@ -211,6 +211,11 @@ class UsersAPIClient extends APIClient
     public function updateAllowedPages($data)
     {
         $response = $this->post('user/allowed_pages', [
+    }
+
+    public function login($data)
+    {
+        $response = $this->post('user/login', [
             'json' => $data
         ]);
 

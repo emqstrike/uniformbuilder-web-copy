@@ -284,7 +284,12 @@ $(document).ready(function(){
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.active = $(this).parent().parent().parent().find('.td-size-active').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
+        var props = $(this).parent().parent().parent().find('.td-size-props').val();
+        if (props.length > 1) {
+            data.properties = JSON.parse(props);
+        } else {
+            data.properties = null;
+        }
 
         $('.input-size-id').val(data.id);
         $('.input-size-name').val(data.name);
@@ -297,7 +302,9 @@ $(document).ready(function(){
         $('.active').val(data.active);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
-        loadProperties(data.properties);
+        if (data.properties != null) {
+            loadProperties(data.properties);
+        }
     });
 
     $("#myForm").submit(function(e) {

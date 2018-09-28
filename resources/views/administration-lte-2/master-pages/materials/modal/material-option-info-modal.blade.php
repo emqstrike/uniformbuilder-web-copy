@@ -188,6 +188,10 @@
                     </div>
                 </div>
 
+                <div class="col-md-12" id="pattern_layers_OC">
+                    <hr>
+                </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Build Type:</label>
