@@ -147,4 +147,18 @@ class FontsAPIClient extends APIClient
         }
         return null;
     }
+
+    public function getFilteredFonts($sport, $brand)
+    {
+        $response = $this->get("fonts/filter/$sport/$brand");
+        $result = $this->decoder->decode($response->getBody());
+
+        $fonts = [];
+
+        if ($result->success) {
+            $fonts = $result->fonts;
+        }
+        
+        return $fonts;
+    }
 }
