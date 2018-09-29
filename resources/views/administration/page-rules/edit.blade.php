@@ -57,9 +57,9 @@
 
                                         @foreach ($pages as $page)
                                             @if (in_array($page->code, $allowedPages))
-                                                <option value="{{ $page->code }}" selected="selected">{{ $page->code }}</option>
+                                                <option value="{{ $page->code }}" selected="selected">{{ $page->page_name }} ({{ $page->code }})</option>
                                             @else
-                                                <option value="{{ $page->code }}">{{ $page->code }}</option>
+                                                <option value="{{ $page->code }}">{{ $page->page_name }} ({{ $page->code }})</option>
                                             @endif
                                         @endforeach
                                     </select>

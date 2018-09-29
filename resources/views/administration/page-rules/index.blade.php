@@ -51,7 +51,13 @@
                                         <tr>
                                             <td>{{ $pageRule->type }}</td>
                                             <td>{{ $pageRule->role }}</td>
-                                            <td>{{ $pageRule->allowed_pages }}</td>
+                                            <td>
+                                                <ul>
+                                                    @foreach (json_decode($pageRule->allowed_pages, true) as $allowedPage)
+                                                        <li>{{ $allowedPage }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
                                             <td>{{ $pageRule->brand }}</td>
                                             <td>
                                                 <a href="{{ route('edit_page_rule', ['id' => $pageRule->id]) }}" class="btn btn-primary btn-xs"  role="button">

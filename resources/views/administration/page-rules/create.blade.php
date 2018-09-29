@@ -55,7 +55,7 @@
                                 <div class="col-md-6">
                                     <select name="allowed_pages[]" class="form-control pages" multiple="multiple">
                                         @foreach ($pages as $page)
-                                            <option value="{{ $page->code }}">{{ $page->code }}</option>
+                                            <option value="{{ $page->code }}">{{ $page->page_name }} ({{ $page->code }})</option>
                                         @endforeach
                                     </select>
                                 </div>
