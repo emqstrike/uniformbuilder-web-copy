@@ -192,6 +192,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
         Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index']);
         Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index']);
+
         Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index']);
         
         Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
@@ -200,6 +201,14 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
         Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index']);
         Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index']);
+
+        // Fonts
+        Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@index'])->name('v1_fonts_index');
+        Route::post('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store']);
+        Route::post('font/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store'])->name('v1_update_font');
+        Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@addFontForm'])->name('v1_create_fonts');;
+        Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@editFontForm'])->name('v1_edit_font');
+        Route::get('fonts_minified', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@indexMinified']);
     });
 
     // Logins

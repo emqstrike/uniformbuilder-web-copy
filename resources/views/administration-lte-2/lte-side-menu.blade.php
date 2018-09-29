@@ -134,6 +134,12 @@
             <li><a href="../tables/simple.html"><i class="fa fa-bars"></i> Style Sets</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-search"></i> Search Style</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/style_requests"><i class="fa fa-plus-square"></i> Request a Style</a></li>
+            <li>
+                <a href="{{ route('v1_fonts_index') }}">
+                    <i class="fa fa-font"></i>
+                    Fonts
+                </a>
+            </li>
           </ul>
         </li>
 
