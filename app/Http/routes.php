@@ -151,6 +151,16 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@editMascotForm']);
         Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
 
+        // Block Patterns
+        Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@index'])->name('v1_block_patterns');
+        Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@editForm'])->name('v1_modify_block_pattern');
+        Route::get('block_pattern/add/', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@addForm'])->name('v1_add_block_pattern');
+        Route::post('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_store_block_pattern');
+        Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_update_block_pattern');
+
+        Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
+        Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
+
         /* Materials */
         Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@index'])->name('v1_materials_index');
         Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport']);
@@ -180,16 +190,13 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('material_option/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@saveApplications'])->name('v1_save_applications');
         Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@store'])->name('v1_save_material_option_info');
 
-
-        Route::get('saved_designs/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
-
-        Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
-
         Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index']);
         Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index']);
 
         Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index']);
+        
         Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
+
         Route::get('hidden_bodies', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\HiddenBodiesController@index']);
         Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
         Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index']);
