@@ -222,6 +222,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
@@ -309,6 +310,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
@@ -396,6 +398,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
@@ -483,6 +486,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
