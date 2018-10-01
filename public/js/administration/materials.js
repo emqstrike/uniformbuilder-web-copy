@@ -1550,7 +1550,8 @@ $(document).ready(function() {
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
         try {
-            $.each(window.patterns, function(i, item) {
+            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+            $.each(active_patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
                 if( ((typeof sports) === 'string') ){
