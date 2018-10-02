@@ -17,7 +17,7 @@
 
 @section('content')
     <?php $highlight_path = null; ?>
-    
+
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
@@ -202,6 +202,7 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -288,6 +289,7 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -374,6 +376,7 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -460,6 +463,7 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
