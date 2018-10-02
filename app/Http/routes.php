@@ -113,7 +113,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         
         Route::group(['middleware' => 'restrictedUserAccess'], function() {
             Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex'])->name('v1_fabrics');
-            Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_fonts');
+            Route::get('master-fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_fonts');
             Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage'])->name('v1_inksoft_design');
             Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
 
@@ -191,9 +191,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
 
-            Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index']);
-            Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index']);
-            Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index']);
+            Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index'])->name('v1_mascot_sizes');
+            Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index'])->name('v1_application_sizes');
+            Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index'])->name('v1_uniform_categories');
             Route::get('hidden_bodies', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\HiddenBodiesController@index']);
             Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
 
