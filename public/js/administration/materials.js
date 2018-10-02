@@ -1370,6 +1370,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1399,6 +1400,7 @@ $(document).ready(function() {
                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+                default_asset: ($(this).data('material-option-default-asset') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
@@ -1466,6 +1468,7 @@ $(document).ready(function() {
         $('#allow_pattern').prop('checked', false);
         $('#allow_gradient').prop('checked', false);
         $('#allow_color').prop('checked', false);
+        $('#default_asset').prop('checked', false);
 
         if(material.option.blend){
             $('#is_blend').prop('checked','checked');
@@ -1478,6 +1481,10 @@ $(document).ready(function() {
         }
         if(material.option.allow_color){
             $('#allow_color').prop('checked','checked');
+        }
+
+        if (material.option.default_asset) {
+            $('#default_asset').prop('checked','checked');
         }
 
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
@@ -1549,19 +1556,19 @@ $(document).ready(function() {
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
         try {
-            $.each(window.patterns, function(i, item) {
+            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+            $.each(active_patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
-
                 if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
+                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
                         } else {
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
                         }
                     }
-                    else if(item.asset_target == material.option.asset_target && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
+                    else if(item.asset_target == material.option.asset_target  && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
                         ctr++;
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
