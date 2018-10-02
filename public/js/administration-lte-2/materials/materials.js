@@ -1384,6 +1384,7 @@ $(document).ready(function() {
                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+                default_asset: ($(this).data('material-option-default-asset') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
@@ -1444,6 +1445,7 @@ $(document).ready(function() {
         $('#allow_pattern').prop('checked', false);
         $('#allow_gradient').prop('checked', false);
         $('#allow_color').prop('checked', false);
+        $('#default_asset').prop('checked', false);
 
         if(material.option.blend){
             $('#is_blend').prop('checked','checked');
@@ -1456,6 +1458,10 @@ $(document).ready(function() {
         }
         if(material.option.allow_color){
             $('#allow_color').prop('checked','checked');
+        }
+
+        if (material.option.default_asset) {
+            $('#default_asset').prop('checked','checked');
         }
 
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
