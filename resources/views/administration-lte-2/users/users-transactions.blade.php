@@ -150,7 +150,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    $('.file-link').on('click', function(e){
+    $(document).on('click', '.file-link', function(e) {
     console.log('file link');
     var url = $(this).data('link');
     OpenInNewTab(url);
