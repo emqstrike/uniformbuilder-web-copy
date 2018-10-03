@@ -6469,6 +6469,793 @@ $(document).ready(function() {
 
     }
 
+    // Old activateMascots function
+    // ub.funcs.activateMascots = function (application_id) {
+
+    //     if (ub.funcs.popupsVisible()) { return; }
+    //     if (!ub.funcs.okToStart())    { return; }
+
+    //     ub.funcs.activatePanelGuard();
+
+    //     var _appInfo = ub.funcs.getApplicationSettings(application_id);
+
+    //     ub.funcs.activateMoveTool(application_id);
+
+    //     if (_appInfo.application_type !== "mascot") {
+
+    //         ub.funcs.activateApplications(application_id);
+    //         return;
+
+    //     }
+
+    //     if (ub.funcs.isBitFieldOn()) {
+
+    //         var _marker = _.find(ub.data.markerBitField, {value: true});
+
+    //         if (_marker.code.toString() !== application_id.toString()) {
+    //             return;
+    //         }
+
+    //     }
+
+    //     $('div#changeApplicationUI').remove();
+
+    //     var _id                 = application_id.toString();
+    //     var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
+    //     var _applicationType    = _settingsObject.application_type;
+    //     var _uniformCategory    = ub.current_material.material.uniform_category;
+    //     var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
+    //     var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+    //     var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
+
+
+    //     if (ub.funcs.isCurrentSport('Football')) {
+
+    //         if (_id === '2' && _applicationType === 'mascot') {
+    //             _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+    //         }
+
+    //         if (_id === '5' && _applicationType === 'mascot') {
+    //             _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+    //         }
+
+    //     } else if (ub.current_material.material.uniform_category === "Wrestling") {
+
+    //         _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+
+    //     } else if (!ub.funcs.isCurrentSport('Football') && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            
+    //         if (ub.funcs.isCurrentType('upper')) {
+                
+    //             _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
+
+    //         } else if (ub.funcs.isCurrentType('lower') && ub.funcs.isSocks()) {
+
+    //             _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
+
+    //         } else {
+
+    //             _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
+
+    //         }
+
+    //     } else {
+
+    //         console.warn('no sizes setting defaulting to generic');
+    //         _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+
+    //     }
+
+    //     // New application sizes values from backend
+    //     var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+    //     if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+    //         ub.utilities.info('===>Using sizes from backend: ');
+
+    //         console.log('Default Sizes: ');
+    //         console.log(_sizes);
+    //         console.log('Application #: ');
+    //         console.log(_id);
+
+    //         if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
+
+    //             console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
+    //             console.log(_sizesFromConfig.sizes);
+    //             console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+    //             _sizes = _sizesFromConfig;
+                
+    //         } 
+
+    //     } else {
+
+    //         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+    //             ub.utilities.info('Application Type: ' + _applicationType);
+    //             ub.utilities.info('alias: ' + _alias.alias);
+
+    //             ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+    //         }
+
+    //     }
+
+
+    //     var _mascotObj          = _settingsObject.mascot;
+    //     var _currentSize        = _settingsObject.size;
+    //     var _colorArray         = _settingsObject.color_array;
+    //     var _mascotName         = _mascotObj.name;
+    //     var _mascotIcon         = _mascotObj.icon;
+    //     var _title              = _applicationType.toTitleCase();
+    //     var _htmlBuilder        = "";
+    //     var _appActive          = 'checked';
+    //     var _maxLength          = 12;
+
+    //     ub.funcs.deactivatePanels();
+    //     ub.funcs.preProcessApplication(application_id);
+        
+    //     if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
+
+    //     var _status = 'on';
+    //     if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+
+    //     _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+    //     _htmlBuilder        +=      '<div class="header">';
+    //     _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+    //     _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+    //     _htmlBuilder        +=      '<div class="body">';
+    //     _htmlBuilder        +=          '<div class="cover"></div>';
+
+    //     _htmlBuilder        +=          '<div class="ui-row">';
+
+    //     _htmlBuilder        +=              '<label class="applicationLabels font_name">Stock Mascot</label>';
+    //     _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
+    //     _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
+    //     _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+
+    //     _htmlBuilder        +=          '</div>';
+
+    //     _htmlBuilder        +=          '<div class="ui-row">';
+
+    //     var _label = 'Size';
+    //     var _class = '';
+    //     if (_isFreeFormEnabled) { 
+    //         _label = 'Measurements'; _class = "custom"; 
+    //     }
+    //     _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
+
+    //     var _inputSizes;
+
+    //     if (_id === '4' && ub.config.sport !== "Football 2017") {
+
+    //         _inputSizes = [{size: '0.5', }];
+
+    //     } else {
+
+    //         // _inputSizes = _sizes.sizes;
+
+    //         // add sort for sizes
+    //         _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
+
+    //     }
+
+    //     if (typeof _settingsObject.size === 'undefined') {
+
+    //         if (application_id !== 2 || application_id !== 5) {
+
+    //             _settingsObject.size = 4;
+
+    //         } else {
+
+    //             _settingsObject.size = 10;
+
+    //         }
+
+    //         if (application_id === 4) {
+
+    //             _settingsObject.size = 0.5;
+
+    //         }
+
+    //     }
+   
+    //     _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+
+    //     _htmlBuilder        +=          '</div>';
+
+    //     _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+    //     _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+    //     _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
+    //     _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+    //     _htmlBuilder        +=          '</div>';
+
+    //     _htmlBuilder        +=          '<div class="ui-row">';
+
+    //     _htmlBuilder        +=              '<div class="column1 applications colors">'
+
+    //     _htmlBuilder        +=              '<div class="sub1">';
+    //     _htmlBuilder        +=                  '<br />';        
+    //     _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
+    //     _htmlBuilder        +=                  '<span class="accent">Change Mascot</span>';  
+    //     _htmlBuilder        +=                  '<br />';
+
+    //     if (_settingsObject.mascot.name === 'Custom Logo') {
+    //         _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+    //         _htmlBuilder        +=                  '<br /><br />';
+    //     }
+
+    //     _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
+
+    //     // In-place editing, Hide this for now
+    //     // if (_settingsObject.mascot.name === 'Custom Logo') {
+    //     //     _htmlBuilder    +=                  '<span class="inPlacePreviewButton">In Place Preview</span>';
+    //     // }
+
+    //     _htmlBuilder        +=              '</div>';
+
+    //     _htmlBuilder        +=                  '<div class="colorContainer">';
+
+    //     if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
+
+    //         _.each(_settingsObject.mascot.layers_properties, function (layer) {
+
+    //             var _hexCode = layer.default_color;
+    //             var _color   = ub.funcs.getColorByColorCode(_hexCode);
+    //             var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
+
+    //             // if (typeof exists === 'undefined') {
+
+    //             //     var _teamColorID = parseInt(layer.team_color_id);
+    //             //     _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+
+    //             //     if (typeof _color !== "undefined") {
+
+    //             //         ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+    //             //     }
+
+    //             // } else {
+
+    //             //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+    //             // }
+
+    //             // if (typeof _color === 'undefined') {
+
+    //             //     var _teamColorLength = ub.current_material.settings.team_colors.length;
+    //             //     var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
+
+    //             //     _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
+    //             //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                    
+    //             // }
+
+    //             if (typeof _color !== 'undefined') {
+
+    //                 _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+     
+    //             }
+    //             else {
+
+    //                 util.error('Hex Code: ' + _hexCode + ' not found!');
+
+    //             }
+
+    //         });
+
+    //     }
+
+    //     // Enable Watermark Sliders only on Tackle Twill Applications
+    //     if (ub.config.uniform_application_type === "sublimated") {
+    //         _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+    //         _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+    //     }
+
+    //     _htmlBuilder        +=                  '</div>';
+    //     _htmlBuilder        +=              '</div>';
+
+    //     _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+
+    //     _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+    //     _htmlBuilder        +=                  _templateStrManipulators;
+    //     _htmlBuilder        +=              '</div>';
+
+    //     _htmlBuilder        +=          '</div>';
+    //     _htmlBuilder        +=      '</div>';
+    //     _htmlBuilder        +=  '</div>';
+        
+    //     $('.modifier_main_container').append(_htmlBuilder);
+    //     $('a.view-file').unbind('click');
+    //     $('a.view-file').on('click', function () {
+
+    //         var _file = $(this).data('file');
+    //         var _extension = util.getExtension(_file);
+    //         var _str = "";
+
+    //         if (_extension === "pdf" || _extension === "ai" ) {
+
+    //             _str     += "Open File (" + _extension + ") on a new window<br />";
+    //             _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+    //         } else {
+
+    //             _str     += "<img style='width: 100%;' src ='" + _file + "' /> <br />";
+    //             _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+    //         }
+
+    //         ub.showModalTool(_str);
+            
+    //     })
+
+    //     // Generate Thumbnails
+
+    //     // var _appView = _settingsObject.application.views[0].perspective;
+    //     // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+    //     // console.log(_src);
+    //     // $('span.accentThumb > img').attr('src',_src);
+
+    //     // Events 
+
+    //         // Opacity Slider 
+
+    //             var _from = 100;
+
+    //             $('input#opacity-slider').show();
+
+    //             if (typeof $("#opacity-slider").destroy === "function") { 
+    //                 $("#opacity-slider").destroy(); 
+    //             }
+                
+    //             $("#opacity-slider").ionRangeSlider({
+    //                 min: 0,
+    //                 max: 100,
+    //                 from: typeof _settingsObject.alpha === "number" ? _settingsObject.alpha * 100 : 100,
+    //                 onChange: function (data) {
+
+    //                     ub.funcs.changeMascotOpacity(_settingsObject.code, data.from);
+
+    //                 },
+    //             });
+
+    //         // End Opacity Slider
+
+    //         // In-place preview 
+
+    //         if (_settingsObject.mascot.name === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
+
+    //             var _filename  = _settingsObject.customFilename;
+    //             var _extension = _filename.split('.').pop();
+
+    //             $prevImage = $('span.accentThumb > img');
+    
+    //             if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
+
+    //                 $prevImage.attr('src', _filename);                        
+
+    //             } else if (_extension === 'pdf') {
+
+    //                 $prevImage.attr('src', '/images/uiV1/pdf.png');
+
+    //             } else if (_extension === 'ai') {
+
+    //                 $prevImage.attr('src', '/images/uiV1/ai.png');
+
+    //             } 
+
+    //         }
+
+    //         /// Application Manipulator Events
+
+    //             ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+    //         /// End Application Manipulator Events
+
+    //         /// Tabs
+
+    //             $('div.color-pattern-tabs > span.tab').unbind('click');
+    //             $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+    //                 var _item = $(this).data('item');
+
+    //                 $('div.color-pattern-tabs > span.tab').removeClass('active');
+    //                 $(this).addClass('active');
+    //                 $('div.column1').hide();
+    //                 $('div.column1.' + _item).fadeIn();
+
+    //                 if (_item === "manipulators") {
+    //                     $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
+    //                 }
+
+    //             });
+
+    //         /// End Tabs
+
+    //         $('span.inPlacePreviewButton').unbind('click');
+    //         $('span.inPlacePreviewButton').on('click', function (){
+
+    //             if (!$(this).hasClass('active')){
+
+    //                 $(this).addClass('active');
+
+    //             } else {
+
+    //                 $(this).removeClass('active');
+
+    //             }
+                
+    //         });
+
+    //         // End In-place preview
+
+    //         // if (ub.current_material.material.uniform_category !== "Wrestling") {
+
+    //         //     $('span.flipButton').hide();
+
+    //         // } else {
+
+    //             ub.funcs.updateCoordinates(_settingsObject);
+
+    //             var s       = ub.funcs.getPrimaryView(_settingsObject.application);
+    //             var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+
+    //             if (typeof sObj.application.flip !== "undefined") {
+
+    //                 if (sObj.application.flip === 1) {
+                        
+    //                     $('span.flipButton').addClass('active');    
+
+    //                 } else {
+
+    //                     $('span.flipButton').removeClass('active');    
+
+    //                 }
+                    
+    //             } else {
+
+    //                 $('span.flipButton').removeClass('active');
+
+    //             }
+
+    //         //}
+
+    //         $('span.flipButton').unbind('click');
+    //         $('span.flipButton').on('click', function () {
+
+    //             var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+    //             ub.funcs.flipMascot(_settingsObject);
+                
+    //         });
+
+    //         $('div.applicationType').on('click', function () {
+
+    //             if ($('div#changeApplicationUI').length > 1) {
+
+    //                 var _status = $('div#changeApplicationUI').data('status');
+
+    //                 if (_status === 'visible') {
+
+    //                     $('div#changeApplicationUI').hide().data('status', 'hidden');
+    //                     $('div.applicationType').removeClass('toggledApplicationType');
+                        
+    //                 } else {
+
+    //                     $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+    //                     $('div.applicationType').addClass('toggledApplicationType');
+
+    //                 }
+
+    //                 return;
+
+    //             }
+
+    //             var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+    //             var _validApplicationTypes  = _settingsObject.validApplicationTypes;
+
+    //             _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+    //             _htmlBuilder        +=      '<div class="header">';
+    //             _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+    //             _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
+    //             _htmlBuilder        +=      '<div class="body">';
+
+    //             var _deactivated ='';
+    //             var _currentlySelectedType = '';
+    //             var _selected = ''
+
+    //             if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
+    //             if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+    //             _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+    //             _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+    //             _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
+    //             _htmlBuilder        +=           '</div>';
+    //             _deactivated ='';
+    //             _currentlySelectedType = '';
+    //             _selected = '';
+
+    //             if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
+    //             if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+    //             _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+    //             _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+    //             _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
+    //             _htmlBuilder        +=           '</div>';
+
+    //             _htmlBuilder        +=           '<br />';
+    //             _deactivated = '';
+    //             _currentlySelectedType = '';
+    //             _selected = '';
+
+    //             if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
+    //             if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+    //             _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+    //             _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+    //             _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
+    //             _htmlBuilder        +=           '</div>';
+    //             _deactivated = '';
+    //             _currentlySelectedType = '';
+    //             _selected = '';
+
+    //             if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+    //             if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+    //             _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+    //             _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+    //             _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
+    //             _htmlBuilder        +=           '</div>';
+
+    //             //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+    //             //if (ub.config.uniform_application_type !== "tackle_twill" && ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+    //                 if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
+    //             //}
+
+    //             _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+    //             _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+    //             _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
+    //             _htmlBuilder        +=           '</div>';
+                
+    //             _htmlBuilder        +=      '</div>';
+    //             _htmlBuilder        += "</div>";
+    //             _deactivated = '';
+    //             _currentlySelectedType = '';
+    //             _selected = '';
+
+    //             $('.modifier_main_container').append(_htmlBuilder);
+    //             $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+    //             $('div.applicationType').addClass('toggledApplicationType');
+
+    //             $('div.optionButton').on('click', function () {
+
+    //                 if ($(this).hasClass('deactivatedOptionButton')) { return; }
+
+    //                 var _type = $(this).data('type');
+
+    //                 ub.funcs.changeApplicationType(_settingsObject, _type);
+    //                 $('div#changeApplicationUI').remove();
+
+    //             });
+
+    //             $('div.closeApplicationChanger').on('click', function () {
+
+    //                 $('div#changeApplicationUI').hide().data('status', 'hidden');
+    //                 $('div.applicationType').removeClass('toggledApplicationType');
+
+    //             });
+
+    //         });
+
+    //         var _matchingID = undefined;
+            
+    //         _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+    //         if (typeof _matchingID !== "undefined") {
+
+    //             ub.funcs.toggleApplication(_matchingID.toString(), _status); 
+
+    //         }
+
+    //         $('span.font_size').on('click', function () {
+
+    //             //if (_id === '4') { return; }
+
+    //             var _selectedSize = $(this).data('size');
+    //             $('.font_size').removeClass('active');
+    //             $(this).addClass('active');
+
+    //             var _isCustom = $(this).hasClass('custom');
+    //             var _isScale = $(this).hasClass('scale');
+    //             var _isRotate = $(this).hasClass('rotate');
+    //             var _isMove = $(this).hasClass('move');
+                
+    //             if (_isCustom && _isScale) {
+
+    //                 $('div.color-pattern-tabs').hide();
+    //                 $('span.tab[data-item="manipulators"]').trigger('click');
+    //                 $('li.tab.scale').trigger('click');
+                    
+    //                 return;
+
+    //             }
+
+    //             if (_isCustom && _isMove) {
+
+    //                 $('color-pattern-tabs').hide();
+    //                 $('span.tab[data-item="manipulators"]').trigger('click');
+    //                 $('li.tab.move').trigger('click');
+
+    //                 return;
+
+    //             }
+
+    //             if (_isCustom && _isRotate) {
+
+    //                 $('color-pattern-tabs').hide();
+    //                 $('span.tab[data-item="manipulators"]').trigger('click');
+    //                 $('li.tab.rotate').trigger('click');
+
+    //                 return;
+
+    //             }
+
+    //             var oldScale = ub.funcs.clearScale(_settingsObject);
+    //             _settingsObject.oldScale = oldScale;
+
+    //             ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
+
+    //             var _matchingID = undefined;
+    //             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+    //             if (typeof _matchingID !== "undefined") {
+
+    //                 var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+    //                 ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+    //             }
+
+    //         });
+
+    //         $('span.font_name').on('click', function () {
+
+    //             ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+    //         });
+
+
+    //         $('span.accentThumb, span.accent').on('click', function () {
+
+    //             ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+    //         });
+
+    //         $('span.colorItem').on('click', function () {
+
+    //             var _layer_no   = $(this).data('layer-no');
+    //             var _color_code = $(this).data('color-code');
+    //             var _layer_name = $(this).data('layer-name');
+    //             var _temp = $(this).data('temp');
+    //             var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+    //             var _oldVal = {
+
+    //                 layerNo: _layer_no,
+    //                 color: _settingsObject.color_array[_layer_no - 1],
+    //                 applicationCode: _settingsObject.code,
+
+    //             }
+
+    //             if (_temp !== 'undo') {
+
+    //                 ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+                    
+    //             }
+
+    //             ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
+    //             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+    //             var _processMatchingSide = true;
+    //             var _matchingID = undefined;
+    //             var _matchingSettingsObject = undefined;
+
+    //             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+    //             if (typeof _matchingID !== "undefined") {
+    //                 _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});    
+    //             }
+                
+    //             // On Crew Socks, only change the color of the matching side if its the same mascot id
+    //             if (typeof _matchingSettingsObject !== "undefined") {
+                    
+    //                 if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) { 
+                    
+    //                     _processMatchingSide = false; 
+                        
+    //                 }
+                    
+    //                 if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+    //                     if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) { 
+    //                         _processMatchingSide = true; 
+    //                     }
+
+    //                 }
+
+    //             }
+
+    //             if (typeof _matchingID !== "undefined") {
+        
+    //                 if(_processMatchingSide) {
+
+    //                     ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+    //                 }
+
+    //             }
+   
+    //         });
+
+    //     // End Small Color Pickers
+
+    //     // End Events
+
+    //     $("div.toggleOption").unbind('click');
+    //     $("div.toggleOption").on("click", function () {
+
+    //         var _currentStatus = $('div.toggle').data('status');
+    //         var s;
+
+    //         if(_currentStatus === "on") {
+    //             s = 'off';
+    //         }
+    //         else {
+    //             s = 'on';
+    //         }
+
+    //         if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
+
+    //         ub.funcs.toggleApplication(_id,s);    
+
+    //         var _matchingSide;
+    //         var _matchingID = undefined;
+    //         var _processMatchingSide = true;
+    //         var _matchingSettingsObject = undefined;
+            
+    //         _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+    //         if (typeof _matchingID !== "undefined") {
+
+    //             _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                
+    //         }
+            
+    //         if (typeof _matchingSettingsObject !== "undefined") {
+
+    //             if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                            
+    //                 // Toggle matching mascot if the same mascot is selected 
+    //                 _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+    //             }
+
+    //         }
+
+    //         if (typeof _matchingID !== "undefined") {
+
+    //             if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
+                
+    //         }
+
+    //     });
+
+    //     $('div#applicationUI').fadeIn();
+    //     ub.funcs.activateMoveTool(application_id);
+    //     ub.funcs.activateLayer(application_id);
+    //     ub.funcs.toggleApplication(_id, _status);
+    //     ub.funcs.afterActivateMascots(_id);
+
+    // }
+
     ub.funcs.activateMascots = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -6587,7 +7374,9 @@ $(document).ready(function() {
         var _mascotName         = _mascotObj.name;
         var _mascotIcon         = _mascotObj.icon;
         var _title              = _applicationType.toTitleCase();
-        var _htmlBuilder        = "";
+        var _htmlBuilder        = '';
+        var _generateSizes      = '';
+        var _colorPickers       = '';
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
@@ -6597,104 +7386,36 @@ $(document).ready(function() {
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; }
 
-        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
-        _htmlBuilder        +=      '<div class="body">';
-        _htmlBuilder        +=          '<div class="cover"></div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">Stock Mascot</label>';
-        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
-        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        var _label = 'Size';
-        var _class = '';
-        if (_isFreeFormEnabled) { 
-            _label = 'Measurements'; _class = "custom"; 
-        }
-        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
+        var _label = 'Size', _class = '';
+        if (_isFreeFormEnabled) { _label = 'Measurements'; _class = "custom"; }
 
         var _inputSizes;
-
         if (_id === '4' && ub.config.sport !== "Football 2017") {
-
             _inputSizes = [{size: '0.5', }];
-
         } else {
-
-            // _inputSizes = _sizes.sizes;
-
-            // add sort for sizes
             _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
-
         }
 
         if (typeof _settingsObject.size === 'undefined') {
 
             if (application_id !== 2 || application_id !== 5) {
-
                 _settingsObject.size = 4;
-
             } else {
-
                 _settingsObject.size = 10;
-
             }
 
             if (application_id === 4) {
-
                 _settingsObject.size = 0.5;
-
             }
 
         }
-   
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _htmlBuilder        +=          '</div>';
+        _generateSizes += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _htmlBuilder        +=          '<div class="clearfix"></div>';
-
-        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
-        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<div class="column1 applications colors">'
-
-        _htmlBuilder        +=              '<div class="sub1">';
-        _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
-        _htmlBuilder        +=                  '<span class="accent">Change Mascot</span>';  
-        _htmlBuilder        +=                  '<br />';
-
-        if (_settingsObject.mascot.name === 'Custom Logo') {
-            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-            _htmlBuilder        +=                  '<br /><br />';
-        }
-
-        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
-
-        // In-place editing, Hide this for now
-        // if (_settingsObject.mascot.name === 'Custom Logo') {
-        //     _htmlBuilder    +=                  '<span class="inPlacePreviewButton">In Place Preview</span>';
-        // }
-
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=                  '<div class="colorContainer">';
+        var _isCustomLogo = false, _customFilename = '';
+        if (_settingsObject.mascot.name === 'Custom Logo') { _isCustomLogo = true; _customFilename = _settingsObject.customFilename; }
 
         if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
@@ -6702,70 +7423,41 @@ $(document).ready(function() {
 
                 var _hexCode = layer.default_color;
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
-                var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
-
-                // if (typeof exists === 'undefined') {
-
-                //     var _teamColorID = parseInt(layer.team_color_id);
-                //     _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
-
-                //     if (typeof _color !== "undefined") {
-
-                //         ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
-
-                //     }
-
-                // } else {
-
-                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
-
-                // }
-
-                // if (typeof _color === 'undefined') {
-
-                //     var _teamColorLength = ub.current_material.settings.team_colors.length;
-                //     var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
-
-                //     _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
-                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
-                    
-                // }
 
                 if (typeof _color !== 'undefined') {
-
-                    _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
-     
-                }
-                else {
-
+                    _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+                } else {
                     util.error('Hex Code: ' + _hexCode + ' not found!');
-
                 }
 
             });
 
         }
 
-        // Enable Watermark Sliders only on Tackle Twill Applications
-        if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
-            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        
+        var _isSublimated = false;
+        if (ub.config.uniform_application_type === "sublimated") { _isSublimated = true; }
+
+        var templateData = {
+            id: _id,
+            status: _status,
+            mascotName: _mascotName,
+            class: _class,
+            label: _label,
+            generateSizes: _generateSizes,
+            mascotIcon: _mascotIcon,
+            isCustomLogo: _isCustomLogo,
+            customFilename: _customFilename,
+            colorPickers: _colorPickers,
+            isSublimated: _isSublimated,
+            templateStrManipulators: _templateStrManipulators 
         }
 
-        _htmlBuilder        +=                  '</div>';
-        _htmlBuilder        +=              '</div>';
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-ui', templateData);
 
-        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-
-        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
-        _htmlBuilder        +=                  _templateStrManipulators;
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=          '</div>';
-        _htmlBuilder        +=      '</div>';
-        _htmlBuilder        +=  '</div>';
-        
         $('.modifier_main_container').append(_htmlBuilder);
+
         $('a.view-file').unbind('click');
         $('a.view-file').on('click', function () {
 
@@ -6788,13 +7480,6 @@ $(document).ready(function() {
             ub.showModalTool(_str);
             
         })
-
-        // Generate Thumbnails
-
-        // var _appView = _settingsObject.application.views[0].perspective;
-        // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
-        // console.log(_src);
-        // $('span.accentThumb > img').attr('src',_src);
 
         // Events 
 
@@ -6889,12 +7574,6 @@ $(document).ready(function() {
 
             // End In-place preview
 
-            // if (ub.current_material.material.uniform_category !== "Wrestling") {
-
-            //     $('span.flipButton').hide();
-
-            // } else {
-
                 ub.funcs.updateCoordinates(_settingsObject);
 
                 var s       = ub.funcs.getPrimaryView(_settingsObject.application);
@@ -6917,8 +7596,6 @@ $(document).ready(function() {
                     $('span.flipButton').removeClass('active');
 
                 }
-
-            //}
 
             $('span.flipButton').unbind('click');
             $('span.flipButton').on('click', function () {
@@ -6953,11 +7630,12 @@ $(document).ready(function() {
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 var _validApplicationTypes  = _settingsObject.validApplicationTypes;
 
-                _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
-                _htmlBuilder        +=      '<div class="header">';
-                _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
-                _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
-                _htmlBuilder        +=      '<div class="body">';
+                _htmlBuilder            = '';
+                // _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+                // _htmlBuilder        +=      '<div class="header">';
+                // _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+                // _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
+                // _htmlBuilder        +=      '<div class="body">';
 
                 var _deactivated ='';
                 var _currentlySelectedType = '';
@@ -6966,61 +7644,72 @@ $(document).ready(function() {
                 if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
                 if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
-                _deactivated ='';
-                _currentlySelectedType = '';
-                _selected = '';
+                // _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                // _deactivated ='';
+                // _currentlySelectedType = '';
+                // _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
                 if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
-                _htmlBuilder        +=           '</div>';
+                // _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
+                // _htmlBuilder        +=           '</div>';
 
-                _htmlBuilder        +=           '<br />';
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
+                // _htmlBuilder        +=           '<br />';
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
                 if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
+                // _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
                 if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
+                // _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
 
                 //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
                 //if (ub.config.uniform_application_type !== "tackle_twill" && ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 //}
 
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
-                _htmlBuilder        +=           '</div>';
+                // _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
+                // _htmlBuilder        +=           '</div>';
                 
-                _htmlBuilder        +=      '</div>';
-                _htmlBuilder        += "</div>";
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
+                // _htmlBuilder        +=      '</div>';
+                // _htmlBuilder        += "</div>";
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
+
+                var templateData = {
+                    id: _id,
+                    deactivated: _deactivated,
+                    currentlySelectedType: _currentlySelectedType,
+                    selected: _selected
+                }
+
+                console.log('_templateData', templateData);
+
+                _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-choices', templateData);
 
                 $('.modifier_main_container').append(_htmlBuilder);
                 $('div#changeApplicationUI').fadeIn().data('status', 'visible');
