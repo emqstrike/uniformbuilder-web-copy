@@ -120,7 +120,7 @@
 
                                                         <div class="panel-body">
                                                             @if (isset($options[$index]['thumbnail_path']))
-                                                                @if ($options[$index]['thumbnail_path'])
+                                                                @if ($options[$index]['thumbnail_path'] && ($options[$index]['thumbnail_path'] != 'undefined'))
                                                                     <img src="{{ $options[$index]['thumbnail_path'] }}" style="background: #000000; height: 100px; width: 100px;">
                                                                 @else
                                                                     <img src="https://via.placeholder.com/100x100?text=no%20image">
@@ -201,7 +201,7 @@
             $('.data-table').DataTable({
                 "paging": true,
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false
