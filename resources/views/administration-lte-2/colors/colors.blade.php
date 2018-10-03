@@ -17,6 +17,12 @@
                         Colors
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
+                    <hr>
+                    Brand:
+                    <select class="active-brand">
+                        <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
+                        <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table class='data-table table display table-bordered'>
@@ -372,6 +378,10 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+
+    $(document).on('change', '.active-brand', function() {
+        window.location = "/administration/v1-0/colors/"+$(this).val();
     });
 
     $('.data-table').DataTable({

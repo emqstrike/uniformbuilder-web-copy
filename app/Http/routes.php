@@ -123,7 +123,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@editPatternForm']);
         Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
 
-        Route::get('colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
+        Route::get('colors/{active_brand?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
         Route::get('master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
 
         // Colors Sets
