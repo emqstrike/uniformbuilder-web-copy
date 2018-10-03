@@ -103,7 +103,7 @@ class MaterialsOptionsController extends Controller
 
         $response = $this->client->updateMaterialOptions($data);
 
-        return back()->with('message', 'Update Saved');
+        return redirect()->route('v1_materials_options_setup', ['id' => $materialID])->with('message', 'Update saved');
 
     }
 
