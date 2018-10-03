@@ -1036,8 +1036,132 @@
 
     </script>
 
-
 <!-- End New Mascot Picker -->
+
+
+<!-- New Mascot UI -->
+
+    <script type="text/mustache" id="m-mascot-ui">
+
+        <div id="applicationUI" data-application-id="@{{id}}">
+
+            <div class="header">
+
+                <div class="toggle defaultShadow" data-status="@{{status}}">
+                    <div class="valueContainer">
+                        <div class="toggleOption on">ON</div>
+                        <div class="toggleOption off">OFF</div>
+                    </div>
+                </div>
+
+                <div class="applicationType">[@{{id}}] Stock Mascot
+                    <span class="changeApplicationType">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <span class="cog" style=""><i class="fa fa-cog" aria-hidden="true"></i></span>
+
+            </div>
+
+            <div class="body">
+
+                <div class="cover"></div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_name">Stock Mascot</label>
+                    <span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                    <span class="font_name" style="font-size: 1.2em; font-family: @{{mascotName}};">@{{mascotName}}</span>
+                    <span class="fontRight" data-direction="next" style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_size @{{class}}"> @{{label}} </label>
+                    @{{{generateSizes}}}
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="color-pattern-tabs">
+                    <span class="tab active" data-item="colors">Colors</span>
+                    <span class="tab" data-item="manipulators"></span>
+                </div>
+
+                <div class="ui-row">
+                    
+                    <div class="column1 applications colors">
+                        
+                        <div class="sub1">
+                            
+                            <br />
+                            <span class="accentThumb"><img src="@{{mascotIcon}}"/></span>
+                            <span class="accent">Change Mascot</span>
+                            <br />
+
+                            @{{#isCustomLogo}}
+                                <a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>
+                                <br /><br />
+                            @{{/isCustomLogo}}
+
+                            <span class="flipButton">Flip</span>
+
+                        </div>
+
+                        <div class="colorContainer">
+                            
+                            @{{{colorPickers}}}
+
+                            @{{#isSublimated}}
+                                <br/>
+                                <span class="watermark-intensity">Watermark Intensity:</span>
+                                <input type="text" id="opacity-slider" value="" />
+                            @{{/isSublimated}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="column1 applications manipulators">
+                        @{{{templateStrManipulators}}}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Mascot UI -->
+
+
+<!-- New Application UI Choices -->
+    
+    <script type="text/mustache" id="m-application-ui-choices"> 
+
+        <div id="changeApplicationUI" data-status="hidden" data-application-id="@{{id}}">
+
+            <div class="header">
+                
+                <div class="">Select Application Type for Location <strong>#@{{id}}</strong></div>
+                <div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>
+
+                <div class="body">
+
+                    <div data-type="player_number" class="optionButton @{{deactivated}} @{{currentlySelectedType}}">
+
+                    </div>
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Application UI Choices -->
 
 
 <!-- New Inksoft De Picker -->
