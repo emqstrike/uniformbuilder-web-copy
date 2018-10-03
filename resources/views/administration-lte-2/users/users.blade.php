@@ -69,9 +69,9 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan='10'>
+                                <td colspan='8'>
                                     No Users
-                                </td>
+                                </td>git
                             </tr>
                         @endforelse
                         </tbody>
