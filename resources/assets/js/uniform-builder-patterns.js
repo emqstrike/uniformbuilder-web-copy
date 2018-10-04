@@ -4,7 +4,8 @@ $(document).ready(function () {
     ub.funcs.getPatternList = function () {
 
         var _sport = ub.current_material.material.uniform_category;
-        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
+
+        // var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID');
 
         // _patternList = _.filter(_patternList, function (pattern) {
 
@@ -16,6 +17,10 @@ $(document).ready(function () {
 
         // });
 
+        var _patternList = _.sortBy(_.filter(ub.data.patterns.items, function (v) {
+            return v.active === "1" && v.brand !== 'richardson' && _.contains(v.sports, _sport);
+        }), 'sortID');
+
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
 
              _patternList = _.filter(_patternList, function (pattern) {
@@ -26,6 +31,7 @@ $(document).ready(function () {
 
         }
 
+        console.log('PATTERNS LIST without Richardson', _patternList);
         return _patternList;
 
     }
