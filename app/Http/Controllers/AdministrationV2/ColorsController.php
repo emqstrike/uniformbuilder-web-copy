@@ -21,9 +21,13 @@ class ColorsController extends Controller
     /**
      * Colors
      */
-    public function index()
+    public function index($active_brand = null)
     {
-        $colors = $this->client->getColors();
+        if($active_brand == null) {
+            $active_brand = "prolook";
+        }
+
+        $colors = $this->client->getColors($active_brand);
 
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
@@ -31,7 +35,8 @@ class ColorsController extends Controller
 
         if (in_array($user_id, $su_array)) {
             return view('administration-lte-2.colors.colors', [
-            'colors' => $colors
+            'colors' => $colors,
+            'active_brand' => $active_brand
             ]);
         }
         else {

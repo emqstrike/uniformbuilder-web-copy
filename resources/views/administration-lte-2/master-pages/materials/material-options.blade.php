@@ -17,7 +17,7 @@
 
 @section('content')
     <?php $highlight_path = null; ?>
-    
+
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
@@ -196,11 +196,13 @@
                                                         data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                                        data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                                         data-material-id="{{ $option->material_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -281,11 +283,13 @@
                                                         data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                                        data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                                         data-material-id="{{ $option->material_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -366,11 +370,13 @@
                                                         data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                                        data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                                         data-material-id="{{ $option->material_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -451,11 +457,13 @@
                                                         data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                                        data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                                         data-material-id="{{ $option->material_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>

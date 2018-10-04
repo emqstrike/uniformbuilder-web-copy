@@ -103,7 +103,7 @@ class MaterialsOptionsController extends Controller
 
         $response = $this->client->updateMaterialOptions($data);
 
-        return back()->with('message', 'Update Saved');
+        return redirect()->route('v1_materials_options_setup', ['id' => $materialID])->with('message', 'Update saved');
 
     }
 
@@ -292,6 +292,12 @@ class MaterialsOptionsController extends Controller
         $build_type = $request->input('build_type');
         $pattern_opacity = $request->input('pattern_opacity');
 
+        if ($request->input('default_asset') == 'on') {
+            $default_asset = true;
+        } else {
+            $default_asset = false;
+        }
+
         if( is_null($default_display) ){
             $default_display = "color";
         }
@@ -321,7 +327,8 @@ class MaterialsOptionsController extends Controller
             'default_display' => $default_display,
             'build_type' => $build_type,
             'part_type' => $partType,
-            'pattern_opacity' => $pattern_opacity
+            'pattern_opacity' => $pattern_opacity,
+            'default_asset' => $default_asset
         ];
 
         try
