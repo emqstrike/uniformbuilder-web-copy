@@ -7323,7 +7323,8 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
+        // exception on 'Hockey Sock' block pattern
+        if (parseInt(_id) > 70 && ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' ) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 

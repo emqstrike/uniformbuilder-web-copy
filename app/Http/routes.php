@@ -117,7 +117,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage'])->name('v1_inksoft_design');
             Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
 
-            Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index'])->name('v1_colors');
+            Route::get('colors/{active_brand?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index'])->name('v1_colors');
             Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex'])->name('v1_master_colors');
 
             // Colors Sets
@@ -153,8 +153,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
             Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_update_user');
             Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
+            Route::get('user/transactions/{id?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@userTransactions'])->name('v1_user_transactions');
 
-            Route::get('mascots/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index'])->name('v1_mascots');
+            Route::get('mascots/{active_sport?}/{active_category?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index'])->name('v1_mascots');
             Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm'])->name('v1_add_mascot');
             Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store'])->name('v1_store_mascot');
             Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@editMascotForm'])->name('v1_edit_mascot');
@@ -194,11 +195,11 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index'])->name('v1_mascot_sizes');
             Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index'])->name('v1_application_sizes');
             Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index'])->name('v1_uniform_categories');
-            Route::get('hidden_bodies', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\HiddenBodiesController@index']);
-            Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
+            Route::get('hidden_bodies', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\HiddenBodiesController@index'])->name('v1_hidden_bodies');
+            Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index'])->name('v1_single_view_applications');
 
-            Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index']);
-            Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index']);
+            Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index'])->name('v1_mascot_categories');
+            Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index'])->name('v1_mascots_groups_categories');
 
             // Block Patterns
             Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@index'])->name('v1_block_patterns');
@@ -209,7 +210,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             // Fonts
             Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@index'])->name('v1_fonts_index');
-            Route::post('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store']);
+            Route::post('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store'])->name('v1_store_font');
             Route::post('font/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store'])->name('v1_update_font');
             Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@addFontForm'])->name('v1_create_fonts');;
             Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@editFontForm'])->name('v1_edit_font');

@@ -17,6 +17,12 @@
                         Colors
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
+                    <hr>
+                    Brand:
+                    <select class="active-brand">
+                        <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
+                        <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table class='data-table table display table-bordered'>
@@ -60,10 +66,10 @@
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                             </td>
                             <td class="col-md-1">
-                                <select class="form-control brand-id" name='brand_id' disabled="true">
-                                    <option value='0' @if ($color->brand_id == '0') selected @endif>No Brand</option>
-                                    <option value='1' @if ($color->brand_id == '1') selected @endif>Prolook</option>
-                                    <option value='2' @if ($color->brand_id == '2') selected @endif>Richardson</option>
+                                <select class="form-control brand" name='brand' disabled="true">
+                                    <option value='none' @if ($color->brand == 'none') selected @endif>No Brand</option>
+                                    <option value='prolook' @if ($color->brand == 'prolook') selected @endif>Prolook</option>
+                                    <option value='richardson' @if ($color->brand == 'richardson') selected @endif>Richardson</option>
                                 </select>
                             </td>
                             </td>
@@ -96,7 +102,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='3'>
+                            <td colspan='8'>
                                 No Colors
                             </td>
                         </tr>
@@ -136,7 +142,7 @@ $(document).ready(function(){
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
-        $(this).parent().siblings('td').find('.brand-id').prop('disabled', false);
+        $(this).parent().siblings('td').find('.brand').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
         var color_code = $(this).parent().siblings('td').find('#color-code-text');
         color_code.show();
@@ -146,7 +152,7 @@ $(document).ready(function(){
             preferredFormat: "hex",
             showInput: true,
             move: function(tinycolor) {
-                $(this).parent().parent().find('#hex-code').val(tinycolor);
+                $(this).parent().parent().find('#hex-code').val(tinycolor)  ;
             },
             hide: function(tinycolor) {
                 $(this).parent().parent().find('#hex-code').val(tinycolor);
@@ -154,7 +160,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .master-color',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
@@ -178,7 +184,7 @@ $(document).ready(function(){
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
         var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
-        var brand_id = $(this).parent().siblings('td').find('.brand-id').val();
+        var brand = $(this).parent().siblings('td').find('.brand').val();
         var data = {
             "id" : id,
             "name" : name,
@@ -186,7 +192,7 @@ $(document).ready(function(){
             "hex_code" : hex_code,
             "sublimation_only" : sublimation_only,
             "master_color_id" : master_color_id,
-            "brand_id" : brand_id
+            "brand" : brand
         };
         if(!$(this).attr('disabled')) {
             updateColor(data);
@@ -232,7 +238,7 @@ $(document).ready(function(){
         data.name = $('.input-color-name').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
-        data.brand_id = $('.input-brand-id').val();
+        data.brand = $('.input-brand').val();
         data.master_color_id = $('.input-master-color').val();
         addColor(data);
         $('.submit-new-record').attr('disabled', 'true');
@@ -242,7 +248,7 @@ $(document).ready(function(){
         $('.input-color-code').val('');
         $('.input-color-name').val('');
         $('.input-master-color').val('');
-        $('.input-brand-id').val('0');
+        $('.input-brand').val('none');
         $('#create-hex-code').val('#ff0000');
         $('#create_colorpicker').spectrum({
             color: "#ff0000",
@@ -372,6 +378,10 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+
+    $(document).on('change', '.active-brand', function() {
+        window.location = "/administration/v1-0/colors/"+$(this).val();
     });
 
     $('.data-table').DataTable({
