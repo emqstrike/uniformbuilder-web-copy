@@ -52,7 +52,7 @@ $(document).ready(function () {
 
         });
 
-        var _container           = [];
+        var _container = [];
 
         _.each(_inputPatternsObject, function (_object, index) {
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
                 sort_id = 0;
             }
 
-            _newObject = {
+             var _newObject = {
                 sortID: sort_id,
                 id: _object.id,
                 active: _object.active,
@@ -73,7 +73,8 @@ $(document).ready(function () {
                 blockPatternOptions: JSON.parse(_object.block_pattern_options),
                 layers: [],
                 asset_target: _object.asset_target,
-            };
+                 brand: _object.brand
+             };
 
             var _patternProperties = JSON.parse(_object.pattern_properties);
 
