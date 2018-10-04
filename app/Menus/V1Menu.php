@@ -40,11 +40,14 @@ class V1Menu
         $result = $this->pageRuleClient->getByBrand(env('BRAND'));
         if ($result->success) {
             foreach($result->page_rules as $pageRule) {
-                if (($type == $pageRule->type) && ($role == $pageRule->role)) {
+                if (($type == strtolower($pageRule->type)) && ($role == $pageRule->role)) {
                     $this->allowedPages = json_decode($pageRule->allowed_pages, true);
                 }
             }
         }
+
+        Log::info($type);
+        Log::info($role);
 
         if ($menus) {
             if ($this->allowedPages && $userAllowedPages) {
