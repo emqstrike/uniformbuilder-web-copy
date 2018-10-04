@@ -1769,8 +1769,8 @@ $(document).ready(function() {
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
                 var app_material_brand = $('#app-material-brand').val();
                 for(var i = 0; i < window.fonts.length; i++) {
-                    if(window.fonts[i].active == 1){
-                        if(app_font == window.fonts[i].id && window.fonts[i].brand == app_material_brand){
+                    if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
+                        if(app_font == window.fonts[i].id ){
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "' data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
