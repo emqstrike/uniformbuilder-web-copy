@@ -112,8 +112,6 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
         
         Route::group(['middleware' => 'restrictedUserAccess'], function() {
-            Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex'])->name('v1_fabrics');
-            Route::get('master-fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_fonts');
             Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage'])->name('v1_inksoft_design');
             Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
 

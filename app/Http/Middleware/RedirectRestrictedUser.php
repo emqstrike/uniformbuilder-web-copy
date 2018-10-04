@@ -50,8 +50,6 @@ class RedirectRestrictedUser
                     if ($userAllowedPages) {
                         $allowedPages = array_merge($allowedPages, $userAllowedPages);
                     }
-                } else {
-                    $allowedPages = $userAllowedPages;
                 }
             }
         }

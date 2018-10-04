@@ -46,9 +46,6 @@ class V1Menu
             }
         }
 
-        Log::info($type);
-        Log::info($role);
-
         if ($menus) {
             if ($this->allowedPages && $userAllowedPages) {
                 $this->allowedPages = array_merge($this->allowedPages, $userAllowedPages);
