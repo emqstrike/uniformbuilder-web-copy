@@ -10,6 +10,7 @@
             <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop value" value="">
             <input type="hidden" id="app-saved-perspective" value="">
             <input type="hidden" id="app-material-option-name" value="">
+            <input type="hidden" id="app-material-brand" value="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>

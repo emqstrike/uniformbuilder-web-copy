@@ -659,8 +659,9 @@ $(document).ready(function() {
         canvasFront.add(group);
 
         var fonts_options = '<option value="">Not Set</option>';
+        var app_material_brand = $('#app-material-brand').val();
         for(var i = 0; i < window.fonts.length; i++) {
-            if(window.fonts[i].active == 1){
+            if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
             fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
             }
         }
@@ -1280,6 +1281,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1313,6 +1315,7 @@ $(document).ready(function() {
         $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $('#app-material-brand').val(material.brand);
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications point
         canvasFront.clear();
@@ -1764,9 +1767,10 @@ $(document).ready(function() {
 
 
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
+                var app_material_brand = $('#app-material-brand').val();
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(window.fonts[i].active == 1){
-                        if(app_font == window.fonts[i].id){
+                        if(app_font == window.fonts[i].id && window.fonts[i].brand == app_material_brand){
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "' data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
