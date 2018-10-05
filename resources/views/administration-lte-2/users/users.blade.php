@@ -58,6 +58,7 @@
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-xs btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <a href="#" class="btn btn-primary btn-xs btn-flat view-trans pull-right" data-link="{{ env('CUSTOMIZER_HOST') }}/administration/v1-0/user/transactions/{{ $user->id }}">View Transactions</a>
                                     @if (1 == 0)
                                         @if ($user->email != Session::get('email'))
                                         <a href="#" class="btn btn-danger pull-right btn-xs btn-flat delete-user" data-user-id="{{ $user->id }}" role="button">Delete</a>
@@ -69,7 +70,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan='10'>
+                                <td colspan='8'>
                                     No Users
                                 </td>
                             </tr>
@@ -368,6 +369,16 @@ $(document).ready(function(){
     });
     $('.input-rep-id').append(sr_elem);
 
+    $(document).on('click', '.view-trans', function(e) {
+    e.preventDefault(e);
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+    });
+
+    function OpenInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
 
     @if (Session::has('message'))
         new PNotify({

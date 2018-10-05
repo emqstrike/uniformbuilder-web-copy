@@ -432,6 +432,15 @@ $(document).ready(function(){
         } );
     }
     });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 </script>
 
