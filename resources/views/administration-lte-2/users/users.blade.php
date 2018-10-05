@@ -1,27 +1,8 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <meta name="_token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-
-    <style type="text/css">
-        div#box_body {
-            overflow-y: scroll;
-            max-height: 500px;
-        }
-
-        span.select2 {
-            width: 100% !important;
-        }
-    
-        li.select2-selection__choice {
-            color: black !important;
-        }
-
-        .select2-selection__clear {
-            display: none;
-        }
-    </style>
+<script type="text/css">
+</script>
 @endsection
 
 @section('content')
@@ -46,10 +27,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th id="select-filter">Account Type</th>
-                                <th id="select-filter">Role</th>
                                 <th>Email</th>
-                                <th>Default Allowed Pages</th>
-                                <th>Allowed Pages</th>
                                 <th id="select-filter">Rep Name</th>
                                 <th>Last Login</th>
                                 <th>Active Status</th>
@@ -63,28 +41,7 @@
                                 <td class="td-user-id">{{ $user->id }}</td>
                                 <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                 <td class="td-user-type">{{ ucfirst($user->type) }}</td>
-                                <td class="td-user role">
-                                    @if ($user->role)
-                                        {{ ucfirst($user->role) }}
-                                    @else
-                                        N/A
-                                    @endif
-                                </td>
                                 <td class="td-user-email">{{ $user->email }}</td>
-                                <td class="td-default-allowed-pages">
-                                    @if ($user->default_allowed_pages)
-                                        @foreach (json_decode($user->default_allowed_pages, true) as $defaultAllowedPage)
-                                            {{ $defaultAllowedPage }}<br>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td class="td-user-allowed-pages" data-user-allowed-pages="{{ $user->allowed_pages }}">
-                                    @if ($user->allowed_pages)
-                                        @foreach (json_decode($user->allowed_pages, true) as $allowedPage)
-                                            {{ $allowedPage }}<br>
-                                        @endforeach
-                                    @endif
-                                </td>
                                 <td>{{ $user->rep_first_name }} {{ $user->rep_last_name }}</td>
                                 <td>{{ $user->last_login }}
                                     <input type="hidden" class="user-role" value="{{ $user->role }}">
@@ -101,7 +58,6 @@
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-xs btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
-                                    <a href="#" class="btn btn-success btn-xs btn-flat edit-allowed-pages @if((! $user->role) || (! $user->active)) disabled @endif" data-target="#allowedPagesModal" data-toggle="modal">Edit allowed pages</a>
                                     <a href="#" class="btn btn-primary btn-xs btn-flat view-trans pull-right" data-link="{{ env('CUSTOMIZER_HOST') }}/administration/v1-0/user/transactions/{{ $user->id }}">View Transactions</a>
                                     @if (1 == 0)
                                         @if ($user->email != Session::get('email'))
@@ -140,14 +96,11 @@
 </section>
 </div>
 @include('administration-lte-2.users.users-modal')
-@include('administration-lte-2.users.allowed-pages-modal')
 @include('partials.confirmation-modal')
 
 @endsection
 
 @section('scripts')
-@include('administration-lte-2.partials.users.allowed-pages-scripts')
-
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -263,9 +216,9 @@ $(document).ready(function(){
         $('.input-first-name').val('');
         $('.input-last-name').val('');
         $('.input-user-email').val('');
-        $('.input-user-type').val('normal');
-        $('.input-user-role').val('default');
-        $('.input-user-zip').val('');
+        $('.user-type').val('normal');
+        $('.user-role').val('default');
+        $('.user-zip').val('');
         $('.input-user-password').val('');
         $('.input-confirm-password').val('');
     });
@@ -416,8 +369,6 @@ $(document).ready(function(){
     });
     $('.input-rep-id').append(sr_elem);
 
-<<<<<<< HEAD
-=======
     $(document).on('click', '.view-trans', function(e) {
     e.preventDefault(e);
     var url = $(this).data('link');
@@ -429,7 +380,6 @@ $(document).ready(function(){
         win.focus();
     }
 
->>>>>>> e181e4cf1439aa647d6def1e3092726256cff32d
     @if (Session::has('message'))
         new PNotify({
             title: 'Success',
