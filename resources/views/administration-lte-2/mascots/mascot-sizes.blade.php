@@ -1,6 +1,48 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+<style type="text/css">
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+</style>
 @endsection
 @section('content')
 <section class="content">
@@ -42,7 +84,14 @@
                             <td class="td-size-option col-md-2">{{ $size->block_pattern_options }}</td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
-                            <td class="td-size-active col-md-1">{{ $size->active }}</td>
+                            <td class="td-size-active col-md-1">
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-size-active" id="switch-active-{{ $size->id }}" data-size-id="{{ $size->id }}" {{ ($size->active) ? 'checked' : '' }}>
+                                      <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </td>
                             <td class="col-md-2">
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
@@ -254,7 +303,6 @@ $(document).ready(function(){
         $('.neck-option-val').val('');
         $('#neck_option').val('');
         $('.input-size-type').val('');
-        $('.active').val('');
         $('.input-brand').val('');
         $('#properties').val('');
         $('.props-content').empty();
@@ -282,7 +330,6 @@ $(document).ready(function(){
         var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
-        data.active = $(this).parent().parent().parent().find('.td-size-active').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
         var props = $(this).parent().parent().parent().find('.td-size-props').val();
         if (props.length > 1) {
@@ -299,7 +346,6 @@ $(document).ready(function(){
         $('.neck-option-val').val(data.neck_option);
         $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
         $('.input-size-type').val(data.type);
-        $('.active').val(data.active);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
         if (data.properties != null) {
@@ -318,7 +364,6 @@ $(document).ready(function(){
         data.block_pattern_options = raw_bpo.split(",");
         data.type = $('.input-size-type').find(":selected").val();
         data.brand = $('.input-brand').find(":selected").val();
-        data.active = $('.active').find(":selected").val();
         data.properties = $('#properties').val();
 
         if(window.modal_action == 'add'){
@@ -399,6 +444,34 @@ $(document).ready(function(){
                 }
             },
                 error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    });
+
+    $(document).on('click', '.toggle-size-active', function(e){
+        e.preventDefault();
+        var id = $(this).data('size-id');
+        console.log(id);
+         var url = "//" + api_host + "/api/v1-0/mascot_size/toggle";
+         $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    var elem = '.pattern-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
             }
         });
     });
