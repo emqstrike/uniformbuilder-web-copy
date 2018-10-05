@@ -20,7 +20,7 @@
                         @endif
                     </h2>
                     <div class="col-md-3">
-                        <input type="text" class="form-control user-id">
+                        <input type="number" class="form-control user-id" placeholder="Enter User ID: ...">
                     </div>
                     <div class="col-md-2">
                     <a href="#" class="btn btn-success btn-flat active-user" style="width: 100px;">Search</a><hr>
