@@ -159,7 +159,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_store_block_pattern');
         Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_update_block_pattern');
 
-        Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
+        Route::get('saved_designs/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
         Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
 
         /* Materials */
@@ -210,6 +210,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@addFontForm'])->name('v1_create_fonts');;
         Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@editFontForm'])->name('v1_edit_font');
         Route::get('fonts_minified', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@indexMinified']);
+
+        // Logo Requests
+        Route::get('logo_requests/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LogoRequestsController@index'])->name('v1_logo_requests');
     });
 
     // Logins

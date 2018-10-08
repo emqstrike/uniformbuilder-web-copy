@@ -1,6 +1,8 @@
 <?php
 namespace App\APIClients;
 
+use Illuminate\Support\Facades\Log;
+
 class LogoRequestsAPIClient extends APIClient
 {
     public function __construct()
@@ -17,6 +19,29 @@ class LogoRequestsAPIClient extends APIClient
             return $result->logo_request;
         }
         return null;
+    }
+
+    public function getLogoRequestsPaginated($currentPage)
+    {
+        $endpoint = env('ENDPOINT_VERSION','v1-0').'/logo_requests/paginate/?page=' . $currentPage;
+
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $logo_requests = [];
+
+        if ($result->success) {
+            return [
+                'logo_requests' => $result->logo_requests->data,
+                'total' => $result->logo_requests->total,
+                'origins' => $result->origins,
+                'types' => $result->types,
+                'client_names' => $result->client_names,
+                'statuses' => $result->statuses
+            ];
+        }
+
+        return $logo_requests;
     }
 
     public function getLogoRequests($status = null)
