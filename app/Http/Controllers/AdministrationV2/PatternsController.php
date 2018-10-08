@@ -35,18 +35,10 @@ class PatternsController extends Controller
         }
         $patterns = $this->client->getPatternsBySport($active_sport);
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.patterns.patterns', [
-                'patterns' => $patterns,
-                'active_sport' => $active_sport
-            ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.patterns.patterns', [
+            'patterns' => $patterns,
+            'active_sport' => $active_sport
+        ]);
     }
 
     public function editPatternForm($id)
