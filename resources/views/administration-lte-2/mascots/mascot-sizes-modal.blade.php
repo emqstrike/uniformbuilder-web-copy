@@ -59,13 +59,6 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="control-label">Active</label>
-                      <select name="active" class="form-control active" required>
-                        <option value="1">Yes</option>
-                        <option value="0"f>No</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
                             <label class="control-label">Properties</label>
                                 <a href="#" class="btn btn-success btn-xs btn-flat add-props">Add Property</a>
                                 <table class="table table-bordered table-striped">
