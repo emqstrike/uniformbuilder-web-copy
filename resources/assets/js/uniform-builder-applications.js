@@ -2539,6 +2539,7 @@ $(document).ready(function() {
                 if (typeof mask === "undefined") {
                     errorCode = ub.errorCodes.getCode('maskLayerNotFound');
                     ub.utilities.errorWithCode(errorCode, mat_option + ' / ' + view.perspective);
+                    return;
                     // TODO: PartialApplications
                 }
                 
@@ -10672,6 +10673,10 @@ $(document).ready(function() {
             $('div.perspective-container > span.perspective').unbind('click');
             $('div.perspective-container > span.perspective').on('click', function () {
 
+                // if ($('span.side').hasClass('active') && $('div.perspective-container > span.perspective').data() ) {
+
+                // }
+
                 var _perspective = $(this).data('id');
 
                 $('div.perspective-container > span.perspective').removeClass('active');
@@ -10701,6 +10706,10 @@ $(document).ready(function() {
                         });
 
                         $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                        // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
+                        $('label.leftrightPart, div.side-container').hide();
+                        $('span.side').removeClass('active');
 
                     }
 
@@ -10781,7 +10790,7 @@ $(document).ready(function() {
 
                     }
 
-                    $('label.leftrightPart, div.side-container').hide();                    
+                    $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
                     $('span.side[data-id="na"]').addClass('active');
                     $('span.side[data-id="na"]').show();
@@ -10888,7 +10897,7 @@ $(document).ready(function() {
 
                 } else {
 
-                    $('span.part').first().addClass('active');
+                    // $('span.part').first().addClass('active');
 
                 }
 
