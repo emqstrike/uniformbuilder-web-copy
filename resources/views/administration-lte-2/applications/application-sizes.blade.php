@@ -90,7 +90,7 @@
                             <td class="td-size-name col-md-1">{{ $size->name }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
                             <td class="col-md-1">{{ $size->sport }}</td>
                             <td class="td-size-block-pattern col-md-1">{{ $size->block_pattern }}</td>
-                            <td class="td-size-option col-md-1">{{ $size->neck_option }}</td>
+                            <td class="col-md-1"><textarea class="td-size-option" style="display: none;">{{ $size->neck_option }}</textarea><button class="view-options btn btn-default btn-flat btn-sm">View</button></td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
@@ -137,6 +137,28 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+         <!-- Category Modal -->
+    <div id="viewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+            <div class="modal-content modal-md">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3 class="modal-title" align="center">Category Value</h3>
+                </div>
+                <div class="modal-body" align="left">
+                      <div class="category_div" >
+                          <pre id="category_text" ></pre>
+                      </div>
+                </div>
+                <div class="modal-footer" >
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -301,7 +323,7 @@ $(document).ready(function(){
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
         var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
         data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
+        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').val();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
@@ -518,6 +540,13 @@ $(document).ready(function(){
             } );
         } );
     }
+    });
+
+    $(document).on('click', '.view-options', function(e) {
+        e.preventDefault();
+        var category = $(this).parent().parent().find('.td-size-option').val();
+        $('#category_text').text(category);
+        $('#viewModal').modal('show');
     });
 
     $(document).on("change", ".app-size", function(e){
