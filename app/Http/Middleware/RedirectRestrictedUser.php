@@ -56,8 +56,12 @@ class RedirectRestrictedUser
 
         if (! is_null($allowedPages) && (! empty($allowedPages))) {
             if (in_array($this->route->getName(), $allowedPages)) {
-                return $next($request);
+                if (in_array('GET', $this->route->getMethods())) {
+                    return $next($request);
+                }
             }
+        } else if (! in_array('GET', $this->route->getMethods())) {
+            return $next($request);
         }
 
         if (env('ENDPOINT_VERSION') == 'v1-0') {
