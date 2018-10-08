@@ -2,6 +2,48 @@
 
 @section('styles')
 <style type="text/css">
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+
     .select2-container--default
     .select2-selection--multiple
     .select2-selection__choice
@@ -29,12 +71,13 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Category</th>
+                            <th id="select-filter">Category</th>
                             <th>Block Pattern</th>
                             <th>Options</th>
                             <th id="select-filter">Type</th>
                             <th id="select-filter">Uniform Appliction Type</th>
                             <th id="select-filter">Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,13 +87,21 @@
 
                         <tr class='item-{{ $size->id }}'>
                             <td class="td-size-id col-md-1">{{ $size->id }}</td>
-                            <td class="td-size-name col-md-1">{{ $size->name }}</td>
-                            <td class="col-md-1">{{ $size->sport }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
+                            <td class="td-size-name col-md-1">{{ $size->name }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
+                            <td class="col-md-1">{{ $size->sport }}</td>
                             <td class="td-size-block-pattern col-md-1">{{ $size->block_pattern }}</td>
                             <td class="td-size-option col-md-1">{{ $size->neck_option }}</td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
+                            <td>
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-size" id="switch-{{ $size->id }}" data-size-id="{{ $size->id }}" {{ ($size->active) ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </td>
                             <td class="col-md-2">
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
@@ -62,7 +113,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='9'>
+                            <td colspan='10'>
                                 No Application Sizes
                             </td>
                         </tr>
@@ -71,6 +122,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -412,6 +464,32 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.toggle-size', function(e) {
+        e.preventDefault();
+        var id = $(this).data('size-id');
+        var url = "//" + api_host + "/api/application_size/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -466,7 +544,7 @@ $(document).ready(function(){
         var app_numbers_ref = [];
         var app_sizes_ref = [];
         var default_sizes = [];
-        // window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
+
         data.forEach(function(entry, i) {
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums);
