@@ -53,14 +53,16 @@ class RedirectRestrictedUser
                 }
             }
         }
-
+        
         if (! is_null($allowedPages) && (! empty($allowedPages))) {
             if (in_array($this->route->getName(), $allowedPages)) {
                 if (in_array('GET', $this->route->getMethods())) {
                     return $next($request);
                 }
             }
-        } else if (! in_array('GET', $this->route->getMethods())) {
+        }
+
+        if (! in_array('GET', $this->route->getMethods())) {
             return $next($request);
         }
 
