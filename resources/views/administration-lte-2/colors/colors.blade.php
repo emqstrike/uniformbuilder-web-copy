@@ -124,15 +124,6 @@
                                 </div>
                             </td>
                             <td class="col-md-2">
-<!--                                 <a href="#" class="btn btn-default btn-xs btn-flat disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs btn-flat enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
-                                </a> -->
-
                                 <a href="#" class="btn btn-primary btn-xs btn-flat edit-button" data-color-id="{{ $color->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
