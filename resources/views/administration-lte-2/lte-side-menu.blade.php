@@ -110,7 +110,7 @@
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
             <li><a href="{{ route('saved_designs') }}"><i class="fa fa-image"></i> Saved Designs</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/tagged_styles"><i class="fa fa-tags"></i> Tagged Styles<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-user-plus"></i> User Pairings</a></li>
           </ul>
         </li>
