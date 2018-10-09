@@ -106,6 +106,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
+<<<<<<< HEAD
     Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
@@ -213,6 +214,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@addFontForm'])->name('v1_create_fonts');;
             Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@editFontForm'])->name('v1_edit_font');
             Route::get('fonts_minified', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@indexMinified']);
+
+            //Tagged Styles
+            Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index'])->name('v1_tagged_styles');
+            Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals'])->name('v1_tagged_styles_total');
         });
     });
 
