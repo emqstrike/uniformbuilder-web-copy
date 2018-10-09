@@ -8,7 +8,6 @@
     <style>
         .select2 {
             text-align: left;
-            width: auto !important;
         }
 
         #filter {
@@ -44,8 +43,14 @@
                         <div class="form-inline" style="position: relative; top: 25px;">
                             <label>Origin</label>
                             <select id="origins-filter" class="form-control select2">
+                                <option value="all">All</option>
+
                                 @foreach ($origins as $origin)
-                                    <option value="{{ $origin->origin }}">
+                                    @if ((isset($filters['origin'])) && ($filters['origin'] == $origin->origin))
+                                        <option value="{{ $origin->origin }}" selected="selected">
+                                    @else
+                                        <option value="{{ $origin->origin }}">
+                                    @endif
                                         {{ ucwords($origin->origin) }}
                                     </option>
                                 @endforeach
@@ -53,8 +58,14 @@
 
                             <label>Type</label>
                             <select id="types-filter" class="form-control select2">
+                                <option value="all">All</option>
+
                                 @foreach ($types as $type)
-                                    <option value="{{ $type->type }}">
+                                    @if ((isset($filters['type'])) && ($filters['type'] == $type->type))
+                                        <option value="{{ $type->type }}" selected="selected">
+                                    @else
+                                        <option value="{{ $type->type }}">
+                                    @endif
                                         {{ ucwords(str_replace('_', ' ', $type->type)) }}
                                     </option>
                                 @endforeach
@@ -62,9 +73,15 @@
 
                             <label>Client</label>
                             <select id="client-filter" class="form-control select2">
+                                <option value="all">All</option>
+
                                 @foreach ($clientNames as $client)
                                     @if ($client->client_name != '')
-                                        <option value="{{ $client->client_name }}">
+                                        @if ((isset($filters['client_name'])) && ($filters['client_name'] == $client->client_name))
+                                            <option value="{{ $client->client_name }}" selected="selected">
+                                        @else
+                                            <option value="{{ $client->client_name }}">
+                                        @endif
                                             {{ $client->client_name }}
                                         </option>
                                     @endif
@@ -73,9 +90,15 @@
 
                             <label>Status</label>
                             <select id="status-filter" class="form-control select2">
+                                <option value="all">All</option>
+                                
                                 @foreach ($statuses as $status)
                                     @if ($status->status != '')
-                                        <option value="{{ $status->status }}">
+                                        @if ((isset($filters['status'])) && ($filters['status'] == $status->status))
+                                            <option value="{{ $status->status }}" selected="selected">
+                                        @else
+                                            <option value="{{ $status->status }}">
+                                        @endif
                                             {{ ucwords(str_replace('_', ' ', $status->status)) }}
                                         </option>
                                     @endif
@@ -150,7 +173,9 @@
                                                             <td>
                                                                 <img src="{{ $item['file'] }}" style="display: block; height: 30px; width: 30px;">
                                                                 Application #{{ $item['code'] }}<br>
-                                                                <a href="upload_logo_request/{{ $logo_request->id }}/{{ $ctr }}/{{ $logo_request->submitted_by_user_id }}" class="btn btn-flat btn-xs btn-primary">Upload Artwork</a>
+                                                                <a href="{{ route('v1_add_logo_request', ['logo_request_id' => $logo_request->id, 'logo_index' => $ctr, 'logo_request_user_id' => $logo_request->submitted_by_user_id]) }}" class="btn btn-flat btn-xs btn-primary">
+                                                                    Upload Artwork
+                                                                </a>
                                                             </td>
                                                         </tr>
 
@@ -217,7 +242,6 @@
                                     </td>
 
                                     <td>
-                                        <a href="#" class="btn btn-flat btn-success btn-xs">Mark Done</a>
                                         <a href="#" class="btn btn-flat btn-danger btn-xs reject-logo" data-user-id="{{ $logo_request->submitted_by_user_id }}" data-code="{{ $logo_request->reference_id }}" data-type="{{ $logo_request->type }}">Reject</a>
                                     </td>
                                 </tr>
@@ -239,6 +263,13 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+    <script type="text/javascript" src="/js/administration/logo-requests.js"></script>
+    <script type="text/javascript">
+    
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -248,6 +279,13 @@
                 var type = $('#types-filter').val();
                 var client = $('#client-filter').val();
                 var status = $('#status-filter').val();
+
+                var url = "{{ route('v1_logo_requests') }}?origin=" + origin + "&type=" + type + "&client_name=" + client + "&status=" + status;
+                window.location.href = url;
+            });
+
+            $('#clear-filter').click(function() {
+                window.location.href = "{{ route('v1_logo_requests') }}";
             });
         });
     </script>

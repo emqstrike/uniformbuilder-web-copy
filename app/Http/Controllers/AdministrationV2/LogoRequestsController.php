@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\LogoRequestsAPIClient as APIClient;
 use JasonGrimes\Paginator;
+use Illuminate\Support\Facades\Input;
 
 class LogoRequestsController extends Controller
 {
@@ -26,7 +27,33 @@ class LogoRequestsController extends Controller
             $currentPage = 1;
         }
 
-        $results = $this->client->getLogoRequestsPaginated($currentPage);
+        $filters = [];
+
+        if (Input::get('origin')) {
+            if (Input::get('origin') != 'all') {
+                $filters['origin'] = Input::get('origin');
+            }
+        }
+
+        if (Input::get('type')) {
+            if (Input::get('type') != 'all') {
+                $filters['type'] = Input::get('type');
+            }
+        }
+
+        if (Input::get('client_name')) {
+            if (Input::get('client_name') != 'all') {
+                $filters['client_name'] = Input::get('client_name');
+            }
+        }
+
+        if (Input::get('status')) {
+            if (Input::get('status') != 'all') {
+                $filters['status'] = Input::get('status');
+            }
+        }
+
+        $results = $this->client->getLogoRequestsPaginated($currentPage, $filters);
 
         $ctr = 0;
 
@@ -67,7 +94,8 @@ class LogoRequestsController extends Controller
             'origins',
             'types',
             'clientNames',
-            'statuses'
+            'statuses',
+            'filters'
         ));
     }
 }
