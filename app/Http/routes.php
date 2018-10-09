@@ -202,7 +202,6 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
         Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index']);
         Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index']);
-
         // Fonts
         Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@index'])->name('v1_fonts_index');
         Route::post('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store']);
@@ -216,6 +215,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('upload_logo_request/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addLogoRequestForm'])->name('v1_add_logo_request');
         Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@storeArtwork'])->name('v1_store_logo_request');
         Route::get('upload_existing_logo/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addExistingLogoForm'])->name('v1_add_existing_logo');
+
+        //Tagged Styles
+        Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index']);
+        Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals']);
     });
 
     // Logins
