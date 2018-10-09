@@ -229,7 +229,7 @@ class MascotsController extends Controller
         {
             Log::info('Success');
             return Redirect::to('administration/v1-0/mascots')
-                            ->with('message', 'Successfully added Mascot');
+                            ->with('message', $response->message);
         } else {
             Log::info('Failed');
             return Redirect::to('administration/v1-0/mascots')

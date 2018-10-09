@@ -2,6 +2,48 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
+<style type="text/css">
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+</style>
 @endsection
 
 @section('content')
@@ -35,6 +77,7 @@
                             <th>Sublimation Only</th>
                             <th>Color</th>
                             <th>Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -72,17 +115,15 @@
                                     <option value='richardson' @if ($color->brand == 'richardson') selected @endif>Richardson</option>
                                 </select>
                             </td>
+                            <td>
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-color" id="switch-{{ $color->id }}" data-color-id="{{ $color->id }}" {{ ($color->active) ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
                             </td>
                             <td class="col-md-2">
-                                <a href="#" class="btn btn-default btn-xs btn-flat disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs btn-flat enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
-                                </a>
-
                                 <a href="#" class="btn btn-primary btn-xs btn-flat edit-button" data-color-id="{{ $color->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
@@ -102,7 +143,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='8'>
+                            <td colspan='9'>
                                 No Colors
                             </td>
                         </tr>
@@ -296,10 +337,10 @@ $(document).ready(function(){
         });
     }
 
-    $(document).on('click', '.enable-color', function(e) {
+    $(document).on('click', '.toggle-color', function(e) {
         e.preventDefault();
         var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/enable/";
+        var url = "//" + api_host + "/api/color/toggle/";
         $.ajax({
             url: url,
             type: "POST",
@@ -310,45 +351,13 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.color-' + id;
+                    window.location.reload();
                     new PNotify({
                         title: 'Success',
                         text: response.message,
                         type: 'success',
                         hide: true
                     });
-                    $(elem + ' .disable-color').removeAttr('disabled');
-                    $(elem + ' .enable-color').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '.disable-color', function(e) {
-        e.preventDefault();
-        var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/disable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.color-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-color').removeAttr('disabled');
-                    $(elem + ' .disable-color').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
                 }
             }
         });
