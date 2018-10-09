@@ -202,7 +202,6 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index']);
         Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index']);
         Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index']);
-
         // Fonts
         Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@index'])->name('v1_fonts_index');
         Route::post('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@store']);
@@ -210,6 +209,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@addFontForm'])->name('v1_create_fonts');;
         Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@editFontForm'])->name('v1_edit_font');
         Route::get('fonts_minified', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@indexMinified']);
+        //Tagged Styles
+        Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index']);
+        Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals']);
     });
 
     // Logins
