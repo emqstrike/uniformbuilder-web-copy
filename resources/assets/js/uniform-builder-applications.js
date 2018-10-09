@@ -8047,7 +8047,9 @@ $(document).ready(function() {
         // Set on Move Tool mouse down
         
         if (!_settingsObject.dirty) {
-            ub.funcs.oneInchPullUp(application_id);
+            if (ub.current_material.material.brand !== 'richardson') {
+                ub.funcs.oneInchPullUp(application_id);
+            }
         }
         
         ub.funcs.updateCaption(application_id);
