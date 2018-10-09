@@ -23,6 +23,7 @@
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
             option: "{{ isset($material->neck_option) ? $material->neck_option: 'none' }}",
             blockPattern: "{{ isset($material->block_pattern) ? $material->block_pattern : 'none' }}",
+            hiddenBody: false,
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
             asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
@@ -242,6 +243,7 @@
         ub.jersey_name = "{{ isset($jersey_name) ? $jersey_name : false }}";
         ub.jersey_number = "{{ isset($jersey_number) ? $jersey_number : false }}";
         ub.mascot_id = "{{ isset($mascot_id) ? $mascot_id : false }}";
+        ub.product_id = "{{ isset($product_id) ? $product_id : false }}";
 
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
 

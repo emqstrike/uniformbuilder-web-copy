@@ -119,5 +119,20 @@ class UsersController extends Controller
         return view('administration-lte-2.users.users-password-strength');
     }
 
+    public function userTransactions($id = null)
+    {
+        if ($id == null) {
+            $id = 0;
+        }
+        $user = $this->client->getUser($id);
+        $user_orders = $this->ordersAPIClient->getByUserId($id);
+        $user_designs = $this->savedDesignsAPIClient->getByUserId($id);
+
+        return view('administration-lte-2.users.users-transactions', [
+            'user_orders' => $user_orders,
+            'user_designs' => $user_designs,
+            'user'  =>  $user
+        ]);
+    }
 
 }

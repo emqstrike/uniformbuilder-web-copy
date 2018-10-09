@@ -43,14 +43,24 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../tables/simple.html"><i class="fa fa-th-large"></i> Block Patterns</a></li>
+            <li>
+                <a href="{{ route('v1_block_patterns') }}">
+                    <i class="glyphicon glyphicon-star"></i>
+                    Block Patterns
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-green">
+                            <i class="fa fa-exclamation"></i>
+                        </small>
+                    </span>
+                </a>
+            </li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_colors"><i class="fa fa-map"></i> Colors <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fabrics"><i class="fa fa-map"></i> Fabrics <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_fabrics"><i class="fa fa-map"></i> Fabrics <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <!-- <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li> -->
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-futbol-o"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-github-alt"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/categories"><i class="fa fa-soccer-ball-o"></i> Uniform Category<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 
@@ -70,6 +80,7 @@
                         Analytics
                     </a>
                 </li>
+                <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/hidden_bodies"><i class="fa fa-eye-slash"></i> Hidden Body</a></li>
             </ul>
         </li>
 
@@ -82,8 +93,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users"><i class="fa fa-users"></i> All Users<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-<li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users/password_strength"><i class="fa fa-pie-chart"></i> Password Strength Graph<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-folder"></i> User Transactions</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users/password_strength"><i class="fa fa-pie-chart"></i> Password Strength Graph<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/user/transactions"><i class="fa fa-folder"></i> User Transactions<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 
@@ -96,7 +107,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="../tables/simple.html"><i class="fa fa-comments"></i> Feedbacks</a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs/search"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
             <li><a href="{{ route('saved_designs') }}"><i class="fa fa-image"></i> Saved Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
@@ -113,7 +124,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../tables/simple.html"><i class="fa fa-cubes"></i> All styles</a></li>
+            <li><a href="{{ route('v1_materials_index') }}"><i class="fa fa-cubes"></i> All styles</a></li>
             <li><a href="../tables/simple.html"><i class="fa fa-bars"></i> Style Sets</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-search"></i> Search Style</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/style_requests"><i class="fa fa-plus-square"></i> Request a Style</a></li>
@@ -128,8 +139,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_templates"><i class="fa fa-dollar"></i> Price Item Templates<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-arrows"></i> Templates & Sizes</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_templates"><i class="fa fa-dollar"></i> Templates & Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_items"><i class="fa fa-dollar"></i> Price Items<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
          <li class="treeview">
@@ -142,6 +153,50 @@
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors"><i class="fa fa-paint-brush"></i> Colors<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors_sets"><i class="fa fa-paint-brush"></i> Colors Sets<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+          </ul>
+        </li>
+         <li class="treeview">
+          <a href="#">
+            <i class="fa fa-picture-o"></i> <span>Patterns</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns"><i class="fa fa-picture-o"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-font"></i> <span>Fonts</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="{{ route('v1_fonts_index') }}">
+                <i class="fa fa-font"></i>
+                  Fonts
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-cubes"></i> <span>Applications</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/application_sizes"><i class="fa fa-arrows"></i>Application Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascot_sizes"><i class="fa fa-arrows"></i>Mascot Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/single_view_applications"><i class="fa fa-eye"></i>Single View Application<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-github-alt"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots_categories"><i class="fa fa-th-list"></i>Mascots Categories<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots_groups_categories"><i class="fa fa-th-large"></i>Mascots Groups Cat.<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 

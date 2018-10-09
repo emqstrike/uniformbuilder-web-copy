@@ -2389,6 +2389,49 @@ $(document).ready(function() {
                             }
                 ],
             },
+            {
+                name: 'mascot',
+                sport: 'tennis',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            },
 
 
         ], 
@@ -2406,7 +2449,7 @@ $(document).ready(function() {
                 return _.contains(item.applicationNumbers, id);
 
             });
- 
+
             if (sport === "volleyball")                         { return _result[0]; }
             if (sport === "fastpitch")                          { return _result[0]; }
             if (sport === "baseball")                           { return _result[0]; }
@@ -2421,6 +2464,7 @@ $(document).ready(function() {
             if (sport === "wrestling-compression-shorts")       { return _result[0]; }
             if (sport === "basketball")                         { return _result[0]; }
             if (sport === "wrestling-2018")                     { return _result[0]; }
+            if (sport === "tennis")                             { return _result[0]; }
 
             if (typeof _object === "undefined") {
 

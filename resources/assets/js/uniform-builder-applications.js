@@ -26,6 +26,19 @@ $(document).ready(function() {
 
     };
 
+    // Only Sublimated or Knitted styles uses custom scale
+    ub.funcs.usesCustomScaleValid = function () {
+
+        return ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted";
+
+    }
+
+    ub.funcs.setupHiddenBody = function (obj) {
+
+        return ub.config.hiddenBody = obj;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -1044,17 +1057,12 @@ $(document).ready(function() {
                     var flip = 1;
 
                     if (typeof view.application.flip !== 'undefined') {
-
                         if (view.application.flip === 1) {
-
-                            flip = -1;
-
-                        } else {
-
-                            flip = 1;
-
+                                 flip = -1;
+                         }
+                        else {
+                             flip = 1;
                         }
-
                     }
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
@@ -1287,22 +1295,15 @@ $(document).ready(function() {
                         percentage = distance / 100;
                         ub.mascotPreviousSize = percentage;
                       
-
                         var flip = 1;
 
                         if (typeof view.application.flip !== 'undefined') {
-
                             if (view.application.flip === 1) {
-
-                                flip = -1;
-
+                                 flip = -1;
                             }
                             else {
-
-                                flip = 1;
-
+                                 flip = 1;
                             }
-
                         }
 
                         application_obj.scale = { x: percentage * flip, y: percentage};
@@ -2660,7 +2661,7 @@ $(document).ready(function() {
 
                         if (
                             (!_customScaleUndefined && !_customScaleBlank) && 
-                            ub.funcs.isSublimated()
+                            ub.funcs.usesCustomScaleValid()
                             ) {
 
                             var _scaleX = point.scale.x;
@@ -4061,7 +4062,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _hideBody = ub.data.hiddenBody.currentUniformOk();
+        var _hideBody = ub.config.hiddenBody;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -4181,6 +4182,21 @@ $(document).ready(function() {
             }
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
+
+                // Add `thread_colors` flag in ub.current_material.settings
+                // if the category of uniform is `Socks (Apparel)`
+                // and base on the truthiness of the flag, thread colors will be used
+                if ( _.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)') 
+                    && ub.funcs.isKnitted() ) {
+
+                    if ( _.isEqual(ub.page, 'builder') 
+                        || ub.current_material.settings.threadColors === 'undefined' ) {
+
+                        ub.current_material.settings.threadColors = true;
+
+                    }
+
+                }
 
                 ub.funcs.initTeamColors();
                 $pd.hide();
@@ -6540,7 +6556,7 @@ $(document).ready(function() {
 
         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-            ub.utilities.info('Using sizes from backend: ');
+            ub.utilities.info('===>Using sizes from backend: ');
 
             console.log('Default Sizes: ');
             console.log(_sizes);
@@ -6549,11 +6565,11 @@ $(document).ready(function() {
 
             if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
-                console.log(_sizesFromConfig);
+                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                _sizes = _sizesFromConfig; 
+                _sizes = _sizesFromConfig;
                 
             } 
 
@@ -6592,7 +6608,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -6622,7 +6638,10 @@ $(document).ready(function() {
 
         } else {
 
-            _inputSizes = _sizes.sizes;
+            // _inputSizes = _sizes.sizes;
+
+            // add sort for sizes
+            _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
 
         }
 
@@ -7304,7 +7323,8 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
+        // exception on 'Hockey Sock' block pattern
+        if (parseInt(_id) > 70 && ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' ) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 
@@ -7786,13 +7806,16 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
-                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
+
+                if (_inShoulder) { _applicationType = "shoulder_number"; }
+                if (_inSleeve) { _applicationType = "sleeve_number"; }
 
                 var _primaryView = ub.funcs.getPrimaryView(_settingsObject.application);
 
-                if (_primaryView === "front") { _applicationType = "front_number"; }
-                if (_primaryView === "back") { _applicationType = "back_number"; }
+                if (_primaryView === "front" && !(_inShoulder || _inSleeve)) { _applicationType = "front_number"; }
+                if (_primaryView === "back" && !(_inShoulder || _inSleeve)) { _applicationType = "back_number"; }
 
             }
 
@@ -8118,8 +8141,6 @@ $(document).ready(function() {
 
     }
 
-
-
     ub.funcs.popupsVisible = function () {
 
         return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
@@ -8306,20 +8327,24 @@ $(document).ready(function() {
 
         if (_uniformCategory === "Football") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM FOOTBALL');
 
         } else if (ub.current_material.material.uniform_category === "Baseball") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
+            //console.log('====>IM FROM BASKETBALL');
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            //console.log('====>IM FROM SPECIAL', _sizes);
 
         } else {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM GENERIC');
 
         }
 
@@ -8340,7 +8365,11 @@ $(document).ready(function() {
 
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                // add sort for sizes
+                _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function(obj) { return parseFloat(obj.size) });
+                _sizesFromConfig.sizes = _sizesSorted;
 
                 _sizes = _sizesFromConfig;
 
@@ -8411,7 +8440,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + " [" +  _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -9787,7 +9816,9 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
             // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+
             _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
         }
 
         if (typeof _sizes === 'undefined') {
@@ -9823,6 +9854,8 @@ $(document).ready(function() {
 
             if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
             if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Tennis" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+
 
         }
 
@@ -9834,7 +9867,6 @@ $(document).ready(function() {
             ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
-
 
         return _sizes;
 
@@ -10655,7 +10687,19 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        _partToMakeActive =  _perspective.toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
                         $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
 
                     }
@@ -10783,8 +10827,9 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isSocks()) {
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
+                // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
 
@@ -10819,9 +10864,34 @@ $(document).ready(function() {
 
             }
 
-            // Catch all expression when nothing is selected, just select first
+            // Catch all expression when nothing is selected, just select first if perspective is not Front or Back
             if(!$('span.part').hasClass('active')) {
-                $('span.part').first().addClass('active');
+
+                var $perspective = $('div.perspective-container').find('span.perspective.active');
+
+                if ($perspective.text() === "Back" || $perspective.text() === "Front") {
+
+                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
+                    var _partToMakeActive =  $perspective.text().toTitleCase();
+
+                    $('div.part-container span').each(function() {
+                        
+                        var part = $(this).text();
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            _partToMakeActive = part;
+                        }
+
+                    });
+
+                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                } else {
+
+                    $('span.part').first().addClass('active');
+
+                }
+
             }
 
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');

@@ -56,6 +56,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
+
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -63,7 +67,11 @@ $(document).ready(function () {
 
                 // Application Sizes
                 ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
-                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
+
+                // Hidden Bodies
+                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
+                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);  
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -383,7 +391,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
             }
 
-            if(ub.funcs.isSocks() && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
                 $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
             } else {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
@@ -442,7 +450,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
-            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
+            ub.current_material.settings.hiddenBody = ub.config.hiddenBody;
 
             ub.funcs.activatePartByIndex(0);
 
@@ -633,9 +641,9 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.branding.useAllColors) {
-                ub.funcs.addAllColorToTeamColors();
-            }
+            if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
+
+            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
         };
 
@@ -967,6 +975,8 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
+                'colors_sets',
+                'hidden_bodies'
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1015,6 +1025,17 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get Thread Colors from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
+
+            if (object_name === 'hidden_bodies') { ub.funcs.setupHiddenBody(obj); }
 
             if (object_name === 'cuts_links') {
 
@@ -2438,7 +2459,7 @@ $(document).ready(function () {
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
             _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
 
-            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+            if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                 ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
                 ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
@@ -2620,7 +2641,7 @@ $(document).ready(function () {
 
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
-                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+                if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                     if (application_obj.application.layer === "Body") {
 
@@ -2758,9 +2779,9 @@ $(document).ready(function () {
 
         }
 
-        if (ub.funcs.isSocks()) {
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
-            // Activate Left View when a sock is loaded
+            // Activate Left View on all Socks (Apparel) except on 'Hockey Sock' block pattern
             ub.funcs.activateLeftView();
 
         }
@@ -3147,6 +3168,8 @@ $(document).ready(function () {
 
     window.ub.setup_material_options = function () {
 
+        ub.fabric.fabricCollections = [];
+
         ub.current_material.options_distinct_names = {};
 
         ub.maxLayers = 0;
@@ -3165,14 +3188,29 @@ $(document).ready(function () {
 
                 var name = obj.name.toCodeCase();
 
-                current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
+                var _sprite = ub.pixi.new_sprite(obj.material_option_path);
+
+                current_view_objects[name] = _sprite;
                 var current_object = current_view_objects[name];
 
                 current_object.name = name;
 
+                if (name === "highlights" || name === "shadows") {
+
+                    ub.fabric.fabricCollections.push({
+                        code: name,
+                        name: name + '_' + obj.layer_level,
+                        id: obj.layer_level,
+                        perspective: obj.perspective,
+                        obj: _sprite,
+                    });
+
+                }
+                
                 // Multiplied to negative one because
                 // UpdateLayers order puts the least zIndex on the topmost position
 
+                current_object.spriteID = name + '_' + obj.layer_level;
                 current_object.zIndex = (obj.layer_level * ub.zIndexMultiplier) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
                 
@@ -3201,9 +3239,11 @@ $(document).ready(function () {
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                    current_object.layerID = obj.layer_level;
 
                 } else if (obj.setting_type === 'shadows') {
 
+                    current_object.layerID = obj.layer_level;
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                 } else {
@@ -7719,8 +7759,8 @@ $(document).ready(function () {
 
         $('body').removeClass('generic-canvas');
 
-        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
-        $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
+        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash_new.png)');
+        //$('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
         ub.funcs.hideRosterAndOrderForm();
 
@@ -8723,7 +8763,7 @@ $(document).ready(function () {
 
             if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
 
-            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0});
 
             return _colorObj;
 
