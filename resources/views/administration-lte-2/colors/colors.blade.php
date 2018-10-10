@@ -110,7 +110,6 @@
                             </td>
                             <td class="col-md-1">
                                 <select class="form-control brand" name='brand' disabled="true">
-                                    <option value='none' @if ($color->brand == 'none') selected @endif>No Brand</option>
                                     <option value='prolook' @if ($color->brand == 'prolook') selected @endif>Prolook</option>
                                     <option value='richardson' @if ($color->brand == 'richardson') selected @endif>Richardson</option>
                                 </select>

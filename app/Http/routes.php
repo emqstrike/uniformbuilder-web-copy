@@ -212,6 +212,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         //Tagged Styles
         Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index']);
         Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals']);
+        // Feedbacks
+        Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@index']);
+        Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@reply']);
+        Route::get('feedback/thread/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@viewThread']);
     });
 
     // Logins
