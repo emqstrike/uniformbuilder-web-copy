@@ -10257,7 +10257,19 @@ $(document).ready(function() {
 
         if (ub.funcs.isUniformFullSublimation()) {
 
-            _list   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+            _list   = _.sortBy(ub.data.modifierLabels, function(item) {
+                
+                var i = 100;
+                
+                // set intGroupID value (if it is NaN),
+                // this is to make sure that _.sortBy work
+                if (Number.isNaN(item.intGroupID)) {
+                    item.intGroupID = i++;
+                }
+
+                return item.intGroupID;
+                
+            });
 
             _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
                                                                  item.name.indexOf('Piping') > -1 || 
@@ -10673,10 +10685,6 @@ $(document).ready(function() {
             $('div.perspective-container > span.perspective').unbind('click');
             $('div.perspective-container > span.perspective').on('click', function () {
 
-                // if ($('span.side').hasClass('active') && $('div.perspective-container > span.perspective').data() ) {
-
-                // }
-
                 var _perspective = $(this).data('id');
 
                 $('div.perspective-container > span.perspective').removeClass('active');
@@ -10710,6 +10718,31 @@ $(document).ready(function() {
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
                         $('label.leftrightPart, div.side-container').hide();
                         $('span.side').removeClass('active');
+
+                    } else {
+
+                        // If perspective is not Front or Back, just select the first part
+                        $('span.part').first().addClass('active');
+
+                        var side = $('span.side.active').data('id');
+
+                        if ($('span.side').hasClass('active')) {
+
+                            side = side.toTitleCase() + " ";
+
+                            side = $('span.side.active').text().replace(side, '');
+
+                            $('span.part.active').removeClass('active');
+
+                            $('span.part[data-id="' + side + '"]').addClass('active');
+
+                            $('span.side.active').removeClass('active');
+
+                            $('span.side[data-id="' + _perspective + '"]').addClass('active');
+
+                            if (typeof $('span.part.active').data('id') === 'undefined') { $('span.part').first().addClass('active'); $('span.side.active').removeClass('active'); }
+
+                        }
 
                     }
 
@@ -10897,7 +10930,7 @@ $(document).ready(function() {
 
                 } else {
 
-                    // $('span.part').first().addClass('active');
+                    $('span.part').first().addClass('active');
 
                 }
 
