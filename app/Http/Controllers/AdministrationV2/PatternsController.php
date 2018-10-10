@@ -48,20 +48,11 @@ class PatternsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.patterns.pattern-edit', [
+        return view('administration-lte-2.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors,
             'categories' => $uniformCategories
         ]);
-        }
-        else {
-            return redirect('administration');
-        }
     }
 
     public function addPatternForm()
