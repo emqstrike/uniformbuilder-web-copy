@@ -11437,6 +11437,29 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.blockPatternsAlias = {
+
+        items: [
+            {
+                sport: 'Basketball',
+                name: '2018 Basketball Jersey',
+                alias: 'SFN Jersey',
+            },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
+
+        }
+
+    }
+
     ub.data.neckOptionsAlias = {
 
         items: [

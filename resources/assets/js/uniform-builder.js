@@ -7303,9 +7303,15 @@ $(document).ready(function () {
 
                 if (option === null) { return; }
 
+                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+
+                _alias = ub.data.blockPatternsAlias.getAlias(_alias);
+
                 _blockPatternsCollection.push({
-                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+
+                    alias: _alias,
                     item: option,
+
                 });
 
             });
