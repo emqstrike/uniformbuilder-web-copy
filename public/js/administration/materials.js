@@ -642,7 +642,7 @@ $(document).ready(function() {
                 cornerBackgroundColor: 'blue'
             },
             tl: {
-                icon: 'http://52.39.10.209/rotate.svg'
+                // icon: 'http://52.39.10.209/rotate.svg'
             }
         });
         group.setControlsVisibility({
@@ -1312,7 +1312,7 @@ $(document).ready(function() {
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-guide").css("background-image", "url("+material.option.guide+")");
-        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
+        // $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
         $('#app-material-brand').val(material.brand);
@@ -1680,7 +1680,7 @@ $(document).ready(function() {
                     // cornerPadding: 5
                 },
                 tl: {
-                    icon: 'http://52.39.10.209/rotate.svg'
+                    // icon: 'http://52.39.10.209/rotate.svg'
                 }
             });
             group.setControlsVisibility({
