@@ -54,6 +54,23 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Gender</label>
+                            <div class="col-md-6">
+                                <select name="gender" class="form-control">
+                                    <option value="men">Men</option>
+                                    <option value="women">Women</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="text" name="alias" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-2 control-label">Neck Options
                             <div>
                                 <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
@@ -66,6 +83,7 @@
                                             <th>Name</th>
                                             <th>Preview File</th>
                                             <th>New File</th>
+                                            <th>Alias</th>
                                             <th>Placeholder Overrides</th>
                                             <th></th>
                                         </tr>
@@ -80,6 +98,9 @@
                                             </td>
                                             <td>
                                                 <input type="file" class="neck-option-file layer1" name="neck_option_image[]">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control neck-option-alias layer1" name="neck_option_alias[]">
                                             </td>
                                             <td>
                                                 <textarea  class="neck-option-placeholder-overrides form-control layer1" name="neck_option_placeholder_overrides"  autosized></textarea>

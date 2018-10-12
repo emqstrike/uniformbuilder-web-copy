@@ -60,6 +60,22 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Gender</label>
+                            <div class="col-md-6">
+                                <select name="gender" class="form-control">
+                                    <option value="men" @if ($block_pattern->gender == 'men') selected="selected" @endif>Men</option>
+                                    <option value="women" @if ($block_pattern->gender == 'women') selected="selected" @endif>Women</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="text" name="alias" class="form-control" value="{{ $block_pattern->alias }}">
+                            </div>
+                        </div>
 
                         <div class="row form-group">
                             <div class="col-md-12">
@@ -75,6 +91,7 @@
                                                 <th >Name</th>
                                                 <th>Preview File</th>
                                                 <th>New File</th>
+                                                <th>Alias</th>
                                                 <th>Placeholder Overrides</th>
                                                 <th></th>
                                             </tr>
