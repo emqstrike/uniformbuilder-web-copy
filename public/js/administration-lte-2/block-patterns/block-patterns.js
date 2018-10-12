@@ -21,6 +21,9 @@ $(document).ready(function(){
                                                 <input type="file" class="neck-option-file layer1" name="neck_option_image[]">
                                             </td>
                                             <td>
+                                                <input type="text" class="neck-option-alias layer1" name="neck_option_alias[]">
+                                            </td>
+                                            <td>
                                                 <textarea class="neck-option-placeholder-overrides form-control layer1" name="neck_option_placeholder_overrides"  autosized></textarea>
                                             </td>
                                             <td>
@@ -39,7 +42,7 @@ $(document).ready(function(){
 
     updater();
     function updater(edit){
-        $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
+        $('.neck-option-name, .neck-option-placeholder-overrides, .neck-option-alias').keyup(function(){
             var length = $('.layers-row').length;
             updateJSON(length, edit);
         });
@@ -138,6 +141,7 @@ $(document).ready(function(){
                 layers_properties[ctr] = {};
                 layers_properties[ctr]['name'] = {};
                 layers_properties[ctr]['thumbnail_path'] = {};
+                layers_properties[ctr]['alias'] = {};
                 layers_properties[ctr]['placeholder_overrides'] = {};
 
                 $(this).find('.neck-option-name').removeClass().addClass("neck-option-name");
@@ -149,6 +153,11 @@ $(document).ready(function(){
                 $(this).find('.neck-option-file').addClass(thisLayer);
                 var file_class = ".neck-option-file.layer" + ctr;
                 $(this).find(file_class).addClass('neck-option-file');
+
+                $(this).find('.neck-option-alias').removeClass().addClass('neck-option-alias');
+                $(this).find('.neck-option-alias').addClass(thisLayer);
+                var alias_class = '.neck-option-alias.layer' + ctr;
+                $(this).find(alias_class).addClass('neck-option-alias');
 
                 $(this).find('.neck-option-placeholder-overrides').removeClass().addClass("neck-option-placeholder-overrides");
                 $(this).find('.neck-option-placeholder-overrides').addClass(thisLayer);
@@ -162,7 +171,7 @@ $(document).ready(function(){
 
                 layers_properties[ctr]['name'] = $(this).find(name_class).val();
                 layers_properties[ctr]['placeholder_overrides'] = $(this).find(placeholder_class).val();
-                
+                layers_properties[ctr]['alias'] = $(this).find(alias_class).val();
                 layers_properties[ctr]['thumbnail_path'] = $(this).find(existing_file_class).val();
             }
             ctr++;
@@ -204,6 +213,7 @@ $(document).ready(function(){
             var name            = '<td><input type="text" class="neck-option-name form-control layer' + x + '" value="' + data[x].name + '" name="neck_option_name[]"></td>';
             var file            = '<td><input type="file" class="neck-option-file layer' + x + '" name="neck_option_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].thumbnail_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
+            var alias           = '<td><input type="text" class="neck-option-alias layer' + x + '" name="neck_option_alias[]" value="' + data[x].alias + '"></td>'
             var placeholder     = '<td><textarea class="neck-option-placeholder-overrides form-control layer" name="neck_option_placeholder_overrides"  autosized>'+ data[x].placeholder_overrides +'</textarea></td>';
             var remove          = '<td><a class="btn btn-flat btn-danger btn-xs btn-remove-option"><i class="fa fa-remove"></i> Remove</a></td>';
             var close           = '<tr>';
@@ -212,7 +222,7 @@ $(document).ready(function(){
                 thumbnail = '<td><img src="https://via.placeholder.com/30x30?text=."><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
             }
 
-            $('#layers-row-container').append( open + name + existing_file + thumbnail + file + placeholder + remove + close );
+            $('#layers-row-container').append( open + name + existing_file + thumbnail + file + alias + placeholder + remove + close );
             x++;
 
             $('.btn-remove-option').on('click', function(){
@@ -222,6 +232,11 @@ $(document).ready(function(){
             });
 
             $('.neck-option-name').keyup(function(){
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+            });
+
+            $('.neck-option-alias').keyup(function(){
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
             });

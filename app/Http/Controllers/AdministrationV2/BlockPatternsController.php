@@ -69,7 +69,9 @@ class BlockPatternsController extends Controller
         $data = [
             'name' => $name,
             'uniform_category_id' => $uniformCategoryID,
-            'placeholder_overrides' => $placeholderOverrides
+            'placeholder_overrides' => $placeholderOverrides,
+            'gender' => $request->input('gender'),
+            'alias' => $request->input('alias')
         ];
 
         $id = null;
