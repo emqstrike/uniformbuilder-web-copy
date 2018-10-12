@@ -1144,14 +1144,19 @@
 
             <div class="header">
                 
-                <div class="">Select Application Type for Location <strong>#@{{id}}</strong></div>
+                <div class="">Select Application Type for Location <strong>#@{{ id }}</strong></div>
                 <div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>
 
                 <div class="body">
 
-                    <div data-type="player_number" class="optionButton @{{deactivated}} @{{currentlySelectedType}}">
-
-                    </div>
+                    @{{#application_types}}
+                        <div data-type="@{{ types.type }}" class="optionButton @{{ types.deactivated }} @{{ types.currentlySelectedType }}">
+                            <div class="icon">
+                                <img src="@{{ types.icon }}">
+                            </div>
+                            <div class="caption">@{{ types.label }} @{{ types.selected }}</div>
+                        </div>
+                    @{{/application_types}}
                         
                 </div>
 
