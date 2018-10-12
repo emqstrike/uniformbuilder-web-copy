@@ -216,6 +216,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@index']);
         Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@reply']);
         Route::get('feedback/thread/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@viewThread']);
+
+        Route::get('points_of_measures', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PointsOfMeasuresController@index']);
     });
 
     // Logins
