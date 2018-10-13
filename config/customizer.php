@@ -6,6 +6,8 @@ return [
 
     'api_host' => env('API_HOST'),
 
+    'enabled_https' => env('ENABLE_HTTPS', false),
+
     'vendor' => [
 
         'code' => env('VENDOR_CODE', 'prolook'),
