@@ -9926,96 +9926,101 @@ $(document).ready(function () {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
             var _validApplicationTypes = _settingsObject.validApplicationTypes;
 
-            _htmlBuilder = '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
-            _htmlBuilder += '<div class="header">';
-            _htmlBuilder += '<div class="">@@Select Application Type for Location <strong>#' + _id + '</strong></div>';
-            _htmlBuilder += '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
-            _htmlBuilder += '<div class="body">';
+            // _htmlBuilder = '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+            // _htmlBuilder += '<div class="header">';
+            // _htmlBuilder += '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+            // _htmlBuilder += '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
+            // _htmlBuilder += '<div class="body">';
+            //
+            // var _deactivated = '';
+            // var _currentlySelectedType = '';
+            // var _selected = ''
+            //
+            // if (!_.contains(_validApplicationTypes, 'number')) {
+            //     _deactivated = 'deactivatedOptionButton';
+            // }
+            // if (_applicationType === 'front_number' || _applicationType === 'back_number') {
+            //     _currentlySelectedType = 'currentlySelectedType';
+            //     _selected = '(current)';
+            // }
+            //
+            // _htmlBuilder += '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+            // _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+            // _htmlBuilder += '<div class="caption">Player Number ' + _selected + '</div>';
+            // _htmlBuilder += '</div>';
+            // _deactivated = '';
+            // _currentlySelectedType = '';
+            // _selected = '';
+            //
+            // if (!_.contains(_validApplicationTypes, 'team_name')) {
+            //     _deactivated = 'deactivatedOptionButton';
+            // }
+            // if (_applicationType === 'team_name') {
+            //     _currentlySelectedType = 'currentlySelectedType';
+            //     _selected = '(current)';
+            // }
+            //
+            // _htmlBuilder += '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+            // _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+            // _htmlBuilder += '<div class="caption">Team Name ' + _selected + '</div>';
+            // _htmlBuilder += '</div>';
+            //
+            // _htmlBuilder += '<br />';
+            // _deactivated = '';
+            // _currentlySelectedType = '';
+            // _selected = '';
+            //
+            // if (!_.contains(_validApplicationTypes, 'player_name')) {
+            //     _deactivated = 'deactivatedOptionButton';
+            // }
+            // if (_applicationType === 'player_name') {
+            //     _currentlySelectedType = 'currentlySelectedType';
+            //     _selected = '(current)';
+            // }
+            //
+            // _htmlBuilder += '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+            // _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+            // _htmlBuilder += '<div class="caption">Player Name ' + _selected + '</div>';
+            // _htmlBuilder += '</div>';
+            // _deactivated = '';
+            // _currentlySelectedType = '';
+            // _selected = '';
+            //
+            // if (!_.contains(_validApplicationTypes, 'logo')) {
+            //     _deactivated = 'deactivatedOptionButton';
+            // }
+            // if (_applicationType === 'mascot') {
+            //     _currentlySelectedType = 'currentlySelectedType';
+            //     _selected = '(current)';
+            // }
+            //
+            // _htmlBuilder += '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+            // _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+            // _htmlBuilder += '<div class="caption">Stock Mascot ' + _selected + '</div>';
+            // _htmlBuilder += '</div>';
+            //
+            // //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+            // //if (ub.config.uniform_application_type === "tackle_twill" || ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+            // if (!_.contains(_validApplicationTypes, 'embellishments')) {
+            //     _deactivated = 'deactivatedOptionButton';
+            // }
+            // //}
+            //
+            // _htmlBuilder += '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+            // _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+            // _htmlBuilder += '<div class="caption">Custom Mascot</div>';
+            // _htmlBuilder += '</div>';
+            //
+            // _htmlBuilder += '</div>';
+            // _htmlBuilder += "</div>";
+            // _deactivated = '';
+            // _currentlySelectedType = '';
+            // _selected = '';
 
-            var _deactivated = '';
-            var _currentlySelectedType = '';
-            var _selected = ''
+            var vAppTypes = ub.funcs.selectApplicationTypeLocation(_id, _applicationType, _validApplicationTypes);
 
-            if (!_.contains(_validApplicationTypes, 'number')) {
-                _deactivated = 'deactivatedOptionButton';
-            }
-            if (_applicationType === 'front_number' || _applicationType === 'back_number') {
-                _currentlySelectedType = 'currentlySelectedType';
-                _selected = '(current)';
-            }
-
-            _htmlBuilder += '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
-            _htmlBuilder += '<div class="caption">Player Number ' + _selected + '</div>';
-            _htmlBuilder += '</div>';
-            _deactivated = '';
-            _currentlySelectedType = '';
-            _selected = '';
-
-            if (!_.contains(_validApplicationTypes, 'team_name')) {
-                _deactivated = 'deactivatedOptionButton';
-            }
-            if (_applicationType === 'team_name') {
-                _currentlySelectedType = 'currentlySelectedType';
-                _selected = '(current)';
-            }
-
-            _htmlBuilder += '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-            _htmlBuilder += '<div class="caption">Team Name ' + _selected + '</div>';
-            _htmlBuilder += '</div>';
-
-            _htmlBuilder += '<br />';
-            _deactivated = '';
-            _currentlySelectedType = '';
-            _selected = '';
-
-            if (!_.contains(_validApplicationTypes, 'player_name')) {
-                _deactivated = 'deactivatedOptionButton';
-            }
-            if (_applicationType === 'player_name') {
-                _currentlySelectedType = 'currentlySelectedType';
-                _selected = '(current)';
-            }
-
-            _htmlBuilder += '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-            _htmlBuilder += '<div class="caption">Player Name ' + _selected + '</div>';
-            _htmlBuilder += '</div>';
-            _deactivated = '';
-            _currentlySelectedType = '';
-            _selected = '';
-
-            if (!_.contains(_validApplicationTypes, 'logo')) {
-                _deactivated = 'deactivatedOptionButton';
-            }
-            if (_applicationType === 'mascot') {
-                _currentlySelectedType = 'currentlySelectedType';
-                _selected = '(current)';
-            }
-
-            _htmlBuilder += '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-            _htmlBuilder += '<div class="caption">Stock Mascot ' + _selected + '</div>';
-            _htmlBuilder += '</div>';
-
-            //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
-            //if (ub.config.uniform_application_type === "tackle_twill" || ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
-            if (!_.contains(_validApplicationTypes, 'embellishments')) {
-                _deactivated = 'deactivatedOptionButton';
-            }
-            //}
-
-            _htmlBuilder += '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
-            _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-            _htmlBuilder += '<div class="caption">Custom Mascot</div>';
-            _htmlBuilder += '</div>';
-
-            _htmlBuilder += '</div>';
-            _htmlBuilder += "</div>";
-            _deactivated = '';
-            _currentlySelectedType = '';
-            _selected = '';
+            // send to mustache
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-choices', vAppTypes);
 
             $('.modifier_main_container').append(_htmlBuilder);
             $('div#changeApplicationUI').fadeIn().data('status', 'visible');
