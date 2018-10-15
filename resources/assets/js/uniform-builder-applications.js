@@ -7538,7 +7538,7 @@ $(document).ready(function () {
 
     // }
 
-    ub.funcs.selectApplicationType =  function (_id, _applicationType, _validApplicationTypes) {
+    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {
         var _types = [
             {
                 'types': {
@@ -7984,7 +7984,7 @@ $(document).ready(function () {
 
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
             var _validApplicationTypes = _settingsObject.validApplicationTypes;
-            var vAppTypes = ub.funcs.selectApplicationType(_id, _applicationType, _validApplicationTypes);
+            var vAppTypes = ub.funcs.selectApplicationTypeLocation(_id, _applicationType, _validApplicationTypes);
 
             // send template to mustache
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-choices', vAppTypes);
