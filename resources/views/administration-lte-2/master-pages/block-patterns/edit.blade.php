@@ -66,6 +66,7 @@
                                 <select name="gender" class="form-control">
                                     <option value="men" @if ($block_pattern->gender == 'men') selected="selected" @endif>Men</option>
                                     <option value="women" @if ($block_pattern->gender == 'women') selected="selected" @endif>Women</option>
+                                    <option value="unisex" @if ($block_pattern->gender == 'unisex') selected="selected" @endif>Unisex</option>
                                 </select>
                             </div>
                         </div>
