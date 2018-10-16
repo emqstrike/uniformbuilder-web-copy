@@ -1150,7 +1150,7 @@
                 <div class="body">
 
                     @{{#application_types}}
-                        <div data-type="@{{ types.type }}" class="optionButton @{{ types.deactivated }} @{{ types.currentlySelectedType }}">
+                        <div data-type="@{{ types.dataType }}" class="optionButton @{{ types.deactivated }} @{{ types.currentlySelectedType }}">
                             <div class="icon">
                                 <img src="@{{ types.icon }}">
                             </div>

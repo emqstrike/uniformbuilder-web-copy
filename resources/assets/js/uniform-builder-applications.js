@@ -7546,6 +7546,7 @@ $(document).ready(function () {
             {
                 'types': {
                     'type': 'number',
+                    'dataType': 'player_number',
                     'label': 'Player Number',
                     'icon': '/images/main-ui/icon-number-large.png'
                 }
@@ -7553,6 +7554,7 @@ $(document).ready(function () {
             {
                 'types': {
                     'type': 'team_name',
+                    'dataType': 'team_name',
                     'label': 'Team Name',
                     'icon': '/images/main-ui/icon-text-large.png'
                 }
@@ -7560,6 +7562,7 @@ $(document).ready(function () {
             {
                 'types': {
                     'type': 'player_name',
+                    'dataType': 'player_name',
                     'label': 'Player Name',
                     'icon': '/images/main-ui/icon-text-large.png'
                 }
@@ -7567,6 +7570,7 @@ $(document).ready(function () {
             {
                 'types': {
                     'type': 'logo',
+                    'dataType': 'mascot',
                     'label': 'Stock Mascot',
                     'icon': '/images/main-ui/icon-mascot-large.png'
                 }
@@ -7574,6 +7578,7 @@ $(document).ready(function () {
             {
                 'types': {
                     'type': 'embellishments',
+                    'dataType': 'embellishments',
                     'label': 'Custom Mascot',
                     'icon': '/images/main-ui/icon-embellishments-large.png'
                 }
