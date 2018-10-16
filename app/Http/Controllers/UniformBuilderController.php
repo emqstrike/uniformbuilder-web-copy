@@ -76,8 +76,6 @@ class UniformBuilderController extends Controller
     public function showBuilder($config = [])
     {
 
-        Log::info('Load Builder');
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -548,9 +546,9 @@ class UniformBuilderController extends Controller
 
 //        Log::info('(Request Before) Code  ' . $code);
 //        Log::info('(Request Before) !isNull  ' . !is_null($code));
-        Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
-        Log::info('(Request Before) Team Colors  ' . $request->team_colors);
-        Log::info('Request Object ' . $request);
+        if (config('app.debug')) Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
+        if (config('app.debug')) Log::info('(Request Before) Team Colors  ' . $request->team_colors);
+        if (config('app.debug')) Log::info('Request Object ' . $request);
 
         return $this->showBuilder($config);
 
@@ -666,7 +664,7 @@ class UniformBuilderController extends Controller
         {
             $config['product_id'] = $product_id;
         }
-        Log::info(print_r($config, true));
+        if (config('app.debug')) Log::info(print_r($config, true));
     }
 
     public function fileUpload(Request $request) {
