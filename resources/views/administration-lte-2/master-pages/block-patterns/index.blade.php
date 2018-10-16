@@ -89,6 +89,8 @@
                                 <th>Options</th>
                                 <th>Thumbnail</th>
                                 <th>Sport</th>
+                                <th>Gender</th>
+                                <th>Alias</th>
                                 <th>Placeholder Overrides</th>
                                 <th>Active</th>
                                 <th></th>
@@ -146,6 +148,9 @@
                                     <td>
                                         {{ $block_pattern->uniform_category }}
                                     </td>
+
+                                    <td>{{ $block_pattern->gender }}</td>
+                                    <td>{{ $block_pattern->alias }}</td>
 
                                     <td>
                                         @if ( !isset($block_pattern->placeholder_overrides) || $block_pattern->placeholder_overrides == "" )
