@@ -36,6 +36,7 @@
                       <select class="form-control input-category-type" name="type" required>
                         <option value="sports">Sports</option>
                         <option value="apparel">Apparel</option>
+                        <option value="esports">eSports</option>
                       </select>
                   </div>
                    <div class="form-group">
