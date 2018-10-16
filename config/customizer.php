@@ -6,7 +6,7 @@ return [
 
     'api_host' => env('API_HOST'),
 
-    'enabled_https' => env('ENABLE_HTTPS', false),
+    'enabled_https' => env('ENABLE_HTTPS', true),
 
     'vendor' => [
 
