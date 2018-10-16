@@ -7550,7 +7550,13 @@ $(document).ready(function () {
                     'icon': '/images/main-ui/icon-number-large.png'
                 }
             },
-            {'types': {'type': 'team_name', 'label': 'Team Name', 'icon': '/images/main-ui/icon-text-large.png'}},
+            {
+                'types': {
+                    'type': 'team_name',
+                    'label': 'Team Name',
+                    'icon': '/images/main-ui/icon-text-large.png'
+                }
+            },
             {
                 'types': {
                     'type': 'player_name',
@@ -7558,7 +7564,13 @@ $(document).ready(function () {
                     'icon': '/images/main-ui/icon-text-large.png'
                 }
             },
-            {'types': {'type': 'logo', 'label': 'Stock Mascot', 'icon': '/images/main-ui/icon-mascot-large.png'}},
+            {
+                'types': {
+                    'type': 'logo',
+                    'label': 'Stock Mascot',
+                    'icon': '/images/main-ui/icon-mascot-large.png'
+                }
+            },
             {
                 'types': {
                     'type': 'embellishments',
