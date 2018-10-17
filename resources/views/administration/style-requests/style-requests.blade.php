@@ -14,6 +14,10 @@
             border-radius: 4px;
         }
 
+        .custom-alert.alert-danger {
+            margin-bottom: 15px;
+        }
+
         #my-awesome-dropzone {
             border: dashed 1px black;
         }
