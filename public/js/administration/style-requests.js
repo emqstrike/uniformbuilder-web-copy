@@ -123,8 +123,8 @@ $(function() {
 
     $(document).on('click', '.save-data', function(e) {
         e.preventDefault();
-        $('#.custom-alert.alert-danger .alert.alert-danger').fadeOut();
-        $('#.custom-alert.alert-danger .alert.alert-danger ul').remove();
+        $('#myModal .custom-alert.alert-danger').fadeOut();
+        $('#myModal .custom-alert.alert-danger ul').remove();
 
         if ($('.enable_custom_bp').is(':checked')) {
             var block_pattern = $('.custom_block_pattern').val();
@@ -213,15 +213,15 @@ $(function() {
 
                     html += "</ul>";
 
-                    $('#.custom-alert.alert-danger .alert.alert-danger').append(html);
-                    $('#.custom-alert.alert-danger .alert.alert-danger').fadeIn();
+                    $('#myModal .custom-alert.alert-danger').append(html);
+                    $('#myModal .custom-alert.alert-danger').fadeIn();
                 }
                 
                 if (response.success == true) {
                     var oTable = $('.data-table').DataTable();
                     oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
 
-                    $('#.custom-alert.alert-danger').modal('hide');
+                    $('#myModal').modal('hide');
 
                     if (! is_update) {
                         window.location.reload();
@@ -355,7 +355,7 @@ $(function() {
         window.rowIndex = oTable.row(this).index();
     });
 
-    $("#.custom-alert.alert-danger").on("hidden.bs.modal", function() {
+    $("#myModal").on("hidden.bs.modal", function() {
         window.sport_value = null;
         buildSportsDropdown();
         $('.sport').trigger('change');
@@ -383,8 +383,8 @@ $(function() {
         $('.design-sheet-path').val('');
         $('.brand').val('none');
 
-        $('#.custom-alert.alert-danger .alert.alert-danger').fadeOut();
-        $('#.custom-alert.alert-danger .alert.alert-danger ul').remove();
+        $('#myModal .custom-alert.alert-danger').fadeOut();
+        $('#myModal .custom-alert.alert-danger ul').remove();
     });
 
     $('.enable_custom_bp').on('change', function() {
@@ -457,7 +457,7 @@ $(function() {
             $('.is_fixed').prop('checked', false);
         }
 
-        $('#.custom-alert.alert-danger').modal('show');
+        $('#myModal').modal('show');
     }
 
     $('#style_requests_table').on('click', '.view-notes', function(e){
