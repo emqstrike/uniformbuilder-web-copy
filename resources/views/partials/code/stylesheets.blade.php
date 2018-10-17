@@ -22,3 +22,7 @@
     <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
+
+    <link rel="stylesheet" href="{{$asset_storage}}/uikit/dist/css/uikit.css?v={{$asset_version}}">
+    <link rel="stylesheet" href="{{$asset_storage}}/uikit/dist/js/uikit.min.js?v={{$asset_version}}">
+

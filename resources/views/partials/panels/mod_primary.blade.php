@@ -35,10 +35,14 @@
     
     </div>
 
-    <div class="options_panel_section modifier_main_container" id="primary_options_container">
-        
-        <div id="primary_options_colors" class="mod_primary_panels" data-type="color" style='float: left; display: none;'>
-            
+    <div class="options_panel_section modifier_main_container" id="primary_options_containers">
+        <div class="" style="text-transform: uppercase; color: #ffffff;">
+            <h4 class="header" style="font-weight: bolder;">Base Color</h4>
+            <p style="font-weight: bold;">Choose color / Pattern</p>
+                <p>COLOR</p>
+        </div>
+        {{-- <div id="primary_options_colors" class="mod_primary_panels" data-type="color" style='float: left; display: none;'>
+
         </div>
 
         <div id="primary_options_patterns" class="mod_primary_panels" data-type="pattern">
@@ -63,7 +67,7 @@
 
             <div class="primary_header">Number </div>
 
-        </div>
+        </div> --}}
 
     </div>
 
