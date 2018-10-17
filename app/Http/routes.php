@@ -92,16 +92,9 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 });
 
-Route::get('test_sample', function() {
-    return route('fabrics');
-});
 
 // Administration Routes
 Route::group(array('prefix' => 'administration', 'middleware' => 'disablePreventBack'), function() {
-
-    Route::group(array('prefix' => 'master_pages'), function() {
-    });
-
     Route::get('custom_artwork_requests', 'Administration\CustomArtworkRequestController@index')->name('indexCustomArtworkRequests');
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
