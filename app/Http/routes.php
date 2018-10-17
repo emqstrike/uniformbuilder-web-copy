@@ -159,7 +159,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_store_block_pattern');
         Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@store'])->name('v1_update_block_pattern');
 
-        Route::get('saved_designs/{page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
+        Route::get('saved_designs/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
         Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
 
         /* Materials */
