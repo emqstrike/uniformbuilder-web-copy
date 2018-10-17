@@ -883,7 +883,10 @@ $(document).ready(function() {
             // isSublimated: _isSublimated,
             // templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: 'hidden',
-            cogVisibility: 'hidden'
+            cogVisibility: 'hidden',
+            tailSweepsTabVisibility: 'hidden',
+            colorTabVisibility: 'hidden',
+            patternsTabVisibility: 'hidden'
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);

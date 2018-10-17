@@ -7849,7 +7849,10 @@ $(document).ready(function () {
             isSublimated: _isSublimated,
             templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: 'hidden',
-            cogVisibility: 'show'
+            cogVisibility: '',
+            tailSweepsTabVisibility: 'hidden',
+            colorTabVisibility: '',
+            patternsTabVisibility: 'hidden'
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
@@ -9587,6 +9590,7 @@ $(document).ready(function () {
         var _colorArray = _settingsObject.color_array;
         var _colorArrayString = '';
         var _generateSizes = '';
+        var _tailSweepsTabVisibility = '';
 
         ub.updateApplicationSpecsPanel(_id);
 
@@ -9678,11 +9682,12 @@ $(document).ready(function () {
         // _htmlBuilder += '<span class="tab" data-item="patterns">Patterns</span>';
         // _htmlBuilder += '<span class="tab" data-item="manipulators"></span>';
         //
-        // if (ub.funcs.isCurrentSport('Baseball')) {
-        //
-        //     _htmlBuilder += '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
-        //
-        // }
+        if (ub.funcs.isCurrentSport('Baseball')) {
+
+            // _htmlBuilder += '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
+            _tailSweepsTabVisibility = '';
+
+        }
         //
         // _htmlBuilder += '</div>';
         // _htmlBuilder += '<div class="ui-row">';
@@ -9820,8 +9825,11 @@ $(document).ready(function () {
             // colorPickers: _colorPickers,
             // isSublimated: _isSublimated,
             // templateStrManipulators: _templateStrManipulators,
-            sampleTextContainerVisibility: 'show',
-            cogVisibility: 'hidden'
+            sampleTextContainerVisibility: '',
+            cogVisibility: 'hidden',
+            tailSweepsTabVisibility: _tailSweepsTabVisibility,
+            colorTabVisibility: '',
+            patternsTabVisibility: ''
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);

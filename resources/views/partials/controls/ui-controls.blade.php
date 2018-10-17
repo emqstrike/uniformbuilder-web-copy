@@ -1039,7 +1039,7 @@
 <!-- End New Mascot Picker -->
 
 
-<!-- New Mascot UI -->
+<!-- New Application UI -->
 
     <script type="text/mustache" id="m-application-ui">
 
@@ -1085,52 +1085,54 @@
                     @{{{ generateSizes }}}
                 </div>
 
-                {{--<div class="clearfix"></div>--}}
+                <div class="clearfix"></div>
 
-                {{--<div class="color-pattern-tabs">--}}
-                    {{--<span class="tab active" data-item="colors">Colors</span>--}}
-                    {{--<span class="tab" data-item="manipulators"></span>--}}
-                {{--</div>--}}
+                <div class="color-pattern-tabs">
+                    <span class="tab active @{{ colorTabVisibility }}" data-item="colors">Colors</span>
+                    <span class="tab @{{ patternsTabVisibility }}" data-item="patterns">Patterns</span>
+                    <span class="tab" data-item="manipulators"></span>
+                    <span class="tab @{{ tailSweepsTabVisibility }}" data-item="tailsweeps">Tail Sweeps</span>
+                </div>
 
-                {{--<div class="ui-row">--}}
+                <div class="ui-row">
 
-                    {{--<div class="column1 applications colors">--}}
+                    <div class="column1 applications colors">
 
-                        {{--<div class="sub1">--}}
+                        <div class="sub1">
 
-                            {{--<br />--}}
-                            {{--<span class="accentThumb"><img src="@{{mascotIcon}}"/></span>--}}
-                            {{--<span class="accent">Change Mascot</span>--}}
-                            {{--<br />--}}
+                            <br />
+                            <span class="accentThumb"><img src="@{{mascotIcon}}"/></span>
+                            <span class="accent">Change Mascot</span>
+                            <br />
 
-                            {{--@{{#isCustomLogo}}--}}
-                                {{--<a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>--}}
-                                {{--<br /><br />--}}
-                            {{--@{{/isCustomLogo}}--}}
+                            @{{#isCustomLogo}}
+                                <a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>
+                                <br /><br />
+                            @{{/isCustomLogo}}
 
-                            {{--<span class="flipButton">Flip</span>--}}
+                            <span class="flipButton">Flip</span>
 
-                        {{--</div>--}}
+                        </div>
 
-                        {{--<div class="colorContainer">--}}
+                        <div class="colorContainer">
 
-                            {{--@{{{colorPickers}}}--}}
+                            @{{{colorPickers}}}
 
-                            {{--@{{#isSublimated}}--}}
-                                {{--<br/>--}}
-                                {{--<span class="watermark-intensity">Watermark Intensity:</span>--}}
-                                {{--<input type="text" id="opacity-slider" value="" />--}}
-                            {{--@{{/isSublimated}}--}}
+                            @{{#isSublimated}}
+                                <br/>
+                                <span class="watermark-intensity">Watermark Intensity:</span>
+                                <input type="text" id="opacity-slider" value="" />
+                            @{{/isSublimated}}
 
-                        {{--</div>--}}
+                        </div>
 
-                    {{--</div>--}}
+                    </div>
 
-                    {{--<div class="column1 applications manipulators">--}}
-                        {{--@{{{templateStrManipulators}}}--}}
-                    {{--</div>--}}
+                    <div class="column1 applications manipulators">
+                        @{{{templateStrManipulators}}}
+                    </div>
 
-                {{--</div>--}}
+                </div>
 
             </div>
 
@@ -1138,7 +1140,7 @@
 
     </script>
 
-<!-- End New Mascot UI -->
+<!-- End New Application UI -->
 
 
 <!-- New Application UI Choices -->
