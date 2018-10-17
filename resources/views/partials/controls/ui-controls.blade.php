@@ -1041,7 +1041,7 @@
 
 <!-- New Mascot UI -->
 
-    <script type="text/mustache" id="m-mascot-ui">
+    <script type="text/mustache" id="m-application-ui">
 
         <div id="applicationUI" data-application-id="@{{id}}">
 
@@ -1054,13 +1054,13 @@
                     </div>
                 </div>
 
-                <div class="applicationType">[@{{id}}] Stock Mascot
-                    <span class="changeApplicationType">
+                <div class="applicationType">[@{{ id }}] @{{ appType  }}
+                    <span class="changeApplicationType" data-type="@{{ applicationType }}">
                         <i class="fa fa-caret-down" aria-hidden="true"></i>
                     </span>
                 </div>
 
-                <span class="cog" style=""><i class="fa fa-cog" aria-hidden="true"></i></span>
+                <span class="cog @{{ cogVisibility }}"><i class="fa fa-cog" aria-hidden="true"></i></span>
 
             </div>
 
@@ -1068,64 +1068,69 @@
 
                 <div class="cover"></div>
 
-                <div class="ui-row">
-                    <label class="applicationLabels font_name">Stock Mascot</label>
-                    <span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
-                    <span class="font_name" style="font-size: 1.2em; font-family: @{{mascotName}};">@{{mascotName}}</span>
-                    <span class="fontRight" data-direction="next" style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                <div class="ui-row @{{ sampleTextContainerVisibility }}">
+                    <label class="applicationLabels font_name">Sample Text</label>
+                    <input type="text" name="sampleText" class="sampleText" value="@{{ sampleText }}" maxlength="@{{ maxLength }}">
                 </div>
 
                 <div class="ui-row">
-                    <label class="applicationLabels font_size @{{class}}"> @{{label}} </label>
-                    @{{{generateSizes}}}
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div class="color-pattern-tabs">
-                    <span class="tab active" data-item="colors">Colors</span>
-                    <span class="tab" data-item="manipulators"></span>
+                    <label class="applicationLabels font_name">@{{ appLabel }}</label>
+                    <span class="fontLeft" data-direction="previous" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                    <span class="font_name" style="font-size: 1.2em; font-family: @{{  mascotFontName }};">@{{  mascotFontCaption }}</span>
+                    <span class="fontRight" data-direction="next" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
                 </div>
 
                 <div class="ui-row">
-                    
-                    <div class="column1 applications colors">
-                        
-                        <div class="sub1">
-                            
-                            <br />
-                            <span class="accentThumb"><img src="@{{mascotIcon}}"/></span>
-                            <span class="accent">Change Mascot</span>
-                            <br />
-
-                            @{{#isCustomLogo}}
-                                <a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>
-                                <br /><br />
-                            @{{/isCustomLogo}}
-
-                            <span class="flipButton">Flip</span>
-
-                        </div>
-
-                        <div class="colorContainer">
-                            
-                            @{{{colorPickers}}}
-
-                            @{{#isSublimated}}
-                                <br/>
-                                <span class="watermark-intensity">Watermark Intensity:</span>
-                                <input type="text" id="opacity-slider" value="" />
-                            @{{/isSublimated}}
-
-                        </div>
-
-                    </div>
-
-                    <div class="column1 applications manipulators">
-                        @{{{templateStrManipulators}}}
-                    </div>
-
+                    <label class="applicationLabels font_size @{{class}}"> @{{ label }} </label>
+                    @{{{ generateSizes }}}
                 </div>
+
+                {{--<div class="clearfix"></div>--}}
+
+                {{--<div class="color-pattern-tabs">--}}
+                    {{--<span class="tab active" data-item="colors">Colors</span>--}}
+                    {{--<span class="tab" data-item="manipulators"></span>--}}
+                {{--</div>--}}
+
+                {{--<div class="ui-row">--}}
+
+                    {{--<div class="column1 applications colors">--}}
+
+                        {{--<div class="sub1">--}}
+
+                            {{--<br />--}}
+                            {{--<span class="accentThumb"><img src="@{{mascotIcon}}"/></span>--}}
+                            {{--<span class="accent">Change Mascot</span>--}}
+                            {{--<br />--}}
+
+                            {{--@{{#isCustomLogo}}--}}
+                                {{--<a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>--}}
+                                {{--<br /><br />--}}
+                            {{--@{{/isCustomLogo}}--}}
+
+                            {{--<span class="flipButton">Flip</span>--}}
+
+                        {{--</div>--}}
+
+                        {{--<div class="colorContainer">--}}
+
+                            {{--@{{{colorPickers}}}--}}
+
+                            {{--@{{#isSublimated}}--}}
+                                {{--<br/>--}}
+                                {{--<span class="watermark-intensity">Watermark Intensity:</span>--}}
+                                {{--<input type="text" id="opacity-slider" value="" />--}}
+                            {{--@{{/isSublimated}}--}}
+
+                        {{--</div>--}}
+
+                    {{--</div>--}}
+
+                    {{--<div class="column1 applications manipulators">--}}
+                        {{--@{{{templateStrManipulators}}}--}}
+                    {{--</div>--}}
+
+                {{--</div>--}}
 
             </div>
 

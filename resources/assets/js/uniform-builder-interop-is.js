@@ -745,6 +745,7 @@ $(document).ready(function() {
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
         var _maxLength          = 12;
+        var _generateSizes      = '';
 
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
@@ -752,25 +753,25 @@ $(document).ready(function() {
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _settingsObject.status !== 'undefined') { _status = _settingsObject.status; }
 
-        _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + 'Custom Mascot <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
-        _htmlBuilder        +=      '<div class="body">';
-        _htmlBuilder        +=          '<div class="cover"></div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
-        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';                       
-        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
+        // _htmlBuilder        +=      '<div class="header">';
+        // _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        // _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + 'Custom Mascot <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        // _htmlBuilder        +=      '<div class="body">';
+        // _htmlBuilder        +=          '<div class="cover"></div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        //
+        // _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
+        // _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';
+        // _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';
+        // _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+        //
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
 
         var _label = 'Size';
         var _class = '';
@@ -779,7 +780,7 @@ $(document).ready(function() {
             _label = 'Measurements'; _class = "custom"; 
         }
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
+        // _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
 
         var _inputSizes;
 
@@ -810,59 +811,82 @@ $(document).ready(function() {
             }
 
         }
-   
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _htmlBuilder        +=          '</div>';
+        _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _htmlBuilder        +=          '<div class="clearfix"></div>';
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="clearfix"></div>';
+        //
+        // _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
+        // _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
+        // _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
+        //
+        // _htmlBuilder        +=              '<div class="sub1">';
+        // _htmlBuilder        +=                  '<br />';
+        // _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
+        // _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';
+        //
+        // if (_settingsObject.embellishment.name === 'Custom Logo') {
+        //     _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+        //     _htmlBuilder        +=                  '<br /><br />';
+        // }
+        //
+        // _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';
+        //
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=              '<div class="colorContainer">';
+        // _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';
+        // _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';
+        //
+        // if (ub.config.uniform_application_type === "sublimated") {
+        //     _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
+        //     _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        // }
+        //
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=        '</div>';
+        //
+        // _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
+        //
+        // _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        //
+        // _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+        // _htmlBuilder        +=                  _templateStrManipulators;
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=          '</div>';
+        // _htmlBuilder        +=      '</div>';
+        // _htmlBuilder        +=  '</div>';
 
-        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
-        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
-
-        _htmlBuilder        +=              '<div class="sub1">';
-        _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
-        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
-
-        if (_settingsObject.embellishment.name === 'Custom Logo') {
-            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-            _htmlBuilder        +=                  '<br /><br />';
+        var templateData = {
+            id: _id,
+            status: _status,
+            mascotFontName: _mascotName,
+            mascotFontCaption: _settingsObject.embellishment.name,
+            mascotFontArrowOpacity: 0,
+            class: _class,
+            label: _label,
+            appType: 'Custom Mascot',
+            appLabel: 'Embellishment',
+            generateSizes: _generateSizes,
+            // mascotIcon: _mascotIcon,
+            // isCustomLogo: _isCustomLogo,
+            // customFilename: _customFilename,
+            // colorPickers: _colorPickers,
+            // isSublimated: _isSublimated,
+            // templateStrManipulators: _templateStrManipulators,
+            sampleTextContainerVisibility: 'hidden',
+            cogVisibility: 'hidden'
         }
 
-        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>'; 
-        
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=              '<div class="colorContainer">';   
-        _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
-        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
-        
-        if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-            _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
-        }
-        
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=        '</div>';
-
-        _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
-
-        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-
-        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
-        _htmlBuilder        +=                  _templateStrManipulators;
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=          '</div>';
-        _htmlBuilder        +=      '</div>';
-        _htmlBuilder        +=  '</div>';
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
         
         $('.modifier_main_container').append(_htmlBuilder);
 

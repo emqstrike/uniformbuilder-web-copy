@@ -7767,7 +7767,7 @@ $(document).ready(function () {
 
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') {
-            var _status = _settingsObject.status;
+            _status = _settingsObject.status;
         }
 
         var _label = 'Size', _class = '';
@@ -7834,19 +7834,25 @@ $(document).ready(function () {
         var templateData = {
             id: _id,
             status: _status,
-            mascotName: _mascotName,
+            mascotFontName: _mascotName,
+            mascotFontCaption: _mascotName,
+            mascotFontArrowOpacity: 0,
             class: _class,
             label: _label,
+            appType: 'Stock Mascot',
+            appLabel: 'Stock Mascot',
             generateSizes: _generateSizes,
             mascotIcon: _mascotIcon,
             isCustomLogo: _isCustomLogo,
             customFilename: _customFilename,
             colorPickers: _colorPickers,
             isSublimated: _isSublimated,
-            templateStrManipulators: _templateStrManipulators
+            templateStrManipulators: _templateStrManipulators,
+            sampleTextContainerVisibility: 'hidden',
+            cogVisibility: 'show'
         }
 
-        _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-ui', templateData);
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
 
         $('.modifier_main_container').append(_htmlBuilder);
 
@@ -9483,7 +9489,6 @@ $(document).ready(function () {
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
-        var _sampleText = _settingsObject.text;
         var _applicationType = _settingsObject.application_type;
         var _title = _applicationType.toTitleCase();
         var _sampleText = _settingsObject.text;
@@ -9581,6 +9586,7 @@ $(document).ready(function () {
         var _patternFilename = 'none.png';
         var _colorArray = _settingsObject.color_array;
         var _colorArrayString = '';
+        var _generateSizes = '';
 
         ub.updateApplicationSpecsPanel(_id);
 
@@ -9609,26 +9615,26 @@ $(document).ready(function () {
 
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') {
-            var _status = _settingsObject.status;
+            _status = _settingsObject.status;
         }
 
-        _htmlBuilder = '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder += '<div class="header">';
-        _htmlBuilder += '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder += '<div class="applicationType" data-type="' + _applicationType + '">' + " [" + _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
-        _htmlBuilder += '<div class="body">';
-        _htmlBuilder += '<div class="cover"></div>';
-        _htmlBuilder += '<div class="ui-row">';
-        _htmlBuilder += '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';
-        _htmlBuilder += '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '<div class="ui-row">';
-        _htmlBuilder += '<label class="applicationLabels font_name">Font</label>';
-        _htmlBuilder += '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';
-        _htmlBuilder += '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontCaption + '</span>';
-        _htmlBuilder += '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '<div class="ui-row">';
+        // _htmlBuilder = '<div id="applicationUI" data-application-id="' + _id + '">';
+        // _htmlBuilder += '<div class="header">';
+        // _htmlBuilder += '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        // _htmlBuilder += '<div class="applicationType" data-type="' + _applicationType + '">' + " [" + _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        // _htmlBuilder += '<div class="body">';
+        // _htmlBuilder += '<div class="cover"></div>';
+        // _htmlBuilder += '<div class="ui-row">';
+        // _htmlBuilder += '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';
+        // _htmlBuilder += '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '<div class="ui-row">';
+        // _htmlBuilder += '<label class="applicationLabels font_name">Font</label>';
+        // _htmlBuilder += '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';
+        // _htmlBuilder += '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontCaption + '</span>';
+        // _htmlBuilder += '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '<div class="ui-row">';
 
         var _label = 'Size';
         var _class = '';
@@ -9638,7 +9644,7 @@ $(document).ready(function () {
             _class = "custom";
         }
 
-        _htmlBuilder += '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
+        // _htmlBuilder += '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
 
         if (typeof _settingsObject.font_size === 'undefined') {
 
@@ -9654,41 +9660,41 @@ $(document).ready(function () {
 
         }
 
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
+        _generateSizes = ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
-        _htmlBuilder += '</div>';
+        // _htmlBuilder += '</div>';
 
-        // Rotate Team Name in Baseball and Fastpitch
-        _htmlBuilder += '<div class="ui-row angleItems">';
-        _htmlBuilder += '<label class="applicationLabels font_size">Angle</label>';
-        _htmlBuilder += '<span class="angleItem" data-angle="straight">Straight</span>';
-        _htmlBuilder += '<span class="angleItem" data-angle="rotated">Rotated</span>';
-        _htmlBuilder += '</div>';
-        // End Rotate Team Name in Baseball and Fastpitch
-
-        _htmlBuilder += '<div class="clearfix"></div>';
-        _htmlBuilder += '<div class="color-pattern-tabs">';
-        _htmlBuilder += '<span class="tab active" data-item="colors">Colors</span>';
-        _htmlBuilder += '<span class="tab" data-item="patterns">Patterns</span>';
-        _htmlBuilder += '<span class="tab" data-item="manipulators"></span>';
-
-        if (ub.funcs.isCurrentSport('Baseball')) {
-
-            _htmlBuilder += '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
-
-        }
-
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '<div class="ui-row">';
-
-        _htmlBuilder += '<div class="column1 applications colors">'
-        _htmlBuilder += '<div class="sub1"><br />';
-        _htmlBuilder += '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';
-        _htmlBuilder += '<span class="accent">' + _accentName + '</span>';
-        _htmlBuilder += '<span class="flipButton">Vertical</span>';
-
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '<div class="colorContainer">';
+        // // Rotate Team Name in Baseball and Fastpitch
+        // _htmlBuilder += '<div class="ui-row angleItems">';
+        // _htmlBuilder += '<label class="applicationLabels font_size">Angle</label>';
+        // _htmlBuilder += '<span class="angleItem" data-angle="straight">Straight</span>';
+        // _htmlBuilder += '<span class="angleItem" data-angle="rotated">Rotated</span>';
+        // _htmlBuilder += '</div>';
+        // // End Rotate Team Name in Baseball and Fastpitch
+        //
+        // _htmlBuilder += '<div class="clearfix"></div>';
+        // _htmlBuilder += '<div class="color-pattern-tabs">';
+        // _htmlBuilder += '<span class="tab active" data-item="colors">Colors</span>';
+        // _htmlBuilder += '<span class="tab" data-item="patterns">Patterns</span>';
+        // _htmlBuilder += '<span class="tab" data-item="manipulators"></span>';
+        //
+        // if (ub.funcs.isCurrentSport('Baseball')) {
+        //
+        //     _htmlBuilder += '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
+        //
+        // }
+        //
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '<div class="ui-row">';
+        //
+        // _htmlBuilder += '<div class="column1 applications colors">'
+        // _htmlBuilder += '<div class="sub1"><br />';
+        // _htmlBuilder += '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';
+        // _htmlBuilder += '<span class="accent">' + _accentName + '</span>';
+        // _htmlBuilder += '<span class="flipButton">Vertical</span>';
+        //
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '<div class="colorContainer">';
 
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -9732,67 +9738,93 @@ $(document).ready(function () {
 
         }
 
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '</div>';
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '</div>';
 
-        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        // if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        //
+        //     _htmlBuilder += '<div class="column1 applications tailsweeps">';
+        //     _htmlBuilder += '<div class="sub1 tailSweepThumb"><br />';
+        //     _htmlBuilder += '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';
+        //     _htmlBuilder += '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
+        //     _htmlBuilder += '<span class="flipButton">Vertical</span>';
+        //     _htmlBuilder += '</div>';
+        //     _htmlBuilder += '<div class="sizeContainer">';
+        //
+        //     // Tailsweep, is off for now
+        //     // _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+        //     // _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';
+        //     // _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';
+        //     // _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';
+        //
+        //     _htmlBuilder += '<span class="sizeLabel">LENGTH 2</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="1">1</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="2">2</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="3">3</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="4">4</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="5">5</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="6">6</span>';
+        //     _htmlBuilder += '<br />';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="7">7</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="8">8</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="9">9</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="10">10</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="11">11</span>';
+        //     _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="12">12</span>';
+        //
+        //     _htmlBuilder += '<label class="applicationLabels">Rotated</label>';
+        //     _htmlBuilder += '<span class="angleItem" data-angle="straight">Straight</span>';
+        //     _htmlBuilder += '<span class="angleItem" data-angle="rotated">Rotated</span>';
+        //
+        //     _htmlBuilder += '</div>';
+        //     _htmlBuilder += '</div>';
+        //
+        // }
 
-            _htmlBuilder += '<div class="column1 applications tailsweeps">';
-            _htmlBuilder += '<div class="sub1 tailSweepThumb"><br />';
-            _htmlBuilder += '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';
-            _htmlBuilder += '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
-            _htmlBuilder += '<span class="flipButton">Vertical</span>';
-            _htmlBuilder += '</div>';
-            _htmlBuilder += '<div class="sizeContainer">';
+        // var _templateStr = '';
+        // var _patternObject = _settingsObject.pattern_obj;
+        //
+        // _templateStr = ub.funcs.updateTextPatternPanel(_patternObject);
+        // _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        //
+        // _htmlBuilder += '<div class="column1 applications patterns">';
+        // _htmlBuilder += _templateStr;
+        // _htmlBuilder += '</div>';
+        //
+        // _htmlBuilder += '<div class="column1 applications manipulators">';
+        // _htmlBuilder += _templateStrManipulators;
+        // _htmlBuilder += '</div>';
+        //
+        //
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += '</div>';
+        // _htmlBuilder += "</div>";
 
-            // Tailsweep, is off for now
-            // _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
-            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';
-            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';
-            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';
-
-            _htmlBuilder += '<span class="sizeLabel">LENGTH 2</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="1">1</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="2">2</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="3">3</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="4">4</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="5">5</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="6">6</span>';
-            _htmlBuilder += '<br />';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="7">7</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="8">8</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="9">9</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="10">10</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="11">11</span>';
-            _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="12">12</span>';
-
-            _htmlBuilder += '<label class="applicationLabels">Rotated</label>';
-            _htmlBuilder += '<span class="angleItem" data-angle="straight">Straight</span>';
-            _htmlBuilder += '<span class="angleItem" data-angle="rotated">Rotated</span>';
-
-            _htmlBuilder += '</div>';
-            _htmlBuilder += '</div>';
-
+        var templateData = {
+            id: _id,
+            status: _status,
+            mascotFontName: _fontName,
+            mascotFontCaption: _fontCaption,
+            mascotFontArrowOpacity: 100,
+            class: _class,
+            label: _label,
+            applicationType: _applicationType,
+            appType: _title.replace('Number', '# '),
+            appLabel: 'Font',
+            generateSizes: _generateSizes,
+            sampleText: _sampleText,
+            maxLength: _maxLength,
+            // mascotIcon: _mascotIcon,
+            // isCustomLogo: _isCustomLogo,
+            // customFilename: _customFilename,
+            // colorPickers: _colorPickers,
+            // isSublimated: _isSublimated,
+            // templateStrManipulators: _templateStrManipulators,
+            sampleTextContainerVisibility: 'show',
+            cogVisibility: 'hidden'
         }
 
-        var _templateStr = '';
-        var _patternObject = _settingsObject.pattern_obj;
-
-        _templateStr = ub.funcs.updateTextPatternPanel(_patternObject);
-        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-
-        _htmlBuilder += '<div class="column1 applications patterns">';
-        _htmlBuilder += _templateStr;
-        _htmlBuilder += '</div>';
-
-        _htmlBuilder += '<div class="column1 applications manipulators">';
-        _htmlBuilder += _templateStrManipulators;
-        _htmlBuilder += '</div>';
-
-
-        _htmlBuilder += '</div>';
-        _htmlBuilder += '</div>';
-        _htmlBuilder += "</div>";
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
 
         $('.modifier_main_container').append(_htmlBuilder);
 
