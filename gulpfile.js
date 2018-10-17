@@ -85,6 +85,7 @@ elixir(function(mix) {
 			'uniform-builder-generators.js',
 			'TeamStoreAPI.js',
 			'TeamStoreToolBox.js',
+			'panels/PropertiesPanel.js',
 
 		], 
 		// Result

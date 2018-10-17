@@ -3174,4 +3174,6 @@
 
 <!-- End States -->
 
+@include('partials.controls.properties.colors-patterns')
+
 @include('partials.controls.team-store-products-picker')
