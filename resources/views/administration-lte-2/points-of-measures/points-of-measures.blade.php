@@ -247,6 +247,28 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.delete-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/v1-0/points_of_measure/deleteImage";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
+
     function fileUpload(postData, callback){
         var file;
         $.ajax({
