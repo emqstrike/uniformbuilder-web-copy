@@ -1,10 +1,24 @@
-<!-- Colors and Patterns Properties -->
-<script type="text/mustache" id="m-colors-patterns">
-    
+<!-- Colors Properties -->
+<script type="text/mustache" id="m-colors">
+
     <div id="properties-colors">
-    	<h1>@{{ color }}</h1>
-    	<h2>@{{ pattern }}</h2>
+        @{{ #colors }}
+        <li>@{{ id }} @{{ name }}</li>
+        @{{ /colors }}
     </div>
-    
+
 </script>
-<!-- /Colors and Patterns Properties -->
+<!-- /Colors Properties -->
+
+<!-- Patterns Properties -->
+<script type="text/mustache" id="m-patterns">
+
+    <div id="properties-patterns">
+        @{{ #patterns }}
+        <li>@{{ id }} @{{ name }}</li>
+        <img src="@{{ icon }}">
+        @{{ /patterns }}
+    </div>
+
+</script>
+<!-- /Patterns Properties -->

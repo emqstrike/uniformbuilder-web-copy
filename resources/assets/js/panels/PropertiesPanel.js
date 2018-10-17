@@ -4,18 +4,21 @@
  * @since October 16, 2018
  * @author Romack Natividad <romack@qstrike.com>
  *
+ * Requirements:
+ * - jQuery
+ * - Mustache
+ *
  * Usage:
  *  var panel = document.getElementById('main-panel');
  *  var prop = new PropertiesPanel(panel, 'ProLook Sports');
- *  var template = document.getElementById('panel-body-template');
- *  prop.setBodyPanel(template, data);
+ *  prop.setBodyPanel(panel);
  */
 
 function PropertiesPanel(
-    body_panel,
+    element,
     brand
 ) {
-    this.body_panel = body_panel;
+    this.body_panel = document.getElementById(element);
     this.brand = brand;
 }
 
@@ -30,10 +33,9 @@ PropertiesPanel.prototype = {
         this.brand = brand;
     },
 
-    setBodyPanel: function(html_template, data) {
+    setBodyPanel: function(panel_html) {
         this.clearBodyPanel();
-        var rendered = Mustache.render(html_template, data);
-        this.body_panel.innerHTML = rendered;
+        this.body_panel.innerHTML = panel_html;
     },
 
     clearBodyPanel: function() {
