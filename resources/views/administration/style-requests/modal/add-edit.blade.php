@@ -7,7 +7,7 @@
             </div>
 
             <div class="modal-body">
-                <div class="alert alert-danger" style="display: none;"></div>
+                <div class="custom-alert alert-danger" style="display: none;"></div>
                 
                 <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>
                     <input type="hidden" class="design-sheet-path">
@@ -186,7 +186,7 @@
 
                 <div id="upload_design_sheet">
                     <center>
-                        <h4 class="alert alert-info" style="margin-bottom: 0;">Upload Design Sheet below</h4>
+                        <h4 class="custom-alert alert-info" style="margin-bottom: 0;">Upload Design Sheet below</h4>
                         <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         </form>

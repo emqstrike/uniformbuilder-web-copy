@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <style>
+        .custom-alert {
+            border: 1px solid transparent;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
         #my-awesome-dropzone {
             border: dashed 1px black;
         }
