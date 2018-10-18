@@ -17,7 +17,7 @@
     <div id="cw"></div>
 
 </script>
-<!-- /Colors Properties -->
+<!-- /Colors Wheel Properties -->
 
 
 <!-- Patterns Properties -->
@@ -33,120 +33,34 @@
 </script>
 <!-- /Patterns Properties -->
 
-<script type="text/mustache" id="m-new-color-pattern-picker">
+<!-- Colors&Patterns Properties -->
+<script type="text/mustache" id="m-colors-patterns">
 <div class="cp-padding-small">
     <div class="cp-text-uppercase cp-fc-white">
-        <h4 class="header cp-text-bold">Base Color</h4>
-        <p style="font-weight: bold;">Choose color / Pattern</p>
+        <h4 class="header cp-text-bold">@{{ modifier.name }}</h4>
+        <p style="font-weight: bold;">Choose Color / Pattern</p>
     </div>
     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
         <p>COLOR</p>
+        @{{ #colors }}
         <div class="color-main-container">
             <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: yellow;" data-color-name="yellow">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
                 </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: pink;" data-color-name="pink">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: purple;" data-color-name="purple">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
-            </div>
-
-
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
-                </button>
-                <span class="label">Color Name</span>
+                <span class="label">@{{ name }}</span>
             </div>
         </div>
+        @{{ /colors }}
     </div>
     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
         <p>PATTERN</p>
+        @{{ #patterns }}
         <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('@{{ icon }}');">
             </button>
-            <span class="label">Pattern Name</span>
+            <span class="label">@{{ name }}</span>
         </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
-
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-            </button>
-            <span class="label">Pattern Name</span>
-        </div>
+        @{{ /patterns }}
     </div>
     <button class="edit-pattern-modal-button" data-toggle="modal" data-target="#pattern-change-color">
         Edit pattern color
@@ -215,3 +129,4 @@
     </div>
 </div>
 </script>
+<!-- /Colors&Patterns Properties -->

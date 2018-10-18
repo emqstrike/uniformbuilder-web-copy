@@ -1,7 +1,7 @@
 /**
- * ColorPanel.js
- * - handle color behavior
- * @since October 17, 2018
+ * ColorPatternPanel.js
+ * - handle color & pattern behavior
+ * @since October 18, 2018
  * @author Romack Natividad <romack@qstrike.com>
  *
  * Requirements:
@@ -12,15 +12,17 @@
  *
  */
 
-function ColorPanel(element) {
+function ColorPatternPanel(element, modifier) {
     this.panel = document.getElementById(element);
     this.items = {
-        colors: ub.current_material.settings.team_colors
+        modifier: modifier,
+        colors: ub.data.colors,
+        patterns: ub.data.patterns.items
     };
 }
 
-ColorPanel.prototype = {
-    constructor: ColorPanel,
+ColorPatternPanel.prototype = {
+    constructor: ColorPatternPanel,
 
     getPanel: function() {
         var panel = Mustache.render(this.panel.innerHTML, this.items);

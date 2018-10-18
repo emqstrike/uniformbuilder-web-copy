@@ -90,6 +90,7 @@ elixir(function(mix) {
 
             // Custom Panels
             'panels/PropertiesPanel.js',
+            'panels/ColorPatternPanel.js',
             'panels/ColorPanel.js',
             'panels/PatternPanel.js',
             'panels/ColorWheelPanel.js',

@@ -20,6 +20,10 @@ function PropertiesPanel(
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
+    this.modifiers = _.sortBy(ub.data.modifierLabels, 'index');
+    _.each(this.modifiers, function (modifier) {
+        modifier.colors_patterns_panel = new ColorPatternPanel('m-colors-patterns', modifier);
+    });
     this.panels = [];
 }
 
@@ -34,6 +38,10 @@ PropertiesPanel.prototype = {
         this.brand = brand;
     },
 
+    getModifiers: function() {
+        return this.modifiers;
+    },
+
     setBodyPanel: function(panel_html) {
         this.clearBodyPanel();
         this.body_panel.innerHTML = panel_html;
@@ -43,8 +51,8 @@ PropertiesPanel.prototype = {
         this.body_panel.innerHTML = '';
     },
 
-    pushOptionPanel: function() {
-        //
+    pushOptionPanel: function(modifier) {
+        // this.panels.push(new ColorPanel('m-colors'))
     },
 
     loadTemplate: function() {
