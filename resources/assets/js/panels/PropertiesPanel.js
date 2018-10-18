@@ -40,6 +40,11 @@ PropertiesPanel.prototype = {
 
     clearBodyPanel: function() {
         this.body_panel.innerHTML = '';
+    },
+
+    loadTemplate: function() {
+        var template = document.getElementById('m-new-color-pattern-picker');
+        this.setBodyPanel(template.innerHTML);
     }
 
 }
