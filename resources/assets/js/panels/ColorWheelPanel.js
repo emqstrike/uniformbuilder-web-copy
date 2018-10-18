@@ -210,6 +210,7 @@ ColorWheelPanel.prototype = {
         var _widthOfCW  = $('div.color-wheel').first().width();
 
         $('#color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+        $('div#primary_options_container > div#cw').show();
     },
 
     polarToCartesian: function(centerX, centerY, radius, angleInDegrees) {

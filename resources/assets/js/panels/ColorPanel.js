@@ -12,19 +12,18 @@
  *
  */
 
-function ColorPanel(element, items) {
+function ColorPanel(element) {
     this.panel = document.getElementById(element);
     this.items = {
-        colors: items
+        colors: ub.current_material.settings.team_colors
     };
 }
 
 ColorPanel.prototype = {
     constructor: ColorPanel,
 
-    setItems: function(items) {
-        alert('setting items');
-        alert(items.length);
+    getTeamColor: function() {
+        return this.team_colors;
     },
 
     getPanel: function() {

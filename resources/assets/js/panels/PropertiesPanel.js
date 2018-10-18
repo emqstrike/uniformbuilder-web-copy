@@ -20,6 +20,7 @@ function PropertiesPanel(
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
+    this.panels = [];
 }
 
 PropertiesPanel.prototype = {
@@ -42,9 +43,13 @@ PropertiesPanel.prototype = {
         this.body_panel.innerHTML = '';
     },
 
+    pushOptionPanel: function() {
+        //
+    },
+
     loadTemplate: function() {
         var template = document.getElementById('m-new-color-pattern-picker');
-        this.setBodyPanel(template.innerHTML);
+        this.setBodyPanel(template.innerHTML)
     }
 
 }
