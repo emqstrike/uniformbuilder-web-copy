@@ -403,4 +403,34 @@
       <span>User Pairings</span>
       </a>
   </li>
+    
+    <li class="treeview" data-position="right">
+        <a href="#">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span>User Restriction</span>
+        </a>
+
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ route('page_rules') }}">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span>Page Rules</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('pages') }}">
+                    <i class="fa fa-file-text"></i>
+                    <span>Pages</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li data-position='right'>
+        <a href="{{ route('menus') }}">
+            <i class="fa fa-link"></i>
+            <span>Menus</span>
+        </a>
+    </li>
 </ul>

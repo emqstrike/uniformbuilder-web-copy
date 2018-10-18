@@ -28,20 +28,11 @@ class ColorsController extends Controller
         }
 
         $colors = $this->client->getColors($active_brand);
-
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.colors.colors', [
+        
+        return view('administration-lte-2.colors.colors', [
             'colors' => $colors,
             'active_brand' => $active_brand
-            ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        ]);
     }
 
 }
