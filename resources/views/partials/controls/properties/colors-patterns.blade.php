@@ -35,9 +35,10 @@
 
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
+@{{ #modifiers }}
 <div class="cp-padding-small">
     <div class="cp-text-uppercase cp-fc-white">
-        <h4 class="header cp-text-bold">@{{ modifier.name }}</h4>
+        <h4 class="header cp-text-bold">@{{ name }}</h4>
         <p style="font-weight: bold;">Choose Color / Pattern</p>
     </div>
     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
@@ -128,5 +129,6 @@
         </div>
     </div>
 </div>
+@{{ /modifiers }}
 </script>
 <!-- /Colors&Patterns Properties -->

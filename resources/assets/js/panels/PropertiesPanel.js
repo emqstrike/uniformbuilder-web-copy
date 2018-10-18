@@ -21,9 +21,6 @@ function PropertiesPanel(
     this.body_panel = document.getElementById(element);
     this.brand = brand;
     this.modifiers = _.sortBy(ub.data.modifierLabels, 'index');
-    _.each(this.modifiers, function (modifier) {
-        modifier.colors_patterns_panel = new ColorPatternPanel('m-colors-patterns', modifier);
-    });
     this.panels = [];
 }
 
@@ -51,13 +48,14 @@ PropertiesPanel.prototype = {
         this.body_panel.innerHTML = '';
     },
 
-    pushOptionPanel: function(modifier) {
-        // this.panels.push(new ColorPanel('m-colors'))
-    },
-
     loadTemplate: function() {
-        var template = document.getElementById('m-new-color-pattern-picker');
-        this.setBodyPanel(template.innerHTML)
+        var template = document.getElementById('m-colors-patterns');
+        var rendered = Mustache.render(template.innerHTML, {
+            modifiers: this.modifiers,
+            colors: ub.data.colors,
+            patterns: ub.data.patterns.items
+        });
+        this.setBodyPanel(rendered);
     }
 
 }
