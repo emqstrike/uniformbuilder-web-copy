@@ -40,7 +40,10 @@
                             <td class="td-item-name col-md-1">{{ $item->name }}</td>
                             <td class="td-item-plus-tol col-md-1">{{ $item->plus_tolerance }}</td>
                             <td class="td-item-minus-tol col-md-1">{{ $item->minus_tolerance }}</td>
-                            <td class="td-item-image col-md-1">{{ $item->image_link }}</td>
+                            <td>
+                                <a href="#" class="btn btn-defult btn-md file-link" data-link="{{ $item->image_link }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                            </td>
+                            <!-- <td class="td-item-image col-md-1">{{ $item->image_link }}</td> -->
                             <td class="td-item-video col-md-1">{{ $item->video_link }}</td>
                             <td class="col-md-2">
                                 <center>
@@ -292,6 +295,16 @@ $(document).ready(function(){
         });
     };
 
+    $('.file-link').on('click', function(e){
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+    });
+
+    function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+    }
+
     try {
         $('.data-table').DataTable({
             "paging": true,
@@ -300,27 +313,7 @@ $(document).ready(function(){
             "ordering": false,
             "info": true,
             "autoWidth": false,
-            "pageLength" : 15,
-            "stateSave": true,
-            initComplete: function () {
-            this.api().columns('#select-filter').every( function () {
-                var column = this;
-                var select = $(`<select><option value=""></option></select>`)
-                    .appendTo( $(column.footer()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-                        column
-                        .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
-                column.data().unique().sort().each( function ( d, j ) {
-
-                    select.append( `<option value="`+d+`">`+d+`</option>` );
-                } );
-            } );
-        }
+            "pageLength" : 15
         });
     } catch(e) {
         console.log(e.message);
