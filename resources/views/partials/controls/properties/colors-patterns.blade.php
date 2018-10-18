@@ -32,3 +32,7 @@
 
 </script>
 <!-- /Patterns Properties -->
+
+<script type="text/mustache" id="m-new-color-pattern-picker">
+    
+</script>
