@@ -64,11 +64,12 @@
                                 <table class="table table-bordered table-hover">
                                     <tr>
                                         <thead>
-                                          <th width="3%">QC</th>
+                                          <th width="2%">QC</th>
                                           <th width="10%">Item</th>
+                                          <th width="2%">Image</th>
                                           <th colspan="2" width="10%">Tolerance</th>
                                           <th width="75%"><div class="col-md-12 sizes-header"></div></th>
-                                          <th width="2%"></th>
+                                          <th width="1%"></th>
                                         </thead>
                                     </tr>
                                     <tbody class="properties-content">
