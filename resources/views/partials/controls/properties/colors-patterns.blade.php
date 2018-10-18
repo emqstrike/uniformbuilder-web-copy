@@ -10,6 +10,16 @@
 </script>
 <!-- /Colors Properties -->
 
+<!-- Color Wheel Properties -->
+<script type="text/mustache" id="m-color-wheel">
+
+    <div id="team-color-picker"></div>
+    <div id="cw"></div>
+
+</script>
+<!-- /Colors Properties -->
+
+
 <!-- Patterns Properties -->
 <script type="text/mustache" id="m-patterns">
 

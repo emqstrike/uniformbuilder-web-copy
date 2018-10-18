@@ -92,6 +92,7 @@ elixir(function(mix) {
             'panels/PropertiesPanel.js',
             'panels/ColorPanel.js',
             'panels/PatternPanel.js',
+            'panels/ColorWheelPanel.js',
 
         ],
         // Result

@@ -14,7 +14,9 @@
 
 function ColorPanel(element, items) {
     this.panel = document.getElementById(element);
-    this.items = items;
+    this.items = {
+        colors: items
+    };
 }
 
 ColorPanel.prototype = {
