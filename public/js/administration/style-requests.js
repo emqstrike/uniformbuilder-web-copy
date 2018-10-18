@@ -218,12 +218,14 @@ $(function() {
                 }
                 
                 if (response.success == true) {
-                    var oTable = $('.data-table').DataTable();
-                    oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    
 
                     $('#myModal').modal('hide');
 
-                    if (! is_update) {
+                    if (is_update) {
+                        var oTable = $('.data-table').DataTable();
+                        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    } else {
                         window.location.reload();
                     }
                 }
