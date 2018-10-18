@@ -30,6 +30,11 @@ PatternPanel.prototype = {
     getPanel: function() {
         var panel = Mustache.render(this.panel.innerHTML, this.items);
         return panel;
+    },
+
+    onSelect: function() {
+        var selected_pattern = $(".pattern");
+        selected_pattern.html('<span class="fa fa-check fa-2x cp-fc-white"></span>');
     }
 
 }
