@@ -41,18 +41,109 @@
     </div>
     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
         <p>COLOR</p>
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box" style="background-color: yellow;">
-                <span class="fa fa-check fa-2x cp-fc-black"></span>
-            </button>
-            <span class="label">Color Name</span>
+        <div class="color-main-container">
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: yellow;" data-color-name="yellow">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: pink;" data-color-name="pink">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: purple;" data-color-name="purple">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
+
+
+            <div class="color_element sublimated color-container-button">
+                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: red;" data-color-name="red">
+                </button>
+                <span class="label">Color Name</span>
+            </div>
         </div>
     </div>
     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
         <p>PATTERN</p>
         <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
-                <span class="fa fa-check fa-2x"></span>
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
+            </button>
+            <span class="label">Pattern Name</span>
+        </div>
+
+        <div class="color_element sublimated">
+            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png');">
             </button>
             <span class="label">Pattern Name</span>
         </div>

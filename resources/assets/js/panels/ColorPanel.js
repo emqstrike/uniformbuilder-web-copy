@@ -30,6 +30,16 @@ ColorPanel.prototype = {
     getPanel: function() {
         var panel = Mustache.render(this.panel.innerHTML, this.items);
         return panel;
+    },
+
+    onSelect: function() {
+        $(".color-main-container .color-container-button").on('click', '.color-selector-button', function(event) {
+            var color = $(this).data('color-name');
+
+            $(this).html('<span class="fa fa-check fa-2x cp-fc-black"></span>');
+            $(this).addClass('active-color');
+            console.log(color)
+        });
     }
 
 }
