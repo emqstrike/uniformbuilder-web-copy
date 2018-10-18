@@ -240,6 +240,10 @@
                 "paging": true,
                 "searching": true,
                 "autoWidth": false,
+                "columnDefs": [{
+                    "searchable": false,
+                    "targets": [12]
+                }]
             });
 
             $('#sportsFilter').change(function() {
