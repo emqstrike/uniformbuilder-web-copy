@@ -43,7 +43,6 @@
                             <td>
                                 <a href="#" class="btn btn-defult btn-md file-link" data-link="{{ $item->image_link }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                             </td>
-                            <!-- <td class="td-item-image col-md-1">{{ $item->image_link }}</td> -->
                             <td class="td-item-video col-md-1">{{ $item->video_link }}</td>
                             <td class="col-md-2">
                                 <center>

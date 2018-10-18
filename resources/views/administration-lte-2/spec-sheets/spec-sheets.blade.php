@@ -14,13 +14,13 @@
       border-radius: 0;
     }
     input[type=number]{
-    width: 55px;
+        width: 55px;
     }
     .cl-header{
-    width: 55px;
-    border: none;
-    border-color: transparent;
-    background-color : #ffffff;
+        width: 55px;
+        border: none;
+        border-color: transparent;
+        background-color : #ffffff;
     }
 
 </style>
@@ -154,19 +154,23 @@ $(document).ready(function(){
         e.preventDefault();
         $('.input-poms').trigger('change');
         var item_value = $('.input-poms-props').val();
+        var poms_props = JSON.parse(item_value);
         var item_text = $('.input-poms').find(":selected").text();
         var item_plus_tol = $('.input-poms').find(":selected").attr('data-plus-tol');
         var item_minus_tol = $('.input-poms').find(":selected").attr('data-minus-tol');
         var qc = `<td><input type="checkbox" class="pom-qc" value="0"></td>`;
         var item = `<td><input type="hidden" class="form-control pom-item-value" value='`+item_value+`'><input type="text" class="form-control pom-item" value="`+ item_text +`" disabled></td>`;
+        var image = `<td><a href="#" class="btn btn-defult btn-md file-link" data-link="`+ poms_props.image_link +`" data-toggle="popover"><i class="fa fa-picture-o" aria-hidden="true"></i></a></td>`;
         var plus_tol = `<td><input type="number" class="pom-plus-tol" value="` +item_plus_tol+ `" disabled></td>`;
         var minus_tol = `<td><input type="number" class="pom-minus-tol" value="` +item_minus_tol+ `" disabled></td>`;
         var sizes = `<td><input type="hidden" class="form-control pom-sizes"><div class="sizes-row col-md-12"></div></td>`;
         var delete_row = `<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>`;
-        var elem = `<tr class="layer-row">` + qc + item + plus_tol + minus_tol + sizes + delete_row +`</tr>`;
+        var elem = `<tr class="layer-row">` + qc + item + image + plus_tol + minus_tol + sizes + delete_row +`</tr>`;
         $('.properties-content').append(elem);
         addSizes();
+        loadPopover();
         $('.cl-size').trigger('change');
+
     });
 
     $(document).on("click", ".delete-row", function(e){
@@ -369,6 +373,27 @@ $(document).ready(function(){
         $('.sizes-header').append(header_elem);
     }
 
+    function loadPopover() {
+        $('a[data-toggle=popover]').popover({
+            html: true,
+            trigger: 'hover',
+            placement: 'top',
+            content: function(){
+                return '<img src="'+$(this).data('link') + '" style="width: 200px; height: 200px; background-color: #525252;"/>';
+            }
+        });
+
+        $('.file-link').on('click', function(e){
+        var url = $(this).data('link');
+        OpenInNewTab(url);
+        });
+
+        function OpenInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
+        }
+
+    }
 
     $(document).on('click', '.delete-item', function() {
        var id = [];
@@ -515,11 +540,12 @@ $(document).ready(function(){
             var item_value = JSON.stringify(entry.pom_properties);
             var qc = `<td><input type="checkbox" class="pom-qc" value="`+ entry.qc_required +`"></td>`;
             var item = `<td><input type="hidden" class="form-control pom-item-value" value='`+ item_value +`'><input type="text" class="form-control pom-item" value="`+ item_text +`" disabled></td>`;
+            var image = `<td><a href="#" class="btn btn-defult btn-md file-link" data-link="`+ entry.pom_properties.image_link +`" data-toggle="popover"><i class="fa fa-picture-o" aria-hidden="true"></i></a></td>`;
             var plus_tol = `<td><input type="number" class="pom-plus-tol" value="` +entry.pom_properties.plus_tolerance+ `" disabled></td>`;
             var minus_tol = `<td><input type="number" class="pom-minus-tol" value="` +entry.pom_properties.minus_tolerance+ `" disabled></td>`;
             var sizes = `<td><input type="hidden" class="form-control pom-sizes"><div class="sizes-row col-md-12"></div></td>`;
             var delete_row = `<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>`;
-            var elem = `<tr class="layer-row">` + qc + item + plus_tol + minus_tol + sizes + delete_row +`</tr>`;
+            var elem = `<tr class="layer-row">` + qc + item + image + plus_tol + minus_tol + sizes + delete_row +`</tr>`;
             $('.properties-content').append(elem);
             if (entry.qc_required == 1)  {
                 $('.pom-qc').last().prop('checked', true);
@@ -527,6 +553,7 @@ $(document).ready(function(){
                 $('.pom-qc').last().prop('checked', false);
             }
             loadSizes(entry.sizes);
+            loadPopover();
             $('.cl-size').trigger('change');
         });
     }
