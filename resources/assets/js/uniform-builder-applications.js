@@ -7750,7 +7750,7 @@ $(document).ready(function () {
         var _currentSize = _settingsObject.size;
         var _colorArray = _settingsObject.color_array;
         var _mascotName = _mascotObj.name;
-        var _mascotIcon = _mascotObj.icon;
+        var _thumbIcon = _mascotObj.icon;
         var _title = _applicationType.toTitleCase();
         var _htmlBuilder = '';
         var _generateSizes = '';
@@ -7842,7 +7842,8 @@ $(document).ready(function () {
             appType: 'Stock Mascot',
             appLabel: 'Stock Mascot',
             generateSizes: _generateSizes,
-            mascotIcon: _mascotIcon,
+            thumbIcon: _thumbIcon,
+            accentName: 'Change Mascot',
             isCustomLogo: _isCustomLogo,
             customFilename: _customFilename,
             colorPickers: _colorPickers,
@@ -7852,7 +7853,8 @@ $(document).ready(function () {
             cogVisibility: '',
             tailSweepsTabVisibility: 'hidden',
             colorTabVisibility: '',
-            patternsTabVisibility: 'hidden'
+            patternsTabVisibility: 'hidden',
+            flipLabel: 'Flip'
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
@@ -9591,6 +9593,7 @@ $(document).ready(function () {
         var _colorArrayString = '';
         var _generateSizes = '';
         var _tailSweepsTabVisibility = '';
+        var _thumbIcon = '/images/sidebar/' + _accentFilename;
 
         ub.updateApplicationSpecsPanel(_id);
 
@@ -9808,6 +9811,8 @@ $(document).ready(function () {
         var templateData = {
             id: _id,
             status: _status,
+            thumbIcon: _thumbIcon,
+            accentName: _accentName,
             mascotFontName: _fontName,
             mascotFontCaption: _fontCaption,
             mascotFontArrowOpacity: 100,
@@ -9819,7 +9824,7 @@ $(document).ready(function () {
             generateSizes: _generateSizes,
             sampleText: _sampleText,
             maxLength: _maxLength,
-            // mascotIcon: _mascotIcon,
+            accentName: _accentName,
             // isCustomLogo: _isCustomLogo,
             // customFilename: _customFilename,
             // colorPickers: _colorPickers,
@@ -9829,7 +9834,8 @@ $(document).ready(function () {
             cogVisibility: 'hidden',
             tailSweepsTabVisibility: _tailSweepsTabVisibility,
             colorTabVisibility: '',
-            patternsTabVisibility: ''
+            patternsTabVisibility: '',
+            flipLabel: 'Vertical'
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);

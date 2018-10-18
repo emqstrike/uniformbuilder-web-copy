@@ -876,6 +876,9 @@ $(document).ready(function() {
             appType: 'Custom Mascot',
             appLabel: 'Embellishment',
             generateSizes: _generateSizes,
+            thumbIcon: _mascotIcon,
+            accentName: _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')',
+            inksoftThumb: 'inksoftThumb',
             // mascotIcon: _mascotIcon,
             // isCustomLogo: _isCustomLogo,
             // customFilename: _customFilename,
@@ -886,7 +889,8 @@ $(document).ready(function() {
             cogVisibility: 'hidden',
             tailSweepsTabVisibility: 'hidden',
             colorTabVisibility: 'hidden',
-            patternsTabVisibility: 'hidden'
+            patternsTabVisibility: 'hidden',
+            flipLabel: 'Flip'
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);

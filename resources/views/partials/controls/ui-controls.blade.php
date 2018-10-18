@@ -1047,7 +1047,7 @@
 
             <div class="header">
 
-                <div class="toggle defaultShadow" data-status="@{{status}}">
+                <div class="toggle defaultShadow" data-status="@{{ status }}">
                     <div class="valueContainer">
                         <div class="toggleOption on">ON</div>
                         <div class="toggleOption off">OFF</div>
@@ -1099,37 +1099,33 @@
                     <div class="column1 applications colors">
 
                         <div class="sub1">
-
                             <br />
-                            <span class="accentThumb"><img src="@{{mascotIcon}}"/></span>
-                            <span class="accent">Change Mascot</span>
+                            <span class="accentThumb"><img class="@{{ inksoftThumb }}" src="@{{ thumbIcon }}"/></span>
+                            <span class="accent">@{{ accentName }}</span>
                             <br />
 
                             @{{#isCustomLogo}}
-                                <a class="view-file" data-file="@{{customFilename}}" target="_new">View File</a>
+                                <a class="view-file" data-file="@{{ customFilename }}" target="_new">View File</a>
                                 <br /><br />
                             @{{/isCustomLogo}}
 
-                            <span class="flipButton">Flip</span>
-
+                            <span class="flipButton">@{{ flipLabel }}</span>
                         </div>
 
                         <div class="colorContainer">
-
-                            @{{{colorPickers}}}
+                            @{{{ colorPickers }}}
 
                             @{{#isSublimated}}
                                 <br/>
                                 <span class="watermark-intensity">Watermark Intensity:</span>
                                 <input type="text" id="opacity-slider" value="" />
                             @{{/isSublimated}}
-
                         </div>
 
                     </div>
 
                     <div class="column1 applications manipulators">
-                        @{{{templateStrManipulators}}}
+                        @{{{ templateStrManipulators }}}
                     </div>
 
                 </div>
