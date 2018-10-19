@@ -1134,6 +1134,12 @@
                         @{{{ embellishmentSidebar }}}
                     @{{/isEmbellishment}}
 
+                    @{{#isApplication}}
+                        <div class="column1 applications patterns">
+                            @{{{ patternsPanel }}}
+                        </div>
+                    @{{/isApplication}}
+
                     <div class="column1 applications manipulators">
                         @{{{ templateStrManipulators }}}
                     </div>

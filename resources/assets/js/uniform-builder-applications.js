@@ -9791,9 +9791,8 @@ $(document).ready(function () {
         // }
 
         // var _templateStr = '';
-        // var _patternObject = _settingsObject.pattern_obj;
-        //
-        // _templateStr = ub.funcs.updateTextPatternPanel(_patternObject);
+        var _patternObject = _settingsObject.pattern_obj;
+        var _patternsPanel = ub.funcs.updateTextPatternPanel(_patternObject);
         var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
         //
         // _htmlBuilder += '<div class="column1 applications patterns">';
@@ -9830,6 +9829,8 @@ $(document).ready(function () {
             // customFilename: _customFilename,
             colorPickers: _colorPickers,
             // isSublimated: _isSublimated,
+            isApplication: 'true',
+            patternsPanel: _patternsPanel,
             templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: '',
             cogVisibility: 'hidden',
