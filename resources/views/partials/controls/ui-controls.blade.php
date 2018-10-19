@@ -1115,6 +1115,12 @@
                         <div class="colorContainer">
                             @{{{ colorPickers }}}
 
+                            @{{#isEmbellishment}}
+                                <br />
+                                <a class="filePreview" target="_new" href="@{{ viewArtDetails }}">View Art Details</a><br />
+                                <a class="filePreview" target="_new" href="@{{ viewPrint }}">View Print Ready File</a><br />
+                            @{{/isEmbellishment}}
+
                             @{{#isSublimated}}
                                 <br/>
                                 <span class="watermark-intensity">Watermark Intensity:</span>
@@ -1123,6 +1129,10 @@
                         </div>
 
                     </div>
+
+                    @{{#isEmbellishment}}
+                        @{{{ embellishmentSidebar }}}
+                    @{{/isEmbellishment}}
 
                     <div class="column1 applications manipulators">
                         @{{{ templateStrManipulators }}}

@@ -7824,7 +7824,7 @@ $(document).ready(function () {
 
         }
 
-        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
 
         var _isSublimated = false;
         if (ub.config.uniform_application_type === "sublimated") {
@@ -9594,6 +9594,7 @@ $(document).ready(function () {
         var _generateSizes = '';
         var _tailSweepsTabVisibility = '';
         var _thumbIcon = '/images/sidebar/' + _accentFilename;
+        var _colorPickers = '';
 
         ub.updateApplicationSpecsPanel(_id);
 
@@ -9728,7 +9729,7 @@ $(document).ready(function () {
 
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
+                _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
 
             } else {
 
@@ -9793,7 +9794,7 @@ $(document).ready(function () {
         // var _patternObject = _settingsObject.pattern_obj;
         //
         // _templateStr = ub.funcs.updateTextPatternPanel(_patternObject);
-        // _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
         //
         // _htmlBuilder += '<div class="column1 applications patterns">';
         // _htmlBuilder += _templateStr;
@@ -9827,9 +9828,9 @@ $(document).ready(function () {
             accentName: _accentName,
             // isCustomLogo: _isCustomLogo,
             // customFilename: _customFilename,
-            // colorPickers: _colorPickers,
+            colorPickers: _colorPickers,
             // isSublimated: _isSublimated,
-            // templateStrManipulators: _templateStrManipulators,
+            templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: '',
             cogVisibility: 'hidden',
             tailSweepsTabVisibility: _tailSweepsTabVisibility,

@@ -404,7 +404,7 @@ $(document).ready(function() {
 
     window.is.createSession = function () { /* TODO: Fill this in ... */ };
 
-    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ }    
+    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ };
 
     ub.funcs.createNewEmbellishmentData = function (obj) {
 
@@ -848,14 +848,19 @@ $(document).ready(function() {
         //     _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
         //     _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
         // }
+
+        var _isSublimated = false;
+        if (ub.config.uniform_application_type === "sublimated") {
+            _isSublimated = true;
+        }
         //
         // _htmlBuilder        +=              '</div>';
         //
         // _htmlBuilder        +=        '</div>';
         //
-        // _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
+        var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
         //
-        // _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
         //
         // _htmlBuilder        +=              '<div class="column1 applications manipulators">';
         // _htmlBuilder        +=                  _templateStrManipulators;
@@ -883,8 +888,12 @@ $(document).ready(function() {
             // isCustomLogo: _isCustomLogo,
             // customFilename: _customFilename,
             // colorPickers: _colorPickers,
-            // isSublimated: _isSublimated,
-            // templateStrManipulators: _templateStrManipulators,
+            isEmbellishment: 'true',
+            embellishmentSidebar: _embellishmentSidebar,
+            viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
+            viewPrint: _settingsObject.embellishment.svg_filename,
+            isSublimated: _isSublimated,
+            templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: 'hidden',
             cogVisibility: 'hidden',
             tailSweepsTabVisibility: 'hidden',
