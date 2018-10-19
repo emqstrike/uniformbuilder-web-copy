@@ -175,13 +175,6 @@
                             <textarea name="input_notes" class="form-control" id="input_notes" cols="10" rows="5"></textarea>
                         </div>
                     </div>
-
-                    <div id="design-sheet-field" class="form-group" style="display: none;">
-                        <label class="col-md-4 control-label">Design Sheet</label>
-                        <div class="col-md-6">
-                            <a href="" class="btn btn-success" target="_blank">View Design Sheet</a>
-                        </div>
-                    </div>
                 </form>
 
                 <div id="upload_design_sheet">
