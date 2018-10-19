@@ -105,6 +105,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
         
         Route::group(['middleware' => 'restrictedUserAccess'], function() {
+
+            // Configurator
+            Route::get('style_configurator', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@styleConfigurator'])->name('v1_style_configurator');
+
             Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage'])->name('v1_inksoft_design');
             Route::get('inksoft_designs/{current_page?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\InksoftDesignsController@index'])->name('inksoft_designs');
 
