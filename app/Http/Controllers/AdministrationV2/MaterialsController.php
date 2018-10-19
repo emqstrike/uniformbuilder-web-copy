@@ -110,6 +110,10 @@ class MaterialsController extends Controller
         ]);
     }
 
+    public function styleConfigurator(){
+        return view('administration-lte-2.styles.style-configurator');
+    }
+
     public function editMaterialForm($id)
     {
         $categoriesAPIClient = new UniformCategoriesAPIClient();
