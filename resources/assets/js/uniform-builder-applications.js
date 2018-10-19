@@ -6222,7 +6222,7 @@ $(document).ready(function() {
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
                 _additionalClass = 'active';
 
-                if (typeof settingsObject.custom_obj !== 'undefined') {
+                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
                     (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
                 }
 
@@ -6241,7 +6241,7 @@ $(document).ready(function() {
         });
 
         // show BESTFIT option on embellishment's application sizes
-        if (typeof settingsObject.custom_obj !== 'undefined') {
+        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
 
             (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
 
@@ -6250,7 +6250,7 @@ $(document).ready(function() {
             var type        = 'custom';
 
             // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
-            if (customScale !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
 
         }
 
