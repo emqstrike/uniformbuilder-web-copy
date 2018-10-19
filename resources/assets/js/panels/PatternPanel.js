@@ -33,8 +33,20 @@ PatternPanel.prototype = {
     },
 
     onSelect: function() {
-        var selected_pattern = $(".pattern");
-        selected_pattern.html('<span class="fa fa-check fa-2x cp-fc-white"></span>');
+        $(".pattern-main-container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+            var selected_color = $(".pattern-main-container").find('.active-pattern');
+            selected_color.removeClass('active-pattern');
+            selected_color.html("");
+            $(".edit-pattern-modal-container").html("");
+
+            if (selected_color.length > 0)
+            {
+                $(".edit-pattern-modal-container").html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+            }
+
+            $(this).html('<span class="fa fa-check fa-1x cp-pattern-check-color cp-padding-remove"></span>');
+            $(this).addClass('active-pattern');
+        });
     }
 
 }

@@ -37,36 +37,46 @@
 <script type="text/mustache" id="m-colors-patterns">
 @{{ #modifiers }}
 <div class="cp-padding-small">
-    <div class="cp-text-uppercase cp-fc-white">
-        <h4 class="header cp-text-bold">@{{ name }}</h4>
-        <p style="font-weight: bold;">Choose Color / Pattern</p>
-    </div>
-    <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-        <p>COLOR</p>
-        @{{ #colors }}
-        <div class="color-main-container">
-            <div class="color_element sublimated color-container-button">
-                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
-                </button>
-                <span class="label">@{{ name }}</span>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="cp-text-uppercase cp-fc-white">
+                <h4 class="header cp-text-bold">@{{ name }}</h4>
+                <p style="font-weight: bold;">Choose Color / Pattern</p>
             </div>
         </div>
-        @{{ /colors }}
-    </div>
-    <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-        <p>PATTERN</p>
-        @{{ #patterns }}
-        <div class="color_element sublimated">
-            <button class="grow change-color whitebtn cp-new-color-box pattern" style="background-image: url('@{{ icon }}');">
-            </button>
-            <span class="label">@{{ name }}</span>
+
+        <div class="col-md-12 cp-margin-bottom-medium">
+            <p>COLOR</p>
+            @{{ #colors }}
+            <div class="color-main-container">
+                <div class="color_element sublimated color-container-button">
+                    <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
+                    </button>
+                    <span class="label">@{{ name }}</span>
+                </div>
+            </div>
+            @{{ /colors }}
         </div>
-        @{{ /patterns }}
+
+        <div class="col-md-12">
+            <p>PATTERN</p>
+            @{{ #patterns }}
+                <div class="color_element sublimated pattern-main-container">
+                    <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                        <button class="grow change-color whitebtn cp-new-color-box pattern-selector-button" style="background-image: url('@{{ icon }}');">
+                        </button>
+                    </div>
+                </div>
+            @{{ /patterns }}
+        </div>
+
+        <div class="col-md-12 cp-margin-top-small">
+            <div class="edit-pattern-modal-container">
+            </div>
+            <hr>
+        </div>
     </div>
-    <button class="edit-pattern-modal-button" data-toggle="modal" data-target="#pattern-change-color">
-        Edit pattern color
-    </button>
-    <hr>
 </div>
 <div class="modal fade" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-md" role="document">
@@ -131,4 +141,4 @@
 </div>
 @{{ /modifiers }}
 </script>
-<!-- /Colors&Patterns Properties -->
+<!-- /Colors&Patterns Properties

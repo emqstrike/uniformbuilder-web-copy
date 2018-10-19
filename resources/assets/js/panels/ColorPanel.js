@@ -29,11 +29,12 @@ ColorPanel.prototype = {
 
     onSelect: function() {
         $(".color-main-container .color-container-button").on('click', '.color-selector-button', function(event) {
-            var color = $(this).data('color-name');
+            var selected_color = $(".color-main-container").find('.active-color');
+            selected_color.removeClass('active-color');
+            selected_color.html("");
 
-            $(this).html('<span class="fa fa-check fa-2x cp-fc-black"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-fc-black cp-padding-remove"></span>');
             $(this).addClass('active-color');
-            console.log(color)
         });
     }
 
