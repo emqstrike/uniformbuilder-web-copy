@@ -1374,6 +1374,9 @@
             // console.log('--- Embellishment Object: ---');
             // console.log(embellishment_obj);
 
+            // add embellishment custom scale in ub.styleValues.embellishmentScales
+            if (settings_obj.application_type === 'embellishments') { ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); }
+
             var _uniformCategory = ub.current_material.material.uniform_category;
 
             /// Wrestling
@@ -1393,7 +1396,9 @@
 
             if (ub.styleValues.embellishmentScales.hasValues()) {
 
-                var _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+                // var _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+
+                var _result = ub.funcs.processScale(settings_obj);
 
                 if(typeof _result === "undefined") {
 
