@@ -218,12 +218,14 @@ $(function() {
                 }
                 
                 if (response.success == true) {
-                    var oTable = $('.data-table').DataTable();
-                    oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    
 
                     $('#myModal').modal('hide');
 
-                    if (! is_update) {
+                    if (is_update) {
+                        var oTable = $('.data-table').DataTable();
+                        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    } else {
                         window.location.reload();
                     }
                 }
@@ -238,6 +240,7 @@ $(function() {
             window.rowData[3] = data.block_pattern;
             window.rowData[4] = data.block_pattern_option;
             window.rowData[5] = data.brand;
+            window.rowData[6] = '<a href="#" class="btn btn-defult btn-xs file-link" data-link="' + data.design_sheet_url + '">Link</a>';
             window.rowData[7] = data.qstrike_item_id;
             window.rowData[8] = data.priority;
             window.rowData[11] = data.type;
@@ -274,6 +277,7 @@ $(function() {
                 'url' : response
             });
             $('.design-sheet-path').val(filesData[0].url);
+            console.log(response);
         },
         complete: function(file){
             files.push(file.name);
@@ -346,7 +350,6 @@ $(function() {
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
-        $('#design-sheet-field').removeAttr('style');
     });
 
     $('.data-table tbody').on( 'click', 'tr', function () {
@@ -378,7 +381,6 @@ $(function() {
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
         $('#is_fixed_div').attr({"style": "display: none;"});
-        $('#design-sheet-field').attr({"style": "display: none;"});
         $('#input_notes').text('');
         $('.design-sheet-path').val('');
         $('.brand').val('none');
@@ -443,13 +445,6 @@ $(function() {
         $('.design-sheet-path').val(design_sheet_url);
         $('.brand').val(brand);
         $('#datepicker').val(deadline);
-
-        if (design_sheet_url) {
-            $('#design-sheet-field a').removeClass('disabled');
-            $('#design-sheet-field a').attr('href', design_sheet_url);
-        } else {
-            $('#design-sheet-field a').addClass('disabled');
-        }
 
         if (is_fixed == 1) {
             $('.is_fixed').prop('checked', true);

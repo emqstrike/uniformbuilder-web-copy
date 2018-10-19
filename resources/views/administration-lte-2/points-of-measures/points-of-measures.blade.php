@@ -13,7 +13,7 @@
                     @section('page-title', 'Points of Measures')
                     <h1>
                         <span class="fa fa-arrows"></span>
-                        Points of Measures
+                        Master Point of Measure
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
@@ -24,7 +24,8 @@
                             <th>ID</th>
                             <th>Number</th>
                             <th width="30%">Name</th>
-                            <th style="text-align:center" colspan="2">Tolerance</th>
+                            <th> + Tolerance</th>
+                            <th> - Tolerance</th>
                             <th>Image</th>
                             <th>Video</th>
                             <th>Actions</th>
