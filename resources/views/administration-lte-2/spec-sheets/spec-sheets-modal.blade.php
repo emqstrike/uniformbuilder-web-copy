@@ -20,13 +20,13 @@
                 <form role="form" id="myForm" action="#" method="POST">
                   <div class="form-group">
                     <input type="hidden" name="poms" id="poms">
-                    <label>Name</label>
+                    <label>Name of Spec Sheet</label>
                       <input type="hidden" class="form-control input-item-id" name="id">
                       <input type="text" class="form-control input-item-name" name="name" required>
                       <input type="hidden" class="form-control input-uniform-category" name="uniform_category" >
                   </div>
                   <div class="form-group">
-                    <label>Category</label>
+                    <label>Sport</label>
                       <select name="sport" class="form-control sport" required>
                         <option value="0">None</option>
                       </select>
@@ -67,7 +67,8 @@
                                           <th width="2%">QC</th>
                                           <th width="10%">Item</th>
                                           <th width="2%">Image</th>
-                                          <th colspan="2" width="10%">Tolerance</th>
+                                          <th width="5%">+ Tol.</th>
+                                          <th width="5%">- Tol.</th>
                                           <th width="75%"><div class="col-md-12 sizes-header"></div></th>
                                           <th width="1%"></th>
                                         </thead>

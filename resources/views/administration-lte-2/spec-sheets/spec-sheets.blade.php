@@ -34,7 +34,7 @@
                     @section('page-title', 'Spec Sheets')
                     <h1>
                         <span class="fa fa-info-circle"></span>
-                        Spec Sheets
+                        Master Spec Sheet List
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
@@ -43,9 +43,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th id="select-filter">Sport</th>
+                            <th id="select-filter">Factories</th>
                             <th>Name</th>
-                            <th id="select-filter">Category</th>
-                            <th id="select-filter">Factory</th>
                             <th>Date Created</th>
                             <th>Last Date Editted</th>
                             <th>Actions</th>
@@ -56,18 +56,20 @@
                     @forelse ($spec_sheets as $item)
 
                         <tr class='item-{{ $item->id }}'>
-                            <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="td-item-name col-md-1">{{ $item->name }}</td>
-                            <td class="td-item-category col-md-1">{{ $item->uniform_category }}<input type="hidden" class="td-item-category-id" value="{{ $item->uniform_category_id }}"></td>
+                            <td class="td-item-id col-md-1">{{ $item->id }}<input type="hidden" class="td-item-category-id" value="{{ $item->uniform_category_id }}"></td>
+                            <td class="td-item-category col-md-1">{{ $item->uniform_category }}</td>
                             <td class="td-item-factory col-md-1">{{ $item->factory }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->updated_at }}</td>
-                            <td class="col-md-2">
+                            <td class="td-item-name col-md-1">{{ $item->name }}</td>
+                            <td class="td-item-created col-md-1">{{ $item->created_at }}</td>
+                            <td class="td-item-updated col-md-1">{{ $item->updated_at }}</td>
+                            <td class="col-md-3">
                                 <input type="hidden" class="td-item-size-type" value="{{$item->sizing_type}}">
                                 <input type="hidden" class="td-item-sizes" value="{{$item->sizes}}">
                                 <textarea name="poms" class="td-item-poms" style="display:none;">{{ $item->poms }}</textarea>
                                 <center>
+                                    <a href="#" class="btn btn-primary btn-sm btn-flat view-record" data-target="#SpecSheetModal" data-toggle="modal">View</a>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <a href="#" class="btn btn-success btn-sm btn-flat export-record">Export</a>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-item" data-item-id="{{ $item->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -121,6 +123,7 @@
     </div>
 </section>
 @include('administration-lte-2.spec-sheets.spec-sheets-modal')
+@include('administration-lte-2.spec-sheets.view-spec-sheet-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -170,7 +173,6 @@ $(document).ready(function(){
         addSizes();
         loadPopover();
         $('.cl-size').trigger('change');
-
     });
 
     $(document).on("click", ".delete-row", function(e){
@@ -197,18 +199,31 @@ $(document).ready(function(){
         $('.submit-new-record').removeAttr('disabled');
     });
 
+    $("#SpecSheetModal").on("hidden.bs.modal", function() {
+        $('.input-item-id').val('');
+        $('#sizes').val('');
+        window.adult_sizes = [];
+        window.youth_sizes = [];
+        $("input[type='checkbox']").prop('checked', false);
+        $('#poms').val('');
+        $('.view-sizes-header').empty();
+        $('.view-sizes-row').empty();
+        $('.view-properties-content').empty();
+        $('.submit-new-record').removeAttr('disabled');
+    });
+
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Spec Sheets Information');
-        $('.submit-new-record').text('Add Record');
+        $('.modal-title').text('Create Sizing Spec Sheet');
+        $('.submit-new-record').text('Save');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Spec Sheet Information');
-        $('.submit-new-record').text('Update Record');
+        $('.modal-title').text('Edit Sizing Spec Sheet');
+        $('.submit-new-record').text('Save');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
         data.name = $(this).parent().parent().parent().find('.td-item-name').text();
@@ -237,6 +252,30 @@ $(document).ready(function(){
             loadConfigurations(data.poms);
         }
         updateObjectSizes();
+    });
+
+    $(document).on('click', '.view-record', function(e) {
+        e.preventDefault();
+        $('.modal-title').text('View Sizing Spec Sheet');
+        var data = {};
+        data.id = $(this).parent().parent().parent().find('.td-item-id').text();
+        data.sizes = $(this).parent().parent().parent().find('.td-item-sizes').val();
+        data.created_at = $(this).parent().parent().parent().find('.td-item-created').text();
+        data.updated_at = $(this).parent().parent().parent().find('.td-item-updated').text();
+        var props = $(this).parent().parent().parent().find('.td-item-poms').val();
+        if (props.length > 1) {
+            data.poms = JSON.parse(props);
+        } else {
+            data.poms = null;
+        }
+        $('.item-id').val(data.id);
+        $('.item-date-created').val(data.created_at);
+        $('.item-date-updated').val(data.updated_at);
+        $('#sizes').val(data.sizes);
+        $('#poms').val(data.poms);
+        if (data.poms != null) {
+            viewConfigurations(data.poms);
+        }
     });
 
     $("#myForm").submit(function(e) {
@@ -300,7 +339,8 @@ $(document).ready(function(){
 
     }
 
-    function updateObjectSizes(){
+    function updateObjectSizes() {
+
     if($('#sizes').val()){
         var sizes_val = $('#sizes').val();
         sizes_val = JSON.parse(sizes_val);
@@ -371,6 +411,24 @@ $(document).ready(function(){
         });
         $('.sizes-row').last().append(elem);
         $('.sizes-header').append(header_elem);
+    }
+
+    function viewSizes(data){
+        $('.view-sizes-header').empty();
+        var header_elem = '';
+        var elem = '';
+        _.each(array_all_sizes, function (s) {
+            $.each(data, function(key, value) {
+            var size_key = Object.keys(value).toString();
+            var size_value = Object.values(value).toString();
+                if (s == size_key) {
+                    header_elem += '<input type="text" class="cl-header '+ size_key +'" value="'+ size_key +'" disabled> ';
+                    elem += '<input type="number" class="cl-size '+ size_key +'" value= "'+ size_value +'" disabled>';
+                }
+            });
+        });
+        $('.view-sizes-row').last().append(elem);
+        $('.view-sizes-header').append(header_elem);
     }
 
     function loadPopover() {
@@ -557,6 +615,30 @@ $(document).ready(function(){
             $('.cl-size').trigger('change');
         });
     }
+
+    function viewConfigurations(data) {
+
+        data.forEach(function(entry, i) {
+            var item_text = entry.pom_properties.pom_number+ `--` + entry.pom_properties.name;
+            var item_value = JSON.stringify(entry.pom_properties);
+            var qc = `<td><input type="checkbox" class="pom-qc" value="`+ entry.qc_required +`" disabled></td>`;
+            var item = `<td><input type="hidden" class="form-control pom-item-value" value='`+ item_value +`'><input type="text" class="form-control pom-item" value="`+ item_text +`" disabled></td>`;
+            var image = `<td><a href="#" class="btn btn-defult btn-md file-link" data-link="`+ entry.pom_properties.image_link +`" data-toggle="popover"><i class="fa fa-picture-o" aria-hidden="true"></i></a></td>`;
+            var plus_tol = `<td><input type="number" class="pom-plus-tol" value="` +entry.pom_properties.plus_tolerance+ `" disabled></td>`;
+            var minus_tol = `<td><input type="number" class="pom-minus-tol" value="` +entry.pom_properties.minus_tolerance+ `" disabled></td>`;
+            var sizes = `<td><input type="hidden" class="form-control pom-sizes"><div class="view-sizes-row col-md-12"></div></td>`;
+            var elem = `<tr class="layer-row">` + qc + item + image + plus_tol + minus_tol + sizes + `</tr>`;
+            $('.view-properties-content').append(elem);
+            if (entry.qc_required == 1)  {
+                $('.pom-qc').last().prop('checked', true);
+            } else {
+                $('.pom-qc').last().prop('checked', false);
+            }
+            viewSizes(entry.sizes);
+            loadPopover();
+        });
+    }
+
     function loadUniformCategories() {
         var category_elem = "";
         _.each(window.categories, function(category) {
