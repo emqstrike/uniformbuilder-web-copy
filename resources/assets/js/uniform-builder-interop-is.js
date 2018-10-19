@@ -845,7 +845,7 @@ $(document).ready(function() {
             }
 
         }
-   
+
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
@@ -1278,6 +1278,11 @@ $(document).ready(function() {
                     return;
 
                 }
+
+                // add scale_type flag on application settings
+                // this is to know if the application is using custom scale or not (embellishment application only)
+                var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
+                _settingsObject.scale_type = _scaleType;
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
@@ -2229,5 +2234,74 @@ $(document).ready(function() {
 
         }
 
+        /*
+        * @desc add embellishment custom scale of ub.styleValue.embellishmentScales
+        * @param settingObj (object) - application settings
+        * @param appId (string) - application ID
+        */
+        ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray = function (settingsObj, appId) {
+
+            var views = settingsObj.application.views;
+
+            var appIdStr = appId.toString();
+            var fontSizeStr = settingsObj.font_size.toString();
+
+            var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
+
+            _.each(views, function(view) {
+
+                var scale = parseFloat(view.application.appCustomScale.x);
+                    scale = scale.toString();
+
+                if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
+                    && typeof settingsObj.bestfit_obj === 'undefined') { 
+
+                        embellishmentScales.push({
+                            appId: appIdStr,
+                            size: fontSizeStr,
+                            scale: scale
+                        }); 
+
+                }
+
+            });
+
+        }
+
+        /*
+        * @desc process the x and y scale of the application
+        * @param settingObj (object) - application settings
+        * @return scale (object) - e.g. {x: 1, y: 1}
+        */
+        ub.funcs.processScale = function (settingsObj) {
+
+            var settingsObj = settingsObj;
+
+            var scale;
+
+            var embellishmentScales = ub.styleValues.embellishmentScales;
+
+            if (typeof settingsObj.custom_obj === 'undefined' || settingsObj.scale_type === 'custom') {
+
+                var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
+
+                scale = { x: custom.scale, y: custom.scale };
+
+                settingsObj.custom_obj = {
+                    scale: scale,
+                    fontSize: custom.size,
+                    active: true
+                };
+
+            } else {
+
+                scale = embellishmentScales.getScale(settingsObj.size);
+                settingsObj.custom_obj.active = false;
+
+            }
+
+            return scale;
+
+        }
 
 });
