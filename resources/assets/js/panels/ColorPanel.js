@@ -33,7 +33,7 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-fc-black cp-padding-remove"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-color-check cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-color');
         });
     }

@@ -36,17 +36,16 @@
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
 @{{ #modifiers }}
-<div class="cp-padding-small">
+<div class="cp-padding-small cp-padding-remove-vertical">
     <div class="row">
-
-        <div class="col-md-12">
+        <div class="col-md-12 cp-padding-remove">
             <div class="cp-text-uppercase cp-fc-white">
                 <h4 class="header cp-text-bold">@{{ name }}</h4>
                 <p style="font-weight: bold;">Choose Color / Pattern</p>
             </div>
         </div>
 
-        <div class="col-md-12 cp-margin-bottom-medium">
+        <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
             <p>COLOR</p>
             @{{ #colors }}
             <div class="color-main-container">
@@ -59,7 +58,7 @@
             @{{ /colors }}
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12 cp-padding-remove">
             <p>PATTERN</p>
             @{{ #patterns }}
                 <div class="color_element sublimated pattern-main-container">
@@ -70,8 +69,7 @@
                 </div>
             @{{ /patterns }}
         </div>
-
-        <div class="col-md-12 cp-margin-top-small">
+        <div class="col-md-12 cp-margin-top-small cp-padding-remove">
             <div class="edit-pattern-modal-container">
             </div>
             <hr>
@@ -118,14 +116,12 @@
                             </div>
                         </div>
                         <div class="row cp-text-center">
-                            <div class="col-md-12 cp-padding-remove cp-margin-top-small">
+                            <div class="color-main-container">
                                 @{{ #colors }}
-                                    <div class="color-main-container">
-                                        <div class="color_element sublimated color-container-button">
-                                            <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
-                                                </button>
-                                            </div>
+                                    <div class="col-md-2 cp-padding-remove cp-margin-top-small color-container-button">
+                                        <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                                            <button class="color-selector-button cp-modal-color" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
+                                            </button>
                                         </div>
                                     </div>
                                 @{{ /colors }}
