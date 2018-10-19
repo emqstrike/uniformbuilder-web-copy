@@ -102,29 +102,33 @@
                     <div class="col-md-8">
                         <!-- Nav tabs -->
                         <div class="row">
-                            <div class="col-sm-3 cp-padding-remove">
-                                <button class="btn btn-default cp-button-active cp-width-1-1">1</button>
-                            </div>
-                            <div class="col-sm-3 cp-padding-remove">
-                                <button class="btn btn-default cp-width-1-1">2</button>
-                            </div>
-                            <div class="col-sm-3 cp-padding-remove">
-                                <button class="btn btn-default cp-width-1-1">3</button>
-                            </div>
-                            <div class="col-sm-3 cp-padding-remove">
-                                <button class="btn btn-default cp-width-1-1">4</button>
+                            <div class="pattern-color-categories">
+                                <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                    <button class="btn btn-default cp-button-active cp-width-1-1 pattern-color-selector">Color 1</button>
+                                </div>
+                                <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                    <button class="btn btn-default cp-width-1-1 pattern-color-selector">Color 2</button>
+                                </div>
+                                <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                    <button class="btn btn-default cp-width-1-1 pattern-color-selector">Color 3</button>
+                                </div>
+                                <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                    <button class="btn btn-default cp-width-1-1 pattern-color-selector">Color 4</button>
+                                </div>
                             </div>
                         </div>
                         <div class="row cp-text-center">
                             <div class="col-md-12 cp-padding-remove cp-margin-top-small">
-                                <li style="list-style: none;">
-                                    <div class="color_element sublimated cp-custom-margin">
-                                        <button class="grow btn change-color whitebtn cp-new-color-box" style="background-color: yellow;">
-                                        <span class="fa fa-check fa-1x cp-fc-black"></span>
-                                        </button>
-                                        <span class="label cp-fc-black">Color Name</span>
+                                @{{ #colors }}
+                                    <div class="color-main-container">
+                                        <div class="color_element sublimated color-container-button">
+                                            <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                                                <button class="grow change-color whitebtn cp-new-color-box color-selector-button" style="background-color: #@{{ hex_code}};" data-color-name="@{{ name}}">
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </li>
+                                @{{ /colors }}
                             </div>
                         </div>
                     </div>

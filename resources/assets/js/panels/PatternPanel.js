@@ -38,6 +38,7 @@ PatternPanel.prototype = {
             selected_color.removeClass('active-pattern');
             selected_color.html("");
             $(".edit-pattern-modal-container").html("");
+            $(".edit-pattern-modal-container").html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
 
             if (selected_color.length > 0)
             {
@@ -46,6 +47,20 @@ PatternPanel.prototype = {
 
             $(this).html('<span class="fa fa-check fa-1x cp-pattern-check-color cp-padding-remove"></span>');
             $(this).addClass('active-pattern');
+        });
+    },
+
+    onChangeColorPaternCategory: function() {
+        $(".pattern-color-categories .pattern-color-item").on('click', '.pattern-color-selector', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var selected_category = $(".pattern-color-categories").find(".cp-button-active");
+            selected_category.removeClass('active-color-pattern-category');
+            selected_category.removeClass('cp-button-active');
+
+            $(this).addClass('active-color-pattern-category');
+            $(this).addClass('cp-button-active');
+
         });
     }
 
