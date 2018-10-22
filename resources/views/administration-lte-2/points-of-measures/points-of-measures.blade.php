@@ -13,7 +13,7 @@
                     @section('page-title', 'Points of Measures')
                     <h1>
                         <span class="fa fa-arrows"></span>
-                        Points of Measures
+                        Master Point of Measure
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
@@ -24,7 +24,8 @@
                             <th>ID</th>
                             <th>Number</th>
                             <th width="30%">Name</th>
-                            <th style="text-align:center" colspan="2">Tolerance</th>
+                            <th> + Tolerance</th>
+                            <th> - Tolerance</th>
                             <th>Image</th>
                             <th>Video</th>
                             <th>Actions</th>
@@ -40,7 +41,9 @@
                             <td class="td-item-name col-md-1">{{ $item->name }}</td>
                             <td class="td-item-plus-tol col-md-1">{{ $item->plus_tolerance }}</td>
                             <td class="td-item-minus-tol col-md-1">{{ $item->minus_tolerance }}</td>
-                            <td class="td-item-image col-md-1">{{ $item->image_link }}</td>
+                            <td>
+                                <a href="#" class="btn btn-defult btn-md file-link" data-link="{{ $item->image_link }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                            </td>
                             <td class="td-item-video col-md-1">{{ $item->video_link }}</td>
                             <td class="col-md-2">
                                 <center>
@@ -247,6 +250,28 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.delete-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/v1-0/points_of_measure/deleteImage";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
+
     function fileUpload(postData, callback){
         var file;
         $.ajax({
@@ -270,6 +295,16 @@ $(document).ready(function(){
         });
     };
 
+    $('.file-link').on('click', function(e){
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+    });
+
+    function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+    }
+
     try {
         $('.data-table').DataTable({
             "paging": true,
@@ -278,27 +313,7 @@ $(document).ready(function(){
             "ordering": false,
             "info": true,
             "autoWidth": false,
-            "pageLength" : 15,
-            "stateSave": true,
-            initComplete: function () {
-            this.api().columns('#select-filter').every( function () {
-                var column = this;
-                var select = $(`<select><option value=""></option></select>`)
-                    .appendTo( $(column.footer()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-                        column
-                        .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
-                column.data().unique().sort().each( function ( d, j ) {
-
-                    select.append( `<option value="`+d+`">`+d+`</option>` );
-                } );
-            } );
-        }
+            "pageLength" : 15
         });
     } catch(e) {
         console.log(e.message);

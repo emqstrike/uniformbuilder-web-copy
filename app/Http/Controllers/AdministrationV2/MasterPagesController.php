@@ -31,9 +31,6 @@ class MasterPagesController extends Controller
     public function styleRequestIndex()
     {
         $style_requests = $this->styleRequestsAPIClient->getAll();
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
 
         $high_priority_count = 0;
         $in_progress_count = 0;
@@ -58,17 +55,14 @@ class MasterPagesController extends Controller
                 $pending_count++;
             }
         }
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.style-request.style-requests', [
-                'style_requests' => $style_requests,
-                'high_priority_count' => $high_priority_count,
-                'in_progress_count' => $in_progress_count,
-                'rejected_count' => $rejected_count,
-                'pending_count' => $pending_count
-            ]);
-        } else {
-                return redirect('administration');
-        }
+        
+        return view('administration-lte-2.style-request.style-requests', [
+            'style_requests' => $style_requests,
+            'high_priority_count' => $high_priority_count,
+            'in_progress_count' => $in_progress_count,
+            'rejected_count' => $rejected_count,
+            'pending_count' => $pending_count
+        ]);
     }
 
     public function styleRequestAdd()
@@ -88,65 +82,35 @@ class MasterPagesController extends Controller
     {
         $fonts = $this->masterFontsAPIClient->getAllFonts();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.fonts.fonts', [
-                'fonts' => $fonts
-                ]);
-        } else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.master-pages.fonts.fonts', [
+            'fonts' => $fonts
+        ]);
     }
 
     public function fabricsIndex()
     {
         $fabrics = $this->masterFabricsAPIClient->getAllFabrics();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.fabrics.fabrics', [
-                'fabrics' => $fabrics
-                ]);
-        } else {
-                return redirect('administration');
-        }
+         return view('administration-lte-2.master-pages.fabrics.fabrics', [
+            'fabrics' => $fabrics
+        ]);
     }
 
     public function patternsIndex()
     {
         $patterns = $this->masterPatternsAPIClient->getAllPatterns();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.patterns.patterns', [
-                'patterns' => $patterns
-                ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.master-pages.patterns.patterns', [
+            'patterns' => $patterns
+        ]);
     }
 
     public function colorsIndex()
     {
         $colors = $this->masterColorsAPIClient->getAllColors();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.colors.master-colors', [
-                'colors' => $colors
-                ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.master-pages.colors.master-colors', [
+            'colors' => $colors
+        ]);
     }
 }

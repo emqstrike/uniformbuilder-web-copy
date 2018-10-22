@@ -245,17 +245,9 @@ class FontsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.fonts.create', [
-                'fonts' => $fonts,
-                'categories' => $uniformCategories
-            ]);
-        } else {
-            return back();
-        }
+        return view('administration-lte-2.fonts.create', [
+            'fonts' => $fonts,
+            'categories' => $uniformCategories
+        ]);
     }
 }
