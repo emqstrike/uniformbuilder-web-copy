@@ -60,8 +60,8 @@
                             <td class="td-item-category col-md-1">{{ $item->uniform_category }}</td>
                             <td class="td-item-factory col-md-1">{{ $item->factory }}</td>
                             <td class="td-item-name col-md-1">{{ $item->name }}</td>
-                            <td class="td-item-created col-md-1">{{ $item->created_at }}</td>
-                            <td class="td-item-updated col-md-1">{{ $item->updated_at }}</td>
+                            <td class="td-item-created col-md-1">{{ $item->created_at }}<input type="hidden" class="td-item-notes" value="{{ $item->notes }}"></td></td>
+                            <td class="td-item-updated col-md-1">{{ $item->updated_at }}<input type="hidden" class="td-item-updated-by" value="{{ $item->updated_by }}"></td></td>
                             <td class="col-md-3">
                                 <input type="hidden" class="td-item-size-type" value="{{$item->sizing_type}}">
                                 <input type="hidden" class="td-item-sizes" value="{{$item->sizes}}">
@@ -141,6 +141,7 @@ $(document).ready(function(){
     window.sizes = {};
     window.adult_sizes = [];
     window.youth_sizes = [];
+    window.updated_by = '';
 
     getUniformCategories(function(categories){
         window.categories = categories;
@@ -192,6 +193,7 @@ $(document).ready(function(){
         window.adult_sizes = [];
         window.youth_sizes = [];
         $("input[type='checkbox']").prop('checked', false);
+        $('#input-notes').val('');
         $('#poms').val('');
         $('.sizes-header').empty();
         $('.sizes-row').empty();
@@ -217,6 +219,7 @@ $(document).ready(function(){
         window.modal_action = 'add';
         $('.modal-title').text('Create Sizing Spec Sheet');
         $('.submit-new-record').text('Save');
+        $('.notes-div').attr({"style": "display: none;"});
     });
 
     $(document).on('click', '.edit-record', function(e) {
@@ -224,13 +227,17 @@ $(document).ready(function(){
         window.modal_action = 'update';
         $('.modal-title').text('Edit Sizing Spec Sheet');
         $('.submit-new-record').text('Save');
+        $('.notes-div').attr({"style": "display: block;"});
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
         data.name = $(this).parent().parent().parent().find('.td-item-name').text();
         data.uniform_category = $(this).parent().parent().parent().find('.td-item-category').text();
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-item-category-id').val();
         data.factory = $(this).parent().parent().parent().find('.td-item-factory').text();
+        data.notes = $(this).parent().parent().parent().find('.td-item-notes').val();
         data.sizing_type = $(this).parent().parent().parent().find('.td-item-size-type').val();
+        data.updated_by_id = $(this).parent().parent().parent().find('.td-item-updated-by').val();
+
         data.sizes = $(this).parent().parent().parent().find('.td-item-sizes').val();
         var props = $(this).parent().parent().parent().find('.td-item-poms').val();
         if (props.length > 1) {
@@ -238,6 +245,15 @@ $(document).ready(function(){
         } else {
             data.poms = null;
         }
+
+        if (data.updated_by_id != 0) {
+            getUser(data.updated_by_id, function (user) { window.updated_by = user });
+            data.updated_by = window.updated_by.first_name+' '+window.updated_by.last_name;
+            console.log(data.updated_by);
+        } else {
+            data.updated_by = '';
+        }
+
         $('.input-item-id').val(data.id);
         $('.input-item-name').val(data.name);
         $('.input-uniform-category').val(data.uniform_category);
@@ -246,6 +262,8 @@ $(document).ready(function(){
         $('.input-factory').val(data.factory);
         $('.input-factory').trigger('change');
         $("input[name=sizing_type][value=" + data.sizing_type + "]").prop('checked', true);
+        $('#input-notes').val(data.notes);
+        $('#input-updated-by').val(data.updated_by);
         $('#sizes').val(data.sizes);
         $('#poms').val(data.poms);
         if (data.poms != null) {
@@ -257,11 +275,13 @@ $(document).ready(function(){
     $(document).on('click', '.view-record', function(e) {
         e.preventDefault();
         $('.modal-title').text('View Sizing Spec Sheet');
+        $('.notes-div').attr({"style": "display: none;"});
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-item-id').text();
         data.sizes = $(this).parent().parent().parent().find('.td-item-sizes').val();
         data.created_at = $(this).parent().parent().parent().find('.td-item-created').text();
         data.updated_at = $(this).parent().parent().parent().find('.td-item-updated').text();
+        data.notes = $(this).parent().parent().parent().find('.td-item-notes').val();
         var props = $(this).parent().parent().parent().find('.td-item-poms').val();
         if (props.length > 1) {
             data.poms = JSON.parse(props);
@@ -271,6 +291,7 @@ $(document).ready(function(){
         $('.item-id').val(data.id);
         $('.item-date-created').val(data.created_at);
         $('.item-date-updated').val(data.updated_at);
+        $('#notes_text').text(data.notes);
         $('#sizes').val(data.sizes);
         $('#poms').val(data.poms);
         if (data.poms != null) {
@@ -286,6 +307,7 @@ $(document).ready(function(){
         data.uniform_category_id = $('.sport').find(":selected").val();
         data.factory = $('.input-factory').find(":selected").val();
         data.sizing_type = $("input[name='sizing_type']:checked").val();
+        data.notes = $('#input-notes').val();
         data.sizes = $("#sizes").val();
         data.poms = $('#poms').val();
 
@@ -295,6 +317,7 @@ $(document).ready(function(){
             data.id = $('.input-item-id').val();
             var url = "//" + api_host +"/api/v1-0/spec_sheet/update";
         }
+
         addUpdateRecord(data, url);
         $('.submit-new-record').attr('disabled', 'true');
     });
@@ -554,7 +577,6 @@ $(document).ready(function(){
             };
             data.push(x);
         });
-        console.log(JSON.stringify(data));
         $('#poms').val(JSON.stringify(data));
     }
 
@@ -623,7 +645,7 @@ $(document).ready(function(){
             var item_value = JSON.stringify(entry.pom_properties);
             var qc = `<td><input type="checkbox" class="pom-qc" value="`+ entry.qc_required +`" disabled></td>`;
             var item = `<td><input type="hidden" class="form-control pom-item-value" value='`+ item_value +`'><input type="text" class="form-control pom-item" value="`+ item_text +`" disabled></td>`;
-            var image = `<td><a href="#" class="btn btn-defult btn-md file-link" data-link="`+ entry.pom_properties.image_link +`" data-toggle="popover"><i class="fa fa-picture-o" aria-hidden="true"></i></a></td>`;
+            var image = `<td><a href="#" class="btn btn-default btn-md file-link" data-link="`+ entry.pom_properties.image_link +`" data-toggle="popover"><i class="fa fa-picture-o" aria-hidden="true"></i></a></td>`;
             var plus_tol = `<td><input type="number" class="pom-plus-tol" value="` +entry.pom_properties.plus_tolerance+ `" disabled></td>`;
             var minus_tol = `<td><input type="number" class="pom-minus-tol" value="` +entry.pom_properties.minus_tolerance+ `" disabled></td>`;
             var sizes = `<td><input type="hidden" class="form-control pom-sizes"><div class="view-sizes-row col-md-12"></div></td>`;
@@ -702,6 +724,24 @@ $(document).ready(function(){
                 success: function(data){
                     pom = data['point_of_measure'];
                     if(typeof callback === "function") callback(pom);
+                }
+            });
+    }
+
+    function getUser(id, callback) {
+            var user;
+            var url = "//" +api_host+ "/api/user/"+id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                headers: {"accessToken": atob(headerValue)},
+                contentType: 'application/json',
+                success: function(data){
+                    user = data['user'];
+                    if(typeof callback === "function") callback(user);
                 }
             });
     }

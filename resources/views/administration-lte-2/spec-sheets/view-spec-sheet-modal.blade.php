@@ -53,15 +53,15 @@
                                     </tbody>
                                 </table>
                   </div>
-                  <div class="form-group row">
+                  <div class="form-group notes-div row">
                     <div class="col-sm-1">
                       <label class="control-label">Note/Comment</label>
                     </div>
-                    <div class="notes-div col-md-6">
+                    <div class="col-md-6">
                       <pre id="notes_text" ></pre>
                     </div>
                     <div class="col-md-2">
-                      <input type="text" title="Created By" disabled="">
+                      <input type="text" title="Updated By" disabled>
                     </div>
                   </div>
 
