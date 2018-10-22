@@ -48,7 +48,7 @@ PatternPanel.prototype = {
                 $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
             }
 
-            $(this).html('<span class="fa fa-check fa-1x cp-pattern-check cp-padding-remove"></span>');
+            $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
         });
     },
@@ -78,7 +78,7 @@ PatternPanel.prototype = {
 
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
+            $(this).html("");
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
