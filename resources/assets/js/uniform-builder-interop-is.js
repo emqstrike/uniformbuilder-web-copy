@@ -2250,17 +2250,21 @@ $(document).ready(function() {
 
             _.each(views, function(view) {
 
-                var scale = parseFloat(view.application.appCustomScale.x);
-                    scale = scale.toString();
+                if (typeof view.application.appCustomScale !== 'undefined') {
 
-                if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
-                    && typeof settingsObj.bestfit_obj === 'undefined') { 
+                    var scale = parseFloat(view.application.appCustomScale.x);
+                        scale = scale.toString();
 
-                        embellishmentScales.push({
-                            appId: appIdStr,
-                            size: fontSizeStr,
-                            scale: scale
-                        }); 
+                    if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
+                        && typeof settingsObj.bestfit_obj === 'undefined') { 
+
+                            embellishmentScales.push({
+                                appId: appIdStr,
+                                size: fontSizeStr,
+                                scale: scale
+                            }); 
+
+                    }
 
                 }
 
