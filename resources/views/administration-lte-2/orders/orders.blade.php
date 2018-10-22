@@ -601,7 +601,7 @@ $(document).ready(function(){
                             console.log('FACTORY ORDER ID >>>>>');
                             console.log(factory_order_id);
                             console.log(JSON.stringify(parts));
-                            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                            updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                             document.location.reload(); // UNCOMMENT
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
@@ -1049,11 +1049,11 @@ $(document).ready(function(){
         });
     }
 
-    function updateFOID(id, factory_order_id, parts){
+    function updateFOID(id, factory_order_id, parts, rep_id){
         $.ajax({
             url: '//' + api_host + '/api/order/updateFOID',
             type: "POST",
-            data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+            data: JSON.stringify({id: id, factory_order_id: factory_order_id, sent_to_rep_qx_id: rep_id}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
