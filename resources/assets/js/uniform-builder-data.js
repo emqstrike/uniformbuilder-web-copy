@@ -10237,6 +10237,14 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'PTS Cage Jacket (Apparel)',
                 sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                sublimatedPart: 'Body',
             }
         ],
 
@@ -12130,7 +12138,8 @@ ub.funcs.fontOffSets = [
             'Wrestling 2018',
             'Tennis',
             'Baseball',
-            'Socks (Apparel)'
+            'Socks (Apparel)',
+            'Yoga Pant (Apparel)'
         ],
         isValid: function (uniformCategory) {
 

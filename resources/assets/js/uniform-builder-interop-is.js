@@ -736,6 +736,41 @@ $(document).ready(function() {
 
         // End Change This for Embellishment Specific Size Settings
 
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+        if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+            ub.utilities.info('===>Using sizes from backend: ');
+
+            console.log('Default Sizes: ');
+            console.log(_sizes);
+            console.log('Application #: ');
+            console.log(_id);
+
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
+
+                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig;
+                
+            }
+
+        } else {
+
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+            }
+
+        }
+
         var _embellishmentObj   = _settingsObject.embellishment;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
