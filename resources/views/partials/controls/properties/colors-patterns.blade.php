@@ -36,9 +36,9 @@
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
 @{{ #modifiers }}
-<div class="cp-padding-medium cp-padding-remove-vertical">
+<div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
     <div class="row">
-        <div class="col-md-12 cp-padding-remove">
+        <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
             <div class="cp-text-uppercase cp-fc-white">
                 <h4 class="header cp-text-bold">@{{ name }}</h4>
                 <p style="font-weight: bold;">Choose Color / Pattern</p>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-            <p>COLOR</p>
+            <p class="cp-padding-left-medium">COLOR</p>
             <div class="color-main-container-@{{ fullname }}">
                 @{{ #colors }}
                     <div class="color_element sublimated color-container-button">
@@ -65,7 +65,7 @@
         </div>
 
         <div class="col-md-12 cp-padding-remove">
-            <p>PATTERN</p>
+            <p class="cp-padding-left-medium">PATTERN</p>
             <div class="pattern-main-container-@{{ fullname }}">
                 @{{ #patterns }}
                     <div class="color_element sublimated">
@@ -82,7 +82,7 @@
                 @{{ /patterns }}
             </div>
         </div>
-        <div class="col-md-12 cp-margin-top-small cp-padding-remove">
+        <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
             <div class="edit-pattern-modal-container-@{{ fullname }}">
             </div>
             <hr>
