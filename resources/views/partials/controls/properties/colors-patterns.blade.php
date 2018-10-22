@@ -47,38 +47,43 @@
 
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
             <p>COLOR</p>
-            @{{ #colors }}
-            <div class="color-main-container">
-                <div class="color_element sublimated color-container-button">
-                    <button
-                        class="grow change-color whitebtn cp-new-color-box color-selector-button"
-                        style="background-color: #@{{ hex_code }};"
-                        data-color-name="@{{ name }}"
-                        data-color-label="@{{ color_code }}"
-                    >
-                    </button>
-                    <span class="label">@{{ name }}</span>
-                </div>
+            <div class="color-main-container-@{{ fullname }}">
+                @{{ #colors }}
+                    <div class="color_element sublimated color-container-button">
+                        <button
+                            class="grow change-color whitebtn cp-new-color-box color-selector-button"
+                            style="background-color: #@{{ hex_code }};"
+                            data-color-name="@{{ name }}"
+                            data-color-label="@{{ color_code }}"
+                            data-modifier-category="@{{ fullname }}"
+                        >
+                        </button>
+                        <span class="label">@{{ name }}</span>
+                    </div>
+                @{{ /colors }}
             </div>
-            @{{ /colors }}
         </div>
 
         <div class="col-md-12 cp-padding-remove">
             <p>PATTERN</p>
-            @{{ #patterns }}
-                <div class="color_element sublimated pattern-main-container">
-                    <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                        <button
-                            class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
-                            style="background-image: url('@{{ icon }}');"
-                        >
-                        </button>
+            <div class="pattern-main-container-@{{ fullname }}">
+                @{{ #patterns }}
+                    <div class="color_element sublimated">
+                        <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                            <button
+                                class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
+                                data-modifier-category="@{{ fullname }}"
+                                style="background-image: url('@{{ icon }}');"
+                                data-modifier-category="@{{ fullname }}"
+                            >
+                            </button>
+                        </div>
                     </div>
-                </div>
-            @{{ /patterns }}
+                @{{ /patterns }}
+            </div>
         </div>
         <div class="col-md-12 cp-margin-top-small cp-padding-remove">
-            <div class="edit-pattern-modal-container">
+            <div class="edit-pattern-modal-container-@{{ fullname }}">
             </div>
             <hr>
         </div>
@@ -138,12 +143,12 @@
                         <div id="pattern-color-tab-content">
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
-                                    <div class="pattern-color-main-container">
+                                    <div class="pattern-color-main-container-1">
                                         @{{ #colors }}
                                             <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
                                                 <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                                                     <button
-                                                    class="pattern-color-selector-button-1 cp-modal-color"
+                                                    class="pattern-color-selector-button cp-modal-color"
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
@@ -155,12 +160,12 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
-                                    <div class="pattern-color-main-container">
+                                    <div class="pattern-color-main-container-2">
                                         @{{ #colors }}
                                             <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
                                                 <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                                                     <button
-                                                    class="pattern-color-selector-button-2 cp-modal-color"
+                                                    class="pattern-color-selector-button cp-modal-color"
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
@@ -172,12 +177,12 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
-                                    <div class="pattern-color-main-container">
+                                    <div class="pattern-color-main-container-3">
                                         @{{ #colors }}
                                             <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
                                                 <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                                                     <button
-                                                    class="pattern-color-selector-button-3 cp-modal-color"
+                                                    class="pattern-color-selector-button cp-modal-color"
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
@@ -189,12 +194,12 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
-                                    <div class="pattern-color-main-container">
+                                    <div class="pattern-color-main-container-4">
                                         @{{ #colors }}
                                             <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
                                                 <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                                                     <button
-                                                    class="pattern-color-selector-button-4 cp-modal-color"
+                                                    class="pattern-color-selector-button cp-modal-color"
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"

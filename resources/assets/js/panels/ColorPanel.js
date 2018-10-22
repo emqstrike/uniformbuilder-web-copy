@@ -28,10 +28,11 @@ ColorPanel.prototype = {
     },
 
     onSelect: function() {
-        $(".color-main-container .color-container-button").on('click', '.color-selector-button', function(event) {
+        $(".color-container-button").on('click', '.color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
+            var modifier_category = $(this).data("modifier-category");
 
-            var selected_color = $(".color-main-container").find('.active-color');
+            var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
             selected_color.html("");
 

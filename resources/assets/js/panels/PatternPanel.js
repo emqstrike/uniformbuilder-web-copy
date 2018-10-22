@@ -33,16 +33,19 @@ PatternPanel.prototype = {
     },
 
     onSelect: function() {
-        $(".pattern-main-container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
-            var selected_color = $(".pattern-main-container").find('.active-pattern');
-            selected_color.removeClass('active-pattern');
-            selected_color.html("");
-            $(".edit-pattern-modal-container").html("");
-            $(".edit-pattern-modal-container").html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+        $(".pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+            var modifier_category = $(this).data("modifier-category");
 
-            if (selected_color.length > 0)
+            var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
+            selected_pattern.removeClass('active-pattern');
+            selected_pattern.html("");
+
+            $(".edit-pattern-modal-container-"  + modifier_category).html("");
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+
+            if (selected_pattern.length > 0)
             {
-                $(".edit-pattern-modal-container").html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
             }
 
             $(this).html('<span class="fa fa-check fa-1x cp-pattern-check cp-padding-remove"></span>');
@@ -58,14 +61,6 @@ PatternPanel.prototype = {
             selected_category.removeClass('active-color-pattern-category');
             selected_category.removeClass('cp-button-active');
 
-            var selected_color = $(".color-main-container").find('.active-color');
-            if(selected_color.length > 0)
-            {
-                selected_color.removeClass('active-color');
-                selected_color.html("");
-            }
-
-
             $(this).addClass('active-color-pattern-category');
             $(this).addClass('cp-button-active');
 
@@ -73,19 +68,15 @@ PatternPanel.prototype = {
     },
 
     onSelectColorPerCategory: function() {
-        var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
-        $(".pattern-color-main-container .pattern-color-button-container").on('click', '.pattern-color-selector-button-' + active_pattern_color_category, function(event) {
-            event.preventDefault();
+        $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
             /* Act on the event */
-            var color_category = $(this).data("pattern-category");
+            var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
 
-            console.log(active_pattern_color_category, color_category);
-
-            var colorLabel = $(this).data("color-label");
-
-            var selected_color = $(".pattern-color-main-container").find('.active-pattern-color');
+            var selected_color = $(".pattern-color-main-container-" + active_pattern_color_category).find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
+
+            var colorLabel = $(this).data("color-label");
 
             $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-pattern-color');
