@@ -1085,6 +1085,14 @@
                     @{{{ generateSizes }}}
                 </div>
 
+                @{{#isApplication}}
+                    <div class="ui-row angleItems">
+                        <label class="applicationLabels font_size">Angle</label>
+                        <span class="angleItem" data-angle="straight">Straight</span>
+                        <span class="angleItem" data-angle="rotated">Rotated</span>
+                    </div>
+                @{{/isApplication}}
+
                 <div class="clearfix"></div>
 
                 <div class="color-pattern-tabs">

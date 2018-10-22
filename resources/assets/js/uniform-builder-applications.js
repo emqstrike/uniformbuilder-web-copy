@@ -9505,23 +9505,19 @@ $(document).ready(function () {
         if (_uniformCategory === "Football") {
 
             _sizes = ub.funcs.getApplicationSizes(_applicationType);
-            //console.log('====>IM FROM FOOTBALL');
 
         } else if (ub.current_material.material.uniform_category === "Baseball") {
 
             _sizes = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
-            //console.log('====>IM FROM BASKETBALL');
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
 
             _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
-            //console.log('====>IM FROM SPECIAL', _sizes);
 
         } else {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
             _sizes = ub.funcs.getApplicationSizes(_applicationType);
-            //console.log('====>IM FROM GENERIC');
 
         }
 
