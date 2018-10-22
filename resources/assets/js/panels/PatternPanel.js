@@ -70,6 +70,31 @@ PatternPanel.prototype = {
             $(this).addClass('cp-button-active');
 
         });
+    },
+
+    onSelectColorPerCategory: function() {
+        var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
+        $(".pattern-color-main-container .pattern-color-button-container").on('click', '.pattern-color-selector-button-' + active_pattern_color_category, function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var color_category = $(this).data("pattern-category");
+
+            console.log(active_pattern_color_category, color_category);
+
+            var colorLabel = $(this).data("color-label");
+
+            var selected_color = $(".pattern-color-main-container").find('.active-pattern-color');
+            selected_color.removeClass('active-pattern-color');
+            selected_color.html("");
+
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
+            $(this).addClass('active-pattern-color');
+
+            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
+                $(this).css('color', '#3d3d3d');
+                $(this).css('text-shadow', '1px 1px #d7d7d7');
+            }
+        });
     }
 
 }
