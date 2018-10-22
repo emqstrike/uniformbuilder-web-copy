@@ -157,8 +157,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store'])->name('v1_update_mascot');
 
             /* Materials */
-            Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@index'])->name('v1_materials_index');
-            Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport']);
+            Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport'])->name('v1_materials_index');
             Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexFull']);
             Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store'])->name('v1_material_store');
             Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store'])->name('v1_update_material');
