@@ -1099,7 +1099,9 @@
                     <span class="tab active @{{ colorTabVisibility }}" data-item="colors">Colors</span>
                     <span class="tab @{{ patternsTabVisibility }}" data-item="patterns">Patterns</span>
                     <span class="tab" data-item="manipulators"></span>
-                    <span class="tab @{{ tailSweepsTabVisibility }}" data-item="tailsweeps">Tail Sweeps</span>
+                    @{{#isBaseballFastpitch}}
+                        <span class="tab @{{ tailSweepsTabVisibility }}" data-item="tailsweeps">Tail Sweeps</span>
+                    @{{/isBaseballFastpitch}}
                 </div>
 
                 <div class="ui-row">
@@ -1141,6 +1143,10 @@
                     @{{#isEmbellishment}}
                         @{{{ embellishmentSidebar }}}
                     @{{/isEmbellishment}}
+
+                    @{{#isBaseballFastpitch}}
+                        @{{{ tailSweepPanel }}}
+                    @{{/isBaseballFastpitch}}
 
                     @{{#isApplication}}
                         <div class="column1 applications patterns">

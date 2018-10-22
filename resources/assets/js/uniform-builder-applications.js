@@ -9588,7 +9588,6 @@ $(document).ready(function () {
         var _colorArray = _settingsObject.color_array;
         var _colorArrayString = '';
         var _generateSizes = '';
-        var _tailSweepsTabVisibility = '';
         var _thumbIcon = '/images/sidebar/' + _accentFilename;
         var _colorPickers = '';
 
@@ -9682,10 +9681,11 @@ $(document).ready(function () {
         // _htmlBuilder += '<span class="tab" data-item="patterns">Patterns</span>';
         // _htmlBuilder += '<span class="tab" data-item="manipulators"></span>';
         //
-        if (ub.funcs.isCurrentSport('Baseball')) {
+        var _isBaseballFastpitch = false;
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
             // _htmlBuilder += '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
-            _tailSweepsTabVisibility = '';
+            _isBaseballFastpitch = true;
 
         }
         //
@@ -9786,6 +9786,14 @@ $(document).ready(function () {
         //
         // }
 
+        var _tailSweepPanel = ''
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+            _isBaseballFastpitch = true;
+            _tailSweepThumb = '/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail;
+            _tailSweepCode  = _tailSweepObject.code;
+            _tailSweepPanel = ub.funcs.tailSweepPanel(_tailSweepThumb, _tailSweepCode);
+        }
+
         // var _templateStr = '';
         var _patternObject = _settingsObject.pattern_obj;
         var _patternsPanel = ub.funcs.updateTextPatternPanel(_patternObject);
@@ -9830,10 +9838,12 @@ $(document).ready(function () {
             templateStrManipulators: _templateStrManipulators,
             sampleTextContainerVisibility: '',
             cogVisibility: 'hidden',
-            tailSweepsTabVisibility: _tailSweepsTabVisibility,
+            tailSweepsTabVisibility: '',
             colorTabVisibility: '',
             patternsTabVisibility: '',
-            flipLabel: 'Vertical'
+            flipLabel: 'Vertical',
+            isBaseballFastpitch: _isBaseballFastpitch,
+            tailSweepPanel: _tailSweepPanel
         }
 
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
