@@ -36,7 +36,7 @@
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
 @{{ #modifiers }}
-<div class="cp-padding-small cp-padding-remove-vertical">
+<div class="cp-padding-medium cp-padding-remove-vertical">
     <div class="row">
         <div class="col-md-12 cp-padding-remove">
             <div class="cp-text-uppercase cp-fc-white">
