@@ -76,6 +76,7 @@
                                 <option value="0">Select Sales Rep</option>
                             </select>
                             @endif
+                            {{ $order->rep_email or '' }}
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
