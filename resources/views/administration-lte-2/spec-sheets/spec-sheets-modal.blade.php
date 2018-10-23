@@ -57,26 +57,38 @@
                   <hr>
                   <br>
                   <div class="form-group">
-                              <select class="col-md-3 input-poms" required>
-                              </select>&nbsp;&nbsp;
-                              <input type="hidden" class="input-poms-props">
-                              <a href="#" class="btn btn-success btn-xs btn-flat add-poms">Add P.O.M.</a>
-                                <table class="table table-bordered table-hover">
-                                    <tr>
-                                        <thead>
-                                          <th width="2%">QC</th>
-                                          <th width="10%">Item</th>
-                                          <th width="2%">Image</th>
-                                          <th width="5%">+ Tol.</th>
-                                          <th width="5%">- Tol.</th>
-                                          <th width="75%"><div class="col-md-12 sizes-header"></div></th>
-                                          <th width="1%"></th>
-                                        </thead>
-                                    </tr>
-                                    <tbody class="properties-content">
-                                    </tbody>
-                                </table>
+                    <select class="col-md-3 input-poms" required>
+                    </select>&nbsp;&nbsp;
+                    <input type="hidden" class="input-poms-props">
+                    <a href="#" class="btn btn-success btn-xs btn-flat add-poms">Add P.O.M.</a>
+                      <table class="table table-bordered table-hover">
+                          <tr>
+                              <thead>
+                                <th width="2%">QC</th>
+                                <th width="10%">Item</th>
+                                <th width="2%">Image</th>
+                                <th width="5%">+ Tol.</th>
+                                <th width="5%">- Tol.</th>
+                                <th width="75%"><div class="col-md-12 sizes-header"></div></th>
+                                <th width="1%"></th>
+                              </thead>
+                          </tr>
+                          <tbody class="properties-content">
+                          </tbody>
+                      </table>
+                  </div>
+                      <hr>
+                    <div class="form-group notes-div row">
+                      <div class="col-sm-1">
+                        <label class="control-label">Note/Comment</label>
                       </div>
+                      <div class="col-md-6">
+                        <textarea name="input_notes" class="form-control" id="input-notes" cols="5" rows="2"></textarea>
+                      </div>
+                      <div class="col-md-2">
+                        <input type="text" id="input-updated-by" title="Updated By" disabled>
+                      </div>
+                    </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
