@@ -134,6 +134,7 @@ $(document).ready(function() {
         },
 
         underscoreToWhitespace(haystack) {
+            haystack.replace('left_', '').replace('right_', '');
             return haystack.replace(/_/g, ' ');
         },
 
