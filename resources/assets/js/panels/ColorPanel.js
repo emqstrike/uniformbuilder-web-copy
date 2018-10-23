@@ -37,6 +37,15 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
+            var modLabel = $(".color-main-container-" + modifier_category).data("modifier-name");
+
+            // Color Object
+            var _colorID = $(this).data('color-id');
+            var _colorOBJ = _.find(_colorSet, {id: _colorID.toString()});
+
+            ub.funcs.ui.setMaterialOptionColor(modLabel, _colorOBJ, 'from color picker');
+
+
             $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-color');
 

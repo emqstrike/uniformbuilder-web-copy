@@ -47,7 +47,7 @@
 
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
             <p class="cp-padding-left-medium">COLOR</p>
-            <div class="color-main-container-@{{ fullname }}">
+            <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                 @{{ #colors }}
                     <div class="color_element sublimated color-container-button">
                         <button
@@ -55,6 +55,7 @@
                             style="background-color: #@{{ hex_code }};"
                             data-color-name="@{{ name }}"
                             data-color-label="@{{ color_code }}"
+                            data-color-id="@{{ id }}"
                             data-modifier-category="@{{ fullname }}"
                         >
                         </button>
@@ -107,15 +108,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4">
-                        {{-- <div>
-                            <img src="" alt="" class="modal-pattern-image" width="190px" height="190px">
+                        <div class="patternPreviewContainer" style="height:100% !important; width: 100% !important;">
+                            <canvas id="patternPreview" class="patternPreview"></canvas>
                         </div>
-                        <div>
-                            <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name">Armour</h3>
-                        </div> --}}
-                        <div class="patternPreviewContainer">
-                            <canvas class="patternPreview"></canvas>
-                        </div>
+                        <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name"></h3>
                     </div>
                     <div class="col-md-8">
                         <div class="pattern-color-categories">

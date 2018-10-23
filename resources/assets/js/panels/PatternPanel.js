@@ -122,7 +122,14 @@ PatternPanel.prototype = {
             $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-pattern-color');
 
-            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
+            if (colorLabel === 'W' ||
+                colorLabel === 'Y' ||
+                colorLabel === 'CR'||
+                colorLabel === 'S' ||
+                colorLabel === 'PK'||
+                colorLabel === 'OP'||
+                colorLabel === 'SG'
+            ) {
                 $(this).css('color', '#3d3d3d');
                 $(this).css('text-shadow', '1px 1px #d7d7d7');
             }
