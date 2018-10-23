@@ -280,18 +280,19 @@ $(function() {
             });
             $('.design-sheet-path').val(filesData[0].url);
             console.log(response);
+            $('.save-data').removeAttr('disabled');
         },
         complete: function(file){
             files.push(file.name);
-            $('.save-data').removeAttr('disabled');
+
         },
         removedfile: function(file) {
             files.splice(files.indexOf(file.name), 1);
             file.previewElement.remove();
         },
         drop: function(){
-        $('.save-data').attr('disabled','true');
-    },
+            $('.save-data').attr('disabled','disabled');
+        }
     };
 
     getSports(function(sports){ window.sports = sports; });
