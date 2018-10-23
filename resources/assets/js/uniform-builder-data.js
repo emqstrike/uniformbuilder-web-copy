@@ -12191,4 +12191,23 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // do not apply oneInchPullUp funcs for the the following sports
+    ub.data.oneInchPullUpExemptions = {
+        items: [
+            {
+                sport: 'Socks (Apparel)',
+                blockPattern: 'Hockey Sock',
+            }
+        ],
+        isExempted: function (sport, blockPattern) {
+            
+            var _result = undefined;
+            
+            _result = _.find(this.items, {sport: sport, blockPattern: blockPattern});
+            
+            return _.size(_result) > 0;
+            
+        }
+    }
+
 });

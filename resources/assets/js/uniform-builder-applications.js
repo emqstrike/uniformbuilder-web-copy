@@ -8074,7 +8074,15 @@ $(document).ready(function() {
         
         if (!_settingsObject.dirty) {
             if (ub.current_material.material.brand !== 'richardson') {
-                ub.funcs.oneInchPullUp(application_id);
+
+                var sport           = ub.current_material.material.uniform_category;
+                var blockPattern    = ub.current_material.material.block_pattern;
+
+                // Disable oneInchPullUp for Socks (Apparel) with block pattern of Hockey Socks
+                if (!ub.data.oneInchPullUpExemptions.isExempted(sport, blockPattern)) {
+                    ub.funcs.oneInchPullUp(application_id);
+                }
+
             }
         }
         
