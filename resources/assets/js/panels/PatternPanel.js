@@ -41,15 +41,23 @@ PatternPanel.prototype = {
             selected_pattern.html("");
 
             $(".edit-pattern-modal-container-"  + modifier_category).html("");
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button'>Edit pattern color</button>");
 
             if (selected_pattern.length > 0)
             {
-                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
+                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button'>Edit pattern color</button>");
             }
 
             $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
+        });
+    },
+
+    onOpenModalPatternModifier: function() {
+        $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            console.log("console click modal");
         });
     },
 

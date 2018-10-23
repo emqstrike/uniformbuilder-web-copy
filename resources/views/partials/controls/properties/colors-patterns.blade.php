@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-            <div class="edit-pattern-modal-container-@{{ fullname }}">
+            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container">
             </div>
             <hr>
         </div>
