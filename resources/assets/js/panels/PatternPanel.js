@@ -78,7 +78,7 @@ PatternPanel.prototype = {
 
             var colorLabel = $(this).data("color-label");
 
-            $(this).html("");
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
