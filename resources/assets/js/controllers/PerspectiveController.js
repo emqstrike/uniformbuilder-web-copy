@@ -1,9 +1,15 @@
 /**
  * PerspectiveController.js
- * - Ha
+ * - Perspective switcher
  * @since October 23, 2018
- * @authors
- * - Romack Natividad <romack@qstrike.com>
+ * @author Romack Natividad <romack@qstrike.com>
+ *
+ * Usage:
+ *  perspective = new PerspectiveController();
+ *  perspective.front();
+ *  perspective.back();
+ *  perspective.right();
+ *  perspective.left();
  */
 
 function PerspectiveController() {}

@@ -56,7 +56,7 @@
                             data-color-id="@{{ id }}"
                             data-color-name="@{{ name }}"
                             data-color-label="@{{ color_code }}"
-                            data-modifier-category="@{{ fullname }}"
+                            data-modifier-category="@{{ fullname }}
                         >
                         </button>
                         <span class="label">@{{ name }}</span>
