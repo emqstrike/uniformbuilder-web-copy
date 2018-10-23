@@ -75,23 +75,26 @@
                                 data-modifier-category="@{{ fullname }}"
                                 style="background-image: url('@{{ icon }}');"
                                 data-modifier-category="@{{ fullname }}"
+                                data-pattern-url="@{{ icon }}"
+                                data-pattern-id="@{{ id }}"
+                                data-pattern-name="@{{ name }}"
                             >
                             </button>
                         </div>
                     </div>
                 @{{ /patterns }}
+                <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+                </div>
             </div>
         </div>
         <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container">
-            </div>
             <hr>
         </div>
     </div>
 </div>
 @{{ /modifiers }}
 <div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
@@ -104,11 +107,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div>
-                            <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/patterns/staging/armour318d1133a476537e23dd9e24/thumbnail.png" alt="" width="100%" height="150">
+                        {{-- <div>
+                            <img src="" alt="" class="modal-pattern-image" width="190px" height="190px">
                         </div>
-                        <div class="cp-text-center">
-                            <p class="cp-text-uppercase cp-text-medium">Armour</p>
+                        <div>
+                            <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name">Armour</h3>
+                        </div> --}}
+                        <div class="patternPreviewContainer">
+                            <canvas class="patternPreview"></canvas>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -150,7 +156,8 @@
                                                     <button
                                                     class="pattern-color-selector-button cp-modal-color"
                                                     style="background-color: #@{{ hex_code}};"
-                                                    data-color-name="@{{ name}}"
+                                                    data-color-id="@{{ id }}"
+                                                    data-color-name="@{{ name }}"
                                                     data-color-label="@{{ color_code }}"
                                                     >
                                                     </button>
@@ -169,6 +176,7 @@
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
+                                                    data-color-id="@{{ id }}"
                                                     >
                                                     </button>
                                                 </div>
@@ -186,6 +194,7 @@
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
+                                                    data-color-id="@{{ id }}"
                                                     >
                                                     </button>
                                                 </div>
@@ -203,6 +212,7 @@
                                                     style="background-color: #@{{ hex_code}};"
                                                     data-color-name="@{{ name}}"
                                                     data-color-label="@{{ color_code }}"
+                                                    data-color-id="@{{ id }}"
                                                     >
                                                     </button>
                                                 </div>

@@ -58,7 +58,18 @@ PatternPanel.prototype = {
         $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
             event.preventDefault();
             /* Act on the event */
-            console.log("console click modal");
+
+            var selected_pattern = $(".pattern-container-button").find(".active-pattern");
+            var pattern_url = selected_pattern.data('pattern-url');
+            var _id = selected_pattern.data("pattern-id");
+            var _modifier_id = selected_pattern.data("modifier-id");
+            var _pattern_name = selected_pattern.data("pattern-name");
+
+            ub.funcs.changePatternFromPopup(_modifier_id, _id);
+
+            $(".modal-pattern-name").text(_pattern_name);
+            $(".modal-pattern-image").attr('src', pattern_url);
+            $('#pattern-change-color').modal('show');
         });
     },
 
@@ -85,9 +96,30 @@ PatternPanel.prototype = {
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
 
+            // Get Material Option
+            var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+            var _names = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial = _names[0].toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+            var _materialOptions = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+            var firstMaterialOption = _materialOptions[0];
+
+            // Get Color Object
+            var _colorID = $(this).data('color-id');
+            var _colorOBJ = _.find(_colorSet, {id: _colorID.toString()});
+
+            // Layer
+            var layerID = active_pattern_color_category;
+
+            // pattern Object
+            var pattern = _settingsObject.pattern;
+            var _patternObj = pattern.pattern_obj;
+
+            ub.funcs.setMaterialOptionPatternColor(firstMaterialOption, _colorOBJ, layerID, _patternObj);
+
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
+            $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
