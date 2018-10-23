@@ -171,4 +171,5 @@
     <script type="text/javascript" src="/dropzone/dropzone.js"></script>
     <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script type="text/javascript" src="/js/administration/style-requests.js"></script>
+
 @endsection
