@@ -32,6 +32,12 @@ ColorPanel.prototype = {
         $(".color-container-button").on('click', '.color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
+            var modifier_name = ub.utilities.titleCase(
+                ub.utilities.underscoreToWhitespace(modifier_category)
+            );
+
+            console.log(modifier_category);
+            console.log(modifier_name);
 
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
@@ -51,6 +57,13 @@ ColorPanel.prototype = {
                 $(this).css('color', '#3d3d3d');
                 $(this).css('text-shadow', '1px 1px #d7d7d7');
             }
+
+            var color_id = $(this).data('color-id');
+            var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
+
+            console.log(color);
+
+            ub.funcs.ui.setMaterialOptionColor(modifier_name, color, 'from flat color picker');
         });
     }
 

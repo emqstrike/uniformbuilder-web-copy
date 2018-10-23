@@ -18,7 +18,7 @@ function ColorPatternPanel(element, modifiers) {
     this.modifiers = modifiers;
     this.items = {
         modifiers: this.modifiers,
-        colors: ub.data.colors,
+        colors: ub.current_material.settings.team_colors,
         patterns: ub.data.patterns.items
     };
 }

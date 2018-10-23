@@ -35,9 +35,9 @@
 
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
-@{{ #modifiers }}
 <div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
-    <div class="row">
+@{{ #modifiers }}
+    <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
             <div class="cp-text-uppercase cp-fc-white">
                 <h4 class="header cp-text-bold">@{{ name }}</h4>
@@ -53,6 +53,7 @@
                         <button
                             class="grow change-color whitebtn cp-new-color-box color-selector-button"
                             style="background-color: #@{{ hex_code }};"
+                            data-color-id="@{{ id }}"
                             data-color-name="@{{ name }}"
                             data-color-label="@{{ color_code }}"
                             data-modifier-category="@{{ fullname }}"
@@ -88,8 +89,9 @@
             <hr>
         </div>
     </div>
-</div>
 @{{ /modifiers }}
+</div>
+
 <div class="modal fade" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
