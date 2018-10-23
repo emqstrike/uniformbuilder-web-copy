@@ -239,7 +239,7 @@ $(function() {
             window.rowData[3] = data.block_pattern;
             window.rowData[4] = data.block_pattern_option;
             window.rowData[5] = data.brand;
-            window.rowData[6] = '<a href="#" class="btn btn-defult btn-xs file-link" data-link="' + data.design_sheet_url + '">Link</a>';
+            window.rowData[6] = '<input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="' + data.design_sheet_url + '"><a href="#" class="btn btn-defult btn-xs file-link" data-link="' + data.design_sheet_url + '">Link</a>';
             window.rowData[7] = data.qstrike_item_id;
             window.rowData[8] = data.priority;
             window.rowData[11] = data.type;
