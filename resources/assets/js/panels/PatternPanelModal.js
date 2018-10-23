@@ -1,7 +1,7 @@
 /**
- * PatternPanel.js
- * - handle pattern behavior
- * @since October 17, 2018
+ * PatternPanelModal.js
+ * - handle pattern's modal behavior
+ * @since October 23, 2018
  * @authors
  * - Romack Natividad <romack@qstrike.com>
  * - Aron Joshua Bagtas <aaron@qstrike.com>
@@ -13,7 +13,7 @@
  *
  */
 
-function PatternPanel(element, items) {
+function PatternPanelModal(element, items) {
     this.panel = document.getElementById(element);
     this.items = {
         patterns: items

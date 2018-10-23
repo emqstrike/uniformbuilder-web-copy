@@ -2,8 +2,9 @@
  * ColorPanel.js
  * - handle color behavior
  * @since October 17, 2018
- * @author Romack Natividad <romack@qstrike.com>
- *
+ * @authors
+ * - Romack Natividad <romack@qstrike.com>
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
  * Requirements:
  * - jQuery
  * - Mustache
@@ -39,7 +40,14 @@ ColorPanel.prototype = {
             $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-color');
 
-            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
+            if (colorLabel === 'W'
+                || colorLabel === 'Y'
+                || colorLabel === 'CR'
+                || colorLabel === 'S'
+                || colorLabel === 'PK'
+                || colorLabel === 'OP'
+                || colorLabel === 'SG'
+            ) {
                 $(this).css('color', '#3d3d3d');
                 $(this).css('text-shadow', '1px 1px #d7d7d7');
             }
