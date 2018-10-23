@@ -2,8 +2,9 @@
  * PatternPanel.js
  * - handle pattern behavior
  * @since October 17, 2018
- * @author Romack Natividad <romack@qstrike.com>
- *
+ * @authors
+ * - Romack Natividad <romack@qstrike.com>
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
  * Requirements:
  * - jQuery
  * - Mustache

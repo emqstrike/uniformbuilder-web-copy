@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('administration-lte-2.partials.breadcrumb','App\Composers\BreadcrumbComposer');
 
-        if (env('ENABLE_HTTPS')) {
+        if (config('customizer.enabled_https') and config('customizer.force_ssl')) {
             URL::forceSchema('https');
         }
     }

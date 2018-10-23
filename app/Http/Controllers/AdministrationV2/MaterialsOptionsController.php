@@ -383,4 +383,34 @@ class MaterialsOptionsController extends Controller
                              ->with('message', 'There was a problem saving your material option');
         }
     }
+
+    public function saveBoundary(Request $request)
+    {
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+
+        $boundary_properties = $request->input('boundary_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $materialId,
+            'boundary_properties' => $boundary_properties
+        ];
+
+        $response = null;
+        if (!empty($materialOptionId)) {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->updateBoundary($data);
+        }
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_view_material_option', ['id' => $data['material_id']])->with('message', $response->message);
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
+        }
+    }
 }

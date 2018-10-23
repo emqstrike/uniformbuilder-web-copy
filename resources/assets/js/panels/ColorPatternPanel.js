@@ -2,8 +2,9 @@
  * ColorPatternPanel.js
  * - handle color & pattern behavior
  * @since October 18, 2018
- * @author Romack Natividad <romack@qstrike.com>
- *
+ * @authors
+ * - Romack Natividad <romack@qstrike.com>
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
  * Requirements:
  * - jQuery
  * - Mustache
@@ -12,10 +13,11 @@
  *
  */
 
-function ColorPatternPanel(element, modifier) {
+function ColorPatternPanel(element, modifiers) {
     this.panel = document.getElementById(element);
+    this.modifiers = modifiers;
     this.items = {
-        modifier: modifier,
+        modifiers: this.modifiers,
         colors: ub.data.colors,
         patterns: ub.data.patterns.items
     };
@@ -25,8 +27,8 @@ ColorPatternPanel.prototype = {
     constructor: ColorPatternPanel,
 
     getPanel: function() {
-        var panel = Mustache.render(this.panel.innerHTML, this.items);
-        return panel;
+        var rendered = Mustache.render(this.panel.innerHTML, this.items);
+        return rendered;
     },
 
     onSelect: function() {

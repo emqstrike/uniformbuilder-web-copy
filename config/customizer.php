@@ -8,6 +8,8 @@ return [
 
     'enabled_https' => env('ENABLE_HTTPS', true),
 
+    'force_ssl' => env('FORCE_SSL', true),
+
     'vendor' => [
 
         'code' => env('VENDOR_CODE', 'prolook'),
