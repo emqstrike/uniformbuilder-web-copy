@@ -193,45 +193,43 @@ $(function() {
             var url = "//" + api_host + "/api/v1-0/style_request";
         }
 
-        console.log(data);
-        console.log(url);
-        // $.ajax({
-        //     url: url,
-        //     type: "POST",
-        //     data: JSON.stringify(data),
-        //     dataType: "json",
-        //     crossDomain: true,
-        //     contentType: 'application/json',
-        //     headers: {"accessToken": atob(headerValue)},
-        //     success: function(response) {
-        //         if (response.success == "false") {
-        //             var html = "<ul>";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response) {
+                if (response.success == "false") {
+                    var html = "<ul>";
 
-        //             if (response.errors.length != 0) {
-        //                 $.each(response.errors, function(key, value) {
-        //                     html += "<li>" + value + "</li>";
-        //                 });
-        //             }
+                    if (response.errors.length != 0) {
+                        $.each(response.errors, function(key, value) {
+                            html += "<li>" + value + "</li>";
+                        });
+                    }
 
-        //             html += "</ul>";
+                    html += "</ul>";
 
-        //             $('#myModal .custom-alert.alert-danger').append(html);
-        //             $('#myModal .custom-alert.alert-danger').fadeIn();
-        //         }
+                    $('#myModal .custom-alert.alert-danger').append(html);
+                    $('#myModal .custom-alert.alert-danger').fadeIn();
+                }
 
-        //         if (response.success == true) {
+                if (response.success == true) {
 
-        //             $('#myModal').modal('hide');
+                    $('#myModal').modal('hide');
 
-        //             if (is_update) {
-        //                 var oTable = $('.data-table').DataTable();
-        //                 oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
-        //             } else {
-        //                 window.location.reload();
-        //             }
-        //         }
-        //     }
-        // });
+                    if (is_update) {
+                        var oTable = $('.data-table').DataTable();
+                        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            }
+        });
     });
 
     function updateData(data) {
