@@ -1,4 +1,5 @@
 $(function() {
+
     try {
         $('.data-table').DataTable({
             "paging": true,
@@ -29,10 +30,9 @@ $(function() {
 
     $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-    $('#style_requests_table').on('click', '.file-link', function(e) {
+    $(document).on('click', '.file-link', function(e) {
         e.preventDefault()
         var url = $(this).data('link');
-        
         var win = window.open(url, '_blank');
         win.focus();
     });
@@ -74,8 +74,8 @@ $(function() {
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         if (window.block_pattern_id != undefined) {
-            var block_pattern = _.filter(window.block_pattern, function(e) { 
-                return e.id == window.block_pattern_id.toString(); 
+            var block_pattern = _.filter(window.block_pattern, function(e) {
+                return e.id == window.block_pattern_id.toString();
             });
 
             if (block_pattern[0].neck_options != "null") {
@@ -193,44 +193,45 @@ $(function() {
             var url = "//" + api_host + "/api/v1-0/style_request";
         }
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response) {
-                if (response.success == "false") {
-                    var html = "<ul>";
+        console.log(data);
+        console.log(url);
+        // $.ajax({
+        //     url: url,
+        //     type: "POST",
+        //     data: JSON.stringify(data),
+        //     dataType: "json",
+        //     crossDomain: true,
+        //     contentType: 'application/json',
+        //     headers: {"accessToken": atob(headerValue)},
+        //     success: function(response) {
+        //         if (response.success == "false") {
+        //             var html = "<ul>";
 
-                    if (response.errors.length != 0) {
-                        $.each(response.errors, function(key, value) {
-                            html += "<li>" + value + "</li>";
-                        });
-                    }
+        //             if (response.errors.length != 0) {
+        //                 $.each(response.errors, function(key, value) {
+        //                     html += "<li>" + value + "</li>";
+        //                 });
+        //             }
 
-                    html += "</ul>";
+        //             html += "</ul>";
 
-                    $('#myModal .custom-alert.alert-danger').append(html);
-                    $('#myModal .custom-alert.alert-danger').fadeIn();
-                }
-                
-                if (response.success == true) {
-                    
+        //             $('#myModal .custom-alert.alert-danger').append(html);
+        //             $('#myModal .custom-alert.alert-danger').fadeIn();
+        //         }
 
-                    $('#myModal').modal('hide');
+        //         if (response.success == true) {
 
-                    if (is_update) {
-                        var oTable = $('.data-table').DataTable();
-                        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
-                    } else {
-                        window.location.reload();
-                    }
-                }
-            }
-        });
+        //             $('#myModal').modal('hide');
+
+        //             if (is_update) {
+        //                 var oTable = $('.data-table').DataTable();
+        //                 oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+        //             } else {
+        //                 window.location.reload();
+        //             }
+        //         }
+        //     }
+        // });
     });
 
     function updateData(data) {
@@ -247,13 +248,13 @@ $(function() {
             window.rowData[12] = data.uniform_application_type;
             window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+ data.customizer_id +`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+data.customizer_id+`'>`+data.customizer_id+`</a>`;
             window.rowData[15] = `<input type="hidden" name="style_status" class="style-status" value='`+ data.status +`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+data.is_fixed+`'>`+data.status;
-           
+
             if (data.is_fixed == 1 && data.status == 'rejected') {
                 window.rowData[15] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
             }
 
             window.rowData[16] = `<input type="hidden" class="notes" value="`+data.notes+`">`
-           
+
             if (data.is_fixed == 1) {
                 window.rowData[16] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
             } else if(data.notes != '' && data.status == 'pending') {
@@ -271,6 +272,7 @@ $(function() {
     this.addRemoveLinks = true;
 
     Dropzone.options.myAwesomeDropzone = {
+        addRemoveLinks: true,
         success: function(file, response) {
             filesData.push({
                 'name' : file.name,
@@ -281,10 +283,15 @@ $(function() {
         },
         complete: function(file){
             files.push(file.name);
+            $('.save-data').removeAttr('disabled');
         },
         removedfile: function(file) {
             files.splice(files.indexOf(file.name), 1);
+            file.previewElement.remove();
         },
+        drop: function(){
+        $('.save-data').attr('disabled','true');
+    },
     };
 
     getSports(function(sports){ window.sports = sports; });
@@ -343,7 +350,7 @@ $(function() {
         });
     }
 
-    $('#style_requests_table').on('click', '.edit', function(e){
+    $(document).on('click', '.edit', function(e){
         e.preventDefault();
         getValues($(this));
         $('#deadline').attr({"style": "display: none;"});
@@ -492,7 +499,7 @@ $(function() {
                         type: 'success',
                         hide: true
                     });
-                    
+
                     $('#confirmation-modal').modal('hide');
                     $.each(id, function (index, value) {
                         $('.style-request-' + value).fadeOut();
