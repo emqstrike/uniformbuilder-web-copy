@@ -92,7 +92,7 @@
 @{{ /modifiers }}
 </div>
 
-<div class="modal fade" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">

@@ -5852,6 +5852,33 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'inserts') {
+                    ub.funcs.hideOtherPanels();
+                    ub.funcs.removeApplicationsPanel();
+
+                    var _modifierList = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+
+                    var _partsWithInserts = _.filter(_modifierList, function (modifier) {
+                        return modifier.name.includes("Insert");
+                    });
+
+                    var _partsWithoutInserts = _.difference(_modifierList, _partsWithInserts);
+
+                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', _partsWithInserts);
+                    prop.loadTemplate();
+
+                    var pattern = new PatternPanel('', '');
+                    pattern.onChangeColorPaternCategory();
+                    pattern.onSelectColorPerCategory();
+                    pattern.onSelect();
+
+                    var color = new ColorPanel("", "");
+                    color.onSelect();
+
+                    ub.funcs.activeStyle("inserts");
+                    return;
+                }
+
                 if (view === 'start-over') {
 
                     window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;

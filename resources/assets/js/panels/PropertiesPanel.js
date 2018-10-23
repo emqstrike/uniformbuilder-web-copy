@@ -11,12 +11,14 @@
  * Usage:
  *  var panel = document.getElementById('main-panel');
  *  var prop = new PropertiesPanel(panel, 'ProLook Sports');
+ *  var modifier = ub.data.modifiersLabel
  *  prop.setBodyPanel(panel);
  */
 
 function PropertiesPanel(
     element,
-    brand
+    brand,
+    modifiers
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
@@ -46,6 +48,10 @@ PropertiesPanel.prototype = {
 
     getModifiers: function() {
         return this.modifiers;
+    },
+
+    setModifiers: function(modifiers) {
+        this.modifiers = modifiers;
     },
 
     setBodyPanel: function(panel_html) {
