@@ -81,6 +81,17 @@
 
 @section('right-pane')
 
+    <div id="new-toolbar">
+        <a href="#" class="group-pane group-1">1</a>
+        <a href="#" class="group-pane group-2">2</a>
+        <a href="#" class="group-pane group-3">3</a>
+        <a href="#" class="group-pane group-4">4</a>
+        <a href="#" class="group-pane group-5">5</a>
+        <a href="#" class="group-pane group-6">6</a>
+        <a href="#" class="group-pane group-7">7</a>
+        <a href="#" class="group-pane group-8">8</a>
+    </div>
+
     <div id="right-pane" class="pane">
 
         <div id="right-top" class="pane-top">

@@ -58,8 +58,8 @@ elixir(function(mix) {
 			'uniform-builder-process.js',	
 			'uniform-builder-dialogs.js',	
 			'uniform-builder-patterns.js',	
-			'uniform-builder-applications.js',	
-			'uniform-builder-getters-setters.js',		
+			'uniform-builder-applications.js',
+            'uniform-builder-getters-setters.js',
 			'uniform-builder-pipings.js',			
 			'uniform-builder-random-feed.js',
 			'uniform-builder-plugins.js',
@@ -85,6 +85,7 @@ elixir(function(mix) {
 			'uniform-builder-generators.js',
 			'TeamStoreAPI.js',
 			'TeamStoreToolBox.js',
+            'uniform-builder-application-ui-new.js'
 
 		], 
 		// Result
@@ -100,6 +101,7 @@ elixir(function(mix) {
     		
     		// Source 
     		'uniform-builder.less',
+            'application-ui-new.less',
 
     	],
     	

@@ -1039,6 +1039,20 @@
 <!-- End New Mascot Picker -->
 
 
+<!-- Application UI Block -->
+
+    <script type="text/mustache" id="m-application-ui-block">
+
+        @{{#filteredApplications}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                TEST APPLICATION UI BLOCK - CODE @{{ code }}
+            </div>
+        @{{/filteredApplications}}
+
+    </script>
+
+<!-- End Application UI Block -->
+
 <!-- New Application UI -->
 
     <script type="text/mustache" id="m-application-ui">
