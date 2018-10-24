@@ -100,7 +100,7 @@
 </div>
 
 <div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
@@ -112,13 +112,17 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="patternPreviewContainer" style="height:100% !important; width: 100% !important;">
+                    <div class="col-md-12 cp-padding-left-xlarge">
+                        <div class="patternPreviewContainer">
                             <canvas id="patternPreview" class="patternPreview"></canvas>
                         </div>
+                    </div>
+                    <div class="col-md-12">
                         <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name"></h3>
                     </div>
-                    <div class="col-md-8">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="pattern-color-categories">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active cp-float-none">
