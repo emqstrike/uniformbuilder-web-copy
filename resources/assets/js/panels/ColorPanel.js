@@ -8,9 +8,6 @@
  * Requirements:
  * - jQuery
  * - Mustache
- *
- * Usage:
- *
  */
 
 function ColorPanel(element) {
@@ -32,6 +29,11 @@ ColorPanel.prototype = {
         $(".color-container-button").on('click', '.color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
+
+            // Transform string to Modifier Label format (Title Case)
+            var modifier_name = ub.utilities.titleCase(
+                ub.utilities.underscoreToWhitespace(modifier_category)
+            );
 
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
@@ -60,6 +62,13 @@ ColorPanel.prototype = {
                 $(this).css('color', '#3d3d3d');
                 $(this).css('text-shadow', '1px 1px #d7d7d7');
             }
+
+            // Retrieve Color Object
+            var color_id = $(this).data('color-id');
+            var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
+
+            // Apply the color to the Canvas
+            ub.funcs.ui.setMaterialOptionColor(modifier_name, color, 'from flat color picker');
         });
     }
 
