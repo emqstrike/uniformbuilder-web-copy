@@ -32,22 +32,42 @@ PatternPanel.prototype = {
 
     onSelect: function() {
         $(".pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+            // Get Modifier category and index
             var modifier_category = $(this).data("modifier-category");
+            var modifier_index = $(this).data("modifier-index");
 
+            // Find the selected pattern / And remove check icon and active pattern class
             var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
             selected_pattern.removeClass('active-pattern');
             selected_pattern.html("");
 
+            // Empty the Edit pattern button and Show the button
             $(".edit-pattern-modal-container-"  + modifier_category).html("");
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
-
-            if (selected_pattern.length > 0)
-            {
-                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-toggle='modal' data-target='#pattern-change-color'>Edit pattern color</button>");
-            }
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit pattern color</button>");
 
             $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
+        });
+    },
+
+    onOpenModalPatternModifier: function() {
+        $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
+            event.preventDefault();
+            // Get the current modifier index
+            var _modifier_index = $(this).data('modifier-index');
+            var _modifier_category = $(this).data('modifier-category');
+            ub.current_part = _modifier_index;
+
+            // Get the data of the pattern
+            var selected_pattern = $(".pattern-main-container-" + _modifier_category + " .pattern-container-button").find(".active-pattern");
+            var _id = selected_pattern.data("pattern-id");
+            var _pattern_name = selected_pattern.data("pattern-name");
+
+            $(".modal-pattern-name").text(_pattern_name);
+
+            ub.funcs.changePatternFromPopup(ub.current_part, _id);
+
+            $('#pattern-change-color').modal('show');
         });
     },
 
@@ -74,12 +94,40 @@ PatternPanel.prototype = {
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
 
+            // Get Material Option
+            var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+            var _names = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial = _names[0].toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+            var _materialOptions = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+            var firstMaterialOption = _materialOptions[0];
+
+            // Get Color Object
+            var _colorID = $(this).data('color-id');
+            var _colorOBJ = _.find(_colorSet, {id: _colorID.toString()});
+
+            // Layer
+            var layerID = active_pattern_color_category;
+
+            // pattern Object
+            var pattern = _settingsObject.pattern;
+            var _patternObj = pattern.pattern_obj;
+
+            ub.funcs.setMaterialOptionPatternColor(firstMaterialOption, _colorOBJ, layerID, _patternObj);
+
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
+            $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove"></span>');
             $(this).addClass('active-pattern-color');
 
-            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
+            if (colorLabel === 'W' ||
+                colorLabel === 'Y' ||
+                colorLabel === 'CR'||
+                colorLabel === 'S' ||
+                colorLabel === 'PK'||
+                colorLabel === 'OP'||
+                colorLabel === 'SG'
+            ) {
                 $(this).css('color', '#3d3d3d');
                 $(this).css('text-shadow', '1px 1px #d7d7d7');
             }

@@ -18,7 +18,7 @@ function PropertiesPanel(
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
-    this.modifiers = _.sortBy(ub.data.modifierLabels, 'index');
+    this.modifiers = modifiers;
     this.panels = {
         colors_patterns: '',
         colors: new ColorPanel('', ''),
@@ -71,6 +71,7 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onSelect();
         this.panels.patterns.onChangeColorPaternCategory();
         this.panels.patterns.onSelectColorPerCategory();
+        this.panels.patterns.onOpenModalPatternModifier();
     }
 
 }
