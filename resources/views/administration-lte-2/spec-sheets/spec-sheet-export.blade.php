@@ -60,8 +60,9 @@ $(document).ready(function(){
                 if (s == size_key) {
                     header_elem += `<td>`+ size_key +`</td>`;
                     elem += `<td>`+size_value+`</td>`
+                    sizes_ctr ++;
                 }
-                sizes_ctr ++;
+
             });
         });
         if(ctr == 0) {
