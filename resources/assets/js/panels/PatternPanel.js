@@ -10,10 +10,10 @@
  * - Mustache
  */
 
-function PatternPanel(element, items) {
+function PatternPanel(element) {
     this.panel = document.getElementById(element);
     this.items = {
-        patterns: items
+        patterns: ub.data.patterns
     };
 }
 

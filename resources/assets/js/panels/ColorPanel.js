@@ -59,7 +59,7 @@ ColorPanel.prototype = {
             var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
 
             // Apply the color to the Canvas
-            ub.funcs.ui.setMaterialOptionColor(modifier_name, color, 'from flat color picker');
+            ub.funcs.ui.setMaterialOptionColor(modifier_name, color);
         });
     }
 

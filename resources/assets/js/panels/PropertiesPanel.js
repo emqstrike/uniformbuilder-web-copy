@@ -18,7 +18,9 @@ function PropertiesPanel(
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
-    this.modifiers = modifiers;
+    this.modifiers = [];
+    this.parts = [];
+    this.inserts = [];
     this.panels = {
         colors_patterns: '',
         colors: new ColorPanel('', ''),
@@ -27,12 +29,25 @@ function PropertiesPanel(
         inserts: ''
     };
 
+    this.initModifiers();
+    this.initInserts();
     this.loadTemplate();
     this.bindEvents();
 }
 
 PropertiesPanel.prototype = {
     constructor: PropertiesPanel,
+
+    initModifiers: function() {
+        this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+    },
+
+    initInserts: function() {
+        this.inserts = _.filter(this.modifiers, function (modifier) {
+            return modifier.name.includes("Insert");
+        });
+        this.parts = _.difference(this.modifiers, this.inserts);
+    },
 
     getBrand: function() {
         return this.brand;
@@ -60,7 +75,7 @@ PropertiesPanel.prototype = {
     },
 
     loadTemplate: function() {
-        this.panels.colors_patterns = new ColorPatternPanel('m-colors-patterns', this.modifiers);
+        this.panels.colors_patterns = new ColorPatternPanel('m-colors-patterns', this.parts);
         var rendered = this.panels.colors_patterns.getPanel();
         this.setBodyPanel(rendered);
     },

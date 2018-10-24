@@ -13,11 +13,11 @@
  *
  */
 
-function ColorPatternPanel(element, modifiers) {
+function ColorPatternPanel(element, parts) {
     this.panel = document.getElementById(element);
-    this.modifiers = modifiers;
+    this.parts = parts;
     this.items = {
-        modifiers: this.modifiers,
+        parts: this.parts,
         colors: ub.current_material.settings.team_colors,
         patterns: ub.data.patterns.items
     };
