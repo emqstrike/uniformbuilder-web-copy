@@ -31,4 +31,12 @@ class SpecSheetsController extends Controller
             'spec_sheets' => $spec_sheets
         ]);
     }
+
+    public function exportExcel($id)
+    {
+        $spec_sheet = $this->client->getSpecSheet($id);
+        return view('administration-lte-2.spec-sheets.spec-sheet-export', [
+            'spec_sheet' => $spec_sheet
+        ]);
+    }
 }
