@@ -48,7 +48,7 @@
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
             <p class="cp-padding-left-medium">COLOR</p>
-            <div class="color-main-container-@{{ fullname }}">
+            <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" >
                 @{{ #colors }}
                     <div class="color_element sublimated color-container-button">
                         <button
@@ -86,13 +86,13 @@
                         </div>
                     </div>
                 @{{ /patterns }}
-                <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-                </div>
             </div>
         </div>
     </div>
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
+            </div>
             <hr>
         </div>
     </div>

@@ -5865,15 +5865,6 @@ $(document).ready(function () {
                     var _partsWithoutInserts = _.difference(_modifierList, _partsWithInserts);
 
                     var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', _partsWithInserts);
-                    prop.loadTemplate();
-
-                    var pattern = new PatternPanel('', '');
-                    pattern.onChangeColorPaternCategory();
-                    pattern.onSelectColorPerCategory();
-                    pattern.onSelect();
-
-                    var color = new ColorPanel("", "");
-                    color.onSelect();
 
                     ub.funcs.activeStyle("inserts");
                     return;
