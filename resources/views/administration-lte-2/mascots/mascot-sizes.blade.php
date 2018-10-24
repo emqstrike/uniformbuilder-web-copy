@@ -289,7 +289,7 @@ $(document).ready(function(){
     }
 
     function updateFields(){
-        $(document).on('keyup', '.prop-size, .prop-scale', function(){
+        $(document).on('change', '.prop-size, .prop-scale', function(){
             updateData();
         });
     }
