@@ -12128,6 +12128,22 @@ ub.funcs.fontOffSets = [
 
     }
  
+    ub.data.freeFormToolFirstPartSelection = {
+        
+        items: [
+            'Yoga Pant (Apparel)'
+        ],
+        isEnabled: function (uniformCategory) {
+
+            var _result = undefined;
+
+            _result = _.contains(this.items, uniformCategory);
+
+            return _result;
+
+        }
+
+    }
 
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {
