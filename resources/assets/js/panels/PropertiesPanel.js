@@ -9,16 +9,12 @@
  * - Mustache
  *
  * Usage:
- *  var panel = document.getElementById('main-panel');
- *  var prop = new PropertiesPanel(panel, 'ProLook Sports');
- *  var modifier = ub.data.modifiersLabel
- *  prop.setBodyPanel(panel);
+ *  var prop = new PropertiesPanel('main-panel-id', 'ProLook Sports');
  */
 
 function PropertiesPanel(
     element,
-    brand,
-    modifiers
+    brand
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
