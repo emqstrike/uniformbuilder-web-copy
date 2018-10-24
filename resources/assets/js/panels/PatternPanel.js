@@ -32,19 +32,18 @@ PatternPanel.prototype = {
 
     onSelect: function() {
         $(".pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+            // Get Modifier category and index
             var modifier_category = $(this).data("modifier-category");
+            var modifier_index = $(this).data("modifier-index");
 
+            // Find the selected pattern / And remove check icon and active pattern class
             var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
             selected_pattern.removeClass('active-pattern');
             selected_pattern.html("");
 
+            // Empty the Edit pattern button and Show the button
             $(".edit-pattern-modal-container-"  + modifier_category).html("");
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button'>Edit pattern color</button>");
-
-            if (selected_pattern.length > 0)
-            {
-                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button'>Edit pattern color</button>");
-            }
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit pattern color</button>");
 
             $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
@@ -54,18 +53,20 @@ PatternPanel.prototype = {
     onOpenModalPatternModifier: function() {
         $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
             event.preventDefault();
-            /* Act on the event */
+            // Get the current modifier index
+            var _modifier_index = $(this).data('modifier-index');
+            var _modifier_category = $(this).data('modifier-category');
+            ub.current_part = _modifier_index;
 
-            var selected_pattern = $(".pattern-container-button").find(".active-pattern");
-            var pattern_url = selected_pattern.data('pattern-url');
+            // Get the data of the pattern
+            var selected_pattern = $(".pattern-main-container-" + _modifier_category + " .pattern-container-button").find(".active-pattern");
             var _id = selected_pattern.data("pattern-id");
-            var _modifier_id = selected_pattern.data("modifier-id");
             var _pattern_name = selected_pattern.data("pattern-name");
 
-            ub.funcs.changePatternFromPopup(_modifier_id, _id);
-
             $(".modal-pattern-name").text(_pattern_name);
-            $(".modal-pattern-image").attr('src', pattern_url);
+
+            ub.funcs.changePatternFromPopup(ub.current_part, _id);
+
             $('#pattern-change-color').modal('show');
         });
     },

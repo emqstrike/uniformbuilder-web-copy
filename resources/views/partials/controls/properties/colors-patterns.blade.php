@@ -44,10 +44,11 @@
                 <p style="font-weight: bold;">Choose Color / Pattern</p>
             </div>
         </div>
-
+    </div>
+    <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
             <p class="cp-padding-left-medium">COLOR</p>
-            <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
+            <div class="color-main-container-@{{ fullname }}">
                 @{{ #colors }}
                     <div class="color_element sublimated color-container-button">
                         <button
@@ -65,7 +66,8 @@
                 @{{ /colors }}
             </div>
         </div>
-
+    </div>
+    <div class="row modifier-wrapper">
         <div class="col-md-12 cp-padding-remove">
             <p class="cp-padding-left-medium">PATTERN</p>
             <div class="pattern-main-container-@{{ fullname }}">
@@ -74,12 +76,11 @@
                         <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                             <button
                                 class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
-                                data-modifier-category="@{{ fullname }}"
                                 style="background-image: url('@{{ icon }}');"
-                                data-modifier-category="@{{ fullname }}"
-                                data-pattern-url="@{{ icon }}"
                                 data-pattern-id="@{{ id }}"
                                 data-pattern-name="@{{ name }}"
+                                data-modifier-category="@{{ fullname }}"
+                                data-modifier-index="@{{ index }}"
                             >
                             </button>
                         </div>
@@ -89,6 +90,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
             <hr>
         </div>
