@@ -14,8 +14,7 @@
 
 function PropertiesPanel(
     element,
-    brand,
-    modifiers
+    brand
 ) {
     this.body_panel = document.getElementById(element);
     this.brand = brand;
