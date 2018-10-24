@@ -32,6 +32,7 @@
 
 <script>
 $(document).ready(function(){
+    var array_all_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL','XS','S','M','L','XL','2XL','3XL','4XL','5XL', '6XL'];
     var poms = JSON.parse($('.item-poms').val());
     var elem = '';
     var ctr = 0 ;
@@ -52,12 +53,16 @@ $(document).ready(function(){
         var sizes = pom.sizes;
         var header_elem = '';
         var sizes_ctr = 0;
-        $.each(sizes, function(key, value) {
-            var size_key = Object.keys(value).toString();
-            var size_value = Object.values(value).toString();
-            header_elem += `<td>`+ size_key +`</td>`;
-            elem += `<td>`+size_value+`</td>`
-            sizes_ctr ++;
+        _.each(array_all_sizes, function (s) {
+            $.each(sizes, function(key, value) {
+                var size_key = Object.keys(value).toString();
+                var size_value = Object.values(value).toString();
+                if (s == size_key) {
+                    header_elem += `<td>`+ size_key +`</td>`;
+                    elem += `<td>`+size_value+`</td>`
+                }
+                sizes_ctr ++;
+            });
         });
         if(ctr == 0) {
             $('.sizes-header').append(header_elem);
