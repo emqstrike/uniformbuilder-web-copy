@@ -10735,20 +10735,27 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
-                        _partToMakeActive =  _perspective.toTitleCase();
-
-                        $('div.part-container span').each(function() {
+                        if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
                             
-                            var part = $(this).text();
+                            $('span.part').first().addClass('active');
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
-                                _partToMakeActive = part;
-                            }
+                        } else {
 
-                        });
+                            _partToMakeActive =  _perspective.toTitleCase();
 
-                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                            $('div.part-container span').each(function() {
+                                
+                                var part = $(this).text();
+
+                                if (part.indexOf(_partToMakeActive) !== -1) {
+                                    _partToMakeActive = part;
+                                }
+
+                            });
+
+                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                        }
 
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
                         $('label.leftrightPart, div.side-container').hide();
@@ -10948,20 +10955,27 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
-                    var _partToMakeActive =  $perspective.text().toTitleCase();
+                    if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
 
-                    $('div.part-container span').each(function() {
-                        
-                        var part = $(this).text();
+                        $('span.part').first().addClass('active');
 
-                        if (part.indexOf(_partToMakeActive) !== -1) {
-                            _partToMakeActive = part;
-                        }
+                    } else {
 
-                    });
+                        var _partToMakeActive =  $perspective.text().toTitleCase();
 
-                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                        $('div.part-container span').each(function() {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
+                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                    }
 
                 } else {
 
