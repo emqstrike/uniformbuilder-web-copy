@@ -64,8 +64,38 @@ PatternPanel.prototype = {
             var _pattern_name = selected_pattern.data("pattern-name");
 
             $(".modal-pattern-name").text(_pattern_name);
-
             ub.funcs.changePatternFromPopup(ub.current_part, _id);
+
+            // Get Pattern Object
+            var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+            var _names = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial = _names[0].toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+
+            var pattern = _settingsObject.pattern;
+            var _patternObj = pattern.pattern_obj;
+            var _layerCount = _.size(_patternObj.layers);
+
+            switch (_layerCount) {
+                case 1:
+                    $(".pattern-color-categories .pattern-category-2").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-2").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-3").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    break;
+                case 2:
+                    $(".pattern-color-categories .pattern-category-3").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    break;
+                case 3:
+                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    break;
+            }
 
             $('#pattern-change-color').modal('show');
         });
