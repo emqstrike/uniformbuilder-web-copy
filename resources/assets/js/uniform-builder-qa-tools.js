@@ -63,6 +63,8 @@ $(document).ready(function () {
             var _primaryViewObjectPosition = ""; var _positionStr = "";
             var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
 
+            if (typeof app.custom_obj !== 'undefined') var _isCustomScale = app.custom_obj.active;
+            
             _.each(app.application.views, function (view) {
 
                 if (view.application.isPrimary === 1) {
@@ -88,7 +90,10 @@ $(document).ready(function () {
 
                 if (typeof _appObj !== "undefined") {
                     var _scale = _appObj.scale;
-                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+
+                    // Add (custom scale) label for embellishment application that uses custom scaling
+                    (typeof _isCustomScale === 'undefined' && !_isCustomScale && app.type !== 'embellishments') ? _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}' : _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '} (custom scale)';
+                    
                 } else {
                     _scaleStr = 'scale not set.';
                 }

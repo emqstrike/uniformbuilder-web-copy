@@ -12115,6 +12115,22 @@ ub.funcs.fontOffSets = [
 
     }
  
+    ub.data.freeFormToolFirstPartSelection = {
+        
+        items: [
+            'Yoga Pant (Apparel)'
+        ],
+        isEnabled: function (uniformCategory) {
+
+            var _result = undefined;
+
+            _result = _.contains(this.items, uniformCategory);
+
+            return _result;
+
+        }
+
+    }
 
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {
@@ -12126,7 +12142,8 @@ ub.funcs.fontOffSets = [
             'Tennis',
             'Baseball',
             'Socks (Apparel)',
-            'Yoga Pant (Apparel)'
+            'Yoga Pant (Apparel)',
+            'Basketball'
         ],
         isValid: function (uniformCategory) {
 
@@ -12188,6 +12205,25 @@ ub.funcs.fontOffSets = [
 
         }
 
+    }
+
+    // do not apply oneInchPullUp funcs for the the following sports
+    ub.data.oneInchPullUpExemptions = {
+        items: [
+            {
+                sport: 'Socks (Apparel)',
+                blockPattern: 'Hockey Sock',
+            }
+        ],
+        isExempted: function (sport, blockPattern) {
+            
+            var _result = undefined;
+            
+            _result = _.find(this.items, {sport: sport, blockPattern: blockPattern});
+            
+            return _.size(_result) > 0;
+            
+        }
     }
 
 });
