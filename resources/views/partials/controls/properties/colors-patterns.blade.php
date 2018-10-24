@@ -36,7 +36,7 @@
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
 <div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
-@{{ #modifiers }}
+@{{ #parts }}
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
             <div class="cp-text-uppercase cp-fc-white">
@@ -96,7 +96,7 @@
             <hr>
         </div>
     </div>
-@{{ /modifiers }}
+@{{ /parts }}
 </div>
 
 <div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
