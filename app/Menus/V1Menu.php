@@ -16,6 +16,9 @@ class V1Menu
     protected $userClient;
     protected $allowedPages;
 
+    const HEADER_TYPE = 'header';
+    const LINK_TYPE = 'link';
+
     public function __construct()
     {
         $this->menuClient = new MenuClient();
@@ -69,6 +72,16 @@ class V1Menu
             foreach ($menus as $key => $menu) {
                 $routeName = preg_replace('/\s+/', '', $menu->route_name);
 
+                if ($menu->type == self::HEADER_TYPE) {
+                    $_menus[$key] = [
+                        'route_name' => $routeName,
+                        'menu_text' => $menu->menu_text,
+                        'icon_class' => $menu->icon_class,
+                        'parent_id' => $menu->parent_id,
+                        'type' => $menu->type,
+                    ];
+                }
+
                 if (Route::getRoutes()->hasNamedRoute($routeName)) {
                     if (strpos(route($routeName), 'v1-0')) {
                         if (in_array($routeName, $this->allowedPages)) {
@@ -77,6 +90,7 @@ class V1Menu
                                 'menu_text' => $menu->menu_text,
                                 'icon_class' => $menu->icon_class,
                                 'parent_id' => $menu->parent_id,
+                                'type' => $menu->type,
                             ];
 
                             if (isset($menu->subMenu)) {
@@ -86,12 +100,13 @@ class V1Menu
                             }
                         }
                     }
-                } elseif ($routeName == '#') {
+                }  elseif ($routeName == '#') {
                     $_menus[$key] = [
                         'route_name' => $routeName,
                         'menu_text' => $menu->menu_text,
                         'icon_class' => $menu->icon_class,
                         'parent_id' => $menu->parent_id,
+                        'type' => $menu->type,
                     ];
 
                     if (isset($menu->subMenu)) {
@@ -111,7 +126,7 @@ class V1Menu
         $_menus = [];
 
         foreach ($menus as $key => $menu) {
-            if (((isset($menu['subMenu'])) && (count($menu['subMenu']) > 0)) || ($menu['route_name'] != '#')) {
+            if (((isset($menu['subMenu'])) && (count($menu['subMenu']) > 0)) || ($menu['route_name'] != '#') || ($menu['type'] == self::HEADER_TYPE)) {
                 $_menus[] = $menu;
             }
         }

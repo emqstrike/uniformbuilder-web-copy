@@ -23,17 +23,44 @@ class MenuController extends Controller
     public function index()
     {
         $menus = [];
+        $pages = [];
 
         $result = $this->menuClient->getMenusByBrand(env('BRAND'));
         if ($result->success) {
             $menus = $result->menus;
         }
 
-        return view('administration.menus.index', compact('menus'));
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            $pages = $result->pages;
+        }
+
+        return view('administration.menus.index', compact(
+            'menus',
+            'pages'
+        ));
     }
 
     public function store(Request $request)
     {
+        $menus = array();
+
+        foreach ($request->all() as $key => $menu) {
+            $menus[] = array(
+                'id' => $menu[$key]['id'],
+                'route_name' => $menu[$key]['route_name'],
+                'menu_text' => $menu[$key]['menu_text'],
+                'icon_class' => $menu[$key]['icon_class'],
+                'parent_id' => $menu[$key]['parent_id'],
+                'type' => $menu[$key]['type'],
+                'order_id' => $menu[$key]['order_id']
+            );
+        }
+
+        return $menus;
+
+
         $result = $this->menuClient->create($request->all());
 
         if ($result->success) {
