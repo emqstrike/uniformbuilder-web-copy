@@ -3739,10 +3739,12 @@ $(document).ready(function() {
             }
 
             /// Check if CW if empty, draw Pickers if it is
-            if ($('div#cw').html().length === 0) {
+            if ($('div#cw').length) {
+                if ($('div#cw').html().length === 0) {
 
-                ub.funcs.drawColorPickers();
+                    ub.funcs.drawColorPickers();
 
+                }
             }
 
             var current_coodinates = mousedata.data.global;
@@ -4209,8 +4211,10 @@ $(document).ready(function() {
 
             ub.funcs.deactivateMoveTool();
         
-            if ($('div#cw').html().length === 0) {
-                ub.funcs.drawColorPickers();
+            if ($('div#cw').length) {
+                if ($('div#cw').html().length === 0) {
+                    ub.funcs.drawColorPickers();
+                }
             }
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
