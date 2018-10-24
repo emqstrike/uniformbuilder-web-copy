@@ -6220,7 +6220,12 @@ $(document).ready(function() {
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
-                _additionalClass = 'active'; 
+                _additionalClass = 'active';
+
+                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+                    (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
+                }
+
             } else {
                 _additionalClass = '';
             }
@@ -6234,6 +6239,20 @@ $(document).ready(function() {
             }
 
         });
+
+        // show BESTFIT option on embellishment's application sizes
+        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+
+            (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
+
+            var customSize  = settingsObject.custom_obj.fontSize;
+            var customScale = settingsObject.custom_obj.scale.x;
+            var type        = 'custom';
+
+            // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
+            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+
+        }
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
@@ -7645,6 +7664,12 @@ $(document).ready(function() {
 
     ub.funcs.changeApplicationType = function (settingsObject, type) {
 
+        // delete custom object amd scale type
+        // this are use for embellishment applications only
+        // TODO: create a cleaup funcs
+        delete settingsObject.custom_obj;
+        delete settingsObject.scale_type;
+
         var _settingsObject = settingsObject;
         var _type           = type;
         var _id             = parseInt(_settingsObject.code);
@@ -8049,7 +8074,15 @@ $(document).ready(function() {
         
         if (!_settingsObject.dirty) {
             if (ub.current_material.material.brand !== 'richardson') {
-                ub.funcs.oneInchPullUp(application_id);
+
+                var sport           = ub.current_material.material.uniform_category;
+                var blockPattern    = ub.current_material.material.block_pattern;
+
+                // Disable oneInchPullUp for Socks (Apparel) with block pattern of Hockey Socks
+                if (!ub.data.oneInchPullUpExemptions.isExempted(sport, blockPattern)) {
+                    ub.funcs.oneInchPullUp(application_id);
+                }
+
             }
         }
         
@@ -10702,20 +10735,27 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        // _partToMakeActive =  _perspective.toTitleCase() + " Body";
-                        _partToMakeActive =  _perspective.toTitleCase();
-
-                        $('div.part-container span').each(function() {
+                        if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
                             
-                            var part = $(this).text();
+                            $('span.part').first().addClass('active');
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
-                                _partToMakeActive = part;
-                            }
+                        } else {
 
-                        });
+                            _partToMakeActive =  _perspective.toTitleCase();
 
-                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                            $('div.part-container span').each(function() {
+                                
+                                var part = $(this).text();
+
+                                if (part.indexOf(_partToMakeActive) !== -1) {
+                                    _partToMakeActive = part;
+                                }
+
+                            });
+
+                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                        }
 
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
                         $('label.leftrightPart, div.side-container').hide();
@@ -10915,20 +10955,27 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    // var _partToMakeActive =  $perspective.text().toTitleCase() + " Body";
-                    var _partToMakeActive =  $perspective.text().toTitleCase();
+                    if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
 
-                    $('div.part-container span').each(function() {
-                        
-                        var part = $(this).text();
+                        $('span.part').first().addClass('active');
 
-                        if (part.indexOf(_partToMakeActive) !== -1) {
-                            _partToMakeActive = part;
-                        }
+                    } else {
 
-                    });
+                        var _partToMakeActive =  $perspective.text().toTitleCase();
 
-                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                        $('div.part-container span').each(function() {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
+                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                    }
 
                 } else {
 

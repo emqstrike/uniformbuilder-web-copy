@@ -1,4 +1,5 @@
 $(function() {
+
     try {
         $('.data-table').DataTable({
             "paging": true,
@@ -29,10 +30,9 @@ $(function() {
 
     $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-    $('#style_requests_table').on('click', '.file-link', function(e) {
+    $(document).on('click', '.file-link', function(e) {
         e.preventDefault()
         var url = $(this).data('link');
-        
         var win = window.open(url, '_blank');
         win.focus();
     });
@@ -74,8 +74,8 @@ $(function() {
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         if (window.block_pattern_id != undefined) {
-            var block_pattern = _.filter(window.block_pattern, function(e) { 
-                return e.id == window.block_pattern_id.toString(); 
+            var block_pattern = _.filter(window.block_pattern, function(e) {
+                return e.id == window.block_pattern_id.toString();
             });
 
             if (block_pattern[0].neck_options != "null") {
@@ -216,14 +216,15 @@ $(function() {
                     $('#myModal .custom-alert.alert-danger').append(html);
                     $('#myModal .custom-alert.alert-danger').fadeIn();
                 }
-                
+
                 if (response.success == true) {
-                    var oTable = $('.data-table').DataTable();
-                    oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
 
                     $('#myModal').modal('hide');
 
-                    if (! is_update) {
+                    if (is_update) {
+                        var oTable = $('.data-table').DataTable();
+                        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
+                    } else {
                         window.location.reload();
                     }
                 }
@@ -238,19 +239,20 @@ $(function() {
             window.rowData[3] = data.block_pattern;
             window.rowData[4] = data.block_pattern_option;
             window.rowData[5] = data.brand;
+            window.rowData[6] = '<input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="' + data.design_sheet_url + '"><a href="#" class="btn btn-defult btn-xs file-link" data-link="' + data.design_sheet_url + '">Link</a>';
             window.rowData[7] = data.qstrike_item_id;
             window.rowData[8] = data.priority;
             window.rowData[11] = data.type;
             window.rowData[12] = data.uniform_application_type;
             window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+ data.customizer_id +`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+data.customizer_id+`'>`+data.customizer_id+`</a>`;
             window.rowData[15] = `<input type="hidden" name="style_status" class="style-status" value='`+ data.status +`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+data.is_fixed+`'>`+data.status;
-           
+
             if (data.is_fixed == 1 && data.status == 'rejected') {
                 window.rowData[15] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
             }
 
             window.rowData[16] = `<input type="hidden" class="notes" value="`+data.notes+`">`
-           
+
             if (data.is_fixed == 1) {
                 window.rowData[16] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
             } else if(data.notes != '' && data.status == 'pending') {
@@ -268,19 +270,27 @@ $(function() {
     this.addRemoveLinks = true;
 
     Dropzone.options.myAwesomeDropzone = {
+        addRemoveLinks: true,
         success: function(file, response) {
             filesData.push({
                 'name' : file.name,
                 'url' : response
             });
             $('.design-sheet-path').val(filesData[0].url);
+            console.log(response);
+            $('.save-data').removeAttr('disabled');
         },
         complete: function(file){
             files.push(file.name);
+
         },
         removedfile: function(file) {
             files.splice(files.indexOf(file.name), 1);
+            file.previewElement.remove();
         },
+        drop: function(){
+            $('.save-data').attr('disabled','disabled');
+        }
     };
 
     getSports(function(sports){ window.sports = sports; });
@@ -339,14 +349,13 @@ $(function() {
         });
     }
 
-    $('#style_requests_table').on('click', '.edit', function(e){
+    $(document).on('click', '.edit', function(e){
         e.preventDefault();
         getValues($(this));
         $('#deadline').attr({"style": "display: none;"});
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
-        $('#design-sheet-field').removeAttr('style');
     });
 
     $('.data-table tbody').on( 'click', 'tr', function () {
@@ -378,7 +387,6 @@ $(function() {
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
         $('#is_fixed_div').attr({"style": "display: none;"});
-        $('#design-sheet-field').attr({"style": "display: none;"});
         $('#input_notes').text('');
         $('.design-sheet-path').val('');
         $('.brand').val('none');
@@ -444,13 +452,6 @@ $(function() {
         $('.brand').val(brand);
         $('#datepicker').val(deadline);
 
-        if (design_sheet_url) {
-            $('#design-sheet-field a').removeClass('disabled');
-            $('#design-sheet-field a').attr('href', design_sheet_url);
-        } else {
-            $('#design-sheet-field a').addClass('disabled');
-        }
-
         if (is_fixed == 1) {
             $('.is_fixed').prop('checked', true);
         } else {
@@ -497,7 +498,7 @@ $(function() {
                         type: 'success',
                         hide: true
                     });
-                    
+
                     $('#confirmation-modal').modal('hide');
                     $.each(id, function (index, value) {
                         $('.style-request-' + value).fadeOut();
