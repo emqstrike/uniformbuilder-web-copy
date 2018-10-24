@@ -123,25 +123,49 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-1" aria-controls="pattern-category-1" role="tab" data-toggle="tab" class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button">Color 1</a>
+                                        <a href="#pattern-color-category-1"
+                                                aria-controls="pattern-category-1"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-1"
+                                        >
+                                            Color 1
+                                        </a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-2" aria-controls="pattern-category-2" role="tab" data-toggle="tab" class="cp-width-1-1 pattern-color-selector cp-tab-button">Color 2</a>
+                                        <a href="#pattern-color-category-2"
+                                                aria-controls="pattern-category-2"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-2"
+                                        >
+                                            Color 2
+                                        </a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-3" aria-controls="pattern-category-3" role="tab" data-toggle="tab" class="cp-width-1-1 pattern-color-selector cp-tab-button">Color 3</a>
+                                        <a href="#pattern-color-category-3"
+                                                aria-controls="pattern-category-3"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-3"
+                                        >
+                                            Color 3
+                                        </a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-4" aria-controls="pattern-category-4" role="tab" data-toggle="tab" class="cp-width-1-1 pattern-color-selector cp-tab-button">Color 4</a>
+                                        <a href="#pattern-color-category-4"
+                                                aria-controls="pattern-category-4"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-4"
+                                        >
+                                            Color 4
+                                        </a>
                                     </div>
                                 </li>
                             </ul>
