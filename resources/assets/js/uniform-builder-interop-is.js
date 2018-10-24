@@ -2289,13 +2289,21 @@ $(document).ready(function() {
 
                 var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
 
-                scale = { x: custom.scale, y: custom.scale };
+                if (typeof custom !== 'undefined') {
+                    
+                    scale = { x: custom.scale, y: custom.scale };
 
-                settingsObj.custom_obj = {
-                    scale: scale,
-                    fontSize: custom.size,
-                    active: true
-                };
+                    settingsObj.custom_obj = {
+                        scale: scale,
+                        fontSize: custom.size,
+                        active: true
+                    };
+
+                } else {
+
+                    scale = embellishmentScales.getScale(settingsObj.size);
+                    
+                }
 
             } else {
 
