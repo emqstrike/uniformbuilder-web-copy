@@ -7,7 +7,7 @@ $(function() {
 
     var ub = window.ub;
 
-    // on click on any group pane
+    // on click on any group pane switch to active
     $('#new-toolbar > .group-pane').on('click', function () {
         $('#new-toolbar > .group-pane').removeClass('active');
         $(this).addClass('active');

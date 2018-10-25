@@ -1038,7 +1038,6 @@
 
 <!-- End New Mascot Picker -->
 
-
 <!-- Application UI Block -->
 
     <script type="text/mustache" id="m-application-ui-block">
