@@ -36,6 +36,7 @@ elixir(function(mix) {
             'uniform-builder-style-configuration.js',
 
             // Brand Specific
+            'uniform-builder-application-ui-new.js'
 
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
@@ -106,6 +107,7 @@ elixir(function(mix) {
             // Third-party
             'third-party/tipped/tipped.less',
             'third-party/select2/select2.less',
+            'application-ui-new.less',
 
             // Source
             'uniform-builder.less',
