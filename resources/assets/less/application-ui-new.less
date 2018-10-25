@@ -13,6 +13,10 @@
     border: 1px solid @color;
 }
 
+.radius (@size) {
+    border-radius: @size;
+}
+
 
 #new-toolbar {
     &:extend(.transition);
@@ -51,4 +55,11 @@
     margin: 20px;
     width: 520px;
     background: white;
+
+    .thumbnail {
+        height: 153px;
+        width: 175px;
+        .borders(#666);
+        .radius(0);
+    }
 }

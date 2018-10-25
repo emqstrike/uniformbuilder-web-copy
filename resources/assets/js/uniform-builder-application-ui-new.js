@@ -34,7 +34,6 @@ $(function() {
         });
 
         var templateData = {
-            id: '777',
             filteredApplications: _filteredApplications,
             names: [
                 {"name": "Mustache"},

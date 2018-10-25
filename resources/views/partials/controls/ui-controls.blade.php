@@ -1044,7 +1044,8 @@
 
         @{{#filteredApplications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
-                TEST APPLICATION UI BLOCK - CODE @{{ code }}
+                <h4>CUSTOM LOGO (front view) #5</h4>
+                <image src="http://34.212.160.37/components/img/bear.png" class="thumbnail" />
             </div>
         @{{/filteredApplications}}
 
