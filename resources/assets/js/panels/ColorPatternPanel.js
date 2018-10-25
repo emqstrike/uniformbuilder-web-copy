@@ -1,5 +1,5 @@
 /**
- * ColorPatternPanel.js
+ * PartPanel.js
  * - handle color & pattern behavior
  * @since October 18, 2018
  * @authors
@@ -13,7 +13,7 @@
  *
  */
 
-function ColorPatternPanel(element, parts) {
+function PartPanel(element, parts) {
     this.panel = document.getElementById(element);
     this.parts = parts;
     this.items = {
@@ -23,8 +23,8 @@ function ColorPatternPanel(element, parts) {
     };
 }
 
-ColorPatternPanel.prototype = {
-    constructor: ColorPatternPanel,
+PartPanel.prototype = {
+    constructor: PartPanel,
 
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);

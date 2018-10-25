@@ -112,6 +112,11 @@ elixir(function(mix) {
         ],
 
         // Result
-        'public/uniform-builder/css/uniform-builder.css');
+        'public/uniform-builder/css/uniform-builder.css'
+    );
+
+    mix.browserSync({
+        proxy: 'localhost'
+    });
     
 });
