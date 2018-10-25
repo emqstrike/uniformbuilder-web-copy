@@ -1042,9 +1042,11 @@
 
     <script type="text/mustache" id="m-application-ui-block">
 
-        <h5 class="fc-darker abrade-ultra-italic">Decoration Mascots</h5>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-secondary">Secondary</button>
+        <h4>Decoration</h4>
+        <div class="new-con-add-application">
+            <button type="button" class="new-btn btn-secondary">Add Application</button>
+            <button type="button" class="new-btn btn-secondary">ViewAll Application</button>
+        </div>
 
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
