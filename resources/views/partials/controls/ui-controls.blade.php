@@ -1042,12 +1042,12 @@
 
     <script type="text/mustache" id="m-application-ui-block">
 
-        @{{#filteredApplications}}
+        @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
-                <h4>CUSTOM LOGO (front view) #5</h4>
-                <image src="http://34.212.160.37/components/img/bear.png" class="thumbnail" />
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <image src="@{{ thumbnail }}" class="thumbnail" />
             </div>
-        @{{/filteredApplications}}
+        @{{/applications}}
 
     </script>
 
