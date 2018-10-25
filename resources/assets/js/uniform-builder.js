@@ -5804,7 +5804,7 @@ $(document).ready(function () {
 
                     ub.funcs.activateColorPickers();
                     // Aron Joshua
-                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+                    // var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
                     ub.funcs.activeStyle('colors');
                     
                     return;

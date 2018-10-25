@@ -36,6 +36,11 @@ PatternPanel.prototype = {
             var modifier_category = $(this).data("modifier-category");
             var modifier_index = $(this).data("modifier-index");
 
+            // Set the current part
+            ub.current_part = modifier_index;
+            var _id = $(this).data("pattern-id");
+            ub.funcs.changePatternFromPopup(ub.current_part, _id);
+
             // Find the selected pattern / And remove check icon and active pattern class
             var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
             selected_pattern.removeClass('active-pattern');

@@ -19,7 +19,7 @@ function ColorPatternPanel(element, parts) {
     this.items = {
         parts: this.parts,
         colors: ub.current_material.settings.team_colors,
-        patterns: ub.data.patterns.items
+        patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
 }
 
