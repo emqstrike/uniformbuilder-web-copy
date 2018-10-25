@@ -8,9 +8,6 @@
  * Requirements:
  * - jQuery
  * - Mustache
- *
- * Usage:
- *
  */
 
 function PartPanel(element, parts) {

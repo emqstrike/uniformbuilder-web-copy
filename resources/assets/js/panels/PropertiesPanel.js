@@ -75,7 +75,7 @@ PropertiesPanel.prototype = {
     },
 
     loadTemplate: function() {
-        this.panels.parts = new PartsPanel('m-parts', this.parts);
+        this.panels.parts = new PartPanel('m-parts', this.parts);
         var rendered = this.panels.parts.getPanel();
         this.setBodyPanel(rendered);
     },

@@ -90,7 +90,7 @@ elixir(function(mix) {
 
             // Custom Panels
             'panels/PropertiesPanel.js',
-            'panels/ColorPatternPanel.js',
+            'panels/PartPanel.js',
             'panels/ColorPanel.js',
             'panels/PatternPanel.js',
             'panels/ColorWheelPanel.js',
@@ -114,9 +114,5 @@ elixir(function(mix) {
         // Result
         'public/uniform-builder/css/uniform-builder.css'
     );
-
-    mix.browserSync({
-        proxy: 'localhost'
-    });
     
 });
