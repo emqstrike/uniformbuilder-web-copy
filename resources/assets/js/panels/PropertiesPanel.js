@@ -14,9 +14,11 @@
 
 function PropertiesPanel(
     element,
-    brand
+    brand,
+    is_inserts = true
 ) {
     this.body_panel = document.getElementById(element);
+    this.is_inserts = is_inserts;
     this.brand = brand;
     this.modifiers = [];
     this.parts = [];
@@ -28,7 +30,6 @@ function PropertiesPanel(
         pippings: '',
         inserts: ''
     };
-
     this.initModifiers();
     this.initInserts();
     this.loadTemplate();
@@ -43,10 +44,16 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
-        this.inserts = _.filter(this.modifiers, function (modifier) {
-            return modifier.name.includes("Insert");
-        });
-        this.parts = _.difference(this.modifiers, this.inserts);
+        if (this.is_inserts) {
+            this.inserts = _.filter(this.modifiers, function (modifier) {
+                return modifier.name.includes("Insert");
+            });
+            this.parts = _.difference(this.modifiers, this.inserts);
+        } else {
+            this.parts = _.filter(this.modifiers, function (modifier) {
+                return modifier.name.includes("Insert");
+            });
+        }
     },
 
     getBrand: function() {

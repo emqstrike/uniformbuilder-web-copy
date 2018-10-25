@@ -29,11 +29,7 @@ ColorPanel.prototype = {
         $(".color-container-button").on('click', '.color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
-
-            // Transform string to Modifier Label format (Title Case)
-            var modifier_name = ub.utilities.titleCase(
-                ub.utilities.underscoreToWhitespace(modifier_category)
-            );
+            var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
 
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
@@ -59,7 +55,7 @@ ColorPanel.prototype = {
             var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
 
             // Apply the color to the Canvas
-            ub.funcs.ui.setMaterialOptionColor(modifier_name, color);
+            ub.funcs.ui.setMaterialOptionColor(_modifier_name, color);
         });
     }
 

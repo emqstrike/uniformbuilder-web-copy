@@ -5800,9 +5800,11 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') { 
+                if (view === 'colors') {
 
                     ub.funcs.activateColorPickers();
+                    // Aron Joshua
+                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
                     ub.funcs.activeStyle('colors');
                     
                     return;
@@ -5851,31 +5853,14 @@ $(document).ready(function () {
                     return;
 
                 }
-
+                // Aron Joshua
                 if (view === 'inserts') {
-                    ub.funcs.hideOtherPanels();
-                    ub.funcs.removeApplicationsPanel();
-
-                    var _modifierList = _.sortBy(ub.data.modifierLabels, 'intGroupID');
-
-                    var _partsWithInserts = _.filter(_modifierList, function (modifier) {
-                        return modifier.name.includes("Insert");
-                    });
-
-                    var _partsWithoutInserts = _.difference(_modifierList, _partsWithInserts);
-
-                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', _partsWithInserts);
-                    prop.loadTemplate();
-
-                    var pattern = new PatternPanel('', '');
-                    pattern.onChangeColorPaternCategory();
-                    pattern.onSelectColorPerCategory();
-                    pattern.onSelect();
-
-                    var color = new ColorPanel("", "");
-                    color.onSelect();
-
+                    ub.funcs.clearPatternUI();
+                    ub.funcs.deActivateApplications();
+                    ub.funcs.deActivateLocations();
                     ub.funcs.activeStyle("inserts");
+
+                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', false);
                     return;
                 }
 

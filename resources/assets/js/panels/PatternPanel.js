@@ -76,23 +76,47 @@ PatternPanel.prototype = {
             var _patternObj = pattern.pattern_obj;
             var _layerCount = _.size(_patternObj.layers);
 
+            var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
+            var render_pattern_colors = Mustache.render(
+                pattern_colors_element.innerHTML,
+                {
+                    colors: ub.current_material.settings.team_colors,
+                    modifier_category: _modifier_category
+                }
+            );
+
+            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html("");
+            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html(render_pattern_colors);
+
+            if ($(".pattern-color-categories li.active")) {
+                $(".pattern-color-categories li").removeClass('active');
+                $(".pattern-color-categories li a.pattern-color-selector").removeClass('cp-button-active');
+                $(".pattern-color-categories li").first().addClass('active');
+                $(".pattern-color-categories li").first().find(".pattern-color-selector").addClass('cp-button-active');
+            }
+
+            if ($(".pattern-color-categories li div.cp-add-cursor-no-drop").length > 0) {
+                $(".pattern-color-categories li div.cp-add-cursor-no-drop").removeClass("cp-add-cursor-no-drop");
+                $(".pattern-color-categories li a.pattern-color-selector").removeClass("cp-pointers-event-none")
+            }
+
             switch (_layerCount) {
                 case 1:
-                    $(".pattern-color-categories .pattern-category-2").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-2").addClass('cp-pointers-event-none');
+                    $(".pattern-color-categories .pattern-category-3").addClass('cp-pointers-event-none');
+                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
                     $(".pattern-color-categories .pattern-category-2").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-3").css('pointer-events', 'none');
                     $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
                     break;
                 case 2:
-                    $(".pattern-color-categories .pattern-category-3").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-3").addClass('cp-pointers-event-none');
+                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
                     $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
                     break;
                 case 3:
-                    $(".pattern-color-categories .pattern-category-4").css('pointer-events', 'none');
+                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
                     $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
                     break;
             }
@@ -119,7 +143,7 @@ PatternPanel.prototype = {
         $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
             /* Act on the event */
             var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
-
+            var category_modifier = $(this).data('modifier-category');
             var selected_color = $(".pattern-color-main-container-" + active_pattern_color_category).find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
@@ -163,5 +187,4 @@ PatternPanel.prototype = {
             }
         });
     }
-
 }

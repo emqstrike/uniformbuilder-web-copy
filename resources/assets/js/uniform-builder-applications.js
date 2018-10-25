@@ -4536,6 +4536,7 @@ $(document).ready(function() {
         $('a.change-view[data-view="layers"]').removeClass('active-change-view'); 
         $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view'); 
         $('a.change-view[data-view="patterns"]').removeClass('active-change-view');
+        // Aron Joshua
         $('a.change-view[data-view="inserts"]').removeClass('active-change-view');
 
         $('a.change-view[data-view="' + tab + '"]').addClass('active-change-view');
