@@ -33,25 +33,41 @@ PatternPanel.prototype = {
     onSelect: function() {
         $(".pattern-container-button").on('click', '.pattern-selector-button', function(event) {
             // Get Modifier category and index
+            var defaultPatternID = 33;
+
             var modifier_category = $(this).data("modifier-category");
             var modifier_index = $(this).data("modifier-index");
 
-            // Set the current part
-            ub.current_part = modifier_index;
-            var _id = $(this).data("pattern-id");
-            ub.funcs.changePatternFromPopup(ub.current_part, _id);
-
             // Find the selected pattern / And remove check icon and active pattern class
             var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
-            selected_pattern.removeClass('active-pattern');
-            selected_pattern.html("");
 
-            // Empty the Edit pattern button and Show the button
-            $(".edit-pattern-modal-container-"  + modifier_category).html("");
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit pattern color</button>");
+            if (selected_pattern.data('pattern-id') === $(this).data("pattern-id"))
+            {
+                selected_pattern.removeClass('active-pattern');
+                selected_pattern.html("");
 
-            $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
-            $(this).addClass('active-pattern');
+                ub.current_part = modifier_index;
+                var _id = $(this).data("pattern-id");
+                ub.funcs.changePatternFromPopup(ub.current_part, defaultPatternID);
+
+                $(".edit-pattern-modal-container-"  + modifier_category).html("");
+            }
+            else
+            {
+                selected_pattern.removeClass('active-pattern');
+                selected_pattern.html("");
+                // Set the current part
+                ub.current_part = modifier_index;
+                var _id = $(this).data("pattern-id");
+                ub.funcs.changePatternFromPopup(ub.current_part, _id);
+                // Empty the Edit pattern button and Show the button
+                $(".edit-pattern-modal-container-"  + modifier_category).html("");
+                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit pattern color</button>");
+
+                $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                $(this).addClass('active-pattern');
+            }
+
         });
     },
 
