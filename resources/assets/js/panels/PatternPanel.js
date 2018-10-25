@@ -85,8 +85,8 @@ PatternPanel.prototype = {
                 }
             );
 
-            $("#pattern-color-tab-content .tab-content .tab-pane").html("");
-            $("#pattern-color-tab-content .tab-content .tab-pane").html(render_pattern_colors);
+            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html("");
+            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html(render_pattern_colors);
 
             if ($(".pattern-color-categories li.active")) {
                 $(".pattern-color-categories li").removeClass('active');
@@ -142,8 +142,9 @@ PatternPanel.prototype = {
     onSelectColorPerCategory: function() {
         $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
             /* Act on the event */
+            console.log("FUXK YOU");
             var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
-
+            var category_modifier = $(this).data('modifier-category');
             var selected_color = $(".pattern-color-main-container-" + active_pattern_color_category).find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
