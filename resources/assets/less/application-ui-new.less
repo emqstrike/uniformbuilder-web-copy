@@ -51,9 +51,7 @@
 
 .applicationUIBlock {
     &:extend(.transition);
-    //display: none;
-    margin: 20px;
-    width: 520px;
+    width: 100%;
     background: white;
 
     .thumbnail {
@@ -62,4 +60,15 @@
         .borders(#666);
         .radius(0);
     }
+}
+
+div.options_panel_section#primary_options_container {
+    height: 100% !important;
+    max-height: 450px !important;
+    padding: 10px !important;
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+
+    overflow-y: auto;
+    -ms-overflow-y: auto;
 }

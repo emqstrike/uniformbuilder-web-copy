@@ -1042,12 +1042,17 @@
 
     <script type="text/mustache" id="m-application-ui-block">
 
+        <h5 class="fc-darker abrade-ultra-italic">Decoration Mascots</h5>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-secondary">Secondary</button>
+
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
                 <image src="@{{ thumbnail }}" class="thumbnail" />
             </div>
         @{{/applications}}
+
 
     </script>
 
