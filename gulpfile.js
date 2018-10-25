@@ -115,5 +115,4 @@ elixir(function(mix) {
 
         // Result
         'public/uniform-builder/css/uniform-builder.css');
-    
 });
