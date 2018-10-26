@@ -24,7 +24,7 @@ function PropertiesPanel(
     this.parts = [];
     this.inserts = [];
     this.panels = {
-        colors_patterns: '',
+        parts: '',
         colors: new ColorPanel('', ''),
         patterns: new PatternPanel('', ''),
         pippings: '',
@@ -82,13 +82,13 @@ PropertiesPanel.prototype = {
     },
 
     loadTemplate: function() {
-        this.panels.colors_patterns = new ColorPatternPanel('m-colors-patterns', this.parts);
-        var rendered = this.panels.colors_patterns.getPanel();
+        this.panels.parts = new PartPanel('m-parts', this.parts);
+        var rendered = this.panels.parts.getPanel();
         this.setBodyPanel(rendered);
     },
 
     bindEvents: function() {
-        this.panels.colors_patterns.onSelect();
+        this.panels.parts.onSelect();
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
         this.panels.patterns.onChangeColorPaternCategory();
