@@ -96,6 +96,7 @@
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <button href="#" class="btn btn-success btn-sm btn-flat clone-size" data-size-id="{{ $size->id }}" role="button">Clone</button>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-size" data-size-id="{{ $size->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -548,6 +549,25 @@ $(document).ready(function(){
             });
     }
 
+    $(document).on('click', '.clone-size', function() {
+        var id = $(this).data('size-id');
+        var url = "//" + api_host + "/api/mascot_size/duplicate/";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                }
+            }
+        });
+    });
 });
 </script>
 @endsection
