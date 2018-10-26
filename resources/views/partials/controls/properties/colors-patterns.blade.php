@@ -35,10 +35,10 @@
 
 <!-- Colors&Patterns Properties -->
 <script type="text/mustache" id="m-colors-patterns">
-<div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
+<div class="cp-padding-small cp-padding-remove-vertical" id="primary_options_colors">
 @{{ #parts }}
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
-        <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
+        <div class="col-md-12 cp-padding-small cp-padding-remove-vertical">
             <div class="cp-text-uppercase cp-fc-white">
                 <h4 class="header cp-text-bold">@{{ name }}</h4>
                 <p style="font-weight: bold;">Choose Color / Pattern</p>
@@ -47,7 +47,7 @@
     </div>
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
         <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-            <p class="cp-padding-left-medium">COLOR</p>
+            <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
             <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" >
                 @{{ #colors }}
                     <div class="color_element sublimated color-container-button">
@@ -69,7 +69,7 @@
     </div>
     <div class="row modifier-wrapper">
         <div class="col-md-12 cp-padding-remove">
-            <p class="cp-padding-left-medium">PATTERN</p>
+            <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
             <div class="pattern-main-container-@{{ fullname }}">
                 @{{ #patterns }}
                     <div class="color_element sublimated">
@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
-        <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+        <div class="col-md-12 cp-margin-top-small cp-padding-small cp-padding-remove-vertical cp-margin-remove">
             <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
             </div>
             <hr>
@@ -175,33 +175,35 @@
                             </ul>
                         </div>
 
-                        <div id="pattern-color-tab-content">
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
-                                    <div class="pattern-color-main-container-1">
-                                        <div class="row pattern-color-button-container">
+                        <div class="col-md-12">
+                            <div id="pattern-color-tab-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
+                                        <div class="pattern-color-main-container-1">
+                                            <div class="row pattern-color-button-container">
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
-                                    <div class="pattern-color-main-container-2">
-                                        <div class="row pattern-color-button-container">
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
+                                        <div class="pattern-color-main-container-2">
+                                            <div class="row pattern-color-button-container">
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
-                                    <div class="pattern-color-main-container-3">
-                                        <div class="row pattern-color-button-container">
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
+                                        <div class="pattern-color-main-container-3">
+                                            <div class="row pattern-color-button-container">
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
-                                    <div class="pattern-color-main-container-4">
-                                        <div class="row pattern-color-button-container">
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
+                                        <div class="pattern-color-main-container-4">
+                                            <div class="row pattern-color-button-container">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

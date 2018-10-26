@@ -5803,8 +5803,6 @@ $(document).ready(function () {
                 if (view === 'colors') {
 
                     ub.funcs.activateColorPickers();
-                    // Aron Joshua
-                    // var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
                     ub.funcs.activeStyle('colors');
                     
                     return;
@@ -5852,16 +5850,6 @@ $(document).ready(function () {
 
                     return;
 
-                }
-                // Aron Joshua
-                if (view === 'inserts') {
-                    ub.funcs.clearPatternUI();
-                    ub.funcs.deActivateApplications();
-                    ub.funcs.deActivateLocations();
-                    ub.funcs.activeStyle("inserts");
-
-                    var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', false);
-                    return;
                 }
 
                 if (view === 'start-over') {

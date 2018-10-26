@@ -19,6 +19,18 @@ $(function() {
         ub.funcs.startNewApplication();
     });
 
+    // Aron Joshua
+    $('#new-toolbar > .group-2').on('click', function () {
+        console.log('Color Pattern Panel');
+        var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+    });
+
+    // Aron Joshua
+    $('#new-toolbar > .group-3').on('click', function () {
+        console.log('Insert Panel');
+        var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports', false);
+    });
+
     ub.funcs.startNewApplication = function () {
         console.info('=======APPLICATION UI BLOCK=======');
 

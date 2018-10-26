@@ -35,7 +35,7 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             $(this).addClass('active-color');
 
             if (colorLabel === 'W'
@@ -46,8 +46,7 @@ ColorPanel.prototype = {
                 || colorLabel === 'OP'
                 || colorLabel === 'SG'
             ) {
-                $(this).css('color', '#3d3d3d');
-                $(this).css('text-shadow', '1px 1px #d7d7d7');
+                $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
             }
 
             // Retrieve Color Object
