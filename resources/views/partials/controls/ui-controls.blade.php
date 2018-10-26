@@ -1049,9 +1049,25 @@
         </div>
 
         @{{#applications}}
+            <hr>
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
-                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
-                <image src="@{{ thumbnail }}" class="thumbnail" />
+                <h5>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h5>
+                <div class="new-con-application">
+                    <div>
+                        <image src="@{{ thumbnail }}" class="thumbnail" />
+                        <div><a href="#">Mascot/Logo name</a></div>
+                    </div>
+                    <div>
+                        <h5>@{{ type }}</h5>
+                        <div><a href="#">View Art Details</a></div>
+                        <div><a href="#">View Print Ready File</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="new-con-view-hide-application">
+                <button type="button" class="new-btn btn-secondary">View</button>
+                <button type="button" class="new-btn btn-secondary">Hide</button>
             </div>
         @{{/applications}}
 
