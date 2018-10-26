@@ -10235,7 +10235,19 @@ ub.funcs.fontOffSets = [
                 sublimatedPart: 'Extra',
             },
             {
+                sport: 'PTS Hoodie (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
                 sport: 'PTS Cage Jacket (Apparel)',
+                sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
                 sublimatedPart: 'Body',
             }
         ],
@@ -10993,12 +11005,6 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Shorts',
             },
             {
-                sport: 'Basketball',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Shorts',
-            },
-            {
                 sport: 'Lacrosse',
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -11023,12 +11029,6 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Shorts',
-            },
-            {
-                sport: 'Hockey',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Pants',
             },
             {
                 sport: 'Game Day Jackets (Apparel)',
@@ -11432,6 +11432,29 @@ ub.funcs.fontOffSets = [
             
             var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
             return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.blockPatternsAlias = {
+
+        items: [
+            {
+                sport: 'Basketball',
+                name: '2018 Basketball Jersey',
+                alias: 'SFN Jersey',
+            },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
 
         }
 
@@ -12065,7 +12088,6 @@ ub.funcs.fontOffSets = [
     ub.data.tackleTwillOnly = {
 
         items: [
-            'Basketball',
             'Lacrosse',
         ],
         isTackleTwillOnly: function (uniformCategory) {
@@ -12097,6 +12119,22 @@ ub.funcs.fontOffSets = [
 
     }
  
+    ub.data.freeFormToolFirstPartSelection = {
+        
+        items: [
+            'Yoga Pant (Apparel)'
+        ],
+        isEnabled: function (uniformCategory) {
+
+            var _result = undefined;
+
+            _result = _.contains(this.items, uniformCategory);
+
+            return _result;
+
+        }
+
+    }
 
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {
@@ -12107,7 +12145,9 @@ ub.funcs.fontOffSets = [
             'Wrestling 2018',
             'Tennis',
             'Baseball',
-            'Socks (Apparel)'
+            'Socks (Apparel)',
+            'Yoga Pant (Apparel)',
+            'Basketball'
         ],
         isValid: function (uniformCategory) {
 
@@ -12169,6 +12209,25 @@ ub.funcs.fontOffSets = [
 
         }
 
+    }
+
+    // do not apply oneInchPullUp funcs for the the following sports
+    ub.data.oneInchPullUpExemptions = {
+        items: [
+            {
+                sport: 'Socks (Apparel)',
+                blockPattern: 'Hockey Sock',
+            }
+        ],
+        isExempted: function (sport, blockPattern) {
+            
+            var _result = undefined;
+            
+            _result = _.find(this.items, {sport: sport, blockPattern: blockPattern});
+            
+            return _.size(_result) > 0;
+            
+        }
     }
 
 });

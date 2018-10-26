@@ -62,6 +62,7 @@
                                 <select class="form-control type" name="type">
                                     <option value="sports" @if($category->type == 'sports') selected="selected" @endif>Sports</option>
                                     <option value="apparel" @if($category->type == 'apparel') selected="selected" @endif>Apparel</option>
+                                    <option value="esports" @if($category->type == 'esports') selected="selected" @endif>eSports</option>
                                 </select>
                             </div>
                         </div>

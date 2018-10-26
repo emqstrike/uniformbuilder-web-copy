@@ -43,26 +43,21 @@ class MascotsController extends Controller
 
     public function index($active_sport = null, $active_category = null)
     {
-        if($active_sport == null) {
+        if ($active_sport == null) {
             $active_sport = "All";
         }
-        if($active_category == null) {
+
+        if ($active_category == null) {
             $active_category = "Balls";
         }
+
         $mascots = $this->client->getFilteredMascots($active_sport, $active_category);
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.mascots.mascots', [
-                'mascots' => $mascots,
-                'active_sport' => $active_sport,
-                'active_category' => $active_category
-                ]);
-        }
-        else {
-                return redirect('administration');
-        }
+
+        return view('administration-lte-2.mascots.mascots', [
+            'mascots' => $mascots,
+            'active_sport' => $active_sport,
+            'active_category' => $active_category
+        ]);
     }
 
     public function addMascotForm()

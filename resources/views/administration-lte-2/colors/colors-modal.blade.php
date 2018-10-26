@@ -35,7 +35,6 @@
                   <div class="form-group">
                     <label>Brand</label>
                       <select class="form-control input-brand">
-                        <option value="none">No Brand</option>
                         <option value="prolook">Prolook</option>
                         <option value="richardson">Richardson</option>
                       </select>
