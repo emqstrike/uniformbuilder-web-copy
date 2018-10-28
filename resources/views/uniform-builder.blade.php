@@ -140,6 +140,8 @@
 
     @include('partials.detect-mobile')
 
+    <!-- Rollbar JS Error Log Tracker -->
+    @include('partials.code.rollbar-js')
 
 </body>
 </html>
