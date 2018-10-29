@@ -3991,11 +3991,11 @@ $(document).ready(function () {
 
         // });
 
-        // ub.stage.on('mousemove', function (mousedata) {
+        ub.stage.on('mousemove', function (mousedata) {
 
-        //     ub.funcs.stageMouseMove(mousedata);
+            ub.funcs.stageMouseMove(mousedata);
 
-        // });
+        });
 
     }
 
