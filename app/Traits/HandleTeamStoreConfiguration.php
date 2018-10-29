@@ -20,7 +20,7 @@ trait HandleTeamStoreConfiguration
     {
         if ($response->success)
         {
-            Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
+            // Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
 
             // Team Store Session - Entry point
             $this->setTeamStoreConfiguration(
@@ -31,8 +31,8 @@ trait HandleTeamStoreConfiguration
                 $response->team_store_colors
             );
 
-            Log::info('Session: userHasTeamStoreAccount = true');
-            Log::info(print_r(Session::get('team_store'), true));
+            // Log::info('Session: userHasTeamStoreAccount = true');
+            // Log::info(print_r(Session::get('team_store'), true));
         }
         else
         {
@@ -108,7 +108,7 @@ trait HandleTeamStoreConfiguration
         {
             $params['store_code'] = $this->getTeamStoreCodeFromSession();
         }
-        Log::info('STORE CODE: ' . $params['store_code']);
+        // Log::info('STORE CODE: ' . $params['store_code']);
 
         // @param Team Store USER ID
         $params['team_store_user_id'] = $this->getTeamStoreUserId();
@@ -118,7 +118,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
-            Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
+            // Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
         }
 
         // @param Team Colors - comma separated list
@@ -130,7 +130,7 @@ trait HandleTeamStoreConfiguration
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
-            Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
+            // Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
         }
 
         // @param Jersey Name
@@ -138,7 +138,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['jersey_name']))
         {
             $params['jersey_name'] = $config['jersey_name'];
-            Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
+            // Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
         }
 
         // @param Jersey Number
@@ -146,7 +146,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['jersey_number']))
         {
             $params['jersey_number'] = $config['jersey_number'];
-            Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
+            // Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
         }
 
         // @param Mascot ID
@@ -154,7 +154,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['mascot_id']))
         {
             $params['mascot_id'] = $config['mascot_id'];
-            Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
+            // Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
         }
 
         // @param Save Rendered image
@@ -164,7 +164,7 @@ trait HandleTeamStoreConfiguration
             $params['save_rendered'] = $config['save_rendered'];
             if (!empty($config['save_rendered']))
             {
-                Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
+                // Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
             }
         }
 
@@ -175,7 +175,7 @@ trait HandleTeamStoreConfiguration
             $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
             if (!empty($params['save_rendered_timeout']))
             {
-                Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
+                // Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
             }
         }
 
@@ -184,13 +184,13 @@ trait HandleTeamStoreConfiguration
         if (isset($config['product_id']))
         {
             $params['product_id'] = $config['product_id'];
-            Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
+            // Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
         }
 
         $params['teamstore_registration_params'] = $this->getTeamStoreRegistrationParams();
         if (!empty($params['teamstore_registration_params']))
         {
-            Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
+            // Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
         }
     }
 
