@@ -9,10 +9,9 @@ $(function() {
 
     tippy('.tippy', {
         delay: 100,
-        arrow: true,
-        arrowType: 'round',
         size: 'large',
-        animation: 'shift-away'
+        animation: 'shift-away',
+        placement: 'left-end'
     });
 
     // on click on any group pane switch to active
