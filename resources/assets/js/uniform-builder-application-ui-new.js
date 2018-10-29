@@ -7,6 +7,14 @@ $(function() {
 
     var ub = window.ub;
 
+    tippy('.tippy', {
+        delay: 100,
+        arrow: true,
+        arrowType: 'round',
+        size: 'large',
+        animation: 'shift-away'
+    });
+
     // on click on any group pane switch to active
     $('#new-toolbar > .group-pane').on('click', function () {
         $('#new-toolbar > .group-pane').removeClass('active');
@@ -19,7 +27,8 @@ $(function() {
     });
 
     // Aron Joshua
-    $('#new-toolbar > .group-2').on('click', function () {
+    // $('#new-toolbar > .group-2').on('click', function () {
+    $('.property-modifiers-menu .menu-item-parts').on('click', function () {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
@@ -42,7 +51,7 @@ $(function() {
 
     // Aron Joshua
     // $('#new-toolbar > .group-3').on('click', function () {
-    $('.property-modifiers-menu .menu-item-parts').on('click', function () {
+    $('.property-modifiers-menu .menu-item-inserts').on('click', function () {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 

@@ -24,6 +24,7 @@ elixir(function(mix) {
             'third-party/select2/select2.full.js',
             'third-party/pixi/pixi.js',
             'third-party/pixi/pixi.draggable.js',
+            'third-party/tippy/tippy.all.min.js',
 
             // Sources
 
