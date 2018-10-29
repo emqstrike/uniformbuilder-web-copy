@@ -91,7 +91,7 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('mousedown', _.throttle(function (mousedata) {
+        ub.stage.on('click', _.throttle(function (mousedata) {
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
