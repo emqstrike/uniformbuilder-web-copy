@@ -69,7 +69,7 @@
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat view-record" data-target="#SpecSheetModal" data-toggle="modal">View</a>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
-                                    <a href="#" class="btn btn-success btn-sm btn-flat export-record">Export</a>
+                                    <a href="/administration/v1-0/spec_sheet/export_excel/{{ $item->id }}" target="_blank" class="btn btn-success btn-sm btn-flat">Export</a>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-item" data-item-id="{{ $item->id }}" role="button">Delete</a>
                                 </center>
                             </td>
