@@ -3883,119 +3883,119 @@ $(document).ready(function () {
 
         });
 
-        ub.stage.on('mousedown', function (mousedata) {
+        // ub.stage.on('mousedown', function (mousedata) {
 
-            if (ub.tools.activeTool.active()) {
-                return;
-            }
+        //     if (ub.tools.activeTool.active()) {
+        //         return;
+        //     }
 
-            if (ub.status.fullView.getStatus()) {
+        //     if (ub.status.fullView.getStatus()) {
 
-                if (ub.status.fullViewZoom.getStatus()) {
+        //         if (ub.status.fullViewZoom.getStatus()) {
 
-                    // Turn Off Full View Zoom
-                    ub.funcs.resetZoom();
-                    ub.status.fullViewZoom.setStatus(false, undefined);
+        //             // Turn Off Full View Zoom
+        //             ub.funcs.resetZoom();
+        //             ub.status.fullViewZoom.setStatus(false, undefined);
 
-                } else {
+        //         } else {
 
-                    // Zoom View Depending on the area that was clicked
-                    ub.funcs.resetZoom();
+        //             // Zoom View Depending on the area that was clicked
+        //             ub.funcs.resetZoom();
 
-                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+        //             var _view = ub.funcs.getZoomView(mousedata.data.global)
 
-                    if (typeof _view !== "undefined") {
+        //             if (typeof _view !== "undefined") {
 
-                        ub.funcs.hideViews();
-                        ub.funcs.zoomView(_view);
+        //                 ub.funcs.hideViews();
+        //                 ub.funcs.zoomView(_view);
 
-                    }
+        //             }
 
-                    ub.status.fullViewZoom.setStatus(true, _view);
+        //             ub.status.fullViewZoom.setStatus(true, _view);
 
-                }
+        //         }
 
-                return;
+        //         return;
 
-            }
+        //     }
 
-            if (ub.zoom) {
+        //     if (ub.zoom) {
 
-                ub.zoom_off();
-                return;
+        //         ub.zoom_off();
+        //         return;
 
-            }
+        //     }
 
-            ub.funcs.hideVisiblePopups();
+        //     ub.funcs.hideVisiblePopups();
 
-            if (typeof ub.activeApplication !== "undefined") {
-                return;
-            }
+        //     if (typeof ub.activeApplication !== "undefined") {
+        //         return;
+        //     }
 
-            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+        //     var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        //     var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
 
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
+        //     if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
 
-                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
-                if (_sizeOfTeamColors < 2) {
-                    ub.startModal(1);
-                    return;
-                }
+        //         //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+        //         if (_sizeOfTeamColors < 2) {
+        //             ub.startModal(1);
+        //             return;
+        //         }
 
-                if (!ub.branding.useAllColors) {
-                    if (_sizeOfTeamColors > 8) {
-                        ub.startModal(2);
-                        return;
-                    }
-                }
+        //         if (!ub.branding.useAllColors) {
+        //             if (_sizeOfTeamColors > 8) {
+        //                 ub.startModal(2);
+        //                 return;
+        //             }
+        //         }
 
-            }
+        //     }
 
-            /// Check if CW if empty, draw Pickers if it is
-            if ($('div#cw').length) {
-                if ($('div#cw').html().length === 0) {
+        //     /// Check if CW if empty, draw Pickers if it is
+        //     if ($('div#cw').length) {
+        //         if ($('div#cw').html().length === 0) {
 
-                    ub.funcs.drawColorPickers();
+        //             ub.funcs.drawColorPickers();
 
-                }
-            }
+        //         }
+        //     }
 
-            var current_coodinates = mousedata.data.global;
-            var results = ub.funcs.withinMaterialOption(current_coodinates);
+        //     var current_coodinates = mousedata.data.global;
+        //     var results = ub.funcs.withinMaterialOption(current_coodinates);
 
-            if (results.length > 0) {
+        //     if (results.length > 0) {
 
-                ub.states.canDoubleClick = true;
+        //         ub.states.canDoubleClick = true;
 
-                var _originalName = _.first(results).name;
+        //         var _originalName = _.first(results).name;
 
-                // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
-                // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
-                // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
-                // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+        //         // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+        //         // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+        //         // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+        //         // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
-                var _match = _.first(results).name.toCodeCase();
-                var _result = _match.replace('right_', 'left_');
-                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
-                var _index = ub.funcs.getIndexByName(_result);
+        //         var _match = _.first(results).name.toCodeCase();
+        //         var _result = _match.replace('right_', 'left_');
+        //         var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+        //         var _index = ub.funcs.getIndexByName(_result);
 
-                ub.funcs.activatePartByIndex(_index);
+        //         ub.funcs.activatePartByIndex(_index);
 
-            }
-            else {
+        //     }
+        //     else {
 
-                ub.funcs.clickOutside();
+        //         ub.funcs.clickOutside();
 
-            }
+        //     }
 
-        });
+        // });
 
-        ub.stage.on('mousemove', function (mousedata) {
+        // ub.stage.on('mousemove', function (mousedata) {
 
-            ub.funcs.stageMouseMove(mousedata);
+        //     ub.funcs.stageMouseMove(mousedata);
 
-        });
+        // });
 
     }
 

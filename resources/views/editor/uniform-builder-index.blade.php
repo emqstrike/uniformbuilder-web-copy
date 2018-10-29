@@ -263,12 +263,6 @@
                 <br /><span>Applications</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="inserts">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <br /><span>Inserts</span>
-            </a>
-
-
             <a class="footer-buttons change-view hidden" data-view="pipings">
                 <i class="fa fa-bars" aria-hidden="true"></i>
                 <br /><span>Pipings</span>

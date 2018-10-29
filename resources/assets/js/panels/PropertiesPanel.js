@@ -94,6 +94,35 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onChangeColorPaternCategory();
         this.panels.patterns.onSelectColorPerCategory();
         this.panels.patterns.onOpenModalPatternModifier();
+        this.panelTracker();
+    },
+
+    panelTracker: function() {
+        var _this = this;
+        ub.stage.on('mousedown', function (mousedata) {
+            console.log("asjhkbgdasjkhgashjkgkjdsahgkjasdgjk");
+
+            var current_coodinates = mousedata.data.global;
+            var results = ub.funcs.withinMaterialOption(current_coodinates);
+
+            if (results.length > 0)
+            {
+                var _match = _.first(results).name.toCodeCase();
+                var _result = _match.replace('right_', 'left_');
+                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                var _index = ub.funcs.getIndexByName(_result);
+
+                _this.activePanelbyIndex(_index);
+            }
+            else
+            {
+                ub.funcs.clickOutside();
+            }
+        });
+    },
+
+    activePanelbyIndex: function(index) {
+        $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration:100 });
     }
 
 }
