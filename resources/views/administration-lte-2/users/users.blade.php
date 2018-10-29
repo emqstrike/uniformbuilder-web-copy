@@ -13,7 +13,7 @@
         span.select2 {
             width: 100% !important;
         }
-    
+
         li.select2-selection__choice {
             color: black !important;
         }
@@ -47,7 +47,6 @@
                                     <th id="select-filter">Account Type</th>
                                     <th class="select-filter">Role</th>
                                     <th>Email</th>
-                                    <th>Default Allowed Pages</th>
                                     <th>Allowed Pages</th>
                                     <th id="select-filter">Rep Name</th>
                                     <th>Last Login</th>
@@ -64,13 +63,7 @@
                                     <td class="td-user-type">{{ ucfirst($user->type) }}</td>
                                     <td id="td-user-type">{{ ucfirst($user->role) }}</td>
                                     <td class="td-user-email">{{ $user->email }}</td>
-                                    <td class="td-default-allowed-pages">
-                                        @if ($user->default_allowed_pages)
-                                            @foreach (json_decode($user->default_allowed_pages, true) as $defaultAllowedPage)
-                                                {{ $defaultAllowedPage }}<br>
-                                            @endforeach
-                                        @endif
-                                    </td>
+
                                     <td class="td-user-allowed-pages" data-user-allowed-pages="{{ $user->allowed_pages }}">
                                         @if ($user->allowed_pages)
                                             @foreach (json_decode($user->allowed_pages, true) as $allowedPage)
@@ -107,7 +100,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan='8'>
+                                    <td colspan='10'>
                                         No Users
                                     </td>
                                 </tr>
@@ -115,6 +108,8 @@
                             </tbody>
                               <tfoot>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
