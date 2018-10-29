@@ -2289,7 +2289,7 @@ $(document).ready(function() {
 
                 var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
 
-                if (typeof custom !== 'undefined') {
+                if (typeof custom !== 'undefined' && custom.scale !== '0') {
                     
                     scale = { x: custom.scale, y: custom.scale };
 
