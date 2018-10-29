@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
     <style>
         .select2 {
@@ -247,7 +248,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan='7'>
+                                    <td colspan='14'>
                                         No New Artwork Requests
                                     </td>
                                 </tr>
@@ -263,17 +264,11 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
-    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
     <script type="text/javascript" src="/js/administration/common.js"></script>
     <script type="text/javascript" src="/js/bootbox.min.js"></script>
     <script type="text/javascript" src="/js/administration/logo-requests.js"></script>
-    <script type="text/javascript">
-    
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
-
             $('#filter-logo-requests').click(function() {
                 var origin = $('#origins-filter').val();
                 var type = $('#types-filter').val();
@@ -287,6 +282,8 @@
             $('#clear-filter').click(function() {
                 window.location.href = "{{ route('v1_logo_requests') }}";
             });
+
+            $('.select2').select2();
         });
     </script>
 @endsection
