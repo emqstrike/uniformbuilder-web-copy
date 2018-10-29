@@ -33,8 +33,7 @@
 </script>
 <!-- /Patterns Properties -->
 
-<!-- Colors&Patterns Properties -->
-<script type="text/mustache" id="m-colors-patterns">
+<script type="text/mustache" id="m-parts">
 <div class="cp-padding-small cp-padding-remove-vertical" id="primary_options_colors">
 @{{ #parts }}
     <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
