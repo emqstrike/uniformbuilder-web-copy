@@ -22,6 +22,16 @@ $(function() {
     // Aron Joshua
     $('#new-toolbar > .group-2').on('click', function () {
         console.log('Color Pattern Panel');
+        ub.funcs.clearPatternUI();
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+
+        if ($("#primary_options_colors").css("display") === "none")
+        {
+            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+            console.log("asdasdasdas");
+        }
+
         if ($("#primary_options_container #primary_options_colors").length > 0)
         {
             $(".parts-container").show();
@@ -37,6 +47,16 @@ $(function() {
     // Aron Joshua
     $('#new-toolbar > .group-3').on('click', function () {
         console.log('Insert Panel');
+        ub.funcs.clearPatternUI();
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+
+        if ($("#primary_options_colors").css("display") === "none")
+        {
+            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+            console.log("asksdhdshsdhsadhjkasdhjkadsjkhasd");
+        }
+
         if ($("#primary_options_container #primary_options_colors").length > 0)
         {
             $(".parts-container").hide();
