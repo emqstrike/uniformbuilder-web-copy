@@ -83,7 +83,7 @@
 
     <div id="new-toolbar" class="property-modifiers-menu">
         <a href="#" class="group-pane tippy group-1 menu-item-fabric" data-tippy-content="FABRIC">1</a>
-        <a href="#" class="group-pane tippy group-2 menu-item-parts" data-tippy-content="BASE COLOR">2</a>
+        <a href="#" class="group-pane tippy group-2 menu-item-parts" data-tippy-content="PARTS">2</a>
         <a href="#" class="group-pane tippy group-3 menu-item-inserts" data-tippy-content="INSERTS">3</a>
         <a href="#" class="group-pane tippy group-4 menu-item-pippings" data-tippy-content="PIPINGS">4</a>
         <a href="#" class="group-pane tippy group-5 menu-item-decoration-letters" data-tippy-content="DECORATION LETTERS">5</a>
