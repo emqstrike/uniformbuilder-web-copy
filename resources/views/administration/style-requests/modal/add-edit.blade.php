@@ -9,8 +9,7 @@
             <div class="modal-body">
                 <div class="custom-alert alert-danger" style="display: none;"></div>
                 
-                <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>
-                    <input type="hidden" class="design-sheet-path">
+                <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>   
                     <input type="hidden" class="data-string">
                     <input type="hidden" class="id">
 
@@ -175,16 +174,14 @@
                             <textarea name="input_notes" class="form-control" id="input_notes" cols="10" rows="5"></textarea>
                         </div>
                     </div>
-                </form>
 
-                <div id="upload_design_sheet">
-                    <center>
-                        <h4 class="custom-alert alert-info" style="margin-bottom: 0;">Upload Design Sheet below</h4>
-                        <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        </form>
-                    </center>
-                </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Design Sheet Path</label>
+                        <div class="col-md-6">
+                            <input type="text" class="design-sheet-path form-control">
+                        </div>
+                    </div>
+                </form>
 
                 <div class="form-group" id="save-data" style="margin-top: 30px;">
                     <center>

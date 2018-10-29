@@ -63,6 +63,8 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.data-table').DataTable();
+            
             var date = new Date();
             var currentMonth = date.getMonth();
             var currentYear = date.getFullYear();
