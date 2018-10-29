@@ -66,11 +66,11 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
 
                 // Application Sizes
-                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
+                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.utilities.domParserDecoder(ub.config.blockPattern) + '/' + ub.utilities.domParserDecoder(ub.config.option);
                 ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
 
                 // Hidden Bodies
-                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
+                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.utilities.domParserDecoder(ub.config.blockPattern) + '/' + ub.utilities.domParserDecoder(ub.config.option) + '/' + ub.config.type;
                 ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);  
 
                 // Disable Tailsweeps for now
