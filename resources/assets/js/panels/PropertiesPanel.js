@@ -95,6 +95,7 @@ PropertiesPanel.prototype = {
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
+            console.log("TIME TIMES TIME === SHEET OF TIME");
             if (results.length > 0)
             {
                 var _match = _.first(results).name.toCodeCase();
