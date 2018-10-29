@@ -75,10 +75,7 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-<<<<<<< HEAD
 
-=======
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -547,15 +544,6 @@ class UniformBuilderController extends Controller
             'render' => true
         ];
 
-<<<<<<< HEAD
-//        Log::info('(Request Before) Code  ' . $code);
-//        Log::info('(Request Before) !isNull  ' . !is_null($code));
-        if (config('app.debug')) Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
-        if (config('app.debug')) Log::info('(Request Before) Team Colors  ' . $request->team_colors);
-        if (config('app.debug')) Log::info('Request Object ' . $request);
-
-=======
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         return $this->showBuilder($config);
 
     }
@@ -670,10 +658,7 @@ class UniformBuilderController extends Controller
         {
             $config['product_id'] = $product_id;
         }
-<<<<<<< HEAD
-        if (config('app.debug')) Log::info(print_r($config, true));
-=======
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
+
     }
 
     public function fileUpload(Request $request) {
