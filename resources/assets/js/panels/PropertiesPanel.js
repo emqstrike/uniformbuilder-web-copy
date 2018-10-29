@@ -15,10 +15,8 @@
 function PropertiesPanel(
     element,
     brand,
-    is_inserts = true
 ) {
     this.body_panel = document.getElementById(element);
-    this.is_inserts = is_inserts;
     this.brand = brand;
     this.modifiers = [];
     this.parts = [];
@@ -44,16 +42,10 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
-        if (this.is_inserts) {
-            this.inserts = _.filter(this.modifiers, function (modifier) {
-                return modifier.name.includes("Insert");
-            });
-            this.parts = _.difference(this.modifiers, this.inserts);
-        } else {
-            this.parts = _.filter(this.modifiers, function (modifier) {
-                return modifier.name.includes("Insert");
-            });
-        }
+        this.inserts = _.filter(this.modifiers, function (modifier) {
+            return modifier.name.includes("Insert");
+        });
+        this.parts = _.difference(this.modifiers, this.inserts);
     },
 
     getBrand: function() {
@@ -82,7 +74,7 @@ PropertiesPanel.prototype = {
     },
 
     loadTemplate: function() {
-        this.panels.parts = new PartPanel('m-parts', this.parts);
+        this.panels.parts = new PartPanel('m-parts', this.parts, this.inserts);
         var rendered = this.panels.parts.getPanel();
         this.setBodyPanel(rendered);
     },
@@ -99,8 +91,7 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('mousedown', function (mousedata) {
-            console.log("asjhkbgdasjkhgashjkgkjdsahgkjasdgjk");
+        ub.stage.on('mousedown', _.throttle(function (mousedata) {
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
@@ -118,11 +109,14 @@ PropertiesPanel.prototype = {
             {
                 ub.funcs.clickOutside();
             }
-        });
+        }, 500));
     },
 
     activePanelbyIndex: function(index) {
-        $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration:100 });
+        if ($("li.panel-index-" + index).length > 0)
+        {
+            $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration: 500 });
+        }
     }
 
 }

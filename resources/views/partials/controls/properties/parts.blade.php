@@ -1,9 +1,9 @@
 <script type="text/mustache" id="m-parts">
 <div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
-    <ul style="list-style:none; padding: 0 !important" classs="parts-container">
+    <ul style="list-style:none; padding: 0 !important" class="parts-container">
         @{{ #parts }}
             <li class="panel-index-@{{ index }}">
-                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
                         <div class="cp-text-uppercase cp-fc-white">
                             <h4 class="header cp-text-bold">@{{ name }}</h4>
@@ -11,10 +11,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
                         <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
-                        <div class="color-main-container-@{{ fullname }}">
+                        <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element sublimated color-container-button">
                                     <button
@@ -65,10 +65,76 @@
             </li>
         @{{ /parts }}
     </ul>
+
+    <ul style="list-style:none; padding: 0 !important" id="parts-with-insert-container">
+        @{{ #partsWithInsert }}
+            <li class="panel-index-@{{ index }}">
+                <div class="row modifier-wrapper">
+                    <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
+                        <div class="cp-text-uppercase cp-fc-white">
+                            <h4 class="header cp-text-bold">@{{ name }}</h4>
+                            <p style="font-weight: bold;">Choose Color / Pattern</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row modifier-wrapper">
+                    <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
+                        <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
+                        <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
+                            @{{ #colors }}
+                                <div class="color_element sublimated color-container-button">
+                                    <button
+                                        class="grow change-color whitebtn cp-new-color-box color-selector-button"
+                                        style="background-color: #@{{ hex_code }};"
+                                        data-color-id="@{{ id }}"
+                                        data-color-name="@{{ name }}"
+                                        data-color-label="@{{ color_code }}"
+                                        data-color-id="@{{ id }}"
+                                        data-modifier-category="@{{ fullname }}"
+                                    >
+                                    </button>
+                                    <span class="label">@{{ name }}</span>
+                                </div>
+                            @{{ /colors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row modifier-wrapper">
+                    <div class="col-md-12 cp-padding-remove">
+                        <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
+                        <div class="pattern-main-container-@{{ fullname }}">
+                            @{{ #patterns }}
+                                <div class="color_element sublimated">
+                                    <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                                        <button
+                                            class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
+                                            style="background-image: url('@{{ icon }}');"
+                                            data-pattern-id="@{{ id }}"
+                                            data-pattern-name="@{{ name }}"
+                                            data-modifier-category="@{{ fullname }}"
+                                            data-modifier-index="@{{ index }}"
+                                        >
+                                        </button>
+                                    </div>
+                                </div>
+                            @{{ /patterns }}
+                            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+                        <hr>
+                    </div>
+                </div>
+            </li>
+        @{{ /partsWithInsert }}
+    </ul>
 </div>
 
 <div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
@@ -80,15 +146,19 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="patternPreviewContainer" style="height:100% !important; width: 100% !important;">
+                    <div class="col-md-12 cp-padding-left-xlarge">
+                        <div class="patternPreviewContainer">
                             <canvas id="patternPreview" class="patternPreview"></canvas>
                         </div>
+                    </div>
+                    <div class="col-md-12">
                         <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name"></h3>
                     </div>
-                    <div class="col-md-8">
-                        <div class="pattern-color-categories">
-                            <ul class="nav nav-tabs" role="tablist">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <ul class="nav nav-tabs pattern-color-categories" role="tablist">
                                 <li role="presentation" class="active cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
                                         <a href="#pattern-color-category-1"
@@ -139,78 +209,36 @@
                             </ul>
                         </div>
 
-                        <div id="pattern-color-tab-content">
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
-                                    <div class="pattern-color-main-container-1">
-                                        @{{ #colors }}
-                                            <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
-                                                <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                                    <button
-                                                    class="pattern-color-selector-button cp-modal-color"
-                                                    style="background-color: #@{{ hex_code}};"
-                                                    data-color-id="@{{ id }}"
-                                                    data-color-name="@{{ name }}"
-                                                    data-color-label="@{{ color_code }}"
-                                                    >
-                                                    </button>
-                                                </div>
+                        <div class="col-md-12">
+                            <div id="pattern-color-tab-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
+                                        <div class="pattern-color-main-container-1">
+                                            <div class="row pattern-color-button-container">
+
                                             </div>
-                                        @{{ /colors }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
-                                    <div class="pattern-color-main-container-2">
-                                        @{{ #colors }}
-                                            <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
-                                                <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                                    <button
-                                                    class="pattern-color-selector-button cp-modal-color"
-                                                    style="background-color: #@{{ hex_code}};"
-                                                    data-color-name="@{{ name}}"
-                                                    data-color-label="@{{ color_code }}"
-                                                    data-color-id="@{{ id }}"
-                                                    >
-                                                    </button>
-                                                </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
+                                        <div class="pattern-color-main-container-2">
+                                            <div class="row pattern-color-button-container">
+
                                             </div>
-                                        @{{ /colors }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
-                                    <div class="pattern-color-main-container-3">
-                                        @{{ #colors }}
-                                            <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
-                                                <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                                    <button
-                                                    class="pattern-color-selector-button cp-modal-color"
-                                                    style="background-color: #@{{ hex_code}};"
-                                                    data-color-name="@{{ name}}"
-                                                    data-color-label="@{{ color_code }}"
-                                                    data-color-id="@{{ id }}"
-                                                    >
-                                                    </button>
-                                                </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
+                                        <div class="pattern-color-main-container-3">
+                                            <div class="row pattern-color-button-container">
+
                                             </div>
-                                        @{{ /colors }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
-                                    <div class="pattern-color-main-container-4">
-                                        @{{ #colors }}
-                                            <div class="col-md-2 cp-padding-remove cp-margin-top-small pattern-color-button-container">
-                                                <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                                    <button
-                                                    class="pattern-color-selector-button cp-modal-color"
-                                                    style="background-color: #@{{ hex_code}};"
-                                                    data-color-name="@{{ name}}"
-                                                    data-color-label="@{{ color_code }}"
-                                                    data-color-id="@{{ id }}"
-                                                    >
-                                                    </button>
-                                                </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
+                                        <div class="pattern-color-main-container-4">
+                                            <div class="row pattern-color-button-container">
+
                                             </div>
-                                        @{{ /colors }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -227,4 +255,26 @@
         </div>
     </div>
 </div>
+</script>
+
+<script type="text/mustache" id="m-parts-with-insert">
+
+</script>
+
+
+<script type="text/mustache" id="m-tab-patterns-colors">
+@{{ #colors }}
+    <div class="col-md-2 cp-padding-remove cp-margin-top-small tab-patterns-colors-@{{ modifier_category }}">
+        <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+            <button
+            class="pattern-color-selector-button cp-modal-color"
+            style="background-color: #@{{ hex_code}};"
+            data-color-name="@{{ name}}"
+            data-color-label="@{{ color_code }}"
+            data-color-id="@{{ id }}"
+            >
+            </button>
+        </div>
+    </div>
+@{{ /colors }}
 </script>
