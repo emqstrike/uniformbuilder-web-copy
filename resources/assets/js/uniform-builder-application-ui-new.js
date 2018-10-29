@@ -22,7 +22,6 @@ $(function() {
     // Aron Joshua
     $('#new-toolbar > .group-2').on('click', function () {
         console.log('Color Pattern Panel');
-        ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
@@ -47,7 +46,6 @@ $(function() {
     // Aron Joshua
     $('#new-toolbar > .group-3').on('click', function () {
         console.log('Insert Panel');
-        ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
