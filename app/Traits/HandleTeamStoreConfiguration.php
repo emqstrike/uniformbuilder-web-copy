@@ -20,11 +20,7 @@ trait HandleTeamStoreConfiguration
     {
         if ($response->success)
         {
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
-=======
             // Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
 
             // Team Store Session - Entry point
             $this->setTeamStoreConfiguration(
@@ -35,13 +31,8 @@ trait HandleTeamStoreConfiguration
                 $response->team_store_colors
             );
 
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info('Session: userHasTeamStoreAccount = true');
-            if (config('app.debug')) Log::info(print_r(Session::get('team_store'), true));
-=======
             // Log::info('Session: userHasTeamStoreAccount = true');
             // Log::info(print_r(Session::get('team_store'), true));
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
         else
         {
@@ -117,11 +108,7 @@ trait HandleTeamStoreConfiguration
         {
             $params['store_code'] = $this->getTeamStoreCodeFromSession();
         }
-<<<<<<< HEAD
-        if (config('app.debug')) Log::info('STORE CODE: ' . $params['store_code']);
-=======
         // Log::info('STORE CODE: ' . $params['store_code']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
 
         // @param Team Store USER ID
         $params['team_store_user_id'] = $this->getTeamStoreUserId();
@@ -131,11 +118,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
-=======
             // Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         // @param Team Colors - comma separated list
@@ -147,11 +130,7 @@ trait HandleTeamStoreConfiguration
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
-=======
             // Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         // @param Jersey Name
@@ -159,11 +138,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['jersey_name']))
         {
             $params['jersey_name'] = $config['jersey_name'];
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
-=======
             // Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         // @param Jersey Number
@@ -171,11 +146,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['jersey_number']))
         {
             $params['jersey_number'] = $config['jersey_number'];
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
-=======
             // Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         // @param Mascot ID
@@ -183,11 +154,7 @@ trait HandleTeamStoreConfiguration
         if (isset($config['mascot_id']))
         {
             $params['mascot_id'] = $config['mascot_id'];
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
-=======
             // Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         // @param Save Rendered image
@@ -197,11 +164,7 @@ trait HandleTeamStoreConfiguration
             $params['save_rendered'] = $config['save_rendered'];
             if (!empty($config['save_rendered']))
             {
-<<<<<<< HEAD
-                if (config('app.debug')) Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
-=======
                 // Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
             }
         }
 
@@ -212,11 +175,7 @@ trait HandleTeamStoreConfiguration
             $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
             if (!empty($params['save_rendered_timeout']))
             {
-<<<<<<< HEAD
-                if (config('app.debug')) Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
-=======
                 // Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
             }
         }
 
@@ -225,21 +184,13 @@ trait HandleTeamStoreConfiguration
         if (isset($config['product_id']))
         {
             $params['product_id'] = $config['product_id'];
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
-=======
             // Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
 
         $params['teamstore_registration_params'] = $this->getTeamStoreRegistrationParams();
         if (!empty($params['teamstore_registration_params']))
         {
-<<<<<<< HEAD
-            if (config('app.debug')) Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
-=======
             // Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
->>>>>>> elmer-merge-10-29-18-1435-cco-385-uniformbuilder
         }
     }
 
