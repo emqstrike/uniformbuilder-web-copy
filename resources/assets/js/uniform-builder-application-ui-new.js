@@ -15,20 +15,17 @@ $(function() {
 
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-7').on('click', function () {
-        console.log('GROUP 7 CLICKED===>');
         ub.funcs.startNewApplication();
     });
 
     // Aron Joshua
     $('#new-toolbar > .group-2').on('click', function () {
-        console.log('Color Pattern Panel');
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none")
         {
             var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
-            console.log("asdasdasdas");
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0)
@@ -45,7 +42,6 @@ $(function() {
 
     // Aron Joshua
     $('#new-toolbar > .group-3').on('click', function () {
-        console.log('Insert Panel');
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
