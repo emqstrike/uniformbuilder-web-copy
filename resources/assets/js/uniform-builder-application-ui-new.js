@@ -41,14 +41,14 @@ $(function() {
     });
 
     // Aron Joshua
-    $('#new-toolbar > .group-3').on('click', function () {
+    // $('#new-toolbar > .group-3').on('click', function () {
+    $('.property-modifiers-menu .menu-item-parts').on('click', function () {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none")
         {
             var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
-            console.log("asksdhdshsdhsadhjkasdhjkadsjkhasd");
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0)
