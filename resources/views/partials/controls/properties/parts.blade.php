@@ -52,8 +52,12 @@
                                     </div>
                                 </div>
                             @{{ /patterns }}
-                            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-small cp-padding-remove-vertical cp-margin-remove">
+                        <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
                         </div>
                     </div>
                 </div>
