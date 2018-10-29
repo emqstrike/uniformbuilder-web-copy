@@ -736,6 +736,41 @@ $(document).ready(function() {
 
         // End Change This for Embellishment Specific Size Settings
 
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+        if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+            ub.utilities.info('===>Using sizes from backend: ');
+
+            console.log('Default Sizes: ');
+            console.log(_sizes);
+            console.log('Application #: ');
+            console.log(_id);
+
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
+
+                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig;
+
+            }
+
+        } else {
+
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+            }
+
+        }
+        
         var _embellishmentObj   = _settingsObject.embellishment;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
@@ -810,6 +845,30 @@ $(document).ready(function() {
                 _settingsObject.font_size = _settingsObject.size;
             }
 
+        }
+
+        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
+
+        _htmlBuilder        +=              '<div class="sub1">';
+        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
+        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
+
+        if (_settingsObject.embellishment.name === 'Custom Logo') {
+            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<br /><br />';
         }
 
         _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
@@ -1288,6 +1347,11 @@ $(document).ready(function() {
                     return;
 
                 }
+
+                // add scale_type flag on application settings
+                // this is to know if the application is using custom scale or not (embellishment application only)
+                var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
+                _settingsObject.scale_type = _scaleType;
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
@@ -2239,5 +2303,86 @@ $(document).ready(function() {
 
         }
 
+        /*
+        * @desc add embellishment custom scale of ub.styleValue.embellishmentScales
+        * @param settingObj (object) - application settings
+        * @param appId (string) - application ID
+        */
+        ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray = function (settingsObj, appId) {
+
+            var views = settingsObj.application.views;
+
+            var appIdStr = appId.toString();
+            var fontSizeStr = settingsObj.font_size.toString();
+
+            var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
+
+            _.each(views, function(view) {
+
+                if (typeof view.application.appCustomScale !== 'undefined') {
+
+                    var scale = parseFloat(view.application.appCustomScale.x);
+                        scale = scale.toString();
+
+                    if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
+                        && typeof settingsObj.bestfit_obj === 'undefined') { 
+
+                            embellishmentScales.push({
+                                appId: appIdStr,
+                                size: fontSizeStr,
+                                scale: scale
+                            }); 
+
+                    }
+
+                }
+
+            });
+
+        }
+
+        /*
+        * @desc process the x and y scale of the application
+        * @param settingObj (object) - application settings
+        * @return scale (object) - e.g. {x: 1, y: 1}
+        */
+        ub.funcs.processScale = function (settingsObj) {
+
+            var settingsObj = settingsObj;
+
+            var scale;
+
+            var embellishmentScales = ub.styleValues.embellishmentScales;
+
+            if (typeof settingsObj.custom_obj === 'undefined' || settingsObj.scale_type === 'custom') {
+
+                var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
+
+                if (typeof custom !== 'undefined') {
+                    
+                    scale = { x: custom.scale, y: custom.scale };
+
+                    settingsObj.custom_obj = {
+                        scale: scale,
+                        fontSize: custom.size,
+                        active: true
+                    };
+
+                } else {
+
+                    scale = embellishmentScales.getScale(settingsObj.size);
+                    
+                }
+
+            } else {
+
+                scale = embellishmentScales.getScale(settingsObj.size);
+                settingsObj.custom_obj.active = false;
+
+            }
+
+            return scale;
+
+        }
 
 });

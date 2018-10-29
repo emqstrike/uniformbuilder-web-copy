@@ -75,7 +75,6 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -1813,8 +1812,6 @@ class UniformBuilderController extends Controller
 
     function generatePDF ($builder_customizations, $previousTransformedPath) {
 
-        Log::info('Init Generate PDF');
-
         $pdf = new TCPDF();
 
         $filename = $this->getGUID();
@@ -2069,7 +2066,7 @@ class UniformBuilderController extends Controller
 
             if ($appType === "EMBELLISHMENTS") {
 
-                Log::info('==========>Embellisments Detected!');
+                // Log::info('==========>Embellisments Detected!');
                 $appTypeCaption = "CUSTOM MASCOT";
                 $embellishment = $application['embellishment'];
                 $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2081,7 +2078,7 @@ class UniformBuilderController extends Controller
 
             } else if ($appType === "MASCOT" ) {
 
-                Log::info('==========>Mascot Detected!');
+                // Log::info('==========>Mascot Detected!');
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
                     $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2139,10 +2136,10 @@ class UniformBuilderController extends Controller
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
         if($previousTransformedPath) {
-            Log::info('Returning previous transformed path: ' . $previousTransformedPath);
+            // Log::info('Returning previous transformed path: ' . $previousTransformedPath);
             return $previousTransformedPath;
         } else {
-            Log::info('Returning transformed path: ' . $transformedPath);
+            // Log::info('Returning transformed path: ' . $transformedPath);
             return $transformedPath;
         }
 
@@ -2161,7 +2158,7 @@ class UniformBuilderController extends Controller
 
     public function generateLegacy($orderId){
 
-        Log::info('GENERATING LEGACY PDF===> ' . $orderId);
+        // Log::info('GENERATING LEGACY PDF===> ' . $orderId);
 
         $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
         $orderDetails = $this->ordersClient->getOrderItems($orderId);
@@ -2375,20 +2372,20 @@ class UniformBuilderController extends Controller
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
-        Log::info("Finished converting base64 image and uploaded to S3");
-        Log::info("It took {$time} seconds\n");
+        // Log::info("Finished converting base64 image and uploaded to S3");
+        // Log::info("It took {$time} seconds\n");
 
-        Log::info('Saving uniform design');
+        // Log::info('Saving uniform design');
         $response = $this->ordersClient->saveOrder($data);
         if ($response->success)
         {
-            Log::info('Success');
+            // Log::info('Success');
             return Redirect::to('/order/' . $response->order->order_id)
                         ->with('message', 'Successfully saved your uniform design');
         }
         else
         {
-            Log::info('Failed');
+            // Log::info('Failed');
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
@@ -2402,7 +2399,7 @@ class UniformBuilderController extends Controller
     public function loadSavedDesign($id, $render = false)
     {
 
-        Log::info('Load Saved Design');
+        // Log::info('Load Saved Design');
 
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
 

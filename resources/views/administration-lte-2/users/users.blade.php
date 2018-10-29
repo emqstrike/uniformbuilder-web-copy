@@ -58,7 +58,7 @@
 
                             <tbody>
                             @forelse ($users as $user)
-                                <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}'>
+                                <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}' data-limited-access="{{ $user->limited_access }}">
                                     <td class="td-user-id">{{ $user->id }}</td>
                                     <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                     <td class="td-user-type">{{ ucfirst($user->type) }}</td>
@@ -153,6 +153,22 @@
                 $('.submit-new-record').text('Add Record');
             });
 
+            $('.edit-allowed-pages').click(function() {
+                window.user_limited_access = $(this).closest('tr').data('limited-access');
+
+                $('#default_allowed_pages option').each(function() {
+                    $(this).remove();
+                });
+
+                $('#allowed_pages option').each(function() {
+                    $(this).remove();
+                });
+
+                $('#limited_access option').each(function() {
+                    $(this).remove();
+                });
+            });
+
             $(document).on('click', '.edit-record', function(e) {
                 e.preventDefault();
                 window.modal_action = 'update';
@@ -168,6 +184,7 @@
                 data.role = $(this).parent().parent().find('.user-role').val();
                 data.zip = $(this).parent().parent().find('.user-zip').val();
                 data.rep_id = $(this).parent().parent().find('.user-rep-id').val();
+
                 $('.input-user-id').val(data.id);
                 $('.input-first-name').val(data.first_name);
                 $('.input-last-name').val(data.last_name);
