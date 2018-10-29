@@ -92,7 +92,6 @@ PropertiesPanel.prototype = {
     panelTracker: function() {
         var _this = this;
         ub.stage.on('mousedown', _.throttle(function (mousedata) {
-
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -102,6 +101,15 @@ PropertiesPanel.prototype = {
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index = ub.funcs.getIndexByName(_result);
+
+                if (_match.includes("insert"))
+                {
+                    $('#new-toolbar > .group-3').click();
+                }
+                else
+                {
+                    $('#new-toolbar > .group-2').click();
+                }
 
                 _this.activePanelbyIndex(_index);
             }
@@ -115,7 +123,7 @@ PropertiesPanel.prototype = {
     activePanelbyIndex: function(index) {
         if ($("li.panel-index-" + index).length > 0)
         {
-            $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration: 500 });
+            $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration: 700 });
         }
     }
 
