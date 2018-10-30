@@ -35,6 +35,22 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
+            // Set Perspective
+            var perspective = new PerspectiveController();
+
+            if (modifier_category.includes("front"))
+            {
+                perspective.front();
+            }
+            else if (modifier_category.includes("back"))
+            {
+                perspective.back();
+            }
+            else if (modifier_category.includes("left"))
+            {
+                perspective.left();
+            }
+
             $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             $(this).addClass('active-color');
 

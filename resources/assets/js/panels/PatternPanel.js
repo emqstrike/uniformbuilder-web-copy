@@ -68,6 +68,22 @@ PatternPanel.prototype = {
             // Find the selected pattern / And remove check icon and active pattern class
             let selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
 
+            // Set Perspective
+            var perspective = new PerspectiveController();
+
+            if (modifier_category.includes("front"))
+            {
+                perspective.front();
+            }
+            else if (modifier_category.includes("back"))
+            {
+                perspective.back();
+            }
+            else if (modifier_category.includes("left"))
+            {
+                perspective.left();
+            }
+
             // Get pattern ID
             ub.current_part = modifier_index;
             var _id = $(this).data("pattern-id");
