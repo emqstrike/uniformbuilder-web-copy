@@ -8846,7 +8846,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 
