@@ -396,8 +396,7 @@ PatternPanel.prototype = {
             }
             else
             {
-                ub.funcs.createPatternUI(patternObject, firstMaterialOption);
-
+                this.createPatternPreview(patternObject);
                 if (patternObject.pattern_id === "blank" || patternObject.pattern_id === "none")
                 {
                     return false;
@@ -441,5 +440,81 @@ PatternPanel.prototype = {
             _this.destroyPatternColor();
             $('#pattern-change-color').modal('hide');
         });
+    },
+
+    createPatternPreview: function(inputPattern) {
+        var _inputPattern       = inputPattern;
+        var _patternObj         = inputPattern.pattern_obj;
+        var _patternName        = _patternObj.name;
+        var $patternContainer   = $('canvas#patternPreview');
+        var canvas              = new fabric.Canvas('patternPreview');
+        var context             = canvas.getContext("2d");
+        ub.data.previewCanvas   = canvas;
+        
+        canvas.setHeight(300);
+        canvas.setWidth(300);
+
+        _.each(_patternObj.layers, function (layer) {
+
+            var _layer_no       = layer.layer_no;
+            var _filename       = layer.filename;
+            var _defaultColor   = layer.color;
+            var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
+            var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
+
+            fabric.Image.fromURL(_localName, function (oImg) {
+                ub.data.previewContainer[_layer_no] = oImg;
+
+                oImg.selectable     = true;
+                oImg.lockMovementX  = true;
+                oImg.lockMovementY  = true;
+                oImg.hasControls    = false;
+
+                canvas.add(oImg);
+
+                if(_inputPattern.pattern_id !== "none" && _inputPattern.pattern_id !== "blank") {
+                    oImg.filters.push(new fabric.Image.filters.Tint({
+                        color: _color,
+                        opacity: 1,
+                    }));
+
+                    oImg.applyFilters(canvas.renderAll.bind(canvas));
+                }
+
+                oImg.hoverCursor = 'pointer';
+                canvas.renderAll();
+           });
+        });
+
+        var bg = new fabric.Rect({
+            fill: '#333333',
+            scaleY: 0.5,
+            originX: 'center',
+            originY: 'center',
+            rx: 5,
+            ry: 5,
+            width: 250,
+            height:60,
+            opacity: 0.5,
+        });
+
+        var group   = new fabric.Group([bg], {
+            left: 28,
+            top: 254,
+        });
+
+        group.selectable    = true;
+        group.hasControls   = false;
+        group.lockMovementX = true;
+        group.lockMovementY = true;
+        group.hasBorders    = false;
+        group.hoverCursor   = 'pointer';
+
+        ub.data.patternToolTip = group;
+        canvas.add(ub.data.patternToolTip);
+
+        ub.data.patternToolTip.bringToFront();
+
+        ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
     }
 }
