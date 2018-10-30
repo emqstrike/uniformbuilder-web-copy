@@ -980,18 +980,18 @@ $(document).ready(function () {
 
                 canvas.renderAll();
 
-                // oImg.on('mousedown', function (){
+                oImg.on('mousedown', function (){
                     
-                //     ub.funcs.createPatternPopup();
+                    ub.funcs.createPatternPopup();
 
-                // });
+                });
 
-                // oImg.on('mousemove', function (e){
+                oImg.on('mousemove', function (e){
                     
-                //     ub.data.patternToolTip.opacity = 1;
-                //     ub.data.patternToolTip.bringToFront();
+                    ub.data.patternToolTip.opacity = 1;
+                    ub.data.patternToolTip.bringToFront();
 
-                // });
+                });
 
            });
 
@@ -1009,11 +1009,11 @@ $(document).ready(function () {
           opacity: 0.5,
         });
 
-        // var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
-        // var group   = new fabric.Group([ text, bg ], {
-        //   left: 28,
-        //   top: 254,
-        // });
+        var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
+        var group   = new fabric.Group([ text, bg ], {
+          left: 28,
+          top: 254,
+        });
 
         var group   = new fabric.Group([bg], {
           left: 28,
@@ -1027,42 +1027,42 @@ $(document).ready(function () {
         group.hasBorders    = false;
         group.hoverCursor   = 'pointer';
 
-        // group.on('mousedown', function (){
+        group.on('mousedown', function (){
                     
-        //     ub.funcs.createPatternPopup();
+            ub.funcs.createPatternPopup();
 
-        // });
+        });
 
-        // text.bringToFront();
+        text.bringToFront();
         ub.data.patternToolTip = group;
         canvas.add(ub.data.patternToolTip);
-        //ub.data.patternToolTip.selectable = false;
+        // ub.data.patternToolTip.selectable = false;
         ub.data.patternToolTip.bringToFront();
 
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
 
-        // $('div.patternColorNavigator > div.left').on('click', function () {
+        $('div.patternColorNavigator > div.left').on('click', function () {
 
-        //     ub.funcs.moveToPreviousPatternColor(_patternObj);
+            ub.funcs.moveToPreviousPatternColor(_patternObj);
 
-        // });
+        });
 
-        // $('div.patternColorNavigator > div.right').on('click', function () {
+        $('div.patternColorNavigator > div.right').on('click', function () {
 
-        //     ub.funcs.moveToNextPatternColor(_patternObj);
+            ub.funcs.moveToNextPatternColor(_patternObj);
 
-        // });
+        });
 
-        // $( "canvas.upper-canvas" ).hover(
-        //   function() {
+        $( "canvas.upper-canvas" ).hover(
+          function() {
 
-        //   }, function() {
+          }, function() {
 
-        //        ub.data.patternToolTip.opacity = 0;
-        //        ub.data.patternToolTip.sendToBack();
+               ub.data.patternToolTip.opacity = 0;
+               ub.data.patternToolTip.sendToBack();
 
-        //   }
-        // );
+          }
+        );
 
     };
 
