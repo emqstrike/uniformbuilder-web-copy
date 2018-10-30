@@ -20,11 +20,12 @@ $(function() {
     });
 
     // on click flip
-    //         $('.flipButton').unbind('click');.delegate("p", "click", function(){
     $('#primary_options_container').on('click', '.flipBtn', function () {
         var dataId = $(this).attr('data-id');
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
         ub.funcs.flipMascot(_settingsObject);
+
+        $(this).toggleClass('active');
     });
 
     ub.funcs.startNewApplication = function () {

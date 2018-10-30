@@ -1044,8 +1044,8 @@
 
         <h4>DECORATION</h4>
         <div class="add-new-application">
-            <button type="button" class="app-btn btn-secondary w-45 pull-left">Add Application</button>
-            <button type="button" class="app-btn btn-secondary w-45 pull-right">View All Application</button>
+            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
         </div>
 
         <div class="clearfix"></div>
@@ -1067,13 +1067,13 @@
                     <span class="thumb-name">@{{ name }}</span>
 
                     <span class="flip">
-                        <button type="button" class="app-btn btn-primary w-45 flipBtn" data-id="@{{ code }}">Flip</button>
+                        <button type="button" class="app-btn w-45 flipBtn" data-id="@{{ code }}">Flip</button>
                     </span>
                 </div>
 
                 <div class="posContainer">
-                    <button type="button" class="app-btn btn-primary w-45 pull-left">View</button>
-                    <button type="button" class="app-btn btn-secondary w-45 pull-right">Hide</button>
+                    <button type="button" class="app-btn w-45 pull-left">View</button>
+                    <button type="button" class="app-btn w-45 pull-right">Hide</button>
                 </div>
 
                 <div class="clearfix"></div>
