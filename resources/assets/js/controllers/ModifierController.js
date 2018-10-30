@@ -5,7 +5,7 @@
  * @author Romack Natividad <romack@qstrike.com>
  *
  * Required:
- *  jQuery
+ *  jQuery, Tippy
  *
  * Usage:
  *  modifier = new ModifierController('main-panel-id');
