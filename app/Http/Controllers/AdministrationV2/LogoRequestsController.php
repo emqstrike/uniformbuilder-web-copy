@@ -74,7 +74,8 @@ class LogoRequestsController extends Controller
 
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
-        $queryString = '';
+        
+        $queryString = $_SERVER['QUERY_STRING'];
 
         $total = $results['total'];
         $logo_requests = $results['logo_requests'];
