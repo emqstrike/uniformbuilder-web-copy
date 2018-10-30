@@ -1036,8 +1036,189 @@
 
     </script>
 
-
 <!-- End New Mascot Picker -->
+
+<!-- Application UI Block -->
+
+    <script type="text/mustache" id="m-application-ui-block">
+
+        <h5 class="fc-darker abrade-ultra-italic">Decoration Mascots</h5>
+        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-secondary">Secondary</button>
+
+        @{{#applications}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <image src="@{{ thumbnail }}" class="thumbnail" />
+            </div>
+        @{{/applications}}
+
+
+    </script>
+
+<!-- End Application UI Block -->
+
+<!-- New Application UI -->
+
+    <script type="text/mustache" id="m-application-ui">
+
+        <div id="applicationUI" data-application-id="@{{id}}">
+
+            <div class="header">
+
+                <div class="toggle defaultShadow" data-status="@{{ status }}">
+                    <div class="valueContainer">
+                        <div class="toggleOption on">ON</div>
+                        <div class="toggleOption off">OFF</div>
+                    </div>
+                </div>
+
+                <div class="applicationType">[@{{ id }}] @{{ appType  }}
+                    <span class="changeApplicationType" data-type="@{{ applicationType }}">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <span class="cog @{{ cogVisibility }}"><i class="fa fa-cog" aria-hidden="true"></i></span>
+
+            </div>
+
+            <div class="body">
+
+                <div class="cover"></div>
+
+                <div class="ui-row @{{ sampleTextContainerVisibility }}">
+                    <label class="applicationLabels font_name">Sample Text</label>
+                    <input type="text" name="sampleText" class="sampleText" value="@{{ sampleText }}" maxlength="@{{ maxLength }}">
+                </div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_name">@{{ appLabel }}</label>
+                    <span class="fontLeft" data-direction="previous" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                    <span class="font_name" style="font-size: 1.2em; font-family: @{{  mascotFontName }};">@{{  mascotFontCaption }}</span>
+                    <span class="fontRight" data-direction="next" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_size @{{class}}"> @{{ label }} </label>
+                    @{{{ generateSizes }}}
+                </div>
+
+                @{{#isApplication}}
+                    <div class="ui-row angleItems">
+                        <label class="applicationLabels font_size">Angle</label>
+                        <span class="angleItem" data-angle="straight">Straight</span>
+                        <span class="angleItem" data-angle="rotated">Rotated</span>
+                    </div>
+                @{{/isApplication}}
+
+                <div class="clearfix"></div>
+
+                <div class="color-pattern-tabs">
+                    <span class="tab active @{{ colorTabVisibility }}" data-item="colors">Colors</span>
+                    <span class="tab @{{ patternsTabVisibility }}" data-item="patterns">Patterns</span>
+                    <span class="tab" data-item="manipulators"></span>
+                    @{{#isBaseballFastpitch}}
+                        <span class="tab @{{ tailSweepsTabVisibility }}" data-item="tailsweeps">Tail Sweeps</span>
+                    @{{/isBaseballFastpitch}}
+                </div>
+
+                <div class="ui-row">
+
+                    <div class="column1 applications colors">
+
+                        <div class="sub1">
+                            <br />
+                            <span class="accentThumb"><img class="@{{ inksoftThumb }}" src="@{{ thumbIcon }}"/></span>
+                            <span class="accent">@{{ accentName }}</span>
+                            <br />
+
+                            @{{#isCustomLogo}}
+                                <a class="view-file" data-file="@{{ customFilename }}" target="_new">View File</a>
+                                <br /><br />
+                            @{{/isCustomLogo}}
+
+                            <span class="flipButton">@{{ flipLabel }}</span>
+                        </div>
+
+                        <div class="colorContainer">
+                            @{{{ colorPickers }}}
+
+                            @{{#isEmbellishment}}
+                                <br />
+                                <a class="filePreview" target="_new" href="@{{ viewArtDetails }}">View Art Details</a><br />
+                                <a class="filePreview" target="_new" href="@{{ viewPrint }}">View Print Ready File</a><br />
+                            @{{/isEmbellishment}}
+
+                            @{{#isSublimated}}
+                                <br/>
+                                <span class="watermark-intensity">Watermark Intensity:</span>
+                                <input type="text" id="opacity-slider" value="" />
+                            @{{/isSublimated}}
+                        </div>
+
+                    </div>
+
+                    @{{#isEmbellishment}}
+                        @{{{ embellishmentSidebar }}}
+                    @{{/isEmbellishment}}
+
+                    @{{#isBaseballFastpitch}}
+                        @{{{ tailSweepPanel }}}
+                    @{{/isBaseballFastpitch}}
+
+                    @{{#isApplication}}
+                        <div class="column1 applications patterns">
+                            @{{{ patternsPanel }}}
+                        </div>
+                    @{{/isApplication}}
+
+                    <div class="column1 applications manipulators">
+                        @{{{ templateStrManipulators }}}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Application UI -->
+
+
+<!-- New Application UI Choices -->
+    
+    <script type="text/mustache" id="m-application-ui-choices"> 
+
+        <div id="changeApplicationUI" data-status="hidden" data-application-id="@{{id}}">
+
+            <div class="header">
+                
+                <div class="">Select Application Type for Location <strong>#@{{ id }}</strong></div>
+                <div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>
+
+                <div class="body">
+
+                    @{{#application_types}}
+                        <div data-type="@{{ types.dataType }}" class="optionButton @{{ types.deactivated }} @{{ types.currentlySelectedType }}">
+                            <div class="icon">
+                                <img src="@{{ types.icon }}">
+                            </div>
+                            <div class="caption">@{{ types.label }} @{{ types.selected }}</div>
+                        </div>
+                    @{{/application_types}}
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Application UI Choices -->
 
 
 <!-- New Inksoft De Picker -->
@@ -3173,5 +3354,7 @@
 
 
 <!-- End States -->
+
+@include('partials.controls.properties.parts')
 
 @include('partials.controls.team-store-products-picker')

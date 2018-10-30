@@ -5800,7 +5800,7 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') { 
+                if (view === 'colors') {
 
                     ub.funcs.activateColorPickers();
                     ub.funcs.activeStyle('colors');

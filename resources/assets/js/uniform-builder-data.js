@@ -202,6 +202,7 @@ $(document).ready(function() {
     ub.data.maxLengthSublimated     = 32;
 
     ub.data.hasProcessedArtworks    = false;
+    ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
 
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
