@@ -1043,18 +1043,42 @@
     <script type="text/mustache" id="m-application-ui-block">
 
         <h4>DECORATION</h4>
-        <div class="new-con-add-application">
-            <button type="button" class="new-btn btn-secondary">Add Application</button>
-            <button type="button" class="new-btn btn-secondary">ViewAll Application</button>
+        <div class="add-new-application">
+            <button type="button" class="app-btn btn-secondary w-45 pull-left">Add Application</button>
+            <button type="button" class="app-btn btn-secondary w-45 pull-right">View All Application</button>
         </div>
+
+        <div class="clearfix"></div>
 
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
-                <image src="@{{ thumbnail }}" class="thumbnail" />
-            </div>
-        @{{/applications}}
 
+                <div class="thumb-container">
+                    <span>
+                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                    </span>
+                    <div class="thumb-links pull-left">
+                        <h5>@{{ type }}</h5>
+                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <span class="thumb-name">@{{ name }}</span>
+
+                    <span class="flip">
+                        <button type="button" class="app-btn btn-primary w-45 flipBtn" data-id="@{{ code }}">Flip</button>
+                    </span>
+                </div>
+
+                <div class="posContainer">
+                    <button type="button" class="app-btn btn-primary w-45 pull-left">View</button>
+                    <button type="button" class="app-btn btn-secondary w-45 pull-right">Hide</button>
+                </div>
+
+                <div class="clearfix"></div>
+           </div>
+        @{{/applications}}
 
     </script>
 
@@ -1064,8 +1088,7 @@
 
     <script type="text/mustache" id="m-application-ui">
 
-        <div id="applicationUI" data-application-id="@{{id}}">
-
+        <div id="applicationUI" data-application-id="@{{id}}"
             <div class="header">
 
                 <div class="toggle defaultShadow" data-status="@{{ status }}">

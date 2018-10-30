@@ -19,6 +19,14 @@ $(function() {
         ub.funcs.startNewApplication();
     });
 
+    // on click flip
+    //         $('.flipButton').unbind('click');.delegate("p", "click", function(){
+    $('#primary_options_container').on('click', '.flipBtn', function () {
+        var dataId = $(this).attr('data-id');
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+        ub.funcs.flipMascot(_settingsObject);
+    });
+
     ub.funcs.startNewApplication = function () {
         console.info('=======APPLICATION UI BLOCK=======');
 
@@ -42,7 +50,10 @@ $(function() {
                     'thumbnail': i.embellishment.thumbnail,
                     'type': 'CUSTOM LOGO',
                     'code': i.code,
-                    'perspective': i.application.views[0].perspective
+                    'perspective': i.application.views[0].perspective,
+                    'name': i.embellishment.name,
+                    'viewArtDetails': ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
+                    'viewPrint': i.embellishment.svg_filename,
                 }
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -50,7 +61,8 @@ $(function() {
                     'thumbnail': i.mascot.icon,
                     'type': 'STOCK MASCOT',
                     'code': i.code,
-                    'perspective': i.application.views[0].perspective
+                    'perspective': i.application.views[0].perspective,
+                    'name': i.mascot.name
                 }
                 _appData.push(objStock);
             }
