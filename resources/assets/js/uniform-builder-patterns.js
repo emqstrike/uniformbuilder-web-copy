@@ -89,7 +89,7 @@ $(document).ready(function () {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
+                var views                   = ['front', 'back', 'left', 'right'];
                 var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
                 _.each(views, function (v) {

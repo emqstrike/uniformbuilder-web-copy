@@ -256,8 +256,8 @@
             </div>
             <div class="modal-footer">
                 <div>
-                    <button type="button" class="btn btn-default cp-button-medium" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-default cp-button-medium">Save changes</button>
+                    <button type="button" class="btn btn-default cp-button-medium close-pattern-color-modal">Close</button>
+                    <button type="button" class="btn btn-default cp-button-medium apply-pattern-color">Apply Pattern</button>
                 </div>
             </div>
         </div>
