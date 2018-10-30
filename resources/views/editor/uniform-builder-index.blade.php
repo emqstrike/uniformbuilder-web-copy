@@ -81,15 +81,15 @@
 
 @section('right-pane')
 
-    <div id="new-toolbar" class="property-modifiers-menu">
+    <div id="property-modifiers-menu" class="hidden">
         <a href="#" class="group-pane tippy group-1 menu-item-fabric" data-tippy-content="FABRIC">1</a>
         <a href="#" class="group-pane tippy group-2 menu-item-parts" data-tippy-content="PARTS">2</a>
         <a href="#" class="group-pane tippy group-3 menu-item-inserts" data-tippy-content="INSERTS">3</a>
         <a href="#" class="group-pane tippy group-4 menu-item-pippings" data-tippy-content="PIPINGS">4</a>
-        <a href="#" class="group-pane tippy group-5 menu-item-decoration-letters" data-tippy-content="DECORATION LETTERS">5</a>
-        <a href="#" class="group-pane tippy group-6 menu-item-decoration-numbers" data-tippy-content="DECORATION NUMBERS">6</a>
-        <a href="#" class="group-pane tippy group-7 menu-item-decorations" data-tippy-content="DECORATIONS">7</a>
-        <a href="#" class="group-pane tippy group-8 menu-item-logo" data-tippy-content="RICHARDSON LOGO">8</a>
+        <a href="#" class="group-pane tippy group-5 menu-item-letters" data-tippy-content="LETTERS">5</a>
+        <a href="#" class="group-pane tippy group-6 menu-item-numbers" data-tippy-content="NUMBERS">6</a>
+        <a href="#" class="group-pane tippy group-7 menu-item-applications" data-tippy-content="APPLICATIONS">7</a>
+        <a href="#" class="group-pane tippy group-8 menu-item-logo" data-tippy-content="LOGO">8</a>
     </div>
 
     <div id="right-pane" class="pane">
