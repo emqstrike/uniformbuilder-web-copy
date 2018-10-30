@@ -461,7 +461,7 @@
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Add New Material
                                     </button>
-                                    <a href="/administration/materials" class="btn btn-danger">
+                                    <a href="{{ route('v1_materials_index') }}" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>

@@ -97,6 +97,10 @@ class MaterialsController extends Controller
 
     public function indexSport($sport = null)
     {
+        if (is_null($sport)) {
+            $sport = 'all';
+        }
+        
         $materials = $this->client->getMaterialsBySport($sport);
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
@@ -108,6 +112,10 @@ class MaterialsController extends Controller
             'materials_string' => $materials_string,
             'active_sport' => ucfirst($sport)
         ]);
+    }
+
+    public function styleConfigurator(){
+        return view('administration-lte-2.styles.style-configurator');
     }
 
     public function editMaterialForm($id)
