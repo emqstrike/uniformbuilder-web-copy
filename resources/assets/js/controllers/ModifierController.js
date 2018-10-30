@@ -50,26 +50,14 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
-        that = this;
-        $('#property-modifiers-menu .menu-item-parts').on('click', function() {
-            that.clearControls();
-
-            if ($("#primary_options_colors").css("display") === "none") {
-                that.parts();
-            }
-
-            if ($("#primary_options_container #primary_options_colors").length > 0) {
-
-                $(".parts-container").show();
-                $("#parts-with-insert-container").hide();
-
-            } else {
-
-                that.parts();
-                $("#parts-with-insert-container").hide();
-
-            }
-        });
+        $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
+        $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
+        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
+        $('#property-modifiers-menu .menu-item-pipings').on('click', this.pipings);
+        $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
+        $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
+        $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
+        $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
     },
 
     enable: function() {
@@ -97,7 +85,23 @@ ModifierController.prototype = {
     },
 
     parts: function() {
-        this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        this.clearControls();
+
+        if ($("#primary_options_colors").css("display") === "none") {
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        }
+
+        if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+            $(".parts-container").show();
+            $("#parts-with-insert-container").hide();
+
+        } else {
+
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            $("#parts-with-insert-container").hide();
+
+        }
     },
 
     fabrics: function() {
