@@ -86,6 +86,8 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onChangeColorPaternCategory();
         this.panels.patterns.onSelectColorPerCategory();
         this.panels.patterns.onOpenModalPatternModifier();
+        this.panels.patterns.onClosePatternModal();
+        this.panels.patterns.onApplyChanges();
         this.panelTracker();
     },
 
