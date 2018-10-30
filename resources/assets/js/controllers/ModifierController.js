@@ -22,7 +22,16 @@
 function ModifierController(element) {
     this.switcherBody = document.querySelector(element);
     // Controllers / Switchers
-    this.controllers = {};
+    this.controllers = {
+        fabrics: {},
+        parts: {},
+        inserts: {},
+        pippings: {},
+        letters: {},
+        numbers: {},
+        applications: {},
+        logo: {}
+    };
 
     // Setup
     this.initControls();
@@ -41,7 +50,7 @@ ModifierController.prototype = {
         });
 
         // Set Tooltips Behavior
-        tippy('.tippy', {
+        tippy('.tippy-menu-item', {
             delay: 100,
             size: 'large',
             animation: 'shift-away',
@@ -85,7 +94,9 @@ ModifierController.prototype = {
     },
 
     parts: function() {
-        this.clearControls();
+        // this.clearControls();
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
             this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');

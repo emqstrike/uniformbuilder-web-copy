@@ -31,6 +31,7 @@ function PropertiesPanel(
     this.initModifiers();
     this.initInserts();
     this.loadTemplate();
+    this.setDefaultColors();
     this.bindEvents();
 }
 
@@ -46,6 +47,17 @@ PropertiesPanel.prototype = {
             return modifier.name.includes("Insert");
         });
         this.parts = _.difference(this.modifiers, this.inserts);
+    },
+
+    // Pre-select default colors, add check mark and add active state class name
+    setDefaultColors: function() {
+        _.each(this.parts, function(part) {
+            var target = document.querySelector('.color-selector-button[data-color-id="' + part.team_color_id + '"][data-modifier-category="' +  part.fullname + '"]');
+            if (target !== null) {
+                target.innerHTML = '<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>';
+                target.classList.add('active-color');
+            }
+        });
     },
 
     getBrand: function() {
