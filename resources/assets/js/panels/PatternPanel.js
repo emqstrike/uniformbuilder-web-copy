@@ -88,6 +88,15 @@ PatternPanel.prototype = {
             ub.current_part = modifier_index;
             var _id = $(this).data("pattern-id");
 
+            var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+            var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial      = _names[0].toTitleCase();
+            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+
+            console.log("Name: ", _names);
+            console.log("Title Name First Mats: ", titleNameFirstMaterial);
+            console.log("Settings Object", _settingsObject);
+
             if (selected_pattern.data('pattern-id') === $(this).data("pattern-id"))
             {
                 selected_pattern.removeClass('active-pattern');
