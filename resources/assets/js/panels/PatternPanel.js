@@ -328,20 +328,20 @@ PatternPanel.prototype = {
 
     setMaterialOptionPatternColor: function(materialOption, colorOBJ, layerID, patternObj)
     {
-        var _materialOption     = materialOption;
-        var _colorOBJ           = colorOBJ;
-        var _layerID            = layerID;
-        var _patternObj         = patternObj;
-        var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
-        var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
-        var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
-        var _names              = ub.funcs.ui.getAllNames(_modifier.name);
+        var _materialOption = materialOption;
+        var _colorOBJ = colorOBJ;
+        var _layerID = layerID;
+        var _patternObj = patternObj;
+        var _layerObj = _.find(_patternObj.layers, {layer_no: layerID.toString()});
+        var _tintColor = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
+        var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names = ub.funcs.ui.getAllNames(_modifier.name);
 
-        var canvas              = ub.data.previewCanvas;
-        var oImg                = ub.data.previewContainer[_layerID];
+        var canvas = ub.data.previewCanvas;
+        var oImg = ub.data.previewContainer[_layerID];
 
-        _layerObj.color         = _tintColor;
-        _layerObj.color_code    = colorOBJ.color_code;
+        _layerObj.color = _tintColor;
+        _layerObj.color_code = colorOBJ.color_code;
         _layerObj.default_color = colorOBJ.hex_code;
 
         delete oImg.filters[0];
@@ -450,7 +450,7 @@ PatternPanel.prototype = {
         var canvas              = new fabric.Canvas('patternPreview');
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
-        
+
         canvas.setHeight(300);
         canvas.setWidth(300);
 
