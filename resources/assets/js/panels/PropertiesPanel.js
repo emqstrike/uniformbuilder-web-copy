@@ -47,14 +47,7 @@ PropertiesPanel.prototype = {
             var titleNameFirstMaterial = _names[0].toTitleCase();
             var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-            if (_settingsObject.has_pattern)
-            {
-                modifier.hasPattern = true;
-            }
-            else
-            {
-                modifier.hasPattern = false;
-            }
+            modifier.hasPattern = (_settingsObject.has_pattern) ? true : false;
         });
     },
 
@@ -63,7 +56,6 @@ PropertiesPanel.prototype = {
             return modifier.name.includes("Insert");
         });
         this.parts = _.difference(this.modifiers, this.inserts);
-
     },
 
     getBrand: function() {

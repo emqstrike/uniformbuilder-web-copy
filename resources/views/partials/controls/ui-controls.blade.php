@@ -3357,4 +3357,6 @@
 
 @include('partials.controls.properties.parts')
 
+@include('partials.controls.properties.inserts')
+
 @include('partials.controls.team-store-products-picker')
