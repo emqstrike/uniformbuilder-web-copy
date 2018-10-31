@@ -51,7 +51,7 @@ ModifierController.prototype = {
 
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
-            delay: 100,
+            delay: 0,
             size: 'large',
             animation: 'shift-away',
             placement: 'left-end'

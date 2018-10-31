@@ -89,6 +89,7 @@ PropertiesPanel.prototype = {
         this.panels.parts = new PartPanel('m-parts', this.parts, this.inserts);
         var rendered = this.panels.parts.getPanel();
         this.setBodyPanel(rendered);
+        this.panels.parts.setTooltips();
     },
 
     bindEvents: function() {

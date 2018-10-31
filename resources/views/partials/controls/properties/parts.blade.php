@@ -39,7 +39,7 @@
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
                                 <div class="color_element sublimated">
-                                    <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+                                    <div class="pattern-container-button tippy-pattern-name" data-tippy-content="@{{ name }}">
                                         <button
                                             class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
                                             style="background-image: url('@{{ icon }}');"
