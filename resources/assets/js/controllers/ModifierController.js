@@ -19,8 +19,9 @@
  *  modifier.logo();        // displays the logo panel
  */
 
-function ModifierController(element) {
+function ModifierController(element, brand) {
     this.switcherBody = document.querySelector(element);
+    this.brand = brand;
     // Controllers / Switchers
     this.controllers = {
         fabrics: {},
@@ -89,6 +90,10 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
     },
 
+    fabrics: function() {
+        console.log('Show Fabrics Panel');
+    },
+
     parts: function() {
         // this.clearControls();
         ub.funcs.deActivateApplications();
@@ -98,7 +103,7 @@ ModifierController.prototype = {
             _.delay(function() {
                 $("#parts-with-insert-container").hide();
             }, 1000);
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -110,12 +115,8 @@ ModifierController.prototype = {
             _.delay(function() {
                 $("#parts-with-insert-container").hide();
             }, 1000);
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
         }
-    },
-
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
     },
 
     inserts: function() {
@@ -127,7 +128,7 @@ ModifierController.prototype = {
                 $(".parts-container").hide();
                 $("#parts-with-insert-container").show();
             }, 100);
-            this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -140,7 +141,7 @@ ModifierController.prototype = {
                 $(".parts-container").hide();
                 $("#parts-with-insert-container").show();
             }, 100);
-            this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
         }
     },
 
