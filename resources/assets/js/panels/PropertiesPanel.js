@@ -22,11 +22,13 @@ function PropertiesPanel(
     this.parts = [];
     this.inserts = [];
     this.panels = {
-        parts: '',
-        colors: new ColorPanel('', ''),
-        patterns: new PatternPanel('', ''),
-        pippings: '',
-        inserts: ''
+        parts: new PartPanel(null),
+        colors: new ColorPanel(null),
+        patterns: new PatternPanel(null),
+        pippings: null,
+        inserts: null,
+        applications: null,
+        logo: null
     };
     this.initModifiers();
     this.initInserts();
