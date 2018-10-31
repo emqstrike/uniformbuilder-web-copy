@@ -97,7 +97,7 @@ ModifierController.prototype = {
         if ($("#primary_options_colors").css("display") === "none") {
             _.delay(function() {
                 $("#parts-with-insert-container").hide();
-            }, 1000);
+            }, 100);
             this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
         }
 
@@ -109,9 +109,11 @@ ModifierController.prototype = {
         } else {
             _.delay(function() {
                 $("#parts-with-insert-container").hide();
-            }, 1000);
+            }, 100);
             this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
         }
+
+        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
     fabrics: function() {
@@ -142,6 +144,8 @@ ModifierController.prototype = {
             }, 100);
             this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
         }
+
+        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
     pipings: function() {

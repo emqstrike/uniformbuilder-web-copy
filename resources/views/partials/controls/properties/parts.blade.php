@@ -198,7 +198,7 @@
 </script>
 
 <script type="text/mustache" id="m-inserts">
-<div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
+<div class="cp-padding-medium cp-padding-remove-vertical primary_options_colors">
     <ul style="list-style:none; padding: 0 !important" id="parts-with-insert-container">
         @{{ #inserts }}
             <li class="panel-index-@{{ index }}">
