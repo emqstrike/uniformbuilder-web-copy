@@ -10,13 +10,11 @@
  * - Mustache
  */
 
-function PartPanel(element, parts, parts_with_insert) {
+function PartPanel(element, parts) {
     this.panel = document.getElementById(element);
     this.parts = parts;
-    this.partsWithInsert = parts_with_insert;
     this.items = {
         parts: this.parts,
-        partsWithInsert: this.partsWithInsert,
         colors: ub.current_material.settings.team_colors,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };

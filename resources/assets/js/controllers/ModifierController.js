@@ -89,16 +89,15 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
     },
 
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
-    },
-
     parts: function() {
         // this.clearControls();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
+            _.delay(function() {
+                $("#parts-with-insert-container").hide();
+            }, 1000);
             this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
         }
 
@@ -108,10 +107,10 @@ ModifierController.prototype = {
             $("#parts-with-insert-container").hide();
 
         } else {
-
+            _.delay(function() {
+                $("#parts-with-insert-container").hide();
+            }, 1000);
             this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
-            $("#parts-with-insert-container").hide();
-
         }
     },
 
@@ -120,7 +119,29 @@ ModifierController.prototype = {
     },
 
     inserts: function() {
-        console.log('Show Inserts Panel');
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+
+        if ($("#primary_options_colors").css("display") === "none") {
+            _.delay(function() {
+                $(".parts-container").hide();
+                $("#parts-with-insert-container").show();
+            }, 100);
+            this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        }
+
+        if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+
+        } else {
+            _.delay(function() {
+                $(".parts-container").hide();
+                $("#parts-with-insert-container").show();
+            }, 100);
+            this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        }
     },
 
     pipings: function() {
