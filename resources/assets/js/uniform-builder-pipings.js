@@ -407,7 +407,7 @@ $(document).ready(function () {
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
-    },
+    }
 
     ub.funcs.getPipingSizesNew = function (pipingSet) {
 
