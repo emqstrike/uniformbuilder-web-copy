@@ -42,6 +42,21 @@
       -ms-transform: translateX(20.08px);
       transform: translateX(20.08px);
     }
+
+    #properties {
+        left: -999em;
+        position: absolute;
+    }
+
+    #load-properties {
+        margin: 15px 0;
+        min-height: 100px;
+        resize: none;
+    }
+
+    #load-properties-container {
+        margin-bottom: 15px;
+    }
 </style>
 @endsection
 @section('content')
@@ -93,9 +108,10 @@
                                 </div>
                             </td>
                             <td class="col-md-2">
-                                <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
+                                <textarea name="size_props" class="td-size-props" data-size-id="{{ $size->id }}" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <button href="#" class="btn btn-success btn-sm btn-flat clone-size" data-size-id="{{ $size->id }}" role="button">Clone</button>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-size" data-size-id="{{ $size->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -307,6 +323,14 @@ $(document).ready(function(){
         $('#properties').val('');
         $('.props-content').empty();
         $('.submit-new-record').removeAttr('disabled');
+
+        $('#load-properties').val('');
+
+        if ($('#load-properties-container').css('display') !== 'none') {
+            $('#load-properties-container').animate({
+                height: 'toggle',
+            }, 100);
+        }
     });
 
     $('.add-record').on('click', function(e) {
@@ -321,17 +345,23 @@ $(document).ready(function(){
         window.modal_action = 'update';
         $('.modal-title').text('Edit Mascot Size Information');
         $('.submit-new-record').text('Update Record');
+
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-size-id').text();
         data.name = $(this).parent().parent().parent().find('.td-size-name').text();
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
+
         var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
         data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
+
         var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
+
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
+
         var props = $(this).parent().parent().parent().find('.td-size-props').val();
+
         if (props.length > 1) {
             data.properties = JSON.parse(props);
         } else {
@@ -348,6 +378,8 @@ $(document).ready(function(){
         $('.input-size-type').val(data.type);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
+
+
         if (data.properties != null) {
             loadProperties(data.properties);
         }
@@ -548,6 +580,67 @@ $(document).ready(function(){
             });
     }
 
+    $(document).on('click', '.clone-size', function() {
+        var id = $(this).data('size-id');
+        var url = "//" + api_host + "/api/mascot_size/duplicate/";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+
+    $('.copy-properties').on('click', function(e) {
+        e.preventDefault();
+        $('#properties').select();
+        document.execCommand('copy');
+
+        new PNotify({
+            title: 'Success',
+            text: "Data copied",
+            type: 'success',
+            hide: true
+        });
+
+        setTimeout(function() {
+            PNotify.removeAll();
+        }, 500)
+    });
+
+    $('.load-properties').click(function(event) {
+        event.preventDefault();
+
+        $('#load-properties-container').animate({
+            height: 'toggle',
+        }, 100);
+    });
+
+    $('.update-properties').click(function(event) {
+        event.preventDefault();
+
+        var properties = JSON.parse($('#load-properties').val());
+
+        if (properties) {
+            $('.props-content').empty();
+            loadProperties(properties);
+        }
+
+        $('#load-properties-container').animate({
+            height: 'toggle',
+        }, 100);
+
+        $('#load-properties').val('');
+    });
 });
 </script>
 @endsection

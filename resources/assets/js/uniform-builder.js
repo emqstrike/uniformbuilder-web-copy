@@ -34,6 +34,11 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                // prevent apostrophe problem
+                ub.config.sport         = ub.utilities.domParserDecoder(ub.config.sport);
+                ub.config.option        = ub.utilities.domParserDecoder(ub.config.option);
+                ub.config.blockPattern  = ub.utilities.domParserDecoder(ub.config.blockPattern);
+
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
@@ -8846,7 +8851,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 

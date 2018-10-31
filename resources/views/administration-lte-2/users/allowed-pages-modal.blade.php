@@ -48,6 +48,12 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label class="control-label">Limited Access</label>
+                        <select name="limited_access[]" id="limited_access" class="form-control" multiple="multiple">
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success btn-flat save-allowed-pages">Save</button>
                 </form>
             </div>

@@ -12,11 +12,13 @@ class RedirectRestrictedUser
 {
     protected $pageRuleClient;
     protected $route;
+    protected $userLimitedAccess;
 
     public function __construct(Route $route, PageRuleClient $pageRuleClient)
     {
         $this->route = $route;
         $this->pageRuleClient = $pageRuleClient;
+        $this->userLimitedAccess = json_decode(Session::get('userLimitedAccess'), true);
     }
 
     /**
@@ -47,12 +49,18 @@ class RedirectRestrictedUser
                 }
             }
         }
+
+        if ($this->userHasLimitedAccess()) {
+            if (in_array($this->route->getName(), $this->userLimitedAccess)) {
+                return $this->redirectToAllowedPage($next, $request);
+            } else {
+                return $this->redirectToDashboard();
+            }
+        }
         
         if (! is_null($allowedPages) && (! empty($allowedPages))) {
             if (in_array($this->route->getName(), $allowedPages)) {
-                if (in_array('GET', $this->route->getMethods())) {
-                    return $next($request);
-                }
+                return $this->redirectToAllowedPage($next, $request);
             }
         }
 
@@ -60,6 +68,23 @@ class RedirectRestrictedUser
             return $next($request);
         }
 
+        return $this->redirectToDashboard();
+    }
+
+    private function userHasLimitedAccess()
+    {
+        return (! is_null($this->userLimitedAccess) && (! empty($this->userLimitedAccess)));
+    }
+
+    private function redirectToAllowedPage($next, $request)
+    {
+        if (in_array('GET', $this->route->getMethods())) {
+            return $next($request);
+        }
+    }
+
+    private function redirectToDashboard()
+    {
         if (env('ENDPOINT_VERSION') == 'v1-0') {
             return redirect()->route('v1_admin_dashboard');
         } else {
