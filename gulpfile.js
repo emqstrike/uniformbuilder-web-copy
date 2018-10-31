@@ -96,7 +96,10 @@ elixir(function(mix) {
             'panels/ColorPanel.js',
             'panels/PatternPanel.js',
             'panels/ColorWheelPanel.js',
+
+            // Controllers or Switchers
             'controllers/PerspectiveController.js',
+            'controllers/ModifierController.js',
 
         ],
         // Result
@@ -108,7 +111,7 @@ elixir(function(mix) {
             // Third-party
             'third-party/tipped/tipped.less',
             'third-party/select2/select2.less',
-            'application-ui-new.less',
+            'property-modifiers-menu.less',
 
             // Source
             'uniform-builder.less',

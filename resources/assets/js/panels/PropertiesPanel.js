@@ -16,7 +16,7 @@ function PropertiesPanel(
     element,
     brand,
 ) {
-    this.body_panel = document.getElementById(element);
+    this.body_panel = document.querySelector(element);
     this.brand = brand;
     this.modifiers = [];
     this.parts = [];
@@ -31,6 +31,7 @@ function PropertiesPanel(
     this.initModifiers();
     this.initInserts();
     this.loadTemplate();
+    this.setDefaultColors();
     this.bindEvents();
 }
 
@@ -63,6 +64,17 @@ PropertiesPanel.prototype = {
         });
         this.parts = _.difference(this.modifiers, this.inserts);
 
+    },
+
+    // Pre-select default colors, add check mark and add active state class name
+    setDefaultColors: function() {
+        _.each(this.parts, function(part) {
+            var target = document.querySelector('.color-selector-button[data-color-id="' + part.team_color_id + '"][data-modifier-category="' +  part.fullname + '"]');
+            if (target !== null) {
+                target.innerHTML = '<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>';
+                target.classList.add('active-color');
+            }
+        });
     },
 
     getBrand: function() {
@@ -114,34 +126,31 @@ PropertiesPanel.prototype = {
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
-            if (results.length > 0)
-            {
+            if (results.length > 0) {
+
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index = ub.funcs.getIndexByName(_result);
 
-                if (_match.includes("insert"))
-                {
-                    $('#new-toolbar > .group-3').click();
-                }
-                else
-                {
-                    $('#new-toolbar > .group-2').click();
+                if (_match.includes("insert")) {
+                    $('#property-modifiers-menu > .group-3').click();
+                } else {
+                    $('#property-modifiers-menu > .group-2').click();
                 }
 
                 _this.activePanelbyIndex(_index);
-            }
-            else
-            {
+
+            } else {
+
                 ub.funcs.clickOutside();
+
             }
         }, 500));
     },
 
     activePanelbyIndex: function(index) {
-        if ($("li.panel-index-" + index).length > 0)
-        {
+        if ($("li.panel-index-" + index).length > 0) {
             $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration: 700 });
         }
     }

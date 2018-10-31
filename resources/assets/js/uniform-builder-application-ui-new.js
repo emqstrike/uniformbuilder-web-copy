@@ -7,56 +7,49 @@ $(function() {
 
     var ub = window.ub;
 
-    tippy('.tippy', {
-        delay: 100,
-        size: 'large',
-        animation: 'shift-away',
-        placement: 'left-end'
-    });
-
     // on click on any group pane switch to active
-    $('#new-toolbar > .group-pane').on('click', function () {
-        $('#new-toolbar > .group-pane').removeClass('active');
-        $(this).addClass('active');
-    });
+    // $('#property-modifiers-menu > .group-pane').on('click', function () {
+    //     $('#property-modifiers-menu > .group-pane').removeClass('active');
+    //     $(this).addClass('active');
+    // });
 
     // on click mascot and embellishments group #7
-    $('#new-toolbar > .group-7').on('click', function () {
+    $('#property-modifiers-menu > .group-7').on('click', function () {
         ub.funcs.startNewApplication();
     });
 
     // Aron Joshua
-    // $('#new-toolbar > .group-2').on('click', function () {
-    $('.property-modifiers-menu .menu-item-parts').on('click', function () {
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
+    // $('#property-modifiers-menu > .group-2').on('click', function () {
+    // $('.property-modifiers-menu .menu-item-parts').on('click', function () {
+    //     ub.funcs.deActivateApplications();
+    //     ub.funcs.deActivateLocations();
 
-        if ($("#primary_options_colors").css("display") === "none")
-        {
-            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
-        }
+    //     if ($("#primary_options_colors").css("display") === "none") {
+    //         var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
+    //     }
 
-        if ($("#primary_options_container #primary_options_colors").length > 0)
-        {
-            $(".parts-container").show();
-            $("#parts-with-insert-container").hide();
-        }
-        else
-        {
-            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
-            $("#parts-with-insert-container").hide();
-        }
-    });
+    //     if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+    //         $(".parts-container").show();
+    //         $("#parts-with-insert-container").hide();
+
+    //     } else {
+
+    //         var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
+    //         $("#parts-with-insert-container").hide();
+
+    //     }
+    // });
 
     // Aron Joshua
-    // $('#new-toolbar > .group-3').on('click', function () {
+    // $('#property-modifiers-menu > .group-3').on('click', function () {
     $('.property-modifiers-menu .menu-item-inserts').on('click', function () {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none")
         {
-            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+            var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0)
@@ -66,7 +59,7 @@ $(function() {
         }
         else
         {
-            var prop = new PropertiesPanel('primary_options_container', 'ProLook Sports');
+            var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
         }
