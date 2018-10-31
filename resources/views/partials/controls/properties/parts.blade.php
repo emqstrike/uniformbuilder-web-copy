@@ -33,7 +33,9 @@
                         </div>
                     </div>
                 </div>
-            @{{#hasPattern}}
+
+                @{{#hasPattern}}
+
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
                         <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
@@ -62,7 +64,9 @@
                         </div>
                     </div>
                 </div>
-            @{{/hasPattern}}
+
+                @{{/hasPattern}}
+
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
                         <hr class="cp-margin-remove-top">
