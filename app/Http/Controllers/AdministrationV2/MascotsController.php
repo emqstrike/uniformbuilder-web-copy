@@ -459,4 +459,56 @@ class MascotsController extends Controller
             'logo_request_user_id' => $logo_request_user_id,
         ]);
     }
+
+    public function storeExistingLogo(Request $request)
+    {
+        $mascotId = $request->input('mascot_id');
+        $mascot = $this->client->getMascot($mascotId);
+        $logoRequestID = $request->input('logo_request_id');
+        $logoIndex = $request->input('logo_index');
+        $logoRequestUserId = $request->input('logo_request_user_id');
+
+        $logo_request = $this->logoRequestsClient->getLogoRequest($logoRequestID);
+
+        $ar_json = json_decode($logo_request->properties, 1);
+
+        $team_colors = array();
+
+        /* Build colors, save to artwork json */
+        $layersProperties = $mascot->layers_properties;
+        $lpx = json_decode($layersProperties, 1);
+
+        foreach($lpx as $layer) {
+            array_push($team_colors, $layer);
+        }
+
+        $myJson = json_decode($layersProperties, true);
+
+        array_push($ar_json[$logoIndex]['history'], $ar_json[$logoIndex]['file']);
+        $ar_json[$logoIndex]['updated'] = 1;
+        $ar_json[$logoIndex]['file'] = $mascot->icon;
+        $ar_json[$logoIndex]['colors'] = $team_colors;
+
+        $folder_name = "mascot_ai_files";
+
+        $response = null;
+
+        $ar_json[$logoIndex]['mascot_id'] = $mascotId;
+        $logo_request->id = (string)$logo_request->id;
+        $logo_request->properties = $ar_json;
+        $logo_request->status = "for_review";
+        $logo_request->user_id = $logoRequestUserId;
+
+        unset($logo_request->created_at);
+        unset($logo_request->deleted_at);
+        unset($logo_request->datetime_finished);
+
+        $response = $this->logoRequestsClient->updateLogoRequest($logo_request);
+
+        if ($response->success) {
+            return redirect()->route('v1_logo_requests')->with('message', 'Successfully saved changes');
+        } else {
+            return redirect()->route('v1_logo_requests')->with('message', $response->message);
+        }
+    }
 }

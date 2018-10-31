@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/logo/add_existing" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_store_existing_logo') }}" enctype="multipart/form-data" id='create-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="layers_properties" id="layers-properties">
                         <input type="hidden" name="logo_request_id" value="{{ $logo_request_id }}">
