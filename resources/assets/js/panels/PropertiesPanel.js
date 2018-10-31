@@ -22,7 +22,7 @@ function PropertiesPanel(
     this.parts = [];
     this.inserts = [];
     this.panels = {
-        parts: new PartPanel(null),
+        parts: null,
         colors: new ColorPanel(null),
         patterns: new PatternPanel(null),
         pippings: null,
