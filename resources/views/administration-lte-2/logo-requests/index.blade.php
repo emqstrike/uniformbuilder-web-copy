@@ -26,6 +26,18 @@
         .select2 {
             margin-left: 10px;
         }
+
+        .badge-success {
+            background: #28a745;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+        }
+
+        blockquote {
+            font-size: 14px;
+        }
     </style>
 @endsection
 
@@ -135,7 +147,7 @@
 
                         <tbody>
                             @forelse ($logo_requests as $logo_request)
-                                <tr>
+                                <tr data-property="{{ json_encode($logo_request->properties) }}">
                                     <td>{{ $logo_request->id }}</td>
                                     <td>{{ $logo_request->origin }}</td>
 
@@ -188,33 +200,46 @@
                                     </td>
 
                                     <td>
-                                        @if (isset($logo_request->properties))
-                                            @foreach ($logo_request->properties as $item)
-                                                <p style="font-style: italic">{{ $item['notes'] }}</p>
-                                                @if( isset($item['user_rejected']) )
-                                                    @if( $item['user_rejected'] == "1" )
-                                                        <div class="alert alert-danger">
-                                                            Rejected
-                                                        </div>
-                                                    @endif
+                                        <?php  $notes = []; ?>
 
-                                                    <a href="#" class="btn btn-xs btn-default">View notes</a>
-                                                @elseif( isset($item['mascot_id']) && $item['approved'] == 1 )
-                                                    <div class="alert alert-success">
-                                                        Approved
-                                                    </div>
+                                        @if ($logo_request->properties)
+                                            @foreach ($logo_request->properties as $property)
+                                                @if (isset($property['notes']))
+                                                    @if ($property['notes'] != '')
+                                                       <?php $notes[] = $property['notes']; ?>
+                                                    @endif
                                                 @endif
                                             @endforeach
+                                        @endif
+
+                                        @if (! empty($notes))
+                                            <button class="btn btn-xs btn-default view-notes">
+                                                View notes
+                                            </button> <br><br>
+                                        @endif
+
+                                        @if ($logo_request->status == 'completed')
+                                            <span class="badge badge-success">Approved</span>
                                         @endif
                                     </td>
 
                                     <td>
-                                        @if (isset($logo_request->properties))
-                                            @foreach ($logo_request->properties as $item)
-                                                @if ( isset($item['user_notes']) )
-                                                 <p style="font-style: italic">{{ $item['user_notes'] }}</p>
+                                        <?php  $userNotes = []; ?>
+
+                                        @if ($logo_request->properties)
+                                            @foreach ($logo_request->properties as $property)
+                                                @if (isset($property['user_notes']))
+                                                    @if ($property['user_notes'] != '')
+                                                       <?php $userNotes[] = $property['user_notes']; ?>
+                                                    @endif
                                                 @endif
                                             @endforeach
+                                        @endif
+
+                                        @if (! empty($userNotes))
+                                            <button class="btn btn-xs btn-default view-user-notes">
+                                                View user notes
+                                            </button> <br><br>
                                         @endif
                                     </td>
 
@@ -261,6 +286,9 @@
             </div>
         </div>
     </section>
+
+    @include('administration-lte-2.logo-requests.modal.notes')
+    @include('administration-lte-2.logo-requests.modal.user-notes')
 @endsection
 
 @section('scripts')
@@ -284,6 +312,50 @@
             });
 
             $('.select2').select2();
+
+            $('.view-notes').click(function() {
+                var html = "";
+
+                var properties = $(this).closest('tr').data('property');
+                
+                $.each(properties, function(key, property) {
+                    $.each(property, function(key, value) {
+                        if (key == 'notes') {
+                            html += "<blockquote>" + value + "</blockquote>";
+                        }
+                    });
+                });
+
+                $('#notes-modal #notes-container').append(html);
+                $('#notes-modal').modal('show');
+            });
+
+            $('#notes-modal').on('hidden.bs.modal', function (e) {
+                $('#notes-modal #notes-container').empty();
+            });
+
+            $('.view-user-notes').click(function() {
+                var html = "";
+
+                var properties = $(this).closest('tr').data('property');
+                
+                $.each(properties, function(key, property) {
+                    $.each(property, function(key, value) {
+                        if (key == 'notes') {
+                            html += "<blockquote>" + value + "</blockquote>";
+                        }
+                    });
+                });
+
+                $('#user-notes-modal #user-notes-container').append(html);
+                $('#user-notes-modal').modal('show');
+
+                $('#user-notes-modal').modal('show');
+            });
+
+            $('#user-notes-modal').on('hidden.bs.modal', function (e) {
+                $('#user-notes-modal #user-notes-container').empty();
+            });
         });
     </script>
 @endsection
