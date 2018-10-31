@@ -43,7 +43,7 @@ $(document).ready(function () {
 
             var _apiCode = 'getMascotScales';
             var _parameters = {
-                "block_patterns":  ub.utilities.domParserDecoder(ub.config.blockPattern),
+                "block_patterns":  ub.config.blockPattern,
                 "category": ub.config.sport,
                 "type": ub.config.type
             }
