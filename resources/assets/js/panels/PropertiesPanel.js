@@ -121,13 +121,13 @@ PropertiesPanel.prototype = {
                 {
                     $('#property-modifiers-menu > .group-pane').removeClass('active');
                     $('#property-modifiers-menu > .group-pane.group-3').addClass('active');
-                    modifier.inserts();
+                    ub.modifierController.inserts();
                 }
                 else
                 {
                     $('#property-modifiers-menu > .group-pane').removeClass('active');
                     $('#property-modifiers-menu > .group-pane.group-2').addClass('active');
-                    modifier.parts();
+                    ub.modifierController.parts();
                 }
 
                 _this.activePanelbyIndex(_index);
