@@ -36,6 +36,18 @@ PartPanel.prototype = {
             $(this).addClass('active-color');
             console.log(color)
         });
+    },
+
+    // Set Pattern Tooltips
+    setTooltips: function() {
+        if ($('.tippy-pattern-name').length) {
+            // Tooltip for panels
+            tippy('.tippy-pattern-name', {
+                delay: 0,
+                size: 'large',
+                animation: 'shift-away'
+            });
+        }
     }
 
 }

@@ -19,8 +19,9 @@
  *  modifier.logo();        // displays the logo panel
  */
 
-function ModifierController(element) {
+function ModifierController(element, brand) {
     this.switcherBody = document.querySelector(element);
+    this.brand = brand;
     // Controllers / Switchers
     this.controllers = {
         fabrics: {},
@@ -51,7 +52,7 @@ ModifierController.prototype = {
 
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
-            delay: 100,
+            delay: 0,
             size: 'large',
             animation: 'shift-away',
             placement: 'left-end'
@@ -117,10 +118,6 @@ ModifierController.prototype = {
         }
 
         $("#primary_options_container").scrollTo(0, { duration: 200 });
-    },
-
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
     },
 
     inserts: function(_this) {

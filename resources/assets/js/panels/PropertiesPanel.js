@@ -22,11 +22,13 @@ function PropertiesPanel(
     this.parts = [];
     this.inserts = [];
     this.panels = {
-        parts: '',
-        colors: new ColorPanel('', ''),
-        patterns: new PatternPanel('', ''),
-        pippings: '',
-        inserts: ''
+        parts: null,
+        colors: new ColorPanel(null),
+        patterns: new PatternPanel(null),
+        pippings: null,
+        inserts: null,
+        applications: null,
+        logo: null
     };
     this.initModifiers();
     this.initInserts();
@@ -45,14 +47,7 @@ PropertiesPanel.prototype = {
             var titleNameFirstMaterial = _names[0].toTitleCase();
             var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-            if (_settingsObject.has_pattern)
-            {
-                modifier.hasPattern = true;
-            }
-            else
-            {
-                modifier.hasPattern = false;
-            }
+            modifier.hasPattern = (_settingsObject.has_pattern) ? true : false;
         });
     },
 
@@ -61,7 +56,6 @@ PropertiesPanel.prototype = {
             return modifier.name.includes("Insert");
         });
         this.parts = _.difference(this.modifiers, this.inserts);
-
     },
 
     getBrand: function() {
@@ -95,6 +89,7 @@ PropertiesPanel.prototype = {
         var rendered = this.panels.parts.getPanel();
         rendered += this.panels.inserts.getPanel();
         this.setBodyPanel(rendered);
+        this.panels.parts.setTooltips();
     },
 
     bindEvents: function() {
