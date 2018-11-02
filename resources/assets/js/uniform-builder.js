@@ -34,6 +34,11 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                // prevent apostrophe problem
+                ub.config.sport         = ub.utilities.domParserDecoder(ub.config.sport);
+                ub.config.option        = ub.utilities.domParserDecoder(ub.config.option);
+                ub.config.blockPattern  = ub.utilities.domParserDecoder(ub.config.blockPattern);
+
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
@@ -1096,31 +1101,41 @@ $(document).ready(function () {
         };
 
         ub.loader = function (url, object_name, cb) {
-          
-            $.ajax({
-            
-                url: url,
-                type: "GET", 
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
 
-                    if (object_name === "tailSweeps") {
-
-                        cb(response['tailsweeps'], object_name);
-
-                    } else {
-
-                        cb(response[object_name], object_name);
-
-                    }
-
+            if (window.Worker) {
+                data = {
+                    url: url
                 }
-            
-            });
+                var worker = new Worker('/workers/json-loader-worker.js');
+
+                worker.onmessage = function(e) {
+                    if (e.data.response) {
+                        key = object_name;
+                        if (object_name === "tailSweeps") {
+                            key = 'tailsweeps';
+                        }
+                        cb(e.data.response[key], object_name);
+                    }
+                }
+                worker.postMessage(JSON.parse(JSON.stringify(data)));
+            } else {
+                $.ajax({
+                    url: url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response) {
+                        if (object_name === "tailSweeps") {
+                            cb(response['tailsweeps'], object_name);
+                        } else {
+                            cb(response[object_name], object_name);
+                        }
+                    }
+                });
+            }
 
         };
 
@@ -8846,7 +8861,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 

@@ -38,6 +38,8 @@ function ModifierController(element, brand) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -88,6 +90,7 @@ ModifierController.prototype = {
             this.switcherBody.classList.add('hidden');
             ub.data.useScrollingUI = false;
             // To do, use the Color Wheel Menu
+            ub.funcs.drawColorPickers();
         }
     },
 
