@@ -1096,31 +1096,56 @@ $(document).ready(function () {
         };
 
         ub.loader = function (url, object_name, cb) {
-          
-            $.ajax({
+
+            if (window.Worker) {
+                data = {
+                    url: url,
+                    object_name: object_name,
+                    callback: cb
+                }
+                var worker = new Worker('/workers/json-loader-worker.js');
+                console.log(JSON.parse(JSON.stringify(data)));
+                worker.onmessage = function(e) {
+                    if (e.data.response) {
+                        console.log(object_name);
+                        if (object_name === "tailSweeps") {
+
+                            cb(e.data.response['tailsweeps'], object_name);
+
+                        } else {
+
+                            cb(e.data.response[object_name], object_name);
+
+                        }
+                    }
+                }
+                worker.postMessage(JSON.parse(JSON.stringify(data)));
+            } else {
+                $.ajax({
             
-                url: url,
-                type: "GET", 
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
+                    url: url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                
+                    success: function (response){
 
-                    if (object_name === "tailSweeps") {
+                        if (object_name === "tailSweeps") {
 
-                        cb(response['tailsweeps'], object_name);
+                            cb(response['tailsweeps'], object_name);
 
-                    } else {
+                        } else {
 
-                        cb(response[object_name], object_name);
+                            cb(response[object_name], object_name);
+
+                        }
 
                     }
-
-                }
-            
-            });
+                
+                });
+            }
 
         };
 
