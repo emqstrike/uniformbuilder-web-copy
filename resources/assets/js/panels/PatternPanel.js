@@ -12,6 +12,7 @@
 
 function PatternPanel(element) {
     this.panel = document.getElementById(element);
+    this.previous_pattern = null;
     this.patternColors = [];
     this.items = {
         patterns: ub.data.patterns
@@ -135,6 +136,35 @@ PatternPanel.prototype = {
             // Get the data of the pattern
             var selected_pattern = $(".pattern-main-container-" + _modifier_category + " .pattern-container-button").find(".active-pattern");
             var _id = selected_pattern.data("pattern-id");
+
+            if (_this.previous_pattern === null) {
+
+                _this.previous_pattern = _id
+                _this.changePattern(ub.current_part, _id);
+                console.log("Save pattern");
+
+            } else {
+
+                if (_this.previous_pattern !== _id) {
+
+                    _this.previous_pattern = _id;
+                    _this.changePattern(ub.current_part, _id);
+                    _this.destroyPatternColor();
+
+                    console.log("Change pattern ID");
+
+                } else {
+                    var pattern_colors = _this.getPatternColors();
+
+                    _.map(pattern_colors, function(index) {
+                        _this.setPatternColor(index.layerID, index.color, index.patternObj, index.materialOption);
+                        _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
+                    });
+
+                    console.log("Same pattern");
+                }
+            }
+
             var _pattern_name = selected_pattern.data("pattern-name");
 
             // Append Pattern Name
@@ -145,9 +175,6 @@ PatternPanel.prototype = {
 
             // Get layers count
             var _layerCount = _.size(_patternObj.layers);
-
-            // Change current pattern in current part
-            _this.changePattern(ub.current_part, _id);
 
             // Render Mustache
             var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
@@ -336,7 +363,7 @@ PatternPanel.prototype = {
 
         });
 
-        ub.funcs.clearPatternUI();
+        $("#patternPreviewContainer").remove();
         this.activatePatterns();
     },
 
@@ -432,7 +459,7 @@ PatternPanel.prototype = {
             event.preventDefault();
             /* Act on the event */
             _this.applyChangesInMainCanvas();
-            _this.destroyPatternColor();
+            // _this.destroyPatternColor();
         });
     },
 
@@ -451,7 +478,6 @@ PatternPanel.prototype = {
         $("#pattern-change-color").on('click', '.close-pattern-color-modal', function(event) {
             event.preventDefault();
             /* Act on the event */
-            _this.destroyPatternColor();
             $('#pattern-change-color').modal('hide');
         });
     },
