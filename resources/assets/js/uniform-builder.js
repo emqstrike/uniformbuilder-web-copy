@@ -1101,31 +1101,41 @@ $(document).ready(function () {
         };
 
         ub.loader = function (url, object_name, cb) {
-          
-            $.ajax({
-            
-                url: url,
-                type: "GET", 
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
 
-                    if (object_name === "tailSweeps") {
-
-                        cb(response['tailsweeps'], object_name);
-
-                    } else {
-
-                        cb(response[object_name], object_name);
-
-                    }
-
+            if (window.Worker) {
+                data = {
+                    url: url
                 }
-            
-            });
+                var worker = new Worker('/workers/json-loader-worker.js');
+
+                worker.onmessage = function(e) {
+                    if (e.data.response) {
+                        key = object_name;
+                        if (object_name === "tailSweeps") {
+                            key = 'tailsweeps';
+                        }
+                        cb(e.data.response[key], object_name);
+                    }
+                }
+                worker.postMessage(JSON.parse(JSON.stringify(data)));
+            } else {
+                $.ajax({
+                    url: url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response) {
+                        if (object_name === "tailSweeps") {
+                            cb(response['tailsweeps'], object_name);
+                        } else {
+                            cb(response[object_name], object_name);
+                        }
+                    }
+                });
+            }
 
         };
 
