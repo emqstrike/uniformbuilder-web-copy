@@ -56,7 +56,6 @@ PatternPanel.prototype = {
 
     destroyPatternColor: function() {
         this.patternColors = [];
-        console.log("Destroying Pattern color object");
     },
 
     onSelect: function() {
@@ -148,13 +147,7 @@ PatternPanel.prototype = {
                 _this.previous_pattern = _id
                 _this.changePattern(ub.current_part, _id);
 
-                for (var i = 1; i <= _layerCount; i++) {
-                    var colorOBJ = ub.current_material.settings.team_colors[i - 1];
-                    if (typeof colorOBJ !== "undefined") {
-                        _this.setPatternColor(i, colorOBJ, _patternObj, materialOption);
-                    }
-                }
-                console.log("Pattern COlors ", _this.getPatternColors());
+                _this.applyTeamColorOnPattern(_layerCount, _patternObj, materialOption)
 
             } else {
 
@@ -163,15 +156,7 @@ PatternPanel.prototype = {
                     _this.previous_pattern = _id;
                     _this.destroyPatternColor();
                     _this.changePattern(ub.current_part, _id);
-
-                    for (var i = 1; i <= _layerCount; i++) {
-                        var colorOBJ = ub.current_material.settings.team_colors[i - 1];
-                        if (typeof colorOBJ !== "undefined") {
-                            _this.setPatternColor(i, colorOBJ, _patternObj, materialOption);
-                        }
-                    }
-                    console.log("Pattern COlors ", _this.getPatternColors());
-                    console.log("Change pattern ID");
+                    _this.applyTeamColorOnPattern(_layerCount, _patternObj, materialOption)
 
                 } else {
                     var pattern_colors = _this.getPatternColors();
@@ -180,8 +165,6 @@ PatternPanel.prototype = {
                         _this.setPatternColor(index.layerID, index.color, index.patternObj, index.materialOption);
                         _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
                     });
-
-                    console.log("Same pattern");
                 }
             }
 
@@ -283,15 +266,12 @@ PatternPanel.prototype = {
             // Layer
             var layerID = active_pattern_color_category;
 
-            console.log("Layer ID", layerID);
-
             // Pattern Object
             var _patternObj = _this.getCurrentPatternObject();
 
             // Save Pattern Color
             _this.setPatternColor(layerID, _colorOBJ, _patternObj, materialOption);
             _this.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID.toString(), _patternObj);
-            console.log(_this.getPatternColors());
 
             var colorLabel = $(this).data("color-label");
 
@@ -581,8 +561,13 @@ PatternPanel.prototype = {
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
     },
 
-    applyTeamColorOnPattern(layerCount) {
-
+    applyTeamColorOnPattern(layerCount, patternObj, materialOption) {
+        for (var i = 1; i <= layerCount; i++) {
+            var colorOBJ = ub.current_material.settings.team_colors[i - 1];
+            if (typeof colorOBJ !== "undefined") {
+                this.setPatternColor(i, colorOBJ, patternObj, materialOption);
+            }
+        }
     },
 
     getCurrentMaterialOptions() {
