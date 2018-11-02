@@ -82,6 +82,7 @@ ModifierController.prototype = {
             this.switcherBody.classList.add('hidden');
             ub.data.useScrollingUI = false;
             // To do, use the Color Wheel Menu
+            ub.funcs.drawColorPickers();
         }
     },
 
