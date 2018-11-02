@@ -91,8 +91,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 cp-padding-left-xlarge">
-                        <div class="patternPreviewContainer">
-                            <canvas id="patternPreview" class="patternPreview"></canvas>
+                        <div id="patternPreviewUI">
+
                         </div>
                     </div>
                     <div class="col-md-12">
