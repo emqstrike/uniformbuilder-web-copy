@@ -82,6 +82,114 @@ $(function() {
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
+
+        // slider scale
+        var scaleSliders = document.getElementsByClassName('slider-control-scale');
+        $(scaleSliders).each(function(i){
+            noUiSlider.create(scaleSliders[i], {
+                animate: true,
+                animationDuration: 300,
+                start: [50],
+                range: {
+                    min: 1,
+                    max: 100,
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0
+                }),
+                pips: {
+                    mode: 'steps',
+                    stepped: true,
+                    density: 4
+                }
+            });
+
+            $(this).find('.noUi-value-large').first().html('Small');
+            $(this).find('.noUi-value-large').last().html('Large');
+        });
+
+        // slider move X
+        var moveXSliders = document.getElementsByClassName('slider-control-move-x');
+        $(moveXSliders).each(function(i){
+            noUiSlider.create(moveXSliders[i], {
+                animate: true,
+                animationDuration: 300,
+                start: [50],
+                range: {
+                    min: 1,
+                    max: 100,
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0
+                }),
+                pips: {
+                    mode: 'steps',
+                    stepped: true,
+                    density: 4
+                }
+                // pips: {
+                //     mode: 'values',
+                //     values: [0, 25, 50, 75, 100],
+                //     density: 4,
+                // }
+            });
+
+            $(this).find('.noUi-value-large').first().html('Small');
+            $(this).find('.noUi-value-large').last().html('Large');
+        });
+
+        // slider move Y
+        var moveYSliders = document.getElementsByClassName('slider-control-move-y');
+        $(moveYSliders).each(function(i){
+            noUiSlider.create(moveYSliders[i], {
+                animate: true,
+                animationDuration: 300,
+                start: [50],
+                range: {
+                    min: 1,
+                    max: 100,
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0
+                }),
+                pips: {
+                    mode: 'steps',
+                    stepped: true,
+                    density: 4
+                }
+                // pips: {
+                //     mode: 'values',
+                //     values: [0, 25, 50, 75, 100],
+                //     density: 4,
+                // }
+            });
+
+            $(this).find('.noUi-value-large').first().html('Small');
+            $(this).find('.noUi-value-large').last().html('Large');
+        });
+
+        // slider rotate
+        var rotateSliders = document.getElementsByClassName('slider-control-rotate');
+        $(rotateSliders).each(function(i){
+            $(rotateSliders[i]).roundSlider({
+                sliderType: "min-range",
+                handleShape: "round",
+                width: 15,
+                radius: 85,
+                value: [50],
+                startAngle: 90,
+
+                // drag: function (args) {
+                //
+                //     ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
+                //
+                // }
+
+            });
+        });
     };
 
 });

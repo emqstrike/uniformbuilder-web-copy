@@ -35,6 +35,7 @@
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/noUiSlider/wNumb.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>

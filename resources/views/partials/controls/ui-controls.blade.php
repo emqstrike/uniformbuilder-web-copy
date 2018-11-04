@@ -1058,12 +1058,15 @@
                     <span>
                         <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
                     </span>
+
                     <div class="thumb-links pull-left">
                         <h5>@{{ type }}</h5>
                         <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
                         <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
                     </div>
+
                     <div class="clearfix"></div>
+
                     <span class="thumb-name">@{{ name }}</span>
 
                     <span class="flip">
@@ -1071,12 +1074,36 @@
                     </span>
                 </div>
 
-                <div class="posContainer">
-                    <button type="button" class="app-btn w-45 pull-left">View</button>
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left active">View</button>
                     <button type="button" class="app-btn w-45 pull-right">Hide</button>
                 </div>
 
-                <div class="clearfix"></div>
+                <div class="slidersContainer">
+
+                    <div class="manipulator-type-container scale" data-type="scale" data-id="@{{ code }}">
+                        <h5>LOGO SIZE</h5>
+                        <div class="sc scale">
+                            <div id="scale-slider" class="slider-control-scale"></div>
+                        </div>
+                    </div>
+
+                    <div class="manipulator-type-container move" data-type="move" data-id="@{{ code }}">
+                        <h5>POSITION</h5>
+                        <div class="sc move">
+                            <div id="move-slider-x" class="move x slider-control-move-x"></div>
+                            <div id="move-slider-y" class="move y slider-control-move-y"></div>
+                        </div>
+                    </div>
+
+                    <div class="manipulator-type-container rotate" data-type="rotate" data-id="@{{ code }}">
+                        <h5>ROTATE</h5>
+                        <div class="sc rotate">
+                            <div id="rotate-slider" class="slider-control-rotate"></div>
+                        </div>
+                    </div>
+                </div>
+
            </div>
         @{{/applications}}
 
