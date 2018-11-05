@@ -281,7 +281,7 @@ PatternPanel.prototype = {
 
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' ||
@@ -292,7 +292,7 @@ PatternPanel.prototype = {
                 colorLabel === 'OP'||
                 colorLabel === 'SG'
             ) {
-                $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+                $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
             }
         });
     },
@@ -607,7 +607,7 @@ PatternPanel.prototype = {
         _.delay(function() {
 
             var color = $("#pattern-color-category-" + index + " button.pattern-color-selector-button[data-color-id='" + colorID + "']");
-            color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             color.addClass('active-pattern-color');
             if (colorLabel === 'W'
                 || colorLabel === 'Y'
@@ -617,7 +617,7 @@ PatternPanel.prototype = {
                 || colorLabel === 'OP'
                 || colorLabel === 'SG'
             ) {
-                color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+                color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
             }
 
         }, 500);

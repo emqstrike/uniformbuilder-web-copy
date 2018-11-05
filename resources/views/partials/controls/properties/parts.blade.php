@@ -101,7 +101,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div>
+                        <div class="cp-padding-top-medium">
                             <ul class="nav nav-tabs pattern-color-categories" role="tablist">
                                 <li role="presentation" class="active cp-float-none">
                                     <div class="col-sm-3 cp-padding-remove pattern-color-item">
@@ -153,7 +153,7 @@
                             </ul>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-12 cp-padding-top-xs">
                             <div id="pattern-color-tab-content">
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
@@ -203,8 +203,8 @@
 
 <script type="text/mustache" id="m-tab-patterns-colors">
 @{{ #colors }}
-    <div class="col-md-2 cp-padding-remove cp-margin-top-small tab-patterns-colors-@{{ modifier_category }}">
-        <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+    {{-- <div class="col-md-2 cp-padding-remove cp-margin-top-small tab-patterns-colors-@{{ modifier_category }}">
+        <div>
             <button
             class="pattern-color-selector-button cp-modal-color"
             style="background-color: #@{{ hex_code}};"
@@ -212,8 +212,21 @@
             data-color-label="@{{ color_code }}"
             data-color-id="@{{ id }}"
             >
+
             </button>
         </div>
+        <p class="label cp-fc-black">@{{ name }}</p>
+    </div> --}}
+    <div class="color_element sublimated tab-patterns-colors-@{{ modifier_category }}">
+        <button
+            class="grow change-color whitebtn cp-new-color-box pattern-color-selector-button"
+            style="background-color: #@{{ hex_code }};"
+            data-color-name="@{{ name}}"
+            data-color-label="@{{ color_code }}"
+            data-color-id="@{{ id }}"
+        >
+        </button>
+        <span class="label cp-fc-black">@{{ name }}</span>
     </div>
 @{{ /colors }}
 </script>
