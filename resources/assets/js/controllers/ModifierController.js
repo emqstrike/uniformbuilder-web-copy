@@ -98,7 +98,6 @@ ModifierController.prototype = {
     },
 
     parts: function() {
-        // this.clearControls();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 

@@ -13,9 +13,9 @@
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
         @if (config('customizer.enabled_https'))
-            api_host: "https://{{ env('API_HOST') }}",
+            api_host: "https://{{ config('customizer.api_host') }}",
         @else
-            api_host: "http://{{ env('API_HOST') }}",
+            api_host: "http://{{ config('customizer.api_host') }}",
         @endif
             asset_version: "{{$asset_version}}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
