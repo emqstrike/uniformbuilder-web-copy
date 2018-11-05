@@ -43,7 +43,7 @@ $(document).ready(function () {
 
             var _apiCode = 'getMascotScales';
             var _parameters = {
-                "block_patterns":  ub.utilities.domParserDecoder(ub.config.blockPattern),
+                "block_patterns":  ub.config.blockPattern,
                 "category": ub.config.sport,
                 "type": ub.config.type
             }
@@ -56,6 +56,10 @@ $(document).ready(function () {
                 ub.styleValues.mascotScales.match = result.mascot_size;
                 ub.styleValues.mascotScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
                 ub.utilities.info('Mascot Scales Loaded.');
+
+                ub.styleValues.embellishmentScales.match = result.mascot_size;
+                ub.styleValues.embellishmentScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
+                ub.utilities.info('Embellishment Scales Loaded.');
 
             });
 
@@ -100,34 +104,33 @@ $(document).ready(function () {
 
         hasValues: function () {
 
-            return ub.styleValues.embellishmentScales.items.length > 0;
+            return typeof ub.styleValues.embellishmentScales.match !== "undefined";
 
         },
 
         cleanUp: function (sport, type, neckOption) {
 
-            var _items = ub.styleValues.embellishmentScales.items;
-            var _cleanedUp = _.filter(_items, function (item) {
+            var _match = ub.styleValues.embellishmentScales.match
+            var _blockPatternOptions = "";
+            var _properties = "";
 
-                var _blockPatternOptions = "";
-                var _properties = "";
+            if (_match.block_pattern_options !== "" && typeof _match.block_pattern_options !== "undefined") {
+                _blockPatternOptions = _match.block_pattern_options;
+            } else {
 
-                if (item.block_pattern_options !== "") {
-                    _blockPatternOptions = JSON.parse(item.block_pattern_options);
-                }
-                _properties = JSON.parse(item.properties);
+                // Returned and array
+                if (sport === "Compression (Apparel)") {  _properties = _match[0].properties; }
+                
+            }
 
-                item.block_pattern_options = _blockPatternOptions;
-                item.properties = _properties;
+            if (_match.properties !== "" && typeof _match.properties !== "undefined") {
+                _properties = _match.properties;
+            }
 
-                return  item.sport === sport && 
-                    item.type === item.type && 
-                    (_.contains(_blockPatternOptions, ub.utilities.domParserDecoder(neckOption)) || item.block_pattern_options === "") && 
-                    item.active === "1";
-
-            });
-
-            ub.styleValues.embellishmentScales.items = _cleanedUp;
+            _match.block_pattern_options = _blockPatternOptions;
+            _match.properties = _properties;
+        
+            ub.styleValues.embellishmentScales.items = _match;
 
         },
 
@@ -146,17 +149,28 @@ $(document).ready(function () {
         },
 
         getScale: function (size) {
-            
+
             var _size = size;
             var _scale;
             var _result = undefined;
+            var _noSettings = typeof ub.styleValues.embellishmentScales.match === "undefined";
 
+            // Legacy Socks 
             if (ub.funcs.isSocks()) { _size = 2.5; }
 
-            _scale = _.find(ub.styleValues.embellishmentScales.items[0].properties, {size: _size.toString()});
+            // New Socks 
+            if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
+            if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }  
 
+            if (_noSettings) { 
+                _scale = undefined; 
+            } else {
+                _scale = _.find(ub.styleValues.embellishmentScales.match.properties, {size: _size.toString()});    
+            }
+  
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
+                _result = undefined;
             } else {
                 _result = {x: parseFloat(_scale.scale), y: parseFloat(_scale.scale)};
             }

@@ -42,6 +42,7 @@
                             <td class="td-item-plus-tol col-md-1">{{ $item->plus_tolerance }}</td>
                             <td class="td-item-minus-tol col-md-1">{{ $item->minus_tolerance }}</td>
                             <td>
+                                <input type="hidden" class="td-item-image" value="{{ $item->image_link }}">
                                 <a href="#" class="btn btn-defult btn-md file-link" data-link="{{ $item->image_link }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                             </td>
                             <td class="td-item-video col-md-1">{{ $item->video_link }}</td>
@@ -120,16 +121,17 @@ $(document).ready(function(){
         data.pom_number = $(this).parent().parent().parent().find('.td-item-number').text();
         data.plus_tolerance = $(this).parent().parent().parent().find('.td-item-plus-tol').text();
         data.minus_tolerance = $(this).parent().parent().parent().find('.td-item-minus-tol').text();
-        data.image_link = $(this).parent().parent().parent().find('.td-item-image').text();
+        data.image_link = $(this).parent().parent().parent().find('.td-item-image').val();
         data.video_link = $(this).parent().parent().parent().find('.td-item-video').text();
 
-        if(data.image_link != '') {
         var elem = '';
+        if(data.image_link != '') {
         elem += `<img src="`+ data.image_link +`" style="height: 100px; width: 110px;">
                       <a href="#" class="btn btn-danger btn-xs btn-flat delete-image" data-id="`+ data.id +`" data-field="image_link" role="button">
                           Delete
                       </a>`;
         }
+
         $('.image_link').append(elem);
 
         $('.input-item-id').val(data.id);

@@ -103,7 +103,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
-        
+
         Route::group(['middleware' => 'restrictedUserAccess'], function() {
 
             // Configurator
@@ -134,7 +134,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store'])->name('v1_update_pattern');
 
             Route::get('ordersMinified/{from?}/{to?}/{test_order?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
-            
+
             Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex'])->name('v1_style_requests');
             Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd'])->name('v1_add_style_requests');
 
@@ -222,6 +222,14 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             Route::get('points_of_measures', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PointsOfMeasuresController@index'])->name('v1_point_of_measure');
             Route::get('spec_sheets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SpecSheetsController@index'])->name('v1_spec_sheets');
+            Route::get('spec_sheet/export_excel/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SpecSheetsController@exportExcel'])->name('v1_spec_sheet_export');
+
+            // Logo Requests
+            Route::get('logo_requests/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LogoRequestsController@index'])->name('v1_logo_requests');
+            Route::get('upload_logo_request/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addLogoRequestForm'])->name('v1_add_logo_request');
+            Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@storeArtwork'])->name('v1_store_logo_request');
+            Route::get('upload_existing_logo/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addExistingLogoForm'])->name('v1_add_existing_logo');
+            Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@storeExistingLogo'])->name('v1_store_existing_logo');
         });
     });
 

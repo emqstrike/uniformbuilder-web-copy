@@ -13,7 +13,7 @@
         span.select2 {
             width: 100% !important;
         }
-    
+
         li.select2-selection__choice {
             color: black !important;
         }
@@ -47,7 +47,6 @@
                                     <th id="select-filter">Account Type</th>
                                     <th class="select-filter">Role</th>
                                     <th>Email</th>
-                                    <th>Default Allowed Pages</th>
                                     <th>Allowed Pages</th>
                                     <th id="select-filter">Rep Name</th>
                                     <th>Last Login</th>
@@ -58,19 +57,13 @@
 
                             <tbody>
                             @forelse ($users as $user)
-                                <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}'>
+                                <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}' data-limited-access="{{ $user->limited_access }}">
                                     <td class="td-user-id">{{ $user->id }}</td>
                                     <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                     <td class="td-user-type">{{ ucfirst($user->type) }}</td>
                                     <td id="td-user-type">{{ ucfirst($user->role) }}</td>
                                     <td class="td-user-email">{{ $user->email }}</td>
-                                    <td class="td-default-allowed-pages">
-                                        @if ($user->default_allowed_pages)
-                                            @foreach (json_decode($user->default_allowed_pages, true) as $defaultAllowedPage)
-                                                {{ $defaultAllowedPage }}<br>
-                                            @endforeach
-                                        @endif
-                                    </td>
+
                                     <td class="td-user-allowed-pages" data-user-allowed-pages="{{ $user->allowed_pages }}">
                                         @if ($user->allowed_pages)
                                             @foreach (json_decode($user->allowed_pages, true) as $allowedPage)
@@ -107,7 +100,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan='8'>
+                                    <td colspan='10'>
                                         No Users
                                     </td>
                                 </tr>
@@ -115,6 +108,8 @@
                             </tbody>
                               <tfoot>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -153,6 +148,22 @@
                 $('.submit-new-record').text('Add Record');
             });
 
+            $('.edit-allowed-pages').click(function() {
+                window.user_limited_access = $(this).closest('tr').data('limited-access');
+
+                $('#default_allowed_pages option').each(function() {
+                    $(this).remove();
+                });
+
+                $('#allowed_pages option').each(function() {
+                    $(this).remove();
+                });
+
+                $('#limited_access option').each(function() {
+                    $(this).remove();
+                });
+            });
+
             $(document).on('click', '.edit-record', function(e) {
                 e.preventDefault();
                 window.modal_action = 'update';
@@ -168,6 +179,7 @@
                 data.role = $(this).parent().parent().find('.user-role').val();
                 data.zip = $(this).parent().parent().find('.user-zip').val();
                 data.rep_id = $(this).parent().parent().find('.user-rep-id').val();
+
                 $('.input-user-id').val(data.id);
                 $('.input-first-name').val(data.first_name);
                 $('.input-last-name').val(data.last_name);
