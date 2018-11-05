@@ -44,24 +44,23 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
-        $menus = array();
+        $data = $request->all();
 
-        foreach ($request->all() as $key => $menu) {
+        $menus = array();
+        
+        for ($index = 0; $index < count($data['id']); $index++) {
             $menus[] = array(
-                'id' => $menu[$key]['id'],
-                'route_name' => $menu[$key]['route_name'],
-                'menu_text' => $menu[$key]['menu_text'],
-                'icon_class' => $menu[$key]['icon_class'],
-                'parent_id' => $menu[$key]['parent_id'],
-                'type' => $menu[$key]['type'],
-                'order_id' => $menu[$key]['order_id']
+                'id' => $data['id'][$index],
+                'route_name' => $data['route_name'][$index],
+                'menu_text' => $data['menu_text'][$index],
+                'icon_class' => $data['icon_class'][$index],
+                'parent_id' => $data['parent_id'][$index],
+                'type' => $data['type'][$index],
+                'order_id' => $data['order_id'][$index]
             );
         }
 
-        return $menus;
-
-
-        $result = $this->menuClient->create($request->all());
+        $result = $this->menuClient->create($menus);
 
         if ($result->success) {
             return redirect()->route('menus')->with('flash_message_success', $result->message);
