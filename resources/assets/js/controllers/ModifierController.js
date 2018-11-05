@@ -19,8 +19,9 @@
  *  modifier.logo();        // displays the logo panel
  */
 
-function ModifierController(element) {
+function ModifierController(element, brand) {
     this.switcherBody = document.querySelector(element);
+    this.brand = brand;
     // Controllers / Switchers
     this.controllers = {
         fabrics: {},
@@ -37,6 +38,8 @@ function ModifierController(element) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -81,6 +84,7 @@ ModifierController.prototype = {
             this.switcherBody.classList.add('hidden');
             ub.data.useScrollingUI = false;
             // To do, use the Color Wheel Menu
+            ub.funcs.drawColorPickers();
         }
     },
 
@@ -99,7 +103,7 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -109,14 +113,10 @@ ModifierController.prototype = {
 
         } else {
 
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#parts-with-insert-container").hide();
 
         }
-    },
-
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
     },
 
     inserts: function() {

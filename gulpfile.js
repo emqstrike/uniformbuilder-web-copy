@@ -95,7 +95,6 @@ elixir(function(mix) {
             'panels/PartPanel.js',
             'panels/ColorPanel.js',
             'panels/PatternPanel.js',
-            'panels/ColorWheelPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
