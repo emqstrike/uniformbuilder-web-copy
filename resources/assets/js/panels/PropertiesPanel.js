@@ -40,6 +40,22 @@ PropertiesPanel.prototype = {
 
     initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+        _.map(this.modifiers, function(modifier) {
+            var _modifier = ub.funcs.getModifierByIndex(modifier.index);
+            var _names = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial = _names[0].toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+
+            if (_settingsObject.has_pattern)
+            {
+                modifier.hasPattern = true;
+            }
+            else
+            {
+                modifier.hasPattern = false;
+            }
+        });
+        console.log(this.modifiers);
     },
 
     initInserts: function() {
@@ -47,6 +63,7 @@ PropertiesPanel.prototype = {
             return modifier.name.includes("Insert");
         });
         this.parts = _.difference(this.modifiers, this.inserts);
+
     },
 
     // Pre-select default colors, add check mark and add active state class name

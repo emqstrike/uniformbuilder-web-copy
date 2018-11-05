@@ -33,37 +33,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
-                        <div class="pattern-main-container-@{{ fullname }}">
-                            @{{ #patterns }}
-                                <div class="color_element sublimated">
-                                    <div class="pattern-container-button tippy-pattern-name" data-tippy-content="@{{ name }}">
-                                        <button
-                                            class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
-                                            style="background-image: url('@{{ icon }}');"
-                                            data-pattern-id="@{{ id }}"
-                                            data-pattern-name="@{{ name }}"
-                                            data-modifier-category="@{{ fullname }}"
-                                            data-modifier-index="@{{ index }}"
-                                        >
-                                        </button>
+                @{{#hasPattern}}
+                    <div class="row modifier-wrapper">
+                        <div class="col-md-12 cp-padding-remove">
+                            <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
+                            <div class="pattern-main-container-@{{ fullname }}">
+                                @{{ #patterns }}
+                                    <div class="color_element sublimated">
+                                        <div class="pattern-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
+                                            <button
+                                                class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
+                                                style="background-image: url('@{{ icon }}');"
+                                                data-pattern-id="@{{ id }}"
+                                                data-pattern-name="@{{ name }}"
+                                                data-modifier-category="@{{ fullname }}"
+                                                data-modifier-index="@{{ index }}"
+                                            >
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            @{{ /patterns }}
+                                @{{ /patterns }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-small cp-padding-remove-vertical cp-margin-remove">
-                        <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
+                    <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                        <div class="col-md-12 cp-margin-top-small cp-padding-small cp-margin-remove">
+                            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
+                            </div>
                         </div>
                     </div>
-                </div>
+                @{{/hasPattern}}
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-                        <hr>
+                        <hr class="cp-margin-remove-top">
                     </div>
                 </div>
             </li>
