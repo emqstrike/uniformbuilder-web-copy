@@ -224,6 +224,7 @@
             data-color-name="@{{ name}}"
             data-color-label="@{{ color_code }}"
             data-color-id="@{{ id }}"
+            data-modifier-category=@{{ modifier_category }}
         >
         </button>
         <span class="label cp-fc-black">@{{ name }}</span>
