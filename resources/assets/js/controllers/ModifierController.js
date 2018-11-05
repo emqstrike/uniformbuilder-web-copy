@@ -99,13 +99,17 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
     },
 
+    fabrics: function() {
+        console.log('Show Fabrics Panel');
+    },
+
     parts: function(_this) {
         // this.clearControls();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
@@ -117,7 +121,7 @@ ModifierController.prototype = {
 
         } else {
 
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
@@ -129,7 +133,7 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
@@ -142,7 +146,7 @@ ModifierController.prototype = {
 
         } else {
 
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
