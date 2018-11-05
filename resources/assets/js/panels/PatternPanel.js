@@ -170,29 +170,34 @@ PatternPanel.prototype = {
                 $(".pattern-color-categories li").first().find(".pattern-color-selector").addClass('cp-button-active');
             }
 
-            if ($(".pattern-color-categories li div.cp-add-cursor-no-drop").length > 0) {
-                $(".pattern-color-categories li div.cp-add-cursor-no-drop").removeClass("cp-add-cursor-no-drop");
-                $(".pattern-color-categories li a.pattern-color-selector").removeClass("cp-pointers-event-none")
-            }
+            // Return Normal Width
+            $(".pattern-color-categories .pattern-category-1").parent().css('width', '');
+            $(".pattern-color-categories .pattern-category-2").parent().css('width', '');
+            $(".pattern-color-categories .pattern-category-3").parent().css('width', '');
+            $(".pattern-color-categories .pattern-category-4").parent().css('width', '');
+            $(".pattern-color-categories .pattern-category-1").css('display', 'block');
+            $(".pattern-color-categories .pattern-category-2").css('display', 'block');
+            $(".pattern-color-categories .pattern-category-3").css('display', 'block');
+            $(".pattern-color-categories .pattern-category-4").css('display', 'block');
 
             switch (_layerCount) {
                 case 1:
-                    $(".pattern-color-categories .pattern-category-2").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-3").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-2").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-2").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
                     break;
                 case 2:
-                    $(".pattern-color-categories .pattern-category-3").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-3").parent().addClass('cp-add-cursor-no-drop');
-                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
+                    $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
+                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
                     break;
                 case 3:
-                    $(".pattern-color-categories .pattern-category-4").addClass('cp-pointers-event-none');
-                    $(".pattern-color-categories .pattern-category-4").parent().addClass('cp-add-cursor-no-drop');
+                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '33.3%');
+                    $(".pattern-color-categories .pattern-category-2").parent().css('width', '33.3%');
+                    $(".pattern-color-categories .pattern-category-3").parent().css('width', '33.3%');
+                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
                     break;
             }
 

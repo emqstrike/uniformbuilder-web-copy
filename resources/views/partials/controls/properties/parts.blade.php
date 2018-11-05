@@ -13,7 +13,7 @@
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-medium cp-fc-white">COLOR @{{ team_color_id }}</p>
+                        <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element sublimated color-container-button">
