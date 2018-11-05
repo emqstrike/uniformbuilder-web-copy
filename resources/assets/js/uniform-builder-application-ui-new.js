@@ -28,6 +28,20 @@ $(function() {
         $(this).toggleClass('active');
     });
 
+    // on click view slidersContainer
+    $('#primary_options_container').on('click', '.view-sliders', function () {
+        $(this).addClass('active');
+        $(this).next().removeClass('active');
+        $(this).parent().next().fadeIn();
+    });
+
+    // on click hide slidersContainer
+    $('#primary_options_container').on('click', '.hide-sliders', function () {
+        $(this).addClass('active');
+        $(this).prev().removeClass('active');
+        $(this).parent().next().hide();
+    });
+
     ub.funcs.startNewApplication = function () {
         console.info('=======APPLICATION UI BLOCK=======');
 

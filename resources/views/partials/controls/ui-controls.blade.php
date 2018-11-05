@@ -1075,12 +1075,11 @@
                 </div>
 
                 <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left active">View</button>
-                    <button type="button" class="app-btn w-45 pull-right">Hide</button>
+                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
 
                 <div class="slidersContainer">
-
                     <div class="manipulator-type-container scale" data-type="scale" data-id="@{{ code }}">
                         <h5>LOGO SIZE</h5>
                         <div class="sc scale">
@@ -1103,7 +1102,6 @@
                         </div>
                     </div>
                 </div>
-
            </div>
         @{{/applications}}
 
