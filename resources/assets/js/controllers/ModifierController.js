@@ -106,6 +106,7 @@ ModifierController.prototype = {
 
         if ($("#primary_options_colors").css("display") === "none") {
             _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
 
@@ -117,10 +118,10 @@ ModifierController.prototype = {
         } else {
 
             _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
 
-        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
     inserts: function(_this) {
@@ -129,6 +130,7 @@ ModifierController.prototype = {
 
         if ($("#primary_options_colors").css("display") === "none") {
             _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
         }
@@ -141,11 +143,11 @@ ModifierController.prototype = {
         } else {
 
             _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
         }
 
-        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
     pipings: function() {
