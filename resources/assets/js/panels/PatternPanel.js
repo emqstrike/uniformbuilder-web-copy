@@ -109,9 +109,14 @@ PatternPanel.prototype = {
                 selected_pattern.html("");
 
                 _this.createPatternPreviewFromPatternPicker(ub.current_part, _id);
-                // Empty the Edit pattern button and Show the button
+
+                // Empty the Edit pattern button
                 $(".edit-pattern-modal-container-"  + modifier_category).html("");
-                $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit Pattern Color</button>");
+
+                if (DEFAULTPATTERNID !== _id) {
+                    // Show edit pattern button
+                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit Pattern Color</button>");
+                }
 
                 $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                 $(this).addClass('active-pattern');
@@ -164,6 +169,7 @@ PatternPanel.prototype = {
                     _.map(pattern_colors, function(index) {
                         _this.setPatternColor(index.layerID, index.color, index.patternObj, index.materialOption);
                         _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
+                        _this.loadSelectedColor(index.layerID, index.color.id, index.color.color_code);
                     });
                 }
             }
@@ -563,9 +569,13 @@ PatternPanel.prototype = {
 
     applyTeamColorOnPattern(layerCount, patternObj, materialOption) {
         for (var i = 1; i <= layerCount; i++) {
+            console.log("Here loop")
             var colorOBJ = ub.current_material.settings.team_colors[i - 1];
             if (typeof colorOBJ !== "undefined") {
+                var color_id = colorOBJ ? colorOBJ.id : null;
+                var color_label = colorOBJ ? colorOBJ.color_code : null;
                 this.setPatternColor(i, colorOBJ, patternObj, materialOption);
+                this.loadSelectedColor(i, color_id, color_label);
             }
         }
     },
@@ -591,5 +601,25 @@ PatternPanel.prototype = {
         var _patternObj = pattern.pattern_obj;
 
         return _patternObj;
+    },
+
+    loadSelectedColor: function(index, colorID, colorLabel) {
+        _.delay(function() {
+
+            var color = $("#pattern-color-category-" + index + " button.pattern-color-selector-button[data-color-id='" + colorID + "']");
+            color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            color.addClass('active-pattern-color');
+            if (colorLabel === 'W'
+                || colorLabel === 'Y'
+                || colorLabel === 'CR'
+                || colorLabel === 'S'
+                || colorLabel === 'PK'
+                || colorLabel === 'OP'
+                || colorLabel === 'SG'
+            ) {
+                color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+            }
+
+        }, 500);
     }
 }
