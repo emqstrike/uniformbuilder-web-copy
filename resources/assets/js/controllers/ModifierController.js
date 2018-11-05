@@ -62,9 +62,15 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
+        var _this = this;
+
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
-        $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
-        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
+        $('#property-modifiers-menu .menu-item-parts').on('click', function() {
+            _this.parts(_this);
+        });
+        $('#property-modifiers-menu .menu-item-inserts').on('click', function() {
+            _this.inserts(_this);
+        });
         $('#property-modifiers-menu .menu-item-pipings').on('click', this.pipings);
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
@@ -93,17 +99,14 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
     },
 
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
-    },
-
-    parts: function() {
+    parts: function(_this) {
         // this.clearControls();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
+            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
+            $("#parts-with-insert-container").hide();
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -113,14 +116,36 @@ ModifierController.prototype = {
 
         } else {
 
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
+            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
             $("#parts-with-insert-container").hide();
-
         }
+
+        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
-    inserts: function() {
-        console.log('Show Inserts Panel');
+    inserts: function(_this) {
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+
+        if ($("#primary_options_colors").css("display") === "none") {
+            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
+        if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+
+        } else {
+
+            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
+        $("#primary_options_container").scrollTo(0, { duration: 200 });
     },
 
     pipings: function() {
