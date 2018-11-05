@@ -100,25 +100,10 @@ $(function() {
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
         $(scaleSliders).each(function(i){
-            noUiSlider.create(scaleSliders[i], {
-                animate: true,
-                animationDuration: 300,
-                start: [50],
-                range: {
-                    min: 1,
-                    max: 100,
-                },
-                tooltips: true,
-                format: wNumb({
-                    decimals: 0
-                }),
-                pips: {
-                    mode: 'steps',
-                    stepped: true,
-                    density: 4
-                }
-            });
-
+            var dataId = $(this).attr('data-id');
+            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _applicationType = _settingsObject.application_type;
+            ub.funcs.initScalePanel(scaleSliders[i], _settingsObject, _applicationType);
             $(this).find('.noUi-value-large').first().html('Small');
             $(this).find('.noUi-value-large').last().html('Large');
         });
@@ -126,30 +111,10 @@ $(function() {
         // slider move X
         var moveXSliders = document.getElementsByClassName('slider-control-move-x');
         $(moveXSliders).each(function(i){
-            noUiSlider.create(moveXSliders[i], {
-                animate: true,
-                animationDuration: 300,
-                start: [50],
-                range: {
-                    min: 1,
-                    max: 100,
-                },
-                tooltips: true,
-                format: wNumb({
-                    decimals: 0
-                }),
-                pips: {
-                    mode: 'steps',
-                    stepped: true,
-                    density: 4
-                }
-                // pips: {
-                //     mode: 'values',
-                //     values: [0, 25, 50, 75, 100],
-                //     density: 4,
-                // }
-            });
-
+            var dataId = $(this).attr('data-id');
+            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _applicationType = _settingsObject.application_type;
+            ub.funcs.initMovePanelX(moveXSliders[i],_settingsObject, _applicationType);
             $(this).find('.noUi-value-large').first().html('Left');
             $(this).find('.noUi-value-large').last().html('Right');
         });
@@ -157,30 +122,10 @@ $(function() {
         // slider move Y
         var moveYSliders = document.getElementsByClassName('slider-control-move-y');
         $(moveYSliders).each(function(i){
-            noUiSlider.create(moveYSliders[i], {
-                animate: true,
-                animationDuration: 300,
-                start: [50],
-                range: {
-                    min: 1,
-                    max: 100,
-                },
-                tooltips: true,
-                format: wNumb({
-                    decimals: 0
-                }),
-                pips: {
-                    mode: 'steps',
-                    stepped: true,
-                    density: 4
-                }
-                // pips: {
-                //     mode: 'values',
-                //     values: [0, 25, 50, 75, 100],
-                //     density: 4,
-                // }
-            });
-
+            var dataId = $(this).attr('data-id');
+            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _applicationType = _settingsObject.application_type;
+            ub.funcs.initMovePanelY(moveYSliders[i],_settingsObject, _applicationType);
             $(this).find('.noUi-value-large').first().html('Down');
             $(this).find('.noUi-value-large').last().html('Up');
         });
@@ -218,6 +163,149 @@ $(function() {
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
+
+        });
+
+    };
+
+    ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") {
+            _multiplier = 10;
+        }
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+        if (typeof element.noUiSlider === "object") {
+            element.noUiSlider.set(_start);
+            return;
+        }
+
+        noUiSlider.create(element, {
+            animate: true,
+            animationDuration: 300,
+            start: _start,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0
+            }),
+            pips: {
+                mode: 'steps',
+                stepped: true,
+                density: 4
+            }
+        });
+
+        element.noUiSlider.on('update', function (values, handle) {
+
+            var _value = values[0];
+            ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+
+        });
+
+    };
+
+    ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") {
+            _multiplier = 10;
+        }
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _startX = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.x;
+
+        _startX = _startX / ub.dimensions.width * 100;
+
+        if (typeof element.noUiSlider === "object") {
+            element.noUiSlider.set(_startX);
+            return;
+        }
+
+        noUiSlider.create(element, {
+            animate: true,
+            animationDuration: 300,
+            start: _startX,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0
+            }),
+            pips: {
+                mode: 'steps',
+                stepped: true,
+                density: 4
+            }
+            // pips: {
+            //     mode: 'values',
+            //     values: [0, 25, 50, 75, 100],
+            //     density: 4,
+            // }
+        });
+
+        element.noUiSlider.on('update', function (values, handle) {
+
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
+
+        });
+
+    };
+
+    ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") {
+            _multiplier = 10;
+        }
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _startY = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.y;
+
+        _startY = _startY / ub.dimensions.height * 100;
+
+        if (typeof element.noUiSlider === "object") {
+            element.noUiSlider.set(_startY);
+            return;
+        }
+
+        noUiSlider.create(element, {
+            animate: true,
+            animationDuration: 300,
+            start: _startY,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0
+            }),
+            pips: {
+                mode: 'steps',
+                stepped: true,
+                density: 4
+            }
+            // pips: {
+            //     mode: 'values',
+            //     values: [0, 25, 50, 75, 100],
+            //     density: 4,
+            // }
+        });
+
+        element.noUiSlider.on('update', function (values, handle) {
+
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
 
         });
 
