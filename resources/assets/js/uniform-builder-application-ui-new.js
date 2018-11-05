@@ -150,8 +150,8 @@ $(function() {
                 // }
             });
 
-            $(this).find('.noUi-value-large').first().html('Small');
-            $(this).find('.noUi-value-large').last().html('Large');
+            $(this).find('.noUi-value-large').first().html('Left');
+            $(this).find('.noUi-value-large').last().html('Right');
         });
 
         // slider move Y
@@ -181,29 +181,46 @@ $(function() {
                 // }
             });
 
-            $(this).find('.noUi-value-large').first().html('Small');
-            $(this).find('.noUi-value-large').last().html('Large');
+            $(this).find('.noUi-value-large').first().html('Down');
+            $(this).find('.noUi-value-large').last().html('Up');
         });
 
         // slider rotate
         var rotateSliders = document.getElementsByClassName('slider-control-rotate');
         $(rotateSliders).each(function(i){
-            $(rotateSliders[i]).roundSlider({
-                sliderType: "min-range",
-                handleShape: "round",
-                width: 15,
-                radius: 85,
-                value: [50],
-                startAngle: 90,
-
-                // drag: function (args) {
-                //
-                //     ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
-                //
-                // }
-
-            });
+            var dataId = $(this).attr('data-id');
+            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _applicationType = _settingsObject.application_type;
+            ub.funcs.initRotatePanel(rotateSliders[i], _settingsObject, _applicationType);
         });
+    };
+
+    ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") {
+            _multiplier = 10;
+        }
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+
+        $(element).roundSlider({
+            sliderType: "min-range",
+            handleShape: "round",
+            width: 15,
+            radius: 85,
+            value: _start,
+            startAngle: 90,
+
+            drag: function (args) {
+
+                ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
+
+            }
+
+        });
+
     };
 
 });

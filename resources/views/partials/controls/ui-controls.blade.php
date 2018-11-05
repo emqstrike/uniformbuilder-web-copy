@@ -1080,25 +1080,25 @@
                 </div>
 
                 <div class="slidersContainer">
-                    <div class="manipulator-type-container scale" data-type="scale" data-id="@{{ code }}">
+                    <div class="manipulator-type-container scale" data-type="scale">
                         <h5>LOGO SIZE</h5>
                         <div class="sc scale">
-                            <div id="scale-slider" class="slider-control-scale"></div>
+                            <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
                         </div>
                     </div>
 
-                    <div class="manipulator-type-container move" data-type="move" data-id="@{{ code }}">
+                    <div class="manipulator-type-container move" data-type="move">
                         <h5>POSITION</h5>
                         <div class="sc move">
-                            <div id="move-slider-x" class="move x slider-control-move-x"></div>
-                            <div id="move-slider-y" class="move y slider-control-move-y"></div>
+                            <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                            <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
                         </div>
                     </div>
 
-                    <div class="manipulator-type-container rotate" data-type="rotate" data-id="@{{ code }}">
+                    <div class="manipulator-type-container rotate" data-type="rotate">
                         <h5>ROTATE</h5>
                         <div class="sc rotate">
-                            <div id="rotate-slider" class="slider-control-rotate"></div>
+                            <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
                         </div>
                     </div>
                 </div>
