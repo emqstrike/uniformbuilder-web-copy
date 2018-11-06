@@ -1278,9 +1278,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
         
-            success: function (response){
-                
-                if(response.success) {
+            success: function(response) {
+
+                if (response.success) {
 
                     ub.funcs.displayLinks(response.filename);
 
@@ -1304,6 +1304,10 @@ $(document).ready(function() {
                     console.log(response.message);
                 }
 
+            },
+            error: function(error) {
+                console.log(error);
+                $.smkAlert('Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.');
             }
         
         });
