@@ -108,7 +108,8 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+
+            var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
@@ -132,7 +133,7 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
 
         if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();

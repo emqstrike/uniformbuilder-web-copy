@@ -148,6 +148,7 @@ PropertiesPanel.prototype = {
             {
                 ub.funcs.clickOutside();
             }
+
         }, 500));
     },
 

@@ -520,12 +520,12 @@ PatternPanel.prototype = {
     },
 
     createPatternUI: function(patternObject) {
-        var _htmlBuilder = "<div id='patternUI'>";
+        var _htmlBuilder = "<div id='patternNewUI'>";
         _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
         _htmlBuilder     += "</div>";
 
         $("#patternPreviewUI").append(_htmlBuilder);
-        $('#patternUI').fadeIn();
+        $('#patternNewUI').fadeIn();
         setTimeout(this.createPatternPreview(patternObject), 1000);
     },
 
