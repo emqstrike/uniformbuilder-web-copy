@@ -840,7 +840,7 @@ $(document).ready(function() {
 
     }
 
-    // action variable contents are in the ub.data.constants.order_actions.*
+    // action variable contents are in the ub.constants.order_actions.*
     ub.funcs.submitOrderForm = function (action) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
@@ -935,7 +935,7 @@ $(document).ready(function() {
 
         var _type = ub.config.uniform_application_type.toTitleCase(); 
         var _submitted = '1';
-        if (action == ub.data.constants.order_actions.SAVE_ORDER) {
+        if (action == ub.constants.order_actions.SAVE_ORDER) {
             _submitted = 0;
         }
 
@@ -1070,7 +1070,7 @@ $(document).ready(function() {
 
             } else {
 
-                ub.funcs.submitOrderForm(ub.data.constants.SUBMIT_ORDER);
+                ub.funcs.submitOrderForm(ub.constants.SUBMIT_ORDER);
                 $('span.submit-confirmed-order').html('Submitting Order...');
 
             }
@@ -1084,7 +1084,7 @@ $(document).ready(function() {
                 return;
             }
 
-            ub.funcs.submitOrderForm(ub.data.constants.SAVE_ORDER);
+            ub.funcs.submitOrderForm(ub.constants.SAVE_ORDER);
             $('span.save-order').html('Saving Order...');
 
         });
