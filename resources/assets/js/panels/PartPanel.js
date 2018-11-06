@@ -15,7 +15,6 @@ function PartPanel(element, parts) {
     this.parts = parts;
     this.items = {
         parts: this.parts,
-        colors: ub.current_material.settings.team_colors,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
 }

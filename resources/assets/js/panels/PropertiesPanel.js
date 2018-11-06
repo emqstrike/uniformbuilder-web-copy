@@ -49,6 +49,25 @@ PropertiesPanel.prototype = {
             var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
             modifier.hasPattern = (_settingsObject.has_pattern) ? true : false;
+
+            // Check if the part has limited color set
+            var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modifier.name);
+            if (typeof _limitedColorSet !== "undefined") {
+                var _alternateColorSet = [];
+
+                _alternateColorSet = _.each(_limitedColorSet.valid_colors, function (item) {
+                    _alternateColorSet.push(ub.funcs.getColorByColorCode(item));
+                    // Assign alternate color in colors
+                    modifier.colors = _alternateColorSet;
+                });
+
+                ub.utilities.info ('Limited Color Set detected for ' + modifier.name);
+            }
+
+            if (typeof _limitedColorSet === "undefined") {
+                // if dont have limited color set the team colors
+                modifier.colors = ub.current_material.settings.team_colors;
+            }
         });
     },
 
