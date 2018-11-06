@@ -99,8 +99,11 @@ ModifierController.prototype = {
         ub.funcs.deActivateLocations();
     },
 
+    fabrics: function() {
+        console.log('Show Fabrics Panel');
+    },
+
     parts: function(_this) {
-        // this.clearControls();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
 
