@@ -249,7 +249,9 @@ $(document).ready(function() {
 
 	ub.funcs.prepareColors = function () {
 		
-		ub.data.colors = _.filter(ub.data.colors, {active: "1"});
+		ub.data.colors = _.filter(ub.data.colors, function (color) {
+            return color = color.active === 1 || color.active === '1';
+        });
 
 		ub.data.colors = _.filter(ub.data.colors, function (color) {
 			return !ub.data.excludedColors.isExcluded(ub.config.sport, ub.config.uniform_application_type, color.color_code);
