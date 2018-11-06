@@ -1307,7 +1307,10 @@ $(document).ready(function() {
             },
             error: function(error) {
                 console.log(error);
-                $.smkAlert('Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.');
+                $.smkAlert({
+                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                    type: 'warning'
+                });
             }
         
         });
