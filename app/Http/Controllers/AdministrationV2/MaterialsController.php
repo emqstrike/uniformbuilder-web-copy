@@ -98,9 +98,9 @@ class MaterialsController extends Controller
     public function indexSport($sport = null)
     {
         if (is_null($sport)) {
-            $sport = 'all';
+            $sport = 'Football 2017';
         }
-        
+
         $materials = $this->client->getMaterialsBySport($sport);
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
