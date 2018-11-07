@@ -2125,7 +2125,7 @@ class UniformBuilderController extends Controller
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
 
         // Upload PDF to S3
-        $source_path = base_path() . $transformedPath;
+        $source_path = base_path() . '/public/' . $transformedPath;
         Log::info('SOURCE = ' . $source_path);
         if (file_exists($source_path))
         {
