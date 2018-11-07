@@ -1102,6 +1102,25 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="stockMascotColors">
+                    <h4>CHOOSE STOCK MASCOT COLORS</h4>
+
+                    <ul class="nav nav-tabs nav-justified">
+                      <li class="active"><a href="#tab1" data-toggle="tab">Color 1</a></li>
+                      {{--<li><a href="#tab2" data-toggle="tab">Profile</a></li>--}}
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <span class="colorBox" style="background-color:white"></span>
+                            <span class="colorBox" style="background-color:blue"></span>
+                            <span class="colorBox" style="background-color:red"></span>
+                        </div>
+                        {{--<div id="tab2" class="tab-pane fade">--}}
+                            {{--<h1>TAB 2</h1>--}}
+                        {{--</div>--}}
+                    </div>
+                </div>
            </div>
         @{{/applications}}
 
