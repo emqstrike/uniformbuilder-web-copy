@@ -258,7 +258,7 @@
 
             str_builder = str_builder + color_elements;
             str_builder = str_builder + '</div></div>';
-             if ($("#primary_options_container #primary_options_colors .parts-container").length < 0) {
+             if (!ub.data.useScrollingUI) {
                 var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
                 var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
 
