@@ -52,7 +52,9 @@ class RedirectRestrictedUser
 
         if ($this->userHasLimitedAccess()) {
             if (in_array($this->route->getName(), $this->userLimitedAccess)) {
-                return $this->redirectToAllowedPage($next, $request);
+                if ($this->isGetRoute()) {
+                    return $next($request);
+                }
             } else {
                 return $this->redirectToDashboard();
             }
@@ -60,11 +62,13 @@ class RedirectRestrictedUser
         
         if (! is_null($allowedPages) && (! empty($allowedPages))) {
             if (in_array($this->route->getName(), $allowedPages)) {
-                return $this->redirectToAllowedPage($next, $request);
+                if ($this->isGetRoute()) {
+                    return $next($request);
+                }
             }
         }
 
-        if (! in_array('GET', $this->route->getMethods())) {
+        if (! $this->isGetRoute()) {
             return $next($request);
         }
 
@@ -76,11 +80,9 @@ class RedirectRestrictedUser
         return (! is_null($this->userLimitedAccess) && (! empty($this->userLimitedAccess)));
     }
 
-    private function redirectToAllowedPage($next, $request)
+    private function isGetRoute()
     {
-        if (in_array('GET', $this->route->getMethods())) {
-            return $next($request);
-        }
+        return in_array('GET', $this->route->getMethods());
     }
 
     private function redirectToDashboard()

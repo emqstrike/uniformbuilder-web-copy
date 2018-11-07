@@ -165,7 +165,7 @@
                         </tbody>
                     </table>
 
-                    @include('administration-lte-2.saved-designs.partials.pagination')
+                    @include('administration-lte-2.partials.pagination')
 
                 </div>
             </div>

@@ -10,6 +10,11 @@
             allowClear: true
         });
 
+        $('.select2-selection__choice').removeAttr('title');
+        $('select').on('change', function (evt) {
+            $('.select2-selection__choice').removeAttr('title');
+        });
+
         $('#type').change(function() {
             var type = $(this).val();
 
