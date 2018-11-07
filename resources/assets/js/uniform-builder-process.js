@@ -843,6 +843,8 @@ $(document).ready(function() {
     // action variable contents are in the ub.constants.order_actions.*
     ub.funcs.submitOrderForm = function (action) {
 
+        console.log('Action = ' + action);
+
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
         
         if (!_rosterFormValid) {
@@ -1010,6 +1012,10 @@ $(document).ready(function() {
             ]
         };
 
+        console.log('ORDER DATA');
+        console.log(orderInput);
+        console.log('===========================');
+
         // If Rejected submit this
         // if (ub.config.orderCode !== "none") { orderInput.order_code = ub.config.orderCode; }
 
@@ -1070,7 +1076,7 @@ $(document).ready(function() {
 
             } else {
 
-                ub.funcs.submitOrderForm(ub.constants.SUBMIT_ORDER);
+                ub.funcs.submitOrderForm(ub.constants.order_actions.SUBMIT_ORDER);
                 $('span.submit-confirmed-order').html('Submitting Order...');
 
             }
@@ -1084,7 +1090,7 @@ $(document).ready(function() {
                 return;
             }
 
-            ub.funcs.submitOrderForm(ub.constants.SAVE_ORDER);
+            ub.funcs.submitOrderForm(ub.constants.order_actions.SAVE_ORDER);
             $('span.save-order').html('Saving Order...');
 
         });

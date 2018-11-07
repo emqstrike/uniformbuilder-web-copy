@@ -12,11 +12,7 @@
             brand: "{{ env('BRAND') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
-        @if (config('customizer.force_ssl'))
             api_host: "https://{{ env('API_HOST') }}",
-        @else
-            api_host: "http://{{ env('API_HOST') }}",
-        @endif
             asset_version: "{{$asset_version}}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
 
