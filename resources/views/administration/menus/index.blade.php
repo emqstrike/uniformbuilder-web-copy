@@ -20,6 +20,10 @@
             list-style: none;
         }
 
+        .sortable li {
+            width: 500px;
+        }
+
         .dragged {
             position: absolute;
             opacity: 0.5;

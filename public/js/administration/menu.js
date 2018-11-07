@@ -14,7 +14,7 @@ $(document).ready(function() {
 
             return depth <= maxDepth;
         },
-        
+
         onDrop: function($item, container, _super, event) {
             var menuID = $item.closest('.menu-container').find('.sortable-container').attr('id');
             var menu = $('#' + menuID + '.menu');
@@ -29,6 +29,12 @@ $(document).ready(function() {
 
     $('#search-page').keyup(function() {
         Pages.search($(this).val());
+    });
+
+    $('body').on('keyup', '.menu-text', function() {
+        var name = $(this).val();
+        console.log(name);
+        $(this).closest('.sortable-body').prev('.sortable-head').find('strong').html(name);
     });
 
     $('#select-all-pages').click(function() {
