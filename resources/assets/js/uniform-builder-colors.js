@@ -161,7 +161,57 @@ $(document).ready(function() {
                 valid_colors: [
                     'B',
                     'W',
-
+                ]
+            },
+            // PTS Cage Jacket
+            {
+                block_pattern: 'PTS Cage Jacket',
+                neck_options: ['Short Sleeve'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+            {
+                block_pattern: 'PTS Cage Jacket',
+                neck_options: ['Short Sleeve'],
+                material_option: 'Neck Tape 1', 
+                valid_colors: [
+                    'W',    
+                    'CG',
+                ]
+            },
+            {
+                block_pattern: 'PTS Cage Jacket',
+                neck_options: ['Short Sleeve'],
+                material_option: 'Neck Tape 2', 
+                valid_colors: [
+                    'W',    
+                    'CG',
+                ]
+            },
+            // PTS Hoodie
+            {
+                block_pattern: 'PTS Hoodie',
+                neck_options: ['Hoodie'],
+                material_option: 'Neck Tape 1', 
+                valid_colors: [
+                    'W',    
+                    'CG',
+                ]
+            },
+            {
+                block_pattern: 'PTS Hoodie',
+                neck_options: ['Hoodie'],
+                material_option: 'Neck Tape 2', 
+                valid_colors: [
+                    'W',    
+                    'CG',
                 ]
             },
         ],
@@ -202,6 +252,44 @@ $(document).ready(function() {
                 neckOption: ['Full', 'Quarter'],
                 color1: 'CG',
                 color2: 'B',
+            },
+            // PTS Cage Jacket
+            {
+                origin: 'Neck Tape 1',
+                matchingPart: 'Neck Tape 2',
+                sport: 'PTS Cage Jacket (Apparel)',
+                blockPattern: 'PTS Cage Jacket',
+                neckOption: ['Short Sleeve'],
+                color1: 'CG',
+                color2: 'W',
+            },
+            {
+                origin: 'Neck Tape 2',
+                matchingPart: 'Neck Tape 1',
+                sport: 'PTS Cage Jacket (Apparel)',
+                blockPattern: 'PTS Cage Jacket',
+                neckOption: ['Short Sleeve'],
+                color1: 'CG',
+                color2: 'W',
+            },
+            // PTS Hoodie
+            {
+                origin: 'Neck Tape 1',
+                matchingPart: 'Neck Tape 2',
+                sport: 'PTS Hoodie (Apparel)',
+                blockPattern: 'PTS Hoodie',
+                neckOption: ['Hoodie'],
+                color1: 'CG',
+                color2: 'W',
+            },
+            {
+                origin: 'Neck Tape 2',
+                matchingPart: 'Neck Tape 1',
+                sport: 'PTS Hoodie (Apparel)',
+                blockPattern: 'PTS Hoodie',
+                neckOption: ['Hoodie'],
+                color1: 'CG',
+                color2: 'W',
             },
         ],
 
