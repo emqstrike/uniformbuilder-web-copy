@@ -1112,7 +1112,17 @@
                     </ul>
                     <div class="tab-content">
                         <div id="tab1" class="tab-pane fade in active">
+
                             <span class="colorBox" style="background-color:white"></span>
+                            <span class="colorBox" style="background-color:blue"></span>
+                            <span class="colorBox" style="background-color:red"></span>
+                                                        <span class="colorBox" style="background-color:white"></span>
+                            <span class="colorBox" style="background-color:blue"></span>
+                            <span class="colorBox" style="background-color:red"></span>
+                                                        <span class="colorBox" style="background-color:white"></span>
+                            <span class="colorBox" style="background-color:blue"></span>
+                            <span class="colorBox" style="background-color:red"></span>
+                                                        <span class="colorBox" style="background-color:white"></span>
                             <span class="colorBox" style="background-color:blue"></span>
                             <span class="colorBox" style="background-color:red"></span>
                         </div>
