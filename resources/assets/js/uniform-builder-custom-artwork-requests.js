@@ -678,7 +678,7 @@ $(document).ready(function() {
             title: 'Realtime Mascot Preview',
             message: _markup,
             size: 'large',
-            //closeButton: false,
+            closeButton: false,
         });
 
         dialog.init(function() {
