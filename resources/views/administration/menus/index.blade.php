@@ -86,7 +86,7 @@
                                 <div class="panel-body">
                                     @forelse ($pages as $page)
                                         <div class="page" data-page-name="{{ $page->page_name }} {{ $page->code }}">
-                                            <input type="checkbox" value="{{ $page->id }}" name="{{ $page->id }}"> 
+                                            <input type="checkbox" value="{{ $page->id }}" data-page-name="{{ $page->page_name}}" data-page-code="{{ $page->code }}"> 
                                             <strong>{{ $page->page_name }}</strong> ({{ $page->code }})
                                         </div>
                                     @empty
@@ -95,6 +95,7 @@
                                 </div>
                                 <div class="panel-footer">
                                     <button id="select-all-pages" class="btn btn-default">Select All</button>
+                                    <button id="add-page-to-menu" class="btn btn-primary pull-right">Add Menu</button>
                                 </div>
                             </div>
                         </div>

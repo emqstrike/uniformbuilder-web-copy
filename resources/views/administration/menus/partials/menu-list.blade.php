@@ -10,7 +10,7 @@
 
         <div class="sortable-body">
             <input type="hidden" name="id[]" class="menu-id form-control" value="{{ $menu->id }}">
-            <input type="hidden" name="order_id[]" class="order-id form-control" value="{{ $menu->order_id }}">
+            <input type="hidden" name="order_id[]" class="order-id form-control">
             <input type="hidden" name="parent_id[]" class="parent-id form-control" value="{{ $menu->parent_id }}">
 
             <div class="form-group">
@@ -63,5 +63,7 @@
         </ol>
     @endif
 
-    <ol></ol>
+    @if ($menu->parent_id == 0)
+        <ol></ol>
+    @endif
 </li>
