@@ -395,7 +395,7 @@ PatternPanel.prototype = {
 
         });
 
-        ub.funcs.clearPatternUI();
+        this.clearPatternUI();
         this.activatePatterns();
     },
 
@@ -527,6 +527,10 @@ PatternPanel.prototype = {
         $("#patternPreviewUI").append(_htmlBuilder);
         $('#patternNewUI').fadeIn();
         setTimeout(this.createPatternPreview(patternObject), 1000);
+    },
+
+    clearPatternUI: function() {
+        $('div#patternNewUI').remove();
     },
 
     createPatternPreview: function(inputPattern) {
