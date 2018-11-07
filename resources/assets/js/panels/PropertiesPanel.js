@@ -137,12 +137,84 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('click', _.throttle(function (mousedata) {
+        ub.stage.on('mousedown', _.throttle(function (mousedata) {
+
+            if (ub.tools.activeTool.active()) {
+                console.log("Active Tool");
+                return;
+            }
+
+            if (ub.status.fullView.getStatus()) {
+
+                if (ub.status.fullViewZoom.getStatus()) {
+                    console.log("Full view zoom");
+                    // Turn Off Full View Zoom
+                    ub.funcs.resetZoom();
+                    ub.status.fullViewZoom.setStatus(false, undefined);
+
+                } else {
+                    console.log("Reset Zoom");
+                    // Zoom View Depending on the area that was clicked
+                    ub.funcs.resetZoom();
+
+                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                    if (typeof _view !== "undefined") {
+                        console.log("undefined view");
+                        ub.funcs.hideViews();
+                        ub.funcs.zoomView(_view);
+
+                    }
+
+                    ub.status.fullViewZoom.setStatus(true, _view);
+
+                }
+
+                console.log("Full View Status");
+
+                return;
+
+            }
+
+            if (ub.zoom) {
+                console.log("Zoom off");
+                ub.zoom_off();
+                return;
+
+            }
+
+            ub.funcs.hideVisiblePopups();
+
+            if (typeof ub.activeApplication !== "undefined") {
+                return;
+            }
+
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
+
+                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                if (_sizeOfTeamColors < 2) {
+                    ub.startModal(1);
+                    return;
+                }
+
+                if (!ub.branding.useAllColors) {
+                    if (_sizeOfTeamColors > 8) {
+                        ub.startModal(2);
+                        return;
+                    }
+                }
+
+            }
+
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
-
+            
             if (results.length > 0)
             {
+                ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result});

@@ -53,19 +53,7 @@ ColorPanel.prototype = {
 
             }
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
-            $(this).addClass('active-color');
-
-            if (colorLabel === 'W'
-                || colorLabel === 'Y'
-                || colorLabel === 'CR'
-                || colorLabel === 'S'
-                || colorLabel === 'PK'
-                || colorLabel === 'OP'
-                || colorLabel === 'SG'
-            ) {
-                $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
-            }
+            _this.addCheckOnSelectedColor($(this), colorLabel);
 
             // Retrieve Color Object
             var color_id = $(this).data('color-id');
@@ -134,12 +122,10 @@ ColorPanel.prototype = {
                     ub.config.option,
                     colorObj.color_code);
 
-        if (_isCoordinating.result) {
-
+        if (_isCoordinating.result)
+        {
             var _matchingPartColorObj = ub.funcs.getColorByColorCode(_isCoordinating.matchingPartColor);
             var _matchingPartCode = _isCoordinating.matchingPart.toCodeCase();
-            var colorLabel = _matchingPartColorObj.color_code;
-            var matchingColorButton = $(".color-main-container-"+ _matchingPartCode +" .color-container-button .color-selector-button[data-color-id='"+ _matchingPartColorObj.id +"']");
 
             var previousColor = $(".color-main-container-" + _matchingPartCode).find('.active-color');
             // Remove Active color
@@ -149,30 +135,37 @@ ColorPanel.prototype = {
                 console.log("Remove active color");
             }
 
-            // KILLER BEE KILLER BEE BEE BEE BEE BEE  BNJHIASJKHBASDKJBDKjnb
-            matchingColorButton.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
-            matchingColorButton.addClass('active-color');
+            // Get matching color button
+            var matchingColorButton = $(".color-main-container-"+ _matchingPartCode +" .color-container-button .color-selector-button[data-color-id='"+ _matchingPartColorObj.id +"']");
 
-            if (colorLabel === 'W'
-                || colorLabel === 'Y'
-                || colorLabel === 'CR'
-                || colorLabel === 'S'
-                || colorLabel === 'PK'
-                || colorLabel === 'OP'
-                || colorLabel === 'SG'
-            ) {
-                matchingColorButton.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+            this.addCheckOnSelectedColor(matchingColorButton, _matchingPartColorObj.color_code)
+            this.setMaterialOptionSettingsColor(_matchingPartCode, _matchingPartColorObj, source);
+
+            if (ub.data.afterLoadCalled !== 1)
+            {
+                return;
             }
 
-            console.log("Matching Part Color Object: ", _matchingPartColorObj)
-            console.log("Matching Part Code: ", _matchingPartCode);
-
-            this.setMaterialOptionSettingsColor(_matchingPartCode, _matchingPartColorObj, source);
-            if (ub.data.afterLoadCalled !== 1) { return; }
             ub.change_material_option_color16(_matchingPartCode, parseInt(_matchingPartColorObj.hex_code, 16));
-
         }
 
+    },
+
+    addCheckOnSelectedColor: function(element, colorLabel)
+    {
+        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+        element.addClass('active-color');
+
+        if (colorLabel === 'W'
+            || colorLabel === 'Y'
+            || colorLabel === 'CR'
+            || colorLabel === 'S'
+            || colorLabel === 'PK'
+            || colorLabel === 'OP'
+            || colorLabel === 'SG'
+        ) {
+            element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+        }
     }
 
 }
