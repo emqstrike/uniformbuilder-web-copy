@@ -1898,7 +1898,7 @@ class UniformBuilderController extends Controller
         $builder_url_link = $firstOrderItem["url"];
 
         // PDF FILE PATH
-        $s3_target_path = '/design_sheets/' . env('S3_ENV') . '/' . $firstOrderItem['material_id']  . '/' . $filename . '.pdf';
+        $s3_target_path = '/design_sheets/' . str_slug(env('APP_VENDOR'), '-') . '/' . env('S3_ENV') . '/' . $firstOrderItem['material_id']  . '/' . $filename . '.pdf';
         $pdf_url_link = 'https://s3-us-west-2.amazonaws.com' . $s3_target_path;
         // $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
 
