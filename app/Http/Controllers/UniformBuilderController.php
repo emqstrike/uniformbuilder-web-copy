@@ -2131,8 +2131,13 @@ class UniformBuilderController extends Controller
         {
             $target_remote_path = $s3_target_path;
             $result = Storage::disk('s3')->put($target_remote_path, file_get_contents($source_path), 'public');
-            Log::info('TARGET = ' . $target_remote_path);
-            Log::info(print_r($result, true));
+            Log::info('File Uploaded Status: ' . $result);
+
+            // If upload is successful, remove the file
+            if ($result)
+            {
+                Log::info('Delete File Status: ' . unlink($source_path));
+            }
         }
         else
         {
