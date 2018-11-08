@@ -86,7 +86,6 @@ PatternPanel.prototype = {
 
     destroyPatternColor: function(index) {
         delete this.patternColors[index];
-        console.log("Pattern colors: ", this.patternColors);
     },
 
     onSelect: function() {
@@ -197,29 +196,30 @@ PatternPanel.prototype = {
                     // Destroy pattern
                     _this.destroyPatternColor(_modifier_category);
                     _this.applyTeamColorOnPattern(_modifier_category, _layerCount, _patternObj, materialOption)
-                    _this.changePattern(ub.current_part, _id);
                 } else {
                     // Get Pattern Colors
                     var pattern_colors = _this.getPatternColors(_modifier_category);
-
                     // Load Set pattern color and pre selected color
                     _.map(pattern_colors, function(index) {
                         _this.setPatternColor(_modifier_category, index.layerID, index.color, index.patternObj, index.materialOption);
-                        _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
                         _this.loadSelectedColor(index.layerID, index.color.id, index.color.color_code);
+
+                        _.delay(function() {
+                            _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
+                        }, 50);
                     });
                 }
             } else {
                 // Save previous pattern and apply team patterns
                 _this.setPreviousPattern(_modifier_category, _id);
-                _this.applyTeamColorOnPattern(_modifier_category, _layerCount, _patternObj, materialOption)
-                _this.changePattern(ub.current_part, _id);
+                _this.applyTeamColorOnPattern(_modifier_category, _layerCount, _patternObj, materialOption);
             }
 
-            var _pattern_name = selected_pattern.data("pattern-name");
+            // Change Pattern
+            _this.changePattern(ub.current_part, _id);
 
             // Append Pattern Name
-            $(".modal-pattern-name").text(_pattern_name);
+            $(".modal-pattern-name").text(selected_pattern.data("pattern-name"));
 
             // Render Mustache
             var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
@@ -513,7 +513,6 @@ PatternPanel.prototype = {
         // Set Material Option
         if (patternColors.length > 0) {
             _.map(patternColors, function(index) {
-                console.log("Looping HERE");
                 ub.funcs.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj)
             });
             $('#pattern-change-color').modal('hide');
@@ -643,8 +642,10 @@ PatternPanel.prototype = {
         return firstMaterialOption;
     },
 
-    getCurrentPatternObject: function() {
-        var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+    getCurrentPatternObject: function(index = null) {
+
+        var current_part = index ? index : ub.current_part
+        var _modifier = ub.funcs.getModifierByIndex(current_part);
         var _names = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial = _names[0].toTitleCase();
         var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);

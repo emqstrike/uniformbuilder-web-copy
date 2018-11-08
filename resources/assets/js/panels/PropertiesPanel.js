@@ -141,13 +141,34 @@ PropertiesPanel.prototype = {
                     _this.addCheckOnSelectedColor(color_container, materialObject.colorObj.color_code);
                 }
 
-                if (patternObject.pattern_id !== "blank")
+                if (patternObject.pattern_id !== "blank" && patternObject.pattern_id !== "")
                 {
-                    var name = patternObject.pattern_id.replace("_", " ");
-                    var pattern_name = ub.utilities.titleCase(name).toString();
+                    // Pattern Name
+                    var name = ub.utilities.underscoreToWhitespace(patternObject.pattern_id);
+                    var pattern_name = ub.utilities.titleCase(name);
 
-                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-name='"+ pattern_name +"']");
+                    // Default Pattern Layers
+                    var layers = materialObject.pattern.pattern_obj.layers;
+
+                    // Get pattern and modifier object
+                    var patternObject = _.find(ub.data.patterns.items, {name: pattern_name});
+                    var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
+
+                    // Get Material Option
+                    var materialOption = _this.getMaterialOptions(modifierObject.index);
+
+                    _.map(layers, function(index) {
+                        // Get Color Object
+                        var pattern = _this.panels.patterns.getCurrentPatternObject(modifierObject.index);
+                        var colorObject = ub.funcs.getColorByColorCode(index.color_code);
+                        _this.panels.patterns.setPatternColor(modifierObject.fullname, parseInt(index.layer_no), colorObject, pattern, materialOption)
+                    });
+
+                    _this.panels.patterns.setPreviousPattern(modifierObject.fullname, parseInt(patternObject.id));
+
+                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ patternObject.id +"']");
                     if (pattern_container.length > 0) {
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
@@ -184,6 +205,7 @@ PropertiesPanel.prototype = {
                     $('#property-modifiers-menu > .group-pane.group-2').addClass('active');
                     ub.modifierController.parts();
                 }
+                ub.current_part = _index;
 
                 _this.activePanelbyIndex(_index);
             }
@@ -217,6 +239,18 @@ PropertiesPanel.prototype = {
         ) {
             element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
         }
-    }
+    },
+
+    getMaterialOptions(index) {
+        // Get Material Option
+        var _modifier = ub.funcs.getModifierByIndex(index);
+        var _names = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial = _names[0].toTitleCase();
+        var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+        var _materialOptions = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+        var firstMaterialOption = _materialOptions[0];
+
+        return firstMaterialOption;
+    },
 
 }
