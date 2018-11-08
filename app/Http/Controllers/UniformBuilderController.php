@@ -1804,7 +1804,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generatePDF ($builder_customizations, $previousTransformedPath) {
+    function generatePDF($builder_customizations, $previousTransformedPath) {
 
         $pdf = new TCPDF();
 
@@ -2126,43 +2126,37 @@ class UniformBuilderController extends Controller
 
         // Upload PDF to S3
         $source_path = base_path() . '/public/' . $transformedPath;
-        Log::info('SOURCE = ' . $source_path);
+        $target_remote_path = $s3_target_path;
         if (file_exists($source_path))
         {
-            $target_remote_path = $s3_target_path;
             $result = Storage::disk('s3')->put($target_remote_path, file_get_contents($source_path), 'public');
             Log::info('File Uploaded Status: ' . $result);
 
             // If upload is successful, remove the file
             if ($result)
             {
+                Log::info('PDF PATH = ' . $pdf_url_link);
                 Log::info('Delete File Status: ' . unlink($source_path));
             }
         }
         else
         {
-            Log::info('Missing File');
+            Log::info('Missing PDF File');
         }
 
         $user = Session::get('userId');
-        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $target_remote_path;
 
         if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
-            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $target_remote_path;
         }
 
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
-        if($previousTransformedPath) {
-            // Log::info('Returning previous transformed path: ' . $previousTransformedPath);
-            return $previousTransformedPath;
-        } else {
-            // Log::info('Returning transformed path: ' . $transformedPath);
-            return $transformedPath;
-        }
+        return $pdf_url_link;
 
     }
 
