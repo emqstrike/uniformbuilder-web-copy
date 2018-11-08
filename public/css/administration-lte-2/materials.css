@@ -82,8 +82,10 @@
     margin: 15px 0;
 }
 
-.canvas-container, #bounding-box-canvas, .upper-canvas {
-    width: 100% !important;
+#bounding-box-canvas,
+.canvas-container,
+.upper-canvas  {
+    margin: 0 auto;
 }
 
 .select2 span,
