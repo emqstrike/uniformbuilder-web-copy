@@ -2130,7 +2130,7 @@ class UniformBuilderController extends Controller
         if (file_exists($source_path))
         {
             $target_remote_path = $s3_target_path;
-            $result = Storage::disk('s3')->put($target_remote_path, $source_path, 'public');
+            $result = Storage::disk('s3')->put($target_remote_path, file_get_contents($source_path), 'public');
             Log::info('TARGET = ' . $target_remote_path);
             Log::info(print_r($result, true));
         }
