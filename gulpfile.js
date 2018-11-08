@@ -84,7 +84,8 @@ elixir(function(mix) {
 			'uniform-builder-generators.js',
 			'TeamStoreAPI.js',
 			'TeamStoreToolBox.js',
-            'uniform-builder-application-ui-new.js'
+            'uniform-builder-application-ui-new.js',
+            'uniform-builder-application-ui-new-letters.js'
 
 		], 
 		// Result
@@ -101,6 +102,7 @@ elixir(function(mix) {
     		// Source 
     		'uniform-builder.less',
             'application-ui-new.less',
+            'application-ui-new-letters.less',
 
     	],
     	

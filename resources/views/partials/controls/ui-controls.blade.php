@@ -1038,6 +1038,89 @@
 
 <!-- End New Mascot Picker -->
 
+<!-- Application UI Block - LETTERS -->
+
+    <script type="text/mustache" id="m-application-ui-block-letters">
+
+        <h4>DECORATION LETTERS</h4>
+        <div class="add-new-application">
+            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
+        </div>
+
+        <div class="clearfix"></div>
+
+        @{{#applications}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt">Hide</button>
+                </div>
+
+                <div class="">
+                    <h5>INPUT @{{ type }}</h5>
+                    <input type="text" placeholder="@{{ placeholder }}" />
+                </div>
+
+                <div class="lettersOptsContainer"> 
+                    <div class="clearfix">
+                        <h5>@{{ type }} FONT</h5>
+                        <div class="slidersContainer">
+                            <div class="manipulator-type-container scale" data-type="scale">
+                                <h5>LOGO SIZE</h5>
+                                <div class="sc scale">
+                                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+
+                            <div class="manipulator-type-container move" data-type="move">
+                                <h5>POSITION</h5>
+                                <div class="sc move">
+                                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+
+                            <div class="manipulator-type-container rotate" data-type="rotate">
+                                <h5>ROTATE</h5>
+                                <div class="sc rotate">
+                                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+
+                    <div class="clearfix">
+                        <h5>CHOOSE FONT ACCENT</h5>
+
+                        @{{#accents}}
+                        <a class="thumbnailContainer" data-accent-id="@{{ id }}">
+                            <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
+                        </a>           
+                        @{{/accents}}   
+                    </div>
+
+                    <div class="clearfix">
+                        <h5>CHOOSE FONT COLOR</h5>
+                        <button type="button" class="app-btn w-45 pull-left main-color active">Main Color</button>
+                        <button type="button" class="app-btn w-45 pull-right outline-color">Outline Color</button>                
+                    </div>
+
+                    <div class="clearfix">
+                        <h5>CHOOSE LAYOUT</h5>
+                    </div>
+                </div>
+
+
+            </div>
+        @{{/applications}}
+
+    </script>
+
+<!-- End Application UI Block - LETTERS -->
+
 <!-- Application UI Block -->
 
     <script type="text/mustache" id="m-application-ui-block">
