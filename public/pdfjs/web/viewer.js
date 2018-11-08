@@ -7154,7 +7154,9 @@ window.PDFView = PDFViewerApplication; // obsolete name, using it as an alias
 var HOSTED_VIEWER_ORIGINS = ['null',
   'http://mozilla.github.io',
   'https://mozilla.github.io',
-  'https://s3-us-west-2.amazonaws.com'
+  'https://customizer.prolook.com',
+  'http://localhost',
+  'http://romack.staging.prolook.com'
 ];
 function validateFileURL(file) {
   try {
