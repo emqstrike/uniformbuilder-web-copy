@@ -159,12 +159,14 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('click', _.throttle(function (mousedata) {
+        ub.stage.on('click', _.throttle(function (mousedata)
+        {
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
             if (results.length > 0)
             {
+                ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result});

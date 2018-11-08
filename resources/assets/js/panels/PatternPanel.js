@@ -105,15 +105,25 @@ PatternPanel.prototype = {
 
             if (modifier_category.includes("front"))
             {
+
                 perspective.front();
+
             }
             else if (modifier_category.includes("back"))
             {
+
                 perspective.back();
+
             }
             else if (modifier_category.includes("left"))
             {
+
                 perspective.left();
+
+            } else if (modifier_category.includes("right")) {
+
+                perspective.right();
+
             }
 
             // Get pattern ID

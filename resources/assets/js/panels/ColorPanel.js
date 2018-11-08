@@ -32,6 +32,8 @@ ColorPanel.prototype = {
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
 
+            console.log("Modifier: ", modifier_category);
+
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
             selected_color.html("");
@@ -50,6 +52,10 @@ ColorPanel.prototype = {
             } else if (modifier_category.includes("left")) {
 
                 perspective.left();
+
+            } else if (modifier_category.includes("right")) {
+
+                perspective.right();
 
             }
 
