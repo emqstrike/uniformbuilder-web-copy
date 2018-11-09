@@ -113,6 +113,16 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Type</label>
+                                <div class="col-md-6">
+                                    <select name="type" class="form-control">
+                                        <option value="header">Header</option>
+                                        <option value="link">Link</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button class="btn btn-primary" type="submit">
