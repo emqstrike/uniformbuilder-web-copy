@@ -10312,20 +10312,17 @@ $(document).ready(function() {
                 
             });
 
-            _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim')              > -1 || 
-                                                                 item.name.indexOf('Piping')            > -1 || 
-                                                                 item.name.indexOf('Stripe')            > -1 ||
-                                                                 item.name.indexOf('Front Insert')      > -1 ||
-                                                                 item.name.indexOf('Zipper')            > -1 ||
-                                                                 item.name.indexOf('Sleeve Cuff')       > -1 ||
-                                                                 item.name.indexOf('Hood Cuff')         > -1 ||
-                                                                 item.name.indexOf('Pocket Cuff')       > -1 ||
-                                                                 item.name.indexOf('Arm Cuff')          > -1 ||
-                                                                 item.name.indexOf('Prolook')           > -1 || 
-                                                                 item.name.indexOf('Belt Loop')         > -1 ||
-                                                                 item.name.indexOf('Warp Speed 1')      > -1 ||
-                                                                 item.name.indexOf('Warp Speed 2')      > -1 ||
-                                                                 item.name.indexOf('Warp Speed 3')      > -1; });
+            _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
+                                                                 item.name.indexOf('Piping') > -1 || 
+                                                                 item.name.indexOf('Stripe') > -1 ||
+                                                                 item.name.indexOf('Front Insert') > -1 ||
+                                                                 item.name.indexOf('Zipper') > -1 ||
+                                                                 item.name.indexOf('Sleeve Cuff') > -1 ||
+                                                                 item.name.indexOf('Hood Cuff') > -1 ||
+                                                                 item.name.indexOf('Pocket Cuff') > -1 ||
+                                                                 item.name.indexOf('Arm Cuff') > -1 ||
+                                                                 item.name.indexOf('Prolook') > -1 || 
+                                                                 item.name.indexOf('Belt Loop') > -1; });
 
             if (ub.funcs.isSocks()) { 
 
