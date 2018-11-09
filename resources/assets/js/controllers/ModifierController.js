@@ -155,6 +155,8 @@ ModifierController.prototype = {
             var sizes = ub.funcs.sortPipingSizes({items: piping_set});
             var colors = ub.funcs.getPipingColorArray(active_piping_set);
 
+            console.log("Colors : ", colors);
+
             return {
                 sizes: sizes.items,
                 colors: colors,

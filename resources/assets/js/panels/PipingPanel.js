@@ -8,7 +8,7 @@ PipingPanel.events = {
         if (PipingPanel.events.is_init_events_called === 0) {
             $(".modifier_main_container").on("click", "#pipingsUI .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
             $(".modifier_main_container").on("click", "#pipingsUI .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
-
+            $(".modifier_main_container").on('click', '#pipingsUI .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
             PipingPanel.events.is_init_events_called = 1;
         }
     },
@@ -131,6 +131,24 @@ PipingPanel.events = {
 
         $(".piping-colors-buttons", piping_el).removeClass("active");
         $(this).addClass("active");
+    },
+
+    onShowPipingModal: function(e) {
+        console.log("Show Modal");
+        // Render Mustache
+        var pipping_colors_element = document.getElementById("m-tab-piping-colors");
+        var render_piping_colors = Mustache.render(
+            pipping_colors_element.innerHTML,
+            {
+                colors: ub.current_material.settings.team_colors,
+            }
+        );
+
+        // Render Pattern Color
+        $("#piping-color-tab-content .tab-content .tab-pane .piping-color-button-container").html("");
+        $("#piping-color-tab-content .tab-content .tab-pane .piping-color-button-container").html(render_piping_colors);
+
+        $('#piping-change-color').modal('show');
     }
 };
 
