@@ -175,8 +175,11 @@ ModifierController.prototype = {
         _.map(piping_types, function(piping_type) {
             var active_piping_set = ub.current_material.settings.pipings[piping_type];
             var piping_set = piping_type;
+            var status = (typeof active_piping_set !== "undefined" && active_piping_set.enabled === 1) ? "on" : "off";
 
-            if (active_piping_set !== "undefined") {
+            if (active_piping_set === "undefined") {
+                active_piping_set = _.first(piping_set);
+            } else {
                 piping_set = ub.funcs.getPipingSet(piping_type);
                 active_piping_set = _.first(piping_set);
             }
@@ -186,6 +189,12 @@ ModifierController.prototype = {
             if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
                 $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]').click();
             }
+
+            var toggle_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .toggle');
+            var temporary_status = status === "on" ? "off" : "on";
+
+            toggle_el.data('status', temporary_status);
+            $('.toggleOption.'+temporary_status, toggle_el).click();
         });
     },
 
