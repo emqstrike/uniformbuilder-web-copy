@@ -5,7 +5,7 @@
                 @{{ #piping_set_items }}
                     <div class="piping-item" data-piping-type="@{{type}}">
                         <span class="piping-type" style="font-weight: bold; font-style: italic;">
-                            @{{type}}
+                            @{{type_wo_left_prefix}}
                         </span>
                         <div class="toggle">
                             <div class="valueContainer">
