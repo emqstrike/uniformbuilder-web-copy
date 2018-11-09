@@ -7,7 +7,7 @@
                     <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
                         <div class="cp-text-uppercase cp-fc-white">
                             <h4 class="header cp-text-bold">@{{ name }}</h4>
-                            <p style="font-weight: bold;">Choose Color / Pattern</p>
+                            <p style="font-weight: bold;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>

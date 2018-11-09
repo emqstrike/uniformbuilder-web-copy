@@ -5817,9 +5817,13 @@ $(document).ready(function () {
 
                 if (view === 'colors') {
 
-                    ub.funcs.activateColorPickers();
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateColorPickers();
+                    } else {
+                        ub.modifierController.activateColorAndPatternPanel();
+                    }
+
                     ub.funcs.activeStyle('colors');
-                    
                     return;
                     
                 }
@@ -5919,6 +5923,11 @@ $(document).ready(function () {
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
+
+                    if (ub.data.useScrollingUI) {
+                        $("#parts-with-insert-container").hide();
+                        $(".parts-container").hide();
+                    }
                     
                     return;
 

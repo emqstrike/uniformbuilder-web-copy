@@ -65,17 +65,17 @@ ModifierController.prototype = {
         var _this = this;
 
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
-        $('#property-modifiers-menu .menu-item-parts').on('click', function() {
-            _this.parts(_this);
-        });
-        $('#property-modifiers-menu .menu-item-inserts').on('click', function() {
-            _this.inserts(_this);
-        });
+        $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
+        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
         $('#property-modifiers-menu .menu-item-pipings').on('click', this.pipings);
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
+    },
+
+    activateColorAndPatternPanel: function() {
+        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
     },
 
     enable: function() {
@@ -103,13 +103,15 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function(_this) {
+    parts: function() {
+        ub.funcs.deactivateMoveTool();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         if ($("#primary_options_colors").css("display") === "none") {
 
-            var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
@@ -121,7 +123,7 @@ ModifierController.prototype = {
 
         } else {
 
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
         }
@@ -129,11 +131,13 @@ ModifierController.prototype = {
     },
 
     inserts: function(_this) {
+        ub.funcs.deactivateMoveTool();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         if ($("#primary_options_colors").css("display") === "none") {
-            var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();
@@ -146,7 +150,7 @@ ModifierController.prototype = {
 
         } else {
 
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
             $("#primary_options_container").scrollTo(0, { duration: 200 });
             $(".parts-container").hide();
             $("#parts-with-insert-container").show();

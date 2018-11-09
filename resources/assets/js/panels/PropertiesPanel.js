@@ -33,7 +33,7 @@ function PropertiesPanel(
     this.initModifiers();
     this.initInserts();
     this.loadTemplate();
-    this.setDefaultColors();
+    this.setDefaultColorsPatterns();
     this.bindEvents();
 }
 
@@ -125,7 +125,7 @@ PropertiesPanel.prototype = {
     },
 
     // Pre-select default colors, add check mark and add active state class name
-    setDefaultColors: function() {
+    setDefaultColorsPatterns: function() {
         var _this = this;
         var currentMaterials = ub.current_material.settings[ub.config.type];
 
@@ -138,7 +138,7 @@ PropertiesPanel.prototype = {
                 var color_container = $(".color-main-container-" + materialObject.code + " .color-container-button .color-selector-button[data-color-id='"+ materialObject.colorObj.id +"']");
 
                 if (color_container.length > 0) {
-                    _this.addCheckOnSelectedColor(color_container, materialObject.colorObj.color_code);
+                    _this.panels.colors.addCheckOnSelectedColor(color_container, materialObject.colorObj.color_code);
                 }
 
                 if (patternObject.pattern_id !== "blank" && patternObject.pattern_id !== "")
@@ -180,8 +180,13 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('click', _.throttle(function (mousedata)
+        ub.stage.on('mousedown', _.throttle(function (mousedata)
         {
+            if (ub.tools.activeTool.active()) {
+                return;
+            }
+
+
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -192,6 +197,7 @@ PropertiesPanel.prototype = {
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index = ub.funcs.getIndexByName(_result);
+                ub.current_part = _index;
 
                 if (_match.includes("insert"))
                 {
@@ -205,7 +211,6 @@ PropertiesPanel.prototype = {
                     $('#property-modifiers-menu > .group-pane.group-2').addClass('active');
                     ub.modifierController.parts();
                 }
-                ub.current_part = _index;
 
                 _this.activePanelbyIndex(_index);
             }
@@ -221,23 +226,6 @@ PropertiesPanel.prototype = {
         if ($("li.panel-index-" + index).length > 0)
         {
             $("#primary_options_container").scrollTo("li.panel-index-" + index, { duration: 700 });
-        }
-    },
-
-    addCheckOnSelectedColor: function(element, colorLabel)
-    {
-        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
-        element.addClass('active-color');
-
-        if (colorLabel === 'W'
-            || colorLabel === 'Y'
-            || colorLabel === 'CR'
-            || colorLabel === 'S'
-            || colorLabel === 'PK'
-            || colorLabel === 'OP'
-            || colorLabel === 'SG'
-        ) {
-            element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
         }
     },
 

@@ -102,27 +102,25 @@ PatternPanel.prototype = {
             // Set Perspective
             var perspective = new PerspectiveController();
 
-            if (modifier_category.includes("front"))
-            {
+            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
 
                 perspective.front();
 
-            }
-            else if (modifier_category.includes("back"))
-            {
+            } else if (modifier_category.includes("back")) {
 
                 perspective.back();
 
-            }
-            else if (modifier_category.includes("left"))
-            {
+            } else if (modifier_category.includes("left")) {
 
-                perspective.left();
+                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.left();
+                }
 
             } else if (modifier_category.includes("right")) {
 
-                perspective.right();
-
+                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.right();
+                }
             }
 
             // Get pattern ID
@@ -206,7 +204,7 @@ PatternPanel.prototype = {
 
                         _.delay(function() {
                             _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
-                        }, 50);
+                        }, 250);
                     });
                 }
             } else {
@@ -436,14 +434,6 @@ PatternPanel.prototype = {
 
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
-
-        setTimeout(function() {
-            var _dUrl = canvas.toDataURL();
-
-            _.each(_patternObj.layers, function (l) {
-                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
-            });
-        }, 50);
     },
 
     activatePatterns: function()

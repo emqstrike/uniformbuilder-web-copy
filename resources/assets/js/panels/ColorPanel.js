@@ -41,7 +41,7 @@ ColorPanel.prototype = {
             // Set Perspective
             var perspective = new PerspectiveController();
 
-            if (modifier_category.includes("front")) {
+            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
 
                 perspective.front();
 
@@ -51,12 +51,15 @@ ColorPanel.prototype = {
 
             } else if (modifier_category.includes("left")) {
 
-                perspective.left();
+                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.left();
+                }
 
             } else if (modifier_category.includes("right")) {
 
-                perspective.right();
-
+                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.right();
+                }
             }
 
             _this.addCheckOnSelectedColor($(this), colorLabel);

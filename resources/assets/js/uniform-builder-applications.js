@@ -1933,6 +1933,7 @@ $(document).ready(function () {
                         $("#primary_options_container").scrollTo(0, { duration: 0 });
                         $("#parts-with-insert-container").hide();
                         $(".parts-container").hide();
+                        ub.funcs.activeStyle('layers');
                     }
 
                     ub.funcs.activateApplications(_id);
@@ -1942,6 +1943,7 @@ $(document).ready(function () {
                         $("#primary_options_container").scrollTo(0, { duration: 0 });
                         $("#parts-with-insert-container").hide();
                         $(".parts-container").hide();
+                        ub.funcs.activeStyle('layers');
                     }
 
                     ub.funcs.activateMascots(_id);
