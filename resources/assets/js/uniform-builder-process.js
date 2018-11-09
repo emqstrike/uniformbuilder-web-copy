@@ -463,7 +463,7 @@ $(document).ready(function() {
 
     ub.funcs.showRosterForm = function () {
 
-        $('div#order-form').fadeOut();save-order
+        $('div#order-form').fadeOut();
         $('div#roster-input').fadeIn();
 
     }
