@@ -22,7 +22,7 @@
                             </div>
 
                             @{{#colors}}
-                                <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                                <span class="piping-colors-buttons" data-type="@{{name}}" data-size="@{{size}}" data-value="@{{val}}">
                                     @{{val}}
                                 </span>
                             @{{/colors}}

@@ -1,199 +1,139 @@
 function PipingPanel() {}
 
-PipingPanel.prototype = {
-    // constructor: PipingPanel,
+// static properties and functions
+PipingPanel.events = {
+    is_init_events_called: 0,
 
-    setPipingTmpl: function() {
-        // var piping_sets = ub.funcs.getPipingSets();
+    init: function() {
+        if (PipingPanel.events.is_init_events_called === 0) {
+            $(".modifier_main_container").on("click", "#pipingsUI .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
+            $(".modifier_main_container").on("click", "#pipingsUI .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
 
-        // _.each(piping_sets, function(index, pipingSet) {
-        //     var _status = 'off';
-        //     var _pipingSet = pipingSet;
-        //     var _activePipingSet = ub.current_material.settings.pipings[pipingSet];
+            PipingPanel.events.is_init_events_called = 1;
+        }
+    },
 
-        //     _status = (typeof _activePipingSet !== "undefined" && _activePipingSet.enabled === 1) ? "on" : "off";
+    onPipingSizeButtonClick: function() {
+        var piping_el = $(this).closest('.piping-item');
 
-        //     if (_activePipingSet === "undefined") {
-        //         _activePipingSet = _.first(_pipingSet);
-        //     } else {
-        //         _pipingSet = ub.funcs.getPipingSet(pipingSet);
-        //         _activePipingSet = _.first(_pipingSet);
-        //     }
+        var type = $(this).data('type');
+        var size = $(this).data('size');
+        var piping_type = piping_el.data('piping-type');
+        var piping_set = ub.current_material.settings.pipings[piping_type];
 
-        //     // Main Template
-        //     $('div#pipingsUI').remove();
+        var pipingObject = _.find(ub.data.pipings, {name: type});
+        var colorsMarkup =  ub.funcs.getPipingColorsNew(pipingObject);
+        var firstColor = _.first(ub.funcs.getPipingColorArray(pipingObject));
 
-        //     var _template = $('#m-piping-sidebar-new').html();
-        //     var _data = { status: _status, type: pipingSet };
-        //     var _htmlBuilder = Mustache.render(_template, _data);
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
+        var matchingPipingObject = undefined;
+        var matchingPipingSettingsObject = undefined;
 
-        //     $('.modifier_main_container').append(_htmlBuilder);
+        var name = pipingObject.name;
+        var matchingName = "";
 
-        //     var s = $('span.piping-type').html();
+        ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
 
-        //     if (s.indexOf('Left') === 0) {
-        //         s = s.replace('Left', '');
-        //         $('span.piping-type').html(s);
-        //     }
-        //     // End Main Template
-            
-        //     // Inner Templates
-        //     var _sizesMarkup = ub.funcs.getPipingSizesNew(_pipingSet, _activePipingSet);
-        //     var _colorsMarkup = ub.funcs.getPipingColorsNew(_activePipingSet);
+        /// Process Matching Object
+        if (name.indexOf('Left') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        //     $('div.ui-row.size-row').html(_sizesMarkup);
-        //     $('div.ui-row.colors-row').html(_colorsMarkup);
-        //     // End Inner Templates
-            
-        //     // Events
-        //     var $pipingSizesButtons = $('span.piping-sizes-buttons');
-        //     $pipingSizesButtons.on('click', function () {
-        //         var _type = $(this).data('type');
-        //         var _size = $(this).data('size');
-        //         var _pipingObject = _.find(ub.data.pipings, {name: _type});
-        //         var _colorsMarkup =  ub.funcs.getPipingColorsNew(_pipingObject);
-        //         var _firstColor = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+        if (name.indexOf('Right') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        //         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
-        //         var _matchingPipingObject = undefined;
-        //         var _matchingPipingSettingsObject = undefined;
+        if (typeof matchingPipingObject !== 'undefined') {
+            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+            ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
+        }
+        /// End Process Matching Object
 
-        //         var _name = _pipingObject.name;
-        //         var _matchingName = '';
+        $(".colors-row", piping_el).html(colorsMarkup);
+        $(".piping-sizes-buttons", piping_el).removeClass("active");
+        $(this).addClass("active");
 
-        //         ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _size);
+        if (pipingSettingsObject.numberOfColors === 0) {
+            $('.piping-colors-buttons[data-type="' + firstColor.name + '"]', piping_el).click();
+        } else {
+            $('.piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]', piping_el).click();
+        }
 
-        //         /// Process Matching Object
-        //         if (_name.indexOf('Left') > -1) {
-        //             _matchingName = ub.funcs.getMatchingSide(_name);
-        //             _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
-        //         }
+        // // Force one color when going to 1/2
+        if (type === "Neck Piping 1/2") {
+            $('.piping-colors-buttons[data-value="1"]', piping_el).click({size_type: type}, PipingPanel.events.onPipingColorButtonClick);
+        }
+    },
 
-        //         if (_name.indexOf('Right') > -1) {
-        //             _matchingName = ub.funcs.getMatchingSide(_name);
-        //             _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
-        //         }
+    onPipingColorButtonClick: function(e) {
+        var piping_el = $(this).closest('.piping-item');
+        var active_size_type = $('.size-row .piping-sizes-buttons.active').data('type');
 
-        //         if (typeof _matchingPipingObject !== 'undefined') {
-        //             _matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(_matchingPipingObject.set);
-        //             ub.funcs.changePipingSize(_matchingPipingSettingsObject, _matchingPipingObject, _size);
-        //         }
-        //         /// End Process Matching Object
+        var value = $(this).data('value');
+        var size = $(this).data('size');
 
-        //         $('div.ui-row.colors-row').html(_colorsMarkup);
+        var piping_type = piping_el.data('piping-type');
+        var piping_set = ub.current_material.settings.pipings[piping_type];
 
-        //         var $pipingColorsButtons = $('span.piping-colors-buttons');
-        //         $pipingColorsButtons.unbind('click');
-        //         $pipingColorsButtons.on('click', function () {
-        //             var _type = $(this).data('type');
-        //             var _value = $(this).data('value');
-        //             var _colorPickerHtml = ub.funcs.drawPipingColorPickers(_pipingObject, _value, _pipingSettingsObject);
-        //             var selectedColorArray = ub.current_material.settings.team_colors;
+        var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
 
-        //             $('div.colorContainer').html(_colorPickerHtml);
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
+        var matchingPipingObject = undefined;
+        var matchingPipingSettingsObject = undefined;
 
-        //             ub.funcs.setupSmallColorPickerEvents(_pipingObject, _pipingSettingsObject, _matchingPipingObject, _matchingPipingSettingsObject);
-        //             ub.funcs.initPipingColors(_pipingObject, selectedColorArray[0]);
-        //             ub.funcs.renderPipings(_pipingObject, _value);
+        var name = pipingObject.name;
 
-        //             /// Process Matching Object
-        //             if (typeof _matchingPipingObject !== "undefined") {
-        //                 _matchingPipingSettingsObject.numberOfColors = _value;
+        var colorPickerHtml    = ub.funcs.drawPipingColorPickers(pipingObject, value, pipingSettingsObject);
+        var selectedColorArray  = ub.current_material.settings.team_colors;
 
-        //                 ub.funcs.initPipingColors(_matchingPipingObject, selectedColorArray[0]);
-        //                 ub.funcs.renderPipings(_matchingPipingObject, _value);
-        //             }
-        //             /// End Process Matching Object
+        // di ko alam kung need to i-trigger
+        // ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
 
-        //             _.each(_pipingSettingsObject.layers, function (layer) {
-        //                 if (layer.colorCode !== "") {
-        //                     $('span.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]').trigger('click');
-        //                 }
-        //             });
+        /// Process Matching Object
+        if (name.indexOf('Left') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        //             $pipingColorsButtons.removeClass('active');
-        //             $(this).addClass('active');
-        //         });
+        if (name.indexOf('Right') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        //         $pipingSizesButtons.removeClass('active');
-        //         $(this).addClass('active');
+        if (typeof matchingPipingObject !== 'undefined') {
+            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+            ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
+        }
+        /// End Process Matching Object
 
-        //         if (_pipingSettingsObject.numberOfColors === 0) {
-        //             $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').trigger('click');
-        //         } else {
-        //             $('span.piping-colors-buttons[data-value="' + _pipingSettingsObject.numberOfColors + '"]').trigger('click');
-        //         }
+        $('.colorContainer', piping_el).html(colorPickerHtml);
 
-        //         // Force one color when going to 1/2
-        //         if (_type === "Neck Piping 1/2") { $('span.piping-colors-buttons[data-value="1"]').click(); }
-        //     });
+        ub.funcs.setupSmallColorPickerEvents(pipingObject, pipingSettingsObject, matchingPipingObject, matchingPipingSettingsObject);
+        ub.funcs.initPipingColors(pipingObject, selectedColorArray[0]);
+        ub.funcs.renderPipings(pipingObject, value);
 
-        //     $("div.toggleOption").unbind('click');
-        //     $("div.toggleOption").on("click", function () {
-        //         var _currentStatus = $('div.toggle').data('status');
-        //         var _status;
+        /// Process Matching Object
+        if (typeof matchingPipingObject !== "undefined") {
+            matchingPipingSettingsObject.numberOfColors = value;
 
-        //         if(_currentStatus === "on") {
+            ub.funcs.initPipingColors(matchingPipingObject, selectedColorArray[0]);
+            ub.funcs.renderPipings(matchingPipingObject, value);
+        }
+        /// End Process Matching Object
 
-        //             _status = 'off';
-        //             ub.funcs.removePiping(pipingSet);
+        _.each(pipingSettingsObject.layers, function (layer) {
+            if (layer.colorCode !== "") {
+                $('.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]', piping_el).click();
+            }
+        });
 
-        //             if (pipingSet.indexOf('Left') === 0) {
-
-        //                 var matchingSide = ub.funcs.getMatchingSide(pipingSet);
-        //                 ub.funcs.removePiping(matchingSide);
-
-        //             }
-
-        //         } else {
-
-        //             _status = 'on';
-
-        //             var _firstColor     = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
-        //             var $activePiping   = $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]');
-
-        //             $activePiping.trigger('click');
-
-        //         }
-
-        //         ub.funcs.togglePiping(_pipingSet, _status);
-        //     });
-        //     // End Events
-            
-        //     // Set Initial States
-        //     $('div#pipingsUI').fadeIn();
-
-        //     var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
-        //     var _size = _pipingSettingsObject.size;
-
-        //     if (typeof _pipingSettingsObject !== "undefined") {
-        //         if (_pipingSettingsObject.enabled === 1 && _pipingSettingsObject.size !== "") {
-        //             $('span.piping-sizes-buttons[data-size="' + _size + '"]').trigger('click');
-        //         }
-        //     }
-
-        //     ub.funcs.togglePiping(_pipingSet, _status);
-        //     // End Initial States
-        // });
+        $(".piping-colors-buttons", piping_el).removeClass("active");
+        $(this).addClass("active");
     }
+};
 
-    // getNeckPipingTmpl: function() {
-
-    // },
-
-    // getYokePipingTmpl: function() {
-        
-    // },
-
-    // getSetInPipingTmpl: function() {
-        
-    // },
-
-    // getSleevePipingTmpl: function() {
-        
-    // },
-
-    // getEndOfSleevePipingTmpl: function() {
-
-    // }
+PipingPanel.prototype = {
+    constructor: PipingPanel,
 };
