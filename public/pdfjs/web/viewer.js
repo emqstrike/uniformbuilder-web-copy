@@ -7155,6 +7155,7 @@ var HOSTED_VIEWER_ORIGINS = ['null',
   'http://mozilla.github.io',
   'https://mozilla.github.io',
   'https://customizer.prolook.com',
+  'https://staging-customizer.prolook.com',
   'http://localhost',
   'http://romack.staging.prolook.com'
 ];
