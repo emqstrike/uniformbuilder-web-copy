@@ -10,6 +10,7 @@ PipingPanel.events = {
             $(".modifier_main_container").on("click", "#pipingsUI .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
             $(".modifier_main_container").on('click', '#pipingsUI .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
             $(".modifier_main_container").on("click", "#pipingsUI .toggleOption", PipingPanel.events.togglePiping);
+            $(".piping-color-categories .piping-color-item").on('click', '.piping-color-selector', PipingPanel.events.onChangeColorLayer);
 
             PipingPanel.events.is_init_events_called = 1;
         }
@@ -99,60 +100,60 @@ PipingPanel.events = {
         var value = $(this).data('value');
         var size = $(this).data('size');
 
-        var piping_type = piping_el.data('piping-type');
-        var piping_set = ub.current_material.settings.pipings[piping_type];
+        // var piping_type = piping_el.data('piping-type');
+        // var piping_set = ub.current_material.settings.pipings[piping_type];
 
-        var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
+        // var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
 
-        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
-        var matchingPipingObject = undefined;
-        var matchingPipingSettingsObject = undefined;
+        // var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
+        // var matchingPipingObject = undefined;
+        // var matchingPipingSettingsObject = undefined;
 
-        var name = pipingObject.name;
+        // var name = pipingObject.name;
 
-        var colorPickerHtml    = ub.funcs.drawPipingColorPickers(pipingObject, value, pipingSettingsObject);
-        var selectedColorArray  = ub.current_material.settings.team_colors;
+        // var colorPickerHtml    = ub.funcs.drawPipingColorPickers(pipingObject, value, pipingSettingsObject);
+        // var selectedColorArray  = ub.current_material.settings.team_colors;
 
-        // di ko alam kung need to i-trigger
-        // ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
+        // // di ko alam kung need to i-trigger
+        // // ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
 
-        /// Process Matching Object
-        if (name.indexOf('Left') > -1) {
-            matchingName = ub.funcs.getMatchingSide(name);
-            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
-        }
+        // /// Process Matching Object
+        // if (name.indexOf('Left') > -1) {
+        //     matchingName = ub.funcs.getMatchingSide(name);
+        //     matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        // }
 
-        if (name.indexOf('Right') > -1) {
-            matchingName = ub.funcs.getMatchingSide(name);
-            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
-        }
+        // if (name.indexOf('Right') > -1) {
+        //     matchingName = ub.funcs.getMatchingSide(name);
+        //     matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        // }
 
-        if (typeof matchingPipingObject !== 'undefined') {
-            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
-            ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
-        }
-        /// End Process Matching Object
+        // if (typeof matchingPipingObject !== 'undefined') {
+        //     matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+        //     ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
+        // }
+        // /// End Process Matching Object
 
-        $('.colorContainer', piping_el).html(colorPickerHtml);
+        // $('.colorContainer', piping_el).html(colorPickerHtml);
 
-        ub.funcs.setupSmallColorPickerEvents(pipingObject, pipingSettingsObject, matchingPipingObject, matchingPipingSettingsObject);
-        ub.funcs.initPipingColors(pipingObject, selectedColorArray[0]);
-        ub.funcs.renderPipings(pipingObject, value);
+        // ub.funcs.setupSmallColorPickerEvents(pipingObject, pipingSettingsObject, matchingPipingObject, matchingPipingSettingsObject);
+        // ub.funcs.initPipingColors(pipingObject, selectedColorArray[0]);
+        // ub.funcs.renderPipings(pipingObject, value);
 
-        /// Process Matching Object
-        if (typeof matchingPipingObject !== "undefined") {
-            matchingPipingSettingsObject.numberOfColors = value;
+        // /// Process Matching Object
+        // if (typeof matchingPipingObject !== "undefined") {
+        //     matchingPipingSettingsObject.numberOfColors = value;
 
-            ub.funcs.initPipingColors(matchingPipingObject, selectedColorArray[0]);
-            ub.funcs.renderPipings(matchingPipingObject, value);
-        }
-        /// End Process Matching Object
+        //     ub.funcs.initPipingColors(matchingPipingObject, selectedColorArray[0]);
+        //     ub.funcs.renderPipings(matchingPipingObject, value);
+        // }
+        // /// End Process Matching Object
 
-        _.each(pipingSettingsObject.layers, function (layer) {
-            if (layer.colorCode !== "") {
-                $('.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]', piping_el).click();
-            }
-        });
+        // _.each(pipingSettingsObject.layers, function (layer) {
+        //     if (layer.colorCode !== "") {
+        //         $('.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]', piping_el).click();
+        //     }
+        // });
 
         $(".piping-colors-buttons", piping_el).removeClass("active");
         $(this).addClass("active");
@@ -174,6 +175,19 @@ PipingPanel.events = {
         $("#piping-color-tab-content .tab-content .tab-pane .piping-color-button-container").html(render_piping_colors);
 
         $('#piping-change-color').modal('show');
+    },
+
+    onChangeColorLayer: function(event) {
+        event.preventDefault();
+
+        console.log("FUJXHSAHSADkj")
+        /* Act on the event */
+        var selected_category = $(".piping-color-categories").find(".cp-button-active");
+        selected_category.removeClass('active-color-piping-category');
+        selected_category.removeClass('cp-button-active');
+
+        $(this).addClass('active-color-piping-category');
+        $(this).addClass('cp-button-active');
     }
 };
 

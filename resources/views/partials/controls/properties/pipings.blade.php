@@ -35,14 +35,18 @@
                                     </span>
                                 @{{/colors}}
                             </div>
+                            <div class="ui-row cp-margin-remove">
+                                <div class="cp-padding-top-small">
+                                    <button class="edit-piping-modal-button cp-margin-remove">Edit Color</button>
+                                </div>
+                            </div>
 
-                            <div class="ui-row">
-                                <div class="column1"> &nbsp;
-                                    <div class="colorContainer"></div>
+                            <div class="row modifier-wrapper">
+                                <div class="col-md-12 cp-margin-top-small cp-margin-remove">
+                                    <hr>
                                 </div>
                             </div>
                         </div>
-                        <hr>
                     </div>
                 @{{ /piping_set_items }}
             </div>
@@ -170,6 +174,16 @@
 </script>
 
 <script type="text/mustache" id="m-tab-piping-colors">
+<div class="col-md-2 cp-padding-remove cp-margin-top-small">
+    <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
+        <button
+        class="pattern-color-selector-button cp-modal-color"
+        style="background-color: #ffff"
+        >
+            <span class="fa fa-ban"></span>
+        </button>
+    </div>
+</div>
 @{{ #colors }}
     <div class="col-md-2 cp-padding-remove cp-margin-top-small">
         <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
