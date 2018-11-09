@@ -12234,4 +12234,29 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    // omit material option `e.g. Neck Tape 1` on ub.data.modifierLabels
+    ub.data.hideMaterialOptionOnSportModifierLabels = {
+        items: [
+            'PTS Cage Jacket (Apparel)',
+            'PTS Hoodie (Apparel)'
+        ],
+        isValid: function (uniformCategory, modifierLabels, materialOption) {
+
+            if (_.contains(this.items, uniformCategory)) {
+
+                return _.omit(modifierLabels, function(value, key, object) {
+
+                    return _.contains(materialOption, value.fullname);
+
+                });
+
+            } else {
+
+                return modifierLabels;
+
+            }
+
+        }
+    }
+
 });
