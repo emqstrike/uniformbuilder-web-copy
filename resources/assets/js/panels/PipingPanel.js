@@ -333,8 +333,10 @@ PipingPanel = {
             var piping_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
 
             var pipingObject = _.find(ub.data.pipings, {name: piping_type});
-            console.log("Piping Object: ", pipingObject)
             ub.funcs.removePiping(pipingObject.set);
+
+            var active_piping_set = PipingPanel.getFirstActivePipingSet(pipingObject.set);
+            $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
             $('#piping-change-color').modal('hide');
         }
     },
