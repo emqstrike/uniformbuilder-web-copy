@@ -14,7 +14,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="content-wrapper">
+                        <div class="content-wrapper @{{ modifier }}">
                             <span style="font-size: 0.8em;">CHOOSE SIZE</span>
 
                             <div class="ui-row size-row">
@@ -37,7 +37,7 @@
                             </div>
                             <div class="ui-row cp-margin-remove">
                                 <div class="cp-padding-top-small">
-                                    <button class="edit-piping-modal-button cp-margin-remove">Edit Color</button>
+                                    <button class="edit-piping-modal-button cp-margin-remove" data-modifier="@{{ modifier }}">Edit Color</button>
                                 </div>
                             </div>
 
@@ -174,25 +174,28 @@
 </script>
 
 <script type="text/mustache" id="m-tab-piping-colors">
-<div class="col-md-2 cp-padding-remove cp-margin-top-small">
-    <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-        <button
-        class="pattern-color-selector-button cp-modal-color"
-        style="background-color: #ffff"
-        >
-            <span class="fa fa-ban"></span>
-        </button>
-    </div>
+<div class="color_element">
+    <button class="grow change-color whitebtn cp-new-color-box piping-color-selector-button none-color
+    style="background-color: #ffff"
+    data-modifier="@{{ modifier }}"
+    data-color-label="none"
+    >
+        <span class="fa fa-ban cp-padding-remove-vertical cp-text-medium"></span>
+    </button>
+    <span class="label cp-fc-black">None</span>
 </div>
 @{{ #colors }}
-    <div class="col-md-2 cp-padding-remove cp-margin-top-small">
-        <div data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-            <button
-            class="pattern-color-selector-button cp-modal-color"
-            style="background-color: #@{{ hex_code}};"
-            >
-            </button>
-        </div>
+    <div class="color_element">
+        <button
+            class="grow change-color whitebtn cp-new-color-box piping-color-selector-button"
+            style="background-color: #@{{ hex_code }};"
+            data-color-name="@{{ name}}"
+            data-color-code="@{{ color_code }}"
+            data-color-id="@{{ id }}"
+            data-modifier="@{{ modifier }}"
+        >
+        </button>
+        <span class="label cp-fc-black">@{{ name }}</span>
     </div>
 @{{ /colors }}
 </script>

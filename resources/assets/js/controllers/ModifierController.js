@@ -157,12 +157,17 @@ ModifierController.prototype = {
 
             console.log("Colors : ", colors);
 
+            var modifier = piping_type.toLowerCase().replace(/ /g, "-")
+
             return {
                 sizes: sizes.items,
                 colors: colors,
-                type: piping_type
+                type: piping_type,
+                modifier: modifier
             };
         });
+
+        console.log("Piping set items: ", piping_set_items);
 
         $('.modifier_main_container').append(Mustache.render(piping_sidebar_tmpl, {
             piping_set_items: piping_set_items,

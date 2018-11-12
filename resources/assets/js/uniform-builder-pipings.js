@@ -684,6 +684,7 @@ $(document).ready(function () {
             $pipingSizesButtons.on('click', function () {
 
                 var _type                           = $(this).data('type');
+
                 var _size                           = $(this).data('size');
                 var _pipingObject                   = _.find(ub.data.pipings, {name: _type});
                 var _colorsMarkup                   =  ub.funcs.getPipingColors(_pipingObject);
