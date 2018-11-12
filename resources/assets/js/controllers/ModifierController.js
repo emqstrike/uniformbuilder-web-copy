@@ -163,6 +163,7 @@ ModifierController.prototype = {
                 sizes: sizes.items,
                 colors: colors,
                 type: piping_type,
+                type_wo_left_prefix: piping_type.indexOf('Left') === 0 ? piping_type.replace("Left", "") : piping_type
                 modifier: modifier
             };
         });

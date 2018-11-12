@@ -20,20 +20,38 @@ PipingPanel.events = {
     togglePiping: function() {
         var toggle_el = $(this).closest('.toggle');
         var piping_item_el = $(this).closest('.piping-item');
+        var piping_type = piping_item_el.data('piping-type');
 
         var status = toggle_el.data('status');
+
+        var active_piping_set = ub.current_material.settings.pipings[piping_type];
+        var piping_set = piping_type;
+
+        if (active_piping_set === "undefined") {
+            active_piping_set = _.first(piping_set);
+        } else {
+            piping_set = ub.funcs.getPipingSet(piping_type);
+            active_piping_set = _.first(piping_set);
+        }
 
         if (status === "on") {
             $('.valueContainer', toggle_el).css('margin-left', '-100px');
             toggle_el.removeClass('defaultShadow');
 
-            ub.funcs.removePiping(piping_item_el.data('piping-type'))
+            ub.funcs.removePiping(piping_type);
+            if (piping_type.indexOf('Left') === 0) {
+                var matching_side = ub.funcs.getMatchingSide(piping_type);
+
+                ub.funcs.removePiping(matching_side); // may bug pa ito
+            }
 
             $('.content-wrapper', piping_item_el).slideUp("fast");
             toggle_el.data('status', "off");
         } else {
             $('.valueContainer', toggle_el).css('margin-left', '0');
             toggle_el.addClass('defaultShadow');
+
+            $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
 
             $('.content-wrapper', piping_item_el).slideDown("fast");
             toggle_el.data('status', "on");
