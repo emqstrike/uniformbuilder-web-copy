@@ -18,53 +18,6 @@ $(function() {
         ub.funcs.startNewApplication();
     });
 
-    // Aron Joshua
-    // $('#property-modifiers-menu > .group-2').on('click', function () {
-    // $('.property-modifiers-menu .menu-item-parts').on('click', function () {
-    //     ub.funcs.deActivateApplications();
-    //     ub.funcs.deActivateLocations();
-
-    //     if ($("#primary_options_colors").css("display") === "none") {
-    //         var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
-    //     }
-
-    //     if ($("#primary_options_container #primary_options_colors").length > 0) {
-
-    //         $(".parts-container").show();
-    //         $("#parts-with-insert-container").hide();
-
-    //     } else {
-
-    //         var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
-    //         $("#parts-with-insert-container").hide();
-
-    //     }
-    // });
-
-    // Aron Joshua
-    // $('#property-modifiers-menu > .group-3').on('click', function () {
-    $('.property-modifiers-menu .menu-item-inserts').on('click', function () {
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
-
-        if ($("#primary_options_colors").css("display") === "none")
-        {
-            var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
-        }
-
-        if ($("#primary_options_container #primary_options_colors").length > 0)
-        {
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
-        else
-        {
-            var prop = new PropertiesPanel('#primary_options_container', 'Richardsons');
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
-    });
-
     ub.funcs.startNewApplication = function () {
         console.info('=======APPLICATION UI BLOCK=======');
 
