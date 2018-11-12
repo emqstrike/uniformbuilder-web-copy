@@ -37,7 +37,7 @@ PipingPanel = {
                 active_piping_set = _.first(piping_set);
             }
 
-            if (status === "on") {
+            if (status === PipingPanel.STATUS_ON) {
                 $('.valueContainer', toggle_el).css('margin-left', '-100px');
                 toggle_el.removeClass('defaultShadow');
 
@@ -48,7 +48,7 @@ PipingPanel = {
                 }
 
                 $('.content-wrapper', piping_item_el).slideUp("fast");
-                toggle_el.data('status', "off");
+                toggle_el.data('status', PipingPanel.STATUS_OFF);
             } else {
                 $('.valueContainer', toggle_el).css('margin-left', '0');
                 toggle_el.addClass('defaultShadow');
@@ -56,7 +56,7 @@ PipingPanel = {
                 $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
 
                 $('.content-wrapper', piping_item_el).slideDown("fast");
-                toggle_el.data('status', "on");
+                toggle_el.data('status', PipingPanel.STATUS_ON);
             }
         },
 

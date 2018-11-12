@@ -183,7 +183,7 @@ ModifierController.prototype = {
             }
 
             var toggle_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .toggle');
-            var temporary_status = status === "on" ? "off" : "on";
+            var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
 
             toggle_el.data('status', temporary_status);
             $('.toggleOption.'+temporary_status, toggle_el).click();
