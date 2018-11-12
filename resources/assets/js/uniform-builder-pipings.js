@@ -582,9 +582,10 @@ $(document).ready(function () {
 
         });
 
-        ub.current_material.settings.pipings[pipingSet].enabled = 0;
-        ub.current_material.settings.pipings[pipingSet].numberOfColors = 0;
-
+        if (typeof(ub.current_material.settings.pipings[pipingSet]) !== "undefined") {
+            ub.current_material.settings.pipings[pipingSet].enabled = 0;
+            ub.current_material.settings.pipings[pipingSet].numberOfColors = 0;
+        }
     }
 
     ub.funcs.getMatchingSide = function (name) {

@@ -174,17 +174,8 @@ ModifierController.prototype = {
 
         // set initial states
         _.map(piping_types, function(piping_type) {
-            var active_piping_set = ub.current_material.settings.pipings[piping_type];
-            var piping_set = piping_type;
-            var status = (typeof active_piping_set !== "undefined" && active_piping_set.enabled === 1) ? "on" : "off";
-
-            if (active_piping_set === "undefined") {
-                active_piping_set = _.first(piping_set);
-            } else {
-                piping_set = ub.funcs.getPipingSet(piping_type);
-                active_piping_set = _.first(piping_set);
-            }
-
+            var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
+            var status = PipingPanel.PipingPanelPipingPanel(piping_type);
             var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
 
             if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
