@@ -323,28 +323,13 @@ $(document).ready(function() {
 
             ub.funcs.hideColumns();
 
+            // Remove Roster Item
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
-                var _index          = $(this).data('index');
-                var _size           = $(this).data('size');
-                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
-                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
-                var _number = $row.find('input[name="number"]').val();
-
-                ub.funcs.setNumberStatus(_number, 'free');
-
-                $row.remove();
-
-                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
-
-                    var index = indexVar + 1;
-
-                    $(this).find('td').first().html(index);
-                    $(this).find('span.clear-row').attr('data-index', index);
-                    $(this).attr('data-index', index)
-
-                });
+                var _index = $(this).data('index');
+                var _size = $(this).data('size');
+                ub.funcs.bindRemoveRosterItemButton(_index, _size);
 
             });
 
@@ -353,6 +338,26 @@ $(document).ready(function() {
 
         });
 
+    };
+
+    ub.funcs.bindRemoveRosterItemButton = function(index, size) {
+        var $table = $('table.roster-table[data-size="' + size + '"] > tbody');
+        var $row = $('tr[data-size="' + size + '"][data-index="' + index + '"]');
+        var number = $row.find('input[name="number"]').val();
+
+        ub.funcs.setNumberStatus(number, 'free');
+
+        $row.remove();
+
+        $('table.roster-table[data-size="' + size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+            var index_id = indexVar + 1;
+
+            $(this).find('td').first().html(index_id);
+            $(this).find('span.clear-row').attr('data-index', index_id);
+            $(this).attr('data-index', index_id);
+
+        });
     };
 
     ub.funcs.extractFields = function (row) {
@@ -1012,10 +1017,6 @@ $(document).ready(function() {
             ]
         };
 
-        console.log('ORDER DATA');
-        console.log(orderInput);
-        console.log('===========================');
-
         // If Rejected submit this
         // if (ub.config.orderCode !== "none") { orderInput.order_code = ub.config.orderCode; }
 
@@ -1312,7 +1313,6 @@ $(document).ready(function() {
 
             },
             error: function(error) {
-                console.log(error);
                 $.smkAlert({
                     text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
                     type: 'warning'
@@ -1475,7 +1475,7 @@ $(document).ready(function() {
         window.scrollTo(0,0);
         
         ub.funcs.prepareOrderForm(orderInfo);
-        ub.funcs.prepareSizingTable(); 
+        // ub.funcs.prepareSizingTable(); 
 
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
@@ -1875,6 +1875,9 @@ $(document).ready(function() {
 
         _.each(_roster, function (player) {
 
+            console.log('Player')
+            console.log(player);
+
             var _size       = player.Size;
             var $spanSize   = $('span.size[data-size="' + _size + '"]');
             var _status     = $spanSize.attr('data-status');
@@ -1895,8 +1898,19 @@ $(document).ready(function() {
 
         });
 
+        // Remove Roster Item
+        $('span.clear-row').unbind('click');
+        $('span.clear-row').on('click', function () {
+
+            var _index = $(this).data('index');
+            var _size = $(this).data('size');
+            ub.funcs.bindRemoveRosterItemButton(_index, _size);
+        });
+
         // Activate last tab
-        setTimeout(function () { $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click'); }, 1000);
+        setTimeout(function(){
+            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
+        }, 1000);
 
     }
 
@@ -2086,8 +2100,10 @@ $(document).ready(function() {
 
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
-    
-        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
+
+        if (typeof orderInfo !== "undefined") {
+            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster);
+        }
 
         ub.data.rosterInitialized = true;
 
@@ -2095,7 +2111,7 @@ $(document).ready(function() {
         if (typeof ub.user.id === "undefined") { return; }
 
         ub.funcs.uiPrepBeforeOrderForm();
-        
+
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
        
@@ -2159,7 +2175,7 @@ $(document).ready(function() {
                     !ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
                     ) {
 
-                    _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
+                    _numbers = ub.funcs.createNumbersSelectionPopup(_size);
 
                 } else {
 
