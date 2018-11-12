@@ -198,9 +198,9 @@ PipingPanel = {
                 $(".piping-color-categories li").first().find(".piping-color-selector").addClass('cp-button-active');
             }
 
-            $(".piping-color-categories .piping-color-item .piping-category-1").show();
-            $(".piping-color-categories .piping-color-item .piping-category-2").show();
-            $(".piping-color-categories .piping-color-item .piping-category-3").show();
+            $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
+            $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'block');
+            $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'block');
             $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '');
             $(".piping-color-categories .piping-color-item .piping-category-2").parent().css('width', '');
             $(".piping-color-categories .piping-color-item .piping-category-3").parent().css('width', '');
@@ -208,16 +208,16 @@ PipingPanel = {
             switch (number_of_colors) {
                 case 1:
                     $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '100%');
-                    $(".piping-color-categories .piping-color-item .piping-category-1").show();
-                    $(".piping-color-categories .piping-color-item .piping-category-2").hide();
-                    $(".piping-color-categories .piping-color-item .piping-category-3").hide();
+                    $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
+                    $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'none');
+                    $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'none');
                     break;
                 case 2:
                     $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '50%');
                     $(".piping-color-categories .piping-color-item .piping-category-2").parent().css('width', '50%');
-                    $(".piping-color-categories .piping-color-item .piping-category-1").show();
-                    $(".piping-color-categories .piping-color-item .piping-category-2").show();
-                    $(".piping-color-categories .piping-color-item .piping-category-3").hide();
+                    $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
+                    $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'block');
+                    $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'none');
                     break;
             }
             // Render Mustache
