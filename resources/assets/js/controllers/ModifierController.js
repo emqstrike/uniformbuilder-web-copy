@@ -155,13 +155,20 @@ ModifierController.prototype = {
             var sizes = ub.funcs.sortPipingSizes({items: piping_set});
             var colors = ub.funcs.getPipingColorArray(active_piping_set);
 
+            console.log("Colors : ", colors);
+
+            var modifier = piping_type.toLowerCase().replace(/ /g, "-")
+
             return {
                 sizes: sizes.items,
                 colors: colors,
                 type: piping_type,
-                type_wo_left_prefix: piping_type.indexOf('Left') === 0 ? piping_type.replace("Left", "") : piping_type
+                type_wo_left_prefix: piping_type.indexOf('Left') === 0 ? piping_type.replace("Left", "") : piping_type,
+                modifier: modifier
             };
         });
+
+        console.log("Piping set items: ", piping_set_items);
 
         $('.modifier_main_container').append(Mustache.render(piping_sidebar_tmpl, {
             piping_set_items: piping_set_items,
