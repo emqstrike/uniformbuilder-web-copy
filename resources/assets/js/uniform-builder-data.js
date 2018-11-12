@@ -10253,10 +10253,6 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 sublimatedPart: 'Extra',
-            },
-            {
-                sport: 'Tech Tee (eSports)',
-                sublimatedPart: 'Body',
             }
         ],
 
@@ -12235,6 +12231,31 @@ ub.funcs.fontOffSets = [
             
             return _.size(_result) > 0;
             
+        }
+    }
+
+    // omit material option `e.g. Neck Tape 1` on ub.data.modifierLabels
+    ub.data.hideMaterialOptionOnSportModifierLabels = {
+        items: [
+            'PTS Cage Jacket (Apparel)',
+            'PTS Hoodie (Apparel)'
+        ],
+        isValid: function (uniformCategory, modifierLabels, materialOption) {
+
+            if (_.contains(this.items, uniformCategory)) {
+
+                return _.omit(modifierLabels, function(value, key, object) {
+
+                    return _.contains(materialOption, value.fullname);
+
+                });
+
+            } else {
+
+                return modifierLabels;
+
+            }
+
         }
     }
 

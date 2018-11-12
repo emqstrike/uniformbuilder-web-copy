@@ -14,18 +14,18 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
 
-	// Todo, convert this to mix.js after upgrading to Laravel 5.5
-	mix.scripts([
+    // Todo, convert this to mix.js after upgrading to Laravel 5.5
+    mix.scripts([
 
-			// Third-party
-			'third-party/natural/natural.js',	
-			'third-party/natural/all.js',	
-			'third-party/tipped/tipped.js',			 
-			'third-party/select2/select2.full.js',
-			'third-party/pixi/pixi.js',	
-			'third-party/pixi/pixi.draggable.js',
-			
-			// Sources
+            // Third-party
+            'third-party/natural/natural.js',   
+            'third-party/natural/all.js',   
+            'third-party/tipped/tipped.js',          
+            'third-party/select2/select2.full.js',
+            'third-party/pixi/pixi.js', 
+            'third-party/pixi/pixi.draggable.js',
+            
+            // Sources
 
 			'utilities.js',
 			'uniform-builder-configuration.js',
@@ -87,10 +87,10 @@ elixir(function(mix) {
             'uniform-builder-application-ui-new.js',
             'uniform-builder-application-ui-new-letters.js'
 
-		], 
-		// Result
-		'public/uniform-builder/js/ub.js'
-	);
+        ], 
+        // Result
+        'public/uniform-builder/js/ub.js'
+    );
 
     mix.less(
     	[
@@ -104,9 +104,9 @@ elixir(function(mix) {
             'application-ui-new.less',
             'application-ui-new-letters.less',
 
-    	],
-    	
-    	// Result
-    	'public/uniform-builder/css/uniform-builder.css');
+        ],
+        
+        // Result
+        'public/uniform-builder/css/uniform-builder.css');
     
 });

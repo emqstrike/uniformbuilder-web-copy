@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "65eda482293e19ad7e05adeab7519fba",
-    "content-hash": "bb28089125c6c2c7d1eb032407612086",
+    "content-hash": "18c308dd300d1182e30af782805ffca3",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.71.0",
+            "version": "3.70.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8585a1b39db65ed393dff4018fe545ea44005532"
+                "reference": "cb019fd982b798a638569402c905b2100845ab08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8585a1b39db65ed393dff4018fe545ea44005532",
-                "reference": "8585a1b39db65ed393dff4018fe545ea44005532",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cb019fd982b798a638569402c905b2100845ab08",
+                "reference": "cb019fd982b798a638569402c905b2100845ab08",
                 "shasum": ""
             },
             "require": {
@@ -88,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-11-06 22:04:52"
+            "time": "2018-11-05T23:10:28+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -346,22 +345,22 @@
             "time": "2018-01-09 20:05:19"
         },
         {
-            "name": "elibyy/laravel-tcpdf",
-            "version": "5.1.x-dev",
+            "name": "elibyy/tcpdf-laravel",
+            "version": "5.1.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/elibyy/laravel-tcpdf.git",
-                "reference": "95e3c116027f37be577371151314579218ccbce9"
+                "url": "https://github.com/elibyy/tcpdf-laravel.git",
+                "reference": "29500e7faf05099c6cefdb33afa5ac19287ece97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elibyy/laravel-tcpdf/zipball/95e3c116027f37be577371151314579218ccbce9",
-                "reference": "95e3c116027f37be577371151314579218ccbce9",
+                "url": "https://api.github.com/repos/elibyy/tcpdf-laravel/zipball/29500e7faf05099c6cefdb33afa5ac19287ece97",
+                "reference": "29500e7faf05099c6cefdb33afa5ac19287ece97",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.1.*",
-                "tecnickcom/tcpdf": "6.2.9"
+                "illuminate/support": "5.1.x",
+                "tecnickcom/tcpdf": "6.2.12"
             },
             "type": "library",
             "autoload": {
@@ -371,7 +370,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "proprietary"
+                "MIT"
             ],
             "authors": [
                 {
@@ -385,8 +384,7 @@
                 "laravel",
                 "pdf"
             ],
-            "abandoned": "elibyy/tcpdf-laravel",
-            "time": "2015-10-19 11:39:00"
+            "time": "2018-09-05T07:43:48+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -433,7 +431,7 @@
                 "recaptcha",
                 "spam"
             ],
-            "time": "2018-08-05 09:31:53"
+            "time": "2018-08-05T09:31:53+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -726,7 +724,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
-            "time": "2018-09-29 17:23:10"
+            "time": "2018-09-29T17:23:10+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -1152,7 +1150,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-10-15 13:53:10"
+            "time": "2018-10-15T13:53:10+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -1199,7 +1197,7 @@
                 }
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
-            "time": "2018-10-08 07:53:55"
+            "time": "2018-10-08T07:53:55+00:00"
         },
         {
             "name": "maknz/slack",
@@ -1421,7 +1419,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-11-05 09:00:11"
+            "time": "2018-11-05T09:00:11+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -1575,7 +1573,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20 19:36:25"
+            "time": "2018-09-20T19:36:25+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2059,7 +2057,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-02 16:27:16"
+            "time": "2018-10-02T16:27:16+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2232,7 +2230,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-20 23:16:31"
+            "time": "2018-10-20T23:16:31+00:00"
         },
         {
             "name": "symfony/finder",
@@ -2479,7 +2477,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06 14:22:27"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2538,7 +2536,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21 13:07:52"
+            "time": "2018-09-21T13:07:52+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -2594,7 +2592,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21 06:26:08"
+            "time": "2018-09-21T06:26:08+00:00"
         },
         {
             "name": "symfony/polyfill-util",
@@ -2646,7 +2644,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2018-09-30 16:36:12"
+            "time": "2018-09-30T16:36:12+00:00"
         },
         {
             "name": "symfony/process",
@@ -2952,16 +2950,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.2.9",
+            "version": "6.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "fa6ab8a1e1fbabb9e6cfd2f807514fa1497240e4"
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/fa6ab8a1e1fbabb9e6cfd2f807514fa1497240e4",
-                "reference": "fa6ab8a1e1fbabb9e6cfd2f807514fa1497240e4",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f",
                 "shasum": ""
             },
             "require": {
@@ -3011,7 +3009,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2015-06-18 09:12:38"
+            "time": "2015-09-12T10:08:34+00:00"
         },
         {
             "name": "tinify/tinify",
@@ -3801,7 +3799,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-08-05 17:53:17"
+            "time": "2018-08-05T17:53:17+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4609,9 +4607,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "elibyy/laravel-tcpdf": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

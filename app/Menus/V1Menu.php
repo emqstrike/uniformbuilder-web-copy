@@ -15,13 +15,14 @@ class V1Menu
     protected $pageRuleClient;
     protected $userClient;
     protected $allowedPages;
-    protected $userLimitedAccess;
+
+    const HEADER_TYPE = 'header';
+    const LINK_TYPE = 'link';
 
     public function __construct()
     {
         $this->menuClient = new MenuClient();
         $this->pageRuleClient = new PageRuleClient();
-        $this->userLimitedAccess = json_decode(Session::get('userLimitedAccess'), true);
     }
 
     public function getMenu()
@@ -65,50 +66,53 @@ class V1Menu
 
     private function getV1Menus($menus)
     {
-        if ($this->userLimitedAccess) {
-            $menu = $this->getMenus($menus, $this->userLimitedAccess);
-        } else {
-            $menu = $this->getMenus($menus, $this->allowedPages);
-        }
-
-        return $menu;
-    }
-
-    private function getMenus($menus, $allowedPages)
-    {
         $_menus = [];
 
-        foreach ($menus as $key => $menu) {
-            $routeName = preg_replace('/\s+/', '', $menu->route_name);
+        if ($this->allowedPages) {
+            foreach ($menus as $key => $menu) {
+                $routeName = preg_replace('/\s+/', '', $menu->route_name);
 
-            if (Route::getRoutes()->hasNamedRoute($routeName)) {
-                if (strpos(route($routeName), 'v1-0')) {
-                    if (in_array($routeName, $allowedPages)) {
-                        $_menus[$key] = [
-                            'route_name' => $routeName,
-                            'menu_text' => $menu->menu_text,
-                            'icon_class' => $menu->icon_class,
-                            'parent_id' => $menu->parent_id,
-                        ];
+                if ($menu->type == self::HEADER_TYPE) {
+                    $_menus[$key] = [
+                        'route_name' => $routeName,
+                        'menu_text' => $menu->menu_text,
+                        'icon_class' => $menu->icon_class,
+                        'parent_id' => $menu->parent_id,
+                        'type' => $menu->type,
+                    ];
+                }
 
-                        if (isset($menu->subMenu)) {
-                            if (count($menu->subMenu) > 0) {
-                                $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                if (Route::getRoutes()->hasNamedRoute($routeName)) {
+                    if (strpos(route($routeName), 'v1-0')) {
+                        if (in_array($routeName, $this->allowedPages)) {
+                            $_menus[$key] = [
+                                'route_name' => $routeName,
+                                'menu_text' => $menu->menu_text,
+                                'icon_class' => $menu->icon_class,
+                                'parent_id' => $menu->parent_id,
+                                'type' => $menu->type,
+                            ];
+
+                            if (isset($menu->subMenu)) {
+                                if (count($menu->subMenu) > 0) {
+                                    $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                                }
                             }
                         }
                     }
-                }
-            } elseif ($routeName == '#') {
-                $_menus[$key] = [
-                    'route_name' => $routeName,
-                    'menu_text' => $menu->menu_text,
-                    'icon_class' => $menu->icon_class,
-                    'parent_id' => $menu->parent_id,
-                ];
+                }  elseif ($routeName == '#') {
+                    $_menus[$key] = [
+                        'route_name' => $routeName,
+                        'menu_text' => $menu->menu_text,
+                        'icon_class' => $menu->icon_class,
+                        'parent_id' => $menu->parent_id,
+                        'type' => $menu->type,
+                    ];
 
-                if (isset($menu->subMenu)) {
-                    if (count($menu->subMenu) > 0) {
-                        $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                    if (isset($menu->subMenu)) {
+                        if (count($menu->subMenu) > 0) {
+                            $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                        }
                     }
                 }
             }
@@ -122,7 +126,7 @@ class V1Menu
         $_menus = [];
 
         foreach ($menus as $key => $menu) {
-            if (((isset($menu['subMenu'])) && (count($menu['subMenu']) > 0)) || ($menu['route_name'] != '#')) {
+            if (((isset($menu['subMenu'])) && (count($menu['subMenu']) > 0)) || ($menu['route_name'] != '#') || ($menu['type'] == self::HEADER_TYPE)) {
                 $_menus[] = $menu;
             }
         }

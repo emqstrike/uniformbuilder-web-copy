@@ -7,6 +7,12 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
     <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
+
+    <style>
+        .material-option-item:nth-child(odd) {
+            background: #d3ccd0;
+        }
+    </style>
 @endsection
 
 @section('custom-styles')
