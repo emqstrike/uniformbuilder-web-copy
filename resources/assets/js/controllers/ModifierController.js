@@ -103,8 +103,7 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function() {
-        ub.funcs.deactivateMoveTool();
+    parts: function(_this) {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
         ub.funcs.activeStyle('colors');
