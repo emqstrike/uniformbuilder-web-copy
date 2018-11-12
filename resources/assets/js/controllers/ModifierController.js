@@ -189,8 +189,6 @@ ModifierController.prototype = {
             var sizes = ub.funcs.sortPipingSizes({items: piping_set});
             var colors = ub.funcs.getPipingColorArray(active_piping_set);
 
-            console.log("Colors : ", colors);
-
             var modifier = piping_type.toLowerCase().replace(/ /g, "-")
 
             return {
@@ -201,8 +199,6 @@ ModifierController.prototype = {
                 modifier: modifier
             };
         });
-
-        console.log("Piping set items: ", piping_set_items);
 
         $('.modifier_main_container').append(Mustache.render(piping_sidebar_tmpl, {
             piping_set_items: piping_set_items,
@@ -216,7 +212,7 @@ ModifierController.prototype = {
         // set initial states
         _.map(piping_types, function(piping_type) {
             var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
-            var status = PipingPanel.PipingPanelPipingPanel(piping_type);
+            var status = PipingPanel.getPipingPanelStatus(piping_type);
             var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
 
             if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
@@ -224,7 +220,7 @@ ModifierController.prototype = {
             }
 
             var toggle_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .toggle');
-            var temporary_status = status === "on" ? "off" : "on";
+            var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
 
             toggle_el.data('status', temporary_status);
             $('.toggleOption.'+temporary_status, toggle_el).click();

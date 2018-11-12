@@ -534,7 +534,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.renderPipings = function (pipingObject, colorCount) {
-
         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
 
         _.each (ub.views, function (perspective) {
