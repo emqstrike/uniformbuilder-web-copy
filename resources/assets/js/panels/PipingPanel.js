@@ -42,7 +42,7 @@ PipingPanel.events = {
             if (piping_type.indexOf('Left') === 0) {
                 var matching_side = ub.funcs.getMatchingSide(piping_type);
 
-                ub.funcs.removePiping(matching_side); // may bug pa ito
+                // ub.funcs.removePiping(matching_side); // may bug pa ito
             }
 
             $('.content-wrapper', piping_item_el).slideUp("fast");
@@ -119,42 +119,42 @@ PipingPanel.events = {
         var value = $(this).data('value');
         var size = $(this).data('size');
 
-        console.log("Size: ", size);
-        console.log("Value: ", value);
+        var piping_type = piping_el.data('piping-type');
+        var piping_set = ub.current_material.settings.pipings[piping_type];
 
-        // var piping_type = piping_el.data('piping-type');
-        // var piping_set = ub.current_material.settings.pipings[piping_type];
+        console.log("Piping Type: ", piping_type);
+        console.log("Piping Set: ", piping_set);
 
-        // var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
+        var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
 
-        // var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
-        // var matchingPipingObject = undefined;
-        // var matchingPipingSettingsObject = undefined;
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set.set);
+        var matchingPipingObject = undefined;
+        var matchingPipingSettingsObject = undefined;
 
-        // var name = pipingObject.name;
+        var name = pipingObject.name;
 
-        // var colorPickerHtml    = ub.funcs.drawPipingColorPickers(pipingObject, value, pipingSettingsObject);
-        // var selectedColorArray  = ub.current_material.settings.team_colors;
+        var colorPickerHtml    = ub.funcs.drawPipingColorPickers(pipingObject, value, pipingSettingsObject);
+        var selectedColorArray  = ub.current_material.settings.team_colors;
 
-        // // di ko alam kung need to i-trigger
-        // // ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
+        // di ko alam kung need to i-trigger
+        // ub.funcs.changePipingSize(pipingSettingsObject, pipingObject, size);
 
-        // /// Process Matching Object
-        // if (name.indexOf('Left') > -1) {
-        //     matchingName = ub.funcs.getMatchingSide(name);
-        //     matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
-        // }
+        /// Process Matching Object
+        if (name.indexOf('Left') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        // if (name.indexOf('Right') > -1) {
-        //     matchingName = ub.funcs.getMatchingSide(name);
-        //     matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
-        // }
+        if (name.indexOf('Right') > -1) {
+            matchingName = ub.funcs.getMatchingSide(name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
 
-        // if (typeof matchingPipingObject !== 'undefined') {
-        //     matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
-        //     ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
-        // }
-        // /// End Process Matching Object
+        if (typeof matchingPipingObject !== 'undefined') {
+            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+            ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
+        }
+        /// End Process Matching Object
 
         // $('.colorContainer', piping_el).html(colorPickerHtml);
 
@@ -181,10 +181,9 @@ PipingPanel.events = {
         $(this).addClass("active");
     },
 
-    onShowPipingModal: function(e) {
-        console.log("Show Modal");
+    onShowPipingModal: function(e)
+    {
         var modifier = $(this).data("modifier");
-        var piping_type = $(this).data("piping-type");
         var number_of_colors = $("." + modifier + " .colors-row .piping-colors-buttons.active").data("value");
 
         if ($(".piping-color-categories li.active")) {
@@ -268,9 +267,50 @@ PipingPanel.events = {
         var modifier = $(this).data("modifier");
         var active_size_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
+        var _name = pipingObject.name;
+
+        // Get Piping Settings object
+        var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
 
         // Change Piping Color
         ub.funcs.changePipingColor(_colorObj, active_piping_color_category, pipingObject);
+
+        // Matching Piping Object
+        var matchingPipingObject = undefined;
+        var matchingPipingSettingsObject = undefined;
+
+        if (_name.indexOf('Left') > -1) {
+            matchingName = ub.funcs.getMatchingSide(_name);
+            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+        }
+
+        if (_name.indexOf('Right') > -1) {
+            matchingName = ub.funcs.getMatchingSide(_name);
+            matchingPipingObject = _.find(ub.data.pipings, {_name: matchingName});
+        }
+
+        if (typeof matchingPipingObject !== 'undefined') {
+            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+        }
+
+        var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(active_piping_color_category)});
+
+        if (typeof _layer !== "undefined")
+        {
+            _layer.colorCode = color_code;
+            _layer.colorObj = _colorObj;
+        }
+
+        if (typeof matchingPipingObject !== "undefined")
+        {
+            ub.funcs.changePipingColor(_colorObj, active_piping_color_category, matchingPipingObject);
+            var _matchingLayer = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(active_piping_color_category)});
+
+            if (typeof _matchingLayer !== "undefined") {
+                _matchingLayer.colorCode = color_code;
+                _matchingLayer.colorObj = _colorObj;
+            }
+        }
 
         $(this).html('<div class="cp-check-background cp-background-cover piping-check"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
         $(this).addClass('active-piping-color');
