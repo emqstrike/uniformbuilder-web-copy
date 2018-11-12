@@ -4365,6 +4365,9 @@ $(document).ready(function () {
 
         var strBuilder = '';
         var _moCount = _.size(ub.data.modifierLabels);
+        // omit `neck_tape_1` on ub.data.modifierLabels
+        var labelsToHide = ['neck_tape_2'];
+        ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
 
         _.each(ub.data.modifierLabels, function (ml) {
 
@@ -4396,12 +4399,9 @@ $(document).ready(function () {
 
             var _tempLabel = label.name;
 
-            if (_tempLabel === "Body Left") {
-                _tempLabel = "Left Body";
-            }
-            if (_tempLabel === "Body Right") {
-                _tempLabel = "Right Body";
-            }
+            if (_tempLabel === "Body Left")     { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right")    { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Neck Tape 1")   { _tempLabel = "Neck Tape"; }
 
             strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' + label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
@@ -4486,14 +4486,9 @@ $(document).ready(function () {
 
             var _htTemp = _ht;
 
-            if (_ht === "Left Body") {
-                _htTemp = 'Body Left'
-            }
-            ;
-            if (_ht === "Right Body") {
-                _htTemp = 'Body Right'
-            }
-            ;
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
+            if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
 
             if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
 

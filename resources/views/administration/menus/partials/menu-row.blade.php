@@ -9,6 +9,7 @@
         {{ $menu->menu_text }}
     </td>
     <td>{{ $menu->route_name }}</td>
+    <td>{{ ucwords($menu->type) }}</td>
     <td>
         @if ($menu->icon_class)
             <span class="{{ $menu->icon_class }}"></span>
