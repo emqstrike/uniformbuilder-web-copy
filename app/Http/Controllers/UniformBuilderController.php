@@ -1761,10 +1761,13 @@ class UniformBuilderController extends Controller
             $table .= '</p>';
         }
 
-        $table .= '<strong>SIZING TABLE</strong><br /><br />';
-        $table .= '<table style="font-size: 1.5em">';
-        $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
-        $table .= '</table>';
+        if (isset($bc['sizingTableHTML']))
+        {
+            $table .= '<strong>SIZING TABLE</strong><br /><br />';
+            $table .= '<table style="font-size: 1.5em">';
+            $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
+            $table .= '</table>';
+        }
 
         $table .= '<table width="90%">';
 
