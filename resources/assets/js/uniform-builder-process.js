@@ -848,8 +848,6 @@ $(document).ready(function() {
     // action variable contents are in the ub.constants.order_actions.*
     ub.funcs.submitOrderForm = function (action) {
 
-        console.log('Action = ' + action);
-
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
         
         if (!_rosterFormValid) {
@@ -1475,7 +1473,7 @@ $(document).ready(function() {
         window.scrollTo(0,0);
         
         ub.funcs.prepareOrderForm(orderInfo);
-        // ub.funcs.prepareSizingTable(); 
+        ub.funcs.prepareSizingTable();
 
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
@@ -1874,9 +1872,6 @@ $(document).ready(function() {
         var _lastSize;
 
         _.each(_roster, function (player) {
-
-            console.log('Player')
-            console.log(player);
 
             var _size       = player.Size;
             var $spanSize   = $('span.size[data-size="' + _size + '"]');
