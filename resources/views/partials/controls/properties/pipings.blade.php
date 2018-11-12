@@ -66,10 +66,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6 col-md-offset-3">
-                            <div class="cp-margin-bottom-small">
-                                <img src="http://34.212.160.37/img/sample-piping.jpg" width="100%" height="100%">
-                            </div>
+                        <div class="col-md-12">
+                            <div class="cp-margin-bottom-small piping-preview" id="piping-preview"></div>
                         </div>
                         <div class="col-md-12">
                             <div>
@@ -144,8 +142,8 @@
                 </div>
                 <div class="modal-footer">
                     <div>
-                        <button type="button" class="btn btn-default cp-button-medium" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-default cp-button-medium apply-piping-color">Apply Piping</button>
+                        <button type="button" class="btn btn-default cp-button-medium cancel-application">Cancel</button>
+                        <button type="button" class="btn btn-default cp-button-medium" data-dismiss="modal">Apply Piping</button>
                     </div>
                 </div>
             </div>
