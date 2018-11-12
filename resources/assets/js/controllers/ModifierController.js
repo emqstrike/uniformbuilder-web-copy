@@ -19,8 +19,9 @@
  *  modifier.logo();        // displays the logo panel
  */
 
-function ModifierController(element) {
+function ModifierController(element, brand) {
     this.switcherBody = document.querySelector(element);
+    this.brand = brand;
     // Controllers / Switchers
     this.controllers = {
         fabrics: {},
@@ -37,6 +38,8 @@ function ModifierController(element) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -45,7 +48,7 @@ ModifierController.prototype = {
     initControls: function() {
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
-            delay: 100,
+            delay: 0,
             size: 'large',
             animation: 'shift-away',
             placement: 'left-end'
@@ -53,6 +56,8 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
+        var _this = this;
+
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
         $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
@@ -74,6 +79,10 @@ ModifierController.prototype = {
         $(this).css('pointer-events', "none");
     },
 
+    activateColorAndPatternPanel: function() {
+        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+    },
+
     enable: function() {
         if (this.switcherBody.classList.contains('hidden')) {
             this.switcherBody.classList.remove('hidden');
@@ -86,6 +95,7 @@ ModifierController.prototype = {
             this.switcherBody.classList.add('hidden');
             ub.data.useScrollingUI = false;
             // To do, use the Color Wheel Menu
+            ub.funcs.drawColorPickers();
         }
     },
 
@@ -98,13 +108,16 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function() {
-        // this.clearControls();
+    parts: function(_this) {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         if ($("#primary_options_colors").css("display") === "none") {
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $("#parts-with-insert-container").hide();
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -114,18 +127,39 @@ ModifierController.prototype = {
 
         } else {
 
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
-
         }
+
     },
 
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
-    },
+    inserts: function(_this) {
+        ub.funcs.deactivateMoveTool();
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
-    inserts: function() {
-        console.log('Show Inserts Panel');
+        if ($("#primary_options_colors").css("display") === "none") {
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
+        if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+
+        } else {
+
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
     },
 
     pipings: function() {
