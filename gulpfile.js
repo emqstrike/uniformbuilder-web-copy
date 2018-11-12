@@ -29,6 +29,7 @@ elixir(function(mix) {
             // Sources
 
             'utilities.js',
+            'uniform-builder-constants.js',
             'uniform-builder-configuration.js',
             'uniform-builder-utilities.js',
             'uniform-builder-helper-functions.js',
@@ -97,6 +98,7 @@ elixir(function(mix) {
             'panels/PatternPanel.js',
             'panels/ColorWheelPanel.js',
             'panels/PipingPanel.js',
+            'panels/InsertPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',

@@ -19,8 +19,9 @@
  *  modifier.logo();        // displays the logo panel
  */
 
-function ModifierController(element) {
+function ModifierController(element, brand) {
     this.switcherBody = document.querySelector(element);
+    this.brand = brand;
     // Controllers / Switchers
     this.controllers = {
         fabrics: {},
@@ -37,6 +38,8 @@ function ModifierController(element) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -45,7 +48,7 @@ ModifierController.prototype = {
     initControls: function() {
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
-            delay: 100,
+            delay: 0,
             size: 'large',
             animation: 'shift-away',
             placement: 'left-end'
@@ -53,6 +56,8 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
+        var _this = this;
+
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
         $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
@@ -74,6 +79,10 @@ ModifierController.prototype = {
         $(this).css('pointer-events', "none");
     },
 
+    activateColorAndPatternPanel: function() {
+        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+    },
+
     enable: function() {
         if (this.switcherBody.classList.contains('hidden')) {
             this.switcherBody.classList.remove('hidden');
@@ -86,6 +95,7 @@ ModifierController.prototype = {
             this.switcherBody.classList.add('hidden');
             ub.data.useScrollingUI = false;
             // To do, use the Color Wheel Menu
+            ub.funcs.drawColorPickers();
         }
     },
 
@@ -98,13 +108,16 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function() {
-        // this.clearControls();
+    parts: function(_this) {
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         if ($("#primary_options_colors").css("display") === "none") {
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $("#parts-with-insert-container").hide();
         }
 
         if ($("#primary_options_container #primary_options_colors").length > 0) {
@@ -114,18 +127,39 @@ ModifierController.prototype = {
 
         } else {
 
-            this.controllers.parts = new PropertiesPanel('#primary_options_container', 'Richardsons');
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
             $("#parts-with-insert-container").hide();
-
         }
+
     },
 
-    fabrics: function() {
-        console.log('Show Fabrics Panel');
-    },
+    inserts: function(_this) {
+        ub.funcs.deactivateMoveTool();
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
-    inserts: function() {
-        console.log('Show Inserts Panel');
+        if ($("#primary_options_colors").css("display") === "none") {
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
+        if ($("#primary_options_container #primary_options_colors").length > 0) {
+
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+
+        } else {
+
+            ub.modifierController.activateColorAndPatternPanel();
+            $("#primary_options_container").scrollTo(0, { duration: 200 });
+            $(".parts-container").hide();
+            $("#parts-with-insert-container").show();
+        }
+
     },
 
     pipings: function() {
@@ -155,8 +189,6 @@ ModifierController.prototype = {
             var sizes = ub.funcs.sortPipingSizes({items: piping_set});
             var colors = ub.funcs.getPipingColorArray(active_piping_set);
 
-            console.log("Colors : ", colors);
-
             var modifier = piping_type.toLowerCase().replace(/ /g, "-")
 
             return {
@@ -167,8 +199,6 @@ ModifierController.prototype = {
                 modifier: modifier
             };
         });
-
-        console.log("Piping set items: ", piping_set_items);
 
         $('.modifier_main_container').append(Mustache.render(piping_sidebar_tmpl, {
             piping_set_items: piping_set_items,
@@ -182,7 +212,7 @@ ModifierController.prototype = {
         // set initial states
         _.map(piping_types, function(piping_type) {
             var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
-            var status = PipingPanel.PipingPanelPipingPanel(piping_type);
+            var status = PipingPanel.getPipingPanelStatus(piping_type);
             var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
 
             if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
@@ -190,7 +220,7 @@ ModifierController.prototype = {
             }
 
             var toggle_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .toggle');
-            var temporary_status = status === "on" ? "off" : "on";
+            var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
 
             toggle_el.data('status', temporary_status);
             $('.toggleOption.'+temporary_status, toggle_el).click();
