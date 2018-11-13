@@ -46,12 +46,6 @@ ModifierController.prototype = {
     constructor: ModifierController,
 
     initControls: function() {
-        // on click on any group pane switch to active
-        $('#property-modifiers-menu > .group-pane').on('click', function () {
-            $('#property-modifiers-menu > .group-pane').removeClass('active');
-            $(this).addClass('active');
-        });
-
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
             delay: 0,
@@ -67,11 +61,22 @@ ModifierController.prototype = {
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
         $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
-        $('#property-modifiers-menu .menu-item-pipings').on('click', this.pipings);
+        $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
+
+        // on click on any group pane switch to active
+        $('#property-modifiers-menu a').click(this.enableDisableModifierMenu);
+    },
+
+    enableDisableModifierMenu: function() {
+        $('#property-modifiers-menu a').removeClass('active');
+        $('#property-modifiers-menu a').css('pointer-events', "auto");
+
+        $(this).addClass('active');
+        $(this).css('pointer-events', "none");
     },
 
     activateColorAndPatternPanel: function() {
@@ -159,6 +164,15 @@ ModifierController.prototype = {
 
     pipings: function() {
         console.log('Show Pipings Panel');
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateLocations();
+        
+        ub.funcs.showPipingsPanel();
+
+        var piping_set = ub.funcs.getPipingSets();
+
+        // new PippingPanel();
     },
 
     letters: function() {
@@ -176,4 +190,4 @@ ModifierController.prototype = {
     logo: function() {
         console.log('Show Logo Panel');
     }
-}
+};
