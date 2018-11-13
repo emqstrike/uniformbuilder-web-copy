@@ -181,7 +181,7 @@ PipingPanel = {
             var modifier = $(this).data("modifier");
             var type = $(this).data("piping-type");
             var number_of_colors = $("." + modifier + " .colors-row .piping-colors-buttons.active").data("value");
-            var image = ub.getThumbnailImage("front_view");
+            var image = ub.getThumbnailImage(ub.active_view + "_view");
             var layers = ub.current_material.settings.pipings[type].layers;
 
             $("#piping-preview").css({
@@ -333,7 +333,7 @@ PipingPanel = {
                 }
             }
 
-            var image = ub.getThumbnailImage("front_view");
+            var image = ub.getThumbnailImage(ub.active_view + "_view");
 
             $("#piping-preview").css({
                 'background-image': "url("+ image +")"
