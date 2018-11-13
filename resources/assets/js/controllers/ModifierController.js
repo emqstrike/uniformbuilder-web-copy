@@ -248,5 +248,16 @@ ModifierController.prototype = {
 
     logo: function() {
         console.log('Show Logo Panel');
+
+        var logo_template = $("#m-logo").html();
+        var render = Mustache.render(logo_template);
+        $("#primary_options_container").html(render);
+
+        var image = ub.getThumbnailImage(ub.active_view + "_view");
+        $("#logo-preview").css({
+            'background-image': "url("+ image +")"
+        });
+
+        LogoPanel.events.init();
     }
 };
