@@ -70,6 +70,19 @@
                 </div>
             </li>
         @{{ /inserts }}
+
+        @{{^inserts}}
+            <div>
+                <h3 class="cp-fc-white">Notice</h3>
+                <div class="cp-fc-white">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
+                </div>
+
+                <div class="cp-padding-top-small">
+                    <div class="cp-off-button">OFF</div>
+                </div>
+            </div>
+        @{{/inserts}}
     </ul>
 </div>
 </script>
