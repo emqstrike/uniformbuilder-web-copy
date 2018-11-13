@@ -85,7 +85,7 @@ ModifierController.prototype = {
     },
 
     activateColorAndPatternPanel: function() {
-        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        var panel = new PropertiesPanel('#primary_options_container', this.brand);
     },
 
     enable: function() {
@@ -168,8 +168,6 @@ ModifierController.prototype = {
     },
 
     pipings: function() {
-        console.log('Show Pipings Panel');
-
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
@@ -248,7 +246,10 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        console.log('Show Numbers Panel');
+        ub.modifierController.numbers = new NumberPanel('m-decorations-numbers');
+        var numbers_panel = ub.modifierController.numbers.getPanel();
+        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
+        properties_panel.setBodyPanel(numbers_panel);
     },
 
     applications: function() {

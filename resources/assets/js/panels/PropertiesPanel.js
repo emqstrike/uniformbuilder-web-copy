@@ -28,6 +28,8 @@ function PropertiesPanel(
         pippings: null,
         inserts: null,
         applications: null,
+        letters: null,
+        numbers: null,
         logo: null
     };
     this.initModifiers();
@@ -106,6 +108,7 @@ PropertiesPanel.prototype = {
     loadTemplate: function() {
         this.panels.parts = new PartPanel('m-parts', this.parts);
         this.panels.inserts = new InsertPanel('m-inserts', this.inserts);
+        this.panels.numbers = new NumberPanel('m-decorations-numbers');
         var rendered = this.panels.parts.getPanel();
         rendered += this.panels.inserts.getPanel();
         this.setBodyPanel(rendered);
