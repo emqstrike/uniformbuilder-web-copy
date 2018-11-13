@@ -10253,6 +10253,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                sublimatedPart: 'Extra',
             }
         ],
 
