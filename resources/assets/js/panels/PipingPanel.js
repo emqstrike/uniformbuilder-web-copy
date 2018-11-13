@@ -30,15 +30,7 @@ PipingPanel = {
 
             var status = toggle_el.data('status');
 
-            var active_piping_set = ub.current_material.settings.pipings[piping_type];
-            var piping_set = piping_type;
-
-            if (active_piping_set === "undefined") {
-                active_piping_set = _.first(piping_set);
-            } else {
-                piping_set = ub.funcs.getPipingSet(piping_type);
-                active_piping_set = _.first(piping_set);
-            }
+            var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
             if (status === PipingPanel.STATUS_ON) {
                 $('.valueContainer', toggle_el).css('margin-left', '-100px');
@@ -70,7 +62,7 @@ PipingPanel = {
             var size = $(this).data('size');
             var piping_type = piping_el.data('piping-type');
 
-            var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
+            var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
             var pipingObject = _.find(ub.data.pipings, {name: type});
             var colorsMarkup =  ub.funcs.getPipingColorsNew(pipingObject);
@@ -126,7 +118,7 @@ PipingPanel = {
             var size = $(this).data('size');
 
             var piping_type = piping_el.data('piping-type');
-            var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
+            var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
             var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
 
@@ -310,14 +302,17 @@ PipingPanel = {
         },
     },
 
-
-    getFirstActivePipingSet: function(piping_type) {
+    getActivePipingSet: function(piping_type) {
         var active_piping_set = ub.current_material.settings.pipings[piping_type];
-        var piping_set;
 
         if (active_piping_set !== "undefined") {
-            piping_set = ub.funcs.getPipingSet(piping_type);
-            active_piping_set = _.first(piping_set);
+            var piping_sets = ub.funcs.getPipingSet(piping_type);
+
+            if (piping_sets.length > 0) {
+                var active_piping_sets = _.filter(piping_sets, {enabled: 1});
+
+                active_piping_set = active_piping_sets.length > 0 ? _.first(active_piping_sets) : _.first(piping_sets);
+            }
         }
 
         return active_piping_set;
