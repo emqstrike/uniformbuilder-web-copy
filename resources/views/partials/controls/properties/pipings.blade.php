@@ -37,7 +37,7 @@
                             </div>
                             <div class="ui-row cp-margin-remove">
                                 <div class="cp-padding-top-small">
-                                    <button class="edit-piping-modal-button cp-margin-remove" data-modifier="@{{ modifier }}">Edit Color</button>
+                                    <button class="edit-piping-modal-button cp-margin-remove" data-modifier="@{{ modifier }}" data-piping-type="@{{ type }}">Edit Color</button>
                                 </div>
                             </div>
 
@@ -176,7 +176,7 @@
     <button class="grow change-color whitebtn cp-new-color-box piping-color-selector-button none-color
     style="background-color: #ffff"
     data-modifier="@{{ modifier }}"
-    data-color-label="none"
+    data-color-code="none"
     >
         <span class="fa fa-ban cp-padding-remove-vertical cp-text-medium"></span>
     </button>

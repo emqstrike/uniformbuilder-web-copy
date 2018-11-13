@@ -179,12 +179,13 @@ PipingPanel = {
         onShowPipingModal: function(e)
         {
             var modifier = $(this).data("modifier");
+            var type = $(this).data("piping-type");
             var number_of_colors = $("." + modifier + " .colors-row .piping-colors-buttons.active").data("value");
-
             var image = ub.getThumbnailImage("front_view");
+            var layers = ub.current_material.settings.pipings[type].layers;
 
             $("#piping-preview").css({
-                'background-image': "url("+image+")"
+                'background-image': "url("+ image +")"
             });
 
             $("#piping-change-color .modal-footer .cancel-application").attr('data-modifier', modifier);
@@ -220,6 +221,7 @@ PipingPanel = {
                     $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'none');
                     break;
             }
+
             // Render Mustache
             var pipping_colors_element = document.getElementById("m-tab-piping-colors");
             var render_piping_colors = Mustache.render(
@@ -233,6 +235,21 @@ PipingPanel = {
             // Render Pattern Color
             $("#piping-color-tab-content .tab-content .tab-pane .piping-color-button-container").html("");
             $("#piping-color-tab-content .tab-content .tab-pane .piping-color-button-container").html(render_piping_colors);
+
+            _.delay(function() {
+                _.map(layers, function(index) {
+                    console.log("Layer: ", index.layer);
+                    console.log("Color code: ", index.colorCode);
+
+                    var selected_button_el = $(".piping-color-main-container-" + index.layer + " .piping-color-button-container .color_element button.piping-color-selector-button[data-color-code='"+ index.colorCode +"']");
+
+                    if (selected_button_el.length > 0)
+                    {
+                        selected_button_el.html('<div class="cp-check-background cp-background-cover piping-check"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                        selected_button_el.addClass('active-piping-color');
+                    }
+                });
+            }, 500);
 
             $('#piping-change-color').modal('show');
         },
