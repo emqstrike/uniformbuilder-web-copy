@@ -79,6 +79,11 @@ ModifierController.prototype = {
         $(this).css('pointer-events', "none");
     },
 
+    clearPartsAndInsert: function() {
+        $("#primary_options_colors").css('display', 'none');
+        $("#primary_options_colors").html("");
+    },
+
     activateColorAndPatternPanel: function() {
         var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
     },
@@ -168,6 +173,7 @@ ModifierController.prototype = {
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
+        ub.modifierController.clearPartsAndInsert();
         ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
