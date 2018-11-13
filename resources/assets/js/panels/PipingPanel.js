@@ -337,7 +337,7 @@ PipingPanel = {
             var pipingObject = _.find(ub.data.pipings, {name: piping_type});
             ub.funcs.removePiping(pipingObject.set);
 
-            var active_piping_set = PipingPanel.getFirstActivePipingSet(pipingObject.set);
+            var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
             $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
             $('#piping-change-color').modal('hide');
         }
