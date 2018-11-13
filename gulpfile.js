@@ -18,49 +18,49 @@ elixir(function(mix) {
     mix.scripts([
 
             // Third-party
-            'third-party/natural/natural.js',
-            'third-party/natural/all.js',
-            'third-party/tipped/tipped.js',
+            'third-party/natural/natural.js',   
+            'third-party/natural/all.js',   
+            'third-party/tipped/tipped.js',          
             'third-party/select2/select2.full.js',
-            'third-party/pixi/pixi.js',
+            'third-party/pixi/pixi.js', 
             'third-party/pixi/pixi.draggable.js',
-
+            
             // Sources
 
             'utilities.js',
+            'uniform-builder-constants.js',
             'uniform-builder-configuration.js',
             'uniform-builder-utilities.js',
             'uniform-builder-helper-functions.js',
             'uniform-builder-error-codes.js',
             'uniform-builder-endpoints.js',
             'uniform-builder-style-configuration.js',
+            
+            // Brand Specific 
 
-            // Brand Specific
-
-            // Richardson
+            // Richardson 
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
-
             'uniform-builder-dealership.js',
             'uniform-builder-data.js',
             'uniform-builder-ui-data.js',
-            'uniform-builder-application-sizes.js',
-            'uniform-builder-name-drops.js',
-            'uniform-builder-nlp.js',
-            'uniform-builder-mock-data.js',
-            'uniform-builder-status.js',
-            'uniform-builder-math.js',
+            'uniform-builder-application-sizes.js', 
+            'uniform-builder-name-drops.js',    
+            'uniform-builder-nlp.js',   
+            'uniform-builder-mock-data.js', 
+            'uniform-builder-status.js',    
+            'uniform-builder-math.js',  
             'uniform-builder-interop-is.js',
-            'uniform-builder-mascots.js',
-            'uniform-builder-placeholder-applications.js',
-            'uniform-builder-process.js',
-            'uniform-builder-dialogs.js',
-            'uniform-builder-patterns.js',
-            'uniform-builder-applications.js',
-            'uniform-builder-getters-setters.js',
-            'uniform-builder-pipings.js',
+            'uniform-builder-mascots.js',   
+            'uniform-builder-placeholder-applications.js',  
+            'uniform-builder-process.js',   
+            'uniform-builder-dialogs.js',   
+            'uniform-builder-patterns.js',  
+            'uniform-builder-applications.js',  
+            'uniform-builder-getters-setters.js',       
+            'uniform-builder-pipings.js',           
             'uniform-builder-random-feed.js',
             'uniform-builder-plugins.js',
             'uniform-builder-transformers.js',
@@ -84,32 +84,26 @@ elixir(function(mix) {
             'uniform-builder-shortcuts.js',
             'uniform-builder-generators.js',
 
-            // Teamstore
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
 
-            // Custom Panels
-            'panels/PropertiesPanel.js',
-            'panels/ColorPatternPanel.js',
-            'panels/ColorPanel.js',
-            'panels/PatternPanel.js',
-            'panels/ColorWheelPanel.js',
-
-        ],
+        ], 
         // Result
         'public/uniform-builder/js/ub.js'
     );
 
     mix.less(
         [
+            
             // Third-party
-            'third-party/tipped/tipped.less',
-            'third-party/select2/select2.less',
-
-            // Source
+            'third-party/tipped/tipped.less',   
+            'third-party/select2/select2.less', 
+            
+            // Source 
             'uniform-builder.less',
-        ],
 
+        ],
+        
         // Result
         'public/uniform-builder/css/uniform-builder.css');
     
