@@ -217,19 +217,20 @@ ModifierController.prototype = {
 
         // set initial states
         _.map(piping_types, function(piping_type) {
-            var active_piping_set = PipingPanel.getFirstActivePipingSet(piping_type);
+            var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
             var status = PipingPanel.getPipingPanelStatus(piping_type);
             var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
 
+            var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"]');
+
             if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
-                $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]').click();
+                $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).click();
             }
 
-            var toggle_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"] .toggle');
             var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
 
-            toggle_el.data('status', temporary_status);
-            $('.toggleOption.'+temporary_status, toggle_el).click();
+            $('.toggle', piping_item_el).data('status', temporary_status);
+            $('.toggleOption.'+temporary_status, $('.toggle', piping_item_el)).click();
         });
     },
 
