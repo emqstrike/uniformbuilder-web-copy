@@ -28,8 +28,6 @@ PipingPanel = {
             var piping_item_el = $(this).closest('.piping-item');
             var piping_type = piping_item_el.data('piping-type');
 
-            console.log("Piping Type: ", piping_type);
-
             var status = toggle_el.data('status');
 
             var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
@@ -230,9 +228,6 @@ PipingPanel = {
 
             _.delay(function() {
                 _.map(layers, function(index) {
-                    console.log("Layer: ", index.layer);
-                    console.log("Color code: ", index.colorCode);
-
                     var selected_button_el = $(".piping-color-main-container-" + index.layer + " .piping-color-button-container .color_element button.piping-color-selector-button[data-color-code='"+ index.colorCode +"']");
 
                     if (selected_button_el.length > 0)
@@ -336,8 +331,6 @@ PipingPanel = {
         },
 
         onCancelEditPiping: function() {
-            console.log("Cancellation of Piping");
-
             var modifier = $(this).data("modifier");
             var piping_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
 
