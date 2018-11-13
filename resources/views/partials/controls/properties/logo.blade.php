@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="cp-padding-small cp-padding-remove-horizontal cp-padding-top-xs">
-                    <div class="cp-margin-bottom-small logo-preview" id="logo-preview"></div>
+                    <div class="logo-preview" id="logo-preview"></div>
                 </div>
             </div>
         </div>

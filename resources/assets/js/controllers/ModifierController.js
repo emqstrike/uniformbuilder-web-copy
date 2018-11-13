@@ -249,6 +249,7 @@ ModifierController.prototype = {
 
     numbers: function() {
         console.log('Show Numbers Panel');
+        // set event listeners
     },
 
     applications: function() {
@@ -258,15 +259,14 @@ ModifierController.prototype = {
     logo: function() {
         console.log('Show Logo Panel');
 
-        var logo_template = $("#m-logo").html();
-        var render = Mustache.render(logo_template);
-        $("#primary_options_container").html(render);
+        ub.modifierController.logo = new LogoPanel("m-logo");
+        var logo_panel = ub.modifierController.logo.getPanel();
+        var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
+        properties_panel.setBodyPanel(logo_panel);
 
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         $("#logo-preview").css({
             'background-image': "url("+ image +")"
         });
-
-        LogoPanel.events.init();
     }
 };
