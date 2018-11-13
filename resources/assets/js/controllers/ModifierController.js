@@ -79,6 +79,11 @@ ModifierController.prototype = {
         $(this).css('pointer-events', "none");
     },
 
+    clearPartsAndInsert: function() {
+        $("#primary_options_colors").css('display', 'none');
+        $("#primary_options_colors").html("");
+    },
+
     activateColorAndPatternPanel: function() {
         var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
     },
@@ -165,14 +170,68 @@ ModifierController.prototype = {
     pipings: function() {
         console.log('Show Pipings Panel');
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
-        
-        ub.funcs.showPipingsPanel();
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
 
-        var piping_set = ub.funcs.getPipingSets();
+        ub.modifierController.clearPartsAndInsert();
+        ub.funcs.activatePanelGuard();
+        ub.funcs.deactivatePanels();
 
-        // new PippingPanel();
+        $('#pipingsUI').remove();
+
+        // get the name of pipings
+        var piping_types = ub.funcs.getPipingSets();
+        var piping_sidebar_tmpl = $('#m-piping-sidebar-new').html();
+
+        var piping_set_items = _.map(piping_types, function(piping_type) {
+            var active_piping_set = ub.current_material.settings.pipings[piping_type];
+            var piping_set = piping_type;
+
+            if (active_piping_set !== "undefined") {
+                piping_set = ub.funcs.getPipingSet(piping_type);
+                active_piping_set = _.first(piping_set);
+            }
+
+            var sizes = ub.funcs.sortPipingSizes({items: piping_set});
+            var colors = ub.funcs.getPipingColorArray(active_piping_set);
+
+            var modifier = piping_type.toLowerCase().replace(/ /g, "-")
+
+            return {
+                sizes: sizes.items,
+                colors: colors,
+                type: piping_type,
+                type_wo_left_prefix: piping_type.indexOf('Left') === 0 ? piping_type.replace("Left", "") : piping_type,
+                modifier: modifier
+            };
+        });
+
+        $('.modifier_main_container').append(Mustache.render(piping_sidebar_tmpl, {
+            piping_set_items: piping_set_items,
+        }));
+
+        // PipingPanel.initEvents();
+        PipingPanel.events.init();
+
+        $('#pipingsUI').fadeIn();
+
+        // set initial states
+        _.map(piping_types, function(piping_type) {
+            var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
+            var status = PipingPanel.getPipingPanelStatus(piping_type);
+            var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
+
+            var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"]');
+
+            if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
+                $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).click();
+            }
+
+            var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
+
+            $('.toggle', piping_item_el).data('status', temporary_status);
+            $('.toggleOption.'+temporary_status, $('.toggle', piping_item_el)).click();
+        });
     },
 
     letters: function() {
