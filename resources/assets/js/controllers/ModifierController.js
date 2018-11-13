@@ -173,13 +173,12 @@ ModifierController.prototype = {
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
-        ub.modifierController.clearPartsAndInsert();
         ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
-        if (PipingPanel.isValidToProcessPipings()) {
-            $('#pipingsUI').remove();
+        $('#primary_options_container').html("");
 
+        if (PipingPanel.isValidToProcessPipings()) {
             // get the name of pipings
             var piping_types = ub.funcs.getPipingSets();
             var piping_sidebar_tmpl = $('#m-piping-sidebar-new').html();
@@ -214,8 +213,6 @@ ModifierController.prototype = {
             // PipingPanel.initEvents();
             PipingPanel.events.init();
 
-            $('#pipingsUI').fadeIn();
-
             // set initial states
             _.map(piping_types, function(piping_type) {
                 var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
@@ -233,12 +230,16 @@ ModifierController.prototype = {
                 $('.toggle', piping_item_el).data('status', temporary_status);
                 $('.toggleOption.'+temporary_status, $('.toggle', piping_item_el)).click();
             });
+
+            $('#pipingsUI').fadeIn();
         } else {
             var no_piping_msg_tmpl = $('#m-no-piping-message').html();
 
             $('#no-piping-message').remove();
             $('.modifier_main_container').append(no_piping_msg_tmpl);
             $('#no-piping-message').fadeIn();
+
+            $("#primary_options_colors").remove();
         }
     },
 

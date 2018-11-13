@@ -199,12 +199,14 @@
 </script>
 
 <script type="text/mustache" id="m-no-piping-message">
-    <div id="no-piping-message">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div id="no-piping-message" class="no-piping-message">
+        <h3 class="cp-fc-white">Notice</h3>
+        <div class="cp-fc-white">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
+        </div>
+
+        <div class="cp-padding-top-small">
+            <div class="cp-off-button">OFF</div>
+        </div>
     </div>
 </script>
