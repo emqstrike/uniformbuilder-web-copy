@@ -337,7 +337,7 @@ PipingPanel = {
             var pipingObject = _.find(ub.data.pipings, {name: piping_type});
             ub.funcs.removePiping(pipingObject.set);
 
-            var active_piping_set = PipingPanel.getFirstActivePipingSet(pipingObject.set);
+            var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
             $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
             $('#piping-change-color').modal('hide');
         }
@@ -364,6 +364,18 @@ PipingPanel = {
         var status = (typeof piping_set !== "undefined" && piping_set.enabled === 1) ? PipingPanel.STATUS_ON : PipingPanel.STATUS_OFF;
 
         return status;
+    },
+
+    isValidToProcessPipings: function() {
+        var is_valid = false;
+
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+            if (ub.current_material.pipings !== null) {
+                is_valid = true;
+            }
+        }
+
+        return is_valid;
     }
 };
 
