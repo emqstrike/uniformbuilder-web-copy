@@ -10253,6 +10253,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                sublimatedPart: 'Extra',
             }
         ],
 
@@ -12152,7 +12156,8 @@ ub.funcs.fontOffSets = [
             'Baseball',
             'Socks (Apparel)',
             'Yoga Pant (Apparel)',
-            'Basketball'
+            'Basketball',
+            'SFN Jogger (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
