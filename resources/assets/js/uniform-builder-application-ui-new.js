@@ -6,6 +6,7 @@
 $(function() {
 
     var ub = window.ub;
+    var util =  window.util;
 
     // on click on any group pane switch to active
     $('#new-toolbar > .group-pane').on('click', function () {
@@ -43,6 +44,7 @@ $(function() {
     });
 
     ub.funcs.startNewApplication = function () {
+
         console.info('=======APPLICATION UI BLOCK=======');
 
         // clear contents
@@ -62,37 +64,39 @@ $(function() {
         _.map(_filteredApplications, function (i) {
             if (i.application_type === 'embellishments') {
                 var objCustom = {
-                    'thumbnail': i.embellishment.thumbnail,
-                    'type': 'CUSTOM LOGO',
-                    'code': i.code,
-                    'perspective': i.application.views[0].perspective,
-                    'name': i.embellishment.name,
-                    'viewArtDetails': ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
-                    'viewPrint': i.embellishment.svg_filename,
-                }
+                    thumbnail: i.embellishment.thumbnail,
+                    type: 'CUSTOM LOGO',
+                    code: i.code,
+                    perspective: i.application.views[0].perspective,
+                    name: i.embellishment.name,
+                    viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
+                    viewPrint: i.embellishment.svg_filename,
+                };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
                 var objStock = {
-                    'thumbnail': i.mascot.icon,
-                    'type': 'STOCK MASCOT',
-                    'code': i.code,
-                    'perspective': i.application.views[0].perspective,
-                    'name': i.mascot.name
-                }
+                    thumbnail: i.mascot.icon,
+                    type: 'STOCK MASCOT',
+                    code: i.code,
+                    perspective: i.application.views[0].perspective,
+                    name: i.mascot.name,
+                    colorPicker: true,
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
+                };
                 _appData.push(objStock);
             }
         });
 
         // prepare data
-        var templateData = {
+        var props = {
             applications: _appData
         };
 
         console.log('_filteredApplications===>', _filteredApplications);
-        console.log('templateData===>', templateData);
+        console.log('props===>', props);
 
         // send to mustache
-        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', templateData);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
@@ -138,6 +142,18 @@ $(function() {
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initRotatePanel(rotateSliders[i], _settingsObject, _applicationType);
         });
+
+        // add class active to all first tab of color selection tab
+        var colorFirstTab = document.getElementsByClassName('color-selection-tab');
+        $(colorFirstTab).each(function(i){
+            $(this).find('li:first-child').addClass('active');
+        });
+        var colorFirstTabContent = document.getElementsByClassName('tab-content');
+        $(colorFirstTabContent).each(function(i){
+            $(this).find('.tab-pane:first-child').addClass('in active');
+        });
+        console.log('colorFirstTabContent===>', colorFirstTabContent);
+
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
@@ -308,6 +324,86 @@ $(function() {
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
 
         });
+
+    };
+
+    ub.funcs.colorsSelection = function (id, _title) {
+
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
+        var _colorBlock = '';
+        var _html = '';
+
+        if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
+
+            _html += '<div class="colorSelectionContainer">';
+                _html += '<h4>'+_title+'</h4>';
+                _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+
+                    _.each(_settingsObject.mascot.layers_properties, function (layer) {
+
+                        var _hexCode = layer.default_color;
+                        var _color = ub.funcs.getColorByColorCode(_hexCode);
+
+                        if (typeof _color !== 'undefined') {
+
+                            // adding tabs
+                            _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
+
+                            // building separated color blocks
+                            _colorBlock += ub.funcs.createColorBlock(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+
+                        } else {
+                            util.error('Hex Code: ' + _hexCode + ' not found!');
+                        }
+
+                    });
+
+                _html += '</ul>';
+                _html += '<div class="tab-content">';
+                    _html += _colorBlock;
+                _html += '</div>';
+            _html += '</div>';
+
+        }
+
+        return _html;
+
+    };
+
+    ub.funcs.createColorBlock = function (activeColorCode, layer_no, layer_name, active_color, objectType) {
+
+        var _html = '';
+        var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
+        var _teamColors = ub.current_material.settings.team_colors;
+
+        var _objectType = objectType;
+
+        if (typeof objectType === "undefined") {
+            _objectType = 'not-set';
+        }
+
+        _teamColors = _.sortBy(_teamColors, "order");
+        _html += '<div id="tab' + layer_no + '" class="tab-pane fade">';
+            _.each(_teamColors, function (_color) {
+
+                var _checkMark = '&nbsp;';
+                // var _style = "25px";
+                var _class = '';
+
+                if (activeColorCode === _color.color_code) {
+                    _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
+                    _class = 'activeColorItem';
+                }
+
+                var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+                // _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
+
+                _html += '<span class="colorBox ' + _class + '" style="background-color:#' + _colorObj.hex_code + '">' + _checkMark + '</span>';
+
+            });
+        _html += '</div>';
+
+        return _html;
 
     };
 
