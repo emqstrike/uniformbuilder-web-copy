@@ -8,6 +8,16 @@ $(function() {
     var ub = window.ub;
     var util =  window.util;
 
+/*
+                      _
+                     | |
+  _____   _____ _ __ | |_ ___
+ / _ \ \ / / _ \ '_ \| __/ __|
+|  __/\ V /  __/ | | | |_\__ \
+ \___| \_/ \___|_| |_|\__|___/
+
+*/
+
     // on click on any group pane switch to active
     $('#new-toolbar > .group-pane').on('click', function () {
         $('#new-toolbar > .group-pane').removeClass('active');
@@ -119,6 +129,16 @@ $(function() {
 
     });
 
+/*
+
+  __                  _   _
+ / _|                | | (_)
+| |_ _   _ _ __   ___| |_ _  ___  _ __  ___
+|  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+| | | |_| | | | | (__| |_| | (_) | | | \__ \
+|_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+
+ */
 
     ub.funcs.startNewApplication = function () {
 
@@ -148,6 +168,8 @@ $(function() {
                     name: i.embellishment.name,
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
+                    slider: true,
+                    sliderContainer: ub.funcs.sliderContainer(i.code)
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -157,6 +179,8 @@ $(function() {
                     code: i.code,
                     perspective: i.application.views[0].perspective,
                     name: i.mascot.name,
+                    slider: true,
+                    sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
                 };
@@ -402,6 +426,18 @@ $(function() {
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
 
         });
+
+    };
+
+    ub.funcs.sliderContainer = function (_code) {
+
+        // prepare data
+        var props = {
+            code: _code
+        }
+
+        // send to mustache
+        return ub.utilities.buildTemplateString('#m-slider-container', props);
 
     };
 
