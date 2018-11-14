@@ -43,6 +43,83 @@ $(function() {
         $(this).parent().next().hide();
     });
 
+    // on click color item
+    $('#primary_options_container').on('click', '.colorItem', function () {
+
+        // changing active color
+        $(this).parent().find('span').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+
+        // proceed
+        var dataId = $(this).attr('data-id');
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+
+        var _layer_no = $(this).data('layer-no');
+        var _color_code = $(this).data('color-code');
+        var _layer_name = $(this).data('layer-name');
+        var _temp = $(this).data('temp');
+        var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+
+        var _oldVal = {
+
+            layerNo: _layer_no,
+            color: _settingsObject.color_array[_layer_no - 1],
+            applicationCode: _settingsObject.code,
+
+        };
+
+        if (_temp !== 'undo') {
+
+            ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+
+        }
+
+        ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject);
+        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+        var _processMatchingSide = true;
+        var _matchingID = undefined;
+        var _matchingSettingsObject = undefined;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+        if (typeof _matchingID !== "undefined") {
+            _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+        }
+
+        // On Crew Socks, only change the color of the matching side if its the same mascot id
+        if (typeof _matchingSettingsObject !== "undefined") {
+
+            if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) {
+
+                _processMatchingSide = false;
+
+            }
+
+            if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+
+                if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) {
+                    _processMatchingSide = true;
+                }
+
+            }
+
+        }
+
+        if (typeof _matchingID !== "undefined") {
+
+            if (_processMatchingSide) {
+
+                ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
+
+            }
+
+        }
+
+    });
+
+
     ub.funcs.startNewApplication = function () {
 
         console.info('=======APPLICATION UI BLOCK=======');
@@ -145,14 +222,15 @@ $(function() {
 
         // add class active to all first tab of color selection tab
         var colorFirstTab = document.getElementsByClassName('color-selection-tab');
-        $(colorFirstTab).each(function(i){
+        $(colorFirstTab).each(function(){
             $(this).find('li:first-child').addClass('active');
         });
         var colorFirstTabContent = document.getElementsByClassName('tab-content');
-        $(colorFirstTabContent).each(function(i){
+        $(colorFirstTabContent).each(function(){
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
-        console.log('colorFirstTabContent===>', colorFirstTabContent);
+
+
 
     };
 
@@ -350,7 +428,7 @@ $(function() {
                             _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
 
                             // building separated color blocks
-                            _colorBlock += ub.funcs.createColorBlock(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+                            _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
 
                         } else {
                             util.error('Hex Code: ' + _hexCode + ' not found!');
@@ -370,7 +448,7 @@ $(function() {
 
     };
 
-    ub.funcs.createColorBlock = function (activeColorCode, layer_no, layer_name, active_color, objectType) {
+    ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
         var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
@@ -398,7 +476,7 @@ $(function() {
                 var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
                 // _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
 
-                _html += '<span class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
+                _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
 
             });
         _html += '</div>';
