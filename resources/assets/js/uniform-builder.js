@@ -2794,6 +2794,11 @@ $(document).ready(function () {
 
         }
 
+        // Process Prolook Logo Here
+        if (ub.current_material.material.logo_position !== null) {
+            LogoPanel.process.processLogo(ub.current_material.material.logo_position);
+        }
+
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
             // Activate Left View on all Socks (Apparel) except on 'Hockey Sock' block pattern

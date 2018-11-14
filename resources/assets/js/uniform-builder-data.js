@@ -168,6 +168,7 @@ $(document).ready(function() {
     ub.current_material.settings.size_breakdown = {};
     ub.current_material.settings.pipings        = {};
     ub.current_material.settings.randomFeeds    = {};
+    ub.current_material.settings.logos          = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
