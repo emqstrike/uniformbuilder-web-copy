@@ -55,6 +55,10 @@ class SavedDesignsController extends Controller
             }
         }
 
+        if (Input::get('range')) {
+            $filters['range'] = Input::get('range');
+        }
+
         $results = $this->client->getPaginated($currentPage, $filters);
         $savedDesigns = $results['saved_designs'];
         $total = $results['total'];
