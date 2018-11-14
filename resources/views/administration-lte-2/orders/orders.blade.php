@@ -247,14 +247,19 @@ $(document).ready(function(){
 
     $(document).on('click', '.view-pdf', function(e) {
         window.order_code = $(this).parent().parent().parent().find('.td-order-code').text();
-        console.log(window.order_code);
         getOrderItem(function(order_info){ window.order_info = order_info; });
-        console.log(window.order_info);
-        var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
-        var url = customizer_host+bc.pdfOrderForm;
-        console.log('open pdf!');
-        console.log(url);
-        OpenInNewTab(url);
+
+        if (typeof window.order_info['items'][0]['builder_customizations'] !== 'undefined') {
+            var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
+
+            if (typeof bc.pdfOrderForm !== 'undefined') {
+                OpenInNewTab(bc.pdfOrderForm);
+            } else {
+                alert('PDF File not found.');
+            }
+        } else {
+            alert('Unable to find PDF file.');
+        }
     });
 
     $(document).on('click', '.send-to-factory', function(e) {
