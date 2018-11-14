@@ -34,6 +34,11 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                // prevent apostrophe problem
+                ub.config.sport         = ub.utilities.domParserDecoder(ub.config.sport);
+                ub.config.option        = ub.utilities.domParserDecoder(ub.config.option);
+                ub.config.blockPattern  = ub.utilities.domParserDecoder(ub.config.blockPattern);
+
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
@@ -6809,7 +6814,11 @@ $(document).ready(function () {
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
 
             // Blank styles goes to the bottom ...
-            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; }
+
+            // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
+            // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
+            if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
 
             return _weight;
 
@@ -8846,7 +8855,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 

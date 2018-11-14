@@ -682,6 +682,9 @@ class MascotsController extends Controller
         $response = null;
 
         $ar_json[$logoIndex]['mascot_id'] = $mascotId;
+        unset($ar_json[$logoIndex]['user_rejected']);
+        $ar_json[$logoIndex]['approved'] = 0;
+
 // dd($ar_json);
         $logo_request->id = (string)$logo_request->id;
         // $logo_request->artworks = $ar_json;

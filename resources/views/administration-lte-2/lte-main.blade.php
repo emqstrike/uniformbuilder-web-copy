@@ -84,12 +84,16 @@
     .breadcrumb {
         background: #ffffff;
     }
+
+    .sidebar li.header {
+        text-transform: uppercase;
+    }
 </style>
 
 @yield('styles')
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
-<body class="hold-transition skin-black sidebar-mini">
+<body class="skin-black sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     @include('administration-lte-2.lte-main-topbar')

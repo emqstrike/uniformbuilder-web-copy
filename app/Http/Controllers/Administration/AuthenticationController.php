@@ -51,11 +51,15 @@ class AuthenticationController extends Controller
                 Session::put('userAllowedPages', $result->user->allowed_pages);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
+                Session::put('first_name', $result->user->first_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::put('role', $result->user->role);
                 Session::put('userType', $result->user->type);
+                Session::put('userLimitedAccess', $result->user->limited_access);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 $config_string = 'user-restrictions.'.$result->user->id;

@@ -23,18 +23,44 @@ class MenuController extends Controller
     public function index()
     {
         $menus = [];
+        $pages = [];
 
         $result = $this->menuClient->getMenusByBrand(env('BRAND'));
         if ($result->success) {
             $menus = $result->menus;
         }
 
-        return view('administration.menus.index', compact('menus'));
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            $pages = $result->pages;
+        }
+
+        return view('administration.menus.index', compact(
+            'menus',
+            'pages'
+        ));
     }
 
     public function store(Request $request)
     {
-        $result = $this->menuClient->create($request->all());
+        $data = $request->all();
+
+        $menus = array();
+        
+        for ($index = 0; $index < count($data['id']); $index++) {
+            $menus[] = array(
+                'id' => $data['id'][$index],
+                'route_name' => $data['route_name'][$index],
+                'menu_text' => $data['menu_text'][$index],
+                'icon_class' => $data['icon_class'][$index],
+                'parent_id' => $data['parent_id'][$index],
+                'type' => $data['type'][$index],
+                'order_id' => $data['order_id'][$index]
+            );
+        }
+
+        $result = $this->menuClient->create($menus);
 
         if ($result->success) {
             return redirect()->route('menus')->with('flash_message_success', $result->message);

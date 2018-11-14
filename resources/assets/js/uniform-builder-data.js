@@ -10235,8 +10235,28 @@ ub.funcs.fontOffSets = [
                 sublimatedPart: 'Extra',
             },
             {
+                sport: 'PTS Hoodie (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
                 sport: 'PTS Cage Jacket (Apparel)',
                 sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Tech Tee (eSports)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                sublimatedPart: 'Extra',
             }
         ],
 
@@ -10993,12 +11013,6 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Shorts',
             },
             {
-                sport: 'Basketball',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Shorts',
-            },
-            {
                 sport: 'Lacrosse',
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -11023,12 +11037,6 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Shorts',
-            },
-            {
-                sport: 'Hockey',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Pants',
             },
             {
                 sport: 'Game Day Jackets (Apparel)',
@@ -12088,7 +12096,6 @@ ub.funcs.fontOffSets = [
     ub.data.tackleTwillOnly = {
 
         items: [
-            'Basketball',
             'Lacrosse',
         ],
         isTackleTwillOnly: function (uniformCategory) {
@@ -12120,6 +12127,23 @@ ub.funcs.fontOffSets = [
 
     }
  
+    ub.data.freeFormToolFirstPartSelection = {
+        
+        items: [
+            'Yoga Pant (Apparel)',
+            'Basketball'
+        ],
+        activateOnLowerUniform: function (uniformCategory) {
+
+            var _result = undefined;
+
+            _result = (_.contains(this.items, uniformCategory) && _.isEqual(ub.config.type, 'lower'));
+
+            return _result;
+
+        }
+
+    }
 
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {
@@ -12130,7 +12154,10 @@ ub.funcs.fontOffSets = [
             'Wrestling 2018',
             'Tennis',
             'Baseball',
-            'Socks (Apparel)'
+            'Socks (Apparel)',
+            'Yoga Pant (Apparel)',
+            'Basketball',
+            'SFN Jogger (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
@@ -12192,6 +12219,50 @@ ub.funcs.fontOffSets = [
 
         }
 
+    }
+
+    // do not apply oneInchPullUp funcs for the the following sports
+    ub.data.oneInchPullUpExemptions = {
+        items: [
+            {
+                sport: 'Socks (Apparel)',
+                blockPattern: 'Hockey Sock',
+            }
+        ],
+        isExempted: function (sport, blockPattern) {
+            
+            var _result = undefined;
+            
+            _result = _.find(this.items, {sport: sport, blockPattern: blockPattern});
+            
+            return _.size(_result) > 0;
+            
+        }
+    }
+
+    // omit material option `e.g. Neck Tape 1` on ub.data.modifierLabels
+    ub.data.hideMaterialOptionOnSportModifierLabels = {
+        items: [
+            'PTS Cage Jacket (Apparel)',
+            'PTS Hoodie (Apparel)'
+        ],
+        isValid: function (uniformCategory, modifierLabels, materialOption) {
+
+            if (_.contains(this.items, uniformCategory)) {
+
+                return _.omit(modifierLabels, function(value, key, object) {
+
+                    return _.contains(materialOption, value.fullname);
+
+                });
+
+            } else {
+
+                return modifierLabels;
+
+            }
+
+        }
     }
 
 });

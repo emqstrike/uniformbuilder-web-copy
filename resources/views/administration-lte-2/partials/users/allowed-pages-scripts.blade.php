@@ -28,23 +28,13 @@
             $('#type').val(data.type);
             $('#role').val(data.role);
 
-            console.log(data.role);
-
             var url = "{{ env('APP_URL') }}/administration/page_rule/" + data.type + "/" + data.role;
 
             $.get(url, function(data, status) {
                 var allowed_pages = "";
 
-                $('#default_allowed_pages option').each(function() {
-                    $(this).remove();
-                });
-
-                $('#allowed_pages option').each(function() {
-                    $(this).remove();
-                });
-
                 if (data.allowed_pages) {
-                    allowed_pages = JSON.parse(data.allowed_pages)
+                    allowed_pages = JSON.parse(data.allowed_pages);
 
                     var html = "";
 
@@ -70,10 +60,31 @@
 
                     $('#allowed_pages').append(html);
                 });
+
+                $.get("{{ env('APP_URL') }}/administration/pages/v1-0", function(data, status) {
+                    var user_limited_access = window.user_limited_access;
+                    console.log(user_limited_access);
+                    var html = "";
+
+                    jQuery.each(data, function(key, value) {
+                        if (user_limited_access.indexOf(value.code) >= 0) {
+                            html += "<option selected='selected' value='" + value.code + "'>" + value.code + "</option>";
+                        } else {
+                            html += "<option value='" + value.code + "'>" + value.code + "</option>";
+                        }
+                    });
+
+                    $('#limited_access').append(html);
+                });
             });
         });
 
         $('#default_allowed_pages').select2({
+            multiple: true,
+            allowClear: true
+        });
+
+        $('#limited_access').select2({
             multiple: true,
             allowClear: true
         });
@@ -89,6 +100,7 @@
             var data = {};
             data.user_id = $('#user_id').val();
             data.allowed_pages = $('#allowed_pages').val();
+            data.limited_access = $('#limited_access').val();
 
             $.ajax({
                 url: "{{ env('APP_URL') }}/administration/user/update_allowed_pages",

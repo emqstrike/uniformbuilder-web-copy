@@ -10,7 +10,16 @@ $(document).ready(function() {
 
         // Hide Richardson Mascots #Richardson #BrandSpecific
         if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
-            ub.data.mascots = _.filter(ub.data.mascots, {brand: 'prolook'})
+            
+            ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
+                
+                // return all prolook mascots together with other mascots which brand set to none
+                if (mascot.brand === 'prolook' || mascot.brand === null) {
+                    return mascot;
+                }
+
+            });
+
         }
 
         _.each(ub.data.mascots, function (mascot, index) {
