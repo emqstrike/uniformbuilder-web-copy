@@ -13,6 +13,9 @@
 function PartPanel(element, parts) {
     this.panel = document.getElementById(element);
     this.parts = parts;
+    this.colors = new ColorPanel(null),
+    this.patterns = new PatternPanel(null),
+    this.isBindEvents = 0;
     this.items = {
         parts: this.parts,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
@@ -48,5 +51,4 @@ PartPanel.prototype = {
             });
         }
     }
-
 }

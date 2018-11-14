@@ -25,5 +25,5 @@ InsertPanel.prototype = {
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);
         return rendered;
-    },
+    }
 }
