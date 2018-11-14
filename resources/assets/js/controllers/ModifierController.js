@@ -33,8 +33,6 @@ function ModifierController(element, brand) {
         applications: {},
         logo: {}
     };
-    this.propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-    this.isInitProperties = 0;
     // Setup
     this.initControls();
     this.bindEvents();
@@ -57,8 +55,6 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
-        var _this = this;
-
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
         $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
@@ -119,14 +115,18 @@ ModifierController.prototype = {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
-        ub.modifierController.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
+
         var part_panel = ub.modifierController.controllers.parts.getPanel();
-        ub.modifierController.propertiesPanel.setBodyPanel(part_panel);
-        ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
-        ub.modifierController.propertiesPanel.bindEvents();
+        propertiesPanel.setBodyPanel(part_panel);
+        propertiesPanel.setDefaultColorsPatterns();
 
-        $("#primary_options_container").scrollTo(0, { duration: 200 });
+        // Bind Events
+        propertiesPanel.bindEvents();
 
+        $("#primary_options_container").scrollTo(0);
         console.log("Show Parts Panel");
     },
 
@@ -134,13 +134,19 @@ ModifierController.prototype = {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
-        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', ub.modifierController.propertiesPanel.inserts);
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
+
         var insert_panel = ub.modifierController.controllers.inserts.getPanel();
-        ub.modifierController.propertiesPanel.setBodyPanel(insert_panel);
-        ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
-        ub.modifierController.propertiesPanel.bindEvents();
-        $("#primary_options_container").scrollTo(0, { duration: 200 });
-        console.log("Show insert Panel")
+        propertiesPanel.setBodyPanel(insert_panel);
+        propertiesPanel.setDefaultColorsPatterns();
+
+        // Bind Events
+        propertiesPanel.bindEvents();
+
+        $("#primary_options_container").scrollTo(0);
+        console.log("Show Inserts Panel")
     },
 
     pipings: function() {

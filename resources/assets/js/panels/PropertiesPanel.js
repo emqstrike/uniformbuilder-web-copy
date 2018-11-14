@@ -103,15 +103,6 @@ PropertiesPanel.prototype = {
         this.body_panel.innerHTML = '';
     },
 
-    // loadTemplate: function() {
-    //     this.panels.parts = new PartPanel('m-parts', this.parts);
-    //     this.panels.inserts = new InsertPanel('m-inserts', this.inserts);
-    //     var rendered = this.panels.parts.getPanel();
-    //     rendered += this.panels.inserts.getPanel();
-    //     this.setBodyPanel(rendered);
-    //     this.panels.parts.setTooltips();
-    // },
-
     bindEvents: function() {
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
@@ -120,7 +111,11 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onOpenModalPatternModifier();
         this.panels.patterns.onClosePatternModal();
         this.panels.patterns.onApplyChanges();
-        this.panelTracker();
+
+        if (PropertiesPanel.is_bind_events_called === 0) {
+            this.panelTracker();
+            PropertiesPanel.is_bind_events_called = 1;
+        }
     },
 
     // Pre-select default colors, add check mark and add active state class name
@@ -200,46 +195,17 @@ PropertiesPanel.prototype = {
 
                 if (_match.includes("insert"))
                 {
-                    $('#property-modifiers-menu > .group-pane').removeClass('active');
-                    $('#property-modifiers-menu > .group-pane.group-3').addClass('active');
-
                     if ($("#primary_options_container #parts-with-insert-container").length === 0) {
-                        var insert_panel = null;
-                        if (_.size(ub.modifierController.controllers.inserts) === 0) {
-                            ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', _this.inserts);
-                            insert_panel = ub.modifierController.controllers.inserts.getPanel();
-                        } else {
-                            insert_panel = ub.modifierController.controllers.inserts.getPanel();
-                        }
-                        _this.setBodyPanel(insert_panel);
-                        _this.setDefaultColorsPatterns();
+                        $('#property-modifiers-menu .menu-item-inserts').trigger('click');
                     }
-                    console.log("Times");
                 }
                 else
                 {
-                    $('#property-modifiers-menu > .group-pane').removeClass('active');
-                    $('#property-modifiers-menu > .group-pane.group-2').addClass('active');
-
                     if ($("#primary_options_container .parts-container").length === 0) {
-                        console.log("* Parts");
-                        var part_panel = null;
-                        if (_.size(ub.modifierController.controllers.parts) === 0) {
-                            ub.modifierController.controllers.parts = new PartPanel('m-parts', _this.parts);
-                            part_panel = ub.modifierController.controllers.parts.getPanel();
-                        } else {
-                            part_panel = ub.modifierController.controllers.parts.getPanel();
-                        }
-                        _this.setBodyPanel(part_panel);
-                        _this.setDefaultColorsPatterns();
+                        $('#property-modifiers-menu .menu-item-parts').trigger('click');
                     }
-                    console.log("Times");
                 }
 
-                if (_this.isBind) {
-                    _this.bindEvents();
-                    _this.isBind = false;
-                }
                 _this.activePanelbyIndex(_index);
             }
             else
@@ -270,3 +236,5 @@ PropertiesPanel.prototype = {
     },
 
 }
+
+PropertiesPanel.is_bind_events_called = 0;
