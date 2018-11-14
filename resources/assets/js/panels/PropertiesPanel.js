@@ -21,6 +21,7 @@ function PropertiesPanel(
     this.modifiers = [];
     this.parts = [];
     this.inserts = [];
+    this.isBind = true;
     this.panels = {
         parts: null,
         colors: new ColorPanel(null),
@@ -32,7 +33,6 @@ function PropertiesPanel(
     };
     this.initModifiers();
     this.initInserts();
-    this.loadTemplate();
     this.setDefaultColorsPatterns();
     this.bindEvents();
 }
@@ -103,17 +103,7 @@ PropertiesPanel.prototype = {
         this.body_panel.innerHTML = '';
     },
 
-    loadTemplate: function() {
-        this.panels.parts = new PartPanel('m-parts', this.parts);
-        this.panels.inserts = new InsertPanel('m-inserts', this.inserts);
-        var rendered = this.panels.parts.getPanel();
-        rendered += this.panels.inserts.getPanel();
-        this.setBodyPanel(rendered);
-        this.panels.parts.setTooltips();
-    },
-
     bindEvents: function() {
-        this.panels.parts.onSelect();
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
         this.panels.patterns.onChangeColorPaternCategory();
@@ -121,7 +111,11 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onOpenModalPatternModifier();
         this.panels.patterns.onClosePatternModal();
         this.panels.patterns.onApplyChanges();
-        this.panelTracker();
+
+        if (PropertiesPanel.is_bind_events_called === 0) {
+            this.panelTracker();
+            PropertiesPanel.is_bind_events_called = 1;
+        }
     },
 
     // Pre-select default colors, add check mark and add active state class name
@@ -201,15 +195,15 @@ PropertiesPanel.prototype = {
 
                 if (_match.includes("insert"))
                 {
-                    $('#property-modifiers-menu > .group-pane').removeClass('active');
-                    $('#property-modifiers-menu > .group-pane.group-3').addClass('active');
-                    ub.modifierController.inserts();
+                    if ($("#primary_options_container #parts-with-insert-container").length === 0) {
+                        $('#property-modifiers-menu .menu-item-inserts').trigger('click');
+                    }
                 }
                 else
                 {
-                    $('#property-modifiers-menu > .group-pane').removeClass('active');
-                    $('#property-modifiers-menu > .group-pane.group-2').addClass('active');
-                    ub.modifierController.parts();
+                    if ($("#primary_options_container .parts-container").length === 0) {
+                        $('#property-modifiers-menu .menu-item-parts').trigger('click');
+                    }
                 }
 
                 _this.activePanelbyIndex(_index);
@@ -242,3 +236,5 @@ PropertiesPanel.prototype = {
     },
 
 }
+
+PropertiesPanel.is_bind_events_called = 0;

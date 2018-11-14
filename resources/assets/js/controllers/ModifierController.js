@@ -33,7 +33,6 @@ function ModifierController(element, brand) {
         applications: {},
         logo: {}
     };
-
     // Setup
     this.initControls();
     this.bindEvents();
@@ -56,8 +55,6 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
-        var _this = this;
-
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
         $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
@@ -105,6 +102,7 @@ ModifierController.prototype = {
     },
 
     clearControls: function() {
+        ub.funcs.deactivateMoveTool();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
     },
@@ -114,57 +112,41 @@ ModifierController.prototype = {
     },
 
     parts: function(_this) {
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
+        ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
-        if ($("#primary_options_colors").css("display") === "none") {
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
 
-            ub.modifierController.activateColorAndPatternPanel();
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $("#parts-with-insert-container").hide();
-        }
+        var part_panel = ub.modifierController.controllers.parts.getPanel();
+        propertiesPanel.setBodyPanel(part_panel);
+        propertiesPanel.setDefaultColorsPatterns();
 
-        if ($("#primary_options_container #primary_options_colors").length > 0) {
+        // Bind Events
+        propertiesPanel.bindEvents();
 
-            $(".parts-container").show();
-            $("#parts-with-insert-container").hide();
-
-        } else {
-
-            ub.modifierController.activateColorAndPatternPanel();
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $("#parts-with-insert-container").hide();
-        }
-
+        $("#primary_options_container").scrollTo(0);
+        console.log("Show Parts Panel");
     },
 
-    inserts: function(_this) {
-        ub.funcs.deactivateMoveTool();
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
+    inserts: function() {
+        ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
-        if ($("#primary_options_colors").css("display") === "none") {
-            ub.modifierController.activateColorAndPatternPanel();
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
 
-        if ($("#primary_options_container #primary_options_colors").length > 0) {
+        var insert_panel = ub.modifierController.controllers.inserts.getPanel();
+        propertiesPanel.setBodyPanel(insert_panel);
+        propertiesPanel.setDefaultColorsPatterns();
 
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
+        // Bind Events
+        propertiesPanel.bindEvents();
 
-        } else {
-
-            ub.modifierController.activateColorAndPatternPanel();
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
-
+        $("#primary_options_container").scrollTo(0);
+        console.log("Show Inserts Panel")
     },
 
     pipings: function() {
