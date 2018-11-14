@@ -6814,7 +6814,11 @@ $(document).ready(function () {
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
 
             // Blank styles goes to the bottom ...
-            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; }
+
+            // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
+            // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
+            if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
 
             return _weight;
 
