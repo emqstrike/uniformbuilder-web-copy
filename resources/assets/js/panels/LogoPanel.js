@@ -156,7 +156,7 @@ LogoPanel.process = {
 
             // if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
 
-                logoLayer.alpha = 100;
+                logoLayer.alpha = 666;
 
             // } else {
 
