@@ -173,7 +173,7 @@ ModifierController.prototype = {
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
-        var properties_panel = new PropertiesPanel("#primary_options_container", "Richardsons");
+        var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
 
         if (PipingPanel.isValidToProcessPipings()) {
             ub.funcs.activatePanelGuard();
