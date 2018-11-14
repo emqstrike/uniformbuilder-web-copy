@@ -398,7 +398,7 @@ $(function() {
                 var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
                 // _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
 
-                _html += '<span class="colorBox ' + _class + '" style="background-color:#' + _colorObj.hex_code + '">' + _checkMark + '</span>';
+                _html += '<span class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
 
             });
         _html += '</div>';
