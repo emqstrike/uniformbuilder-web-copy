@@ -10254,6 +10254,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                sublimatedPart: 'Extra',
             }
         ],
 
@@ -12127,13 +12131,14 @@ ub.funcs.fontOffSets = [
     ub.data.freeFormToolFirstPartSelection = {
         
         items: [
-            'Yoga Pant (Apparel)'
+            'Yoga Pant (Apparel)',
+            'Basketball'
         ],
-        isEnabled: function (uniformCategory) {
+        activateOnLowerUniform: function (uniformCategory) {
 
             var _result = undefined;
 
-            _result = _.contains(this.items, uniformCategory);
+            _result = (_.contains(this.items, uniformCategory) && _.isEqual(ub.config.type, 'lower'));
 
             return _result;
 
@@ -12152,7 +12157,8 @@ ub.funcs.fontOffSets = [
             'Baseball',
             'Socks (Apparel)',
             'Yoga Pant (Apparel)',
-            'Basketball'
+            'Basketball',
+            'SFN Jogger (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
