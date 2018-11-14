@@ -127,7 +127,6 @@ ModifierController.prototype = {
         propertiesPanel.bindEvents();
 
         $("#primary_options_container").scrollTo(0);
-        console.log("Show Parts Panel");
     },
 
     inserts: function() {
@@ -146,7 +145,6 @@ ModifierController.prototype = {
         propertiesPanel.bindEvents();
 
         $("#primary_options_container").scrollTo(0);
-        console.log("Show Inserts Panel")
     },
 
     pipings: function() {
