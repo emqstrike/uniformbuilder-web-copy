@@ -448,7 +448,8 @@ $(function() {
 
     ub.funcs.colorsSelection = function (id, _title) {
 
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: '74'});
+
         var _colorBlock = '';
         var _html = '';
 
@@ -468,7 +469,7 @@ $(function() {
                     if (typeof _color !== 'undefined') {
 
                         // adding tabs
-                        _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
+                        _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
 
                         // building separated color blocks
                         _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
@@ -496,14 +497,14 @@ $(function() {
             _.each(_settingsObject.accent_obj.layers, function (layer) {
 
                 var _hexCode = layer.default_color;
-                var _color = ub.funcs.getColorByColorCode(_hexCode);
+                // var _color = ub.funcs.getColorObjByHexCode(_hexCode);
+                // var _color = ub.funcs.getColorObjArrayByCodes(_settingsObject.colorArrayText);
                 var _layerNo = layer.layer_no - 1;
+                var _color = _settingsObject.color_array[_layerNo];
 
                 if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
                     return;
                 }
-
-                _color = _settingsObject.color_array[_layerNo];
 
                 // Use default color if team color is short
                 if (typeof _color === "undefined") {
@@ -518,7 +519,7 @@ $(function() {
                 if (typeof _color !== 'undefined') {
 
                     // adding tabs
-                    _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
+                    _html += '<li><a href="#tab' + layer.layer_no + '" data-toggle="tab">' + 'Color ' + layer.layer_no + '</a></li>';
 
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
