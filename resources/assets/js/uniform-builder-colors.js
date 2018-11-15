@@ -214,6 +214,20 @@ $(document).ready(function() {
                     'CG',
                 ]
             },
+            // SFN Jogger
+            {
+                block_pattern: 'SFN Jogger',
+                neck_options: ['SFN Jogger'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
         ],
 
         getLimitedColorSet: function (materialOption) {
