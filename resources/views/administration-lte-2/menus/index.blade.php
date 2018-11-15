@@ -119,12 +119,12 @@
 
                                 <div class="form group">
                                     <div class="col-md-12" style="padding-left: 40px; margin-bottom: 30px;">
-                                        <button class="btn btn-primary" type="submit">
+                                        <button class="btn btn-flat btn-primary" type="submit">
                                             <span class="glyphicon glyphicon-floppy-disk"></span>
                                             Save
                                         </button>
 
-                                        <a href="{{ route('menus') }}" class="btn btn-danger">
+                                        <a href="{{ route('v1_menus') }}" class="btn btn-flat btn-danger">
                                             <span class="glyphicon glyphicon-arrow-left"></span>
                                             Cancel
                                         </a>
