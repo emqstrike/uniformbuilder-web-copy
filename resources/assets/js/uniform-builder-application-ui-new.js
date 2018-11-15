@@ -565,7 +565,7 @@ $(function() {
                     _html += '<li><a href="#tab' + layer.layer_no + '" data-toggle="tab">' + 'Color ' + layer.layer_no + '</a></li>';
 
                     // building separated color blocks
-                    _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
+                    _colorBlock += ub.funcs.createColorBlock(id, _color, layer.layer_no, layer.name, layer.default_color, 'accent');
 
                 } else {
                     util.error('Hex Code: ' + _hexCode + ' not found!');

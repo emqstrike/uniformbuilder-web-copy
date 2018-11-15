@@ -1126,6 +1126,16 @@
                     </div>
 
                     <div class="clearfix">
+                        @{{#slider}}
+                            @{{{ sliderContainer }}}
+                        @{{/slider}}
+
+                        @{{#colorPicker}}
+                            @{{{ colorsSelection }}}
+                        @{{/colorPicker}}
+                    </div>
+                    
+                    <div class="clearfix">
                         <h5>CHOOSE FONT ACCENT</h5>
 
                         @{{#accents}}
