@@ -1040,16 +1040,44 @@
 
 <!-- Application UI Block - LETTERS -->
 
-    <script type="text/mustache" id="m-application-ui-block-letters">
+    <script type="text/mustache" id="new-application-letters">
 
         <h4>DECORATION LETTERS</h4>
-        <div class="add-new-application">
-            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
-            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
+
+        <div class="addApplicationsOpts hide">
+            <div class="posContainer clearfix">
+                <h5>CHOOSE A DESIGN TYPE</h5>
+                <button type="button" class="app-btn w-45 pull-left active optionButton" data-type="team_name">Team Name</button>
+                <button type="button" class="app-btn w-45 pull-right optionButton" data-type="player_name">Player Name</button>
+            </div>
+
+            <div class="posContainer clearfix">
+                <h5>CHOOSE LOCATION</h5>
+                <button type="button" class="app-btn w-45 pull-left active perspective" data-id="front">Front Body</button>
+                <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back Body</button>
+                <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left Sleeve</button>
+                <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right Sleeve</button>
+            </div>
+
+            <div class="posContainer clearfix">
+                <h5>CHOOSE PERSPECTIVE</h5>
+                <button type="button" class="app-btn active part" data-id="Front Body">Front Letter</button>
+                <button type="button" class="app-btn">Back Letter</button>
+                <button type="button" class="app-btn">Sleeve Letter</button>
+            </div>
+
+            <span class="side" data-id="na" style="display: none;">N/A</span>
+        </div>
+
+        <div class="add-new-application-letters">
+            <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right view-app-letters hide-app-letters">View All Application</button>
         </div>
 
         <div class="clearfix"></div>
-
+    </script>
+    
+    <script type="text/mustache" id="m-application-ui-block-letters">
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>

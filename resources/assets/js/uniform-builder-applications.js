@@ -9059,7 +9059,8 @@ $(document).ready(function () {
             }
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            // ub.funcs.activateApplications(_settingsObject.code);
+            ub.funcs.activateApplicationsLetters(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -9093,7 +9094,8 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            // ub.funcs.activateApplications(_settingsObject.code);
+            ub.funcs.activateApplicationsLetters(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
             ub.funcs.LSRSBSFS(parseInt(_id));
@@ -10172,7 +10174,8 @@ $(document).ready(function () {
             if (typeof _newFont !== 'undefined') {
 
                 ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
-                ub.funcs.activateApplications(_settingsObject.code)
+                // ub.funcs.activateApplications(_settingsObject.code)
+                ub.funcs.activateApplicationsLetters(_settingsObject.code)
 
             }
             else {
