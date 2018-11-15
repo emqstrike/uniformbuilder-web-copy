@@ -192,11 +192,30 @@ ModifierController.prototype = {
 
     logo: function() {
         console.log('Show Logo Panel');
+        var logo_positions = ub.data.logos;
 
-        ub.modifierController.logo = new LogoPanel("m-logo");
+        $(".logo-image-loader").hide();
+
+        var current_position = _.find(ub.current_material.settings.logos, {enabled: 1});
+        if (current_position.position.includes("front") || current_position.position.includes("chest")) {
+            $('a.change-view[data-view="front"]').trigger('click');
+
+        } else if (current_position.position.includes("back")) {
+            $('a.change-view[data-view="back"]').trigger('click');
+
+        } else if (current_position.position.includes("left") || current_position.position.includes("sleeve")) {
+            $('a.change-view[data-view="left"]').trigger('click');
+
+        }
+
+        ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
         var logo_panel = ub.modifierController.logo.getPanel();
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
         properties_panel.setBodyPanel(logo_panel);
+
+        // Activate logo current position
+        $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
+
 
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         $("#logo-preview").css({

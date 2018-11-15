@@ -9,8 +9,11 @@
  * - Mustache
  */
 
-function LogoPanel(element) {
+function LogoPanel(element, logo_positions) {
     this.panel = document.getElementById(element);
+    this.data = {
+        logo_position: logo_positions
+    };
     this.bindEvents();
 }
 
@@ -22,30 +25,62 @@ LogoPanel.prototype = {
     },
 
     getPanel: function() {
-        var panel = Mustache.render(this.panel.innerHTML);
+        var panel = Mustache.render(this.panel.innerHTML, this.data);
         return panel;
     },
 
     onClickLogoPerspective: function() {
-        $(".logo-perspective-btn-container button").removeClass('cp-button-active');
+        var current_active_position = $("#primary_option_logo .logo-perspective-btn-container button.cp-button-active");
+        var current_position = current_active_position.data("position");
+        current_active_position.removeClass('cp-button-active');
 
-        var view = $(this).data("perspective");
-        $('a.change-view[data-view="' + view + '"]').trigger('click');
+        var new_position = $(this).data("position");
 
-        var image = ub.getThumbnailImage(ub.active_view + "_view");
+        if (new_position.includes("front") || new_position.includes("chest")) {
+            $('a.change-view[data-view="front"]').trigger('click');
 
-        $("#logo-preview").css({
-            'background-image': "url("+ image +")"
-        });
+        } else if (new_position.includes("back")) {
+            $('a.change-view[data-view="back"]').trigger('click');
 
+        } else if (new_position.includes("left") || new_position.includes("sleeve")) {
+            $('a.change-view[data-view="left"]').trigger('click');
+
+        }
+
+        var logoObject = _.find(ub.data.logos, {position: new_position});
+        var _layerCount = 0;
+
+        if (logoObject.layer1) { _layerCount +=1 };
+        if (logoObject.layer2) { _layerCount +=1 };
+        if (logoObject.layer3) { _layerCount +=1 };
+
+        LogoPanel.process.removeLogo(current_position);
+        LogoPanel.process.addLogo(logoObject, _layerCount);
         $(this).addClass('cp-button-active');
+
+        $("#logo-preview").hide();
+        $(".logo-image-loader").show();
+        _.delay(function() {
+            var image = ub.getThumbnailImage(ub.active_view + "_view");
+            $("#logo-preview").css({
+                'background-image': "url("+ image +")"
+            });
+
+            $("#logo-preview").show();
+            $(".logo-image-loader").hide();
+        }, 2000);
+
     },
 
     bindEvents: function() {
-        this.init();
+        if (LogoPanel.isBindEvents === 0) {
+            this.init();
+            LogoPanel.isBindEvents === 1;
+        }
     }
 };
 
+LogoPanel.isBindEvents = 0;
 
 LogoPanel.process = {
     processLogo: function(logo_data) {
@@ -59,8 +94,15 @@ LogoPanel.process = {
             ub.data.logos = _logo_position;
 
             _.each(ub.data.logos, function(logo) {
+
+                if (logo.position === "left_sleeve") {
+                    logo.position = "bottom_sleeve";
+                }
+
                 var _colorArray = [];
                 var _layers = [];
+
+                logo.name = ub.utilities.titleCase(logo.position.replace("_", " "));
 
                 // Normalize Logo Position From source
 
@@ -73,17 +115,40 @@ LogoPanel.process = {
                     });
                 });
 
-                // Try without the process of colors
+                if (typeof logo.colors_array !== "undefined") {
+                    _.each(logo.colors_array, function (color, index) {
+
+                        var _color = ub.funcs.getColorByColorCode(color);
+                        _colorArray.push(_color);
+                        _layers.push({
+
+                            colorCode: color,
+                            colorObj: _color,
+                            layer: index + 1,
+                            status: false,
+
+                        });
+
+                        var _teamColorId = logo.team_color_id_array[index];
+
+                        if (logo.enabled === 1 && _color.color_code !== "none") {
+                             ub.data.colorsUsed[_color.hex_code] = {hexCode: _color.hex_code, parsedValue: _color.hex_code, teamColorID: _teamColorId};
+                        }
+                    });
+                } else {
+                    console.log('No Color Array for ' + logo.position);
+                }
 
                 var _layerCount = 0;
 
                 if (logo.layer1) { _layerCount +=1 };
-                if (logo.layer1) { _layerCount +=1 };
-                if (logo.layer1) { _layerCount +=1 };
+                if (logo.layer2) { _layerCount +=1 };
+                if (logo.layer3) { _layerCount +=1 };
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
 
                 if (_hasSavedLogoData) { return; }
+
 
                 if (!_hasSavedLogoData && logo.enabled === 1) {
 
@@ -92,7 +157,7 @@ LogoPanel.process = {
                         numberOfLayers: _layerCount,
                     };
 
-                    ub.current_material.settings.logos[logo.position].enabled = 1;
+                    ub.current_material.settings.logos[logo.position].enabled = logo.enabled;
                     ub.current_material.settings.logos[logo.position].numberOfLayers = _layerCount;
 
                     var _logoObject = logo;
@@ -134,7 +199,6 @@ LogoPanel.process = {
     },
 
     createLogo: function(logoObject, _layerCount, perspective, logoSettingObject) {
-
         var sprite;
         var logoObject = logoObject;
         var settings = ub.current_material.settings;
@@ -145,24 +209,15 @@ LogoPanel.process = {
         var _frontObject = _.find(logoObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers, function (layer, index) {
-
             if (index + 1 > _layerCount) { return; }
 
             var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.position});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
-
+            var defaultHexCode = "e6e6e6";
             logoLayer.ubName = 'Layer ' + (index + 1);
-            logoLayer.tint = parseInt('e6e6e6', 16);
+            logoLayer.tint = parseInt(defaultHexCode, 16);
 
-            // if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
-
-                logoLayer.alpha = 666;
-
-            // } else {
-
-                // logoLayer.alpha = 1;
-
-            // }
+            logoLayer.alpha = 0.9;
 
             container.addChild(logoLayer);
             logoLayer.zIndex = layer.position;
@@ -204,30 +259,52 @@ LogoPanel.process = {
         if (typeof ub.current_material.settings.logos[position] === "undefined") {
 
             ub.current_material.settings.logos[position] = {
+                position: position,
                 enabled: 0,
-                numberOfLayers: 0,
-                layers: [
-                    {
-                        layer: 1,
-                        status: false,
-                        colorCode: '',
-                    },
-                    {
-                        layer: 2,
-                        status: false,
-                        colorCode: '',
-                    },
-                    {
-                        layer: 3,
-                        status: false,
-                        colorCode: '',
-                    }
-                ]
+                numberOfLayers: 0
             };
 
         }
 
         return ub.current_material.settings.logos[position];
+    },
+
+    processSavedLogo: function() {
+        _.each(ub.current_material.settings.logos, function (logo, key) {
+
+            var _result = _.find(ub.data.logos, {position: key});
+
+            if (logo.position === "") { return; }
+
+            LogoPanel.process.renderLogo(_result, logo.numberOfLayers);
+
+        });
+    },
+
+    removeLogo: function(logo_position) {
+        _.each(ub.views, function (view) {
+            var _viewStr = view + '_view';
+            if (typeof ub.objects[_viewStr][logo_position] !== 'undefined'){
+                ub[_viewStr].removeChild(ub.objects[_viewStr][logo_position]);
+            }
+            delete ub.objects[_viewStr][logo_position];
+        });
+
+        if (typeof(ub.current_material.settings.logos[logo_position]) !== "undefined") {
+            ub.current_material.settings.logos[logo_position].enabled = 0;
+            ub.current_material.settings.logos[logo_position].numberOfLayers = 0;
+        }
+    },
+
+    addLogo: function(logoObject, _layerCount) {
+        var selectedColorArray = ub.current_material.settings.team_colors;
+        LogoPanel.process.initLogoColors(logoObject, selectedColorArray[0]);
+        LogoPanel.process.renderLogo(logoObject, _layerCount);
+
+        if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
+            ub.current_material.settings.logos[logoObject.position].enabled = 1;
+            ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
+        }
     }
 };
 

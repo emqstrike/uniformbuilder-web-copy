@@ -5,28 +5,21 @@
             <p class="cp-text-uppercase cp-fc-white cp-text-medium cp-padding-small cp-padding-remove-horizontal cp-margin-remove">Choose Location</p>
         </div>
         <div class="row logo-perspective-btn-container">
-            <div class="col-md-4">
-                <button class="cp-button-active cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
-                        data-perspective="front"
-                >Right Chest</button>
-            </div>
-
-            <div class="col-md-4">
-                <button class="cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
-                        data-perspective="left"
-                >Left Sleeve</button>
-            </div>
-
-            <div class="col-md-4">
-                <button class="cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
-                        data-perspective="back"
-                >Back Neck</button>
-            </div>
+            @{{ #logo_position }}
+                <div class="col-md-4">
+                    <button class="cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
+                            data-position="@{{ position }}"
+                    >@{{ name }}</button>
+                </div>
+            @{{ /logo_position }}
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="cp-padding-small cp-padding-remove-horizontal cp-padding-top-xs">
                     <div class="logo-preview" id="logo-preview"></div>
+                    <div class="col-md-6 col-md-offset-4 logo-image-loader" style="margin-top: 45px;">
+                        <span class="fa fa-spinner fa-spin" style="font-size: 10em"></span>
+                    </div>
                 </div>
             </div>
         </div>
