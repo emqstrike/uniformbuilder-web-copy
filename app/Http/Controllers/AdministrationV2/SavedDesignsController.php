@@ -31,6 +31,12 @@ class SavedDesignsController extends Controller
 
         $filters = [];
 
+        if (Input::get('name')) {
+            if (Input::get('name') != '') {
+                $filters['name'] = Input::get('name');
+            }
+        }
+
         if (Input::get('sport')) {
             if (Input::get('sport') != 'all') {
                 $filters['sport'] = Input::get('sport');

@@ -33,7 +33,19 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Saved Designs')
-                    <h1>Saved Designs</h1>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h1>Saved Designs</h1>
+                        </div>
+
+                        <div class="col-md-8 text-right" style="margin-top: 20px;">
+                            <div class="form-inline">
+                                <input id="searchNameSavedDesigns" type="text" class="form-control" style="margin: 0 10px 0;">
+                                <button id="searchSavedDesigns" class="btn btn-flat btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -207,7 +219,20 @@
                 $('#endDate').datepicker('setDate', '{{ $filters['range'][1] }}');
             @endif
 
+            $('#searchSavedDesigns').click(function() {
+                filter();
+            });
+
             $('#filterSavedDesign').click(function() {
+                filter();
+            });
+
+            $('#clearFilter').click(function() {
+                window.location.href = "{{ route('saved_designs') }}";
+            });
+
+            function filter() {
+                var name = $('#searchNameSavedDesigns').val();
                 var sport = $('#sportFilter').val();
                 var blockPattern = $('#blockPatternFilter').val();
                 var option = $('#optionFilter').val();
@@ -219,13 +244,9 @@
                     dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
                 }
 
-                var url = "{{ route('saved_designs') }}?sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
+                var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
                 window.location.href = url;
-            });
-
-            $('#clearFilter').click(function() {
-                window.location.href = "{{ route('saved_designs') }}";
-            });
+            }
         });
     </script>
 @endsection
