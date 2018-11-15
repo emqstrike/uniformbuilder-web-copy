@@ -53,8 +53,8 @@ $(function() {
         $(this).parent().next().hide();
     });
 
-    // on click color item
-    $('#primary_options_container').on('click', '.colorItem', function () {
+    // on click color item type mascot
+    $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', function () {
 
         // changing active color
         $(this).parent().find('span').removeClass('activeColorItem').html('');
@@ -124,6 +124,48 @@ $(function() {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
 
             }
+
+        }
+
+    });
+
+    // on click color item type accent
+    $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', function () {
+
+        // changing active color
+        $(this).parent().find('span').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+
+        // proceed
+        var dataId = $(this).attr('data-id');
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+
+        var _layer_no = $(this).data('layer-no');
+        var _color_code = $(this).data('color-code');
+        var _layer_name = $(this).data('layer-name');
+        var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+        var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
+
+        _layer.default_color = _colorObj.hex_code;
+        _settingsObject.color_array[_layer_no - 1] = _colorObj;
+
+        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj, 'accent');
+
+        var _matchingID;
+        var _matchingSide;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+
+            _layer.default_color = _colorObj.hex_code;
+            _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+
+            ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
         }
 
@@ -499,8 +541,9 @@ $(function() {
                 var _hexCode = layer.default_color;
                 // var _color = ub.funcs.getColorObjByHexCode(_hexCode);
                 // var _color = ub.funcs.getColorObjArrayByCodes(_settingsObject.colorArrayText);
+                // var _color = _settingsObject.color_array[_layerNo];
                 var _layerNo = layer.layer_no - 1;
-                var _color = _settingsObject.color_array[_layerNo];
+                var _color = _settingsObject.colorArrayText[_layerNo];
 
                 if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
                     return;
