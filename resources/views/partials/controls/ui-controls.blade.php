@@ -1143,7 +1143,7 @@
                         @{{{ colorsSelection }}}
                     @{{/colorPicker}}
 
-                    <div class="clearfix">
+                    <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
                         <h5>CHOOSE LAYOUT</h5>
                     </div>
                 </div>
