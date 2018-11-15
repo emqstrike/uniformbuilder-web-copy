@@ -10741,7 +10741,7 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
+                        if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
                             
                             $('span.part').first().addClass('active');
 
@@ -10961,7 +10961,7 @@ $(document).ready(function() {
 
                 if ($perspective.text() === "Back" || $perspective.text() === "Front") {
 
-                    if (ub.data.freeFormToolFirstPartSelection.isEnabled(ub.current_material.material.uniform_category)) {
+                    if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
 
                         $('span.part').first().addClass('active');
 
@@ -11047,6 +11047,9 @@ $(document).ready(function() {
         });
 
         // End Select Perspective 
+
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
 
     };
 

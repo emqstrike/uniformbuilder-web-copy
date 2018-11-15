@@ -31,6 +31,12 @@ class SavedDesignsController extends Controller
 
         $filters = [];
 
+        if (Input::get('name')) {
+            if (Input::get('name') != '') {
+                $filters['name'] = Input::get('name');
+            }
+        }
+
         if (Input::get('sport')) {
             if (Input::get('sport') != 'all') {
                 $filters['sport'] = Input::get('sport');
@@ -53,6 +59,10 @@ class SavedDesignsController extends Controller
             if (Input::get('user') != 'all') {
                 $filters['user'] = Input::get('user');
             }
+        }
+
+        if (Input::get('range')) {
+            $filters['range'] = Input::get('range');
         }
 
         $results = $this->client->getPaginated($currentPage, $filters);
