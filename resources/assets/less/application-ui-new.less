@@ -16,7 +16,7 @@
     margin: 0 !important;
 
     &.active {
-        background: black;
+        background: #343434;
         color: white;
     }
 }
@@ -165,6 +165,44 @@
                 font-size: 10px;
                 margin-top: 10px;
             }
+        }
+    }
+
+    .colorSelectionContainer {
+        .tab-content {
+            .colorItem {
+                width: 35px;
+                height: 35px;
+                float: left;
+                .borders(#aaaaaa);
+                margin-right: 5px;
+                text-align: center;
+                //position: relative;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                i.fa {
+                    //color: white;
+                    font-size: 18px;
+                    margin-top: 8px;
+                    //position: absolute;
+                    //left: 50%;
+                }
+            }
+        }
+
+        .color-selection-tab > li > a {
+            color: #333 !important;
+            border-radius: 0 !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .color-selection-tab > li.active > a {
+            background-color: #343434 !important;
+            color: #fff !important;
+            border-color: #343434 !important;
         }
     }
 }

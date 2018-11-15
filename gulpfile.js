@@ -27,7 +27,8 @@ elixir(function(mix) {
             
             // Sources
 
-			'utilities.js',
+            'utilities.js',
+            'uniform-builder-constants.js',
 			'uniform-builder-configuration.js',
 			'uniform-builder-utilities.js',
 			'uniform-builder-helper-functions.js',

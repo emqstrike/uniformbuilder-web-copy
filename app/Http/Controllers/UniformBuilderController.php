@@ -798,8 +798,8 @@ class UniformBuilderController extends Controller
 
         $ctrPipings = 0;
 
-        foreach ($pipings as $key => &$piping) {
-
+        foreach ($pipings as $key => &$piping)
+        {
             $pipingType = $key;
 
             if ($piping["enabled"] == "0") { continue; }
@@ -817,11 +817,17 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['size'];
+            if (isset($piping['size']))
+            {
+                $html .=   $piping['size'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['numberOfColors'];
+            if (isset($piping['numberOfColors']))
+            {
+                $html .=   $piping['numberOfColors'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
@@ -829,12 +835,15 @@ class UniformBuilderController extends Controller
             $colors = '';
             $val = 1;
             $noOfColors = intval($piping['numberOfColors']);
-            foreach ($piping['layers'] as &$color) {
+            if (isset($piping['layers']))
+            {
+                foreach ($piping['layers'] as &$color)
+                {
+                    if ($val > $noOfColors) { continue; }
+                    $colors .= $color['colorCode'] . ",";
+                    $val++;
 
-                if ($val > $noOfColors) { continue; }
-                $colors .= $color['colorCode'] . ",";
-                $val++;
-
+                }
             }
 
             $colorsTrimmed = rtrim($colors, ",");
