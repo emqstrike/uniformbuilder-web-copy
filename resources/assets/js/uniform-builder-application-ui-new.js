@@ -448,7 +448,7 @@ $(function() {
 
     ub.funcs.colorsSelection = function (id, _title) {
 
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: '74'});
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
 
         var _colorBlock = '';
         var _html = '';
@@ -491,7 +491,7 @@ $(function() {
         } else {
 
             _html += '<div class="colorSelectionContainer">';
-            _html += '<h4>'+_title+'</h4>';
+            _html += '<h5>'+_title+'</h5>';
             _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
             _.each(_settingsObject.accent_obj.layers, function (layer) {
