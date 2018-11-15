@@ -202,6 +202,14 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+        // initializer
+        ub.funcs.initializer();
+
+
+
+    };
+
+    ub.funcs.initializer = function () {
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
         $(scaleSliders).each(function(i){
@@ -253,9 +261,6 @@ $(function() {
         $(colorFirstTabContent).each(function(){
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
-
-
-
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
