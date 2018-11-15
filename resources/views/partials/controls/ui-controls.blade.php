@@ -1125,15 +1125,9 @@
                         </div>                
                     </div>
 
-                    <div class="clearfix">
-                        @{{#slider}}
-                            @{{{ sliderContainer }}}
-                        @{{/slider}}
-
-                        @{{#colorPicker}}
-                            @{{{ colorsSelection }}}
-                        @{{/colorPicker}}
-                    </div>
+                    @{{#slider}}
+                        @{{{ sliderContainer }}}
+                    @{{/slider}}
                     
                     <div class="clearfix">
                         <h5>CHOOSE FONT ACCENT</h5>
@@ -1145,11 +1139,9 @@
                         @{{/accents}}   
                     </div>
 
-                    <div class="clearfix">
-                        <h5>CHOOSE FONT COLOR</h5>
-                        <button type="button" class="app-btn w-45 pull-left main-color active">Main Color</button>
-                        <button type="button" class="app-btn w-45 pull-right outline-color">Outline Color</button>                
-                    </div>
+                    @{{#colorPicker}}
+                        @{{{ colorsSelection }}}
+                    @{{/colorPicker}}
 
                     <div class="clearfix">
                         <h5>CHOOSE LAYOUT</h5>
@@ -1205,30 +1197,6 @@
                     <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
 
-                {{--<div class="slidersContainer">--}}
-                    {{--<div class="manipulator-type-container scale" data-type="scale">--}}
-                        {{--<h5>LOGO SIZE</h5>--}}
-                        {{--<div class="sc scale">--}}
-                            {{--<div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="manipulator-type-container move" data-type="move">--}}
-                        {{--<h5>POSITION</h5>--}}
-                        {{--<div class="sc move">--}}
-                            {{--<div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>--}}
-                            {{--<div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="manipulator-type-container rotate" data-type="rotate">--}}
-                        {{--<h5>ROTATE</h5>--}}
-                        {{--<div class="sc rotate">--}}
-                            {{--<div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
                 @{{#slider}}
                     @{{{ sliderContainer }}}
                 @{{/slider}}
@@ -1275,30 +1243,6 @@
     </script>
 
 <!-- End Slider Container  -->
-
-{{--<!-- Start Color Selection -->--}}
-
-    {{--<script type="text/mustache" id="m-color-selection-tab">--}}
-            {{--@{{#colorPicker}}--}}
-                {{--<li><a href="#tab@{{ layerNumber }}" data-toggle="tab">Color @{{ layerNumber }}</a></li>--}}
-            {{--@{{/colorPicker}}--}}
-    {{--</script>--}}
-
-{{--<!-- End Color Selection -->--}}
-
-<!-- Start Color Selection List -->
-
-    <script type="text/mustache" id="m-color-selection-list">
-            @{{#colorList}}
-                <div id="tab1" class="tab-pane fade in active">-
-                    <span class="colorBox" style="background-color:white"></span>
-                    <span class="colorBox" style="background-color:blue"></span>
-                    <span class="colorBox" style="background-color:red"></span>
-                </div>
-            @{{/colorList}}
-    </script>
-
-<!-- End Color Selection List -->
 
 <!-- New Application UI -->
 

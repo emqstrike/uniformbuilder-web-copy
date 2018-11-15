@@ -87,6 +87,8 @@ $(function() {
                     ub.funcs.changeAccentFromPopup(accentID, _matchingSettingsObject);
 
                 }
+
+
             })
             // To change an application's text on enter
             .on('keypress', 'input.sampleText', function (e) {
