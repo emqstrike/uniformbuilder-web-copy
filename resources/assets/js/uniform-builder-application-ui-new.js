@@ -452,32 +452,84 @@ $(function() {
         var _colorBlock = '';
         var _html = '';
 
-        if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
+        if (_settingsObject.application_type === 'mascot') {
 
-            _html += '<div class="colorSelectionContainer">';
+            if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
+
+                _html += '<div class="colorSelectionContainer">';
                 _html += '<h4>'+_title+'</h4>';
                 _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
-                    _.each(_settingsObject.mascot.layers_properties, function (layer) {
+                _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
-                        var _hexCode = layer.default_color;
-                        var _color = ub.funcs.getColorByColorCode(_hexCode);
+                    var _hexCode = layer.default_color;
+                    var _color = ub.funcs.getColorByColorCode(_hexCode);
 
-                        if (typeof _color !== 'undefined') {
+                    if (typeof _color !== 'undefined') {
 
-                            // adding tabs
-                            _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
+                        // adding tabs
+                        _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
 
-                            // building separated color blocks
-                            _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+                        // building separated color blocks
+                        _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
 
-                        } else {
-                            util.error('Hex Code: ' + _hexCode + ' not found!');
-                        }
+                    } else {
+                        util.error('Hex Code: ' + _hexCode + ' not found!');
+                    }
 
-                    });
+                });
 
                 _html += '</ul>';
+                    _html += '<div class="tab-content">';
+                        _html += _colorBlock;
+                    _html += '</div>';
+                _html += '</div>';
+
+            }
+
+        } else {
+
+            _html += '<div class="colorSelectionContainer">';
+            _html += '<h4>'+_title+'</h4>';
+            _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+
+            _.each(_settingsObject.accent_obj.layers, function (layer) {
+
+                var _hexCode = layer.default_color;
+                var _color = ub.funcs.getColorByColorCode(_hexCode);
+                var _layerNo = layer.layer_no - 1;
+
+                if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
+                    return;
+                }
+
+                _color = _settingsObject.color_array[_layerNo];
+
+                // Use default color if team color is short
+                if (typeof _color === "undefined") {
+
+                    _hexCode = layer.default_color;
+                    _color = ub.funcs.getColorObjByHexCode(_hexCode);
+
+                    ub.utilities.error('Undefined color found here!!!');
+
+                }
+
+                if (typeof _color !== 'undefined') {
+
+                    // adding tabs
+                    _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color' + layer.layer_number + '</a></li>';
+
+                    // building separated color blocks
+                    _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
+
+                } else {
+                    util.error('Hex Code: ' + _hexCode + ' not found!');
+                }
+
+            });
+
+            _html += '</ul>';
                 _html += '<div class="tab-content">';
                     _html += _colorBlock;
                 _html += '</div>';
