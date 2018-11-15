@@ -62,6 +62,8 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '.update-page', function() {
+        $('#add-edit-page .alert-danger').fadeOut().empty();
+        
         var id =  $('#add-edit-page .input-page-id').val();
 
         var data = {
@@ -79,28 +81,42 @@ $(document).ready(function() {
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json',
             success: function(response) {
-                if (response.success == true) {
-                    location.reload();
+                if (response.errors != undefined) {
+                    var html = "<ul>";
 
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
+                    $.each(response.errors, function(key, value) {
+                        html += "<li>" + value + "</li>";
                     });
+
+                    html += "</ul>";
+
+                    $('#add-edit-page .alert-danger').append(html).fadeIn();
                 } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: response.message,
-                        type: 'error',
-                        hide: true
-                    });
+                    if (response.success == true) {
+                        location.reload();
+
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    } else {
+                        new PNotify({
+                            title: 'Error',
+                            text: response.message,
+                            type: 'error',
+                            hide: true
+                        });
+                    }
                 }
             }
         });
     });
 
     $('body').on('click', '.save-page', function() {
+        $('#add-edit-page .alert-danger').fadeOut().empty();
+
         var data = {
             page_name: $('#add-edit-page .input-page-name').val(),
             code: $('#add-edit-page .input-page-code').val(),
@@ -116,22 +132,34 @@ $(document).ready(function() {
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json',
             success: function(response) {
-                if (response.success == true) {
-                    location.reload();
+                if (response.errors != undefined) {
+                    var html = "<ul>";
 
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
+                    $.each(response.errors, function(key, value) {
+                        html += "<li>" + value + "</li>";
                     });
+
+                    html += "</ul>";
+
+                    $('#add-edit-page .alert-danger').append(html).fadeIn();
                 } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: response.message,
-                        type: 'error',
-                        hide: true
-                    });
+                    if (response.success == true) {
+                        location.reload();
+
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    } else {
+                        new PNotify({
+                            title: 'Error',
+                            text: response.message,
+                            type: 'error',
+                            hide: true
+                        });
+                    }
                 }
             }
         });

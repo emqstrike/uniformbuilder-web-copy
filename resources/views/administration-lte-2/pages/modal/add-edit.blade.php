@@ -10,6 +10,9 @@
                 <input type="hidden" class="input-page-id">
                 <input type="hidden" class="input-page-brand" value="{{ env('BRAND') }}">
 
+                <div class="alert alert-danger" role="alert" style="display: none;">
+                </div>
+
                 <div class="row">
                     <label class="col-md-4 control-label text-right">Code</label>
                     <div class="col-md-6">
