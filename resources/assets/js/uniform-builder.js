@@ -655,8 +655,14 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Inside View');
-                $('a.change-view[data-view="right"] > span').text('Outside View');
+                // $('a.change-view[data-view="left"] > span').text('Inside View');
+                // $('a.change-view[data-view="right"] > span').text('Outside View');
+
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
             }
 
         }

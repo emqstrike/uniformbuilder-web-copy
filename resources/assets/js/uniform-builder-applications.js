@@ -11048,6 +11048,9 @@ $(document).ready(function() {
 
         // End Select Perspective 
 
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
+
     };
 
     ub.sort = undefined;
