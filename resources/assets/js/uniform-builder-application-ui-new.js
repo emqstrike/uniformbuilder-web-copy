@@ -448,7 +448,7 @@ $(function() {
 
     ub.funcs.colorsSelection = function (id, _title) {
 
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: '74'});
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
 
         var _colorBlock = '';
         var _html = '';
