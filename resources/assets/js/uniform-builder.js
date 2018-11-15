@@ -655,8 +655,8 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Outside View');
-                $('a.change-view[data-view="right"] > span').text('Inside View');
+                $('a.change-view[data-view="left"] > span').text('Inside View');
+                $('a.change-view[data-view="right"] > span').text('Outside View');
             }
 
         }
