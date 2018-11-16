@@ -31,6 +31,7 @@ LogoPanel.prototype = {
 
     onClickLogoPerspective: function() {
         var current_active_position = $("#primary_option_logo .logo-perspective-btn-container button.cp-button-active");
+        current_active_position.css('pointer-events', "auto");
         var current_position = current_active_position.data("position");
         current_active_position.removeClass('cp-button-active');
 
@@ -57,6 +58,7 @@ LogoPanel.prototype = {
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
         $(this).addClass('cp-button-active');
+        $(this).css('pointer-events', "none");
 
         $("#logo-preview").hide();
         $(".logo-image-loader").show();
@@ -68,7 +70,7 @@ LogoPanel.prototype = {
 
             $("#logo-preview").show();
             $(".logo-image-loader").hide();
-        }, 2000);
+        }, 1500);
 
     },
 
@@ -98,6 +100,18 @@ LogoPanel.process = {
                 if (logo.position === "left_sleeve") {
                     logo.position = "bottom_sleeve";
                 }
+
+                logo.colors_array = [
+                    'W',
+                    '',
+                    'G'
+                ];
+
+                logo.team_color_id_array = [
+                    "3",
+                    "2",
+                    "1"
+                ];
 
                 var _colorArray = [];
                 var _layers = [];
@@ -149,12 +163,12 @@ LogoPanel.process = {
 
                 if (_hasSavedLogoData) { return; }
 
-
                 if (!_hasSavedLogoData && logo.enabled === 1) {
 
                     ub.current_material.settings.logos[logo.position] = {
                         position: logo.position,
                         numberOfLayers: _layerCount,
+                        layers: _layers
                     };
 
                     ub.current_material.settings.logos[logo.position].enabled = logo.enabled;
@@ -208,33 +222,37 @@ LogoPanel.process = {
         var elements = "";
         var _frontObject = _.find(logoObject.perspectives, {perspective: perspective});
 
-        _.each(_frontObject.layers, function (layer, index) {
+        _.each(_frontObject.layers.slice(0).reverse(), function (layer, index) {
             if (index + 1 > _layerCount) { return; }
 
-            var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.position});
+            var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.layer});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
-            var defaultHexCode = "e6e6e6";
             logoLayer.ubName = 'Layer ' + (index + 1);
-            logoLayer.tint = parseInt(defaultHexCode, 16);
+            logoLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
-            logoLayer.alpha = 0.9;
+            if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
+                logoLayer.alpha = 0;
+
+            } else {
+
+                logoLayer.alpha = 1;
+            }
 
             container.addChild(logoLayer);
             logoLayer.zIndex = layer.position;
-
         });
 
         sprite = container;
 
         ub.updateLayersOrder(sprite);
 
-        var _logoLengthBefore = _.filter(ub.current_material.settings.pipings, {enabled: 1}).length;
+        var _logoLengthBefore = _.filter(ub.current_material.settings.logos, {enabled: 1}).length;
 
         ub.current_material.containers[logoObject.position] = {};
-        ub.current_material.containers[logoObject.position].pipingObject = sprite;
+        ub.current_material.containers[logoObject.position].logoObject = sprite;
 
         var temp                    = {};
-        var layer_order             = ( ub.funcs.generateZindex('pipings') + _logoLengthBefore + 1);
+        var layer_order             = ( ub.funcs.generateZindex('logos') + _logoLengthBefore + 1);
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
@@ -261,7 +279,24 @@ LogoPanel.process = {
             ub.current_material.settings.logos[position] = {
                 position: position,
                 enabled: 0,
-                numberOfLayers: 0
+                numberOfLayers: 0,
+                layers: [
+                    {
+                        layer: 1,
+                        status: false,
+                        colorCode: '',
+                    },
+                    {
+                        layer: 2,
+                        status: false,
+                        colorCode: '',
+                    },
+                    {
+                        layer: 3,
+                        status: false,
+                        colorCode: '',
+                    }
+                ]
             };
 
         }

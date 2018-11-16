@@ -194,8 +194,6 @@ ModifierController.prototype = {
         console.log('Show Logo Panel');
         var logo_positions = ub.data.logos;
 
-        $(".logo-image-loader").hide();
-
         var current_position = _.find(ub.current_material.settings.logos, {enabled: 1});
         if (current_position.position.includes("front") || current_position.position.includes("chest")) {
             $('a.change-view[data-view="front"]').trigger('click');
@@ -215,11 +213,14 @@ ModifierController.prototype = {
 
         // Activate logo current position
         $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
-
+        $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
 
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         $("#logo-preview").css({
             'background-image': "url("+ image +")"
         });
+
+        $("#logo-preview").show();
+        $(".logo-image-loader").hide();
     }
 };

@@ -13343,6 +13343,10 @@ $(document).ready(function () {
                 _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 
+            case 'logos':
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                break;
+
             default:
                 _val = 0;
 
