@@ -22,6 +22,7 @@ NumberPanel.prototype = {
 
     bindEvents: function() {
         $('#numbers-panel .application .application-text').on('keyup', this.setNumber);
+        $('#numbers-panel .application .font-style').on('change', this.setFontStyle);
     },
 
     getPanel: function() {
@@ -33,6 +34,11 @@ NumberPanel.prototype = {
         var applications = _.filter(ub.current_material.settings.applications, function(el){
             return (el.application_type.indexOf('number') > -1);
         });
+
+        _.each(applications, function(appl) {
+            appl.fonts = ub.data.fonts;
+        });
+        console.log(applications);
 
         return applications;
     },
@@ -61,6 +67,7 @@ NumberPanel.prototype = {
         var panel = ub.modifierController.numbers;
         // change number
         var application_type = $(this).data('application-type');
+        var font_id = $(this).data('font-id');
         var number = $(this).val();
         var settings = panel.getApplicationByType(application_type);
 
@@ -86,7 +93,18 @@ NumberPanel.prototype = {
     },
 
     setFontStyle: function() {
+        var panel = ub.modifierController.numbers;
         // change font style
+        var font_id = $(this).val();
+        console.log('Font ID = ' + font_id);
+        var settings = panel.getApplicationByType(application_type);
+
+        if (typeof settings !== 'undefined') {
+            ub.funcs.changeFontFromPopup(font_id, settings);
+            ub.utilities.actionLog('Updated Font on ' + application_type + ' to ' + font_id);
+        } else {
+            ub.utilities.error('Missing object settings. Unable to apply changes.');
+        }
     },
 
     setFontSize: function() {
