@@ -55,13 +55,31 @@ LogoPanel.prototype = {
         if (logoObject.layer2) { _layerCount +=1 };
         if (logoObject.layer3) { _layerCount +=1 };
 
+        var layerOneColor = _.find(ub.data.colors, {color_code: "W"});
+        var layerThreeColor = _.find(ub.data.colors, {color_code: "CG"});
+
+        data_logo = [
+            {
+                colorObj: layerOneColor,
+                layer: 1,
+                position: new_position,
+            },
+            {
+                colorObj: layerThreeColor,
+                layer: 3,
+                position: new_position,
+            }
+        ];
+
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
+        LogoPanel.process.changeColor(data_logo);
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
 
         $("#logo-preview").hide();
         $(".logo-image-loader").show();
+
         _.delay(function() {
             var image = ub.getThumbnailImage(ub.active_view + "_view");
             $("#logo-preview").css({
@@ -103,8 +121,8 @@ LogoPanel.process = {
 
                 logo.colors_array = [
                     'W',
-                    '',
-                    'G'
+                    'W',
+                    'CG'
                 ];
 
                 logo.team_color_id_array = [
@@ -158,6 +176,8 @@ LogoPanel.process = {
                 if (logo.layer1) { _layerCount +=1 };
                 if (logo.layer2) { _layerCount +=1 };
                 if (logo.layer3) { _layerCount +=1 };
+
+                logo.enabled = 1;
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
 
@@ -340,6 +360,23 @@ LogoPanel.process = {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
+    },
+
+    changeColor: function(logo_data) {
+        _.each(logo_data, function(index) {
+            _.each (ub.views, function (perspective) {
+
+                var _objectReference = ub.objects[perspective + '_view'][index.position];
+                var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + index.layer});
+                _childLayer.tint = parseInt(index.colorObj.hex_code, 16);
+
+                if (index.colorObj.color_code === "none") {
+                    _childLayer.alpha = 0;
+                } else {
+                    _childLayer.alpha = 1;
+                }
+            });
+        });
     }
 };
 
