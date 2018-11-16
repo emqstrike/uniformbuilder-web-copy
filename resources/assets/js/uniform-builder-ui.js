@@ -231,9 +231,19 @@ $(document).ready(function () {
 
     ub.funcs.isMacintosh = function () {
 
-        return navigator.platform.indexOf('Mac') > -1
+        return navigator.platform.indexOf('Mac') > -1;
 
-    }
+    };
+
+    ub.changeControls = function(vendor) {
+        if (vendor == 'Richardson') {
+            ub.modifierController = new ModifierController('#property-modifiers-menu');
+        } else {
+            if (typeof ub.modifierController !== 'undefined') {
+                ub.modifierController.disable();
+            }
+        }
+    };
 
     $(window).resize(function() {
 
