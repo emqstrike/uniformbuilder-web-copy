@@ -243,8 +243,6 @@ ModifierController.prototype = {
                 $('.toggle', random_feed_item_el).data('status', temporary_status);
                 $('.toggleOption.'+temporary_status, $('.toggle', random_feed_item_el)).click();
 
-
-
                 // hindi sure kung kelangan
                 // var random_feed_item_el = $('#randomFeedsUI .random-feed-item[data-random-feed-type="'+random_feed_type+'"]');
 
