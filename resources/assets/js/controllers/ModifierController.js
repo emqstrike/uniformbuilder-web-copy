@@ -183,6 +183,7 @@ ModifierController.prototype = {
         var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
         properties_panel.setBodyPanel(numbers_panel);
         // set event listeners
+        ub.modifierController.numbers.bindEvents();
     },
 
     applications: function() {

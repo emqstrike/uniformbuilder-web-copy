@@ -20,6 +20,10 @@ function NumberPanel(element) {
 NumberPanel.prototype = {
     constructor: NumberPanel,
 
+    bindEvents: function() {
+        $('#numbers-panel .application .application-text').on('keyup', this.setNumber);
+    },
+
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);
         return rendered;
@@ -54,7 +58,31 @@ NumberPanel.prototype = {
     },
 
     setNumber: function() {
+        var panel = ub.modifierController.numbers;
         // change number
+        var application_type = $(this).data('application-type');
+        var number = $(this).val();
+        var settings = panel.getApplicationByType(application_type);
+
+        if (typeof settings !== 'undefined') {
+            settings.text = number;
+            ub.funcs.changeFontFromPopup(settings.font_obj.id, settings);
+            ub.utilities.actionLog('Updated Number on ' + application_type + ' to ' + number);
+        } else {
+            ub.utilities.error('Missing object settings. Unable to apply changes.');
+        }
+    },
+
+    // Retrieve the application object by application_type
+    getApplicationByType: function(application_type) {
+        var application_obj = null;
+        var panel = ub.modifierController.numbers;
+        if (panel.items.applications.length > 0) {
+            application_obj = _.find(panel.items.applications, function(application, application_type) {
+                return (application.application_type = application_type)
+            });
+        }
+        return application_obj;
     },
 
     setFontStyle: function() {
