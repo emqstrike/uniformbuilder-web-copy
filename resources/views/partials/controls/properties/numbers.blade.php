@@ -18,8 +18,8 @@
 		@{{ #applications }}
 		<div class="application">
 			<li>@{{ application.name }}</li>
-			<input type="text" name="" value="@{{ text }}" class="application-text" data-application-type="@{{ type }}" data-font-id="@{{ font_obj.id }}">
-			<select class="font-style">
+			<input type="text" name="" value="@{{ text }}" class="application-text" data-application-type="@{{ application_type }}" data-font-id="@{{ font_obj.id }}" data-application-layer="@{{ application.layer }}">
+			<select class="font-style" data-application-type="@{{ application_type }}" data-application-layer="@{{ application.layer }}">
 				@{{ #fonts }}
 				<option value="@{{ id }}">
 					@{{ caption }}
