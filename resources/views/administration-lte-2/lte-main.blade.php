@@ -84,6 +84,10 @@
     .breadcrumb {
         background: #ffffff;
     }
+
+    .sidebar li.header {
+        text-transform: uppercase;
+    }
 </style>
 
 @yield('styles')
