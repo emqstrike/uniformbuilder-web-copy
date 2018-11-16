@@ -513,7 +513,7 @@ $(function() {
                     if (typeof _color !== 'undefined') {
 
                         // adding tabs
-                        _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
+                        _html += '<li><a href="#tab-' + id + '-' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
 
                         // building separated color blocks
                         _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
@@ -563,7 +563,7 @@ $(function() {
                 if (typeof _color !== 'undefined') {
 
                     // adding tabs
-                    _html += '<li><a href="#tab' + layer.layer_no + '" data-toggle="tab">' + 'Color ' + layer.layer_no + '</a></li>';
+                    _html += '<li><a href=#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + 'Color ' + layer.layer_no + '</a></li>';
 
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
@@ -599,7 +599,7 @@ $(function() {
         }
 
         _teamColors = _.sortBy(_teamColors, "order");
-        _html += '<div id="tab' + layer_no + '" class="tab-pane fade">';
+        _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade">';
             _.each(_teamColors, function (_color) {
 
                 var _checkMark = '&nbsp;';
