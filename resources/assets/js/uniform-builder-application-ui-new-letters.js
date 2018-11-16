@@ -63,7 +63,8 @@ $(function() {
             // To change a letter's font accent
             .on('click', '.thumbnailContainer', function () {
                 $('.thumbnailContainer.active').removeClass('active')
-                $(this).addClass('active')
+                $(this).closest('div.clearfix').find('i').remove()
+                $(this).addClass('active').append('<i class="fa fa-check" aria-hidden="true"></i>')
 
                 var id = $(this).closest('.applicationUIBlock').data('application-id').toString()
                 var settingsObj = _.find(ub.current_material.settings.applications, {code: id});
@@ -262,61 +263,75 @@ $(function() {
         });
 
         var _appData = [];
-        var _accentsData = [];
 
         // getting only data needed
         _.map(_filteredApplications, function (i) {
             if (i.application_type === 'team_name') {
+                var _accents = [] 
+                _.map(ub.data.accents.items, function (j) {
+                    var acc = {
+                        'thumbnail': '/images/sidebar/' + j.thumbnail,
+                        'id': j.id,
+                        'code': j.code,
+                        'active': i.accent_obj.id === j.id ? 'active' : '',
+                        'activeCheck': i.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
+                    }
+        
+                    _accents.push(acc);
+                })
                 var objCustom = {
                     // 'thumbnail': i.embellishment.thumbnail,
-                    'type': 'TEAM NAME',
-                    'code': i.code,
-                    'perspective': i.application.views[0].perspective,
-                    'placeholder': 'Your team name',
-                    'fontStyle': i.font_obj.name,
-                    'fontCaption': i.font_obj.caption,
+                    type: 'TEAM NAME',
+                    code: i.code,
+                    perspective: i.application.views[0].perspective,
+                    placeholder: 'Your team name',
+                    fontStyle: i.font_obj.name,
+                    fontCaption: i.font_obj.caption,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR')
-
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
+                    accentsData: _accents
 
                 }
                 _appData.push(objCustom);
             } else if (i.application_type === 'player_name') {
+                var _accents = [] 
+                _.map(ub.data.accents.items, function (j) {
+                    var acc = {
+                        'thumbnail': '/images/sidebar/' + j.thumbnail,
+                        'id': j.id,
+                        'code': j.code,
+                        'active': i.accent_obj.id === j.id ? 'active' : '',
+                        'activeCheck': i.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
+                    }
+        
+                    _accents.push(acc);
+                })
+
                 var objStock = {
                     // 'thumbnail': i.mascot.icon,
                     'type': 'PLAYER NAME',
                     'code': i.code,
                     'perspective': i.application.views[0].perspective,
-                    // 'name': i.mascot.name
                     'placeholder': 'Your name',
                     'fontStyle': i.font_obj.name,
                     'fontCaption': i.font_obj.caption,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR')
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
+                    accentsData: _accents
                 }
                 _appData.push(objStock);
             }
         });
 
-        _.map(ub.data.accents.items, function (i) {
-            var acc = {
-                'thumbnail': '/images/sidebar/' + i.thumbnail,
-                'id': i.id,
-                'code': i.code
-            }
-            _accentsData.push(acc);
-        });
-
         // prepare data
         var templateData = {
-            applications: _appData,
-            accents: _accentsData
+            applications: _appData
         };
 
-        // var _htmlBuilder = ub.utilities.buildTemplateString('#new-application-letters', []);
-        // $('.modifier_main_container').append(_htmlBuilder);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#new-application-letters', []);
+        $('.modifier_main_container').append(_htmlBuilder);
 
         // send to mustache
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);

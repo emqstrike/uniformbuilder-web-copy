@@ -1132,11 +1132,12 @@
                     <div class="clearfix">
                         <h5>CHOOSE FONT ACCENT</h5>
 
-                        @{{#accents}}
-                        <a class="thumbnailContainer" data-accent-id="@{{ id }}">
+                        @{{#accentsData}}
+                        <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
                             <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
-                        </a>           
-                        @{{/accents}}   
+                            @{{{ activeCheck }}}
+                        </div>           
+                        @{{/accentsData}}   
                     </div>
 
                     @{{#colorPicker}}
