@@ -56,24 +56,39 @@ LogoPanel.prototype = {
         if (logoObject.layer3) { _layerCount +=1 };
 
         var layerOneColor = _.find(ub.data.colors, {color_code: "W"});
+        var layerSecondColor = _.find(ub.data.colors, {color_code: "W"});
         var layerThreeColor = _.find(ub.data.colors, {color_code: "CG"});
 
         data_logo = [
             {
                 colorObj: layerOneColor,
-                layer: 1,
+                layer: 3,
+                position: new_position,
+            },
+            {
+                colorObj: layerSecondColor,
+                layer: 2,
                 position: new_position,
             },
             {
                 colorObj: layerThreeColor,
-                layer: 3,
+                layer: 1,
                 position: new_position,
             }
         ];
 
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
-        LogoPanel.process.changeColor(data_logo);
+        // LogoPanel.process.changeColor(data_logo);
+
+
+
+
+
+
+
+
+
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
 
@@ -88,7 +103,7 @@ LogoPanel.prototype = {
 
             $("#logo-preview").show();
             $(".logo-image-loader").hide();
-        }, 1500);
+        }, 2000);
 
     },
 
@@ -176,8 +191,6 @@ LogoPanel.process = {
                 if (logo.layer1) { _layerCount +=1 };
                 if (logo.layer2) { _layerCount +=1 };
                 if (logo.layer3) { _layerCount +=1 };
-
-                logo.enabled = 1;
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
 
@@ -304,17 +317,20 @@ LogoPanel.process = {
                     {
                         layer: 1,
                         status: false,
-                        colorCode: '',
+                        colorCode: 'W',
+                        colorObj: {'hex_code': "e6e6e6"}
                     },
                     {
                         layer: 2,
                         status: false,
-                        colorCode: '',
+                        colorCode: 'W',
+                        colorObj: {'hex_code': "e6e6e6"}
                     },
                     {
                         layer: 3,
                         status: false,
-                        colorCode: '',
+                        colorCode: 'CG',
+                        colorObj: {'hex_code': "4c4c4c"}
                     }
                 ]
             };
@@ -353,7 +369,7 @@ LogoPanel.process = {
 
     addLogo: function(logoObject, _layerCount) {
         var selectedColorArray = ub.current_material.settings.team_colors;
-        LogoPanel.process.initLogoColors(logoObject, selectedColorArray[0]);
+        // LogoPanel.process.initLogoColors(logoObject, selectedColorArray[0]);
         LogoPanel.process.renderLogo(logoObject, _layerCount);
 
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
@@ -377,7 +393,26 @@ LogoPanel.process = {
                 }
             });
         });
-    }
-};
+    },
 
+    changeRichardsonLogoBackground: function(position) {
+        _.each (ub.views, function (perspective) {
+
+            var _objectReference = ub.objects[perspective + '_view'][position];
+            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "1"});
+            _childLayer.tint = parseInt("0e0e0e", 16);
+            _childLayer.alpha = 1;
+        });
+    },
+
+    changeRichardsonLogoColor: function() {
+        _.each (ub.views, function (perspective) {
+
+            var _objectReference = ub.objects[perspective + '_view'][position];
+            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "3"});
+            _childLayer.tint = parseInt("0e0e0e", 16);
+            _childLayer.alpha = 1;
+        });
+    }
+}
 

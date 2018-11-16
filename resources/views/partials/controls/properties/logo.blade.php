@@ -15,7 +15,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="cp-padding-small cp-padding-remove-horizontal cp-padding-top-xs">
+                <div class="">
                     <div class="logo-preview" id="logo-preview"></div>
                     <div class="col-md-6 col-md-offset-4 logo-image-loader" style="margin-top: 45px;">
                         <span class="fa fa-spinner fa-spin" style="font-size: 10em"></span>
