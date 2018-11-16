@@ -38,8 +38,6 @@ function ModifierController(element, brand) {
     this.initControls();
     this.bindEvents();
     this.enable();
-
-    ub.modifierController = this;
 }
 
 ModifierController.prototype = {

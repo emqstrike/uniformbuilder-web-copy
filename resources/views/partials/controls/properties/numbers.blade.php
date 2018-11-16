@@ -19,6 +19,13 @@
 		<div class="application">
 			<li>@{{ application.name }}</li>
 			<input type="text" name="" value="@{{ text }}" class="application-text" data-application-type="@{{ type }}" data-font-id="@{{ font_obj.id }}">
+			<select class="font-style">
+				@{{ #fonts }}
+				<option value="@{{ id }}">
+					@{{ caption }}
+				</option>
+				@{{ /fonts }}
+			</select>
 		</div>
 		@{{ /applications }}
 	</div>
