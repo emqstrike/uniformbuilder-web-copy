@@ -563,7 +563,7 @@ $(function() {
                 if (typeof _color !== 'undefined') {
 
                     // adding tabs
-                    _html += '<li><a href="#tab' + layer.layer_no + '" data-toggle="tab">' + 'Color ' + layer.layer_no + '</a></li>';
+                    _html += '<li><a href="#tab' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
 
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color, layer.layer_no, layer.name, layer.default_color, 'accent');
@@ -589,7 +589,7 @@ $(function() {
     ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
-        var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
+        // var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
         var _teamColors = ub.current_material.settings.team_colors;
 
         var _objectType = objectType;
