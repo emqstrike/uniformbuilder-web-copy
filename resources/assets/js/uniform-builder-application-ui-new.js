@@ -252,9 +252,10 @@ $(function() {
     };
 
     ub.funcs.initializer = function () {
+
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
-        $(scaleSliders).each(function(i){
+        $(scaleSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
@@ -265,7 +266,7 @@ $(function() {
 
         // slider move X
         var moveXSliders = document.getElementsByClassName('slider-control-move-x');
-        $(moveXSliders).each(function(i){
+        $(moveXSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
@@ -276,7 +277,7 @@ $(function() {
 
         // slider move Y
         var moveYSliders = document.getElementsByClassName('slider-control-move-y');
-        $(moveYSliders).each(function(i){
+        $(moveYSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
@@ -287,7 +288,7 @@ $(function() {
 
         // slider rotate
         var rotateSliders = document.getElementsByClassName('slider-control-rotate');
-        $(rotateSliders).each(function(i){
+        $(rotateSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
@@ -303,6 +304,7 @@ $(function() {
         $(colorFirstTabContent).each(function(){
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
+
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
@@ -539,15 +541,14 @@ $(function() {
             _.each(_settingsObject.accent_obj.layers, function (layer) {
 
                 var _hexCode = layer.default_color;
-                // var _color = ub.funcs.getColorObjByHexCode(_hexCode);
-                // var _color = ub.funcs.getColorObjArrayByCodes(_settingsObject.colorArrayText);
-                // var _color = _settingsObject.color_array[_layerNo];
+                var _color = ub.funcs.getColorObjByHexCode(_hexCode);
                 var _layerNo = layer.layer_no - 1;
-                var _color = _settingsObject.colorArrayText[_layerNo];
 
                 if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
                     return;
                 }
+
+                _color = _settingsObject.color_array[_layerNo];
 
                 // Use default color if team color is short
                 if (typeof _color === "undefined") {
