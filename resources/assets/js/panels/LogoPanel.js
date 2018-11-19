@@ -132,17 +132,24 @@ LogoPanel.process = {
                     logo.position = "bottom_sleeve";
                 }
 
+                var secondary_color = LogoPanel.process.getSecondaryColor();
+                console.log("secondary color: ", secondary_color);
+
                 logo.colors_array = [
-                    'W',
-                    'W',
-                    'CG'
+                    "W",
+                    "W",
+                    secondary_color.length > 0 ? secondary_color[0].color_code : "CG"
                 ];
 
-                logo.team_color_id_array = [
-                    "3",
-                    "2",
-                    "1"
-                ];
+                // Logo Layer 2 color
+                if (ub.config.uniform_application_type === "sublimated") {
+                    logo.colors_array[1] = "none"
+                }
+
+                // Logo Layer 3 Color
+                if (logo.colors_array[2] === "W") {
+                    logo.colors_array[0] = "CG";
+                }
 
                 var _colorArray = [];
                 var _layers = [];
@@ -173,14 +180,10 @@ LogoPanel.process = {
                             status: false,
 
                         });
-
-                        var _teamColorId = logo.team_color_id_array[index];
-
-                        if (logo.enabled === 1 && _color.color_code !== "none") {
-                             ub.data.colorsUsed[_color.hex_code] = {hexCode: _color.hex_code, parsedValue: _color.hex_code, teamColorID: _teamColorId};
-                        }
                     });
+
                 } else {
+
                     console.log('No Color Array for ' + logo.position);
                 }
 
@@ -432,25 +435,23 @@ LogoPanel.process = {
     getSecondaryColor: function() {
         var excludes = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
         var logo_limited_color = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+        var included_modifier = [];
         var secondary_color = [];
-        var modifier = [];
 
         _.map(ub.current_material.settings[ub.config.type], function(mo) {
             if (!_.includes(excludes, mo.code)) {
                 if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
-                    modifier.push({
-                        code: mo.code,
-                        color_code: mo.colorObj.color_code
-                    });
+                    if (_.includes(logo_limited_color, mo.colorObj.color_code)) {
+                        secondary_color.push({
+                            code: mo.code,
+                            color_code: mo.colorObj.color_code
+                        });
+                    }
                 }
             }
         });
 
-        var find = _.findWhere(ub.current_material.settings[ub.config.type], {code: "body"});
-
-        console.log("FIND", find);
-
-        return modifier;
+        return secondary_color;
     }
 }
 

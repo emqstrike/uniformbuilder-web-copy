@@ -4015,12 +4015,6 @@ $(document).ready(function () {
 
         });
 
-        ub.stage.on('click', function (mousedata) {
-
-            console.log(mousedata.data.global);
-
-        });
-
     }
 
     ub.funcs.stageMouseMove = function (mousedata) {
