@@ -79,11 +79,9 @@ LogoPanel.prototype = {
 
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
-        // LogoPanel.process.changeColor(data_logo);
+        var secondary = LogoPanel.process.getSecondaryColor();
 
-
-
-
+        console.log("secondary", secondary);
 
 
 
@@ -307,6 +305,8 @@ LogoPanel.process = {
     },
 
     getLogoSettingsObject: function(position) {
+        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 0});
+
         if (typeof ub.current_material.settings.logos[position] === "undefined") {
 
             ub.current_material.settings.logos[position] = {
@@ -317,20 +317,20 @@ LogoPanel.process = {
                     {
                         layer: 1,
                         status: false,
-                        colorCode: 'W',
-                        colorObj: {'hex_code': "e6e6e6"}
+                        colorCode: current_active_logo.layers[0].colorCode,
+                        colorObj: current_active_logo.layers[0].colorObj
                     },
                     {
                         layer: 2,
                         status: false,
-                        colorCode: 'W',
-                        colorObj: {'hex_code': "e6e6e6"}
+                        colorCode: current_active_logo.layers[1].colorCode,
+                        colorObj: current_active_logo.layers[1].colorObj
                     },
                     {
                         layer: 3,
                         status: false,
-                        colorCode: 'CG',
-                        colorObj: {'hex_code': "4c4c4c"}
+                        colorCode: current_active_logo.layers[2].colorCode,
+                        colorObj: current_active_logo.layers[2].colorObj
                     }
                 ]
             };
@@ -403,16 +403,54 @@ LogoPanel.process = {
             _childLayer.tint = parseInt("0e0e0e", 16);
             _childLayer.alpha = 1;
         });
+
+        // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
+        var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
+        var colorObj = ub.funcs.getColorObjByHexCode("0e0e0e");
+
+        logoSettings.layers[2].colorCode = colorObj.color_code;
+        logoSettings.layers[2].colorObj = colorObj;
     },
 
-    changeRichardsonLogoColor: function() {
+    changeRColor: function(position) {
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "3"});
-            _childLayer.tint = parseInt("0e0e0e", 16);
+            _childLayer.tint = parseInt("ffba00", 16);
             _childLayer.alpha = 1;
         });
+
+        // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
+        var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
+        var colorObj = ub.funcs.getColorObjByHexCode("ffba00");
+
+        logoSettings.layers[0].colorCode = colorObj.color_code;
+        logoSettings.layers[0].colorObj = colorObj;
+    },
+
+    getSecondaryColor: function() {
+        var excludes = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+        var logo_limited_color = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+        var secondary_color = [];
+        var modifier = [];
+
+        _.map(ub.current_material.settings[ub.config.type], function(mo) {
+            if (!_.includes(excludes, mo.code)) {
+                if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
+                    modifier.push({
+                        code: mo.code,
+                        color_code: mo.colorObj.color_code
+                    });
+                }
+            }
+        });
+
+        var find = _.findWhere(ub.current_material.settings[ub.config.type], {code: "body"});
+
+        console.log("FIND", find);
+
+        return modifier;
     }
 }
 

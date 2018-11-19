@@ -72,6 +72,7 @@ ColorPanel.prototype = {
                     if (current_active_logo.layers[2].colorCode === colorLabel) {
                         
                         LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position);
+                        LogoPanel.process.changeRColor(current_active_logo.position);
                         current_active_logo.layers[2].colorCode = "B";
                     }
                 }
@@ -80,6 +81,7 @@ ColorPanel.prototype = {
                     if (current_active_logo.layers[2].colorCode === colorLabel) {
                         
                         LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position);
+                        LogoPanel.process.changeRColor(current_active_logo.position);
                         current_active_logo.layers[2].colorCode = "B";
                     }
                 }
@@ -87,6 +89,7 @@ ColorPanel.prototype = {
                 if (current_active_logo.position.includes("chest") && modifier_category.includes("body") || modifier_category.includes("chest")) {
                     if (current_active_logo.layers[2].colorCode === colorLabel) {
                         LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position);
+                        LogoPanel.process.changeRColor(current_active_logo.position);
                         current_active_logo.layers[2].colorCode = "B";
                     }
                 }
