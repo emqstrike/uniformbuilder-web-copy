@@ -15,7 +15,7 @@
                         </div>
 
                         <div class="ui-row">
-                            <div class="column1"> &nbsp;
+                            <div class="column1" style="border-top: none; border-bottom: solid 1px #3d3d3d">
                                 <div class="colorContainer"></div>
                             </div>
                         </div>
