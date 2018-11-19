@@ -97,7 +97,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
-<script type="text/javascript" src="/js/administration/orders.js"></script>
+<script type="text/javascript" src="/js/administration/orders.js?v={{ config('app.asset_version') }}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
