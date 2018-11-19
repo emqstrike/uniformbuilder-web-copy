@@ -34,58 +34,54 @@ LogoPanel.prototype = {
         current_active_position.css('pointer-events', "auto");
         var current_position = current_active_position.data("position");
         current_active_position.removeClass('cp-button-active');
+        var material_ops = null;
 
         var new_position = $(this).data("position");
 
         if (new_position.includes("front") || new_position.includes("chest")) {
             $('a.change-view[data-view="front"]').trigger('click');
+            var find = _.find(ub.current_material.settings[ub.config.type], {code: "front_body"});
+            material_ops = find;
 
         } else if (new_position.includes("back")) {
             $('a.change-view[data-view="back"]').trigger('click');
+            var find = _.find(ub.current_material.settings[ub.config.type], {code: "back_body"});
+            material_ops = find;
 
         } else if (new_position.includes("left") || new_position.includes("sleeve")) {
             $('a.change-view[data-view="left"]').trigger('click');
-
+            var find = _.find(ub.current_material.settings[ub.config.type], {code: "left_sleeve"});
+            material_ops = find;
         }
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
+        var logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logoObject.position);
         var _layerCount = 0;
 
         if (logoObject.layer1) { _layerCount +=1 };
         if (logoObject.layer2) { _layerCount +=1 };
         if (logoObject.layer3) { _layerCount +=1 };
 
-        var layerOneColor = _.find(ub.data.colors, {color_code: "W"});
-        var layerSecondColor = _.find(ub.data.colors, {color_code: "W"});
-        var layerThreeColor = _.find(ub.data.colors, {color_code: "CG"});
-
-        data_logo = [
-            {
-                colorObj: layerOneColor,
-                layer: 3,
-                position: new_position,
-            },
-            {
-                colorObj: layerSecondColor,
-                layer: 2,
-                position: new_position,
-            },
-            {
-                colorObj: layerThreeColor,
-                layer: 1,
-                position: new_position,
-            }
-        ];
-
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
-        var secondary = LogoPanel.process.getSecondaryColor();
 
-        console.log("secondary", secondary);
+        console.log(logoSettingsObject)
 
+        if (typeof material_ops !== "undefined") {
+            if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
+                LogoPanel.process.changeRichardsonLogoBackground(new_position, "W");
+                LogoPanel.process.changeRColor(new_position, "CG");
+                logoSettingsObject.layers[0].colorCode = "CG";
+                logoSettingsObject.layers[2].colorCode = "W";
 
-
-
+                if (material_ops.colorObj.color_code === "W") {
+                    LogoPanel.process.changeRichardsonLogoBackground(new_position, "CG");
+                    LogoPanel.process.changeRColor(new_position, "W");
+                    logoSettingsObject.layers[0].colorCode = "W";
+                    logoSettingsObject.layers[2].colorCode = "CG";
+                }
+            }
+        }
 
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
@@ -308,7 +304,7 @@ LogoPanel.process = {
     },
 
     getLogoSettingsObject: function(position) {
-        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 0});
+        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
 
         if (typeof ub.current_material.settings.logos[position] === "undefined") {
 
@@ -398,35 +394,39 @@ LogoPanel.process = {
         });
     },
 
-    changeRichardsonLogoBackground: function(position) {
+    changeRichardsonLogoBackground: function(position, color_code) {
+        // Get color object by color code
+        var colorObj = ub.funcs.getColorByColorCode(color_code);
+
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "1"});
-            _childLayer.tint = parseInt("0e0e0e", 16);
+            _childLayer.tint = parseInt(colorObj.hex_code, 16);
             _childLayer.alpha = 1;
         });
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
         var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
-        var colorObj = ub.funcs.getColorObjByHexCode("0e0e0e");
 
         logoSettings.layers[2].colorCode = colorObj.color_code;
         logoSettings.layers[2].colorObj = colorObj;
     },
 
-    changeRColor: function(position) {
+    changeRColor: function(position, color_code) {
+        // Get color object by color code
+        var colorObj = ub.funcs.getColorByColorCode(color_code);
+
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "3"});
-            _childLayer.tint = parseInt("ffba00", 16);
+            _childLayer.tint = parseInt(colorObj.hex_code, 16);
             _childLayer.alpha = 1;
         });
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
         var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
-        var colorObj = ub.funcs.getColorObjByHexCode("ffba00");
 
         logoSettings.layers[0].colorCode = colorObj.color_code;
         logoSettings.layers[0].colorObj = colorObj;
