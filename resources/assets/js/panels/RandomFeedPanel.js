@@ -1,13 +1,26 @@
 function RandomFeedPanel(element) {
     this.panel = document.getElementById(element);
+    this.set_items = {};
 }
 
 RandomFeedPanel.prototype = {
     constructor: RandomFeedPanel,
 
     getPanel: function() {
-        var rendered = Mustache.render(this.panel.innerHTML);
+        var rendered = Mustache.render(this.panel.innerHTML, this.set_items);
         return rendered;
+    },
+
+    setRandomFeedSetItems: function() {
+        var random_feed_sets = ub.funcs.getRandomFeedSets();
+
+        var random_feed_set_items = _.map(random_feed_sets, function(random_feed_type) {
+            return {
+                type: random_feed_type
+            }
+        });
+
+        this.set_items = {random_feed_set_items: random_feed_set_items};
     }
 };
 
@@ -122,4 +135,22 @@ RandomFeedPanel.getActiveRandomFeedSet = function(random_feed_type) {
     }
 
     return active_random_feed_set;
+};
+
+RandomFeedPanel.setInitialState = function() {
+    var random_feed_sets = ub.funcs.getRandomFeedSets();
+
+    _.map(random_feed_sets, function(random_feed_type) {
+        var active_random_feed_set = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
+        var status = (typeof active_random_feed_set !== "undefined" && active_random_feed_set.enabled === 1) ? "on" : "off";
+
+        var random_feed_item_el = $('#randomFeedsUI .random-feed-item[data-random-feed-type="'+random_feed_type+'"]');
+
+        var temporary_status = status === RandomFeedPanel.STATUS_ON ? RandomFeedPanel.STATUS_OFF : RandomFeedPanel.STATUS_ON;
+
+        $('.toggle', random_feed_item_el).data('status', temporary_status);
+        $('.toggleOption.'+temporary_status, $('.toggle', random_feed_item_el)).click();
+    });
+
+    $('#randomFeedsUI').fadeIn();
 };

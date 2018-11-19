@@ -158,52 +158,30 @@ ModifierController.prototype = {
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
 
         if (ub.funcs.isSocks()) { // display random feeds
-            var random_feed_sets = ub.funcs.getRandomFeedSets();
+            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
 
-            var random_feed_set_items = _.map(random_feed_sets, function(random_feed_type) {
-                return {
-                    type: random_feed_type
-                }
-            });
-
-            var template = $('#random-feeds-list').html();
-
-            $('#primary_options_container').html(Mustache.render(template, {
-                random_feed_set_items: random_feed_set_items
-            }));
+            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
+            properties_panel.setBodyPanel(random_feed_panel);
 
             RandomFeedPanel.events.init();
-
-            // initial state
-            _.map(random_feed_sets, function(random_feed_type) {
-                var active_random_feed_set = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
-                var status = (typeof active_random_feed_set !== "undefined" && active_random_feed_set.enabled === 1) ? "on" : "off";
-
-                var random_feed_item_el = $('#randomFeedsUI .random-feed-item[data-random-feed-type="'+random_feed_type+'"]');
-
-                var temporary_status = status === RandomFeedPanel.STATUS_ON ? RandomFeedPanel.STATUS_OFF : RandomFeedPanel.STATUS_ON;
-
-                $('.toggle', random_feed_item_el).data('status', temporary_status);
-                $('.toggleOption.'+temporary_status, $('.toggle', random_feed_item_el)).click();
-            });
-
-            $('#randomFeedsUI').fadeIn();
+            RandomFeedPanel.setInitialState();
         } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
             ub.funcs.activatePanelGuard();
             ub.funcs.deactivatePanels();
 
-            ub.modifierController.pipings = new PipingPanel('m-piping-sidebar-new');
-            ub.modifierController.pipings.setPipingSetItems();
+            ub.modifierController.controllers.pipings = new PipingPanel('m-piping-sidebar-new');
+            ub.modifierController.controllers.pipings.setPipingSetItems();
 
-            var piping_panel = ub.modifierController.pipings.getPanel();
+            var piping_panel = ub.modifierController.controllers.pipings.getPanel();
             properties_panel.setBodyPanel(piping_panel);
 
             PipingPanel.events.init();
             PipingPanel.setInitialState();
         } else { // no pipings
-            ub.modifierController.pipings = new PipingPanel('m-no-piping-message');
+            ub.modifierController.controllers.pipings = new PipingPanel('m-no-piping-message');
 
-            var piping_panel = ub.modifierController.pipings.getNoPipingPanel();
+            var piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
             properties_panel.setBodyPanel(piping_panel);
         }
     },
