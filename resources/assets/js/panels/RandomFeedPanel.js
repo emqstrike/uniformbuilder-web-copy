@@ -22,12 +22,7 @@ RandomFeedPanel.events = {
 
     init: function() {
         if (RandomFeedPanel.events.is_init_events_called === 0) {
-            // $('div#randomFeeds-panel > span.randomFeeds-close')
-            // $('div#randomFeeds-panel').mousedown(ub.funcs.handle_mousedown)
-            // $('.randomFeed')
-            
             $(".modifier_main_container").on("click", "#randomFeedsUI .toggleOption", RandomFeedPanel.events.onToggleRandomFeed);
-            // $(".modifier_main_container").on("click", "#randomFeedsUI .randomFeed-colors-buttons", RandomFeedPanel.events.onRandomFeedColorButtonClick);
 
             RandomFeedPanel.events.is_init_events_called = 1;
         }
@@ -37,26 +32,31 @@ RandomFeedPanel.events = {
         var toggle_random_feed_el = $(this).closest('.toggle');
         var status = toggle_random_feed_el.data('status');
 
+        var random_feed_item_el = $(this).closest('.random-feed-item');
+        var random_feed_type = random_feed_item_el.data('random-feed-type');
+
         if (status === RandomFeedPanel.STATUS_ON) {
-            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_OFF);
+            ub.funcs.removeRandomFeed(random_feed_type);
+
+            if (random_feed_type.indexOf('Left') === 0) {
+                var matchingSide = ub.funcs.getMatchingSide(random_feed_type);
+                ub.funcs.removeRandomFeed(matchingSide);
+            }
 
             $('.valueContainer', toggle_random_feed_el).css('margin-left', '-100px');
-            // $('.cover').fadeIn('fast');
             toggle_random_feed_el.removeClass('defaultShadow');
 
             RandomFeedPanel.hideColors(toggle_random_feed_el);
-        } else {
-            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_ON);
 
+            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_OFF);
+        } else {
             $('.valueContainer', toggle_random_feed_el).css('margin-left', '0px');
-            // $('.cover').hide();
             toggle_random_feed_el.addClass('defaultShadow');
 
-            // $('.randomFeed-colors-buttons', toggle_random_feed_el).click();
             RandomFeedPanel.showColors(toggle_random_feed_el)
-        }
 
-        // _state === "on" ? $('span.header-type').hide() : $('span.header-type').show();
+            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_ON);
+        }
     }
 }
 
