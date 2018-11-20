@@ -8908,7 +8908,7 @@ $(document).ready(function () {
 
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -12428,6 +12428,9 @@ $(document).ready(function () {
         });
 
         // End Select Perspective
+
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
 
     };
 

@@ -7,6 +7,7 @@ use App\APIClients\RoleClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
 {
@@ -42,6 +43,8 @@ class RoleController extends Controller
                 }
             }
         }
+
+        Log::info(print_r($availableAdminRoles, true));
 
         return $availableAdminRoles;
     }
