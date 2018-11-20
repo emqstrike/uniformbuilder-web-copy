@@ -1042,28 +1042,143 @@
 
     <script type="text/mustache" id="m-application-ui-block">
 
-        <h5 class="fc-darker abrade-ultra-italic">Decoration Mascots</h5>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-secondary">Secondary</button>
+        <h4>DECORATION</h4>
+        <div class="add-new-application">
+            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
+        </div>
+
+        <div class="clearfix"></div>
 
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
-                <image src="@{{ thumbnail }}" class="thumbnail" />
-            </div>
-        @{{/applications}}
 
+                <div class="thumb-container">
+                    <span>
+                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                    </span>
+
+                    <div class="thumb-links pull-left">
+                        <h5>@{{ type }}</h5>
+                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <span class="thumb-name">@{{ name }}</span>
+
+                    <span class="flip">
+                        <button type="button" class="app-btn w-45 flipBtn" data-id="@{{ code }}">Flip</button>
+                    </span>
+                </div>
+
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
+                </div>
+
+                {{--<div class="slidersContainer">--}}
+                    {{--<div class="manipulator-type-container scale" data-type="scale">--}}
+                        {{--<h5>LOGO SIZE</h5>--}}
+                        {{--<div class="sc scale">--}}
+                            {{--<div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
+                    {{--<div class="manipulator-type-container move" data-type="move">--}}
+                        {{--<h5>POSITION</h5>--}}
+                        {{--<div class="sc move">--}}
+                            {{--<div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>--}}
+                            {{--<div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
+                    {{--<div class="manipulator-type-container rotate" data-type="rotate">--}}
+                        {{--<h5>ROTATE</h5>--}}
+                        {{--<div class="sc rotate">--}}
+                            {{--<div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                @{{#slider}}
+                    @{{{ sliderContainer }}}
+                @{{/slider}}
+
+                @{{#colorPicker}}
+                    @{{{ colorsSelection }}}
+                @{{/colorPicker}}
+
+           </div>
+        @{{/applications}}
 
     </script>
 
 <!-- End Application UI Block -->
 
+<!-- Start Slider Container -->
+
+    <script type="text/mustache" id="m-slider-container">
+
+        <div class="slidersContainer">
+            <div class="manipulator-type-container scale" data-type="scale">
+                <h5>LOGO SIZE</h5>
+                <div class="sc scale">
+                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container move" data-type="move">
+                <h5>POSITION</h5>
+                <div class="sc move">
+                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container rotate" data-type="rotate">
+                <h5>ROTATE</h5>
+                <div class="sc rotate">
+                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+<!-- End Slider Container  -->
+
+{{--<!-- Start Color Selection -->--}}
+
+    {{--<script type="text/mustache" id="m-color-selection-tab">--}}
+            {{--@{{#colorPicker}}--}}
+                {{--<li><a href="#tab@{{ layerNumber }}" data-toggle="tab">Color @{{ layerNumber }}</a></li>--}}
+            {{--@{{/colorPicker}}--}}
+    {{--</script>--}}
+
+{{--<!-- End Color Selection -->--}}
+
+<!-- Start Color Selection List -->
+
+    <script type="text/mustache" id="m-color-selection-list">
+            @{{#colorList}}
+                <div id="tab1" class="tab-pane fade in active">-
+                    <span class="colorBox" style="background-color:white"></span>
+                    <span class="colorBox" style="background-color:blue"></span>
+                    <span class="colorBox" style="background-color:red"></span>
+                </div>
+            @{{/colorList}}
+    </script>
+
+<!-- End Color Selection List -->
+
 <!-- New Application UI -->
 
     <script type="text/mustache" id="m-application-ui">
 
-        <div id="applicationUI" data-application-id="@{{id}}">
-
+        <div id="applicationUI" data-application-id="@{{id}}"
             <div class="header">
 
                 <div class="toggle defaultShadow" data-status="@{{ status }}">

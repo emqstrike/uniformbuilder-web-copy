@@ -4369,11 +4369,12 @@ $(document).ready(function () {
 
     ub.funcs.drawPartsDrop = function () {
 
-        var strBuilder = '';
-        var _moCount = _.size(ub.data.modifierLabels);
         // omit `neck_tape_1` on ub.data.modifierLabels
         var labelsToHide = ['neck_tape_2'];
         ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+
+        var strBuilder              = '';
+        var _moCount                = _.size(ub.data.modifierLabels);
 
         _.each(ub.data.modifierLabels, function (ml) {
 

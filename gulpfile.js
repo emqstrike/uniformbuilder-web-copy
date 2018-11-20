@@ -91,6 +91,8 @@ elixir(function(mix) {
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
 
+            'uniform-builder-application-ui-new.js'
+
             // Custom Panels
             'panels/PropertiesPanel.js',
             'panels/PartPanel.js',
@@ -117,6 +119,7 @@ elixir(function(mix) {
 
             // Source
             'uniform-builder.less',
+            'application-ui-new.less',
         ],
 
         // Result
