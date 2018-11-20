@@ -92,6 +92,7 @@ elixir(function(mix) {
             'TeamStoreToolBox.js',
 
             'uniform-builder-application-ui-new.js',
+            'uniform-builder-application-ui-new-letters.js',
 
             // Custom Panels
             'panels/PropertiesPanel.js',
