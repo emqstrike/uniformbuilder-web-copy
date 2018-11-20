@@ -345,6 +345,7 @@ $(function() {
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -379,6 +380,8 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updateScaleViaSlider(_settingsObject, _value);
 
@@ -388,6 +391,7 @@ $(function() {
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -429,6 +433,9 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
 
@@ -438,6 +445,7 @@ $(function() {
 
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -478,6 +486,8 @@ $(function() {
         });
 
         element.noUiSlider.on('update', function (values, handle) {
+
+            if (!_flag) { _flag = true; return;}
 
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');

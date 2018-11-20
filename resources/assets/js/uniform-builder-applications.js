@@ -901,6 +901,8 @@ $(document).ready(function () {
 
     ub.funcs.updateScaleViaSlider = function (_application, value) {
 
+        console.log('========updateScaleViaSlider=======');
+
         var _divisor = 100;
         if (_application.application_type !== "mascot") {
 
@@ -956,6 +958,8 @@ $(document).ready(function () {
     };
 
     ub.funcs.updatePositionViaSlider = function (_application, value, axis) {
+
+        console.log('========updatePositionViaSlider=======');
 
         var _max = ub.dimensions.width;
 
@@ -6449,6 +6453,8 @@ $(document).ready(function () {
     }
 
     ub.funcs.updateRotationViaSlider = function (_application, value) {
+
+        console.log('========updateRotationViaSlider=======');
 
         var _val = (value / 100 * 360);
         var _valStr = (value / 100 * 6.28);
