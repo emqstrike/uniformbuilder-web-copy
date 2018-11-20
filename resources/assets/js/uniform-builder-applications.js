@@ -4015,12 +4015,6 @@ $(document).ready(function () {
 
         });
 
-        ub.stage.on('click', function (mousedata) {
-
-            console.log(mousedata.data.global);
-
-        });
-
     }
 
     ub.funcs.stageMouseMove = function (mousedata) {
@@ -13348,6 +13342,10 @@ $(document).ready(function () {
                 break;
 
             case 'namedrops':
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                break;
+
+            case 'logos':
                 _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 

@@ -3542,7 +3542,7 @@
 
 @include('partials.controls.properties.parts')
 @include('partials.controls.properties.pipings')
-
+@include('partials.controls.properties.logo')
 @include('partials.controls.properties.inserts')
 
 @include('partials.controls.team-store-products-picker')

@@ -183,6 +183,7 @@ ModifierController.prototype = {
 
     numbers: function() {
         console.log('Show Numbers Panel');
+        // set event listeners
     },
 
     applications: function() {
@@ -191,5 +192,42 @@ ModifierController.prototype = {
 
     logo: function() {
         console.log('Show Logo Panel');
+        var logo_positions = ub.data.logos;
+        var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
+
+        if (typeof logo_positions !== "undefined" && logo_positions.length > 0) {
+            var current_position = _.find(ub.current_material.settings.logos, {enabled: 1});
+            if (current_position.position.includes("front") || current_position.position.includes("chest")) {
+                $('a.change-view[data-view="front"]').trigger('click');
+
+            } else if (current_position.position.includes("back")) {
+                $('a.change-view[data-view="back"]').trigger('click');
+
+            } else if (current_position.position.includes("left") || current_position.position.includes("sleeve")) {
+                $('a.change-view[data-view="left"]').trigger('click');
+
+            }
+
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
+            var logo_panel = ub.modifierController.logo.getPanel();
+            properties_panel.setBodyPanel(logo_panel);
+
+            // Activate logo current position
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
+
+            var image = ub.getThumbnailImage(ub.active_view + "_view");
+            $("#logo-preview").css({
+                'background-image': "url("+ image +")"
+            });
+
+            $("#logo-preview").show();
+            $(".logo-image-loader").hide();
+
+        } else {
+            var panel = document.getElementById("m-no-logo-message")
+            var render = Mustache.render(panel.innerHTML);
+            properties_panel.setBodyPanel(render);
+        }
     }
 };
