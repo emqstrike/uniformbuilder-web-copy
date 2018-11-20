@@ -1038,6 +1038,124 @@
 
 <!-- End New Mascot Picker -->
 
+<!-- Application UI Block - LETTERS -->
+
+    <script type="text/mustache" id="new-application-letters">
+
+        <h4>DECORATION LETTERS</h4>
+
+        <div class="addApplicationsOpts hide">
+            <div class="posContainer clearfix">
+                <h5>CHOOSE A DESIGN TYPE</h5>
+                <button type="button" class="app-btn w-45 pull-left active optionButton" data-type="team_name">Team Name</button>
+                <button type="button" class="app-btn w-45 pull-right optionButton" data-type="player_name">Player Name</button>
+            </div>
+
+            <div class="posContainer clearfix">
+                <h5>CHOOSE LOCATION</h5>
+                <button type="button" class="app-btn w-45 pull-left active perspective" data-id="front">Front Body</button>
+                <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back Body</button>
+                <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left Sleeve</button>
+                <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right Sleeve</button>
+            </div>
+
+            <div class="posContainer clearfix">
+                <h5>CHOOSE PERSPECTIVE</h5>
+                <button type="button" class="app-btn active part" data-id="Front Body">Front Letter</button>
+                <button type="button" class="app-btn">Back Letter</button>
+                <button type="button" class="app-btn">Sleeve Letter</button>
+            </div>
+
+            <span class="side" data-id="na" style="display: none;">N/A</span>
+        </div>
+
+        <div class="add-new-application-letters">
+            <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right view-app-letters hide-app-letters">View All Application</button>
+        </div>
+
+        <div class="clearfix"></div>
+    </script>
+    
+    <script type="text/mustache" id="m-application-ui-block-letters">
+        @{{#applications}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt">Hide</button>
+                </div>
+
+                <div class="">
+                    <h5>INPUT @{{ type }}</h5>
+                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" />
+                </div>
+
+                <div class="lettersOptsContainer"> 
+                    <div class="clearfix">
+                        <h5>@{{ type }} FONT</h5>
+                        <div class="posContainer input-group" align="center" style="color: black">
+                            <span class="input-group-addon fontLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                            <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+                            <span class="input-group-addon fontRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                        </div>
+                        <div class="slidersContainer">
+                            <div class="manipulator-type-container scale" data-type="scale">
+                                <h5>LOGO SIZE</h5>
+                                <div class="sc scale">
+                                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+
+                            <div class="manipulator-type-container move" data-type="move">
+                                <h5>POSITION</h5>
+                                <div class="sc move">
+                                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+
+                            <div class="manipulator-type-container rotate" data-type="rotate">
+                                <h5>ROTATE</h5>
+                                <div class="sc rotate">
+                                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+
+                    @{{#slider}}
+                        @{{{ sliderContainer }}}
+                    @{{/slider}}
+                    
+                    <div class="clearfix">
+                        <h5>CHOOSE FONT ACCENT</h5>
+
+                        @{{#accents}}
+                        <a class="thumbnailContainer" data-accent-id="@{{ id }}">
+                            <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
+                        </a>           
+                        @{{/accents}}   
+                    </div>
+
+                    @{{#colorPicker}}
+                        @{{{ colorsSelection }}}
+                    @{{/colorPicker}}
+
+                    <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
+                        <h5>CHOOSE LAYOUT</h5>
+                    </div>
+                </div>
+
+
+            </div>
+        @{{/applications}}
+
+    </script>
+
+<!-- End Application UI Block - LETTERS -->
+
 <!-- Application UI Block -->
 
     <script type="text/mustache" id="m-application-ui-block">
@@ -1078,30 +1196,6 @@
                     <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
                     <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
-
-                {{--<div class="slidersContainer">--}}
-                    {{--<div class="manipulator-type-container scale" data-type="scale">--}}
-                        {{--<h5>LOGO SIZE</h5>--}}
-                        {{--<div class="sc scale">--}}
-                            {{--<div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="manipulator-type-container move" data-type="move">--}}
-                        {{--<h5>POSITION</h5>--}}
-                        {{--<div class="sc move">--}}
-                            {{--<div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>--}}
-                            {{--<div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="manipulator-type-container rotate" data-type="rotate">--}}
-                        {{--<h5>ROTATE</h5>--}}
-                        {{--<div class="sc rotate">--}}
-                            {{--<div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
 
                 @{{#slider}}
                     @{{{ sliderContainer }}}
@@ -1149,30 +1243,6 @@
     </script>
 
 <!-- End Slider Container  -->
-
-{{--<!-- Start Color Selection -->--}}
-
-    {{--<script type="text/mustache" id="m-color-selection-tab">--}}
-            {{--@{{#colorPicker}}--}}
-                {{--<li><a href="#tab@{{ layerNumber }}" data-toggle="tab">Color @{{ layerNumber }}</a></li>--}}
-            {{--@{{/colorPicker}}--}}
-    {{--</script>--}}
-
-{{--<!-- End Color Selection -->--}}
-
-<!-- Start Color Selection List -->
-
-    <script type="text/mustache" id="m-color-selection-list">
-            @{{#colorList}}
-                <div id="tab1" class="tab-pane fade in active">-
-                    <span class="colorBox" style="background-color:white"></span>
-                    <span class="colorBox" style="background-color:blue"></span>
-                    <span class="colorBox" style="background-color:red"></span>
-                </div>
-            @{{/colorList}}
-    </script>
-
-<!-- End Color Selection List -->
 
 <!-- New Application UI -->
 
