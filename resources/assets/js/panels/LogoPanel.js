@@ -64,30 +64,17 @@ LogoPanel.prototype = {
 
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
-
-        console.log(logoSettingsObject)
-
-        if (typeof material_ops !== "undefined") {
-            if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
-                LogoPanel.process.changeRichardsonLogoBackground(new_position, "W");
-                LogoPanel.process.changeRColor(new_position, "CG");
-                logoSettingsObject.layers[0].colorCode = "CG";
-                logoSettingsObject.layers[2].colorCode = "W";
-
-                if (material_ops.colorObj.color_code === "W") {
-                    LogoPanel.process.changeRichardsonLogoBackground(new_position, "CG");
-                    LogoPanel.process.changeRColor(new_position, "W");
-                    logoSettingsObject.layers[0].colorCode = "W";
-                    logoSettingsObject.layers[2].colorCode = "CG";
-                }
-            }
-        }
+        LogoPanel.process.sameColorAsBackground(material_ops, logoSettingsObject);
 
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
 
         $("#logo-preview").hide();
         $(".logo-image-loader").show();
+
+        $("#logo-preview").css({
+            'background-image': ""
+        });
 
         _.delay(function() {
             var image = ub.getThumbnailImage(ub.active_view + "_view");
@@ -122,6 +109,7 @@ LogoPanel.process = {
 
             ub.data.logos = _logo_position;
 
+
             _.each(ub.data.logos, function(logo) {
 
                 if (logo.position === "left_sleeve") {
@@ -129,7 +117,7 @@ LogoPanel.process = {
                 }
 
                 var secondary_color = LogoPanel.process.getSecondaryColor();
-                console.log("secondary color: ", secondary_color);
+
 
                 logo.colors_array = [
                     "W",
@@ -207,6 +195,8 @@ LogoPanel.process = {
                     var _logoObject = logo;
                     var _logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logo.position);
                     var selectedColorArray = ub.current_material.settings.team_colors;
+
+                    console.log("Sele", selectedColorArray);
 
                     LogoPanel.process.initLogoColors(_logoObject, selectedColorArray[0]);
                     LogoPanel.process.renderLogo(logo, _layerCount);
@@ -437,6 +427,7 @@ LogoPanel.process = {
         var logo_limited_color = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
         var included_modifier = [];
         var secondary_color = [];
+        var selectedColors = ub.current_material.settings.team_colors;
 
         _.map(ub.current_material.settings[ub.config.type], function(mo) {
             if (!_.includes(excludes, mo.code)) {
@@ -451,7 +442,43 @@ LogoPanel.process = {
             }
         });
 
+        ub.current_material.settings.secondary_color = secondary_color;
+
         return secondary_color;
+    },
+
+    sameColorAsBackground: function(material_ops, logoSettingsObject) {
+        if (typeof material_ops !== "undefined") {
+            if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
+                if (ub.current_material.settings.secondary_color.length > 0 && typeof ub.current_material.settings.secondary_color !== "undefined") {
+                    var secondary_color = ub.current_material.settings.secondary_color;
+                    if (material_ops.colorObj.color_code === secondary_color[0].color_code) {
+                        LogoPanel.process.changeRichardsonLogoBackground(new_position, "CG");
+                        LogoPanel.process.changeRColor(new_position, "W");
+                    } else {
+                        if (secondary_color[0] !== "W") {
+                            LogoPanel.process.changeRichardsonLogoBackground(new_position, secondary_color[0].color_code);
+                            LogoPanel.process.changeRColor(new_position, "W");
+                        } else {
+                            LogoPanel.process.changeRichardsonLogoBackground(new_position, secondary_color[0].color_code);
+                            LogoPanel.process.changeRColor(new_position, "W");
+                        }
+                    }
+                } else {
+                    LogoPanel.process.changeRichardsonLogoBackground(new_position, "W");
+                    LogoPanel.process.changeRColor(new_position, "CG");
+                    logoSettingsObject.layers[0].colorCode = "CG";
+                    logoSettingsObject.layers[2].colorCode = "W";
+
+                    if (material_ops.colorObj.color_code === "W") {
+                        LogoPanel.process.changeRichardsonLogoBackground(new_position, "CG");
+                        LogoPanel.process.changeRColor(new_position, "W");
+                        logoSettingsObject.layers[0].colorCode = "W";
+                        logoSettingsObject.layers[2].colorCode = "CG";
+                    }
+                }
+            }
+        }
     }
 }
 
