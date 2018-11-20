@@ -1038,32 +1038,227 @@
 
 <!-- End New Mascot Picker -->
 
-<!-- Application UI Block -->
+<!-- Application UI Block - LETTERS -->
 
-    <script type="text/mustache" id="m-application-ui-block">
+    <script type="text/mustache" id="add-new-application-letters">
+        <h4>@{{ title }}</h4>
+        <div class="addApplicationsOpts hide">
 
-        <h5 class="fc-darker abrade-ultra-italic">Decoration Mascots</h5>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-secondary">Secondary</button>
+            @{{#designType}}
+                <div class="posContainer clearfix">
+                    <h5>CHOOSE A DESIGN TYPE</h5>
+                    @{{#designTypeData}}
+                        <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
+                    @{{/designTypeData}}
+                </div>
+            @{{/designType}}
+
+            @{{#perspective}}
+                <div class="posContainer clearfix">
+                    <h5>CHOOSE PERSPECTIVE</h5>
+                    <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
+                    <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
+                    <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
+                    <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right</button>
+                </div>
+            @{{/perspective}}
+
+            @{{#part}}
+                <div class="posContainer clearfix">
+                    <h5>CHOOSE PART</h5>
+                    @{{#partsData}}
+                    <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
+                    @{{/partsData}}
+                </div>
+            @{{/part}}
+
+            @{{#side}}
+                <div class="posContainer clearfix sideOptions hide">
+                    <h5>CHOOSE SIDE</h5>
+                    <button class="side" data-id="na" style="display: none;">N/A</button>
+                    <button class="app-btn w-45 side" data-id="right">Right</button>
+                    <button class="app-btn w-45 side" data-id="left">Left</button>
+                </div>
+            @{{/side}}
+            
+        </div>
+
+        <div class="add-new-application-letters">
+            <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right view-app-letters">View All Application</button>
+        </div>
+
+        <div class="clearfix"></div>
+    </script>
+    
+    <script type="text/mustache" id="m-application-ui-block-letters">
+        @{{#newApplication}}
+            @{{{ newApplicationContainer }}}
+        @{{/newApplication}}
 
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
-                <image src="@{{ thumbnail }}" class="thumbnail" />
+
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt">Hide</button>
+                </div>
+
+                <div class="">
+                    <h5>INPUT @{{ type }}</h5>
+                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                </div>
+
+                <div class="lettersOptsContainer"> 
+                    @{{#fonts}}
+                        @{{{ fontsData }}}
+                    @{{/fonts}}
+
+                    @{{#slider}}
+                        @{{{ sliderContainer }}}
+                    @{{/slider}}
+                    
+                    @{{#accents}}
+                        @{{{ accentsData }}}
+                    @{{/accents}}
+
+                    @{{#colorPicker}}
+                        @{{{ colorsSelection }}}
+                    @{{/colorPicker}}
+
+                    <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
+                        <h5>CHOOSE LAYOUT</h5>
+                    </div>
+                </div>
             </div>
         @{{/applications}}
 
+    </script>
+
+<!-- End Application UI Block - LETTERS -->
+
+<!-- Font Styles -->
+    <script type="text/mustache" id="m-font-styles-container">
+        <div class="clearfix">
+            <h5>@{{ type }} FONT</h5>
+            <div class="posContainer input-group" align="center" style="color: black">
+                <span class="input-group-addon fontLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+                <span class="input-group-addon fontRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+            </div>
+        </div>
+    </script>
+<!-- End of Font Styles -->
+ 
+<!-- Font Accents -->
+    <script type="text/mustache" id="m-font-accents-container">
+        <div class="clearfix">
+            <h5>@{{ title }}</h5>
+
+            @{{#accentsData}}
+            <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
+                <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
+                @{{{ activeCheck }}}
+            </div>           
+            @{{/accentsData}}   
+        </div>
+    </script>
+<!-- End of Font Accents -->
+
+<!-- Application UI Block -->
+
+    <script type="text/mustache" id="m-application-ui-block">
+
+        <h4>DECORATION</h4>
+        <div class="add-new-application">
+            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
+        </div>
+
+        <div class="clearfix"></div>
+
+        @{{#applications}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                <div class="thumb-container">
+                    <span>
+                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                    </span>
+
+                    <div class="thumb-links pull-left">
+                        <h5>@{{ type }}</h5>
+                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <span class="thumb-name">@{{ name }}</span>
+
+                    <span class="flip">
+                        <button type="button" class="app-btn w-45 flipBtn" data-id="@{{ code }}">Flip</button>
+                    </span>
+                </div>
+
+                <div class="posContainer clearfix">
+                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
+                </div>
+
+                @{{#slider}}
+                    @{{{ sliderContainer }}}
+                @{{/slider}}
+
+                @{{#colorPicker}}
+                    @{{{ colorsSelection }}}
+                @{{/colorPicker}}
+
+           </div>
+        @{{/applications}}
 
     </script>
 
 <!-- End Application UI Block -->
 
+<!-- Start Slider Container -->
+
+    <script type="text/mustache" id="m-slider-container">
+
+        <div class="slidersContainer">
+            <div class="manipulator-type-container scale" data-type="scale">
+                <h5>LOGO SIZE</h5>
+                <div class="sc scale">
+                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container move" data-type="move">
+                <h5>POSITION</h5>
+                <div class="sc move">
+                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container rotate" data-type="rotate">
+                <h5>ROTATE</h5>
+                <div class="sc rotate">
+                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+<!-- End Slider Container  -->
+
 <!-- New Application UI -->
 
     <script type="text/mustache" id="m-application-ui">
 
-        <div id="applicationUI" data-application-id="@{{id}}">
-
+        <div id="applicationUI" data-application-id="@{{id}}"
             <div class="header">
 
                 <div class="toggle defaultShadow" data-status="@{{ status }}">
@@ -3356,8 +3551,10 @@
 <!-- End States -->
 
 @include('partials.controls.properties.parts')
-@include('partials.controls.properties.inserts')
 @include('partials.controls.properties.pipings')
+@include('partials.controls.properties.random-feeds')
+@include('partials.controls.properties.inserts')
 @include('partials.controls.properties.numbers')
+@include('partials.controls.properties.logo')
 
 @include('partials.controls.team-store-products-picker')
