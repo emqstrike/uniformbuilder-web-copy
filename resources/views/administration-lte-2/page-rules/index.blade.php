@@ -1,4 +1,4 @@
-@extends('administration.lte-main')
+@extends('administration-lte-2.lte-main')
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
@@ -15,8 +15,16 @@
             word-wrap: break-word;
         }
 
-        select {
-            text-transform: capitalize;
+        .modal .row {
+            margin-bottom: 15px;
+        }
+
+        .select2 {
+            width: 100% !important;
+        }
+
+        li.select2-selection__choice {
+            color: black !important;
         }
     </style>
 @endsection
@@ -24,27 +32,32 @@
 @section('content')
     <section class="content">
         <div class="row">
-            <di class="col-xs-12">
+            <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                        @section('page-title', 'Page Rules')
+
                         <h1>Page Rules</h1>
 
-                        <a href="{{ route('add_new_page_rule') }}" class='btn btn-xs btn-success'>
+                        <button class='btn btn-flat btn-xs btn-success add-page-rule'>
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add new page rule
-                        </a>
+                        </button>
                     </div>
 
                     <div class="box-body">
                         @include('administration.partials.flash-message')
 
-                        <table class="data-table table table-bordered patterns" data-toggle='data'>
+                        <table class="data-table table table-bordered patterns" 
+                            data-toggle='data' 
+                            data-available-normal-roles="{{ json_encode($availableNormalRoles) }}" 
+                            data-available-admin-roles="{{ json_encode($availableAdminRoles) }}"
+                            data-pages="{{ json_encode($pages) }}"
+                        >
                             <thead>
                                 <tr>
                                     <th>Type</th>
                                     <th>Role</th>
-                                    <th>Allowed Pages</th>
-                                    <th>Brand</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,27 +65,19 @@
                             <tbody>
                                 @if ($pageRules)
                                     @foreach ($pageRules as $pageRule)
-                                        <tr>
+                                        <tr data-type="{{ $pageRule->type }}" data-role="{{ $pageRule->role }}" data-allowed-page="{{ $pageRule->allowed_pages }}">
                                             <td>{{ $pageRule->type }}</td>
                                             <td>{{ $pageRule->role }}</td>
                                             <td>
-                                                <ul>
-                                                    @foreach (json_decode($pageRule->allowed_pages, true) as $allowedPage)
-                                                        <li>{{ $allowedPage }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </td>
-                                            <td>{{ $pageRule->brand }}</td>
-                                            <td>
-                                                <a href="{{ route('edit_page_rule', ['id' => $pageRule->id]) }}" class="btn btn-primary btn-xs"  role="button">
+                                                <button class="btn btn-flat btn-primary btn-xs edit-page-rule" data-page-rule-id="{{ $pageRule->id }}" role="button">
                                                     <i class="glyphicon glyphicon-edit"></i>
                                                     Edit
-                                                </a>
+                                                </button>
 
-                                                <a href="{{ route('delete_page_rule', ['id' => $pageRule->id]) }}" class="btn btn-danger btn-xs" role="button">
+                                                <button class="btn btn-flat btn-danger btn-xs remove-page-rule" data-page-rule-id="{{ $pageRule->id }}" role="button">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     Remove
-                                                </a>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -88,4 +93,15 @@
             </di>
         </div>
     </section>
+
+    @include('administration-lte-2.page-rules.modal.add')
+    @include('administration-lte-2.page-rules.modal.edit')
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/page-rules/page-rules.js"></script>
 @endsection
