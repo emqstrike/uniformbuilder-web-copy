@@ -11080,6 +11080,11 @@ ub.funcs.fontOffSets = [
                 type: 'lower',
                 lowerLabel: ' Pants',
             },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
+            },
         ],
         getLabel: function (sport) {
 
@@ -11220,6 +11225,10 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Yoga Pant (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'SFN Jogger (Apparel)',
             filters: ['All'],
         },
           
