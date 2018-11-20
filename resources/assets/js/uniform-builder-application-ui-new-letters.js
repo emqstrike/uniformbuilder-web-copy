@@ -16,20 +16,119 @@ $(function() {
             // To add a new letter application (show Choose Location and Choose Perspective options)
             .on('click', '.add-app-letters', function () {
 
+                // Check if clicked to add an application or show the options
+                // If clicked to show options
                 if ($(this).hasClass('active') === false) {
                     $(this).addClass('active hide-app-letters');
-                    $('#primary_options_container').find('.addApplicationsOpts').removeClass('hide');
-                } else {
-                    console.log('add application')
+                    var opts = $('#primary_options_container').find('.addApplicationsOpts')
+                    opts.removeClass('hide');
 
+                    // On click of DESIGN TYPE buttons
+                    opts.on('click', 'button.optionButton', function () {
+                        // Remove class from the currently active element then change the clicked element to active
+                        opts.find('button.optionButton.active').removeClass('active');
+                        $(this).addClass('active');
+                    });
+                    // On click of PERSPECTIVE buttons
+                    opts.on('click', 'button.perspective', function () {
+                        // Remove class from the currently active element then change the clicked element to active
+                        opts.find('button.perspective.active').removeClass('active');
+                        $(this).addClass('active');
+
+                        // If FRONT perspective is clicked
+                        if($(this).data('id') === "front") {
+                            // Remove class from the currently active PART then change it to FRONT BODY
+                            opts.find('button.part.active').removeClass('active');
+                            opts.find('button[data-id="Front Body"].part').addClass('active')
+                            showSideOptions(false, '')
+
+                        } else if($(this).data('id') === "back") {
+                        // If BACK perspective is clicked
+                            // Remove class from the currently active PART then change it to BACK BODY
+                            opts.find('button.part.active').removeClass('active');
+                            opts.find('button[data-id="Back Body"].part').addClass('active')
+                            showSideOptions(false, '')
+                        } else {
+                            // If LEFT or RIGHT perspective is clicked,
+                            var activePart = opts.find('button.part.active');
+                            var parts = ['Front Body', 'Back Body'];
+                            // If currently active PART is Front/Back Body,
+                            if (parts.includes(activePart.data('id'))) {
+                                // Change the active PART to SLEEVE
+                                activePart.removeClass('active')
+                                opts.find('button[data-id="Sleeve"].part').addClass('active')
+                            }
+                            // Show options for Sleeves, Side Panel, and Sleeve Insert
+                            showSideOptions(true, $(this).data('id'))
+                        }
+
+                    });
+                    // On click of PART buttons
+                    opts.on('click', 'button.part', function () {
+                        opts.find('button.part.active').removeClass('active');
+                        $(this).addClass('active');
+
+                        // If FRONT BODY part is cliked
+                        if($(this).data('id') === "Front Body") {
+                            // Change the active perspective to FRONT
+                            opts.find('button.perspective.active').removeClass('active');
+                            opts.find('button[data-id="front"].perspective').addClass('active')
+                            showSideOptions(false, '')
+
+                        } else if($(this).data('id') === "Back Body") {
+                        // If BACK BODY part is clicked,
+                            // Change the active perspective to BACk
+                            opts.find('button.perspective.active').removeClass('active');
+                            opts.find('button[data-id="back"].perspective').addClass('active')
+                            showSideOptions(false, '')
+                        } else {
+                            // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
+
+                            var activePerspective = opts.find('button.perspective.active');
+                            var perspectives = ['front', 'back']
+                            // And active perspective if FRONT OR BACK,
+                            if (perspectives.includes(activePerspective.data('id'))) {
+                                // Change the active perspective to LEFT
+                                activePerspective.removeClass('active')
+                                opts.find('button[data-id="left"].perspective').addClass('active')
+                            }
+
+                            // Show options
+                            showSideOptions(true, activePerspective.data('id'))
+                        }
+                    })
+                    // On click of SIDE buttons
+                    opts.on('click', 'button.side', function () {
+                        opts.find('button.side.active').removeClass('active');
+                        $(this).addClass('active');
+
+                        // Change active perspective along with the side that is clicked
+                        opts.find('button.perspective.active').removeClass('active');
+                        opts.find('button[data-id="' + $(this).data('id') + '"].perspective').addClass('active')
+                    })
+                } else {
+                    // If clicked to add application,
                     var _perspective = $('button.perspective.active').data('id');
                     var _part = $('button.part.active').data('id');
                     var _type = $('button.optionButton.active').data('type');
                     var _side = $('button.side.active').data('id');
 
                     ub.funcs.newApplication(_perspective, _part, _type, _side);
+                    $(this).removeClass('active')
                 }
-                
+
+                showSideOptions = function (show, id) {
+                    var opts = $('#primary_options_container').find('.addApplicationsOpts')
+                    if (show) {
+                        opts.find('.sideOptions').removeClass('hide')
+                        opts.find('.sideOptions .side.active').removeClass('active')
+                        opts.find('.sideOptions button[data-id="' + id + '"].side').addClass('active')
+                    } else {
+                        opts.find('.sideOptions').addClass('hide')
+                        opts.find('.sideOptions .side.active').removeClass('active')
+                        opts.find('.sideOptions button[data-id="na"].side').addClass('active')
+                    }
+                }
             })
             // To hide "Add Application" options
             .on('click', '.hide-app-letters', function () {
@@ -266,72 +365,31 @@ $(function() {
 
         // getting only data needed
         _.map(_filteredApplications, function (i) {
-            if (i.application_type === 'team_name') {
-                var _accents = [] 
-                _.map(ub.data.accents.items, function (j) {
-                    var acc = {
-                        'thumbnail': '/images/sidebar/' + j.thumbnail,
-                        'id': j.id,
-                        'code': j.code,
-                        'active': i.accent_obj.id === j.id ? 'active' : '',
-                        'activeCheck': i.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
-                    }
-        
-                    _accents.push(acc);
-                })
-                var objCustom = {
-                    // 'thumbnail': i.embellishment.thumbnail,
-                    type: 'TEAM NAME',
-                    code: i.code,
-                    perspective: i.application.views[0].perspective,
-                    placeholder: 'Your team name',
-                    fontStyle: i.font_obj.name,
-                    fontCaption: i.font_obj.caption,
-                    sliderContainer: ub.funcs.sliderContainer(i.code),
-                    colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
-                    accentsData: _accents
-
-                }
-                _appData.push(objCustom);
-            } else if (i.application_type === 'player_name') {
-                var _accents = [] 
-                _.map(ub.data.accents.items, function (j) {
-                    var acc = {
-                        'thumbnail': '/images/sidebar/' + j.thumbnail,
-                        'id': j.id,
-                        'code': j.code,
-                        'active': i.accent_obj.id === j.id ? 'active' : '',
-                        'activeCheck': i.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
-                    }
-        
-                    _accents.push(acc);
-                })
-
-                var objStock = {
-                    // 'thumbnail': i.mascot.icon,
-                    'type': 'PLAYER NAME',
-                    'code': i.code,
-                    'perspective': i.application.views[0].perspective,
-                    'placeholder': 'Your name',
-                    'fontStyle': i.font_obj.name,
-                    'fontCaption': i.font_obj.caption,
-                    sliderContainer: ub.funcs.sliderContainer(i.code),
-                    colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
-                    accentsData: _accents
-                }
-                _appData.push(objStock);
+            var objStock = {
+                type: i.application.name.toUpperCase(),
+                defaultText: i.text,
+                code: i.code,
+                perspective: i.application.views[0].perspective,
+                placeholder: 'Your ' + i.application.name.toLowerCase(),
+                fonts: true,
+                fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
+                slider: true,
+                sliderContainer: ub.funcs.sliderContainer(i.code),
+                colorPicker: true,
+                colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
+                accents: true,
+                accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT')    
             }
+            _appData.push(objStock);
         });
 
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
+        $('.modifier_main_container').append(_htmlBuilder);
+        
         // prepare data
         var templateData = {
             applications: _appData
         };
-
-        var _htmlBuilder = ub.utilities.buildTemplateString('#new-application-letters', []);
-        $('.modifier_main_container').append(_htmlBuilder);
 
         // send to mustache
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
@@ -454,19 +512,19 @@ $(function() {
     
         }
     
-        if (_applicationType === 'mascot') {
+        // if (_applicationType === 'mascot') {
     
-            ub.funcs.activateMascots(_id);
-            return;
+        //     ub.funcs.activateMascots(_id);
+        //     return;
     
-        }
+        // }
     
-        if (_applicationType === 'embellishments') {
+        // if (_applicationType === 'embellishments') {
     
-            ub.funcs.activateEmbellishments(_id);
-            return;
+        //     ub.funcs.activateEmbellishments(_id);
+        //     return;
     
-        }
+        // }
     
         var _fontObj = _settingsObject.font_obj;
         var _fontName = _fontObj.name;
@@ -596,61 +654,131 @@ $(function() {
             _tailSweepPanel = ub.funcs.tailSweepPanel(_tailSweepThumb, _tailSweepCode);
         }
     
-        var _patternObject = _settingsObject.pattern_obj;
-        var _patternsPanel = ub.funcs.updateTextPatternPanel(_patternObject);
-        var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-    
-        var templateData = {
-            id: _id,
-            status: _status,
-            thumbIcon: _thumbIcon,
-            accentName: _accentName,
-            mascotFontName: _fontName,
-            mascotFontCaption: _fontCaption,
-            mascotFontArrowOpacity: 100,
-            class: _class,
-            label: _label,
-            applicationType: _applicationType,
-            appType: _title.replace('Number', '# '),
-            appLabel: 'Font',
-            generateSizes: _generateSizes,
-            sampleText: _sampleText,
-            maxLength: _maxLength,
-            accentName: _accentName,
-            // isCustomLogo: _isCustomLogo,
-            // customFilename: _customFilename,
-            colorPickers: _colorPickers,
-            // isSublimated: _isSublimated,
-            isApplication: 'true',
-            patternsPanel: _patternsPanel,
-            templateStrManipulators: _templateStrManipulators,
-            sampleTextContainerVisibility: '',
-            cogVisibility: 'hidden',
-            tailSweepsTabVisibility: '',
-            colorTabVisibility: '',
-            patternsTabVisibility: '',
-            flipLabel: 'Vertical',
-            isBaseballFastpitch: _isBaseballFastpitch,
-            tailSweepPanel: _tailSweepPanel,
-    
-            // For Letters
-            applications: {
-            'type': 'TEAM NAME',
-            'code': _settingsObject.code,
-            'perspective': _settingsObject.application.views[0].perspective,
-            'placeholder': 'Your team name',
-            'fontStyle': _settingsObject.font_obj.name,
-            'fontCaption': _settingsObject.font_obj.caption
-            }
+        // var _patternObject = _settingsObject.pattern_obj;
+        // var _patternsPanel = ub.funcs.updateTextPatternPanel(_patternObject);
+        // var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+
+
+        ////
+        var templateData = {}
+
+        // set the needed data for LETTERS here
+        templateData.applications = {
+            type: _settingsObject.application.name.toUpperCase(),
+            defaultText: _settingsObject.text,
+            code: _settingsObject.code,
+            perspective: _settingsObject.application.views[0].perspective,
+            placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
+            fonts: true,
+            fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
+            slider: true,
+            sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+            colorPicker: true,
+            colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
+            accents: true,
+            accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT')
         }
     
-    
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
-        $('.modifier_main_container').append(_htmlBuilder);
-    
-        // $('#new-toolbar > .active').trigger('click')
-    
+        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
+        if (appBlock.length === 0) {
+            // New application
+            $('.modifier_main_container').append(_htmlBuilder);
+        } else {
+            // Existing application
+            appBlock.replaceWith(_htmlBuilder);
+        }
+
+        // re-initialize template
+        ub.funcs.initializer();
         ub.funcs.afterActivateApplication(application_id);
+
+        // codes from activateApplications were omitted from this point
     
+    }
+
+    // Build template for font accent selection
+    ub.funcs.fontAccentSelection = function (_settingsObject, _title) {
+        var _accents = []
+        _.map(ub.data.accents.items, function (j) {
+            var acc = {
+                'thumbnail': '/images/sidebar/' + j.thumbnail,
+                'id': j.id,
+                'code': j.code,
+                'active': _settingsObject.accent_obj.id === j.id ? 'active' : '',
+                'activeCheck': _settingsObject.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
+            }
+
+            _accents.push(acc);
+        })
+
+        var templateData = {
+            accentsData: _accents,
+            title: _title
+        }
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-font-accents-container', templateData);
+
+        return _htmlBuilder;
+    }
+
+    // Build template for font style selection
+    ub.funcs.fontStyleSelection = function (_settingsObject, _type) {
+        var templateData = {
+            type: _type,
+            fontStyle: _settingsObject.font_obj.name,
+            fontCaption: _settingsObject.font_obj.caption,
+        }
+
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-font-styles-container', templateData);
+
+        return _htmlBuilder;
+    }
+
+    // Build template for "Add New Application"
+    ub.funcs.getNewApplicationContainer = function (_title, _designType) {
+        var types = [];
+        if(_designType === 'letters') { 
+            types.push({
+                type: 'team_name',
+                name: 'Team Name',
+            });
+
+            types.push({
+                type: 'player_name',
+                name: 'Player Name',
+            });
+
+            
+        } else if (_designType === 'number') {
+            types.push({
+                type: 'player_number',
+                name: 'Player Number',
+            });
+        } else if (_designType === 'mascot') {
+            types.push({
+                type: 'mascot',
+                name: 'Stock Mascot',
+            });
+        } else if (_designType === 'embellishments') {
+            types.push({
+                type: 'embellishments',
+                name: 'Custom Mascot',
+            });
+        }
+
+        var templateData = {
+            title: _title,
+            designType: true,
+            designTypeData: types,
+            perspective: true,
+            part: true,
+            side: true,
+            partsData: ub.funcs.getFreeFormLayers(),
+        }
+
+        // Template is currently for letters only
+        var _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
+        return _htmlBuilder;
+
     }
 });
