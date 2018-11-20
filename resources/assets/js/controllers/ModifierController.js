@@ -157,22 +157,31 @@ ModifierController.prototype = {
 
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
 
-        if (PipingPanel.isValidToProcessPipings()) {
+        if (ub.funcs.isSocks()) { // display random feeds
+            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
+
+            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
+            properties_panel.setBodyPanel(random_feed_panel);
+
+            RandomFeedPanel.events.init();
+            RandomFeedPanel.setInitialState();
+        } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
             ub.funcs.activatePanelGuard();
             ub.funcs.deactivatePanels();
 
-            ub.modifierController.pipings = new PipingPanel('m-piping-sidebar-new');
-            ub.modifierController.pipings.setPipingSetItems();
+            ub.modifierController.controllers.pipings = new PipingPanel('m-piping-sidebar-new');
+            ub.modifierController.controllers.pipings.setPipingSetItems();
 
-            var piping_panel = ub.modifierController.pipings.getPanel();
+            var piping_panel = ub.modifierController.controllers.pipings.getPanel();
             properties_panel.setBodyPanel(piping_panel);
 
             PipingPanel.events.init();
             PipingPanel.setInitialState();
-        } else {
-            ub.modifierController.pipings = new PipingPanel('m-no-piping-message');
+        } else { // no pipings
+            ub.modifierController.controllers.pipings = new PipingPanel('m-no-piping-message');
 
-            var piping_panel = ub.modifierController.pipings.getNoPipingPanel();
+            var piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
             properties_panel.setBodyPanel(piping_panel);
         }
     },

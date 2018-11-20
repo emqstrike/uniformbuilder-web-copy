@@ -100,6 +100,7 @@ elixir(function(mix) {
             'panels/PatternPanel.js',
             'panels/InsertPanel.js',
             'panels/PipingPanel.js',
+            'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
 
             // Controllers or Switchers
