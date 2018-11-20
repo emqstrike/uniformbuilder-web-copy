@@ -613,9 +613,6 @@ $(function() {
                 // var _style = "25px";
                 var _class = '';
 
-                console.log('ACTIVE COLOR CODE: ')
-                console.log(activeColorCode)
-                console.log('COLOR.COLOR_CODE: ' + _color.color_code)
                 if (activeColorCode === _color.color_code) {
                     _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
                     _class = 'activeColorItem';
