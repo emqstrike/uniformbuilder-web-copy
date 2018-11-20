@@ -304,6 +304,13 @@ $(function() {
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
 
+        var selectNewAppOptions = document.getElementsByClassName('addApplicationsOpts');
+        $(selectNewAppOptions).each(function(){
+            $(this).find('div > button:first-of-type').addClass('active');
+            $(this).find('div > button:nth-of-type(odd)').addClass('pull-left');
+            $(this).find('div > button:nth-of-type(even)').addClass('pull-right');
+        });
+
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
@@ -565,7 +572,7 @@ $(function() {
                     _html += '<li><a href="#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
 
                     // building separated color blocks
-                    _colorBlock += ub.funcs.createColorBlock(id, _color, layer.layer_no, layer.name, layer.default_color, 'accent');
+                    _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
 
                 } else {
                     util.error('Hex Code: ' + _hexCode + ' not found!');
@@ -605,6 +612,9 @@ $(function() {
                 // var _style = "25px";
                 var _class = '';
 
+                console.log('ACTIVE COLOR CODE: ')
+                console.log(activeColorCode)
+                console.log('COLOR.COLOR_CODE: ' + _color.color_code)
                 if (activeColorCode === _color.color_code) {
                     _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
                     _class = 'activeColorItem';

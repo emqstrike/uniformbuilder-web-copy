@@ -8907,7 +8907,7 @@ $(document).ready(function () {
 
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -8988,7 +8988,8 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            // ub.funcs.activateApplications(_settingsObject.code);
+            ub.funcs.activateApplicationsLetters(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -9083,8 +9084,7 @@ $(document).ready(function () {
             }
 
             ub.create_application(_settingsObject, undefined);
-            // ub.funcs.activateApplications(_settingsObject.code);
-            ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -12430,6 +12430,9 @@ $(document).ready(function () {
         });
 
         // End Select Perspective
+
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
 
     };
 
