@@ -1085,7 +1085,7 @@
 
         <div class="add-new-application-letters">
             <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
-            <button type="button" class="app-btn w-45 pull-right view-app-letters hide-app-letters">View All Application</button>
+            <button type="button" class="app-btn w-45 pull-right view-app-letters">View All Application</button>
         </div>
 
         <div class="clearfix"></div>

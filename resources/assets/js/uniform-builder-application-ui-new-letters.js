@@ -15,12 +15,12 @@ $(function() {
     $('#primary_options_container')
             // To add a new letter application (show Choose Location and Choose Perspective options)
             .on('click', '.add-app-letters', function () {
+                var opts = $('#primary_options_container').find('.addApplicationsOpts')
 
                 // Check if clicked to add an application or show the options
                 // If clicked to show options
                 if ($(this).hasClass('active') === false) {
                     $(this).addClass('active hide-app-letters');
-                    var opts = $('#primary_options_container').find('.addApplicationsOpts')
                     opts.removeClass('hide');
 
                     // On click of DESIGN TYPE buttons
@@ -115,10 +115,10 @@ $(function() {
 
                     ub.funcs.newApplication(_perspective, _part, _type, _side);
                     $(this).removeClass('active')
+                    opts.addClass('hide')
                 }
 
                 showSideOptions = function (show, id) {
-                    var opts = $('#primary_options_container').find('.addApplicationsOpts')
                     if (show) {
                         opts.find('.sideOptions').removeClass('hide')
                         opts.find('.sideOptions .side.active').removeClass('active')
@@ -131,8 +131,8 @@ $(function() {
                 }
             })
             // To hide "Add Application" options
-            .on('click', '.hide-app-letters', function () {
-                $(this).removeClass('hide-app-letters')
+            .on('click', '.view-app-letters', function () {
+                $('.add-new-application-letters button').removeClass('active')
                 $('#primary_options_container').find('.addApplicationsOpts').addClass('hide');
             })
 
