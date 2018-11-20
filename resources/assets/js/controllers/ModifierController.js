@@ -156,6 +156,7 @@ ModifierController.prototype = {
         if (!ub.funcs.okToStart())    { return; }
 
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
+        var piping_panel;
 
         if (ub.funcs.isSocks()) { // display random feeds
             ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
@@ -173,7 +174,7 @@ ModifierController.prototype = {
             ub.modifierController.controllers.pipings = new PipingPanel('m-piping-sidebar-new');
             ub.modifierController.controllers.pipings.setPipingSetItems();
 
-            var piping_panel = ub.modifierController.controllers.pipings.getPanel();
+            piping_panel = ub.modifierController.controllers.pipings.getPanel();
             properties_panel.setBodyPanel(piping_panel);
 
             PipingPanel.events.init();
@@ -181,7 +182,7 @@ ModifierController.prototype = {
         } else { // no pipings
             ub.modifierController.controllers.pipings = new PipingPanel('m-no-piping-message');
 
-            var piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
+            piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
             properties_panel.setBodyPanel(piping_panel);
         }
     },
