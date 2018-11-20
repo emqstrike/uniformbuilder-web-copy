@@ -1,9 +1,9 @@
-<div id="copy-piping-data-modal" class="modal fade" data-backdrop="static" aria-hidden="false">
+<div id="copy-logo-position-data-modal" class="modal fade" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4>Piping Data</h4>
+                <h4>Logo Position Data</h4>
             </div>
 
             <div class="modal-body">
