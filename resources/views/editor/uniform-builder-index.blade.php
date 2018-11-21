@@ -85,7 +85,7 @@
         <a href="#" class="group-pane tippy-menu-item group-1 menu-item-fabrics" data-tippy-content="FABRICS">1</a>
         <a href="#" class="group-pane tippy-menu-item group-2 menu-item-parts" data-tippy-content="PARTS">2</a>
         <a href="#" class="group-pane tippy-menu-item group-3 menu-item-inserts" data-tippy-content="INSERTS">3</a>
-        <a href="#" class="group-pane tippy-menu-item group-4 menu-item-pipings" data-tippy-content="PIPINGS">4</a>
+        <a href="#" class="group-pane group-4 menu-item-pipings">4</a>
         <a href="#" class="group-pane tippy-menu-item group-5 menu-item-letters" data-tippy-content="LETTERS">5</a>
         <a href="#" class="group-pane tippy-menu-item group-6 menu-item-numbers" data-tippy-content="NUMBERS">6</a>
         <a href="#" class="group-pane tippy-menu-item group-7 menu-item-applications" data-tippy-content="APPLICATIONS">7</a>
