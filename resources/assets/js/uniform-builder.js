@@ -650,6 +650,20 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
+            // executeAfterLoadFunctionList()
+
+        };
+
+        // afterLoad function container
+        ub.funcs.afterLoadFunctionList = [];
+
+        // create desc here
+        ub.funcs.executeAfterLoadFunctionList = function () {
+  
+             _.each(ub.funcs.afterLoadFunctionList, function (func){
+                 func();
+            });
+
         };
 
         ub.funcs.updateLabels = function () {
@@ -2767,6 +2781,8 @@ $(document).ready(function () {
                 if (_.size(ub.current_material.settings.pipings) > 0) {
 
                     ub.funcs.processSavedPipings();
+                    
+                    // ub.funcs.afterLoadFunctionList.push(logoObj.processColors); 
 
                 }
 
