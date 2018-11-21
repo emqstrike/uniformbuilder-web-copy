@@ -30,7 +30,7 @@ PipingPanel.prototype = {
             var sizes = ub.funcs.sortPipingSizes({items: piping_set});
             var colors = ub.funcs.getPipingColorArray(active_piping_set);
 
-            var modifier = piping_type.toLowerCase().replace(/ /g, "-")
+            var modifier = piping_type.toLowerCase().replace(/ /g, "-");
 
             return {
                 sizes: sizes.items,
@@ -112,8 +112,8 @@ PipingPanel.events = {
         var firstColor = _.first(ub.funcs.getPipingColorArray(pipingObject));
 
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
-        var matchingPipingObject = undefined;
-        var matchingPipingSettingsObject = undefined;
+        var matchingPipingObject;
+        var matchingPipingSettingsObject;
 
         var name = pipingObject.name;
         var matchingName = "";
@@ -166,8 +166,8 @@ PipingPanel.events = {
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
 
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
-        var matchingPipingObject = undefined;
-        var matchingPipingSettingsObject = undefined;
+        var matchingPipingObject;
+        var matchingPipingSettingsObject;
 
         var name = pipingObject.name;
 
@@ -327,8 +327,8 @@ PipingPanel.events = {
         ub.funcs.changePipingColor(_colorObj, active_piping_color_category, pipingObject);
 
         // Matching Piping Object and Piping Setting Object
-        var matchingPipingObject = undefined;
-        var matchingPipingSettingsObject = undefined;
+        var matchingPipingObject;
+        var matchingPipingSettingsObject;
 
         if (_name.indexOf('Left') > -1) {
             matchingName = ub.funcs.getMatchingSide(_name);
@@ -407,7 +407,7 @@ PipingPanel.setInitialState = function() {
     });
 
     $('#pipingsUI').fadeIn();
-}
+};
 
 PipingPanel.getActivePipingSet = function(piping_type) {
     var active_piping_set = ub.current_material.settings.pipings[piping_type];
