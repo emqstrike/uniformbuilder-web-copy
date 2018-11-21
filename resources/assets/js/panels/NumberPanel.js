@@ -143,6 +143,23 @@ NumberPanel.prototype = {
         return application_obj;
     },
 
+    handleTailsweeps: function(application_settings) {
+        return true;
+        // Tailsweep, is off for now
+        // if (application_settings.text.length <= 5) { _length = 'short'; }
+        // if (application_settings.text.length >= 6 && application_settings.text.length <= 7 ) { _length = 'medium'; }
+        // if (application_settings.text.length > 7) { _length = 'long'; }
+
+        /*
+        _length = (application_settings.text.length <= 12) ? application_settings.text.length : 12;
+
+        application_settings.tailsweep.length = _length;
+
+        $('span.sizeItem').removeClass('active');
+        $('span.sizeItem[data-size="' + application_settings.tailsweep.length + '"]').addClass('active');
+        */
+    },
+
     setNumber: function(config) {
         var panel = ub.modifierController.numbers;
         // change number
@@ -150,6 +167,9 @@ NumberPanel.prototype = {
 
         if (typeof application_settings !== 'undefined') {
             application_settings.text = config.number;
+
+            panel.handleTailsweeps(application_settings);
+
             panel.applyNumberChanges(config.font_id, application_settings, config.layer);
             ub.utilities.actionLog('Updated Number on ' + config.application_type + ' to ' + config.number);
         } else {
@@ -176,18 +196,24 @@ NumberPanel.prototype = {
 
     setFontSize: function() {
         // change font size
+        var panel = ub.modifierController.numbers;
     },
 
-    setFontAccent: function() {
+    setFontAccent: function(config) {
         // change font accent
+        // var panel = ub.modifierController.numbers;
+        // var application_settings = panel.getApplicationById(application_id);
+        // ub.funcs.changeAccentFromPopup(config.accent_id, application_settings);
     },
 
     setFontAccentColor: function() {
         // change accent color
+        var panel = ub.modifierController.numbers;
     },
 
     setPattern: function() {
         // change pattern
+        var panel = ub.modifierController.numbers;
     },
 
     disable: function() {
