@@ -31,5 +31,3 @@
 	</div>
 </div>
 </script>
-
-<script type="text/mustache" id="m-decorations-numbers-"></script>

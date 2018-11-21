@@ -109,7 +109,7 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function(_this) {
+    parts: function() {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 

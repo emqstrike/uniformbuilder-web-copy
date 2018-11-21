@@ -236,12 +236,16 @@ $(document).ready(function () {
     };
 
     ub.changeControls = function(vendor) {
-        if (vendor == 'Richardson') {
-            ub.modifierController = new ModifierController('#property-modifiers-menu');
-        } else {
-            if (typeof ub.modifierController !== 'undefined') {
-                ub.modifierController.disable();
+        if (ub.funcs.isAlternativeUIEnabled()) {
+            if (vendor == 'Richardson') {
+                ub.modifierController = new ModifierController('#property-modifiers-menu');
+            } else {
+                if (typeof ub.modifierController !== 'undefined') {
+                    ub.modifierController.disable();
+                }
             }
+        } else {
+            alert('Branding UI is disabled');
         }
     };
 

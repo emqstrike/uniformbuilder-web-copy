@@ -101,6 +101,7 @@ elixir(function(mix) {
             'panels/PatternPanel.js',
             'panels/InsertPanel.js',
             'panels/PipingPanel.js',
+            'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
 
