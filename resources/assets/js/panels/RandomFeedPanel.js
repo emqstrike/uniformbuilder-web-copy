@@ -111,7 +111,7 @@ RandomFeedPanel.events = {
         }
 
         ub.funcs.changeRandomFeedColor(_colorObj, _layer_no, randomFeedObject);
-        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+        RandomFeedPanel.changeActiveColor(_layer_no, _color_code, _colorObj, random_feed_item_el);
 
         var _layer = _.find(randomFeedSettingsObject.layers, {layer: parseInt(_layer_no)});
 
@@ -171,11 +171,8 @@ RandomFeedPanel.showColors = function(toggle_random_feed_el) {
         ub.funcs.changeRandomFeedSize(matchingRandomFeedSettingsObject, matchingRandomFeedObject, active_random_feed.size);
     }
 
-    console.log(random_feed_item_el);
-
     $('.colorContainer', random_feed_item_el).html(colorPickerHtml);
 
-    ub.funcs.setupSmallColorPickerEvents(randomFeedObject, randomFeedSettingsObject, matchingRandomFeedObject, matchingRandomFeedSettingsObject, random_feed_item_el);
     ub.funcs.initRandomFeedColors(randomFeedObject, selectedColorArray[0]);
     ub.funcs.renderRandomFeed(randomFeedObject, color_value);
 
@@ -189,6 +186,34 @@ RandomFeedPanel.showColors = function(toggle_random_feed_el) {
 RandomFeedPanel.hideColors = function(toggle_random_feed_el) {
     var random_feed_item_el = toggle_random_feed_el.closest('.random-feed-item');
     $('.colorContainer', random_feed_item_el).html("");
+};
+
+RandomFeedPanel.changeActiveColor = function(layer_num, color_code, color_obj, random_feed_item_el, type) {
+    var $smallPickerContainer = $('.smallPickerContainer[data-layer-no="' + layer_num + '"]', random_feed_item_el);
+    var _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
+    var _checkMarkNone = '<i class="fa fa-ban" aria-hidden="true"></i>';
+    var _type = typeof type === "undefined" ? "" : '[data-object-type="' + type + '"]';
+
+    var $colorItems = $smallPickerContainer.find('span.colorItem' + _type).not('.turnOff').not('[data-color-code="none"]');
+
+    $colorItems.html('&nbsp;');
+    $colorItems.css('width', '25px');
+    $colorItems.removeClass('activeColorItem');
+
+    var $activeColorItem = $smallPickerContainer.find('span.colorItem' + _type + '[data-color-code="' + color_code + '"]').not('.turnOff');
+
+    $activeColorItem.addClass('activeColorItem');
+    $activeColorItem.css('width', '40px');
+
+    if (color_code === "none") {
+        $activeColorItem.html(_checkMarkNone);
+
+    } else {
+        $activeColorItem.css('color', '#fff');
+        $activeColorItem.html(_checkMark);
+
+        $smallPickerContainer.find('span.colorItem' + _type + '[data-color-code="none"]').css('color', '#eee').css('width', '25px');
+    }
 };
 
 RandomFeedPanel.getActiveRandomFeedSet = function(random_feed_type) {
