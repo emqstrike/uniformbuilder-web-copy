@@ -300,7 +300,7 @@ $(function() {
                 });
             })
             // To change an application's font by clicking left or right arrow
-            .on('click', 'span.fontLeft, span.fontRight', function (e) {
+            .on('click', 'span.fontStyleLeft, span.fontStyleRight', function (e) {
                 var _id = $(this).closest('.applicationUIBlock').data('application-id').toString()
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 

@@ -1143,9 +1143,9 @@
         <div class="clearfix">
             <h5>@{{ type }} FONT</h5>
             <div class="posContainer input-group" align="center" style="color: black">
-                <span class="input-group-addon fontLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                <span class="input-group-addon fontStyleLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
                 <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
-                <span class="input-group-addon fontRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                <span class="input-group-addon fontStyleRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
             </div>
         </div>
     </script>

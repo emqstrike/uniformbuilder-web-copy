@@ -1928,7 +1928,17 @@ $(document).ready(function () {
                 sprite.ubHover = false;
 
                 if (application.type !== "mascot" && application.type !== "logo") {
-                    ub.funcs.activateApplications(_id);
+                    if (ub.branding.useAlternativeUI) {
+                        // Check if clicked application is TEAM NAME or PLAYER NAME,
+                        if (application.type === "team_name" || application.type === "player_name") {
+                            // Trigger click on tab
+                            $('#new-toolbar > .group-5').trigger('click')
+                            // Scroll to application's settings
+                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+                        }
+                    } else {
+                        ub.funcs.activateApplications(_settingsObject.code);
+                    }
                 } else {
                     ub.funcs.activateMascots(_id);
                 }
@@ -8960,7 +8970,11 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            } else {
+                ub.funcs.activateApplications(_settingsObject.code);
+            }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -9089,7 +9103,11 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            } else {
+                ub.funcs.activateApplications(_settingsObject.code);
+            }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
             ub.funcs.LSRSBSFS(parseInt(_id));
@@ -11250,7 +11268,17 @@ $(document).ready(function () {
 
                 } else {
 
-                    ub.funcs.activateApplications(locationCode);
+                    if (ub.branding.useAlternativeUI) {
+                        // Check if clicked application is TEAM NAME or PLAYER NAME,
+                        if (_settingsObject.application_type === "team_name" || _settingsObject.application_type === "player_name") {
+                            // Trigger click on tab
+                            $('#new-toolbar > .group-5').trigger('click')
+                            // Scroll to application's settings
+                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+                        }
+                    } else {
+                        ub.funcs.activateApplications(_settingsObject.code);
+                    }
 
                 }
 
