@@ -117,14 +117,27 @@ NumberPanel.prototype = {
         return application_obj;
     },
 
+    // Retrieve the application object by application_id
+    getApplicationById: function(application_id) {
+        var application_obj = null;
+        var panel = ub.modifierController.numbers;
+        if (panel.items.applications.length > 0) {
+            application_obj = _.find(ub.current_material.settings.applications, {
+                code: application_id.toString()
+            });
+        }
+        return application_obj;
+    },
+
     setNumber: function() {
         var panel = ub.modifierController.numbers;
         // change number
+        var application_id = $(this).data('application-id');
         var application_type = $(this).data('application-type');
         var font_id = $(this).data('font-id');
         var number = $(this).val();
         var layer = $(this).data('application-layer');
-        var application_settings = panel.getApplicationByType(application_type);
+        var application_settings = panel.getApplicationById(application_id);
 
         if (typeof application_settings !== 'undefined') {
             application_settings.text = number;
@@ -138,11 +151,11 @@ NumberPanel.prototype = {
     setFontStyle: function() {
         var panel = ub.modifierController.numbers;
         // change font style
+        var application_id = $(this).data('application-id');
         var application_type = $(this).data('application-type');
         var layer = $(this).data('application-layer');
         var font_id = $(this).val();
-        console.log('Font ID = ' + font_id);
-        var application_settings = panel.getApplicationByType(application_type);
+        var application_settings = panel.getApplicationById(application_id);
 
         if (typeof application_settings !== 'undefined') {
             panel.applyNumberChanges(font_id, application_settings, layer);
