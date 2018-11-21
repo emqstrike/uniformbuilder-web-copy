@@ -2190,6 +2190,14 @@ $(document).ready(function() {
                 name: "Tennis",
                 alias: "tennis",
             },
+            { 
+                name: "SFN Jogger (Apparel)",
+                alias: "sfn-jogger",
+            },
+            { 
+                name: "Yoga Pant (Apparel)",
+                alias: "yoga-pant",
+            },
 
         ],
 
@@ -11798,6 +11806,18 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Wrestling Compression Shorts (Apparel)',
                 thumbFilename: 'wrestling-compression-shorts.png',
                 gender: ['men',],    
+            },
+            {
+                shortCode: 'sfn-jogger',
+                urlAlias: 'SFN Jogger (Apparel)',
+                // thumbFilename: 'wrestling-compression-shorts.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'yoga-pant',
+                urlAlias: 'Yoga Pant (Apparel)',
+                // thumbFilename: 'wrestling-compression-shorts.png',
+                gender: ['women',],    
             },
         ],
 
