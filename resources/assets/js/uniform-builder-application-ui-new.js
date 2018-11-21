@@ -316,7 +316,9 @@ $(function() {
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initRotatePanel=======');
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -335,6 +337,8 @@ $(function() {
 
             drag: function (args) {
 
+                if (!_flag) { _flag = true; return;}
+                console.log('ARGS=======>', args.value);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
@@ -344,6 +348,7 @@ $(function() {
     };
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initScalePanel=======');
 
         var _flag = false;
         var _multiplier = 100;
@@ -390,6 +395,7 @@ $(function() {
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initMovePanelX=======');
 
         var _flag = false;
         var _multiplier = 100;
@@ -444,6 +450,7 @@ $(function() {
     };
 
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initMovePanelY=======');
 
         var _flag = false;
         var _multiplier = 100;
