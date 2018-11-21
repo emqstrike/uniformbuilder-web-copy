@@ -28,6 +28,7 @@ function ModifierController(element, brand) {
         parts: {},
         inserts: {},
         pippings: {},
+        random_feeds: {},
         letters: {},
         numbers: {},
         applications: {},
@@ -47,6 +48,15 @@ ModifierController.prototype = {
     initControls: function() {
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
+            delay: 0,
+            size: 'large',
+            animation: 'shift-away',
+            placement: 'left-end'
+        });
+
+        // change pipings to random feeds if the item is sock
+        tippy('#property-modifiers-menu .menu-item-pipings', {
+            content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
             delay: 0,
             size: 'large',
             animation: 'shift-away',
@@ -159,10 +169,10 @@ ModifierController.prototype = {
         var piping_panel;
 
         if (ub.funcs.isSocks()) { // display random feeds
-            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
-            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
+            ub.modifierController.controllers.random_feeds = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.random_feeds.setRandomFeedSetItems();
 
-            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
+            var random_feed_panel = ub.modifierController.controllers.random_feeds.getPanel();
             properties_panel.setBodyPanel(random_feed_panel);
 
             RandomFeedPanel.events.init();
