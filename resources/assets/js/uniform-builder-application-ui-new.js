@@ -305,6 +305,7 @@ $(function() {
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
 
+        // add applications opt
         var selectNewAppOptions = document.getElementsByClassName('addApplicationsOpts');
         $(selectNewAppOptions).each(function(){
             $(this).find('div > button:first-of-type').addClass('active');
@@ -344,6 +345,7 @@ $(function() {
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -378,6 +380,8 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updateScaleViaSlider(_settingsObject, _value);
 
@@ -387,6 +391,7 @@ $(function() {
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -428,6 +433,9 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
 
@@ -437,6 +445,7 @@ $(function() {
 
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -477,6 +486,8 @@ $(function() {
         });
 
         element.noUiSlider.on('update', function (values, handle) {
+
+            if (!_flag) { _flag = true; return;}
 
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
@@ -520,7 +531,7 @@ $(function() {
                     if (typeof _color !== 'undefined') {
 
                         // adding tabs
-                        _html += '<li><a href="#tab' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
+                        _html += '<li><a href="#tab-' + id + '-' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
 
                         // building separated color blocks
                         _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
