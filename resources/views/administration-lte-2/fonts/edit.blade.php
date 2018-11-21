@@ -688,6 +688,7 @@
     <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript">
+
         $(document).ready(function(){
             var fields = []; // to be used in fst updater
             window.backup = null;
@@ -713,7 +714,6 @@
                 });
             }
             var cond = false;
-            console.log(window.block_patterns);
             bindBPOS(cond);
             function bindBPOS(cond){
                 if( cond ){
@@ -723,15 +723,10 @@
                 }
                 var sports_arr = null;
                 var block_pattern_options = [];
-                console.log('[[SPORTS]]');
-                console.log(sports);
                 if(sports != null){
                     sports_arr = sports.split(",");
-                    console.log(sports_arr);
                     sports_arr.forEach(function(entry) {
-                        console.log('ENTRY: ' + entry);
                         var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
-                        console.log(x);
                         x.forEach(function(entry) {
                             var y = JSON.parse(entry.neck_options);
 
@@ -757,42 +752,38 @@
             }
 
             bindBPs(cond);
-            function bindBPs(cond){
-                console.log('>>>>>>>>>>>>>>>>>>>> Bind Block Patterns');
-                if( cond ){
+            function bindBPs(cond) {
+                if (cond) {
                     var sports = $('.sports-val').val().split('"').join('');
-                }else {
+                } else {
                     var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
                 }
+
                 var sports_arr = null;
                 var block_patterns = [];
 
-                console.log(sports);
-                if(sports != null){
+                if (sports != null) {
                     sports_arr = sports.split(",");
 
                     sports_arr.forEach(function(entry) {
-
                         var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
 
                         x.forEach(function(entry) {
                             block_patterns.push(entry.name);
                         });
                     });
+
                     var z = _.sortBy(_.uniq(block_patterns));
                     $('.block-patterns').html('');
+
                     z.forEach(function(i) {
                         $('.block-patterns').append('<option value="'+i+'">'+i+'</option>');
                     });
                 }
-
             }
 
-            if($('#block_patterns_value').val()){
-
+            if ($('#block_patterns_value').val()) {
                 var x = $('#block_patterns_value').val().split(",");
-                console.log('[[BLOCK PATTERNS]]');
-                console.log(x);
                 var bps = x;
             }
 
@@ -807,11 +798,8 @@
                 $('#block_patterns_value').val($(this).val());
             });
 
-            if($('#block_pattern_options_value').val()){
-
+            if ($('#block_pattern_options_value').val()) {
                 var xx = $('#block_pattern_options_value').val().split(",");
-                console.log('[[BLOCK PATTERN OPTIONS]]');
-                console.log(xx);
                 var bpos = xx;
             }
 
@@ -829,38 +817,42 @@
 
             $('.animated').autosize({append: "\n"});
 
-            if($('#sports_value').val()){
+            if ($('#sports_value').val()) {
                 var sports = JSON.parse($('#sports_value').val());
             }
+
             var fstbls = $('#old_font_size_tables').val();
-            if(fstbls != ""){
+
+            if (fstbls != "") {
                 var old_font_size_tables = JSON.parse(fstbls);
                 window.backup = old_font_size_tables;
 
                 old_font_size_tables.forEach(function(entry) {
                     var tbl_class = '.'+entry.perspective+'-fst-body';
-                    entry.sizes.forEach(function(item) {
 
+                    entry.sizes.forEach(function(item) {
                         var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                         $(tbl_class).append(elem);
                     });
+
                     refreshMultipleFST();
                 });
             }
 
             var sblmtdfstbls = $('#old_sublimated_font_size_tables').val();
-            if(sblmtdfstbls != ""){
+
+            if (sblmtdfstbls != "") {
                 var old_font_size_tables = JSON.parse(sblmtdfstbls);
                 window.sublimated_backup = old_font_size_tables;
 
                 old_font_size_tables.forEach(function(entry) {
+                    var tbl_class = '.' + entry.perspective + '-fst-body-sublimated';
 
-                    var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
                     entry.sizes.forEach(function(item) {
-
                         var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                         $(tbl_class).append(elem);
                     });
+
                     refreshMultipleSublimatedFST();
 
                 });
@@ -945,26 +937,18 @@
             $(".fix-fst-sublimated-button").click(function(e) {
                 e.preventDefault();
 
-                console.log('before clear');
-
                 $('.front-fst-body-sublimated').html('');
                 $('.back-fst-body-sublimated').html('');
                 $('.left-fst-body-sublimated').html('');
                 $('.right-fst-body-sublimated').html('');
 
-                console.log('after clear');
-
                 var old_font_size_tables = JSON.parse($('#fst-fix-sublimated').val());
 
-                console.log($('#fst-fix-sublimated').val());
-
                 window.sublimated_backup = old_font_size_tables;
-                console.log(old_font_size_tables);
 
                 old_font_size_tables.forEach(function(entry) {
                     var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
                     entry.sizes.forEach(function(item) {
-                        console.log(item.inputSize);
                         var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                         $(tbl_class).append(elem);
                     });
@@ -1022,7 +1006,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                                console.log('P_VAL>'+p_val);
+                          
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1038,7 +1022,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                                console.log('P_VAL>'+p_val);
+                     
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1060,7 +1044,6 @@
                         fields.push($(this).data('field'));
                     }
                 });
-                console.log(fields);
             });
 
             $("#edit-font-form").on("click", ".remove-layer", function(e){
@@ -1081,6 +1064,10 @@
                 cond = true;
                 bindBPs(cond);
                 bindBPOS(cond);
+
+                if ($('#sports_value').val() == '') {
+                    $('#block_patterns_value').val('');
+                }
             });
 
             $('.sports').val(sports);
@@ -1109,13 +1096,10 @@
             });
 
             $(document).on('click', '.clone-row', function() {
-                console.log('clone');
                 if( $( ".layers-row" ).length ) {
-                    console.log('IF');
-
                     try{
                         $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-                    } catch(err){
+                    } catch(err) {
                         console.log(err.message);
                     }
                 } else {
@@ -1216,8 +1200,6 @@
                     var file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]"></td>';
                     var file_ref = '<input type="hidden" class="form-control fo-file-ref layer' + length + '" value="' + myJson[length].font_path + '">';
 
-                    console.log('font path');
-                    console.log(myJson[length].font_path);
                     if ((myJson[length].font_path == undefined) || (myJson[length].font_path == 'undefined') || (myJson[length].font_path == "")) {
                         file = '<td><input type="file" class="form-control fo-file layer"' + length + '" name="fo_file[]" style="border: 2px solid red;"></td>';
                     }
@@ -1276,14 +1258,12 @@
                     length--;
                 });
                 var layersProperties = JSON.stringify(layers_properties);
-                console.log('Font PROP >> '+layersProperties);
                 window.lp = layersProperties;
                 $('#font_properties').val(layersProperties);
             }
 
             $(document).on('click', '.btn-remove-layer', function() {
                 var rowCount = $('.layers-row').length;
-                console.log('rowCount ', rowCount);
                 
                 $(this).closest('tr').remove();
                 var newRowCount = $('.layers-row').length;

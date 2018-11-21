@@ -847,30 +847,6 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
-
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="clearfix"></div>';
-
-        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
-        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
-
-        _htmlBuilder        +=              '<div class="sub1">';
-        _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
-        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
-
-        if (_settingsObject.embellishment.name === 'Custom Logo') {
-            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-            _htmlBuilder        +=                  '<br /><br />';
-        }
-
         _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         // _htmlBuilder        +=          '</div>';

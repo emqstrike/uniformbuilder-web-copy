@@ -1,6 +1,8 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
+    <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker-bs3.css">
 
     <style>
         .select2 {
@@ -31,7 +33,19 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Saved Designs')
-                    <h1>Saved Designs</h1>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h1>Saved Designs</h1>
+                        </div>
+
+                        <div class="col-md-8 text-right" style="margin-top: 20px;">
+                            <div class="form-inline">
+                                <input id="searchNameSavedDesigns" type="text" class="form-control" style="margin: 0 10px 0;">
+                                <button id="searchSavedDesigns" class="btn btn-flat btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -95,6 +109,13 @@
                                         @endif
                                     @endforeach
                                 </select>
+
+                                <label>Date</label>
+                                <div class="input-group input-daterange" style="margin: 0 10px;">
+                                    <input id="startDate" type="text" class="form-control">
+                                    <div class="input-group-addon">to</div>
+                                    <input id="endDate" type="text" class="form-control">
+                                </div>
 
                                 <button id="filterSavedDesign" class="btn btn-success btn-flat">Filter</button>
                                 <button id="clearFilter" class="btn btn-default btn-flat">Clear</button>
@@ -165,7 +186,7 @@
                         </tbody>
                     </table>
 
-                    @include('administration-lte-2.saved-designs.partials.pagination')
+                    @include('administration-lte-2.partials.pagination')
 
                 </div>
             </div>
@@ -179,19 +200,53 @@
         $(document).ready(function() {
             $('.select2').select2();
 
-            $('#filterSavedDesign').click(function() {
-                var sport = $('#sportFilter').val();
-                var blockPattern = $('#blockPatternFilter').val();
-                var option = $('#optionFilter').val();
-                var user = $('#userFilter').val();
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentYear = date.getFullYear();
+            var startDate = new Date(currentYear, currentMonth, 1);
+            var endDate = new Date(currentYear, currentMonth + 1, 0);
 
-                var url = "{{ route('saved_designs') }}?sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user;
-                window.location.href = url;
+            $('#startDate').datepicker({
+                format: "yyyy-mm-dd"
+            });
+
+            $('#endDate').datepicker({
+                format: "yyyy-mm-dd"
+            });
+
+            @if (isset($filters['range']))
+                $('#startDate').datepicker('setDate', '{{ $filters['range'][0] }}');
+                $('#endDate').datepicker('setDate', '{{ $filters['range'][1] }}');
+            @endif
+
+            $('#searchSavedDesigns').click(function() {
+                filter();
+            });
+
+            $('#filterSavedDesign').click(function() {
+                filter();
             });
 
             $('#clearFilter').click(function() {
                 window.location.href = "{{ route('saved_designs') }}";
             });
+
+            function filter() {
+                var name = $('#searchNameSavedDesigns').val();
+                var sport = $('#sportFilter').val();
+                var blockPattern = $('#blockPatternFilter').val();
+                var option = $('#optionFilter').val();
+                var user = $('#userFilter').val();
+
+                var dateRange = "";
+
+                if (($('#startDate').val() != '') && ($('#endDate').val() != '')) {
+                    dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
+                }
+
+                var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
+                window.location.href = url;
+            }
         });
     </script>
 @endsection

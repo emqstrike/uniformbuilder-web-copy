@@ -15,7 +15,6 @@ function InsertPanel(element, inserts) {
     this.inserts = inserts;
     this.items = {
         inserts: this.inserts,
-        colors: ub.current_material.settings.team_colors,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
 }
@@ -26,5 +25,5 @@ InsertPanel.prototype = {
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);
         return rendered;
-    },
+    }
 }

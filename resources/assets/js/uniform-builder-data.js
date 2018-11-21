@@ -168,6 +168,7 @@ $(document).ready(function() {
     ub.current_material.settings.size_breakdown = {};
     ub.current_material.settings.pipings        = {};
     ub.current_material.settings.randomFeeds    = {};
+    ub.current_material.settings.logos          = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -10081,22 +10082,33 @@ ub.funcs.fontOffSets = [
             { id: 44, matchingID: 43  },
             { id: 41, matchingID: 42  },
             { id: 42, matchingID: 41  },
-        ], 
+        ],
+        sportsExemption: [
+            'Baseball'
+        ],
         getMatchingID: function (id) {
 
             var _result = undefined;
+            var sport   = ub.config.sport;
 
-            _result = _.find(this.items, {id: parseInt(id)});
+            // Igore matching id on Baseball
+            // see FEED-24 for details
+            if (!_.contains(this.sportsExemption, sport)) {
 
-            if (typeof _result === "undefined") {
+                _result = _.find(this.items, {id: parseInt(id)});
 
-                return undefined;
+                if (typeof _result === "undefined") {
 
+                    return undefined;
+
+                }
+
+                return _result.matchingID;
             }
 
-            return _result.matchingID;
+            return _result;
 
-        } 
+        }
 
     }
 
@@ -10256,8 +10268,8 @@ ub.funcs.fontOffSets = [
                 sublimatedPart: 'Extra',
             },
             {
-                sport: 'Tech Tee (eSports)',
-                sublimatedPart: 'Body',
+                sport: 'SFN Jogger (Apparel)',
+                sublimatedPart: 'Extra',
             }
         ],
 
@@ -11064,7 +11076,12 @@ ub.funcs.fontOffSets = [
                 type: 'both',
                 upperLabel: 'Jersey',
                 lowerLabel: 'Pant',
-            }
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
+            },
         ],
         getLabel: function (sport) {
 
@@ -11199,7 +11216,14 @@ ub.funcs.fontOffSets = [
             sport: 'Cinch Sack (Apparel)',
             filters: ['All', 'Cinch Sack'],
         },
-
+        {
+            sport: 'Tennis',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Yoga Pant (Apparel)',
+            filters: ['All'],
+        },
           
     ];
 
@@ -12131,13 +12155,14 @@ ub.funcs.fontOffSets = [
     ub.data.freeFormToolFirstPartSelection = {
         
         items: [
-            'Yoga Pant (Apparel)'
+            'Yoga Pant (Apparel)',
+            'Basketball'
         ],
-        isEnabled: function (uniformCategory) {
+        activateOnLowerUniform: function (uniformCategory) {
 
             var _result = undefined;
 
-            _result = _.contains(this.items, uniformCategory);
+            _result = (_.contains(this.items, uniformCategory) && _.isEqual(ub.config.type, 'lower'));
 
             return _result;
 
@@ -12156,7 +12181,8 @@ ub.funcs.fontOffSets = [
             'Baseball',
             'Socks (Apparel)',
             'Yoga Pant (Apparel)',
-            'Basketball'
+            'Basketball',
+            'SFN Jogger (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
@@ -12236,6 +12262,31 @@ ub.funcs.fontOffSets = [
             
             return _.size(_result) > 0;
             
+        }
+    }
+
+    // omit material option `e.g. Neck Tape 1` on ub.data.modifierLabels
+    ub.data.hideMaterialOptionOnSportModifierLabels = {
+        items: [
+            'PTS Cage Jacket (Apparel)',
+            'PTS Hoodie (Apparel)'
+        ],
+        isValid: function (uniformCategory, modifierLabels, materialOption) {
+
+            if (_.contains(this.items, uniformCategory)) {
+
+                return _.omit(modifierLabels, function(value, key, object) {
+
+                    return _.contains(materialOption, value.fullname);
+
+                });
+
+            } else {
+
+                return modifierLabels;
+
+            }
+
         }
     }
 

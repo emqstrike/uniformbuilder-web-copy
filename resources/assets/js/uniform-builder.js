@@ -655,8 +655,12 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Outside View');
-                $('a.change-view[data-view="right"] > span').text('Inside View');
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+
+                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
             }
 
         }
@@ -2792,6 +2796,17 @@ $(document).ready(function () {
 
             }
 
+        }
+
+        // Process Prolook Logo Here
+        if (ub.current_material.material.logo_position !== null) {
+
+            LogoPanel.process.processLogo(ub.current_material.material.logo_position);
+
+            if (_.size(ub.current_material.settings.logos) > 0) {
+
+                LogoPanel.process.processSavedLogo();
+            }
         }
 
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
@@ -5817,9 +5832,13 @@ $(document).ready(function () {
 
                 if (view === 'colors') {
 
-                    ub.funcs.activateColorPickers();
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateColorPickers();
+                    } else {
+                        ub.modifierController.activateColorAndPatternPanel();
+                    }
+
                     ub.funcs.activeStyle('colors');
-                    
                     return;
                     
                 }
@@ -5919,6 +5938,11 @@ $(document).ready(function () {
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
+
+                    if (ub.data.useScrollingUI) {
+                        $("#parts-with-insert-container").hide();
+                        $(".parts-container").hide();
+                    }
                     
                     return;
 
@@ -6824,7 +6848,11 @@ $(document).ready(function () {
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
 
             // Blank styles goes to the bottom ...
-            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; }
+
+            // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
+            // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
+            if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
 
             return _weight;
 
@@ -8007,6 +8035,26 @@ $(document).ready(function () {
         var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
         var _result = _.find(ub.filterStructure.primary, {name: _type});
         var _sportFilters = _.find(ub.data.sportFilters, {sport: sport}).filters;
+
+        // create exception on Tennis _sportFilters array
+        // men: Shorts
+        // women: Skorts
+        if ( _.isEqual(sport, 'Tennis') ) {
+
+            // get Shorts/Skorts index on _sportFilters array
+            var index = (_.contains(_sportFilters, 'Shorts')) 
+                        ? _sportFilters.indexOf('Shorts') 
+                        : (_.contains(_sportFilters, 'Skorts')) 
+                        ? _sportFilters.indexOf('Skorts') 
+                        : _sportFilters.indexOf('Shorts');
+
+            if (gender === 'men') {
+                _sportFilters[index] = 'Shorts';
+            } else {
+                _sportFilters[index] = 'Skorts';
+            }
+
+        }
 
         $('span.primary-filters').each(function (index, value) {
 

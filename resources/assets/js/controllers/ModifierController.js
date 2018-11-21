@@ -33,7 +33,6 @@ function ModifierController(element, brand) {
         applications: {},
         logo: {}
     };
-
     // Setup
     this.initControls();
     this.bindEvents();
@@ -44,12 +43,6 @@ ModifierController.prototype = {
     constructor: ModifierController,
 
     initControls: function() {
-        // on click on any group pane switch to active
-        $('#property-modifiers-menu > .group-pane').on('click', function () {
-            $('#property-modifiers-menu > .group-pane').removeClass('active');
-            $(this).addClass('active');
-        });
-
         // Set Tooltips Behavior
         tippy('.tippy-menu-item', {
             delay: 0,
@@ -60,20 +53,34 @@ ModifierController.prototype = {
     },
 
     bindEvents: function() {
-        var _this = this;
-
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
-        $('#property-modifiers-menu .menu-item-parts').on('click', function() {
-            _this.parts(_this);
-        });
-        $('#property-modifiers-menu .menu-item-inserts').on('click', function() {
-            _this.inserts(_this);
-        });
-        $('#property-modifiers-menu .menu-item-pipings').on('click', this.pipings);
+        $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
+        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
+        $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
+
+        // on click on any group pane switch to active
+        $('#property-modifiers-menu a').click(this.enableDisableModifierMenu);
+    },
+
+    enableDisableModifierMenu: function() {
+        $('#property-modifiers-menu a').removeClass('active');
+        $('#property-modifiers-menu a').css('pointer-events', "auto");
+
+        $(this).addClass('active');
+        $(this).css('pointer-events', "none");
+    },
+
+    clearPartsAndInsert: function() {
+        $("#primary_options_colors").css('display', 'none');
+        $("#primary_options_colors").html("");
+    },
+
+    activateColorAndPatternPanel: function() {
+        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
     },
 
     enable: function() {
@@ -93,6 +100,7 @@ ModifierController.prototype = {
     },
 
     clearControls: function() {
+        ub.funcs.deactivateMoveTool();
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateLocations();
     },
@@ -102,58 +110,79 @@ ModifierController.prototype = {
     },
 
     parts: function(_this) {
-        // this.clearControls();
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
+        ub.modifierController.clearControls();
+        ub.funcs.activeStyle('colors');
 
-        if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $("#parts-with-insert-container").hide();
-        }
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
 
-        if ($("#primary_options_container #primary_options_colors").length > 0) {
+        var part_panel = ub.modifierController.controllers.parts.getPanel();
+        propertiesPanel.setBodyPanel(part_panel);
+        propertiesPanel.setDefaultColorsPatterns();
 
-            $(".parts-container").show();
-            $("#parts-with-insert-container").hide();
+        // Bind Events
+        propertiesPanel.bindEvents();
 
-        } else {
-
-            _this.controllers.parts = new PropertiesPanel('#primary_options_container', this.brand);
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $("#parts-with-insert-container").hide();
-        }
-
+        $("#primary_options_container").scrollTo(0);
+        console.log("Show Parts Panel");
     },
 
-    inserts: function(_this) {
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateLocations();
+    inserts: function() {
+        ub.modifierController.clearControls();
+        ub.funcs.activeStyle('colors');
 
-        if ($("#primary_options_colors").css("display") === "none") {
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
+        // New Properties Object
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
 
-        if ($("#primary_options_container #primary_options_colors").length > 0) {
+        var insert_panel = ub.modifierController.controllers.inserts.getPanel();
+        propertiesPanel.setBodyPanel(insert_panel);
+        propertiesPanel.setDefaultColorsPatterns();
 
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
+        // Bind Events
+        propertiesPanel.bindEvents();
 
-        } else {
-
-            _this.controllers.inserts = new PropertiesPanel('#primary_options_container', this.brand);
-            $("#primary_options_container").scrollTo(0, { duration: 200 });
-            $(".parts-container").hide();
-            $("#parts-with-insert-container").show();
-        }
-
+        $("#primary_options_container").scrollTo(0);
+        console.log("Show Inserts Panel")
     },
 
     pipings: function() {
         console.log('Show Pipings Panel');
+
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
+
+        var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
+        var piping_panel;
+
+        if (ub.funcs.isSocks()) { // display random feeds
+            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
+
+            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
+            properties_panel.setBodyPanel(random_feed_panel);
+
+            RandomFeedPanel.events.init();
+            RandomFeedPanel.setInitialState();
+        } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
+            ub.funcs.activatePanelGuard();
+            ub.funcs.deactivatePanels();
+
+            ub.modifierController.controllers.pipings = new PipingPanel('m-piping-sidebar-new');
+            ub.modifierController.controllers.pipings.setPipingSetItems();
+
+            piping_panel = ub.modifierController.controllers.pipings.getPanel();
+            properties_panel.setBodyPanel(piping_panel);
+
+            PipingPanel.events.init();
+            PipingPanel.setInitialState();
+        } else { // no pipings
+            ub.modifierController.controllers.pipings = new PipingPanel('m-no-piping-message');
+
+            piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
+            properties_panel.setBodyPanel(piping_panel);
+        }
     },
 
     letters: function() {
@@ -175,5 +204,42 @@ ModifierController.prototype = {
 
     logo: function() {
         console.log('Show Logo Panel');
+        var logo_positions = ub.data.logos;
+        var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
+
+        if (typeof logo_positions !== "undefined" && logo_positions.length > 0) {
+            var current_position = _.find(ub.current_material.settings.logos, {enabled: 1});
+            if (current_position.position.includes("front") || current_position.position.includes("chest")) {
+                $('a.change-view[data-view="front"]').trigger('click');
+
+            } else if (current_position.position.includes("back")) {
+                $('a.change-view[data-view="back"]').trigger('click');
+
+            } else if (current_position.position.includes("left") || current_position.position.includes("sleeve")) {
+                $('a.change-view[data-view="left"]').trigger('click');
+
+            }
+
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
+            var logo_panel = ub.modifierController.logo.getPanel();
+            properties_panel.setBodyPanel(logo_panel);
+
+            // Activate logo current position
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
+
+            var image = ub.getThumbnailImage(ub.active_view + "_view");
+            $("#logo-preview").css({
+                'background-image': "url("+ image +")"
+            });
+
+            $("#logo-preview").show();
+            $(".logo-image-loader").hide();
+
+        } else {
+            var panel = document.getElementById("m-no-logo-message")
+            var render = Mustache.render(panel.innerHTML);
+            properties_panel.setBodyPanel(render);
+        }
     }
-}
+};

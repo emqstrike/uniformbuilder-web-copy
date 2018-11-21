@@ -12,7 +12,7 @@
 
 function PatternPanel(element) {
     this.panel = document.getElementById(element);
-    this.previous_pattern = null;
+    this.previousPattern = {};
     this.patternColors = [];
     this.items = {
         patterns: ub.data.patterns
@@ -32,20 +32,50 @@ PatternPanel.prototype = {
         return panel;
     },
 
-    getPatternColors: function() {
-        return this.patternColors;
+    getPatternColors: function(index) {
+        var patternColor =  this.patternColors[index];
+
+        if (typeof patternColor !== "undefined") {
+            return patternColor;
+        } else {
+            return;
+        }
     },
 
-    setPatternColor: function(layerID, colorObj, patternObj, materialOption) {
-        var findLayer = _.find(this.patternColors, {layerID: layerID});
+    setPreviousPattern: function(index, patternID) {
+        var find = this.previousPattern[index];
 
-        if (typeof findLayer != "undefined")
-        {
-            findLayer.color = colorObj;
+        if (typeof find !== "undefined") {
+            find.patternID = patternID;
+        } else {
+            this.previousPattern[index] = {
+                patternID: patternID
+            };
         }
-        else
-        {
-            this.patternColors.push({
+    },
+
+    getPreviousPattternByModifier: function(index) {
+        return this.previousPattern[index];
+    },
+
+    setPatternColor: function(index, layerID, colorObj, patternObj, materialOption) {
+        var find = this.patternColors[index];
+
+        if (typeof find !== "undefined") {
+            var findLayer = _.find(this.patternColors[index], {layerID: layerID});
+            if (typeof findLayer !== "undefined") {
+                findLayer.color = colorObj;
+            } else {
+                this.patternColors[index].push({
+                    layerID: layerID,
+                    color: colorObj,
+                    patternObj: patternObj,
+                    materialOption: materialOption
+                });
+            }
+        } else {
+            this.patternColors[index] = new Array();
+            this.patternColors[index].push({
                 layerID: layerID,
                 color: colorObj,
                 patternObj: patternObj,
@@ -54,8 +84,8 @@ PatternPanel.prototype = {
         }
     },
 
-    destroyPatternColor: function() {
-        this.patternColors = [];
+    destroyPatternColor: function(index) {
+        delete this.patternColors[index];
     },
 
     onSelect: function() {
@@ -72,17 +102,25 @@ PatternPanel.prototype = {
             // Set Perspective
             var perspective = new PerspectiveController();
 
-            if (modifier_category.includes("front"))
-            {
+            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
+
                 perspective.front();
-            }
-            else if (modifier_category.includes("back"))
-            {
+
+            } else if (modifier_category.includes("back")) {
+
                 perspective.back();
-            }
-            else if (modifier_category.includes("left"))
-            {
-                perspective.left();
+
+            } else if (modifier_category.includes("left")) {
+
+                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.left();
+                }
+
+            } else if (modifier_category.includes("right")) {
+
+                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
+                    perspective.right();
+                }
             }
 
             // Get pattern ID
@@ -147,37 +185,39 @@ PatternPanel.prototype = {
             // Get layers count
             var _layerCount = _.size(_patternObj.layers);
 
-            if (_this.previous_pattern === null) {
+            var previous_pattern = _this.getPreviousPattternByModifier(_modifier_category)
 
-                _this.previous_pattern = _id
-                _this.changePattern(ub.current_part, _id);
-
-                _this.applyTeamColorOnPattern(_layerCount, _patternObj, materialOption)
-
-            } else {
-
-                if (_this.previous_pattern !== _id) {
-
-                    _this.previous_pattern = _id;
-                    _this.destroyPatternColor();
-                    _this.changePattern(ub.current_part, _id);
-                    _this.applyTeamColorOnPattern(_layerCount, _patternObj, materialOption)
-
+            if (typeof previous_pattern !== "undefined") {
+                if (previous_pattern.patternID !== _id) {
+                    // Previous pattern
+                    _this.setPreviousPattern(_modifier_category, _id);
+                    // Destroy pattern
+                    _this.destroyPatternColor(_modifier_category);
+                    _this.applyTeamColorOnPattern(_modifier_category, _layerCount, _patternObj, materialOption)
                 } else {
-                    var pattern_colors = _this.getPatternColors();
-
+                    // Get Pattern Colors
+                    var pattern_colors = _this.getPatternColors(_modifier_category);
+                    // Load Set pattern color and pre selected color
                     _.map(pattern_colors, function(index) {
-                        _this.setPatternColor(index.layerID, index.color, index.patternObj, index.materialOption);
-                        _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
+                        _this.setPatternColor(_modifier_category, index.layerID, index.color, index.patternObj, index.materialOption);
                         _this.loadSelectedColor(index.layerID, index.color.id, index.color.color_code);
+
+                        _.delay(function() {
+                            _this.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj);
+                        }, 250);
                     });
                 }
+            } else {
+                // Save previous pattern and apply team patterns
+                _this.setPreviousPattern(_modifier_category, _id);
+                _this.applyTeamColorOnPattern(_modifier_category, _layerCount, _patternObj, materialOption);
             }
 
-            var _pattern_name = selected_pattern.data("pattern-name");
+            // Change Pattern
+            _this.changePattern(ub.current_part, _id);
 
             // Append Pattern Name
-            $(".modal-pattern-name").text(_pattern_name);
+            $(".modal-pattern-name").text(selected_pattern.data("pattern-name"));
 
             // Render Mustache
             var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
@@ -258,6 +298,7 @@ PatternPanel.prototype = {
             /* Act on the event */
             var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
             var category_modifier = $(this).data('modifier-category');
+
             var selected_color = $(".pattern-color-main-container-" + active_pattern_color_category).find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
@@ -276,12 +317,12 @@ PatternPanel.prototype = {
             var _patternObj = _this.getCurrentPatternObject();
 
             // Save Pattern Color
-            _this.setPatternColor(layerID, _colorOBJ, _patternObj, materialOption);
+            _this.setPatternColor(category_modifier, layerID, _colorOBJ, _patternObj, materialOption);
             _this.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID.toString(), _patternObj);
 
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' ||
@@ -292,7 +333,7 @@ PatternPanel.prototype = {
                 colorLabel === 'OP'||
                 colorLabel === 'SG'
             ) {
-                $(this).html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+                $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
             }
         });
     },
@@ -362,7 +403,7 @@ PatternPanel.prototype = {
 
         });
 
-        ub.funcs.clearPatternUI();
+        this.clearPatternUI();
         this.activatePatterns();
     },
 
@@ -393,14 +434,6 @@ PatternPanel.prototype = {
 
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
-
-        setTimeout(function() {
-            var _dUrl = canvas.toDataURL();
-
-            _.each(_patternObj.layers, function (l) {
-                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
-            });
-        }, 50);
     },
 
     activatePatterns: function()
@@ -457,15 +490,19 @@ PatternPanel.prototype = {
         $("#pattern-change-color").on('click', '.apply-pattern-color', function(event) {
             event.preventDefault();
             /* Act on the event */
-            _this.applyChangesInMainCanvas();
+            var modifierObject = _.find(ub.data.modifierLabels, {index: ub.current_part});
+            _this.applyChangesInMainCanvas(modifierObject.fullname);
             // _this.destroyPatternColor();
         });
     },
 
-    applyChangesInMainCanvas: function() {
+    applyChangesInMainCanvas: function(index) {
+        // Get modifier Label
+        var patternColors = this.getPatternColors(index)
+
         // Set Material Option
-        if (this.patternColors.length > 0) {
-            _.map(this.patternColors, function(index) {
+        if (patternColors.length > 0) {
+            _.map(patternColors, function(index) {
                 ub.funcs.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj)
             });
             $('#pattern-change-color').modal('hide');
@@ -482,13 +519,17 @@ PatternPanel.prototype = {
     },
 
     createPatternUI: function(patternObject) {
-        var _htmlBuilder = "<div id='patternUI'>";
+        var _htmlBuilder = "<div id='patternNewUI'>";
         _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
         _htmlBuilder     += "</div>";
 
         $("#patternPreviewUI").append(_htmlBuilder);
-        $('#patternUI').fadeIn();
+        $('#patternNewUI').fadeIn();
         setTimeout(this.createPatternPreview(patternObject), 1000);
+    },
+
+    clearPatternUI: function() {
+        $('div#patternNewUI').remove();
     },
 
     createPatternPreview: function(inputPattern) {
@@ -567,14 +608,13 @@ PatternPanel.prototype = {
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
     },
 
-    applyTeamColorOnPattern(layerCount, patternObj, materialOption) {
+    applyTeamColorOnPattern(index, layerCount, patternObj, materialOption) {
         for (var i = 1; i <= layerCount; i++) {
-            console.log("Here loop")
             var colorOBJ = ub.current_material.settings.team_colors[i - 1];
             if (typeof colorOBJ !== "undefined") {
                 var color_id = colorOBJ ? colorOBJ.id : null;
                 var color_label = colorOBJ ? colorOBJ.color_code : null;
-                this.setPatternColor(i, colorOBJ, patternObj, materialOption);
+                this.setPatternColor(index, i, colorOBJ, patternObj, materialOption);
                 this.loadSelectedColor(i, color_id, color_label);
             }
         }
@@ -592,8 +632,10 @@ PatternPanel.prototype = {
         return firstMaterialOption;
     },
 
-    getCurrentPatternObject: function() {
-        var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+    getCurrentPatternObject: function(index = null) {
+
+        var current_part = index ? index : ub.current_part
+        var _modifier = ub.funcs.getModifierByIndex(current_part);
         var _names = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial = _names[0].toTitleCase();
         var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
@@ -607,7 +649,7 @@ PatternPanel.prototype = {
         _.delay(function() {
 
             var color = $("#pattern-color-category-" + index + " button.pattern-color-selector-button[data-color-id='" + colorID + "']");
-            color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
             color.addClass('active-pattern-color');
             if (colorLabel === 'W'
                 || colorLabel === 'Y'
@@ -617,7 +659,7 @@ PatternPanel.prototype = {
                 || colorLabel === 'OP'
                 || colorLabel === 'SG'
             ) {
-                color.html('<span class="fa fa-check fa-2x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+                color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
             }
 
         }, 500);
