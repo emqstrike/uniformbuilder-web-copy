@@ -1043,11 +1043,25 @@ $(document).ready(function () {
 
         $('div.patternColorNavigator > div.left').on('click', function () {
 
+            // activate the color pickers if the selected pattern is blank
+            // see FEED-27 for details
+            if ( _.isEqual(_patternObj.name, 'Blank') || _.isEqual(_patternObj.pattern_id, 33) ) { 
+                ub.funcs.activateColorPickers(); 
+                return; 
+            }
+
             ub.funcs.moveToPreviousPatternColor(_patternObj);
 
         });
 
         $('div.patternColorNavigator > div.right').on('click', function () {
+
+            // activate the color pickers if the selected pattern is blank
+            // see FEED-27 for details
+            if ( _.isEqual(_patternObj.name, 'Blank') || _.isEqual(_patternObj.pattern_id, 33) ) { 
+                ub.funcs.activateColorPickers(); 
+                return; 
+            }
 
             ub.funcs.moveToNextPatternColor(_patternObj);
 
