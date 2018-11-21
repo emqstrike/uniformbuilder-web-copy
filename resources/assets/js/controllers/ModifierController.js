@@ -187,6 +187,7 @@ ModifierController.prototype = {
 
     letters: function() {
         console.log('Show Letters Panel');
+        ub.funcs.startNewApplicationLetters();
     },
 
     numbers: function() {
@@ -200,6 +201,7 @@ ModifierController.prototype = {
 
     applications: function() {
         console.log('Show Applications Panel');
+        ub.funcs.startNewApplication();
     },
 
     logo: function() {
