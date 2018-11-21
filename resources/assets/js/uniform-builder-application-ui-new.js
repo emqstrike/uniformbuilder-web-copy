@@ -20,8 +20,7 @@ $(function() {
 
     // on click on any group pane switch to active
     $('#new-toolbar > .group-pane').on('click', function () {
-        $('#new-toolbar > .group-pane').removeClass('active');
-        $(this).addClass('active');
+        $(this).addClass('active').siblings().removeClass("active");
     });
 
     // on click mascot and embellishments group #7
