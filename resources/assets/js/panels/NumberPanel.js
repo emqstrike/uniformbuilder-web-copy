@@ -21,7 +21,22 @@ NumberPanel.prototype = {
     constructor: NumberPanel,
 
     bindEvents: function() {
-        $('#numbers-panel .application .application-text').on('keyup', this.setNumber);
+        $('#numbers-panel .application .application-text').on('keypress', function(e) {
+            var number = $(this).val();
+            var application_id = $(this).data('application-id');
+            var application_type = $(this).data('application-type');
+            var font_id = $(this).data('font-id');
+            var layer = $(this).data('application-layer');
+            if (e.keyCode === 13) {
+                ub.modifierController.numbers.setNumber({
+                    number: number,
+                    application_id: application_id,
+                    application_type: application_type,
+                    font_id: font_id,
+                    layer: layer
+                });
+            }
+        });
         $('#numbers-panel .application .font-style').on('change', this.setFontStyle);
     },
 
@@ -92,7 +107,6 @@ NumberPanel.prototype = {
         var font = this.getFont(font_id);
         var perspective = this.configurePerspective(layer);
 
-        console.log(application_settings);
         var object_id = null;
 
         if (typeof application_settings !== 'undefined') {
@@ -129,20 +143,15 @@ NumberPanel.prototype = {
         return application_obj;
     },
 
-    setNumber: function() {
+    setNumber: function(config) {
         var panel = ub.modifierController.numbers;
         // change number
-        var application_id = $(this).data('application-id');
-        var application_type = $(this).data('application-type');
-        var font_id = $(this).data('font-id');
-        var number = $(this).val();
-        var layer = $(this).data('application-layer');
-        var application_settings = panel.getApplicationById(application_id);
+        var application_settings = panel.getApplicationById(config.application_id);
 
         if (typeof application_settings !== 'undefined') {
-            application_settings.text = number;
-            panel.applyNumberChanges(font_id, application_settings, layer);
-            ub.utilities.actionLog('Updated Number on ' + application_type + ' to ' + number);
+            application_settings.text = config.number;
+            panel.applyNumberChanges(config.font_id, application_settings, config.layer);
+            ub.utilities.actionLog('Updated Number on ' + config.application_type + ' to ' + config.number);
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
