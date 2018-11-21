@@ -126,14 +126,14 @@ LogoPanel.process = {
                 logo.colors_array = [
                     "W",
                     "W",
-                    secondary_color.length > 0 ? secondary_color[0].color_code : "CG"
+                    secondary_color.length > 0 ? secondary_color[0] : "CG"
                 ];
 
                 // Logo Layer 2 color
                 if (ub.config.uniform_application_type === "sublimated") {
                     logo.colors_array[1] = "none";
                 } else {
-                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0].color_code : "W";
+                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0] : "W";
                 }
 
                 // Logo Layer 3 Color
@@ -361,8 +361,6 @@ LogoPanel.process = {
     },
 
     addLogo: function(logoObject, _layerCount) {
-        var selectedColorArray = ub.current_material.settings.team_colors;
-        LogoPanel.process.initLogoColors(logoObject, selectedColorArray[1]);
         LogoPanel.process.renderLogo(logoObject, _layerCount);
 
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
@@ -405,6 +403,8 @@ LogoPanel.process = {
 
         logoSettings.layers[2].colorCode = colorObj.color_code;
         logoSettings.layers[2].colorObj = colorObj;
+
+        console.log("KiLig: =========> ", logoSettings)
     },
 
     changeRichardsonLogoOutline: function(position, color_code) {
@@ -424,6 +424,8 @@ LogoPanel.process = {
 
         logoSettings.layers[1].colorCode = colorObj.color_code;
         logoSettings.layers[1].colorObj = colorObj;
+
+        console.log("KiLig: =========> ", logoSettings)
     },
 
     changeRColor: function(position, color_code) {
@@ -443,14 +445,8 @@ LogoPanel.process = {
 
         logoSettings.layers[0].colorCode = colorObj.color_code;
         logoSettings.layers[0].colorObj = colorObj;
-    },
 
-    setSecondaryColor: function(color_code) {
-        if (typeof ub.current_material.settings.secondary_color !== "undefined") {
-            ub.current_material.settings.secondary_color.push({
-                color_code: color_code
-            });
-        }
+        console.log("KiLig: =========> ", logoSettings)
     },
 
     getSecondaryColor: function() {
@@ -458,51 +454,45 @@ LogoPanel.process = {
         var excluded_modifier = [];
         var secondary_color = [];
 
-        _.map(ub.current_material.settings[ub.config.type], function(mo) {
-            if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
-                if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
-                    if (!_.includes(LogoPanel.excluded, mo.code)) {
-                        included_modifier.push({
-                            code: mo.code,
-                            color_code: mo.colorObj.color_code
-                        });
-                    } else {
-                        excluded_modifier.push({
-                            code: mo.code,
-                            color_code: mo.colorObj.color_code
-                        });
-                    }
-                }
-            }
-        });
-
-        _.map(excluded_modifier, function(index) {
-            for (var i = 0; i < _.size(included_modifier); i++) {
-                if (index.color_code === included_modifier[i].color_code) {
-                    continue;
-                } else {
-                    secondary_color.push({
-                        color_code: included_modifier[i].color_code
-                    });
-                }
-            }
-        });
-
         if (typeof ub.current_material.settings.team_colors !== "undefined" && _.size(ub.current_material.settings.team_colors) > 0) {
             var team_colors = ub.current_material.settings.team_colors;
 
             for (var i = 1; i < _.size(team_colors); i++) {
                 if (_.includes(LogoPanel.valid_colors, team_colors[i].color_code)) {
-                    secondary_color.push({
-                        color_code: team_colors[i].color_code
-                    });
+                    secondary_color.push(team_colors[i].color_code);
                 }
             }
+        } else {
+            _.map(ub.current_material.settings[ub.config.type], function(mo) {
+                if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
+                    if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
+                        if (!_.includes(LogoPanel.excluded, mo.code)) {
+                            included_modifier.push({
+                                code: mo.code,
+                                color_code: mo.colorObj.color_code
+                            });
+                        } else {
+                            excluded_modifier.push({
+                                code: mo.code,
+                                color_code: mo.colorObj.color_code
+                            });
+                        }
+                    }
+                }
+            });
+
+            _.map(excluded_modifier, function(index) {
+                for (var i = 0; i < _.size(included_modifier); i++) {
+                    if (index.color_code === included_modifier[i].color_code) {
+                        continue;
+                    } else {
+                        secondary_color.push(included_modifier[i].color_code);
+                    }
+                }
+            });
         }
 
-        console.log("secondary_color", secondary_color)
-
-        return secondary_color;
+        return LogoPanel.process.removeDuplicateColor(secondary_color);
     },
 
     sameColorAsBackground: function(material_ops, logoSettingsObject) {
@@ -514,12 +504,39 @@ LogoPanel.process = {
             if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
                 if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
                     for (var i = 0; i < _.size(secondary_color); i++) {
-                        if (material_ops.colorObj.color_code === secondary_color[i].color_code) {
-                            console.log("Secondary Color: ", secondary_color[i].color_code);
+                        if (material_ops.colorObj.color_code === secondary_color[i]) {
+                            if (secondary_color[i] === "CG") {
+                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
+                                LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
+                            } else {
+                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
+                                LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
+                            }
+
+                            console.log("Secondary Color: ", secondary_color[i]);
                             console.log("Same Color");
                             continue;
                         } else {
-                            console.log("Secondary Color: ", secondary_color[i].color_code);
+                            if (secondary_color[i] !== "W") {
+                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i]);
+                                LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
+
+                                if (ub.config.uniform_application_type === "tackle_twill") {
+                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
+                                    logoSettingsObject.layers[1].colorCode = "W";
+                                }
+
+                            } else {
+                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i]);
+                                LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
+
+                                if (ub.config.uniform_application_type === "tackle_twill") {
+                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
+                                    logoSettingsObject.layers[1].colorCode = "CG";
+                                }
+                            }
+
+                            console.log("Secondary Color: ", secondary_color[i]);
                             console.log("Not same Color");
                             break;
                         }
@@ -535,18 +552,56 @@ LogoPanel.process = {
 
         if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
             for (var i = 0; i < _.size(secondary_color); i++) {
-                if (colorLabel === secondary_color[i].color_code) {
-                    console.log("Secondary Color: ", secondary_color[i].color_code);
+                if (colorLabel === secondary_color[i]) {
+                    if (secondary_color[i] === "CG") {
+                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, "W");
+                        LogoPanel.process.changeRColor(current_active_logo.position, "CG");
+                    } else {
+                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, "CG");
+                        LogoPanel.process.changeRColor(current_active_logo.position, "W");
+                    }
+
+                    console.log("Secondary Color: ", secondary_color[i]);
                     console.log("Same Color");
                     continue;
                 } else {
-                    console.log("Secondary Color: ", secondary_color[i].color_code);
+                    if (secondary_color[i] !== "W") {
+                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i]);
+                        LogoPanel.process.changeRColor(current_active_logo.position, "W");
+
+                        if (ub.config.uniform_application_type === "tackle_twill") {
+                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "W");
+                            current_active_logo.layers[1].colorCode = "W";
+                        }
+
+                    } else {
+                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i]);
+                        LogoPanel.process.changeRColor(current_active_logo.position, "CG");
+
+                        if (ub.config.uniform_application_type === "tackle_twill") {
+                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "CG");
+                            current_active_logo.layers[1].colorCode = "CG";
+                        }
+                    }
+
+                    console.log("Secondary Color: ", secondary_color[i]);
                     console.log("Not same Color");
                     break;
                 }
             }
 
         }
+    },
+
+    removeDuplicateColor: function(arr) {
+        let unique_array = [];
+        for(let i = 0; i < arr.length; i++){
+            if(unique_array.indexOf(arr[i]) == -1){
+                unique_array.push(arr[i])
+            }
+        }
+
+        return unique_array;
     }
 }
 
