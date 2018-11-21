@@ -38,8 +38,6 @@ function ModifierController(element, brand) {
     this.initControls();
     this.bindEvents();
     this.enable();
-
-    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -121,7 +119,7 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function(_this) {
+    parts: function() {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
@@ -199,15 +197,21 @@ ModifierController.prototype = {
 
     letters: function() {
         console.log('Show Letters Panel');
+        ub.funcs.startNewApplicationLetters();
     },
 
     numbers: function() {
-        console.log('Show Numbers Panel');
+        ub.modifierController.numbers = new NumberPanel('m-decorations-numbers');
+        var numbers_panel = ub.modifierController.numbers.getPanel();
+        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
+        properties_panel.setBodyPanel(numbers_panel);
         // set event listeners
+        ub.modifierController.numbers.bindEvents();
     },
 
     applications: function() {
         console.log('Show Applications Panel');
+        ub.funcs.startNewApplication();
     },
 
     logo: function() {
