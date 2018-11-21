@@ -901,8 +901,6 @@ $(document).ready(function () {
 
     ub.funcs.updateScaleViaSlider = function (_application, value) {
 
-        console.log('========updateScaleViaSlider=======');
-
         var _divisor = 100;
         if (_application.application_type !== "mascot") {
 
@@ -958,8 +956,6 @@ $(document).ready(function () {
     };
 
     ub.funcs.updatePositionViaSlider = function (_application, value, axis) {
-
-        console.log('========updatePositionViaSlider=======');
 
         var _max = ub.dimensions.width;
 
@@ -1931,16 +1927,8 @@ $(document).ready(function () {
 
                 sprite.ubHover = false;
 
-                if  (application.type !== "mascot" && application.type !== "logo") {
-                   // ub.funcs.activateApplications(_id);
-
-                   // Check if clicked application is TEAM NAME or PLAYER NAME,
-                    if (application.type === "team_name" || application.type === "player_name") {
-                        // Trigger click on tab
-                        $('#new-toolbar > .group-5').trigger('click')
-                        // Scroll to application's settings
-                        $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                    }
+                if (application.type !== "mascot" && application.type !== "logo") {
+                    ub.funcs.activateApplications(_id);
                 } else {
                     ub.funcs.activateMascots(_id);
                 }
@@ -4355,8 +4343,12 @@ $(document).ready(function () {
 
     ub.funcs.drawPartsDrop = function () {
 
-        var strBuilder = '';
-        var _moCount = _.size(ub.data.modifierLabels);
+        // omit `neck_tape_1` on ub.data.modifierLabels
+        var labelsToHide = ['neck_tape_2'];
+        ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+
+        var strBuilder              = '';
+        var _moCount                = _.size(ub.data.modifierLabels);
 
         _.each(ub.data.modifierLabels, function (ml) {
 
@@ -4388,12 +4380,9 @@ $(document).ready(function () {
 
             var _tempLabel = label.name;
 
-            if (_tempLabel === "Body Left") {
-                _tempLabel = "Left Body";
-            }
-            if (_tempLabel === "Body Right") {
-                _tempLabel = "Right Body";
-            }
+            if (_tempLabel === "Body Left")     { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right")    { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Neck Tape 1")   { _tempLabel = "Neck Tape"; }
 
             strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' + label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
@@ -4476,14 +4465,9 @@ $(document).ready(function () {
 
             var _htTemp = _ht;
 
-            if (_ht === "Left Body") {
-                _htTemp = 'Body Left'
-            }
-            ;
-            if (_ht === "Right Body") {
-                _htTemp = 'Body Right'
-            }
-            ;
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
+            if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
 
             if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
 
@@ -6465,8 +6449,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.updateRotationViaSlider = function (_application, value) {
-
-        console.log('========updateRotationViaSlider=======');
 
         var _val = (value / 100 * 360);
         var _valStr = (value / 100 * 6.28);
@@ -8897,7 +8879,7 @@ $(document).ready(function () {
 
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
+            if (_.contains(ub.data.matchingApplications, _id)) {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -8978,8 +8960,7 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            // ub.funcs.activateApplications(_settingsObject.code);
-            ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -9108,8 +9089,7 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            // ub.funcs.activateApplications(_settingsObject.code);
-            ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
             ub.funcs.LSRSBSFS(parseInt(_id));
@@ -10188,8 +10168,7 @@ $(document).ready(function () {
             if (typeof _newFont !== 'undefined') {
 
                 ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
-                // ub.funcs.activateApplications(_settingsObject.code)
-                ub.funcs.activateApplicationsLetters(_settingsObject.code)
+                ub.funcs.activateApplications(_settingsObject.code)
 
             }
             else {
@@ -11271,16 +11250,7 @@ $(document).ready(function () {
 
                 } else {
 
-                    // ub.funcs.activateApplications(locationCode);
-
-                    // Check if clicked application is TEAM NAME or PLAYER NAME,
-                    if (_settingsObject.application_type === "team_name" || _settingsObject.application_type === "player_name") {
-                        // Trigger click on tab
-                        $('#new-toolbar > .group-5').trigger('click')
-                        // Scroll to application's settings
-                        $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-
-                    }
+                    ub.funcs.activateApplications(locationCode);
 
                 }
 
@@ -12429,9 +12399,6 @@ $(document).ready(function () {
         });
 
         // End Select Perspective
-
-        // Update Labels for Socks (Apparel)
-        ub.funcs.updateLabels();
 
     };
 
