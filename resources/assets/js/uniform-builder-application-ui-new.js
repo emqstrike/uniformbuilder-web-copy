@@ -19,10 +19,10 @@ $(function() {
 */
 
     // on click on any group pane switch to active
-    $('#new-toolbar > .group-pane').on('click', function () {
-        $('#new-toolbar > .group-pane').removeClass('active');
-        $(this).addClass('active');
-    });
+    // $('#new-toolbar > .group-pane').on('click', function () {
+    //     $('#new-toolbar > .group-pane').removeClass('active');
+    //     $(this).addClass('active');
+    // });
 
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-7').on('click', function () {

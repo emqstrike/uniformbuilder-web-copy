@@ -1936,11 +1936,8 @@ $(document).ready(function () {
 
                    // Check if clicked application is TEAM NAME or PLAYER NAME,
                     if (application.type === "team_name" || application.type === "player_name") {
-                    // Check if group 5 tab (Decoration Letters) is open. If not,
-                        if ($('#new-toolbar > .group-5').hasClass('active') === false) {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                        }
+                        // Trigger click on tab
+                        $('#new-toolbar > .group-5').trigger('click')
                         // Scroll to application's settings
                         $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
                     }
@@ -11278,11 +11275,8 @@ $(document).ready(function () {
 
                     // Check if clicked application is TEAM NAME or PLAYER NAME,
                     if (_settingsObject.application_type === "team_name" || _settingsObject.application_type === "player_name") {
-                        // Check if group 5 tab (Decoration Letters) is open. If not,
-                        if ($('#new-toolbar > .group-5').hasClass('active') === false) {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                        }
+                        // Trigger click on tab
+                        $('#new-toolbar > .group-5').trigger('click')
                         // Scroll to application's settings
                         $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
 

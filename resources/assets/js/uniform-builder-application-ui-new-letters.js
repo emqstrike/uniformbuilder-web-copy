@@ -9,7 +9,12 @@ $(function() {
 
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-5').on('click', function () {
-        ub.funcs.startNewApplicationLetters();
+        if (! $(this).hasClass('active')) {
+            // If tab is not currently active, add active class to element and remove active class from other tabs
+            $(this).addClass('active').siblings().removeClass("active");
+            // Display decoration letters
+            ub.funcs.startNewApplicationLetters();
+        }
     });
 
     $('#primary_options_container')
@@ -684,6 +689,7 @@ $(function() {
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
+            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
         } else {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
