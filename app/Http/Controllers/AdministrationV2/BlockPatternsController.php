@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdministrationV2;
 
 use App\APIClients\BlockPatternsAPIClient as APIClient;
+use App\APIClients\ColorsAPIClient;
 use App\APIClients\UniformCategoriesAPIClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -20,14 +21,17 @@ class BlockPatternsController extends Controller
 {
     protected $client;
     protected $uniformCategoriesClient;
+    protected $colorsAPIClient;
 
     public function __construct(
         APIClient $apiClient,
-        UniformCategoriesAPIClient $uniformCategoriesAPIClient
+        UniformCategoriesAPIClient $uniformCategoriesAPIClient,
+        ColorsAPIClient $colorsAPIClient
     )
     {
         $this->client = $apiClient;
         $this->uniformCategoriesClient = $uniformCategoriesAPIClient;
+        $this->colorsAPIClient = $colorsAPIClient;
     }
 
     public function index()
@@ -43,19 +47,25 @@ class BlockPatternsController extends Controller
     {
         $block_pattern = $this->client->getBlockPattern($id);
         $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $colors = $this->colorsAPIClient->getColors();
+
+        Log::info(print_r(json_decode($block_pattern->neck_options, true), true));
 
         return view('administration-lte-2.master-pages.block-patterns.edit', [
             'block_pattern' => $block_pattern,
-            'uniform_categories' => $uniform_categories
+            'uniform_categories' => $uniform_categories,
+            'colors' => $colors
         ]);
     }
 
     public function addForm()
     {
         $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $colors = $this->colorsAPIClient->getColors();
 
         return view('administration-lte-2.master-pages.block-patterns.create', [
-            'uniform_categories' => $uniform_categories
+            'uniform_categories' => $uniform_categories,
+            'colors' => $colors
         ]);
     }
 
