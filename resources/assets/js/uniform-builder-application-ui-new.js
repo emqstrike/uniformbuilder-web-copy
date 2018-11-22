@@ -241,7 +241,12 @@ $(function() {
         console.log('props===>', props);
 
         // send to mustache
-        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
+        
+        // add the "Add Application" button
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);

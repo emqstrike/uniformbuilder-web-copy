@@ -760,12 +760,11 @@ $(function() {
                 type: 'player_number',
                 name: 'Player Number',
             });
-        } else if (_designType === 'mascot') {
+        } else if (_designType === 'mascots') {
             types.push({
                 type: 'mascot',
                 name: 'Stock Mascot',
             });
-        } else if (_designType === 'embellishments') {
             types.push({
                 type: 'embellishments',
                 name: 'Custom Mascot',

@@ -1170,11 +1170,9 @@
 
     <script type="text/mustache" id="m-application-ui-block">
 
-        <h4>DECORATION</h4>
-        <div class="add-new-application">
-            <button type="button" class="app-btn w-45 pull-left">Add Application</button>
-            <button type="button" class="app-btn w-45 pull-right">View All Application</button>
-        </div>
+        @{{#newApplication}}
+            @{{{ newApplicationContainer }}}
+        @{{/newApplication}}
 
         <div class="clearfix"></div>
 
