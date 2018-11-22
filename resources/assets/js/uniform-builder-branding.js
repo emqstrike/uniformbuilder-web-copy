@@ -32,6 +32,10 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.isAlternativeUIEnabled = function () {
+        return ub.branding.useAlternativeUI;
+    }
+
     ub.funcs.initBrands(); /// 
 
 });
