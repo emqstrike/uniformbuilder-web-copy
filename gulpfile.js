@@ -94,6 +94,8 @@ elixir(function(mix) {
             'uniform-builder-application-ui-new.js',
             'uniform-builder-application-ui-new-letters.js',
 
+            'models/Accent.js',
+
             // Custom Panels
             'panels/PropertiesPanel.js',
             'panels/PartPanel.js',
