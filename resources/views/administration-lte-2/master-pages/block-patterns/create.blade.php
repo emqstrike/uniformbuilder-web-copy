@@ -1,13 +1,35 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
     <style>
         .neck-option-placeholder-overrides {
             resize: none;
         }
 
-        .coordinating-colors-container {
-            margin-bottom: 5px;
+        .coordinating-colors-container,
+        .limited-colors-container {
+            margin-bottom: 25px;
+        }
+
+        .neck-option-alias,
+        .neck-option-name {
+            width: 130px !important;
+        }
+
+        .coordinating-colors-name,
+        .limited-colors-name {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        select.coordinating-colors {
+            width: 49%;
+        }
+
+        select.limited-color {
+            width: 32.33%;
         }
     </style>
 @endsection
@@ -122,53 +144,101 @@
                                                 <textarea  class="neck-option-placeholder-overrides form-control layer1" name="neck_option_placeholder_overrides"  autosized></textarea>
                                             </td>
                                             <td>
-                                                <div class="row">
-                                                    <div class="col-md-1">
-                                                        <button class="btn btn-xs btn-flat btn-success clone-coordinating-color">
-                                                            <span class="fa fa-plus"></span>
-                                                        </button>
-                                                    </div>
+                                                <div style="margin-bottom: 10px;">
+                                                    <button class="btn btn-xs btn-flat btn-success clone-coordinating-color">
+                                                        <span class="fa fa-plus"></span>
+                                                    </button>
+                                                </div>
 
-                                                    <div class="col-md-10 coordinating-colors-column">
-                                                        <div class="coordinating-colors-container">
-                                                            <select class="coordinating-colors layer1">
-                                                                @foreach ($colors as $color)
-                                                                    @if ($color->active)
-                                                                        <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                            {{ $color->name }}
-                                                                        </option>
-                                                                    @endif
-                                                                @endforeach
-                                                            </select>
+                                                <div class="coordinating-colors-column">
+                                                    <div class="coordinating-colors-container layer1">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="coordinating-colors-name layer1" placeholder="Name">
 
-                                                            <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right" style="display: none;">
-                                                                <span class="fa fa-remove"></span>
-                                                            </button>
+                                                                <select class="coordinating-colors layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <select class="coordinating-colors layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right" style="display: none;">
+                                                                    <span class="fa fa-remove"></span>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
 
                                             <td>
-                                                <select id="limited-color-1" class="limited-color layer1">
-                                                    @foreach ($colors as $color)
-                                                        @if ($color->active)
-                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                {{ $color->name }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
+                                                <div style="margin-bottom: 10px;">
+                                                    <button class="btn btn-xs btn-flat btn-success clone-limited-color">
+                                                        <span class="fa fa-plus"></span>
+                                                    </button>
+                                                </div>
 
-                                                <select id="limited-color-2" class="limited-color layer1">
-                                                    @foreach ($colors as $color)
-                                                        @if ($color->active)
-                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                {{ $color->name }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
+                                                <div class="limited-colors-column">
+                                                    <div class="limited-colors-container layer1">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="limited-colors-name layer1" placeholder="Name">
+
+                                                                <select class="limited-color layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <select class="limited-color layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <select class="limited-color layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                <button class="btn btn-xs btn-flat btn-danger remove-limited-color pull-right" style="display: none;">
+                                                                    <span class="fa fa-remove"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -201,5 +271,6 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/ddslick.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
 @endsection

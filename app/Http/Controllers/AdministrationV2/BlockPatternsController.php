@@ -49,8 +49,6 @@ class BlockPatternsController extends Controller
         $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
         $colors = $this->colorsAPIClient->getColors();
 
-        Log::info(print_r(json_decode($block_pattern->neck_options, true), true));
-
         return view('administration-lte-2.master-pages.block-patterns.edit', [
             'block_pattern' => $block_pattern,
             'uniform_categories' => $uniform_categories,

@@ -6,8 +6,28 @@
             resize: none;
         }
 
-        .coordinating-colors-container {
-            margin-bottom: 5px;
+        .coordinating-colors-container,
+        .limited-colors-container {
+            margin-bottom: 25px;
+        }
+
+        .neck-option-alias,
+        .neck-option-name {
+            width: 130px !important;
+        }
+
+        .coordinating-colors-name,
+        .limited-colors-name {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        select.coordinating-colors {
+            width: 49%;
+        }
+
+        select.limited-color {
+            width: 32.33%;
         }
     </style>
 @endsection
