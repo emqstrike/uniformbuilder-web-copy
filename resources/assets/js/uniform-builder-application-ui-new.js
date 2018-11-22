@@ -26,7 +26,10 @@ $(function() {
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-7').on('click', function () {
         console.log('GROUP 7 CLICKED===>');
-        ub.funcs.startNewApplication();
+        if (!$(this).hasClass('active')) {
+            $(this).addClass('active').siblings().removeClass("active");
+            ub.funcs.startNewApplication();
+        }
     });
 
     // on click flip
@@ -358,6 +361,7 @@ $(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
+        console.log(_start);
         if (typeof element.noUiSlider === "object") {
             element.noUiSlider.set(_start);
             return;
