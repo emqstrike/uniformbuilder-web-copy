@@ -1041,56 +1041,57 @@
 <!-- Application UI Block - LETTERS -->
 
     <script type="text/mustache" id="add-new-application-letters">
-        <h4>@{{ title }}</h4>
-        <div class="addApplicationsOpts hide">
+        <div class="application-letters-container">
+            <h4 class="app-letters-title">@{{ title }}</h4>
+            <div class="addApplicationsOpts hide">
 
-            @{{#designType}}
-                <div class="posContainer clearfix">
-                    <h5>CHOOSE A DESIGN TYPE</h5>
-                    @{{#designTypeData}}
-                        <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
-                    @{{/designTypeData}}
-                </div>
-            @{{/designType}}
+                @{{#designType}}
+                    <div class="posContainer clearfix app-letters-wrapper">
+                        <h5>CHOOSE A DESIGN TYPE</h5>
+                        @{{#designTypeData}}
+                            <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
+                        @{{/designTypeData}}
+                    </div>
+                @{{/designType}}
 
-            @{{#perspective}}
-                <div class="posContainer clearfix">
-                    <h5>CHOOSE PERSPECTIVE</h5>
-                    <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
-                    <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
-                    <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
-                    <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right</button>
-                </div>
-            @{{/perspective}}
+                @{{#perspective}}
+                    <div class="posContainer clearfix app-letters-wrapper">
+                        <h5>CHOOSE PERSPECTIVE</h5>
+                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
+                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
+                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
+                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right</button>
+                    </div>
+                @{{/perspective}}
 
-            @{{#part}}
-                <div class="posContainer clearfix">
-                    <h5>CHOOSE PART</h5>
-                    @{{#partsData}}
-                    <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
-                    @{{/partsData}}
-                </div>
-            @{{/part}}
+                @{{#part}}
+                    <div class="posContainer clearfix app-letters-wrapper">
+                        <h5>CHOOSE PART</h5>
+                        @{{#partsData}}
+                        <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
+                        @{{/partsData}}
+                    </div>
+                @{{/part}}
 
-            @{{#side}}
-                <div class="posContainer clearfix sideOptions hide">
-                    <h5>CHOOSE SIDE</h5>
-                    <button class="side" data-id="na" style="display: none;">N/A</button>
-                    <button class="app-btn w-45 side" data-id="right">Right</button>
-                    <button class="app-btn w-45 side" data-id="left">Left</button>
-                </div>
-            @{{/side}}
-            
+                @{{#side}}
+                    <div class="posContainer clearfix sideOptions hide app-letters-wrapper">
+                        <h5>CHOOSE SIDE</h5>
+                        <button class="side" data-id="na" style="display: none;">N/A</button>
+                        <button class="app-btn w-45 side" data-id="right">Right</button>
+                        <button class="app-btn w-45 side" data-id="left">Left</button>
+                    </div>
+                @{{/side}}
+            </div>
+
+            <div class="add-new-application-letters">
+                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button"><span class="fa fa-plus-circle"></span> Add Application</button>
+                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
+            </div>
+
+            <div class="clearfix"></div>
         </div>
-
-        <div class="add-new-application-letters">
-            <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
-            <button type="button" class="app-btn w-45 pull-right view-app-letters">View All Application</button>
-        </div>
-
-        <div class="clearfix"></div>
     </script>
-    
+
     <script type="text/mustache" id="m-application-ui-block-letters">
         @{{#newApplication}}
             @{{{ newApplicationContainer }}}
@@ -1098,19 +1099,19 @@
 
         @{{#applications}}
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
-                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
-                <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt">Hide</button>
+                <div class="posContainer clearfix app-letters-wrapper">
+                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt app-letters-button app-letters-button-inverted">Hide</button>
                 </div>
 
-                <div class="">
-                    <h5>INPUT @{{ type }}</h5>
-                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                <div class="app-letters-wrapper">
+                    <h5 class="app-letters-subtitle">INPUT @{{ type }}</h5>
+                    <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
                 </div>
 
-                <div class="lettersOptsContainer"> 
+                <div class="lettersOptsContainer app-letters-wrapper">
                     @{{#fonts}}
                         @{{{ fontsData }}}
                     @{{/fonts}}
@@ -1128,7 +1129,7 @@
                     @{{/colorPicker}}
 
                     <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
-                        <h5>CHOOSE LAYOUT</h5>
+                        <h5 class="app-letters-subtitle">CHOOSE LAYOUT</h5>
                     </div>
                 </div>
             </div>
@@ -1141,7 +1142,7 @@
 <!-- Font Styles -->
     <script type="text/mustache" id="m-font-styles-container">
         <div class="clearfix">
-            <h5>@{{ type }} FONT</h5>
+            <h5 class="app-letters-subtitle">@{{ type }} FONT</h5>
             <div class="posContainer input-group" align="center" style="color: black">
                 <span class="input-group-addon fontLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
                 <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
@@ -1154,7 +1155,7 @@
 <!-- Font Accents -->
     <script type="text/mustache" id="m-font-accents-container">
         <div class="clearfix">
-            <h5>@{{ title }}</h5>
+            <h5 class="app-letters-subtitle">@{{ title }}</h5>
 
             @{{#accentsData}}
             <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
