@@ -1832,6 +1832,8 @@ class UniformBuilderController extends Controller
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
 
+        $block_pattern = $bc['cuts_links']['block_pattern'];
+
         $sport = $bc['uniform_category'];
 
         if (array_key_exists('material_id', $bc['lower'])) {
@@ -1964,6 +1966,11 @@ class UniformBuilderController extends Controller
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
             $leftCaption = '(Inside)';
             $rightCaption = '(Outside)';
+        }
+
+        if ($block_pattern === "Hockey Sock") {
+            $leftCaption = '(Outside)';
+            $rightCaption = '(Inside)';
         }
 
         $html  = '';
