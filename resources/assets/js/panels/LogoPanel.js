@@ -327,7 +327,6 @@ LogoPanel.process = {
                     }
                 ]
             };
-
         }
 
         return ub.current_material.settings.logos[position];
@@ -403,8 +402,6 @@ LogoPanel.process = {
 
         logoSettings.layers[2].colorCode = colorObj.color_code;
         logoSettings.layers[2].colorObj = colorObj;
-
-        console.log("KiLig: =========> ", logoSettings)
     },
 
     changeRichardsonLogoOutline: function(position, color_code) {
@@ -424,8 +421,6 @@ LogoPanel.process = {
 
         logoSettings.layers[1].colorCode = colorObj.color_code;
         logoSettings.layers[1].colorObj = colorObj;
-
-        console.log("KiLig: =========> ", logoSettings)
     },
 
     changeRColor: function(position, color_code) {
@@ -445,8 +440,6 @@ LogoPanel.process = {
 
         logoSettings.layers[0].colorCode = colorObj.color_code;
         logoSettings.layers[0].colorObj = colorObj;
-
-        console.log("KiLig: =========> ", logoSettings)
     },
 
     getSecondaryColor: function() {
@@ -498,23 +491,14 @@ LogoPanel.process = {
     sameColorAsBackground: function(material_ops, logoSettingsObject) {
         var secondary_color = LogoPanel.process.getSecondaryColor();
 
-        console.log("secondary_color", secondary_color);
-
         if (typeof material_ops !== "undefined") {
             if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
                 if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
                     for (var i = 0; i < _.size(secondary_color); i++) {
                         if (material_ops.colorObj.color_code === secondary_color[i]) {
-                            if (secondary_color[i] === "CG") {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
-                            } else {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
-                            }
-
-                            console.log("Secondary Color: ", secondary_color[i]);
-                            console.log("Same Color");
+                            // Load default color
+                            LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code)
+                            console.log("Secondary is amazing");
                             continue;
                         } else {
                             if (secondary_color[i] !== "W") {
@@ -535,34 +519,28 @@ LogoPanel.process = {
                                     logoSettingsObject.layers[1].colorCode = "CG";
                                 }
                             }
-
-                            console.log("Secondary Color: ", secondary_color[i]);
-                            console.log("Not same Color");
                             break;
                         }
                     }
+                } else {
+                    // Load Default Color
+                    LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code);
+                    console.log("No Secondary Color");
                 }
             }
         }
+
+        // Update Logo Setting Layer
+        LogoPanel.process.updateLayers(logoSettingsObject.layers);
     },
 
     sameColorForColorPanel: function(current_active_logo, colorLabel) {
         var secondary_color = LogoPanel.process.getSecondaryColor();
-        console.log("secondary_color", secondary_color);
 
         if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
             for (var i = 0; i < _.size(secondary_color); i++) {
                 if (colorLabel === secondary_color[i]) {
-                    if (secondary_color[i] === "CG") {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, "W");
-                        LogoPanel.process.changeRColor(current_active_logo.position, "CG");
-                    } else {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, "CG");
-                        LogoPanel.process.changeRColor(current_active_logo.position, "W");
-                    }
-
-                    console.log("Secondary Color: ", secondary_color[i]);
-                    console.log("Same Color");
+                    LogoPanel.process.loadDefaultLogo(current_active_logo, secondary_color[i])
                     continue;
                 } else {
                     if (secondary_color[i] !== "W") {
@@ -583,14 +561,15 @@ LogoPanel.process = {
                             current_active_logo.layers[1].colorCode = "CG";
                         }
                     }
-
-                    console.log("Secondary Color: ", secondary_color[i]);
-                    console.log("Not same Color");
                     break;
                 }
             }
-
+        } else {
+            LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
         }
+
+        // Update Logo Setting Layer
+        LogoPanel.process.updateLayers(current_active_logo .layers);
     },
 
     removeDuplicateColor: function(arr) {
@@ -602,6 +581,42 @@ LogoPanel.process = {
         }
 
         return unique_array;
+    },
+
+    loadDefaultLogo: function(logoSettingsObject, colorLabel) {
+
+        if (colorLabel === "CG") {
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
+
+            if (ub.config.uniform_application_type === "tackle_twill") {
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
+                logoSettingsObject.layers[1].colorCode = "CG";
+            }
+
+            logoSettingsObject.layers[0].colorCode = "CG";
+            logoSettingsObject.layers[2].colorCode = "W";
+
+        } else {
+
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
+            logoSettingsObject.layers[0].colorCode = "W";
+            logoSettingsObject.layers[2].colorCode = "CG";
+
+            if (ub.config.uniform_application_type === "tackle_twill") {
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
+                logoSettingsObject.layers[1].colorCode = "W";
+
+                console.log("HERE CG");
+            }
+        }
+    },
+
+    updateLayers: function(layers) {
+        _.each(ub.current_material.settings.logos, function(index) {
+            index.layers = layers;
+        });
     }
 }
 
