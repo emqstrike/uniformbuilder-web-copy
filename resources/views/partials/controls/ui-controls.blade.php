@@ -1103,7 +1103,7 @@
 
                 <div class="posContainer clearfix app-letters-wrapper">
                     <button type="button" class="app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt app-letters-button app-letters-button-inverted">Hide</button>
+                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt app-letters-button">Hide</button>
                 </div>
 
                 <div class="app-letters-wrapper">
