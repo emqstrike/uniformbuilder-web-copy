@@ -127,6 +127,20 @@ NumberPanel.prototype = {
             object_id = application_settings.id;
             ub.funcs.removeApplicationByID(object_id);
             ub.create_application(application_settings, undefined);
+
+            // Stop changing all number applcations
+            if (ub.funcs.isFreeFormToolEnabled()) return;
+
+            _.each(ub.current_material.settings.applications, function (appl) {
+                if (appl.type !== "logo" && appl.type !== "mascot") {
+                    if (application_settings.type.indexOf('number') !== -1
+                        && appl.type.indexOf('number') !== -1) {
+                        appl.text = application_settings.text;
+                        ub.create_application(appl, undefined);
+                    }
+                }
+            });
+
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
@@ -280,8 +294,6 @@ NumberPanel.prototype = {
 
             panel.handleTailsweeps(application_settings);
             panel.applyNumberChanges(application_settings);
-
-            this.configurePerspective(config.layer);
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
