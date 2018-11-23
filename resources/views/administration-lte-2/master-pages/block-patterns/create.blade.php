@@ -19,17 +19,14 @@
         }
 
         .coordinating-colors-name,
-        .limited-colors-name {
+        .limited-colors-name,
+        .limited-color {
             margin-bottom: 10px;
             width: 100%;
         }
 
         select.coordinating-colors {
             width: 49%;
-        }
-
-        select.limited-color {
-            width: 32.33%;
         }
     </style>
 @endsection
@@ -200,35 +197,7 @@
                                                             <div class="col-md-9">
                                                                 <input type="text" class="limited-colors-name layer1" placeholder="Name">
 
-                                                                <select class="limited-color layer1">
-                                                                    @foreach ($colors as $color)
-                                                                        @if ($color->active)
-                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                                {{ $color->name }}
-                                                                            </option>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </select>
-
-                                                                <select class="limited-color layer1">
-                                                                    @foreach ($colors as $color)
-                                                                        @if ($color->active)
-                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                                {{ $color->name }}
-                                                                            </option>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </select>
-
-                                                                <select class="limited-color layer1">
-                                                                    @foreach ($colors as $color)
-                                                                        @if ($color->active)
-                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
-                                                                                {{ $color->name }}
-                                                                            </option>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="text" class="limited-color layer1" placeholder="Colors">
                                                             </div>
 
                                                             <div class="col-md-1">

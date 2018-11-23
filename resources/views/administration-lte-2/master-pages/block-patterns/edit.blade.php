@@ -17,17 +17,14 @@
         }
 
         .coordinating-colors-name,
-        .limited-colors-name {
+        .limited-colors-name,
+        .limited-color {
             margin-bottom: 10px;
             width: 100%;
         }
 
         select.coordinating-colors {
             width: 49%;
-        }
-
-        select.limited-color {
-            width: 32.33%;
         }
     </style>
 @endsection
@@ -132,6 +129,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="layers-row-container" data-colors="{{ json_encode($colors) }}">
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
