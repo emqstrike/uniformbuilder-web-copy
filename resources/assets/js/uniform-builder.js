@@ -650,8 +650,12 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
-            // executeAfterLoadFunctionList()
+            // Aron Joshua Temporary lang.
+            ub.funcs.afterLoadFunctionList.push(function() {
+                var moifier = new ModifierController('#property-modifiers-menu');
+            });
 
+            ub.funcs.executeAfterLoadFunctionList();
         };
 
         // afterLoad function container
@@ -2817,12 +2821,16 @@ $(document).ready(function () {
         // Process Prolook Logo Here
         if (ub.current_material.material.logo_position !== null) {
 
-            LogoPanel.process.processLogo(ub.current_material.material.logo_position);
+            LogoPanel.process.initLogoData(ub.current_material.material.logo_position);
 
-            if (_.size(ub.current_material.settings.logos) > 0) {
+            ub.funcs.afterLoadFunctionList.push(function() {
+                LogoPanel.process.processLogo();
+            });
 
-                LogoPanel.process.processSavedLogo();
-            }
+            // if (_.size(ub.current_material.settings.logos) > 0) {
+
+            //     LogoPanel.process.processSavedLogo();
+            // }
         }
 
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
