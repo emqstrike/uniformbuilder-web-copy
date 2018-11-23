@@ -22,6 +22,7 @@ NumberPanel.prototype = {
     constructor: NumberPanel,
 
     bindEvents: function() {
+        // Number Value (ENTER key)
         $('#numbers-panel .application .application-text').on('keypress', function(e) {
             var number = $(this).val();
             var application_id = $(this).data('application-id');
@@ -38,7 +39,21 @@ NumberPanel.prototype = {
                 });
             }
         });
+
+        // Font Style
         $('#numbers-panel .application .font-style').on('change', this.setFontStyle);
+
+        // Accents
+        $('#numbers-panel .application .font-accent').on('click', function(e) {
+            var accent_id = $(this).data('accent-id');
+            var application_id = $(this).data('application-id');
+            var config = {
+                accent_id: accent_id,
+                application_id: application_id
+            }
+            console.log(config);
+            ub.modifierController.numbers.setFontAccent(config);
+        });
     },
 
     getPanel: function() {
@@ -253,6 +268,7 @@ NumberPanel.prototype = {
 
     // Retrieve the application object by application_id
     getApplicationById: function(application_id) {
+        console.log('getApplicationById .. ' + application_id);
         var application_obj = null;
         var panel = ub.modifierController.numbers;
         if (panel.items.applications.length > 0) {
@@ -306,7 +322,7 @@ NumberPanel.prototype = {
         var layer = $(this).data('application-layer');
 
         var font_id = $(this).val();
-        var font = panel.getFont(config.font_id);
+        var font = panel.getFont(font_id);
         application_settings.font_obj = font;
 
         var application_settings = panel.getApplicationById(application_id);
@@ -335,9 +351,9 @@ NumberPanel.prototype = {
 
     setFontAccent: function(config) {
         // change font accent
-        // var panel = ub.modifierController.numbers;
-        // var application_settings = panel.getApplicationById(application_id);
-        // ub.funcs.changeAccentFromPopup(config.accent_id, application_settings);
+        var panel = ub.modifierController.numbers;
+        var application_settings = panel.getApplicationById(config.application_id);
+        ub.funcs.changeAccentFromPopup(config.accent_id, application_settings);
     },
 
     setFontAccentColor: function() {

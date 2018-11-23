@@ -67,8 +67,12 @@
             <div class="clearfix">
                 <h5>CHOOSE FONT ACCENT</h5>
                 @{{ #accents }}
-                <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
-                    <img class="number-accent-thumbnail" src="@{{ thumbnail }}" height="50px">
+                <div class="font-accent @{{ active }}"
+                    data-application-id="@{{ application.id }}"
+                    data-accent-id="@{{ id }}"
+                    data-accent-code="@{{ code }}"
+                    >
+                    <img class="font-accent-thumbnail" src="@{{ thumbnail }}" height="50px">
                     @{{{ activeCheck }}}
                 </div>
                 @{{ /accents }}
