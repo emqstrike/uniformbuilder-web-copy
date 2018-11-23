@@ -1041,7 +1041,7 @@
 <!-- Application UI Block - LETTERS -->
 
     <script type="text/mustache" id="add-new-application-letters">
-        <div class="application-letters-container">
+        <div class="application-letters-container cp-padding-medium cp-padding-remove-vertical">
             <h4 class="app-letters-title">@{{ title }}</h4>
             <div class="addApplicationsOpts hide">
 
@@ -1098,7 +1098,7 @@
         @{{/newApplication}}
 
         @{{#applications}}
-            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
                 <div class="posContainer clearfix app-letters-wrapper">
@@ -1134,7 +1134,6 @@
                 </div>
             </div>
         @{{/applications}}
-
     </script>
 
 <!-- End Application UI Block - LETTERS -->

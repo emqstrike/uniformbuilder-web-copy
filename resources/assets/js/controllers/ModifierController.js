@@ -60,51 +60,6 @@ ModifierController.prototype = {
             animation: 'shift-away',
             placement: 'left-end'
         });
-
-        // state manager
-        $('#property-modifiers-menu a').stateManager({
-            enabledStateLogs: true,
-
-            fabrics: {
-
-            },
-
-            parts: {
-
-            },
-
-            inserts: {
-
-            },
-
-            letters: {
-                leave: function() {
-                    $('#primary_options_container').css({
-                        'border': "none",
-                        'background-color': "transparent"
-                    });
-                },
-
-                load: function() {
-                    $('#primary_options_container').css({
-                        'border': "1px solid #e5e5e5",
-                        'background-color': "#FFF"
-                    });
-                }
-            },
-
-            numbers: {
-
-            },
-
-            applications: {
-
-            },
-
-            logo: {
-
-            }
-        });
     },
 
     bindEvents: function() {
