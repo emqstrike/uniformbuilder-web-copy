@@ -40,18 +40,15 @@ LogoPanel.prototype = {
 
         if (new_position.includes("front") || new_position.includes("chest")) {
             $('a.change-view[data-view="front"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "front_body"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
 
         } else if (new_position.includes("back")) {
             $('a.change-view[data-view="back"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "back_body"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
 
         } else if (new_position.includes("left") || new_position.includes("sleeve")) {
             $('a.change-view[data-view="left"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "left_sleeve"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
         }
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
@@ -117,7 +114,7 @@ LogoPanel.process = {
             _.each(ub.data.logos, function(logo) {
 
                 if (logo.position === "left_sleeve") {
-                    logo.position = "bottom_sleeve";
+                    logo.position = "left_sleeve_logo";
                 }
 
                 var secondary_color = LogoPanel.process.getSecondaryColor();
@@ -225,7 +222,6 @@ LogoPanel.process = {
                     ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][logoObject.position]);
 
                 }
-
             }
 
             ub[_perspectiveString].addChild(_sprites);
@@ -268,7 +264,7 @@ LogoPanel.process = {
 
         sprite = container;
 
-        ub.updateLayersOrder(sprite);
+        // ub.updateLayersOrder(sprite);
 
         var _logoLengthBefore = _.filter(ub.current_material.settings.logos, {enabled: 1}).length;
 
@@ -607,8 +603,6 @@ LogoPanel.process = {
             if (ub.config.uniform_application_type === "tackle_twill") {
                 LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
                 logoSettingsObject.layers[1].colorCode = "W";
-
-                console.log("HERE CG");
             }
         }
     },
@@ -617,6 +611,58 @@ LogoPanel.process = {
         _.each(ub.current_material.settings.logos, function(index) {
             index.layers = layers;
         });
+    },
+
+    reInitiateLogo: function(position, color_code) {
+        if (color_code !== "W") {
+            LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
+            LogoPanel.process.changeRColor(position, "W");
+        } else {
+            LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
+            LogoPanel.process.changeRColor(position, "CG");
+        }
+    },
+
+    reInitiateDefaultLogo: function(position, color_code) {
+        if (color_code === "CG") {
+            LogoPanel.process.changeRichardsonLogoBackground(position, "W");
+            LogoPanel.process.changeRColor(position, "CG");
+        } else {
+            LogoPanel.process.changeRichardsonLogoBackground(position, "CG");
+            LogoPanel.process.changeRColor(position, "W");
+        }
+    },
+
+    reInitiateLogoOnAddandRemoveTeamColor: function() {
+        var secondary_color = LogoPanel.process.getSecondaryColor();
+        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
+        var material_ops = null;
+
+        if (current_active_logo.position.includes("front") || current_active_logo.position.includes("chest")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
+        } else if (current_active_logo.position.includes("back")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
+        } else if (current_active_logo.position.includes("left") || current_active_logo.position.includes("sleeve")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
+        }
+
+        if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
+            for (var i = 0; i < secondary_color.length; i++) {
+                if (secondary_color[i] === material_ops.colorObj.color_code) {
+                    LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+                    continue;
+                } else {
+                    LogoPanel.process.reInitiateLogo(current_active_logo.position, secondary_color[i]);
+                    break;
+                }
+            }
+        } else {
+            LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+        }
+
+        if (_.size(ub.current_material.settings.team_colors) <= 0) {
+            LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+        }
     }
 }
 
