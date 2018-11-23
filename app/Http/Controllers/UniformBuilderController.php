@@ -1832,7 +1832,7 @@ class UniformBuilderController extends Controller
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
 
-        $block_pattern = $bc['cuts_links']['block_pattern'];
+//        $block_pattern = $bc['cuts_links']['block_pattern'];
 
         $sport = $bc['uniform_category'];
 
@@ -1968,10 +1968,10 @@ class UniformBuilderController extends Controller
             $rightCaption = '(Outside)';
         }
 
-        if ($block_pattern === "Hockey Sock") {
-            $leftCaption = '(Outside)';
-            $rightCaption = '(Inside)';
-        }
+//        if ($block_pattern === "Hockey Sock") {
+//            $leftCaption = '(Outside)';
+//            $rightCaption = '(Inside)';
+//        }
 
         $html  = '';
         $html .=   '<div>';
