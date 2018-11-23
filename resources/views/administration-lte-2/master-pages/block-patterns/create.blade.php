@@ -1,5 +1,36 @@
 @extends('administration-lte-2.lte-main')
 
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
+    <style>
+        .neck-option-placeholder-overrides {
+            resize: none;
+        }
+
+        .coordinating-colors-container,
+        .limited-colors-container {
+            margin-bottom: 25px;
+        }
+
+        .neck-option-alias,
+        .neck-option-name {
+            width: 130px !important;
+        }
+
+        .coordinating-colors-name,
+        .limited-colors-name,
+        .limited-color {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        select.coordinating-colors {
+            width: 49%;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="content">
         <div class="row">
@@ -72,12 +103,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Neck Options
+                            <label class="col-md-1 control-label">Neck Options
                             <div>
                                 <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
                             </div>
                             </label>
-                            <div class="col-md-8">
+                            <div class="col-md-11">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -86,10 +117,13 @@
                                             <th>New File</th>
                                             <th>Alias</th>
                                             <th>Placeholder Overrides</th>
+                                            <th>Coordinating Colors</th>
+                                            <th>Limited Colors</th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+
+                                    <tbody id="layers-row-container" data-colors="{{ json_encode($colors) }}">
                                         <tr class="layers-row">
                                             <td>
                                                 <input type="text" class="neck-option-name form-control layer1" name="neck_option_name[]">
@@ -107,7 +141,73 @@
                                                 <textarea  class="neck-option-placeholder-overrides form-control layer1" name="neck_option_placeholder_overrides"  autosized></textarea>
                                             </td>
                                             <td>
-                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
+                                                <div style="margin-bottom: 10px;">
+                                                    <button class="btn btn-xs btn-flat btn-success clone-coordinating-color">
+                                                        <span class="fa fa-plus"></span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="coordinating-colors-column">
+                                                    <div class="coordinating-colors-container layer1">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="coordinating-colors-name layer1" placeholder="Name">
+
+                                                                <select class="coordinating-colors layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+
+                                                                <select class="coordinating-colors layer1">
+                                                                    @foreach ($colors as $color)
+                                                                        @if ($color->active)
+                                                                            <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                {{ $color->name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right" style="display: none;">
+                                                                    <span class="fa fa-remove"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div style="margin-bottom: 10px;">
+                                                    <button class="btn btn-xs btn-flat btn-success clone-limited-color">
+                                                        <span class="fa fa-plus"></span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="limited-colors-column">
+                                                    <div class="limited-colors-container layer1">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="limited-colors-name layer1" placeholder="Name">
+
+                                                                <input type="text" class="limited-color layer1" placeholder="Colors">
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                <button class="btn btn-xs btn-flat btn-danger remove-limited-color pull-right" style="display: none;">
+                                                                    <span class="fa fa-remove"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -140,5 +240,6 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/ddslick.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
 @endsection
