@@ -62,6 +62,11 @@
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
+                                <a href="#" class="btn btn-flat btn-default copy-gradient">
+                                    Copy
+                                </a>
+
+                                <a href="#" class="btn btn-flat btn-default open-load-gradient-modal-button">Load</a>
                             </div>
                         </div>
                     </div>
@@ -111,6 +116,9 @@
             </div>
         </div>
     </section>
+    @include('administration-lte-2.master-pages.materials.modal.copy-gradient-data')
+    @include('administration-lte-2.master-pages.materials.modal.load-gradient-data')
+
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 @endsection
 

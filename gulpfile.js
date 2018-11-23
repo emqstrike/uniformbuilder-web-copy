@@ -25,6 +25,7 @@ elixir(function(mix) {
             'third-party/pixi/pixi.js',
             'third-party/pixi/pixi.draggable.js',
             'third-party/tippy/tippy.all.min.js',
+            'third-party/state-manager/state-manager.js',
 
             // Sources
 
