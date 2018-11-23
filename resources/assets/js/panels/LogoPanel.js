@@ -125,14 +125,14 @@ LogoPanel.process = {
                 logo.colors_array = [
                     "W",
                     "W",
-                    secondary_color.length > 0 ? secondary_color[0] : "CG"
+                    secondary_color.length > 0 ? secondary_color[0].color_code : "CG"
                 ];
 
                 // Logo Layer 2 color
                 if (ub.config.uniform_application_type === "sublimated") {
                     logo.colors_array[1] = "none";
                 } else {
-                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0] : "W";
+                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0].color_code : "W";
                 }
 
                 // Logo Layer 3 Color
@@ -441,18 +441,39 @@ LogoPanel.process = {
     },
 
     getSecondaryColor: function() {
-        var secondary_color = [];
+        var secondary_color = []
+        var color_sum = [];
+        var color;
+        var is_exist;
 
-        if (typeof ub.current_material.settings.team_colors !== "undefined" && _.size(ub.current_material.settings.team_colors) > 0) {
-            var team_colors = ub.current_material.settings.team_colors;
-            for (var i = 1; i < _.size(team_colors); i++) {
-                if (_.includes(LogoPanel.valid_colors, team_colors[i].color_code)) {
-                    secondary_color.push(team_colors[i].color_code);
+        var parts_color_array = LogoPanel.process.getPartsColors();
+        var pipings_color_array = LogoPanel.process.getPipingsColors();
+        var applications_color_array = LogoPanel.process.getApplicationsColors();
+
+        console.log("parts_color_array", parts_color_array)
+
+        var colors = secondary_color.concat(parts_color_array, pipings_color_array, applications_color_array);
+
+        for (var i = 0; i < colors.length; i++) {
+            color = colors[i];
+            is_exist = false;
+
+            for (var j = 0; j < color_sum.length; j++) {
+                if (color_sum[j].color_code === color) {
+                    is_exist = true;
+                    break;
                 }
+            }
+
+            if (is_exist) {
+                color_sum[j].count++;
+            } else {
+                color_sum.push({color_code: color, count: 1});
             }
         }
 
-        return LogoPanel.process.removeDuplicateColor(secondary_color);
+        window.color_sum2 = color_sum;
+        return _.sortBy(color_sum, "count").reverse();
     },
 
     sameColorAsBackground: function(material_ops, logoSettingsObject) {
@@ -618,21 +639,91 @@ LogoPanel.process = {
 
         if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
             for (var i = 0; i < secondary_color.length; i++) {
-                if (secondary_color[i] === material_ops.colorObj.color_code) {
+                if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
                     LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
                     continue;
                 } else {
-                    LogoPanel.process.reInitiateLogo(current_active_logo.position, secondary_color[i]);
+                    LogoPanel.process.reInitiateLogo(current_active_logo.position, secondary_color[i].color_code);
                     break;
                 }
             }
         } else {
             LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
         }
+    },
 
-        if (_.size(ub.current_material.settings.team_colors) <= 0) {
-            LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+    getPartsColors: function() {
+        var secondary_color = [];
+        var excluded_modifier = [];
+        var included_modifier = [];
+
+        _.map(ub.current_material.settings[ub.config.type], function(mo) {
+            if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
+                if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
+                    if (!_.includes(LogoPanel.excluded, mo.code)) {
+                        included_modifier.push({
+                            code: mo.code,
+                            color_code: mo.colorObj.color_code
+                        });
+                    } else {
+                        excluded_modifier.push({
+                            code: mo.code,
+                            color_code: mo.colorObj.color_code
+                        });
+                    }
+                }
+            }
+        });
+
+        _.map(excluded_modifier, function(index) {
+            for (var i = 0; i < _.size(included_modifier); i++) {
+                if (index.color_code === included_modifier[i].color_code) {
+                    continue;
+                } else {
+                    secondary_color.push(included_modifier[i].color_code);
+                }
+            }
+        });
+
+        return secondary_color;
+    },
+
+    getPipingsColors: function() {
+        var colors = [];
+        if (typeof ub.current_material.settings.pipings !== "undefined") {
+            if (!util.isNullOrUndefined(ub.current_material.settings.pipings)) {
+                _.map(ub.current_material.settings.pipings, function(index, elem) {
+                    if (index.enabled === 1) {
+                        _.map(index.layers, function(index, elem) {
+                            if (_.includes(LogoPanel.valid_colors, index.colorCode)) {
+                                colors.push(index.colorCode);
+                            }
+                        });
+                    }
+                });
+            }
         }
+
+        return colors;
+    },
+
+    getApplicationsColors: function () {
+        var colors = [];
+        if (typeof ub.current_material.settings.applications !== "undefined") {
+            if (_.size(ub.current_material.settings.applications) > 0) {
+                _.map(ub.current_material.settings.applications, function(index, elem) {
+                    if (typeof index.color_array !== "undefined") {
+                        _.each(index.color_array, function(index, el) {
+                            if (_.includes(LogoPanel.valid_colors, index.color_code)) {
+                                colors.push(index.color_code);
+                            }
+                        })
+                    }
+                })
+            }
+        }
+
+        return colors;
     }
 }
 
