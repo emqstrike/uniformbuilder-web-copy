@@ -1940,7 +1940,16 @@ $(document).ready(function () {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
                 } else {
-                    ub.funcs.activateMascots(_id);
+                    // ub.funcs.activateMascots(_id);
+
+                    if (ub.branding.useAlternativeUI) {
+                        // Trigger click on tab
+                        $('#new-toolbar > .group-7').trigger('click')
+                        // Scroll to application's settings
+                        $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+                    } else {
+                        ub.funcs.activateMascots(locationCode);
+                    }
                 }
 
             }
@@ -8930,7 +8939,11 @@ $(document).ready(function () {
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
 
-            ub.funcs.activateMascots(_settingsObject.code);
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateApplicationsMascots(_settingsObject.code);
+            } else {
+                ub.funcs.activateMascots(_settingsObject.code);
+            }
 
         }
 
@@ -9143,7 +9156,12 @@ $(document).ready(function () {
             ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
-            ub.funcs.activateEmbellishments(_settingsObject.code);
+
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateApplicationsMascots(_settingsObject.code);
+            } else {
+                ub.funcs.activateEmbellishments(_settingsObject.code);
+            }
 
             //==>
 
@@ -11264,7 +11282,14 @@ $(document).ready(function () {
                 }
                 else if (_settingsObject.application_type === "mascot") {
 
-                    ub.funcs.activateMascots(locationCode);
+                    if (ub.branding.useAlternativeUI) {
+                            // Trigger click on tab
+                            $('#new-toolbar > .group-7').trigger('click')
+                            // Scroll to application's settings
+                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+                    } else {
+                        ub.funcs.activateMascots(locationCode);
+                    }
 
                 } else {
 
