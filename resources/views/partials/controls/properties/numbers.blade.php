@@ -38,9 +38,20 @@
                     @{{ caption }}
                 </option>
                 @{{ /fonts }}
+
+                <div class="clearfix">
+                @{{ #accents }}
+                <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
+                    <img class="font-accent-thumbnail" src="@{{ thumbnail }}" height="50px">
+                    @{{{ activeCheck }}}
+                </div>
+                @{{ /accents }}
+            </div>
             </select>
         </div>
+
         @{{ /applications }}
+
     </div>
 </div>
 </script>

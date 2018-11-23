@@ -12,8 +12,9 @@
 
 function NumberPanel(element) {
     this.panel = document.getElementById(element);
+    that = this;
     this.items = {
-        applications: this.getApplications()
+        applications: this.getApplications(that)
     };
 }
 
@@ -21,7 +22,22 @@ NumberPanel.prototype = {
     constructor: NumberPanel,
 
     bindEvents: function() {
-        $('#numbers-panel .application .application-text').on('keyup', this.setNumber);
+        $('#numbers-panel .application .application-text').on('keypress', function(e) {
+            var number = $(this).val();
+            var application_id = $(this).data('application-id');
+            var application_type = $(this).data('application-type');
+            var font_id = $(this).data('font-id');
+            var layer = $(this).data('application-layer');
+            if (e.keyCode === 13) {
+                ub.modifierController.numbers.setNumber({
+                    number: number,
+                    application_id: application_id,
+                    application_type: application_type,
+                    font_id: font_id,
+                    layer: layer
+                });
+            }
+        });
         $('#numbers-panel .application .font-style').on('change', this.setFontStyle);
     },
 
@@ -30,17 +46,35 @@ NumberPanel.prototype = {
         return rendered;
     },
 
-    getApplications: function() {
+    getApplications: function(_this) {
         var applications = _.filter(ub.current_material.settings.applications, function(el){
             return (el.application_type.indexOf('number') > -1);
         });
 
         _.each(applications, function(appl) {
             appl.fonts = ub.data.fonts;
+            appl.accents = _this.getAccentsList(appl);
         });
         console.log(applications);
 
         return applications;
+    },
+
+    getAccentsList: function(application_settings) {
+        var accents = [];
+        _.map(ub.data.accents.items, function (item) {
+            var accent = {
+                'thumbnail': '/images/sidebar/' + item.thumbnail,
+                'id': item.id,
+                'code': item.code,
+                'active': application_settings.accent_obj.id === item.id ? 'active' : '',
+                'activeCheck': application_settings.accent_obj.id === item.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
+            }
+
+            accents.push(accent);
+        });
+        console.log(accents);
+        return accents;
     },
 
     hasApplications: function() {
@@ -71,7 +105,6 @@ NumberPanel.prototype = {
     },
 
     configurePerspective: function(layer) {
-        console.log('layer = ' + layer);
         var perspective = new PerspectiveController;
         if (layer.toLowerCase().indexOf('back') > -1) {
             perspective.back();
@@ -84,25 +117,112 @@ NumberPanel.prototype = {
         } else {
             ub.utilities.error('Unable to find perspective');
         }
-        return perspective;
     },
 
     // Apply the changes to the stage
-    applyNumberChanges: function(font_id, application_settings, layer) {
-        var font = this.getFont(font_id);
-        var perspective = this.configurePerspective(layer);
-
-        console.log(application_settings);
+    applyNumberChanges: function(application_settings) {
         var object_id = null;
 
         if (typeof application_settings !== 'undefined') {
             object_id = application_settings.id;
             ub.funcs.removeApplicationByID(object_id);
-            application_settings.font_obj = font;
             ub.create_application(application_settings, undefined);
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
+    },
+
+    getDefaultColorByIndex: function(index) {
+        var color = false;
+        if (typeof ub.current_material.settings.team_colors !== 'undefined') {
+            color = ub.current_material.settings.team_colors[index].hex_code;
+        }
+        return color;
+    },
+
+    setDefaultAccentColors: function(accent_object) {
+        var accent_model = new Accent(accent_object);
+        var initial_layer_number = 1;
+        var initial_layer = accent_model.getLayer(initial_layer_number);
+        initial_layer.default_color = this.getDefaultColorByIndex(initial_layer_number);
+
+        if (accent_object.layers.length >= 4) {
+
+            var secondary_layer_number = initial_layer_number + 1;
+            var secondary_layer = accent_model.getLayer(secondary_layer_number);
+            var _color = ub.funcs.getColorByColorCode('B').hex_code;
+
+            if (ub.current_material.settings.team_colors.length >= 3) {
+                _color = this.getDefaultColorByIndex(secondary_layer_number);
+            }
+
+            secondary_layer.default_color = _color;
+
+        }
+        return accent_object;
+    },
+
+    applyAccentChanges: function(accent_id, application_settings) {
+
+        var accent_model = new Accent();
+        var accent_object = accent_model.find(accent_id);
+        if (typeof accent_object === 'undefined') {
+            console.log('Empty accent object.');
+            return;
+        }
+
+        var target_application_id = application_settings.id;
+
+        ub.funcs.removeApplicationByID(target_application_id);
+
+        this.setDefaultAccentColors(accent_object);
+
+        /// Process new Colors
+
+        var _toggle = false;
+        var colorArray = [];
+        var colorArrayText = [];
+
+        _.each(this.accent_object.layers, function (layer) {
+
+            var _hexCode = layer.default_color;
+            var _color = ub.funcs.getColorObjByHexCode(_hexCode);
+            var _layerNo = layer.layer_no - 1;
+
+            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
+                return;
+            }
+
+            if (typeof _color === 'undefined') {
+                _color = settingsObj.color_array[_layerNo];
+            }
+
+            if (typeof _color === "undefined" || !ub.funcs.isInTeamColor(_color.color_code)) {
+
+                var _index = _toggle ? 1 : 0;
+                _toggle = !_toggle;
+
+                _color = ub.current_material.settings.team_colors[_index];
+                settingsObj.color_array[_layerNo] = _color;
+
+                layer.default_color = _color.hex_code;
+
+                if (typeof settingsObj.colorArrayText === 'undefined') {
+
+                    settingsObj.colorArrayText = [_color.color_code];
+
+                } else {
+
+                    settingsObj.colorArrayText[_layerNo] = _color.color_code;
+
+                }
+
+            }
+
+            colorArray.push(_color);
+            colorArrayText.push(_color.color_code);
+
+        });
     },
 
     // Retrieve the application object by application_type
@@ -129,20 +249,39 @@ NumberPanel.prototype = {
         return application_obj;
     },
 
-    setNumber: function() {
+    handleTailsweeps: function(application_settings) {
+        return true;
+        // Tailsweep, is off for now
+        // if (application_settings.text.length <= 5) { _length = 'short'; }
+        // if (application_settings.text.length >= 6 && application_settings.text.length <= 7 ) { _length = 'medium'; }
+        // if (application_settings.text.length > 7) { _length = 'long'; }
+
+        /*
+        _length = (application_settings.text.length <= 12) ? application_settings.text.length : 12;
+
+        application_settings.tailsweep.length = _length;
+
+        $('span.sizeItem').removeClass('active');
+        $('span.sizeItem[data-size="' + application_settings.tailsweep.length + '"]').addClass('active');
+        */
+    },
+
+    setNumber: function(config) {
         var panel = ub.modifierController.numbers;
         // change number
-        var application_id = $(this).data('application-id');
-        var application_type = $(this).data('application-type');
-        var font_id = $(this).data('font-id');
-        var number = $(this).val();
-        var layer = $(this).data('application-layer');
-        var application_settings = panel.getApplicationById(application_id);
+        var application_settings = panel.getApplicationById(config.application_id);
 
         if (typeof application_settings !== 'undefined') {
-            application_settings.text = number;
-            panel.applyNumberChanges(font_id, application_settings, layer);
-            ub.utilities.actionLog('Updated Number on ' + application_type + ' to ' + number);
+
+            application_settings.text = config.number;
+
+            var font = panel.getFont(config.font_id);
+            application_settings.font_obj = font;
+
+            panel.handleTailsweeps(application_settings);
+            panel.applyNumberChanges(application_settings);
+
+            this.configurePerspective(config.layer);
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
@@ -152,33 +291,51 @@ NumberPanel.prototype = {
         var panel = ub.modifierController.numbers;
         // change font style
         var application_id = $(this).data('application-id');
-        var application_type = $(this).data('application-type');
         var layer = $(this).data('application-layer');
+
         var font_id = $(this).val();
+        var font = panel.getFont(config.font_id);
+        application_settings.font_obj = font;
+
         var application_settings = panel.getApplicationById(application_id);
 
         if (typeof application_settings !== 'undefined') {
-            panel.applyNumberChanges(font_id, application_settings, layer);
-            ub.utilities.actionLog('Updated Font on ' + application_type + ' to ' + font_id);
+            panel.applyNumberChanges(application_settings);
+            this.configurePerspective(layer);
         } else {
             ub.utilities.error('Missing object settings. Unable to apply changes.');
         }
     },
 
     setFontSize: function() {
+        var panel = ub.modifierController.numbers;
+        var application_id = $(this).data('application-id');
+        var application_settings = panel.getApplicationById(application_id);
         // change font size
+        if (typeof application_settings !== 'undefined') {
+            application_settings.font_size = parseFloat(size);
+            application_settings.size = parseFloat(size);
+            panel.applyNumberChanges(application_settings);
+        } else {
+            ub.utilities.error('Missing object settings. Unable to apply changes.');
+        }
     },
 
-    setFontAccent: function() {
+    setFontAccent: function(config) {
         // change font accent
+        // var panel = ub.modifierController.numbers;
+        // var application_settings = panel.getApplicationById(application_id);
+        // ub.funcs.changeAccentFromPopup(config.accent_id, application_settings);
     },
 
     setFontAccentColor: function() {
         // change accent color
+        var panel = ub.modifierController.numbers;
     },
 
     setPattern: function() {
         // change pattern
+        var panel = ub.modifierController.numbers;
     },
 
     disable: function() {
