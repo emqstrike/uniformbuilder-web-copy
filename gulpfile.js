@@ -25,6 +25,7 @@ elixir(function(mix) {
             'third-party/pixi/pixi.js',
             'third-party/pixi/pixi.draggable.js',
             'third-party/tippy/tippy.all.min.js',
+            'third-party/state-manager/state-manager.js',
 
             // Sources
 
@@ -101,6 +102,7 @@ elixir(function(mix) {
             'panels/PatternPanel.js',
             'panels/InsertPanel.js',
             'panels/PipingPanel.js',
+            'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
 

@@ -9,7 +9,12 @@ $(function() {
 
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-5').on('click', function () {
-        ub.funcs.startNewApplicationLetters();
+        if (! $(this).hasClass('active')) {
+            // If tab is not currently active, add active class to element and remove active class from other tabs
+            $(this).addClass('active').siblings().removeClass("active");
+            // Display decoration letters
+            ub.funcs.startNewApplicationLetters();
+        }
     });
 
     $('#primary_options_container')
@@ -295,7 +300,7 @@ $(function() {
                 });
             })
             // To change an application's font by clicking left or right arrow
-            .on('click', 'span.fontLeft, span.fontRight', function (e) {
+            .on('click', 'span.fontStyleLeft, span.fontStyleRight', function (e) {
                 var _id = $(this).closest('.applicationUIBlock').data('application-id').toString()
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
@@ -684,6 +689,7 @@ $(function() {
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
+            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
         } else {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
@@ -754,12 +760,11 @@ $(function() {
                 type: 'player_number',
                 name: 'Player Number',
             });
-        } else if (_designType === 'mascot') {
+        } else if (_designType === 'mascots') {
             types.push({
                 type: 'mascot',
                 name: 'Stock Mascot',
             });
-        } else if (_designType === 'embellishments') {
             types.push({
                 type: 'embellishments',
                 name: 'Custom Mascot',

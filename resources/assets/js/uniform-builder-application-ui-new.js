@@ -19,14 +19,17 @@ $(function() {
 */
 
     // on click on any group pane switch to active
-    // $('#property-modifiers-menu > .group-pane').on('click', function () {
-    //     $('#property-modifiers-menu > .group-pane').removeClass('active');
-    //     $(this).addClass('active');
+    // $('#new-toolbar > .group-pane').on('click', function () {
+    //     $(this).addClass('active').siblings().removeClass("active");
     // });
 
     // on click mascot and embellishments group #7
-    $('#property-modifiers-menu > .group-7').on('click', function () {
-        ub.funcs.startNewApplication();
+    $('#new-toolbar > .group-7').on('click', function () {
+        console.log('GROUP 7 CLICKED===>');
+        if (!$(this).hasClass('active')) {
+            $(this).addClass('active').siblings().removeClass("active");
+            ub.funcs.startNewApplication();
+        }
     });
 
     // on click flip
@@ -238,7 +241,12 @@ $(function() {
         console.log('props===>', props);
 
         // send to mustache
-        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
+        
+        // add the "Add Application" button
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
@@ -304,6 +312,7 @@ $(function() {
             $(this).find('.tab-pane:first-child').addClass('in active');
         });
 
+        // add applications opt
         var selectNewAppOptions = document.getElementsByClassName('addApplicationsOpts');
         $(selectNewAppOptions).each(function(){
             $(this).find('div > button:first-of-type').addClass('active');
@@ -314,7 +323,9 @@ $(function() {
     };
 
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initRotatePanel=======');
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -333,6 +344,8 @@ $(function() {
 
             drag: function (args) {
 
+                if (!_flag) { _flag = true; return;}
+                console.log('ARGS=======>', args.value);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
@@ -342,7 +355,9 @@ $(function() {
     };
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initScalePanel=======');
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -351,6 +366,7 @@ $(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
+        console.log(_start);
         if (typeof element.noUiSlider === "object") {
             element.noUiSlider.set(_start);
             return;
@@ -377,6 +393,8 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updateScaleViaSlider(_settingsObject, _value);
 
@@ -385,7 +403,9 @@ $(function() {
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initMovePanelX=======');
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -427,6 +447,9 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
 
@@ -435,7 +458,9 @@ $(function() {
     };
 
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
+        console.log('=======ub.funcs.initMovePanelY=======');
 
+        var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
             _multiplier = 10;
@@ -477,6 +502,8 @@ $(function() {
 
         element.noUiSlider.on('update', function (values, handle) {
 
+            if (!_flag) { _flag = true; return;}
+
             var _value = values[0];
             ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
 
@@ -508,7 +535,7 @@ $(function() {
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
                 _html += '<div class="colorSelectionContainer">';
-                _html += '<h4>'+_title+'</h4>';
+                _html += '<h4 class="app-letters-subtitle">'+_title+'</h4>';
                 _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
                 _.each(_settingsObject.mascot.layers_properties, function (layer) {
@@ -541,7 +568,7 @@ $(function() {
         } else {
 
             _html += '<div class="colorSelectionContainer">';
-            _html += '<h5>'+_title+'</h5>';
+            _html += '<h5 class="app-letters-subtitle">'+_title+'</h5>';
             _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
             _.each(_settingsObject.accent_obj.layers, function (layer) {
@@ -612,9 +639,6 @@ $(function() {
                 // var _style = "25px";
                 var _class = '';
 
-                console.log('ACTIVE COLOR CODE: ')
-                console.log(activeColorCode)
-                console.log('COLOR.COLOR_CODE: ' + _color.color_code)
                 if (activeColorCode === _color.color_code) {
                     _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
                     _class = 'activeColorItem';
