@@ -1209,7 +1209,8 @@ $(function() {
 
         // In-place preview
 
-        if (_settingsObject.mascot.name === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
+        var _objName = _applicationType === "mascot" ? _mascotObj.name : _embellishmentObj.name;
+        if (_objName === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
 
             var _filename = _settingsObject.customFilename;
             var _extension = _filename.split('.').pop();
@@ -1238,42 +1239,6 @@ $(function() {
 
         /// End Application Manipulator Events
 
-        /// Tabs
-
-        $('div.color-pattern-tabs > span.tab').unbind('click');
-        $('div.color-pattern-tabs > span.tab').on('click', function () {
-
-            var _item = $(this).data('item');
-
-            $('div.color-pattern-tabs > span.tab').removeClass('active');
-            $(this).addClass('active');
-            $('div.column1').hide();
-            $('div.column1.' + _item).fadeIn();
-
-            if (_item === "manipulators") {
-                $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
-            }
-
-        });
-
-        /// End Tabs
-
-        $('span.inPlacePreviewButton').unbind('click');
-        $('span.inPlacePreviewButton').on('click', function () {
-
-            if (!$(this).hasClass('active')) {
-
-                $(this).addClass('active');
-
-            } else {
-
-                $(this).removeClass('active');
-
-            }
-
-        });
-
-        // End In-place preview
 
         ub.funcs.updateCoordinates(_settingsObject);
 
@@ -1298,70 +1263,6 @@ $(function() {
 
         }
 
-        $('span.flipButton').unbind('click');
-        $('span.flipButton').on('click', function () {
-
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
-            ub.funcs.flipMascot(_settingsObject);
-
-        });
-
-        $('div.applicationType').on('click', function () {
-
-            if ($('div#changeApplicationUI').length > 1) {
-
-                var _status = $('div#changeApplicationUI').data('status');
-
-                if (_status === 'visible') {
-
-                    $('div#changeApplicationUI').hide().data('status', 'hidden');
-                    $('div.applicationType').removeClass('toggledApplicationType');
-
-                } else {
-
-                    $('div#changeApplicationUI').fadeIn().data('status', 'visible');
-                    $('div.applicationType').addClass('toggledApplicationType');
-
-                }
-
-                return;
-
-            }
-
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
-            var _validApplicationTypes = _settingsObject.validApplicationTypes;
-
-            var vAppTypes = ub.funcs.selectApplicationTypeLocation(_id, _applicationType, _validApplicationTypes);
-
-            // send to mustache
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-choices', vAppTypes);
-
-            // $('.modifier_main_container').append(_htmlBuilder);
-            $('div#changeApplicationUI').fadeIn().data('status', 'visible');
-            $('div.applicationType').addClass('toggledApplicationType');
-
-            $('div.optionButton').on('click', function () {
-
-                if ($(this).hasClass('deactivatedOptionButton')) {
-                    return;
-                }
-
-                var _type = $(this).data('type');
-
-                ub.funcs.changeApplicationType(_settingsObject, _type);
-                $('div#changeApplicationUI').remove();
-
-            });
-
-            $('div.closeApplicationChanger').on('click', function () {
-
-                $('div#changeApplicationUI').hide().data('status', 'hidden');
-                $('div.applicationType').removeClass('toggledApplicationType');
-
-            });
-
-        });
-
         var _matchingID = undefined;
 
         _matchingID = ub.data.matchingIDs.getMatchingID(_id);
@@ -1371,207 +1272,16 @@ $(function() {
 
         }
 
-        $('span.font_size').on('click', function () {
-
-            //if (_id === '4') { return; }
-
-            var _selectedSize = $(this).data('size');
-            $('.font_size').removeClass('active');
-            $(this).addClass('active');
-
-            var _isCustom = $(this).hasClass('custom');
-            var _isScale = $(this).hasClass('scale');
-            var _isRotate = $(this).hasClass('rotate');
-            var _isMove = $(this).hasClass('move');
-
-            if (_isCustom && _isScale) {
-
-                $('div.color-pattern-tabs').hide();
-                $('span.tab[data-item="manipulators"]').trigger('click');
-                $('li.tab.scale').trigger('click');
-
-                return;
-
-            }
-
-            if (_isCustom && _isMove) {
-
-                $('color-pattern-tabs').hide();
-                $('span.tab[data-item="manipulators"]').trigger('click');
-                $('li.tab.move').trigger('click');
-
-                return;
-
-            }
-
-            if (_isCustom && _isRotate) {
-
-                $('color-pattern-tabs').hide();
-                $('span.tab[data-item="manipulators"]').trigger('click');
-                $('li.tab.rotate').trigger('click');
-
-                return;
-
-            }
-
-            var oldScale = ub.funcs.clearScale(_settingsObject);
-            _settingsObject.oldScale = oldScale;
-
-            ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
-
-            var _matchingID = undefined;
-            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
-            if (typeof _matchingID !== "undefined") {
-
-                var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
-
-            }
-
-        });
-
-        $('span.font_name').on('click', function () {
-
-            ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
-
-        });
-
-
-        $('span.accentThumb, span.accent').on('click', function () {
-
-            ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
-
-        });
-
-        $('span.colorItem').on('click', function () {
-
-            var _layer_no = $(this).data('layer-no');
-            var _color_code = $(this).data('color-code');
-            var _layer_name = $(this).data('layer-name');
-            var _temp = $(this).data('temp');
-            var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-
-            var _oldVal = {
-
-                layerNo: _layer_no,
-                color: _settingsObject.color_array[_layer_no - 1],
-                applicationCode: _settingsObject.code,
-
-            }
-
-            if (_temp !== 'undo') {
-
-                ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
-
-            }
-
-            ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject);
-            ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
-
-            var _processMatchingSide = true;
-            var _matchingID = undefined;
-            var _matchingSettingsObject = undefined;
-
-            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
-            if (typeof _matchingID !== "undefined") {
-                _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            }
-
-            // On Crew Socks, only change the color of the matching side if its the same mascot id
-            if (typeof _matchingSettingsObject !== "undefined") {
-
-                if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) {
-
-                    _processMatchingSide = false;
-
-                }
-
-                if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-
-                    if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) {
-                        _processMatchingSide = true;
-                    }
-
-                }
-
-            }
-
-            if (typeof _matchingID !== "undefined") {
-
-                if (_processMatchingSide) {
-
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
-
-                }
-
-            }
-
-        });
-
-        // End Small Color Pickers
-
         // End Events
 
-        $("div.toggleOption").unbind('click');
-        $("div.toggleOption").on("click", function () {
-
-            var _currentStatus = $('div.toggle').data('status');
-            var s;
-
-            if (_currentStatus === "on") {
-                s = 'off';
-            }
-            else {
-                s = 'on';
-            }
-
-            if (s === "on") {
-                ub.funcs.LSRSBSFS(parseInt(_id));
-            }
-
-            ub.funcs.toggleApplication(_id, s);
-
-            var _matchingSide;
-            var _matchingID = undefined;
-            var _processMatchingSide = true;
-            var _matchingSettingsObject = undefined;
-
-            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
-            if (typeof _matchingID !== "undefined") {
-
-                _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-
-            }
-
-            if (typeof _matchingSettingsObject !== "undefined") {
-
-                if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-
-                    // Toggle matching mascot if the same mascot is selected
-                    _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
-
-                }
-
-            }
-
-            if (typeof _matchingID !== "undefined") {
-
-                if (_processMatchingSide) {
-                    ub.funcs.toggleApplication(_matchingID, s);
-                }
-
-            }
-
-        });
-
-        $('div#applicationUI').fadeIn();
+        // $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
-        ub.funcs.afterActivateMascots(_id);
+
+        if (_applicationType === "mascot") {
+            ub.funcs.afterActivateMascots(_id);
+        }
 
     }
 
@@ -1590,7 +1300,6 @@ $(function() {
 
         var _state = state;
 
-        ub.funcs.aaaa = element
         if (_state === "off") {
             if (ub.activeApplication === id) {
                 return;
