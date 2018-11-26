@@ -650,6 +650,8 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
+            if (ub.config.brand === "Richardson") { ub.fabric.initFabric(); }
+
         };
 
         ub.funcs.updateLabels = function () {
