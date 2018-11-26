@@ -61,6 +61,7 @@ LogoPanel.prototype = {
 
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
+        LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
         LogoPanel.process.sameColorAsBackground(material_ops, logoSettingsObject);
 
         $(this).addClass('cp-button-active');
@@ -491,13 +492,12 @@ LogoPanel.process = {
                 } else {
                     // Load Default Color
                     LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code);
-                    console.log("No Secondary Color");
                 }
             }
         }
 
         // Update Logo Setting Layer
-        LogoPanel.process.updateLayers(logoSettingsObject.layers);
+        // LogoPanel.process.updateLayers(logoSettingsObject.layers);
     },
 
     sameColorForColorPanel: function(current_active_logo, colorLabel) {
@@ -506,7 +506,6 @@ LogoPanel.process = {
         if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
             for (var i = 0; i < _.size(secondary_color); i++) {
                 if (colorLabel === secondary_color[i].color_code) {
-                    console.log("Same color as background")
                     LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
                     continue;
                 } else {
@@ -536,7 +535,7 @@ LogoPanel.process = {
         }
 
         // Update Logo Setting Layer
-        LogoPanel.process.updateLayers(current_active_logo .layers);
+        // LogoPanel.process.updateLayers(current_active_logo .layers);
     },
 
     removeDuplicateColor: function(arr) {
@@ -566,7 +565,6 @@ LogoPanel.process = {
                 logoSettingsObject.layers[2].colorCode = "W";
 
             } else {
-                console.log("Default")
                 LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
                 LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
                 logoSettingsObject.layers[0].colorCode = "W";
@@ -608,10 +606,6 @@ LogoPanel.process = {
 
     reInitiateLogoOnAddandRemoveTeamColor: function() {
         var secondary_color = LogoPanel.process.getSecondaryColor();
-
-        _.delay(function() {
-            console.log("secondary_color", secondary_color);
-        }, 1000)
         var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
         var material_ops = null;
 
@@ -646,9 +640,7 @@ LogoPanel.process = {
         _.map(ub.current_material.settings[ub.config.type], function(mo) {
             if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
                 if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
-                    if (!_.includes(LogoPanel.excluded, mo.code)) {
-                        secondary_color.push(mo.colorObj.color_code);
-                    }
+                    secondary_color.push(mo.colorObj.color_code);
                 }
             }
         });
