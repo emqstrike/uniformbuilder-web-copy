@@ -2787,6 +2787,8 @@ $(document).ready(function () {
                 if (_.size(ub.current_material.settings.pipings) > 0) {
 
                     ub.funcs.processSavedPipings();
+                    
+                    // ub.funcs.afterLoadFunctionList.push(logoObj.processColors); 
 
                 }
 
