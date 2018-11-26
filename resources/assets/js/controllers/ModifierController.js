@@ -202,6 +202,8 @@ ModifierController.prototype = {
         properties_panel.setBodyPanel(numbers_panel);
         // set event listeners
         ub.modifierController.numbers.bindEvents();
+        
+        // NumberPanel.initializeUISlider();
     },
 
     applications: function() {

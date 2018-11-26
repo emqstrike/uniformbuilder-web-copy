@@ -127,6 +127,7 @@ elixir(function(mix) {
             'uniform-builder.less',
             'application-ui-new.less',
             'application-ui-new-letters.less',
+            'application-ui-new-numbers.less',
         ],
 
         // Result
