@@ -4,6 +4,8 @@ return [
 
     'asset_version' => env('ASSET_VERSION', 0.0001),
 
+    'api_http_protocol' => env('API_HTTP_PROTOCOL', 'https'),
+
     'api_host' => env('API_HOST'),
 
     'enabled_https' => env('ENABLE_HTTPS', true),

@@ -650,6 +650,8 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
+            ub.funcs.changeControls();
+
             // executeAfterLoadFunctionList()
 
         };
