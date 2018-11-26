@@ -12,17 +12,17 @@ $(document).ready(function(){
         var colors = $('#layers-row-container').data('colors');
 
         var coordinatingColorDropdown = "<select class='coordinating-colors'>";
-        // var limitedColors = "<select class='limited-color'>";
+        var limitedColorsDropdown = "<select class='limited-color'>";
 
         $.each(colors, function(key, value) {
             if (value.active == true) {
                 coordinatingColorDropdown += "<option value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
-                // limitedColors += "<option value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
+                limitedColorsDropdown += "<option value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
             }
         });
 
         coordinatingColorDropdown += "</select>";
-        // limitedColors += "</select>";
+        limitedColorsDropdown += "</select>";
 
         var elem = `<tr class="layers-row">
             <td>
@@ -51,16 +51,16 @@ $(document).ready(function(){
                 <div class="coordinating-colors-column">
                     <div class="coordinating-colors-container">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                 <input type="text" class="coordinating-colors-name" placeholder="Name">
                                 ` + coordinatingColorDropdown + coordinatingColorDropdown + `
                             </div>
+                        </div>
 
-                            <div class="col-md-1">
-                                <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right" style="display: none;">
-                                    <span class="fa fa-remove"></span>
-                                </button>
-                            </div>
+                        <div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>
+                            <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color" style="display: none;">
+                                Remove row
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -76,16 +76,31 @@ $(document).ready(function(){
                 <div class="limited-colors-column">
                     <div class="limited-colors-container">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                 <input type="text" class="limited-colors-name layer" placeholder="Name">
-                                <input type="text" class="limited-color layer" placeholder="Colors">
-                            </div>
 
-                            <div class="col-md-1">
-                                <button class="btn btn-xs btn-flat btn-danger remove-limited-color pull-right" style="display: none;">
-                                    <span class="fa fa-remove"></span>
-                                </button>
+                                <div style="margin: 15px 0;">
+                                    <button class='btn btn-xs btn-flat btn-primary add-limited-color'>Add color</button>
+                                </div>
+
+                                <div class='limited-color-row'>
+                                    <div class='row'>
+                                        <div class='col-md-10'>
+                                            ` + limitedColorsDropdown + `
+                                        </div>
+
+                                        <div class='col-md-1'>
+                                            <button class='btn btn-xs btn-flat btn-success remove-limited-color' style='display: none;'><span class='fa fa-minus'></span></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+
+                        <div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>
+                            <button class="btn btn-xs btn-flat btn-danger remove-limited-color-row" style="display: none;">
+                                Remove row
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -235,10 +250,15 @@ $(document).ready(function(){
 
                 $('.limited-colors-container.layer' + ctr).each(function(key, val) {
                     var limitedColorsObject = {};
+                    var colors = [];
 
                     limitedColorsObject.name = $(this).find('.limited-colors-name').val();
-                    limitedColorsObject.color = $(this).find('.limited-color').val().split(',');
+                    
+                    $(this).find('.limited-color').each(function(key, val) {
+                        colors.push($(this).val());
+                    });
 
+                    limitedColorsObject.color = colors;
                     limitedColors.push(limitedColorsObject);
                 });
 
@@ -298,7 +318,7 @@ $(document).ready(function(){
                     if (data[x].coordinating_colors == undefined) {
                         coordinatingColors += "<div class='coordinating-colors-container layer" + x + "'>";
                             coordinatingColors += "<div class='row'>";
-                                coordinatingColors += "<div class='col-md-9'>";
+                                coordinatingColors += "<div class='col-md-12'>";
                                     coordinatingColors += "<input type='text' class='coordinating-colors-name layer1" + x + "' placeholder='Name'>";
 
                                     for (var counter = 1; counter <= 2; counter++) {
@@ -309,17 +329,17 @@ $(document).ready(function(){
                                         coordinatingColors += "</select>";
                                     }
                                 coordinatingColors += "</div>";
+                            coordinatingColors += "</div>";
 
-                                coordinatingColors += "<div class='col-md-1'>";
-                                    coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right' style='display: none;'><span class='fa fa-remove'></span></button>";
-                                coordinatingColors += "</div>";
+                            coordinatingColors += "<div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>";
+                                coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right' style='display: none;'><span class='fa fa-remove'></span></button>";
                             coordinatingColors += "</div>";
                         coordinatingColors += "</div>";
                     } else {
                         $.each(data[x].coordinating_colors, function(key, value) {
                             coordinatingColors += "<div class='coordinating-colors-container layer" + x + "'>";
                                 coordinatingColors += "<div class='row'>";
-                                    coordinatingColors += "<div class='col-md-9'>";
+                                    coordinatingColors += "<div class='col-md-12'>";
                                         coordinatingColors += "<input type='text' class='coordinating-colors-name layer" + x + "' value='" + value.name + "'>";
 
                                         $.each(value.colors, function(key, colorCode) {
@@ -334,14 +354,14 @@ $(document).ready(function(){
                                             coordinatingColors += "</select>";
                                         });
                                     coordinatingColors += "</div>";
-
-                                    coordinatingColors += "<div class='col-md-1'>";
-                                        if (key == 0) {
-                                            coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right' style='display: none;'><span class='fa fa-remove'></span></button>";
-                                        } else {
-                                            coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right'><span class='fa fa-remove'></span></button>";
-                                        }
-                                    coordinatingColors += "</div>";
+                                coordinatingColors += "</div>";
+                                
+                                coordinatingColors += "<div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>";
+                                    if (key == 0) {
+                                        coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color' style='display: none;'>Remove row</button>";
+                                    } else {
+                                        coordinatingColors += "<button class='btn btn-xs btn-flat btn-danger remove-coordinating-color'>Remove row</button>";
+                                    }
                                 coordinatingColors += "</div>";
                             coordinatingColors += "</div>";
                         });
@@ -356,35 +376,88 @@ $(document).ready(function(){
                 limitedColors += "</div>";
 
                 limitedColors += "<div class='limited-colors-column'>";
+                    console.log(data[x].limited_colors);
                     if (data[x].limited_colors == undefined) {
                         limitedColors += "<div class='limited-colors-container layer" + x + "'>";
                             limitedColors += "<div class='row'>";
-                                limitedColors += "<div class='col-md-9'>";
+                                limitedColors += "<div class='col-md-12'>";
                                     limitedColors += "<input type='text' class='limited-colors-name layer" + x + "' placeholder='Name'>";
-                                    limitedColors += "<input type='text' class='limited-color layer" + x + "' placeholder='Colors'>";
+
+                                    limitedColors += "<div style='margin: 15px 0;'>";
+                                        limitedColors += "<button class='btn btn-xs btn-flat btn-primary add-limited-color'>Add color</button>";
+                                    limitedColors += "</div>";
+
+                                    limitedColors += "<div class='limited-color-row'>";
+                                        limitedColors += "<div class='row'>";
+                                            limitedColors += "<div class='col-md-10'>";
+                                                limitedColors += "<select class='limited-color layer" + x +"'>";
+                                                    $.each(colors, function(key, value) {
+                                                        limitedColors += "<option value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
+                                                    });
+                                                limitedColors += "</select>";
+                                            limitedColors += "</div>";
+
+                                            limitedColors += "<div class='col-md-1'>";
+                                                limitedColors += "<button class='btn btn-xs btn-flat btn-success remove-limited-color' style='display: none;'><span class='fa fa-minus'></span></button>";
+                                            limitedColors += "</div>";
+                                        limitedColors += "</div>";
+                                    limitedColors += "</div>";
                                 limitedColors += "</div>";
 
                                 limitedColors += "<div class='col-md-1'>";
                                     limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color pull-right' style='display: none;'><span class='fa fa-remove'></span></button>";
                                 limitedColors += "</div>";
                             limitedColors += "</div>";
+
+                            limitedColors += "<div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>";
+                                limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color-row' style='display: none;'>Remove row</button>";
+                            limitedColors += "</div>";
                         limitedColors += "</div>";
                     } else {
                         $.each(data[x].limited_colors, function(key, value) {
                             limitedColors += "<div class='limited-colors-container layer" + x + "'>";
                                 limitedColors += "<div class='row'>";
-                                    limitedColors += "<div class='col-md-9'>";
+                                    limitedColors += "<div class='col-md-12'>";
                                         limitedColors += "<input type='text' class='limited-colors-name layer" + x + "' value='" + value.name + "'>";
-                                        limitedColors += "<input type='text' class='limited-color layer" + x + "' value='" + value.color.join() + "'>";
-                                    limitedColors += "</div>";
 
-                                    limitedColors += "<div class='col-md-1'>";
-                                        if (key == 0) {
-                                            limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color pull-right' style='display: none;'><span class='fa fa-remove'></span></button>";
-                                        } else {
-                                            limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color pull-right'><span class='fa fa-remove'></span></button>";
-                                        }
+                                        limitedColors += "<div style='margin: 15px 0;'>";
+                                            limitedColors += "<button class='btn btn-xs btn-flat btn-primary add-limited-color'>Add color</button>";
+                                        limitedColors += "</div>";
+
+                                        $.each(value.color, function(key, colorCode) {
+                                            limitedColors += "<div class='limited-color-row'>";
+                                                limitedColors += "<div class='row'>";
+                                                    limitedColors += "<div class='col-md-10'>";
+                                                        limitedColors += "<select class='limited-color layer" + x +"'>";
+                                                            $.each(colors, function(key, value) {
+                                                                if (colorCode == value.color_code) {
+                                                                    limitedColors += "<option selected value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
+                                                                } else {
+                                                                    limitedColors += "<option value='" + value.color_code + "' style='background: #" + value.hex_code + "; color: #ffffff;'>" + value.name + "</option>";
+                                                                }
+                                                            });
+                                                        limitedColors += "</select>";
+                                                    limitedColors += "</div>";
+
+                                                    limitedColors += "<div class='col-md-1'>";
+                                                        if (key == 0) {
+                                                            limitedColors += "<button class='btn btn-xs btn-flat btn-success remove-limited-color' style='display: none;'><span class='fa fa-minus'></span></button>";
+                                                        } else {
+                                                            limitedColors += "<button class='btn btn-xs btn-flat btn-success remove-limited-color'><span class='fa fa-minus'></span></button>";
+                                                        }
+                                                    limitedColors += "</div>";
+                                                limitedColors += "</div>";
+                                            limitedColors += "</div>";
+                                        });
                                     limitedColors += "</div>";
+                                limitedColors += "</div>";
+                                
+                                limitedColors += "<div style='border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;'>";
+                                    if (key == 0) {
+                                        limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color-row' style='display: none;'>Remove row</button>";
+                                    } else {
+                                        limitedColors += "<button class='btn btn-xs btn-flat btn-danger remove-limited-color-row'>Remove row</button>";
+                                    }
                                 limitedColors += "</div>";
                             limitedColors += "</div>";
                         });
@@ -461,6 +534,7 @@ $(document).ready(function(){
             colors.find('.remove-coordinating-color').removeAttr('style');
         }
 
+        colors.find('.coordinating-colors-name').val('');
         row.find('.coordinating-colors-column').append(colors);
 
         var length = $('.layers-row').length;
@@ -483,10 +557,36 @@ $(document).ready(function(){
         var colors = row.find('.limited-colors-container:last').clone();
 
         if (row.find('.limited-colors-container').length > 0) {
-            colors.find('.remove-limited-color').removeAttr('style');
+            colors.find('.remove-limited-color-row').removeAttr('style');
         }
 
+        colors.find('.limited-color-row:not(:first)').remove();
+        colors.find('.limited-colors-name').val('');
         row.find('.limited-colors-column').append(colors);
+
+        var length = $('.layers-row').length;
+        updateJSON(length, 1);
+    });
+
+    $('body').on('click', '.add-limited-color', function(e) {
+        e.preventDefault();
+
+        var row = $(this).closest('.limited-colors-container');
+        var clonedDropdown = row.find('.limited-color-row:last').clone();
+        row.find('.col-md-12').append(clonedDropdown);
+
+        if (row.find('.limited-color-row').length > 0) {
+            clonedDropdown.find('.remove-limited-color').removeAttr('style');
+        }
+
+        var length = $('.layers-row').length;
+        updateJSON(length, 1);
+    });
+
+    $('body').on('click', '.remove-limited-color-row', function(e) {
+        e.preventDefault();
+
+        $(this).closest('.limited-colors-container').remove();
 
         var length = $('.layers-row').length;
         updateJSON(length, 1);
@@ -495,7 +595,7 @@ $(document).ready(function(){
     $('body').on('click', '.remove-limited-color', function(e) {
         e.preventDefault();
 
-        $(this).closest('.limited-colors-container').remove();
+        $(this).closest('.limited-color-row').remove();
 
         var length = $('.layers-row').length;
         updateJSON(length, 1);
@@ -506,22 +606,17 @@ $(document).ready(function(){
         updateJSON(length, 1);
     });
 
-    $('body').on('keypress', '.limited-color', function(e) {
-        var k = e.which;
-        var ok = k >= 65 && k <= 90 || // A-Z
-           k >= 97 && k <= 122 || // a-z
-           k == 44 ; // ,
-
-        if (! ok) {
-          e.preventDefault();
-        }
-
+    $('body').on('change', '.limited-color', function() {
         var length = $('.layers-row').length;
         updateJSON(length, 1);
     });
 
-    $('body').on('keyup', '.limited-color', function() {
-        $(this).val($(this).val().toUpperCase());
+    $('body').on('keypress', '.limited-colors-name', function() {
+        var length = $('.layers-row').length;
+        updateJSON(length, 1);
+    });
+
+    $('body').on('keypress', '.coordinating-colors-name', function() {
         var length = $('.layers-row').length;
         updateJSON(length, 1);
     });

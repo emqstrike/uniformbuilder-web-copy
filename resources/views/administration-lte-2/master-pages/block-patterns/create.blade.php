@@ -1,8 +1,6 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-
     <style>
         .neck-option-placeholder-overrides {
             resize: none;
@@ -27,6 +25,17 @@
 
         select.coordinating-colors {
             width: 49%;
+        }
+
+        .limited-color-row .row {
+            min-width: 321px;
+        }
+
+        .limited-colors-container,
+        .coordinating-colors-container {
+            background: #eeeeee;
+            margin-bottom: 15px;
+            padding: 10px;
         }
     </style>
 @endsection
@@ -150,7 +159,7 @@
                                                 <div class="coordinating-colors-column">
                                                     <div class="coordinating-colors-container layer1">
                                                         <div class="row">
-                                                            <div class="col-md-9">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="coordinating-colors-name layer1" placeholder="Name">
 
                                                                 <select class="coordinating-colors layer1">
@@ -173,12 +182,12 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="col-md-1">
-                                                                <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color pull-right" style="display: none;">
-                                                                    <span class="fa fa-remove"></span>
-                                                                </button>
-                                                            </div>
+                                                        <div style="border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;">
+                                                            <button class="btn btn-xs btn-flat btn-danger remove-coordinating-color" style="display: none;">
+                                                                Remove row
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,17 +203,43 @@
                                                 <div class="limited-colors-column">
                                                     <div class="limited-colors-container layer1">
                                                         <div class="row">
-                                                            <div class="col-md-9">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="limited-colors-name layer1" placeholder="Name">
 
-                                                                <input type="text" class="limited-color layer1" placeholder="Colors">
-                                                            </div>
+                                                                <div style="margin:15px 0;">
+                                                                    <button class="btn btn-xs btn-flat btn-primary add-limited-color">
+                                                                        Add color
+                                                                    </button>
+                                                                </div>
 
-                                                            <div class="col-md-1">
-                                                                <button class="btn btn-xs btn-flat btn-danger remove-limited-color pull-right" style="display: none;">
-                                                                    <span class="fa fa-remove"></span>
-                                                                </button>
+                                                                <div class="limited-color-row">
+                                                                    <div class="row">
+                                                                        <div class="col-md-10">
+                                                                            <select class="limited-color layer1">
+                                                                                @foreach ($colors as $color)
+                                                                                    @if ($color->active)
+                                                                                        <option value="{{ $color->color_code }}" style="background: #{{ $color->hex_code }}; color: #ffffff; text-shadow: 2px 2px #000000;">
+                                                                                            {{ $color->name }}
+                                                                                        </option>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="col-md-1">
+                                                                            <button class="btn btn-xs btn-flat btn-success remove-limited-color" style="display: none;">
+                                                                                <span class="fa fa-minus"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                        </div>
+
+                                                        <div style="border-top: 1px solid rgba(0, 0, 0, .1); margin-top: 10px; padding-top: 10px;">
+                                                            <button class="btn btn-xs btn-flat btn-danger remove-limited-color-row" style="display: none;">
+                                                                Remove row
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
