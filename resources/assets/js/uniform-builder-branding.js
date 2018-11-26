@@ -22,7 +22,9 @@ $(document).ready(function() {
     ub.funcs.initBrands = function () {
 
     	// Detect and Run this via a brand flag from the backend 
-		if (ub.config.brand === "Richardson") { ub.richardson.funcs.init(); }
+		if (ub.config.brand === "Richardson") {
+            ub.richardson.funcs.init();
+        }
 
     }
 
