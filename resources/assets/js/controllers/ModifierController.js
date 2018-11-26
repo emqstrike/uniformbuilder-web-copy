@@ -203,6 +203,9 @@ ModifierController.prototype = {
     numbers: function() {
         console.log('Show Numbers Panel');
         // set event listeners
+        ub.modifierController.numbers.bindEvents();
+        
+        // NumberPanel.initializeUISlider();
     },
 
     applications: function() {

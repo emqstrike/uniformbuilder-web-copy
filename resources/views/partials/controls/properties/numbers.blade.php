@@ -3,13 +3,13 @@
     <div class="content application-numbers-container cp-padding-medium cp-padding-remove-vertical">
         <h4>DECORATION NUMBERS</h4>
         <div class="add-new-application-numbers">
-            <button type="button" class="app-btn w-45 pull-left add-app-numbers app-numbers-button"><span class="fa fa-plus-circle"></span> Add Application</button>
+            <button type="button" class="app-btn w-45 add-app-numbers app-numbers-button"><span class="fa fa-plus-circle"></span> Add Application</button>
             <button type="button" class="app-btn w-45 pull-right view-app-numbers app-numbers-button"><span class="fa fa-eye"></span> View All Application</button>
         </div>
 
         @{{ #applications }}
-        <div class="application">
-            <li>@{{ application.name }}</li>
+        <div class="applicationUIBlock">
+            <h5>@{{ application.name }}</h5>
             <input
                 type="text"
                 value="@{{ text }}"
