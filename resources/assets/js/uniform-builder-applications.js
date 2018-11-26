@@ -1193,11 +1193,11 @@ $(document).ready(function() {
 
                     if(sprite.ubName === "Move Tool") {
 
-                        rotation_point.alpha = 0;
+                        rotation_point.alpha    = 0;
+                        scale_point.alpha       = 0;
                         
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
-                            scale_point.alpha   = 0;
-                            delete_point.alpha  = 0;
+                            delete_point.alpha = 0;
                         }
                         
                         reset_point.alpha = 0;
@@ -1247,13 +1247,13 @@ $(document).ready(function() {
                     if(sprite.ubName === "Rotate Tool") {
 
                         move_point.alpha        = 0;
+                        scale_point.alpha       = 0;
 
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
-                            scale_point.alpha   = 0;
-                            delete_point.alpha  = 0;
+                            delete_point.alpha = 0;
                         }
 
-                        reset_point.alpha       = 0;
+                        reset_point.alpha = 0;
                         
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.objectFocusRotation(application_obj);
@@ -1285,7 +1285,11 @@ $(document).ready(function() {
                         rotation_point.alpha    = 0;
                         move_point.alpha        = 0;
                         reset_point.alpha       = 0;
-                        delete_point.alpha      = 0;
+                        // delete_point.alpha      = 0;
+
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+                            delete_point.alpha = 0;
+                        }
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -6223,6 +6227,8 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var sizes = sizes.slice(0,2);
+        
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
@@ -6246,19 +6252,31 @@ $(document).ready(function() {
 
         });
 
-        // show BESTFIT option on embellishment's application sizes
-        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
-
-            (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
-
-            var customSize  = settingsObject.custom_obj.fontSize;
-            var customScale = settingsObject.custom_obj.scale.x;
-            var type        = 'custom';
-
-            // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
-            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
-
+        // CCO-159 @Nov 23 2018
+        if (!ub.funcs.isFreeFormToolEnabled(_id)) {
+            _htmlBuilder += "<span style='color:white;'>OR</span> &nbsp";
+            _htmlBuilder += "<select style='-webkit-border-radius: 0; border: 0; outline: 1px solid #ccc; outline-offset: -1px; height: 30px; width: 155px; text-align: center; background: white;'>";
+            _htmlBuilder += "<option value='0'>CUSTOM SIZE</option>";
+            _.each(ub.data.customSizes, function(cSize) {
+                _htmlBuilder += "<option value='"+cSize+"'>" + cSize + "\"</option>";
+            });
+            _htmlBuilder += "</select>";
         }
+        // end CCO-159
+
+        // show BESTFIT option on embellishment's application sizes
+        // if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+
+        //     (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
+
+        //     var customSize  = settingsObject.custom_obj.fontSize;
+        //     var customScale = settingsObject.custom_obj.scale.x;
+        //     var type        = 'custom';
+
+        //     // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
+        //     if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+
+        // }
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
@@ -8328,7 +8346,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.activateApplications = function (application_id) {
-
+        console.trace();
         ub.funcs.beforeActivateApplication();
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
@@ -8481,7 +8499,7 @@ $(document).ready(function() {
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '-Here"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + " [" +  _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
@@ -9674,7 +9692,7 @@ $(document).ready(function() {
         // --- Scale --- ///
 
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || ub.config.uniform_application_type === "tackle_twill") {
 
             var _filenameScale = "/images/builder-ui/scale-icon-on.png";
             var _spriteScale = ub.pixi.new_sprite(_filenameScale);

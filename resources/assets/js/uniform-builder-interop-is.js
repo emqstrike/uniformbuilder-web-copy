@@ -850,6 +850,15 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
+        // CCO-159 @Nov 23 2018
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end CCO-159
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
@@ -1279,10 +1288,12 @@ $(document).ready(function() {
 
                 }
 
+                // CCO-159 @Nov 26 2018
                 // add scale_type flag on application settings
                 // this is to know if the application is using custom scale or not (embellishment application only)
-                var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
-                _settingsObject.scale_type = _scaleType;
+                // var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
+                // _settingsObject.scale_type = _scaleType;
+                // end CCO-159
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
@@ -1440,6 +1451,13 @@ $(document).ready(function() {
         
         // Is this needed ??? 
         // ub.funcs.afterActivateMascots(_id);
+
+        // CCO-159 @Nov 26 2018
+        if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+            $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+            $('input.custom-size-type').attr('disabled', true);
+        }
+        // end CCO-159
 
     }
 
