@@ -839,7 +839,7 @@ $(function() {
             });
             types.push({
                 type: 'embellishments',
-                name: 'Custmm Mascot',
+                name: 'Custom Mascot',
             });
         }
 
@@ -903,7 +903,7 @@ $(function() {
 
         }
 
-        $('di~#changeApplicationUI').remove();
+        $('div#changeApplicationUI').remove();
 
         
 
