@@ -650,7 +650,7 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
-            if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
+            if (ub.current_material.material.brand.toLowerCase() === "richardson") { ub.fabric.initFabric(); }
 
             // Use Alternative Scrollable Controls if brand is not ProLook
             ub.funcs.changeControls();
