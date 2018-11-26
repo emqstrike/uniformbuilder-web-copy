@@ -143,14 +143,14 @@ $(function() {
 
             // To view a letter's customization options
             .on('click', '.view-letters-opt', function () {
-                $(this).addClass('active');
-                $(this).next().removeClass('active');
+                $(this).addClass('active').attr('disabled', 'disabled');
+                $(this).next().removeClass('active').removeAttr('disabled');
                 $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').fadeIn();
             })
             // To hide a letter's customization options
             .on('click', '.hide-letters-opt', function () {
-                $(this).addClass('active');
-                $(this).prev().removeClass('active');
+                $(this).addClass('active').attr('disabled', 'disabled');
+                $(this).prev().removeClass('active').removeAttr('disabled');
                 $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').hide();
             })
             
@@ -352,6 +352,57 @@ $(function() {
 
                 }
 
+            })
+            .on('click', 'button.toggleAppOpt', function () {
+
+                var _id = $(this).closest('.applicationUIBlock').data('application-id')
+                var _currentStatus = $(this).parent().data('status');
+                var s;
+
+                if (_currentStatus === "on") {
+                    s = 'off';
+                }
+                else {
+                    s = 'on';
+                }
+
+                if (s === "on") {
+                    ub.funcs.LSRSBSFS(parseInt(_id));
+                }
+
+                ub.funcs.toggleApplicationOpts($(this).parent(), _id, s);
+
+                var _matchingSide;
+                var _matchingID = undefined;
+                var _processMatchingSide = true;
+                var _matchingSettingsObject = undefined;
+
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+                }
+
+                if (typeof _matchingSettingsObject !== "undefined") {
+
+                    if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+
+                        // Toggle matching mascot if the same mascot is selected
+                        _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+                    }
+
+                }
+
+                if (typeof _matchingID !== "undefined") {
+
+                    if (_processMatchingSide) {
+                        ub.funcs.toggleApplication(_matchingID, s);
+                    }
+
+                }
             });
 
     // Show group 5 contents
@@ -370,6 +421,8 @@ $(function() {
 
         // getting only data needed
         _.map(_filteredApplications, function (i) {
+            var isPlayerName = i.application_type === "player_name" ? 'disabled' : '';
+
             var objStock = {
                 type: i.application.name.toUpperCase(),
                 defaultText: i.text,
@@ -383,7 +436,8 @@ $(function() {
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
                 accents: true,
-                accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT')    
+                accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
+                isPlayerName: isPlayerName    
             }
             _appData.push(objStock);
         });
@@ -660,6 +714,7 @@ $(function() {
         ////
         var templateData = {}
 
+        var isPlayerName = _applicationType === "player_name" ? 'disabled' : '';
         // set the needed data for LETTERS here
         templateData.applications = {
             type: _settingsObject.application.name.toUpperCase(),
@@ -674,7 +729,8 @@ $(function() {
             colorPicker: true,
             colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
             accents: true,
-            accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT')
+            accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
+            isPlayerName: isPlayerName
         }
     
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
@@ -687,6 +743,29 @@ $(function() {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
         }
+
+        /// Applications Color Events
+
+        ub.funcs.setupTextSmallColorPickerEvents(_settingsObject);
+
+        /// End Application Pattern Events
+
+        /// Applications Pattern Events
+
+        ub.funcs.setupPatternsAndSmallColorPickerEvents(_settingsObject);
+
+        /// End Application Pattern Events
+
+        /// Application Manipulator Events
+
+        ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+        /// End Application Manipulator Events
+
+        ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
+
+        /// End Initialize
 
         // re-initialize template
         ub.funcs.initializer();
@@ -760,7 +839,7 @@ $(function() {
             });
             types.push({
                 type: 'embellishments',
-                name: 'Custom Mascot',
+                name: 'Custmm Mascot',
             });
         }
 
@@ -824,7 +903,7 @@ $(function() {
 
         }
 
-        $('div#changeApplicationUI').remove();
+        $('di~#changeApplicationUI').remove();
 
         
 
@@ -1252,75 +1331,6 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
             var _validApplicationTypes = _settingsObject.validApplicationTypes;
 
-            // _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
-            // _htmlBuilder        +=      '<div class="header">';
-            // _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
-            // _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
-            // _htmlBuilder        +=      '<div class="body">';
-            //
-            // var _deactivated ='';
-            // var _currentlySelectedType = '';
-            // var _selected = ''
-            //
-            // if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
-            // if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-            //
-            // _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
-            // _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
-            // _htmlBuilder        +=           '</div>';
-            // _deactivated ='';
-            // _currentlySelectedType = '';
-            // _selected = '';
-            //
-            // if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; }
-            // if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-            //
-            // _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-            // _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';
-            // _htmlBuilder        +=           '</div>';
-            //
-            // _htmlBuilder        +=           '<br />';
-            // _deactivated = '';
-            // _currentlySelectedType = '';
-            // _selected = '';
-            //
-            // if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; }
-            // if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-            //
-            // _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-            // _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
-            // _htmlBuilder        +=           '</div>';
-            // _deactivated = '';
-            // _currentlySelectedType = '';
-            // _selected = '';
-            //
-            // if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
-            // if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-            //
-            // _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-            // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-            // _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
-            // _htmlBuilder        +=           '</div>';
-            //
-            // //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
-            // //if (ub.config.uniform_application_type !== "tackle_twill" && ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
-            //     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }
-            // //}
-            //
-            // _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
-            // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-            // _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
-            // _htmlBuilder        +=           '</div>';
-            //
-            // _htmlBuilder        +=      '</div>';
-            // _htmlBuilder        += "</div>";
-            // _deactivated = '';
-            // _currentlySelectedType = '';
-            // _selected = '';
-
             var vAppTypes = ub.funcs.selectApplicationTypeLocation(_id, _applicationType, _validApplicationTypes);
 
             // send to mustache
@@ -1562,6 +1572,71 @@ $(function() {
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
+
+    }
+
+    ub.funcs.toggleApplicationOpts = function (element, id, state) {
+
+        var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+
+        // Consider deleted locations
+        if (typeof _settingsObj === "undefined") {
+            return;
+        }
+
+        var _views = _settingsObj.application.views;
+
+        ////
+
+        var _state = state;
+
+        ub.funcs.aaaa = element
+        if (_state === "off") {
+            if (ub.activeApplication === id) {
+                return;
+            }
+
+            element.data('status', "off");
+            if (_settingsObj.application_type === "team_name") {
+                element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
+            }
+
+        } else {
+
+            element.data('status', "on");
+            if (_settingsObj.application_type === "team_name") {
+                element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
+            }
+
+            ub.funcs.hideGAFontTool();
+
+        }
+
+        _.each(_views, function (view) {
+
+            var _view = view.perspective + '_view';
+            var _obj = ub.objects[_view]['objects_' + id];
+
+            if (typeof _obj === "undefined") {
+                return;
+            }
+
+            if (_state === "on") {
+
+                _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "on";
+
+            } else {
+
+                _obj.oldZIndex = _obj.zIndex;
+                _obj.zIndex = 0;
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "off";
+
+            }
+
+        });
 
     }
 });

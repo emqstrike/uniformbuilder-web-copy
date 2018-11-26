@@ -1100,14 +1100,14 @@
             <div class="applicationUIBlock" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
-                <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt">Hide</button>
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left active view-letters-opt" disabled>View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-letters-opt">Hide</button>
                 </div>
 
                 <div class="">
                     <h5>INPUT @{{ type }}</h5>
-                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
                 </div>
 
                 <div class="lettersOptsContainer"> 
