@@ -641,7 +641,11 @@ $(document).ready(function() {
 
         if (ub.data.afterLoadCalled === 0) { return; } // Skip activate when called on load prep
 
-        ub.funcs.activateEmbellishments(application.id);
+        if (ub.branding.useAlternativeUI) {
+            ub.funcs.activateApplicationsMascots(application.id);
+        } else {
+            ub.funcs.activateEmbellishments(application.id);
+        }
         ub.funcs.updateLayerTool();
 
     };
