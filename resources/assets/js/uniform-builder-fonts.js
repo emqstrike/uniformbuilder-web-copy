@@ -105,9 +105,13 @@ $(document).ready(function() {
         });
 
         // Hide Richardson Fonts #Richardson
-        if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
-            ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
-        }
+        // if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
+        //     ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
+        // }
+
+
+        var _brand = ub.current_material.material.brand;
+        ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
 
     };
 
@@ -159,7 +163,11 @@ $(document).ready(function() {
             console.log(' ');
             ub.utilities.info("Fonts: ");
 
-            ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
+            ub.utilities.info(ub.data.fonts.length + " fonts loaded for " + ub.config.brand.toTitleCase());
+            ub.utilities.info(ub.config.gender.toTitleCase() + ' / ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option);
+            console.log(ub.data.fonts);
+            console.log(' ');
+
             ub.displayDoneAt( ub.data.fonts[0].name + ' preloaded.');
 
             WebFont.load({

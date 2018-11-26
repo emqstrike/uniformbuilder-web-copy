@@ -650,6 +650,9 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
+            if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
+
+            // Use Alternative Scrollable Controls if brand is not ProLook
             ub.funcs.changeControls();
 
             // executeAfterLoadFunctionList()
@@ -677,6 +680,15 @@ $(document).ready(function () {
                 // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
                 $('span.perspective[data-id="left"]').text('Inside');
                 $('span.perspective[data-id="right"]').text('Outside');
+
+                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
+                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
+                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+
+                    $('span.perspective[data-id="left"]').text('Outside');
+                    $('span.perspective[data-id="right"]').text('Inside');
+                }
             }
 
         }
@@ -1723,15 +1735,24 @@ $(document).ready(function () {
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
-                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
+                    (material.uniform_category === "SFN Jogger (Apparel)") ||
+                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+
+                    var tempLeftThumbnail = material.thumbnail_path_left;
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
+
+                    if (material.block_pattern === "Hockey Sock") {
+                        material.thumbnail_path_left = tempLeftThumbnail;
+                    }
+
                 }
 
                 if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-   
+                
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
