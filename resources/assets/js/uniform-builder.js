@@ -650,10 +650,9 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
-            // Aron Joshua Temporary lang.
-            ub.funcs.afterLoadFunctionList.push(function() {
-                var moifier = new ModifierController('#property-modifiers-menu');
-            });
+            ub.funcs.changeControls();
+
+            // executeAfterLoadFunctionList()
 
             ub.funcs.executeAfterLoadFunctionList();
         };

@@ -25,7 +25,6 @@ elixir(function(mix) {
             'third-party/pixi/pixi.js',
             'third-party/pixi/pixi.draggable.js',
             'third-party/tippy/tippy.all.min.js',
-            'third-party/state-manager/state-manager.js',
 
             // Sources
 
@@ -94,6 +93,8 @@ elixir(function(mix) {
 
             'uniform-builder-application-ui-new.js',
             'uniform-builder-application-ui-new-letters.js',
+
+            'models/Accent.js',
 
             // Custom Panels
             'panels/PropertiesPanel.js',

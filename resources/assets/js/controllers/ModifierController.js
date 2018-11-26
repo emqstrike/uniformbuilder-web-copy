@@ -52,6 +52,15 @@ ModifierController.prototype = {
             animation: 'shift-away',
             placement: 'left-end'
         });
+
+        // change pipings to random feeds if the item is sock
+        tippy('#property-modifiers-menu .menu-item-pipings', {
+            content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
+            delay: 0,
+            size: 'large',
+            animation: 'shift-away',
+            placement: 'left-end'
+        });
     },
 
     bindEvents: function() {

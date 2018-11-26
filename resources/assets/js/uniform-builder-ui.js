@@ -235,10 +235,10 @@ $(document).ready(function () {
 
     };
 
-    ub.changeControls = function(vendor) {
+    ub.funcs.changeControls = function() {
         if (ub.funcs.isAlternativeUIEnabled()) {
-            if (vendor == 'Richardson') {
-                ub.modifierController = new ModifierController('#property-modifiers-menu');
+            if (ub.config.brand == 'Richardson') {
+                ub.modifierController = new ModifierController('#property-modifiers-menu', ub.config.brand);
             } else {
                 if (typeof ub.modifierController !== 'undefined') {
                     ub.modifierController.disable();
