@@ -1,6 +1,24 @@
 .application-numbers-container {
     .add-new-application-numbers {
         margin-top: 15px !important;
+
+        button {
+            background: transparent;
+            color: #333;
+            border: 1px solid #e5e5e5;
+            padding: 0 15px;
+            line-height: 28px;
+
+            &-inverted,
+            &.active {
+                background-color: #000;
+                color: #FFF;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
     }
 
     .application-text,

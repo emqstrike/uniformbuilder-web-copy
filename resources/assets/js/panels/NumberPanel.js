@@ -69,6 +69,10 @@ NumberPanel.prototype = {
         _.each(applications, function(appl) {
             appl.fonts = ub.data.fonts;
             appl.accents = _this.getAccentsList(appl);
+            appl.slider = true;
+            appl.fonts = true;
+            appl.slider = true;
+            appl.colorPicker = true;
         });
         console.log(applications);
 
@@ -373,5 +377,42 @@ NumberPanel.prototype = {
     enable: function() {
         // enables panel
     }
+};
 
-}
+NumberPanel.initializeUISlider = function() {
+    var applications = ub.current_material.settings.applications;
+    var filteredApplications = _.filter(applications, function(i) {
+        if (i.application_type === 'team_name' || i.application_type === 'player_name') {
+            return i;
+        }
+    });
+
+    var appData = [];
+
+    // getting only data needed
+    _.map(filteredApplications, function (i) {
+        var objStock = {
+            type: i.application.name.toUpperCase(),
+            defaultText: i.text,
+            code: i.code,
+            perspective: i.application.views[0].perspective,
+            placeholder: 'Your ' + i.application.name.toLowerCase(),
+            fonts: true,
+            fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
+            slider: true,
+            sliderContainer: ub.funcs.sliderContainer(i.code),
+            colorPicker: true,
+            colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
+            accents: true,
+            accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT')    
+        };
+        appData.push(objStock);
+    });
+
+    // prepare data
+    var templateData = {
+        applications: appData
+    };
+
+    console.log(templateData);
+};
