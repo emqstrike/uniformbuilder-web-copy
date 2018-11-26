@@ -75,6 +75,10 @@ PipingPanel.events = {
 
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        }
+
         if (status === PipingPanel.STATUS_ON) {
             $('.valueContainer', toggle_el).css('margin-left', '-100px');
             toggle_el.removeClass('defaultShadow');
@@ -95,6 +99,10 @@ PipingPanel.events = {
 
             $('.content-wrapper', piping_item_el).slideDown("fast");
             toggle_el.data('status', PipingPanel.STATUS_ON);
+        }
+
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
         }
     },
 
@@ -151,6 +159,10 @@ PipingPanel.events = {
         if (type === "Neck Piping 1/2") {
             $('.piping-colors-buttons[data-value="1"]', piping_el).click(PipingPanel.events.onPipingColorButtonClick);
         }
+
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        }
     },
 
     onPipingColorButtonClick: function(e) {
@@ -204,6 +216,10 @@ PipingPanel.events = {
             ub.funcs.renderPipings(matchingPipingObject, value);
         }
         /// End Process Matching Object
+
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        }
 
         $(".piping-colors-buttons", piping_el).removeClass("active");
         $(this).addClass("active");
@@ -363,6 +379,10 @@ PipingPanel.events = {
             }
         }
 
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        }
+
         var image = ub.getThumbnailImage(ub.active_view + "_view");
 
         $("#piping-preview").css({
@@ -381,6 +401,11 @@ PipingPanel.events = {
         ub.funcs.removePiping(pipingObject.set);
 
         var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
+
+        if (typeof ub.data.logos !== "undefined") {
+            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        }
+
         $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
         $('#piping-change-color').modal('hide');
     }

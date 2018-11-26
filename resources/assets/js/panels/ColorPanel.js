@@ -38,31 +38,18 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
-            // Set Perspective
-            var perspective = new PerspectiveController();
+            _this.addCheckOnSelectedColor($(this), colorLabel);
 
-            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
+            // Retrieve Color Object
+            var color_id = $(this).data('color-id');
+            var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
 
-                perspective.front();
-
-            } else if (modifier_category.includes("back")) {
-
-                perspective.back();
-
-            } else if (modifier_category.includes("left")) {
-
-                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.left();
-                }
-
-            } else if (modifier_category.includes("right")) {
-
-                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.right();
-                }
-            }
+            // Apply the color to the Canvas
+            _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
 
             if (_.size(ub.data.logos) !== 0) {
+                LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+
                 var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
                 var material_settings = ub.current_material.settings[ub.config.type];
 
@@ -84,15 +71,6 @@ ColorPanel.prototype = {
                     }
                 }
             }
-
-            _this.addCheckOnSelectedColor($(this), colorLabel);
-
-            // Retrieve Color Object
-            var color_id = $(this).data('color-id');
-            var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
-
-            // Apply the color to the Canvas
-            _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
         });
     },
 
