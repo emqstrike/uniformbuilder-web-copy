@@ -1200,9 +1200,9 @@
                     </span>
                 </div>
 
-                <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
 
                 @{{#slider}}

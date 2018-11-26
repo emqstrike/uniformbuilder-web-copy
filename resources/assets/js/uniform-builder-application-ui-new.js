@@ -45,14 +45,14 @@ $(function() {
     $('#primary_options_container').on('click', '.view-sliders', function () {
         $(this).addClass('active');
         $(this).next().removeClass('active');
-        $(this).parent().next().fadeIn();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
     });
 
     // on click hide slidersContainer
     $('#primary_options_container').on('click', '.hide-sliders', function () {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
-        $(this).parent().next().hide();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
     });
 
     // on click color item type mascot
