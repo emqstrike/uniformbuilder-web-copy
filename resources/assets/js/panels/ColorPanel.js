@@ -49,27 +49,6 @@ ColorPanel.prototype = {
 
             if (_.size(ub.data.logos) !== 0) {
                 LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
-
-                var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
-                var material_settings = ub.current_material.settings[ub.config.type];
-
-                if (current_active_logo.position.includes("sleeve") && modifier_category.includes("sleeve")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
-
-                if (current_active_logo.position.includes("back") && modifier_category.includes("back")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
-
-                if (current_active_logo.position.includes("chest") && modifier_category.includes("front") || modifier_category.includes("chest")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
             }
         });
     },

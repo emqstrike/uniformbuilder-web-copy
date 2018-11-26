@@ -12,7 +12,8 @@
 function LogoPanel(element, logo_positions) {
     this.panel = document.getElementById(element);
     this.data = {
-        logo_position: logo_positions
+        logo_position: logo_positions,
+        brand: ub.config.brand
     };
     this.bindEvents();
 }
@@ -61,8 +62,6 @@ LogoPanel.prototype = {
 
         LogoPanel.process.removeLogo(current_position);
         LogoPanel.process.addLogo(logoObject, _layerCount);
-        LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
-        LogoPanel.process.sameColorAsBackground(material_ops, logoSettingsObject);
 
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
@@ -122,24 +121,11 @@ LogoPanel.process = {
                 }
 
                 var secondary_color = LogoPanel.process.getSecondaryColor();
-
                 logo.colors_array = [
                     "W",
-                    "W",
-                    secondary_color.length > 0 ? secondary_color[0].color_code : "CG"
+                    ub.config.uniform_application_type === "sublimated" ? "none" : "W",
+                    "CG"
                 ];
-
-                // Logo Layer 2 color
-                if (ub.config.uniform_application_type === "sublimated") {
-                    logo.colors_array[1] = "none";
-                } else {
-                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0].color_code : "W";
-                }
-
-                // Logo Layer 3 Color
-                if (logo.colors_array[2] === "W") {
-                    logo.colors_array[0] = "CG";
-                }
 
                 var _colorArray = [];
                 var _layers = [];
@@ -147,13 +133,9 @@ LogoPanel.process = {
                 logo.name = ub.utilities.titleCase(logo.position.replace(/_/g, " ").replace("logo", ""));
 
                 // Normalize Logo Position From source
-
                 _.each (logo.perspectives, function (perspective) {
-
                     _.each(perspective.layers, function (layer) {
-
                         layer.position = layer.position;
-
                     });
                 });
 
@@ -204,6 +186,7 @@ LogoPanel.process = {
 
                     LogoPanel.process.initLogoColors(_logoObject, selectedColorArray[0]);
                     LogoPanel.process.renderLogo(logo, _layerCount);
+                    LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
                 }
             });
         }
@@ -365,6 +348,8 @@ LogoPanel.process = {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
+
+        LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
     },
 
     changeColor: function(logo_data) {
@@ -495,9 +480,6 @@ LogoPanel.process = {
                 }
             }
         }
-
-        // Update Logo Setting Layer
-        // LogoPanel.process.updateLayers(logoSettingsObject.layers);
     },
 
     sameColorForColorPanel: function(current_active_logo, colorLabel) {
@@ -533,9 +515,6 @@ LogoPanel.process = {
         } else {
             LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
         }
-
-        // Update Logo Setting Layer
-        // LogoPanel.process.updateLayers(current_active_logo .layers);
     },
 
     removeDuplicateColor: function(arr) {
