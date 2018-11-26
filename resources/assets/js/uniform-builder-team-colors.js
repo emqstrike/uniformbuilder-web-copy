@@ -369,7 +369,10 @@ $(document).ready(function () {
         if (typeof cancelColorPickerUpdate === "undefined") {
             if (ub.data.afterLoadCalled) { ub.funcs.drawColorPickers(); }
         }
-        
+        // Aron Joshua
+        // if (ub.data.afterLoadCalled && typeof ub.data.logos !== "undefined") {
+        //     LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        // }
     };
 
     ub.funcs.ifColorIsUsedOnPatterns = function (colorObj) {
@@ -417,7 +420,10 @@ $(document).ready(function () {
 
         // Selective execution here ... Update pattern only if the color being removed is currently in used by the pattern
         if (ub.funcs.ifColorIsUsedOnPatterns(colorObj)){ ub.funcs.updatePatterns(); }
-        
+        // Arom Joshua
+        // if (ub.data.afterLoadCalled && typeof ub.data.logos !== "undefined") {
+        //     LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+        // }
     };
 
     ub.funcs.drawColorPickers = function () {

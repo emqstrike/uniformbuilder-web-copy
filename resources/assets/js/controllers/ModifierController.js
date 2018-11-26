@@ -28,7 +28,6 @@ function ModifierController(element, brand) {
         parts: {},
         inserts: {},
         pippings: {},
-        random_feeds: {},
         letters: {},
         numbers: {},
         applications: {},
@@ -38,6 +37,8 @@ function ModifierController(element, brand) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -119,7 +120,7 @@ ModifierController.prototype = {
         console.log('Show Fabrics Panel');
     },
 
-    parts: function() {
+    parts: function(_this) {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
@@ -167,10 +168,10 @@ ModifierController.prototype = {
         var piping_panel;
 
         if (ub.funcs.isSocks()) { // display random feeds
-            ub.modifierController.controllers.random_feeds = new RandomFeedPanel('random-feeds-list');
-            ub.modifierController.controllers.random_feeds.setRandomFeedSetItems();
+            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
 
-            var random_feed_panel = ub.modifierController.controllers.random_feeds.getPanel();
+            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
             properties_panel.setBodyPanel(random_feed_panel);
 
             RandomFeedPanel.events.init();
@@ -197,25 +198,18 @@ ModifierController.prototype = {
 
     letters: function() {
         console.log('Show Letters Panel');
-        ub.funcs.startNewApplicationLetters();
     },
 
     numbers: function() {
-        ub.modifierController.numbers = new NumberPanel('m-decorations-numbers');
-        var numbers_panel = ub.modifierController.numbers.getPanel();
-        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
-        properties_panel.setBodyPanel(numbers_panel);
+        console.log('Show Numbers Panel');
         // set event listeners
-        ub.modifierController.numbers.bindEvents();
     },
 
     applications: function() {
         console.log('Show Applications Panel');
-        ub.funcs.startNewApplication();
     },
 
     logo: function() {
-        console.log('Show Logo Panel');
         var logo_positions = ub.data.logos;
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
 

@@ -657,6 +657,7 @@ $(document).ready(function () {
 
             // executeAfterLoadFunctionList()
 
+            ub.funcs.executeAfterLoadFunctionList();
         };
 
         // afterLoad function container
@@ -2840,7 +2841,8 @@ $(document).ready(function () {
         // Process Prolook Logo Here
         if (ub.current_material.material.logo_position !== null) {
 
-            LogoPanel.process.processLogo(ub.current_material.material.logo_position);
+            LogoPanel.process.initLogoData(ub.current_material.material.logo_position);
+            LogoPanel.process.processLogo();
 
             if (_.size(ub.current_material.settings.logos) > 0) {
 
