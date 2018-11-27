@@ -198,8 +198,17 @@ ModifierController.prototype = {
 
     numbers: function() {
         console.log('Show Numbers Panel');
+
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.numbers = new NumberPanel('m-decorations-numbers', propertiesPanel.numbers);
+
+        var number_panel = ub.modifierController.controllers.numbers.getPanel();
+        propertiesPanel.setBodyPanel(number_panel);
+
         // set event listeners
-        ub.modifierController.numbers.bindEvents();
+        ub.modifierController.controllers.numbers.bindEvents();
+
+        ub.funcs.initializer();
         
         // NumberPanel.initializeUISlider();
     },
