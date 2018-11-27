@@ -648,9 +648,7 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
-            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
-
-            if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
+            ub.funcs.executeAfterLoadFunctionList();
 
         };
 
