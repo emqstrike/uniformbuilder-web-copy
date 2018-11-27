@@ -67,6 +67,8 @@ $(document).ready(function() {
         if (_defaultFabric === "two") { ub.fabric.fabricTwo(); }
         if (_defaultFabric === "three") { ub.fabric.fabricThree(); }
 
+        ub.utilities.info('Initializing fabric function...')
+
     };
 
 	ub.fabric.testFabric = function () {
@@ -219,5 +221,18 @@ $(document).ready(function() {
         /// End Initialize
 
     }
+
+    ub.fabric.init = function () {
+
+        if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
+        if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
+
+    }
+
+    /// Executable Portion
+
+        ub.funcs.addFunctionToAfterloadList(ub.fabric.init);
+
+    ///
 
 });
