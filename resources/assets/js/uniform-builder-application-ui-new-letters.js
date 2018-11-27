@@ -1413,6 +1413,8 @@ $(function() {
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType = _settingsObject.application_type;
 
+        var isLetters = _applicationType === "player_name" || _applicationType === "team_name" ? true : false;
+        var isMascots = _applicationType === "mascot" || _applicationType === "embellishments" ? true : false;
         // var _sampleText = _settingsObject.text;
         var _sizes = '';
         var _uniformCategory = ub.current_material.material.uniform_category
@@ -1421,9 +1423,9 @@ $(function() {
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
-        if (_applicationType === "player_name" | _applicationType === "team_name") {
+        if (isLetters) {
             ub.funcs.beforeActivateApplication();
-        } else if (_applicationType === "mascot" | _applicationType === "embellishments") {
+        } else if (isMascots) {
             _sizes = ub.funcs.getApplicationSizes('mascot', _alias.alias);
         }
     
@@ -1453,7 +1455,7 @@ $(function() {
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
-        if (_applicationType === "player_name" || _applicationType === "team_name") {
+        if (isLetters) {
             
 
             if (_uniformCategory === "Football") {
@@ -1474,7 +1476,7 @@ $(function() {
                 _sizes = ub.funcs.getApplicationSizes(_applicationType);
         
             }
-        } else if (_applicationType === "mascot" || _applicationType === "embellishments") {
+        } else if (isMascots) {
             if (ub.funcs.isCurrentSport('Football')) {
 
                 if (_id === '2' && _applicationType === 'mascot' || _applicationType === 'embellishments') {
@@ -1531,7 +1533,7 @@ $(function() {
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
 
-                if (_applicationType === "mascot" || _applicationType === "embellishments") { 
+                if (isMascots) { 
                     console.log(_.pluck(_sizesFromConfig.sizes, "size"));
                     // add sort for sizes
                     _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function (obj) {
@@ -1609,7 +1611,7 @@ $(function() {
         var _maxLength = ub.data.maxLength;
     
         if (_settingsObject.type.indexOf('number') !== -1) {
-            if (_applicationType === "player_name" || _applicationType === "team_name") {
+            if (isLetters) {
                 _maxLength = ub.data.maxLengthNumbers;
             } else {
                 _maxLength = 2;
@@ -1650,7 +1652,7 @@ $(function() {
                 }
             }
 
-            if (_applicationType === "mascot" || _applicationType === "embellishments") {
+            if (isMascots) {
                 if (application_id === 4) {
                     _settingsObject.size = 0.5;
 
@@ -1664,7 +1666,7 @@ $(function() {
         _generateSizes = ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
         var templateData = {}
     
-        if (_applicationType === "player_name" || _applicationType === "team_name") {
+        if (isLetters) {
             var _isBaseballFastpitch = false;
             if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
                 _isBaseballFastpitch = true;
@@ -1735,7 +1737,7 @@ $(function() {
             }
         
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
-        } else if (_applicationType === "mascot" || _applicationType === "embellishments") {
+        } else if (isMascots) {
             var objMascot = {};
             var _inputSizes;
 
@@ -1808,7 +1810,7 @@ $(function() {
 
         /// Applications Color Events
 
-        if ( _applicationType === "player_name" || _applicationType === "team_name") {
+        if ( isLetters) {
             ub.funcs.setupTextSmallColorPickerEvents(_settingsObject);
 
             /// End Application Pattern Events
@@ -1822,7 +1824,7 @@ $(function() {
             /// Application Manipulator Events 
 
             
-        } else if ( _applicationType === "mascot" || _applicationType === "embellishments") {
+        } else if ( isMascots) {
             ub.funcs.updateCoordinates(_settingsObject);
 
             var s = ub.funcs.getPrimaryView(_settingsObject.application);
@@ -1866,7 +1868,7 @@ $(function() {
 
         if (_applicationType === "mascot") {
             ub.funcs.afterActivateMascots(_id);
-        } else if (_applicationType === "player_name" || _applicationType === "team_name") {
+        } else if (isLetters) {
             ub.funcs.afterActivateApplication(application_id);
         }
     }
