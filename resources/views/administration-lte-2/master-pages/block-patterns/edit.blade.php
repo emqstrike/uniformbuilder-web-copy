@@ -26,6 +26,17 @@
         select.coordinating-colors {
             width: 49%;
         }
+
+        .limited-color-row .row {
+            min-width: 321px;
+        }
+
+        .limited-colors-container,
+        .coordinating-colors-container {
+            background: #eeeeee;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
     </style>
 @endsection
 
