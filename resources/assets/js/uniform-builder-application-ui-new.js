@@ -266,6 +266,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initScalePanel(scaleSliders[i], _settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Small');
             $(this).find('.noUi-value-large').last().html('Large');
         });
@@ -277,6 +281,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelX(moveXSliders[i],_settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Left');
             $(this).find('.noUi-value-large').last().html('Right');
         });
@@ -288,6 +296,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelY(moveYSliders[i],_settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Down');
             $(this).find('.noUi-value-large').last().html('Up');
         });
@@ -299,6 +311,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initRotatePanel(rotateSliders[i], _settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
         });
 
         // add class active to all first tab of color selection tab
@@ -324,6 +340,7 @@ $(function() {
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initRotatePanel=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -356,6 +373,7 @@ $(function() {
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initScalePanel=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -403,6 +421,7 @@ $(function() {
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initMovePanelX=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -458,6 +477,7 @@ $(function() {
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initMovePanelY=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
