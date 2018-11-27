@@ -230,9 +230,6 @@ LogoPanel.process = {
 
         _.each(_frontObject.layers.slice(0).reverse(), function (layer, index) {
             // if (index + 1 > _layerCount) { return; }
-
-            console.log("Index" , index);
-
             var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.layer});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
             logoLayer.ubName = 'Layer ' + (index + 1);
@@ -570,16 +567,18 @@ LogoPanel.process = {
         if (color_code === "CG") {
             LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
             LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
-            if (ub.config.uniform_application_type === "tackle_twill") {
+            if (logoSettingsObject.numberOfLayers !== 2) {
                 LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
+                console.log("HERE")
             }
 
         } else {
             LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
             LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
 
-            if (ub.config.uniform_application_type === "tackle_twill") {
+            if (logoSettingsObject.numberOfLayers !== 2) {
                 LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
+                console.log("HERE")
             }
         }
     },
