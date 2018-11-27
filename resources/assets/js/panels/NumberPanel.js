@@ -29,6 +29,7 @@ NumberPanel.prototype = {
             var application_type = $(this).data('application-type');
             var font_id = $(this).data('font-id');
             var layer = $(this).data('application-layer');
+
             if (e.keyCode === 13) {
                 ub.modifierController.numbers.setNumber({
                     number: number,

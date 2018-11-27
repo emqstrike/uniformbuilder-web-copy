@@ -8,7 +8,7 @@
         </div>
 
         @{{ #applications }}
-        <div class="applicationUIBlock">
+        <div class="application applicationUIBlock">
             <h5>@{{ application.name }}</h5>
             <input
                 type="text"
