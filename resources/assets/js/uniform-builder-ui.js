@@ -237,7 +237,13 @@ $(document).ready(function () {
 
     ub.funcs.changeControls = function() {
         if (ub.funcs.isAlternativeUIEnabled()) {
-            if (ub.config.brand == 'Richardson') {
+
+            // Overwrite config's brand
+            if (ub.current_material.material.brand.toLowerCase() == 'richardson') {
+                ub.config.brand = ub.current_material.material.brand;
+            }
+
+            if (ub.config.brand.toLowerCase() == 'richardson') {
                 ub.modifierController = new ModifierController('#property-modifiers-menu', ub.config.brand);
             } else {
                 if (typeof ub.modifierController !== 'undefined') {
