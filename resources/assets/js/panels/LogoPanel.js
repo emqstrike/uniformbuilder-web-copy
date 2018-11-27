@@ -517,17 +517,6 @@ LogoPanel.process = {
         }
     },
 
-    removeDuplicateColor: function(arr) {
-        let unique_array = [];
-        for(let i = 0; i < arr.length; i++){
-            if(unique_array.indexOf(arr[i]) == -1){
-                unique_array.push(arr[i])
-            }
-        }
-
-        return unique_array;
-    },
-
     loadDefaultLogo: function(logoSettingsObject, colorLabel) {
 
         _.delay(function(){
@@ -557,12 +546,6 @@ LogoPanel.process = {
         }, 100)
     },
 
-    updateLayers: function(layers) {
-        _.each(ub.current_material.settings.logos, function(index) {
-            index.layers = layers;
-        });
-    },
-
     reInitiateLogo: function(position, color_code) {
         if (color_code !== "W") {
             LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
@@ -571,15 +554,31 @@ LogoPanel.process = {
             LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
             LogoPanel.process.changeRColor(position, "CG");
         }
+
+        if (ub.config.uniform_application_type === "tackle_twill") {
+            if (color_code === "W") {
+                LogoPanel.process.changeRichardsonLogoOutline(position, "CG");
+            } else {
+                LogoPanel.process.changeRichardsonLogoOutline(position, "W");
+            }
+        }
     },
 
     reInitiateDefaultLogo: function(position, color_code) {
         if (color_code === "CG") {
             LogoPanel.process.changeRichardsonLogoBackground(position, "W");
             LogoPanel.process.changeRColor(position, "CG");
+            if (ub.config.uniform_application_type === "tackle_twill") {
+                LogoPanel.process.changeRichardsonLogoOutline(position, "CG");
+            }
+
         } else {
             LogoPanel.process.changeRichardsonLogoBackground(position, "CG");
             LogoPanel.process.changeRColor(position, "W");
+
+            if (ub.config.uniform_application_type === "tackle_twill") {
+                LogoPanel.process.changeRichardsonLogoOutline(position, "W");
+            }
         }
     },
 
@@ -619,7 +618,9 @@ LogoPanel.process = {
         _.map(ub.current_material.settings[ub.config.type], function(mo) {
             if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
                 if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
-                    secondary_color.push(mo.colorObj.color_code);
+                    if (!_.includes(LogoPanel.excluded, mo.code)) {
+                        secondary_color.push(mo.colorObj.color_code);
+                    }
                 }
             }
         });
