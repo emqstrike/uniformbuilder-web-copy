@@ -330,6 +330,7 @@ $(function() {
         // add applications opt
         var selectNewAppOptions = document.getElementsByClassName('addApplicationsOpts');
         $(selectNewAppOptions).each(function(){
+            $(this).find('div > button').removeClass('active');
             $(this).find('div > button:first-of-type').addClass('active');
             $(this).find('div > button:nth-of-type(odd)').addClass('pull-left');
             $(this).find('div > button:nth-of-type(even)').addClass('pull-right');
