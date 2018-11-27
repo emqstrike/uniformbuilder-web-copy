@@ -6,7 +6,7 @@
         </div>
         <div class="row logo-perspective-btn-container">
             @{{ #logo_position }}
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <button class="cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
                             data-position="@{{ position }}"
                     >@{{ name }}</button>

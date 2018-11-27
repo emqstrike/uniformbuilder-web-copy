@@ -120,10 +120,16 @@ LogoPanel.process = {
                     logo.position = "left_sleeve_logo";
                 }
 
+                var _layerCount = 0;
+
+                if (logo.layer1) { _layerCount +=1 };
+                if (logo.layer2) { _layerCount +=1 };
+                if (logo.layer3) { _layerCount +=1 };
+
                 var secondary_color = LogoPanel.process.getSecondaryColor();
                 logo.colors_array = [
                     "W",
-                    ub.config.uniform_application_type === "sublimated" ? "none" : "W",
+                    _layerCount == 2 ? "none" : "W",
                     "CG"
                 ];
 
@@ -158,12 +164,6 @@ LogoPanel.process = {
 
                     console.log('No Color Array for ' + logo.position);
                 }
-
-                var _layerCount = 0;
-
-                if (logo.layer1) { _layerCount +=1 };
-                if (logo.layer2) { _layerCount +=1 };
-                if (logo.layer3) { _layerCount +=1 };
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
 
@@ -229,7 +229,9 @@ LogoPanel.process = {
         var _frontObject = _.find(logoObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers.slice(0).reverse(), function (layer, index) {
-            if (index + 1 > _layerCount) { return; }
+            // if (index + 1 > _layerCount) { return; }
+
+            console.log("Index" , index);
 
             var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.layer});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
@@ -250,7 +252,7 @@ LogoPanel.process = {
 
         sprite = container;
 
-        // ub.updateLayersOrder(sprite);
+        ub.updateLayersOrder(sprite);
 
         var _logoLengthBefore = _.filter(ub.current_material.settings.logos, {enabled: 1}).length;
 
@@ -441,81 +443,81 @@ LogoPanel.process = {
         return secondary_colors;
     },
 
-    sameColorAsBackground: function(material_ops, logoSettingsObject) {
-        var secondary_color = LogoPanel.process.getSecondaryColor();
+    // sameColorAsBackground: function(material_ops, logoSettingsObject) {
+    //     var secondary_color = LogoPanel.process.getSecondaryColor();
 
-        if (typeof material_ops !== "undefined") {
-            if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
-                if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
-                    for (var i = 0; i < _.size(secondary_color); i++) {
-                        if (material_ops.colorObj.color_code === secondary_color[i].color_code) {
-                            // Load default color
-                            LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code)
-                            continue;
-                        } else {
-                            if (secondary_color[i].color_code !== "W") {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i].color_code);
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
+    //     if (typeof material_ops !== "undefined") {
+    //         if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
+    //             if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
+    //                 for (var i = 0; i < _.size(secondary_color); i++) {
+    //                     if (material_ops.colorObj.color_code === secondary_color[i].color_code) {
+    //                         // Load default color
+    //                         LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code)
+    //                         continue;
+    //                     } else {
+    //                         if (secondary_color[i].color_code !== "W") {
+    //                             LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i].color_code);
+    //                             LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
 
-                                if (ub.config.uniform_application_type === "tackle_twill") {
-                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
-                                    logoSettingsObject.layers[1].colorCode = "W";
-                                }
+    //                             if (ub.config.uniform_application_type === "tackle_twill") {
+    //                                 LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
+    //                                 logoSettingsObject.layers[1].colorCode = "W";
+    //                             }
 
-                            } else {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i].color_code);
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
+    //                         } else {
+    //                             LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i].color_code);
+    //                             LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
 
-                                if (ub.config.uniform_application_type === "tackle_twill") {
-                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
-                                    logoSettingsObject.layers[1].colorCode = "CG";
-                                }
-                            }
-                            break;
-                        }
-                    }
-                } else {
-                    // Load Default Color
-                    LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code);
-                }
-            }
-        }
-    },
+    //                             if (ub.config.uniform_application_type === "tackle_twill") {
+    //                                 LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
+    //                                 logoSettingsObject.layers[1].colorCode = "CG";
+    //                             }
+    //                         }
+    //                         break;
+    //                     }
+    //                 }
+    //             } else {
+    //                 // Load Default Color
+    //                 LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code);
+    //             }
+    //         }
+    //     }
+    // },
 
-    sameColorForColorPanel: function(current_active_logo, colorLabel) {
-        var secondary_color = LogoPanel.process.getSecondaryColor();
+    // sameColorForColorPanel: function(current_active_logo, colorLabel) {
+    //     var secondary_color = LogoPanel.process.getSecondaryColor();
 
-        if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
-            for (var i = 0; i < _.size(secondary_color); i++) {
-                if (colorLabel === secondary_color[i].color_code) {
-                    LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
-                    continue;
-                } else {
-                    if (secondary_color[i].color_code !== "W") {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i].color_code);
-                        LogoPanel.process.changeRColor(current_active_logo.position, "W");
+    //     if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
+    //         for (var i = 0; i < _.size(secondary_color); i++) {
+    //             if (colorLabel === secondary_color[i].color_code) {
+    //                 LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
+    //                 continue;
+    //             } else {
+    //                 if (secondary_color[i].color_code !== "W") {
+    //                     LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i].color_code);
+    //                     LogoPanel.process.changeRColor(current_active_logo.position, "W");
 
-                        if (ub.config.uniform_application_type === "tackle_twill") {
-                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "W");
-                            current_active_logo.layers[1].colorCode = "W";
-                        }
+    //                     if (ub.config.uniform_application_type === "tackle_twill") {
+    //                         LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "W");
+    //                         current_active_logo.layers[1].colorCode = "W";
+    //                     }
 
-                    } else {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i].color_code);
-                        LogoPanel.process.changeRColor(current_active_logo.position, "CG");
+    //                 } else {
+    //                     LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i].color_code);
+    //                     LogoPanel.process.changeRColor(current_active_logo.position, "CG");
 
-                        if (ub.config.uniform_application_type === "tackle_twill") {
-                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "CG");
-                            current_active_logo.layers[1].colorCode = "CG";
-                        }
-                    }
-                    break;
-                }
-            }
-        } else {
-            LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
-        }
-    },
+    //                     if (ub.config.uniform_application_type === "tackle_twill") {
+    //                         LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "CG");
+    //                         current_active_logo.layers[1].colorCode = "CG";
+    //                     }
+    //                 }
+    //                 break;
+    //             }
+    //         }
+    //     } else {
+    //         LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
+    //     }
+    // },
 
     loadDefaultLogo: function(logoSettingsObject, colorLabel) {
 
@@ -524,7 +526,7 @@ LogoPanel.process = {
                 LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
                 LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
 
-                if (ub.config.uniform_application_type === "tackle_twill") {
+                if (logoSettingsObject.numberOfLayers !== 2) {
                     LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
                     logoSettingsObject.layers[1].colorCode = "CG";
                 }
@@ -538,46 +540,46 @@ LogoPanel.process = {
                 logoSettingsObject.layers[0].colorCode = "W";
                 logoSettingsObject.layers[2].colorCode = "CG";
 
-                if (ub.config.uniform_application_type === "tackle_twill") {
-                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
-                    logoSettingsObject.layers[1].colorCode = "W";
+                if (logoSettingsObject.numberOfLayers !== 2) {
+                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
+                    logoSettingsObject.layers[1].colorCode = "CG";
                 }
             }
         }, 100)
     },
 
-    reInitiateLogo: function(position, color_code) {
+    reInitiateLogo: function(logoSettingsObject, color_code) {
         if (color_code !== "W") {
-            LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
-            LogoPanel.process.changeRColor(position, "W");
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, color_code);
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
         } else {
-            LogoPanel.process.changeRichardsonLogoBackground(position, color_code);
-            LogoPanel.process.changeRColor(position, "CG");
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, color_code);
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
         }
 
         if (ub.config.uniform_application_type === "tackle_twill") {
             if (color_code === "W") {
-                LogoPanel.process.changeRichardsonLogoOutline(position, "CG");
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
             } else {
-                LogoPanel.process.changeRichardsonLogoOutline(position, "W");
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
             }
         }
     },
 
-    reInitiateDefaultLogo: function(position, color_code) {
+    reInitiateDefaultLogo: function(logoSettingsObject, color_code) {
         if (color_code === "CG") {
-            LogoPanel.process.changeRichardsonLogoBackground(position, "W");
-            LogoPanel.process.changeRColor(position, "CG");
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
             if (ub.config.uniform_application_type === "tackle_twill") {
-                LogoPanel.process.changeRichardsonLogoOutline(position, "CG");
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
             }
 
         } else {
-            LogoPanel.process.changeRichardsonLogoBackground(position, "CG");
-            LogoPanel.process.changeRColor(position, "W");
+            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
+            LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
 
             if (ub.config.uniform_application_type === "tackle_twill") {
-                LogoPanel.process.changeRichardsonLogoOutline(position, "W");
+                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
             }
         }
     },
@@ -598,15 +600,15 @@ LogoPanel.process = {
         if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
             for (var i = 0; i < secondary_color.length; i++) {
                 if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
-                    LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+                    LogoPanel.process.reInitiateDefaultLogo(current_active_logo, material_ops.colorObj.color_code);
                     continue;
                 } else {
-                    LogoPanel.process.reInitiateLogo(current_active_logo.position, secondary_color[i].color_code);
+                    LogoPanel.process.reInitiateLogo(current_active_logo, secondary_color[i].color_code);
                     break;
                 }
             }
         } else {
-            LogoPanel.process.reInitiateDefaultLogo(current_active_logo.position, material_ops.colorObj.color_code);
+            LogoPanel.process.reInitiateDefaultLogo(current_active_logo, material_ops.colorObj.color_code);
         }
     },
 
