@@ -45,14 +45,14 @@ $(function() {
     $('#primary_options_container').on('click', '.view-sliders', function () {
         $(this).addClass('active');
         $(this).next().removeClass('active');
-        $(this).parent().next().fadeIn();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
     });
 
     // on click hide slidersContainer
     $('#primary_options_container').on('click', '.hide-sliders', function () {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
-        $(this).parent().next().hide();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
     });
 
     // on click color item type mascot
@@ -94,7 +94,7 @@ $(function() {
         var _matchingID = undefined;
         var _matchingSettingsObject = undefined;
 
-        _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+        _matchingID = ub.data.matchingIDs.getMatchingID(dataId);
 
         if (typeof _matchingID !== "undefined") {
             _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
@@ -259,7 +259,6 @@ $(function() {
     };
 
     ub.funcs.initializer = function () {
-
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
         $(scaleSliders).each(function(i) {
@@ -366,7 +365,6 @@ $(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        console.log(_start);
         if (typeof element.noUiSlider === "object") {
             element.noUiSlider.set(_start);
             return;

@@ -1101,14 +1101,14 @@
             <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
-                <div class="posContainer clearfix app-letters-wrapper">
-                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt app-letters-button">Hide</button>
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left active view-letters-opt" disabled>View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-letters-opt">Hide</button>
                 </div>
 
-                <div class="app-letters-wrapper">
-                    <h5 class="app-letters-subtitle">INPUT @{{ type }}</h5>
-                    <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                <div class="">
+                    <h5>INPUT @{{ type }}</h5>
+                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
                 </div>
 
                 <div class="lettersOptsContainer app-letters-wrapper">
@@ -1200,9 +1200,9 @@
                     </span>
                 </div>
 
-                <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
 
                 @{{#slider}}
