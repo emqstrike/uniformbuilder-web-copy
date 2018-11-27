@@ -1265,12 +1265,13 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateMaterialOptionsTable ($itemData) {
+    function generateMaterialOptionsTable ($itemData, $sml) {
 
         $this->log_info('generateMaterialOptionsTable');
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
+
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
@@ -1304,30 +1305,102 @@ class UniformBuilderController extends Controller
 
         $ctrParts = 0;
 
-        foreach ($parts as &$part) {
+        $newParts = [];
 
-            if (!is_array($part)) { continue; }
+        // adding group id to matching part
+        foreach ($parts as &$partX) {
 
-            if ($part['setting_type'] === 'mesh_shadows') { continue; }
-            if ($part['setting_type'] === 'mesh_highlights') { continue; }
-            if ($part['setting_type'] === 'static_layer') { continue; }
+            if (!is_array($partX)) { continue; }
 
-            if ($part['code'] === 'highlights') { continue; }
-            if ($part['code'] === 'highlight') { continue; }
-            if ($part['code'] === 'shadows') { continue; }
-            if ($part['code'] === 'shadow') { continue; }
-            if ($part['code'] === 'guide') { continue; }
-            if ($part['code'] === 'status') { continue; }
-            if ($part['code'] === 'static') { continue; }
-            if ($part['code'] === 'locker_tag') { continue; }
-            if ($part['code'] === 'elastic_belt') { continue; }
-            if ($part['code'] === 'body_inside') { continue; }
-            if ($part['code'] === 'extra') { continue; }
+            if ($partX['setting_type'] === 'mesh_shadows') { continue; }
+            if ($partX['setting_type'] === 'mesh_highlights') { continue; }
+            if ($partX['setting_type'] === 'static_layer') { continue; }
 
-            if ($hiddenBody and $part['code'] === 'body') { continue; }
+            if ($partX['code'] === 'highlights') { continue; }
+            if ($partX['code'] === 'highlight') { continue; }
+            if ($partX['code'] === 'shadows') { continue; }
+            if ($partX['code'] === 'shadow') { continue; }
+            if ($partX['code'] === 'guide') { continue; }
+            if ($partX['code'] === 'status') { continue; }
+            if ($partX['code'] === 'static') { continue; }
+            if ($partX['code'] === 'locker_tag') { continue; }
+            if ($partX['code'] === 'elastic_belt') { continue; }
+            if ($partX['code'] === 'body_inside') { continue; }
+            if ($partX['code'] === 'extra') { continue; }
+
+            if ($hiddenBody and $partX['code'] === 'body') { continue; }
+
+            Log::info('PARTX===============>' . $partX['code']);
+            $prevCode = $partX['code'];
+
+            // add extra property
+            $partX = (object) array_merge( (array)$partX, array( 'code_prev' => $prevCode ) );
+
+            // pre check before transform
+            if (strpos($partX->code, 'sleeve') !== false) {
+
+                $partX->code = 'sleeve';
+            }
+
+            // transform code to matching words
+            $trans_code = str_replace('_', ' ', $partX->code); // replace underscore with spaces
+            $upper_code = ucwords($trans_code); // convert every word to uppercase
+            $count_spaces = substr_count($upper_code, ' '); // count spaces
+
+            if ($count_spaces >= 2) {
+                $pos = strpos($upper_code, ' ') + 1;
+                $upper_code = substr($upper_code, $pos);
+            }
+
+            foreach ($sml as $v) {
+                if ($upper_code === $v['name']) {
+
+                    // add extra property
+                    $partX = (object) array_merge( (array)$partX, array( 'group_id' => $v['group_id'] ) );
+
+                    // push to array
+                    array_push($newParts, $partX);
+                }
+            }
+        }
+
+//        Log::info('NEW PARTS===============>' . json_encode($newParts));
+
+        // sort new parts before using
+        usort($newParts, function($a, $b)
+        {
+            if ($a->group_id == $b->group_id) {
+                return 0;
+            }
+            return ($a->group_id < $b->group_id) ? -1 : 1;
+        });
+
+        foreach (json_decode(json_encode($newParts), true) as &$part) {
+
+//            if (!is_array($part)) { continue; }
+//
+//            if ($part['setting_type'] === 'mesh_shadows') { continue; }
+//            if ($part['setting_type'] === 'mesh_highlights') { continue; }
+//            if ($part['setting_type'] === 'static_layer') { continue; }
+//
+//            if ($part['code'] === 'highlights') { continue; }
+//            if ($part['code'] === 'highlight') { continue; }
+//            if ($part['code'] === 'shadows') { continue; }
+//            if ($part['code'] === 'shadow') { continue; }
+//            if ($part['code'] === 'guide') { continue; }
+//            if ($part['code'] === 'status') { continue; }
+//            if ($part['code'] === 'static') { continue; }
+//            if ($part['code'] === 'locker_tag') { continue; }
+//            if ($part['code'] === 'elastic_belt') { continue; }
+//            if ($part['code'] === 'body_inside') { continue; }
+//            if ($part['code'] === 'extra') { continue; }
+//
+//            if ($hiddenBody and $part['code'] === 'body') { continue; }
+
+//            Log::info('PART===============>' . $part['code']);
+//            Log::info('PART===============>' . json_encode($part));
 
             $hasPattern = false;
-
             if (array_key_exists('pattern', $part)) {
                 if ($part['pattern']['pattern_id'] != '') {
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
@@ -1336,7 +1409,17 @@ class UniformBuilderController extends Controller
                 }
             }
 
-            $code = $this->toTitleCase($part['code']);
+            if (array_key_exists('code_prev', $part)) {
+                $codeName =   $part['code_prev'];
+            } else {
+                $codeName =  $part['code'];
+            }
+
+//            if ($part['code'] === 'sleeve') {
+//                Log::info('PART TEST===============>' . json_encode($part));
+//            }
+
+            $code = $this->toTitleCase($codeName);
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1831,6 +1914,7 @@ class UniformBuilderController extends Controller
         $type = 'upper';
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+        $sml = $builder_customizations['builder_customizations']['sorted_modifier_labels'];
 
 //        $block_pattern = $bc['cuts_links']['block_pattern'];
 
@@ -1839,7 +1923,6 @@ class UniformBuilderController extends Controller
         if (array_key_exists('material_id', $bc['lower'])) {
             $type = 'lower';
         }
-
 
         $uniform_category = $bc['uniform_category'];
 
@@ -2023,7 +2106,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="70%">';
-        $html .=            $this->generateMaterialOptionsTable($bc);
+        $html .=            $this->generateMaterialOptionsTable($bc, $sml);
         $html .=        '</td>';
         $html .=        '<td width= "30%">';
         $html .=            '';

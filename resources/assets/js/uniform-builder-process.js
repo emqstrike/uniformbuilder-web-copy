@@ -1140,7 +1140,11 @@ $(document).ready(function() {
         var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
-        var _transformedRoster      = [];
+        var _sortedModifierLabels   = _.indexBy(_.sortBy(ub.data.modifierLabels, 'intGroupID'), 'group_id');
+
+        // console.log('_sortedModifierLabels====>', _sortedModifierLabels);
+
+        var _transformedRoster       = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
 
@@ -1235,10 +1239,10 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes,
-
-                },
-            ]
+                    notes: _notes
+                }
+            ],
+            sorted_modifier_labels: _sortedModifierLabels
         };        
 
         return orderInput;
@@ -1267,6 +1271,8 @@ $(document).ready(function() {
 
         var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
+
+        console.log('ub.funcs.prepareData() output=====>', _input);
 
         $.ajaxSetup({
             headers: {
