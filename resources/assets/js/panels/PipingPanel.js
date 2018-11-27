@@ -76,7 +76,7 @@ PipingPanel.events = {
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
 
         if (status === PipingPanel.STATUS_ON) {
@@ -102,7 +102,7 @@ PipingPanel.events = {
         }
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
     },
 
@@ -161,7 +161,7 @@ PipingPanel.events = {
         }
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
     },
 
@@ -218,7 +218,7 @@ PipingPanel.events = {
         /// End Process Matching Object
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
 
         $(".piping-colors-buttons", piping_el).removeClass("active");
@@ -380,7 +380,7 @@ PipingPanel.events = {
         }
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
 
         var image = ub.getThumbnailImage(ub.active_view + "_view");
@@ -403,7 +403,7 @@ PipingPanel.events = {
         var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
 
         if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+            LogoPanel.utilities.reInitiateLogo();
         }
 
         $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();

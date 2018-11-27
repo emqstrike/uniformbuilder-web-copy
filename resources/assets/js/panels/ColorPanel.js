@@ -48,7 +48,7 @@ ColorPanel.prototype = {
             _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
 
             if (_.size(ub.data.logos) !== 0) {
-                LogoPanel.process.reInitiateLogoOnAddandRemoveTeamColor();
+                LogoPanel.utilities.reInitiateLogo();
             }
         });
     },
