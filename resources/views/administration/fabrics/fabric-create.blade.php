@@ -42,7 +42,12 @@
                                <input type="text" class="form-control material-abbreviation" name="material_abbreviation">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail" accept="image/*">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-fabric">

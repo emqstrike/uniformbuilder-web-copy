@@ -43,6 +43,24 @@
                                 <input type="text" class="form-control material-abbreviation" name="material_abbreviation" value="{{ $fabric->material_abbreviation }}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail" accept="image/*">
+                                @if ($fabric->thumbnail)
+                                <div class="thumbnail">
+                                    <img src="{{ $fabric->thumbnail }}" style="height: 80; width: 88;">
+                                    <a href="#" class="btn btn-danger btn-xs delete-fabric-image"
+                                        data-fabric-id="{{ $fabric->id }}"
+                                        data-field="thumbnail"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
