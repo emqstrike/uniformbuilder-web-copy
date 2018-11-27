@@ -91,7 +91,7 @@ ModifierController.prototype = {
     },
 
     activateColorAndPatternPanel: function() {
-        var panel = new PropertiesPanel('#primary_options_container', 'Richardsons');
+        var panel = new PropertiesPanel('#primary_options_container', this.brand);
     },
 
     enable: function() {
@@ -136,7 +136,6 @@ ModifierController.prototype = {
         propertiesPanel.bindEvents();
 
         $("#primary_options_container").scrollTo(0);
-        console.log("Show Parts Panel");
     },
 
     inserts: function() {
@@ -155,12 +154,9 @@ ModifierController.prototype = {
         propertiesPanel.bindEvents();
 
         $("#primary_options_container").scrollTo(0);
-        console.log("Show Inserts Panel")
     },
 
     pipings: function() {
-        console.log('Show Pipings Panel');
-
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
@@ -197,7 +193,7 @@ ModifierController.prototype = {
     },
 
     letters: function() {
-        console.log('Show Letters Panel');
+        ub.funcs.startNewApplicationLetters();
     },
 
     numbers: function() {
@@ -209,7 +205,7 @@ ModifierController.prototype = {
     },
 
     applications: function() {
-        console.log('Show Applications Panel');
+        ub.funcs.startNewApplication();
     },
 
     logo: function() {
