@@ -1,5 +1,45 @@
 @extends('administration-lte-2.lte-main')
 
+@section('styles')
+    <style>
+        .neck-option-placeholder-overrides {
+            resize: none;
+        }
+
+        .coordinating-colors-container,
+        .limited-colors-container {
+            margin-bottom: 25px;
+        }
+
+        .neck-option-alias,
+        .neck-option-name {
+            width: 130px !important;
+        }
+
+        .coordinating-colors-name,
+        .limited-colors-name,
+        .limited-color {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        select.coordinating-colors {
+            width: 49%;
+        }
+
+        .limited-color-row .row {
+            min-width: 321px;
+        }
+
+        .limited-colors-container,
+        .coordinating-colors-container {
+            background: #eeeeee;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="content">
         <div class="row">
@@ -80,24 +120,27 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="col-md-2 control-label">Block Pattern Options
+                                <label class="col-md-1 control-label">Block Pattern Options
                                 <div>
                                     <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
                                 </div>
                                 </label>
-                                <div class="col-md-8">
+                                <div class="col-md-11">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th >Name</th>
+                                                <th>Name</th>
                                                 <th>Preview File</th>
                                                 <th>New File</th>
                                                 <th>Alias</th>
                                                 <th>Placeholder Overrides</th>
+                                                <th>Coordinating Colors</th>
+                                                <th>Limited Colors</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="layers-row-container"></tbody>
+                                        <tbody id="layers-row-container" data-colors="{{ json_encode($colors) }}">
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

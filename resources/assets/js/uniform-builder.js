@@ -648,6 +648,8 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+            ub.funcs.executeAfterLoadFunctionList();
+
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
             ub.funcs.changeControls();
@@ -677,6 +679,15 @@ $(document).ready(function () {
                 // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
                 $('span.perspective[data-id="left"]').text('Inside');
                 $('span.perspective[data-id="right"]').text('Outside');
+
+                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
+                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
+                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+
+                    $('span.perspective[data-id="left"]').text('Outside');
+                    $('span.perspective[data-id="right"]').text('Inside');
+                }
             }
 
         }
@@ -1723,15 +1734,28 @@ $(document).ready(function () {
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
-                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
+                    (material.uniform_category === "SFN Jogger (Apparel)") ||
+                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+
+                    var tempLeftThumbnail = material.thumbnail_path_left;
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
+
+                    if (material.block_pattern === "Hockey Sock") {
+                        material.thumbnail_path_left = tempLeftThumbnail;
+                    }
+
                 }
 
                 if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-   
+
+                if (material.uniform_category === "Tech Tee (eSports)") {
+                    material.thumbnail_path_left = material.thumbnail_path_back;
+                }
+                
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
@@ -7110,7 +7134,7 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
 
         ub.funcs.fadeOutElements();
 
@@ -7178,8 +7202,9 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: items,
                 apparel: _apparel,
+                esports: esports,
             }
-            
+
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
             _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
@@ -7896,8 +7921,9 @@ $(document).ready(function () {
 
         var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
+        var esports = _.find(ub.data.esports, {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports, undefined, esports.sports);
 
     };
 

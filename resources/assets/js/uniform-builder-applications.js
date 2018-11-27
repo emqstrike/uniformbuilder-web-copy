@@ -12111,15 +12111,6 @@ $(document).ready(function () {
 
     ub.funcs.addLocation = function (artOnly) {
 
-        // Guard
-
-        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
-        if (typeof _submimatedSport === "undefined") {
-            return;
-        }
-
-        // End Guard
-
         // Select Perspective
 
         var template = $('#m-add-free-form-application').html();
