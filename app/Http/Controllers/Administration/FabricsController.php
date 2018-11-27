@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Administration;
 
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
 use App\APIClients\FabricsAPIClient as APIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Utilities\FileUploader;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\Request;
+use \Redirect;
 
 class FabricsController extends Controller
 {
@@ -52,6 +53,30 @@ class FabricsController extends Controller
             'material' => $fabricMaterial,
             'material_abbreviation' => $fabricAbbreviation
         ];
+
+        try {
+            // Thumbnail Files
+            $thumbnail = $request->file('thumbnail');
+            $name = Random::randomize(8);
+            if (isset($thumbnail))
+            {
+                if ($thumbnail->isValid())
+                {
+                    $data['thumbnail'] = FileUploader::upload(
+                                                    $thumbnail,
+                                                    $fabricAbbreviation,
+                                                    'thumbnail',
+                                                    "fabrics/{$name}"
+                                                );
+                }
+            }
+
+        } catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/fabrics')
+                            ->with('message', 'There was a problem uploading your files');
+        }
 
         $fabricId = null;
         if (!empty($request->input('fabric_id')))
