@@ -88,6 +88,19 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
+<script>
+$(document).ready(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
+});
+</script>
 
 
 @endsection
