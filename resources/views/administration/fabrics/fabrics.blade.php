@@ -32,6 +32,7 @@
                             <th>Material ID</th>
                             <th>Material</th>
                             <th>Material Abbreviation</th>
+                            <th>Thumbnail</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -53,6 +54,9 @@
                                 {{ $fabric->material_abbreviation }}
                             </td>
                             <td>
+                                {{ $fabric->thumbnail }}
+                            </td>
+                            <td>
                                 <a href="/administration/fabric/edit/{{ $fabric->id }}" class="btn btn-primary btn-xs edit-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
@@ -65,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='5'>
+                            <td colspan='6'>
                                 No Fabrics
                             </td>
                         </tr>
@@ -84,6 +88,19 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
+<script>
+$(document).ready(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
+});
+</script>
 
 
 @endsection
