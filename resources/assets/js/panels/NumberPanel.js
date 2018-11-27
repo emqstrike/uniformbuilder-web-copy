@@ -31,7 +31,7 @@ NumberPanel.prototype = {
             var layer = $(this).data('application-layer');
 
             if (e.keyCode === 13) {
-                ub.modifierController.numbers.setNumber({
+                ub.modifierController.controllers.numbers.setNumber({
                     number: number,
                     application_id: application_id,
                     application_type: application_type,
@@ -53,7 +53,7 @@ NumberPanel.prototype = {
                 application_id: application_id
             }
             console.log(config);
-            ub.modifierController.numbers.setFontAccent(config);
+            ub.modifierController.controllers.numbers.setFontAccent(config);
         });
     },
 
@@ -262,7 +262,7 @@ NumberPanel.prototype = {
     // Retrieve the application object by application_type
     getApplicationByType: function(application_type) {
         var application_obj = null;
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         if (panel.items.applications.length > 0) {
             application_obj = _.find(panel.items.applications, function(application, application_type) {
                 return (application.application_type = application_type)
@@ -275,7 +275,7 @@ NumberPanel.prototype = {
     getApplicationById: function(application_id) {
         console.log('getApplicationById .. ' + application_id);
         var application_obj = null;
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         if (panel.items.applications.length > 0) {
             application_obj = _.find(ub.current_material.settings.applications, {
                 code: application_id.toString()
@@ -302,7 +302,7 @@ NumberPanel.prototype = {
     },
 
     setNumber: function(config) {
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         // change number
         var application_settings = panel.getApplicationById(config.application_id);
 
@@ -321,7 +321,7 @@ NumberPanel.prototype = {
     },
 
     setFontStyle: function() {
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         // change font style
         var application_id = $(this).data('application-id');
         var layer = $(this).data('application-layer');
@@ -341,7 +341,7 @@ NumberPanel.prototype = {
     },
 
     setFontSize: function() {
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         var application_id = $(this).data('application-id');
         var application_settings = panel.getApplicationById(application_id);
         // change font size
@@ -356,19 +356,19 @@ NumberPanel.prototype = {
 
     setFontAccent: function(config) {
         // change font accent
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
         var application_settings = panel.getApplicationById(config.application_id);
         ub.funcs.changeAccentFromPopup(config.accent_id, application_settings);
     },
 
     setFontAccentColor: function() {
         // change accent color
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
     },
 
     setPattern: function() {
         // change pattern
-        var panel = ub.modifierController.numbers;
+        var panel = ub.modifierController.controllers.numbers;
     },
 
     disable: function() {
