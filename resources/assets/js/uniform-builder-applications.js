@@ -3971,11 +3971,13 @@ $(document).ready(function () {
 
             }
 
-            /// Check if CW if empty, draw Pickers if it is
-            if ($('div#cw').html().length === 0) {
+            if (! ub.branding.useAlternativeUI) {
+                /// Check if CW if empty, draw Pickers if it is
+                if ($('div#cw').html().length === 0) {
 
-                ub.funcs.drawColorPickers();
+                    ub.funcs.drawColorPickers();
 
+                }
             }
 
             var current_coodinates = mousedata.data.global;
@@ -4469,9 +4471,10 @@ $(document).ready(function () {
             }
 
             ub.funcs.deactivateMoveTool();
-
-            if ($('div#cw').html().length === 0) {
-                ub.funcs.drawColorPickers();
+            if (! ub.branding.useAlternativeUI) {
+                if ($('div#cw').html().length === 0) {
+                    ub.funcs.drawColorPickers();
+                }
             }
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
@@ -6678,7 +6681,12 @@ $(document).ready(function () {
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
-            ub.funcs.activateColors(application_id);
+            
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateMascotColors(application_id);
+            } else {
+                ub.funcs.activateColors(application_id);
+            }
         }
 
     };
@@ -8940,7 +8948,8 @@ $(document).ready(function () {
             ub.funcs.LSRSBSFS(parseInt(_id));
 
             if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsMascots(_settingsObject.code);
+                // ub.funcs.activateApplicationsMascots(_settingsObject.code);
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateMascots(_settingsObject.code);
             }
@@ -8984,7 +8993,8 @@ $(document).ready(function () {
 
             ub.create_application(_settingsObject, undefined);
             if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
@@ -9117,7 +9127,8 @@ $(document).ready(function () {
 
             ub.create_application(_settingsObject, undefined);
             if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
@@ -9158,7 +9169,8 @@ $(document).ready(function () {
             ub.funcs.LSRSBSFS(parseInt(_id));
 
             if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsMascots(_settingsObject.code);
+                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateEmbellishments(_settingsObject.code);
             }

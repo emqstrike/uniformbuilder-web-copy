@@ -1156,7 +1156,6 @@ $(function() {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
         }
-        ub.funcs.initializer();
 
 
         $('a.view-file').unbind('click');
@@ -1283,6 +1282,7 @@ $(function() {
             ub.funcs.afterActivateMascots(_id);
         }
 
+        ub.funcs.initializer();
     }
 
     ub.funcs.toggleApplicationOpts = function (element, id, state) {
@@ -1347,5 +1347,527 @@ $(function() {
 
         });
 
+    }
+
+    ub.funcs.activateMascotColors = function (application_id) {
+
+        var _appSettings = ub.current_material.settings.applications[application_id];
+        var _noOfLayers = _.size(_appSettings.mascot.layers_properties); // -1 becuase one of the layers is just a duplicate for the mask
+        var _noOfColors = ub.current_material.settings.applications[application_id].color_array.length;
+
+        _.each(_appSettings.color_array, function (color, index) {
+
+            if (typeof color === "undefined") {
+                return;
+            }
+
+            var _layerNo = index + 1;
+
+            if (_layerNo > _noOfLayers) {
+                return;
+            }
+
+            $layer = $('span.colorItem[data-layer-no="' + _layerNo + '"][data-color-code="' + color.color_code + '"][data-id=' + application_id + ']');
+
+            $layer.click();
+
+        });
+
+        // Handle Non-Existent colors
+
+        if (_noOfLayers > _noOfColors) {
+
+            var _diff = _noOfLayers - _noOfColors;
+
+            for (i = _noOfColors + 1; i <= _noOfColors + _diff; i++) {
+
+                var _mascotSettingsLayer = _.find(_appSettings.mascot.layers_properties, {layer_number: i.toString()});
+                var _teamColorID = _mascotSettingsLayer.team_color_id;
+                var _color = ub.funcs.getTeamColorObjByIndex(parseInt(_teamColorID));
+
+                if (typeof _color !== "undefined") {
+
+                    $layer = $('span.colorItem[data-layer-no="' + i + '"][data-color-code="' + _color.color_code + '"][data-id=' + application_id + ']');
+                    $layer.click();
+
+                } else {
+
+                    ub.utilities.warn('Team Color ' + _teamColorID + " not found, using first team color for mascot");
+                    _color = ub.funcs.getTeamColorObjByIndex(1);
+
+                    $layer = $('span.colorItem[data-layer-no="' + i + '"][data-color-code="' + _color.color_code + '"][data-id=' + application_id + ']');
+                    $layer.click();
+
+                }
+
+            }
+
+        }
+
+    }
+
+    // Currently for Letters and Mascots only
+    ub.funcs.activateApplicationsAll = function (application_id) {
+    
+        var _id = application_id.toString();
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+        var _applicationType = _settingsObject.application_type;
+
+        // var _sampleText = _settingsObject.text;
+        var _sizes = '';
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(_id);
+
+        var _appInfo = ub.funcs.getApplicationSettings(application_id);
+
+        if (_applicationType === "player_name" | _applicationType === "team_name") {
+            ub.funcs.beforeActivateApplication();
+        } else if (_applicationType === "mascot" | _applicationType === "embellishments") {
+            _sizes = ub.funcs.getApplicationSizes('mascot', _alias.alias);
+        }
+    
+        if (ub.funcs.popupsVisible()) {
+            return;
+        }
+        if (!ub.funcs.okToStart()) {
+            return;
+        }
+    
+        ub.funcs.activatePanelGuard();
+    
+        if (ub.funcs.isBitFieldOn()) {
+    
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+    
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;
+            }
+    
+        }
+
+        if (typeof _settingsObject === "undefined") {
+            return;
+        }
+        
+        ub.funcs.deactivatePanels();
+        ub.funcs.preProcessApplication(application_id);
+        
+        if (_applicationType === "player_name" || _applicationType === "team_name") {
+            
+
+            if (_uniformCategory === "Football") {
+    
+                _sizes = ub.funcs.getApplicationSizes(_applicationType);
+        
+            } else if (ub.current_material.material.uniform_category === "Baseball") {
+        
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
+        
+            } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+        
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+        
+            } else {
+        
+                ub.utilities.warn('no sizes setting defaulting to generic');
+                _sizes = ub.funcs.getApplicationSizes(_applicationType);
+        
+            }
+        } else if (_applicationType === "mascot" || _applicationType === "embellishments") {
+            if (ub.funcs.isCurrentSport('Football')) {
+
+                if (_id === '2' && _applicationType === 'mascot' || _applicationType === 'embellishments') {
+                    _sizes = ub.funcs.getApplicationSizes('mascot_2');
+                }
+    
+                if (_id === '5' && _applicationType === 'mascot' || _applicationType === 'embellishments') {
+                    _sizes = ub.funcs.getApplicationSizes('mascot_5');
+                }
+    
+            } else if (ub.current_material.material.uniform_category === "Wrestling") {
+    
+                _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+    
+            } else if (!ub.funcs.isCurrentSport('Football') && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+    
+                if (ub.funcs.isCurrentType('upper')) {
+    
+                    _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
+    
+                } else if (ub.funcs.isCurrentType('lower') && ub.funcs.isSocks()) {
+    
+                    _sizes = ub.funcs.getApplicationSizes('mascot', _alias.alias, _id);
+    
+                } else {
+    
+                    _sizes = ub.funcs.getApplicationSizesPant('mascot', _alias.alias, _id);
+    
+                }
+    
+            } else {
+    
+                console.warn('no sizes setting defaulting to generic');
+                _sizes = ub.funcs.getApplicationSizes('mascot');
+    
+            }
+        }
+    
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+    
+        if (typeof _sizesFromConfig !== "undefined") {
+    
+            // Debug Info
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+    
+                console.log('Default Sizes: ');
+                console.log(_sizes);
+                console.log('Application #: ');
+                console.log(_id);
+    
+                ub.utilities.info('Using sizes from backend: ');
+    
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+
+                if (_applicationType === "mascot" || _applicationType === "embellishments") { 
+                    console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                    // add sort for sizes
+                    _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function (obj) {
+                        return parseFloat(obj.size)
+                    });
+                    _sizesFromConfig.sizes = _sizesSorted;
+                }
+                _sizes = _sizesFromConfig;
+            }
+        } else {
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+    
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+            }
+        }
+
+        var _currentSize = _settingsObject.size;
+        var _htmlBuilder = '';
+
+        var _generateSizes = '';
+        var _colorArray = _settingsObject.color_array;
+    
+        if (_applicationType === 'mascot' || _applicationType === "embellishments") {
+            var _colorArrayString = '';
+
+            ub.updateApplicationSpecsPanel(_id);
+    
+            _.each(_colorArray, function (_color) {
+                if (typeof _color !== "undefined") {
+                    _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, ";
+                }
+            });
+
+            var n = _colorArrayString.lastIndexOf(",");
+            var _colorArrayString = _colorArrayString.substring(0, n)
+        
+        } else if (_applicationType === 'mascot' || _applicationType === "embellishments") {
+    
+            if (_applicationType === "mascot") {
+                var _mascotObj = _settingsObject.mascot;
+                // var _currentSize = _settingsObject.size;
+                // var _colorArray = _settingsObject.color_array;
+                var _mascotName = _mascotObj.name;
+                var _thumbIcon = _mascotObj.icon;
+                // var _title = _applicationType.toTitleCase();
+                // var _htmlBuilder = '';
+                // var _generateSizes = '';
+                var _colorPickers = '';
+                var _appActive = 'checked';
+                var _maxLength = 12;
+            } else if (_applicationType === "embellishments") {
+                var _embellishmentObj   = _settingsObject.embellishment;
+                // var _currentSize        = _settingsObject.size;
+                // var _colorArray         = _settingsObject.color_array;
+                var _mascotName         = _embellishmentObj.design_id;
+                var _mascotIcon         = _embellishmentObj.thumbnail;
+                // var _title              = _applicationType.toTitleCase();
+                // var _htmlBuilder        = "";
+                // var _appActive          = 'checked';
+                // var _maxLength          = 12;
+                // var _generateSizes      = '';
+            }
+            // var _mascotName = _mascotObj.name;
+            // var _colorPickers = '';
+            var _appActive = 'checked';
+            var _maxLength = 12;
+        }
+        
+    
+        
+        var _htmlBuilder = "";
+        var _appActive = 'checked';
+        var _maxLength = ub.data.maxLength;
+    
+        if (_settingsObject.type.indexOf('number') !== -1) {
+            if (_applicationType === "player_name" || _applicationType === "team_name") {
+                _maxLength = ub.data.maxLengthNumbers;
+            } else {
+                _maxLength = 2;
+            }
+        }
+        if (ub.config.uniform_application_type === 'sublimated') {
+            _maxLength = ub.data.maxLengthSublimated;
+        }
+    
+        var _status = 'on';
+        if (typeof _settingsObject.status !== 'undefined') {
+            _status = _settingsObject.status;
+        }
+    
+        var _label = 'Size';
+        var _class = '';
+    
+        if (_isFreeFormEnabled) {
+            _label = 'Measurements';
+            _class = "custom";
+        }
+        
+    
+        // _htmlBuilder += '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
+    
+        if (typeof _settingsObject.font_size === 'undefined') {
+            if (application_id !== 2 || application_id !== 5) {
+                _settingsObject.font_size = 4;
+
+                if (_applicationType === "embellishments") {
+                    _settingsObject.font_size = _settingsObject.size;
+                }
+            } else {
+                _settingsObject.font_size = 10;
+
+                if (_applicationType === "embellishments") {
+                    _settingsObject.font_size = _settingsObject.size;
+                }
+            }
+
+            if (_applicationType === "mascot" || _applicationType === "embellishments") {
+                if (application_id === 4) {
+                    _settingsObject.size = 0.5;
+
+                    if (_applicationType === "embellishments") {
+                        _settingsObject.font_size = _settingsObject.size;
+                    }
+                }
+            }    
+        }
+    
+        _generateSizes = ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
+        var templateData = {}
+    
+        if (_applicationType === "player_name" || _applicationType === "team_name") {
+            var _isBaseballFastpitch = false;
+            if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+                _isBaseballFastpitch = true;
+            }
+        
+        
+            _.each(_settingsObject.accent_obj.layers, function (layer) {
+        
+                var _hexCode = layer.default_color;
+                var _color = ub.funcs.getColorObjByHexCode(_hexCode);
+                var _layerNo = layer.layer_no - 1;
+        
+                if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
+                    return;
+                }
+        
+                _color = _settingsObject.color_array[_layerNo];
+        
+                // Use default color if team color is short
+                if (typeof _color === "undefined") {
+                    _hexCode = layer.default_color;
+                    _color = ub.funcs.getColorObjByHexCode(_hexCode);
+        
+                    ub.utilities.error('Undefined color found here!!!');
+                }
+        
+                if (typeof _color !== 'undefined') {
+                    _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
+                } else {
+                    util.error('Hex Code: ' + _hexCode + ' not found!');
+                }
+        
+            });
+        
+            var _tailSweepObject = _settingsObject.tailsweep;
+        
+            if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
+        
+                _tailSweepObject = {code: 'none', thumbnail: 'none.png'};
+        
+            }
+        
+            var _tailSweepPanel = ''
+            if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+                _isBaseballFastpitch = true;
+                _tailSweepThumb = '/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail;
+                _tailSweepCode  = _tailSweepObject.code;
+                _tailSweepPanel = ub.funcs.tailSweepPanel(_tailSweepThumb, _tailSweepCode);
+            }
+        
+            var isPlayerName = _applicationType === "player_name" ? 'disabled' : '';
+            // set the needed data for LETTERS here
+            templateData.applications = {
+                type: _settingsObject.application.name.toUpperCase(),
+                defaultText: _settingsObject.text,
+                code: _settingsObject.code,
+                perspective: _settingsObject.application.views[0].perspective,
+                placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
+                fonts: true,
+                fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
+                slider: true,
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                colorPicker: true,
+                colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
+                accents: true,
+                accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
+                isPlayerName: isPlayerName
+            }
+        
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
+        } else if (_applicationType === "mascot" || _applicationType === "embellishments") {
+            var objMascot = {};
+            var _inputSizes;
+
+            if (_applicationType === "mascot") {
+                _generateSizes += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+            
+                var _isCustomLogo = false, _customFilename = '';
+                if (_settingsObject.mascot.name === 'Custom Logo') {
+                    _isCustomLogo = true;
+                    _customFilename = _settingsObject.customFilename;
+                }
+    
+                if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
+    
+                    _.each(_settingsObject.mascot.layers_properties, function (layer) {
+    
+                        var _hexCode = layer.default_color;
+                        var _color = ub.funcs.getColorByColorCode(_hexCode);
+    
+                        if (typeof _color !== 'undefined') {
+                            _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
+                        } else {
+                            util.error('Hex Code: ' + _hexCode + ' not found!');
+                        }
+                    });
+                }
+    
+                objMascot = {
+                    thumbnail: _settingsObject.mascot.icon,
+                    type: 'STOCK MASCOT',
+                    code: _settingsObject.code,
+                    perspective: _settingsObject.application.views[0].perspective,
+                    name: _settingsObject.mascot.name,
+                    slider: true,
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                    colorPicker: true,
+                    colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
+                };
+            
+            } else if (_applicationType === "embellishments") {
+                _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+    
+                var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
+                objMascot = {
+                    thumbnail: _settingsObject.embellishment.thumbnail,
+                    type: 'CUSTOM LOGO',
+                    code: _settingsObject.code,
+                    perspective: _settingsObject.application.views[0].perspective,
+                    name: _settingsObject.embellishment.name,
+                    viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
+                    viewPrint: _settingsObject.embellishment.svg_filename,
+                    slider: true,
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
+                };
+            }
+
+            templateData.applications = objMascot;
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', templateData);
+
+        }
+        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
+        if (appBlock.length === 0) {
+            // New application
+            $('.modifier_main_container').append(_htmlBuilder);
+            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
+        } else {
+            // Existing application
+            appBlock.replaceWith(_htmlBuilder);
+        }
+
+        /// Applications Color Events
+
+        if ( _applicationType === "player_name" || _applicationType === "team_name") {
+            ub.funcs.setupTextSmallColorPickerEvents(_settingsObject);
+
+            /// End Application Pattern Events
+
+            /// Applications Pattern Events
+
+            ub.funcs.setupPatternsAndSmallColorPickerEvents(_settingsObject);
+
+            /// End Application Pattern Events
+
+            /// Application Manipulator Events 
+
+            
+        } else if ( _applicationType === "mascot" || _applicationType === "embellishments") {
+            ub.funcs.updateCoordinates(_settingsObject);
+
+            var s = ub.funcs.getPrimaryView(_settingsObject.application);
+            var sObj = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+    
+            if (typeof sObj.application.flip !== "undefined") {
+    
+                if (sObj.application.flip === 1) {
+                    $('span.flipButton').addClass('active');
+                } else {
+                    $('span.flipButton').removeClass('active');
+                }
+    
+            } else {
+                $('span.flipButton').removeClass('active');
+            }
+
+            var _matchingID = undefined;
+
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+            if (typeof _matchingID !== "undefined") {
+                ub.funcs.toggleApplication(_matchingID.toString(), _status);
+            }
+
+            ub.funcs.toggleApplication(_id, _status);
+        }
+        
+
+        ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+        /// End Application Manipulator Events
+
+        ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
+
+        /// End Initialize
+
+        // re-initialize template
+        ub.funcs.initializer();
+
+        if (_applicationType === "mascot") {
+            ub.funcs.afterActivateMascots(_id);
+        } else if (_applicationType === "player_name" || _applicationType === "team_name") {
+            ub.funcs.afterActivateApplication(application_id);
+        }
     }
 });
