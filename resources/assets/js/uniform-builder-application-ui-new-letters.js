@@ -1552,90 +1552,20 @@ $(function() {
             }
         }
 
-        var _currentSize = _settingsObject.size;
         var _htmlBuilder = '';
 
-        var _generateSizes = '';
-        var _colorArray = _settingsObject.color_array;
-    
         if (_applicationType === 'mascot' || _applicationType === "embellishments") {
-            var _colorArrayString = '';
 
             ub.updateApplicationSpecsPanel(_id);
     
-            _.each(_colorArray, function (_color) {
-                if (typeof _color !== "undefined") {
-                    _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, ";
-                }
-            });
+        }
 
-            var n = _colorArrayString.lastIndexOf(",");
-            var _colorArrayString = _colorArrayString.substring(0, n)
-        
-        } else if (_applicationType === 'mascot' || _applicationType === "embellishments") {
-    
-            if (_applicationType === "mascot") {
-                var _mascotObj = _settingsObject.mascot;
-                // var _currentSize = _settingsObject.size;
-                // var _colorArray = _settingsObject.color_array;
-                var _mascotName = _mascotObj.name;
-                var _thumbIcon = _mascotObj.icon;
-                // var _title = _applicationType.toTitleCase();
-                // var _htmlBuilder = '';
-                // var _generateSizes = '';
-                var _colorPickers = '';
-                var _appActive = 'checked';
-                var _maxLength = 12;
-            } else if (_applicationType === "embellishments") {
-                var _embellishmentObj   = _settingsObject.embellishment;
-                // var _currentSize        = _settingsObject.size;
-                // var _colorArray         = _settingsObject.color_array;
-                var _mascotName         = _embellishmentObj.design_id;
-                var _mascotIcon         = _embellishmentObj.thumbnail;
-                // var _title              = _applicationType.toTitleCase();
-                // var _htmlBuilder        = "";
-                // var _appActive          = 'checked';
-                // var _maxLength          = 12;
-                // var _generateSizes      = '';
-            }
-            // var _mascotName = _mascotObj.name;
-            // var _colorPickers = '';
-            var _appActive = 'checked';
-            var _maxLength = 12;
-        }
-        
-    
-        
         var _htmlBuilder = "";
-        var _appActive = 'checked';
-        var _maxLength = ub.data.maxLength;
-    
-        if (_settingsObject.type.indexOf('number') !== -1) {
-            if (isLetters) {
-                _maxLength = ub.data.maxLengthNumbers;
-            } else {
-                _maxLength = 2;
-            }
-        }
-        if (ub.config.uniform_application_type === 'sublimated') {
-            _maxLength = ub.data.maxLengthSublimated;
-        }
     
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') {
             _status = _settingsObject.status;
         }
-    
-        var _label = 'Size';
-        var _class = '';
-    
-        if (_isFreeFormEnabled) {
-            _label = 'Measurements';
-            _class = "custom";
-        }
-        
-    
-        // _htmlBuilder += '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
     
         if (typeof _settingsObject.font_size === 'undefined') {
             if (application_id !== 2 || application_id !== 5) {
@@ -1667,56 +1597,6 @@ $(function() {
         var templateData = {}
     
         if (isLetters) {
-            var _isBaseballFastpitch = false;
-            if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
-                _isBaseballFastpitch = true;
-            }
-        
-        
-            _.each(_settingsObject.accent_obj.layers, function (layer) {
-        
-                var _hexCode = layer.default_color;
-                var _color = ub.funcs.getColorObjByHexCode(_hexCode);
-                var _layerNo = layer.layer_no - 1;
-        
-                if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
-                    return;
-                }
-        
-                _color = _settingsObject.color_array[_layerNo];
-        
-                // Use default color if team color is short
-                if (typeof _color === "undefined") {
-                    _hexCode = layer.default_color;
-                    _color = ub.funcs.getColorObjByHexCode(_hexCode);
-        
-                    ub.utilities.error('Undefined color found here!!!');
-                }
-        
-                if (typeof _color !== 'undefined') {
-                    _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
-                } else {
-                    util.error('Hex Code: ' + _hexCode + ' not found!');
-                }
-        
-            });
-        
-            var _tailSweepObject = _settingsObject.tailsweep;
-        
-            if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
-        
-                _tailSweepObject = {code: 'none', thumbnail: 'none.png'};
-        
-            }
-        
-            var _tailSweepPanel = ''
-            if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
-                _isBaseballFastpitch = true;
-                _tailSweepThumb = '/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail;
-                _tailSweepCode  = _tailSweepObject.code;
-                _tailSweepPanel = ub.funcs.tailSweepPanel(_tailSweepThumb, _tailSweepCode);
-            }
-        
             var isPlayerName = _applicationType === "player_name" ? 'disabled' : '';
             // set the needed data for LETTERS here
             templateData.applications = {
@@ -1744,27 +1624,6 @@ $(function() {
             if (_applicationType === "mascot") {
                 _generateSizes += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
             
-                var _isCustomLogo = false, _customFilename = '';
-                if (_settingsObject.mascot.name === 'Custom Logo') {
-                    _isCustomLogo = true;
-                    _customFilename = _settingsObject.customFilename;
-                }
-    
-                if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
-    
-                    _.each(_settingsObject.mascot.layers_properties, function (layer) {
-    
-                        var _hexCode = layer.default_color;
-                        var _color = ub.funcs.getColorByColorCode(_hexCode);
-    
-                        if (typeof _color !== 'undefined') {
-                            _colorPickers += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
-                        } else {
-                            util.error('Hex Code: ' + _hexCode + ' not found!');
-                        }
-                    });
-                }
-    
                 objMascot = {
                     thumbnail: _settingsObject.mascot.icon,
                     type: 'STOCK MASCOT',
@@ -1780,7 +1639,6 @@ $(function() {
             } else if (_applicationType === "embellishments") {
                 _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
     
-                var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
                 objMascot = {
                     thumbnail: _settingsObject.embellishment.thumbnail,
                     type: 'CUSTOM LOGO',
@@ -1826,21 +1684,6 @@ $(function() {
             
         } else if ( isMascots) {
             ub.funcs.updateCoordinates(_settingsObject);
-
-            var s = ub.funcs.getPrimaryView(_settingsObject.application);
-            var sObj = ub.funcs.getPrimaryViewObject(_settingsObject.application);
-    
-            if (typeof sObj.application.flip !== "undefined") {
-    
-                if (sObj.application.flip === 1) {
-                    $('span.flipButton').addClass('active');
-                } else {
-                    $('span.flipButton').removeClass('active');
-                }
-    
-            } else {
-                $('span.flipButton').removeClass('active');
-            }
 
             var _matchingID = undefined;
 
