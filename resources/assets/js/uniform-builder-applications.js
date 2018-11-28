@@ -1981,7 +1981,6 @@ $(document).ready(function () {
                             $('#new-toolbar > .group-6').trigger('click')
                             // Scroll to application's settings
                             $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-
                         } 
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
