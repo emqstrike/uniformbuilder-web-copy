@@ -655,8 +655,12 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Outside View');
-                $('a.change-view[data-view="right"] > span').text('Inside View');
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+
+                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
             }
 
         }
@@ -8001,6 +8005,26 @@ $(document).ready(function () {
         var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
         var _result = _.find(ub.filterStructure.primary, {name: _type});
         var _sportFilters = _.find(ub.data.sportFilters, {sport: sport}).filters;
+
+        // create exception on Tennis _sportFilters array
+        // men: Shorts
+        // women: Skorts
+        if ( _.isEqual(sport, 'Tennis') ) {
+
+            // get Shorts/Skorts index on _sportFilters array
+            var index = (_.contains(_sportFilters, 'Shorts')) 
+                        ? _sportFilters.indexOf('Shorts') 
+                        : (_.contains(_sportFilters, 'Skorts')) 
+                        ? _sportFilters.indexOf('Skorts') 
+                        : _sportFilters.indexOf('Shorts');
+
+            if (gender === 'men') {
+                _sportFilters[index] = 'Shorts';
+            } else {
+                _sportFilters[index] = 'Skorts';
+            }
+
+        }
 
         $('span.primary-filters').each(function (index, value) {
 

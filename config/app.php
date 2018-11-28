@@ -99,6 +99,9 @@ return [
 
     'log' => 'single',
 
+    // Asset Version
+    'asset_version' => env('ASSET_VERSION', '0.0001'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

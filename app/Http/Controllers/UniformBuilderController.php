@@ -1962,8 +1962,8 @@ class UniformBuilderController extends Controller
         $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
-            $leftCaption = '(Outside)';
-            $rightCaption = '(Inside)';
+            $leftCaption = '(Inside)';
+            $rightCaption = '(Outside)';
         }
 
         $html  = '';
@@ -2157,13 +2157,13 @@ class UniformBuilderController extends Controller
         }
 
         $user = Session::get('userId');
-        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $target_remote_path;
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
 
         if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
-            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $target_remote_path;
+            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
         }
 
         if (env('APP_ENV') <> "local") { Slack::send($message); }

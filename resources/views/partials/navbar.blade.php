@@ -41,7 +41,7 @@
                         <li><a href="/styles/women/fastpitch" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Fastpitch</a></li>
                         <li><a href="/styles/women/soccer" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/soccer.svg"> Soccer</a></li>
                         <li><a href="/styles/women/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
-                        <li><a href="/styles/women/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li>
+                       <!--  <li><a href="/styles/women/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li> -->
                         <li><a href="/styles/women/field-hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Field Hockey</a></li>
 
 

@@ -230,6 +230,16 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@storeArtwork'])->name('v1_store_logo_request');
             Route::get('upload_existing_logo/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addExistingLogoForm'])->name('v1_add_existing_logo');
             Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@storeExistingLogo'])->name('v1_store_existing_logo');
+
+            // Menu
+            Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@index'])->name('v1_menus');
+            Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@store'])->name('v1_store_new_menu');
+
+            // Pages
+            Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
+
+            // Page Rules
+            Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules'); 
         });
     });
 

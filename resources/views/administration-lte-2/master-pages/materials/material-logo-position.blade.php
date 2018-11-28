@@ -62,11 +62,11 @@
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
-                     <!--            <a href="#" class="btn btn-flat btn-default copy-piping">
+                                <a href="#" class="btn btn-flat btn-default copy-logo-position">
                                     Copy
                                 </a>
 
-                                <a href="#" class="btn btn-flat btn-default open-load-logo-position-modal-button">Load</a> -->
+                                <a href="#" class="btn btn-flat btn-default open-load-logo-position-modal-button">Load</a>
                             </div>
                         </div>
                     </div>

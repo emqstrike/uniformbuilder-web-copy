@@ -1,6 +1,8 @@
 <?php
 namespace App\APIClients;
 
+use Illuminate\Support\Facades\Log;
+
 class SavedDesignsAPIClient extends APIClient
 {
     public function __construct()
@@ -36,10 +38,16 @@ class SavedDesignsAPIClient extends APIClient
 
     public function getPaginated($currentPage, $filters)
     {
+        $name = '';
         $sport = '';
         $blockPattern = '';
         $neckOption = '';
         $user = '';
+        $range = '';
+
+        if (isset($filters['name'])) {
+            $name = '&name=' . $filters['name'];
+        };
 
         if (isset($filters['sport'])) {
             $sport = '&sport=' . $filters['sport'];
@@ -57,7 +65,11 @@ class SavedDesignsAPIClient extends APIClient
             $user = '&email=' . $filters['user'];
         }
 
-        $response = $this->get('saved_designs/paginate?page=' . $currentPage . $sport . $neckOption . $blockPattern . $user);
+        if (isset($filters['range'])) {
+            $range = '&range[]=' . $filters['range'][0] . '&range[]=' . $filters['range'][1];
+        }
+
+        $response = $this->get('saved_designs/paginate?page=' . $currentPage . $name . $sport . $neckOption . $blockPattern . $user . $range);
         $result = $this->decoder->decode($response->getBody());
 
         $saved_designs = [];

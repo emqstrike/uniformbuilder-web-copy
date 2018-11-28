@@ -10080,22 +10080,33 @@ ub.funcs.fontOffSets = [
             { id: 44, matchingID: 43  },
             { id: 41, matchingID: 42  },
             { id: 42, matchingID: 41  },
-        ], 
+        ],
+        sportsExemption: [
+            'Baseball'
+        ],
         getMatchingID: function (id) {
 
             var _result = undefined;
+            var sport   = ub.config.sport;
 
-            _result = _.find(this.items, {id: parseInt(id)});
+            // Igore matching id on Baseball
+            // see FEED-24 for details
+            if (!_.contains(this.sportsExemption, sport)) {
 
-            if (typeof _result === "undefined") {
+                _result = _.find(this.items, {id: parseInt(id)});
 
-                return undefined;
+                if (typeof _result === "undefined") {
 
+                    return undefined;
+
+                }
+
+                return _result.matchingID;
             }
 
-            return _result.matchingID;
+            return _result;
 
-        } 
+        }
 
     }
 
@@ -11063,7 +11074,17 @@ ub.funcs.fontOffSets = [
                 type: 'both',
                 upperLabel: 'Jersey',
                 lowerLabel: 'Pant',
-            }
+            },
+            {
+                sport: 'Yoga Pant (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
+            },
+            {
+                sport: 'SFN Jogger (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
+            },
         ],
         getLabel: function (sport) {
 
@@ -11198,7 +11219,18 @@ ub.funcs.fontOffSets = [
             sport: 'Cinch Sack (Apparel)',
             filters: ['All', 'Cinch Sack'],
         },
-
+        {
+            sport: 'Tennis',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Yoga Pant (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'SFN Jogger (Apparel)',
+            filters: ['All'],
+        },
           
     ];
 
