@@ -1911,6 +1911,8 @@ class UniformBuilderController extends Controller
             $path = public_path('design_sheets/' . $filename . '.pdf');
         }
 
+        Log::info('PDF PATH=======>' . $path);
+
         $type = 'upper';
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
@@ -1998,6 +2000,8 @@ class UniformBuilderController extends Controller
         $s3_target_path = '/design_sheets/' . str_slug(env('APP_VENDOR'), '-') . '/' . env('S3_ENV') . '/' . $firstOrderItem['material_id']  . '/' . $filename . '.pdf';
         $pdf_url_link = 'https://s3-us-west-2.amazonaws.com/uniformbuilder' . $s3_target_path;
         // $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+
+        Log::info('PDF S3 TARGET========>' . $pdf_url_link);
 
         $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
         $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
