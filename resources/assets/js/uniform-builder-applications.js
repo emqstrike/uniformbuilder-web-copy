@@ -901,6 +901,8 @@ $(document).ready(function () {
 
     ub.funcs.updateScaleViaSlider = function (_application, value) {
 
+        console.log('===IM SCALE===');
+
         var _divisor = 100;
         if (_application.application_type !== "mascot") {
 
@@ -929,10 +931,12 @@ $(document).ready(function () {
                 if (view.application.flip === 1) {
 
                     flip = -1;
+                    console.log('=======view.application.flip is ALREADY 1 so flip was set to -1=======');
 
                 } else {
 
                     flip = 1;
+                    console.log('=======view.application.flip is NOT 1 so flip was set to 1=======');
 
                 }
 
