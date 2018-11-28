@@ -150,7 +150,7 @@ LogoPanel.utilities = {
                 var secondary_color = LogoPanel.colors.getSecondaryColor();
                 logo.colors_array = [
                     "W",
-                    _layerCount == 2 ? "none" : "W",
+                    _layerCount === 2 ? "none" : "W",
                     "CG"
                 ];
 
