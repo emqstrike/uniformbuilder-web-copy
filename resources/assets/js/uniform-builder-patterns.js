@@ -145,6 +145,9 @@ $(document).ready(function () {
         var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
         $svgPath.trigger('click');
 
+        // Hide Position Slider
+        $('span.irs').hide();
+
 
     };
 
@@ -168,6 +171,9 @@ $(document).ready(function () {
             $('div.patternPreviewContainer').fadeIn();
 
             ub.funcs.updateColorLabel('EDIT COLORS');
+
+            // Show Position Slider
+            $('span.irs').show()
 
         }
 
@@ -880,10 +886,19 @@ $(document).ready(function () {
             _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
 
         }
+
+        // Slider
+        _htmlBuilder += "<br /><br />";
+        _htmlBuilder += '<input type="text" id="part-pattern-slider" value="" />';
+
+        // End Slider 
         
         _htmlBuilder     += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
+
+        ub.funcs.setupPartPatternSlider(inputPattern, materialOption);
+
 
         _.each(_patternObj.layers, function (layer) {
 
@@ -929,10 +944,132 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.setupPartPatternSlider = function (inputPattern, materialOption) {
+
+        var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
+
+        if (inputPattern.name === "Blank") {
+
+            $('input#part-pattern-slider').hide();
+
+        } else {
+
+            var _from = ub.uiData.patternSliderRange.starts;
+            var _calibration = ub.uiData.patternSliderRange.adjustedStart;
+            var _patternIsForCalibration = false; 
+ 
+            _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, inputPattern.name);
+
+            if (typeof _partSettingsObject.pattern !== "undefined" && _partSettingsObject.pattern.length > 0) {
+
+                _from = _partSettingsObject.pattern.position.y;
+
+                if (_patternIsForCalibration) {
+
+                    _from -= _patternIsForCalibration;
+
+                }
+
+            } else {
+
+                _from = _partSettingsObject.pattern.position.y;
+
+            }
+
+            $('input#part-pattern-slider').show();
+
+            if (typeof $("#part-pattern-slider").destroy === "function") { 
+                $("#part-pattern-slider").destroy(); 
+            }
+            
+            $("#part-pattern-slider").ionRangeSlider({
+
+                min: ub.uiData.patternSliderRange.min,
+                max: 1000,
+                from: _from,
+                onChange: function (data) {
+
+                    ub.funcs.changePartPatternPosition(materialOption.name, data.from);
+
+                },
+
+            });
+
+            $('div#patternUI > span.irs').css('margin-left', '5%');
+
+        }
+
+    };
 
     ub.data.previewContainer    = {};
     ub.data.previewCanvas       = {};
     ub.data.patternToolTip      = {};
+
+    ub.funcs.getMaterialOptionPatternViewObjects = function (materialOptionName) {
+
+        var _viewObjects = [];
+
+        _.each (ub.views, function (view) {
+
+            var _obj = ub.objects[view + '_view']['pattern_' + materialOptionName.toCodeCase()];
+
+            if (typeof _obj !== "undefined") {
+                _viewObjects.push(_obj);
+            }
+
+        })
+
+        return _viewObjects;
+
+    }
+
+     ub.funcs.getMaterialOptionViewObjects = function (materialOptionName) {
+
+        var _viewObjects = [];
+
+        _.each (ub.views, function (view) {
+
+            var _obj = ub.objects[view + '_view'][materialOptionName];
+
+            if (typeof _obj !== "undefined") {
+                _viewObjects.push(_obj);
+            }
+
+        })
+
+        return _viewObjects;
+
+    }
+
+
+    ub.funcs.changePartPatternPosition = function (code, from) {
+
+        var _value = parseInt(from);
+
+        var _perspectiveStr = '';
+        var _viewObjects = ub.funcs.getMaterialOptionPatternViewObjects(code);
+        var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(code.toTitleCase());
+        var _calibration = 0;
+
+        // if (_.contains(ub.uiData.patternSliderRange.forCalibration, _settingsObject.pattern.name)) {
+
+        //     _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+        // }
+
+        _.each(_viewObjects, function (viewObject) {
+
+            var _patternObject = viewObject;
+            var _positionY = (0 + parseInt(from));
+
+            _patternObject.position.y = (0 + parseInt(from) + _calibration);
+            _settingsObject.pattern.position = {x: _settingsObject.pattern.position.x, y: _positionY};
+
+            _settingsObject.pattern.dirty = true;
+
+        });
+
+    };
 
     ub.funcs.createPatternPreview = function (inputPattern) {
 
@@ -944,7 +1081,7 @@ $(document).ready(function () {
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
         
-        canvas.setHeight(300);
+        canvas.setHeight(250);
         canvas.setWidth(300);
 
         _.each(_patternObj.layers, function (layer) {
@@ -1012,7 +1149,7 @@ $(document).ready(function () {
         var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
         var group   = new fabric.Group([ text, bg ], {
           left: 28,
-          top: 254,
+          top: 200,
         });
 
         var group   = new fabric.Group([bg], {

@@ -334,10 +334,18 @@ $(document).ready(function(){
 
                 var teamcolors = bcx.team_colors;
 
+                var pdfOrderFormValue = bcx.pdfOrderForm;
+                var s3regex = 's3-us-west-2.amazonaws.com';
+                var found = pdfOrderFormValue.match(s3regex);
+
+                if (found == null) {
+                    pdfOrderFormValue = customizer_host+pdfOrderFormValue;
+                }
+
                 entry.orderPart = {
                     "ID" : entry.id,
                     "Description" : entry.description,
-                    "DesignSheet" : customizer_host+bcx.pdfOrderForm
+                    "DesignSheet" : pdfOrderFormValue
                 };
 
                 getMaterial(function(material){ window.material = material; });
