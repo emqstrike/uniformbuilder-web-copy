@@ -1313,7 +1313,11 @@ $(document).ready(function () {
                         }
 
                         if (ub.branding.useAlternativeUI) {
-                            // $('div.slider-control-rotate[data-id=' + _application.code + ']').roundSlider({ value:});
+                            var rotation = (view.application.rotation * 5) / 18;
+                            if (rotation < 0 && rotation > -60) {
+                                rotation += 60 + 40;
+                            }
+                            $('div.slider-control-rotate[data-id=' + _application.code + ']').roundSlider({ value: rotation });
                         }
                         ub.updateApplicationSpecsPanel(_application.code);
 
@@ -1971,7 +1975,14 @@ $(document).ready(function () {
                             $('#new-toolbar > .group-5').trigger('click')
                             // Scroll to application's settings
                             $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        }
+                        } else {
+                            // Numbers
+                            // Trigger click on tab
+                            $('#new-toolbar > .group-6').trigger('click')
+                            // Scroll to application's settings
+                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+
+                        } 
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -9128,7 +9139,11 @@ $(document).ready(function () {
             }
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            if (ub.branding.useAlternativeUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
+            } else {
+                ub.funcs.activateApplications(_settingsObject.code);
+            }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }

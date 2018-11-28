@@ -17,6 +17,16 @@ $(function() {
         }
     });
 
+    // on click mascot and embellishments group #6
+    $('#new-toolbar > .group-6').on('click', function () {
+        if (! $(this).hasClass('active')) {
+            // If tab is not currently active, add active class to element and remove active class from other tabs
+            $(this).addClass('active').siblings().removeClass("active");
+            // Display decoration numbers
+            ub.funcs.startNewApplicationNumbers();
+        }
+    });
+
     $('#primary_options_container')
             // To add a new letter application (show Choose Location and Choose Perspective options)
             .on('click', '.add-app-letters', function () {
@@ -461,6 +471,60 @@ $(function() {
 
     };
 
+    ub.funcs.startNewApplicationNumbers = function () {
+        $('#mod_primary_panel > .modifier_main_container').empty();
+
+        // get applications and filter
+        var _Applications = ub.current_material.settings.applications;
+        var _filteredApplications = _.filter(_Applications, function(i) {
+            if (i.application_type === 'front_number' || i.application_type === 'back_number' || i.application_type === 'sleeve_number') {
+                return i;
+            }
+        });
+
+        var _appData = [];
+
+        // getting only data needed
+        _.map(_filteredApplications, function (i) {
+            var objStock = {
+                type: i.application.name.toUpperCase(),
+                defaultText: i.text,
+                code: i.code,
+                perspective: i.application.views[0].perspective,
+                placeholder: i.text,
+                fonts: true,
+                fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
+                slider: true,
+                sliderContainer: ub.funcs.sliderContainer(i.code),
+                colorPicker: true,
+                colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
+                accents: true,
+                accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
+                isPlayerName: false,    
+                isLetter: false,    
+                isNumber: true,    
+            }
+            _appData.push(objStock);
+        });
+
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'numbers');
+        $('.modifier_main_container').append(_htmlBuilder);
+        
+        // prepare data
+        var templateData = {
+            applications: _appData
+        };
+
+        // send to mustache
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
+
+        // output to page
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        // initializer
+        ub.funcs.initializer();
+    }
+
     ub.funcs.activateApplicationsLetters = function (application_id) {
     
         ub.funcs.beforeActivateApplication();
@@ -815,6 +879,7 @@ $(function() {
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
         var types = [];
+        var showTypes = '';
         if(_designType === 'letters') { 
             types.push({
                 type: 'team_name',
@@ -827,11 +892,13 @@ $(function() {
             });
 
             
-        } else if (_designType === 'number') {
+        } else if (_designType === 'numbers') {
             types.push({
                 type: 'player_number',
                 name: 'Player Number',
             });
+
+            showTypes = 'hide';
         } else if (_designType === 'mascots') {
             types.push({
                 type: 'mascot',
@@ -851,6 +918,8 @@ $(function() {
             part: true,
             side: true,
             partsData: ub.funcs.getFreeFormLayers(),
+            showTypes: showTypes
+
         }
 
         // Template is currently for letters only
@@ -1415,6 +1484,7 @@ $(function() {
 
         var isLetters = _applicationType === "player_name" || _applicationType === "team_name" ? true : false;
         var isMascots = _applicationType === "mascot" || _applicationType === "embellishments" ? true : false;
+        var isNumbers = _applicationType === "front_number" || _applicationType === "back_number" || _applicationType === "sleeve_number" ? true : false;
         // var _sampleText = _settingsObject.text;
         var _sizes = '';
         var _uniformCategory = ub.current_material.material.uniform_category
@@ -1455,7 +1525,7 @@ $(function() {
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
-        if (isLetters) {
+        if (isLetters || isNumbers) {
             
 
             if (_uniformCategory === "Football") {
@@ -1613,7 +1683,8 @@ $(function() {
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
-                isPlayerName: isPlayerName
+                isPlayerName: isPlayerName,
+                isNumber: false
             }
         
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
@@ -1655,6 +1726,27 @@ $(function() {
             templateData.applications = objMascot;
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', templateData);
 
+        } else if (isNumbers) {
+            templateData.applications = {
+                type: _settingsObject.application.name.toUpperCase(),
+                defaultText: _settingsObject.text,
+                code: _settingsObject.code,
+                perspective: _settingsObject.application.views[0].perspective,
+                placeholder: _settingsObject.text,
+                fonts: true,
+                fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
+                slider: true,
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                colorPicker: true,
+                colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
+                accents: true,
+                accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
+                isPlayerName: false,    
+                isLetter: false,    
+                isNumber: true,    
+            }
+
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
         }
         var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
         if (appBlock.length === 0) {
@@ -1711,7 +1803,7 @@ $(function() {
 
         if (_applicationType === "mascot") {
             ub.funcs.afterActivateMascots(_id);
-        } else if (isLetters) {
+        } else if (isLetters || isNumbers) {
             ub.funcs.afterActivateApplication(application_id);
         }
     }

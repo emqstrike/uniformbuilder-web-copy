@@ -1045,7 +1045,7 @@
         <div class="addApplicationsOpts hide">
 
             @{{#designType}}
-                <div class="posContainer clearfix">
+                <div class="posContainer clearfix @{{ showTypes }}">
                     <h5>CHOOSE A DESIGN TYPE</h5>
                     @{{#designTypeData}}
                         <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
@@ -1107,7 +1107,13 @@
 
                 <div class="">
                     <h5>INPUT @{{ type }}</h5>
+                    @{{#isLetter}}
                     <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
+                    @{{/isLetter}}
+
+                    @{{#isNumber}}
+                    <input type="number" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                    @{{/isNumber}}
                 </div>
 
                 <div class="lettersOptsContainer"> 
