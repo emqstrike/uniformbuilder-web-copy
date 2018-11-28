@@ -60,7 +60,7 @@ PipingPanel.events = {
             $(".modifier_main_container").on('click', '#pipingsUI .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
             $(".modifier_main_container").on("click", "#pipingsUI .toggleOption", PipingPanel.events.togglePiping);
             $(".modifier_main_container").on('click', ".piping-color-categories .piping-color-item .piping-color-selector", PipingPanel.events.onChangeColorLayer);
-            $(".modifier_main_container .piping-color-button-container").on('click', '.piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
+            $(".modifier_main_container").on('click', '#pipingsUI #piping-change-color .piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
             $(".modifier_main_container").on('click', '#piping-change-color .modal-footer .cancel-application', PipingPanel.events.onCancelEditPiping);
             PipingPanel.events.is_init_events_called = 1;
         }

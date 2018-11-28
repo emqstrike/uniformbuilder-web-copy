@@ -36,7 +36,6 @@ LogoPanel.prototype = {
         var current_position = current_active_position.data("position");
         current_active_position.removeClass('cp-button-active');
         var material_ops = null;
-
         var new_position = $(this).data("position");
 
         if (new_position.includes("front") || new_position.includes("chest")) {
@@ -82,7 +81,6 @@ LogoPanel.prototype = {
             $("#logo-preview").show();
             $(".logo-image-loader").hide();
         }, 2000);
-
     },
 
     bindEvents: function() {
@@ -95,7 +93,8 @@ LogoPanel.prototype = {
 
 LogoPanel.isBindEvents = 0;
 
-LogoPanel.excluded = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_lower = ['base', 'highlights', 'shadows'];
 LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
 
 LogoPanel.init = function () {
@@ -103,16 +102,15 @@ LogoPanel.init = function () {
 
         LogoPanel.utilities.initLogoData(ub.current_material.material.logo_position);
 
-        ub.funcs.afterLoadFunctionList.push(function() {
-            LogoPanel.utilities.processLogo();
-        });
-
         if (_.size(ub.current_material.settings.logos) > 0) {
-
             LogoPanel.utilities.processSavedLogo();
+        } else {
+            ub.funcs.afterLoadFunctionList.push(function() {
+                LogoPanel.utilities.processLogo();
+            });
         }
     }
-}
+};
 
 LogoPanel.utilities = {
     initLogoData: function (logo_data) {
@@ -122,6 +120,16 @@ LogoPanel.utilities = {
             _logo_position = JSON.parse(_logo_position);
 
             ub.data.logos = _logo_position;
+
+            _.each(ub.data.logos, function(logo) {
+
+                if (logo.position === "left_sleeve") {
+                    logo.position = "left_sleeve_logo";
+                }
+
+                // Format Logo Name Position
+                logo.name = ub.utilities.titleCase(logo.position.replace(/_/g, " ").replace("logo", ""));
+            });
         }
     },
 
@@ -131,16 +139,14 @@ LogoPanel.utilities = {
         {
             _.each(ub.data.logos, function(logo) {
 
-                if (logo.position === "left_sleeve") {
-                    logo.position = "left_sleeve_logo";
-                }
 
                 var _layerCount = 0;
 
-                if (logo.layer1) { _layerCount +=1 };
-                if (logo.layer2) { _layerCount +=1 };
-                if (logo.layer3) { _layerCount +=1 };
+                if (logo.layer1) { _layerCount += 1 };
+                if (logo.layer2) { _layerCount += 1 };
+                if (logo.layer3) { _layerCount += 1 };
 
+                // Get secondary color
                 var secondary_color = LogoPanel.colors.getSecondaryColor();
                 logo.colors_array = [
                     "W",
@@ -151,8 +157,6 @@ LogoPanel.utilities = {
                 var _colorArray = [];
                 var _layers = [];
 
-                logo.name = ub.utilities.titleCase(logo.position.replace(/_/g, " ").replace("logo", ""));
-
                 // Normalize Logo Position From source
                 _.each (logo.perspectives, function (perspective) {
                     _.each(perspective.layers, function (layer) {
@@ -160,6 +164,7 @@ LogoPanel.utilities = {
                     });
                 });
 
+                // Process color array
                 if (typeof logo.colors_array !== "undefined") {
                     _.each(logo.colors_array, function (color, index) {
 
@@ -181,10 +186,14 @@ LogoPanel.utilities = {
                 }
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
-
-                if (_hasSavedLogoData) { return; }
+                if (_hasSavedLogoData) {
+                    console.log("ub.current_material.settings.logos[logo.position]", ub.current_material.settings.logos[logo.position])
+                    return;
+                }
 
                 if (!_hasSavedLogoData && logo.enabled === 1) {
+
+                    console.log("_hasSavedLogoData is negative")
 
                     ub.current_material.settings.logos[logo.position] = {
                         position: logo.position,
@@ -242,13 +251,13 @@ LogoPanel.utilities = {
         var _frontObject = _.find(logoObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers.slice(0).reverse(), function (layer, index) {
-            // if (index + 1 > _layerCount) { return; }
             var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.layer});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
             logoLayer.ubName = 'Layer ' + (index + 1);
             logoLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
             if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
+
                 logoLayer.alpha = 0;
 
             } else {
@@ -316,9 +325,12 @@ LogoPanel.utilities = {
     processSavedLogo: function() {
         _.each(ub.current_material.settings.logos, function (logo, key) {
 
-            var _result = _.find(ub.data.logos, {position: key});
 
-            if (logo.position === "") { return; }
+            var _result = _.find(ub.data.logos, {position: logo.position});
+
+            if (logo.enabled === 0) {
+                return;
+            }
 
             LogoPanel.utilities.renderLogo(_result, logo.numberOfLayers);
 
@@ -389,7 +401,7 @@ LogoPanel.utilities = {
     changeLogoColor: function(position, color_code) {
         // Get color object by color code
         var colorObj = ub.funcs.getColorByColorCode(color_code);
-       LogoPanel.utilities.changeLogoColorByLayer(position, colorObj, 3);
+        LogoPanel.utilities.changeLogoColorByLayer(position, colorObj, 3);
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
         var logoSettings = LogoPanel.utilities.getLogoSettingsObject(position);
@@ -480,14 +492,13 @@ LogoPanel.colors = {
     },
 
     getPartsColors: function() {
+        var excluded_parts = ub.config.type === "upper" ? LogoPanel.excluded_upper : LogoPanel.excluded_lower;
         var secondary_color = [];
-        var excluded_modifier = [];
-        var included_modifier = [];
 
         _.map(ub.current_material.settings[ub.config.type], function(mo) {
             if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
                 if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
-                    if (!_.includes(LogoPanel.excluded, mo.code)) {
+                    if (!_.includes(excluded_parts, mo.code)) {
                         secondary_color.push(mo.colorObj.color_code);
                     }
                 }
@@ -502,8 +513,12 @@ LogoPanel.colors = {
         if (typeof ub.current_material.settings.pipings !== "undefined") {
             if (!util.isNullOrUndefined(ub.current_material.settings.pipings)) {
                 _.map(ub.current_material.settings.pipings, function(index, elem) {
+                    var numberOfColors = index.numberOfColors;
                     if (index.enabled === 1) {
                         _.map(index.layers, function(index, elem) {
+                            if (elem + 1 > numberOfColors) {
+                                return;
+                            }
                             if (_.includes(LogoPanel.valid_colors, index.colorCode)) {
                                 colors.push(index.colorCode);
                             }
@@ -560,4 +575,4 @@ LogoPanel.colors = {
 
         return _.sortBy(color_sum, "count").reverse();
     }
-}
+};
