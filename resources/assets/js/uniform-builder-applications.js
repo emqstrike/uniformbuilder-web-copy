@@ -1257,8 +1257,29 @@ $(document).ready(function () {
 
                         ub.updateApplicationSpecsPanel(_application.code);
 
-                    }
+                        if (ub.branding.useAlternativeUI) {
+                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
+                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
 
+                            if(val_x < 1) {
+                                val_x = 1;
+                            }
+                            if (val_x > 100) {
+                                val_x = 100;
+                            }
+                            if(val_y < 1) {
+                                val_y = 1;
+                            }
+                            if (val_y > 100) {
+                                val_y = 100;
+                            }
+                            $('div.slider-control-move-x[data-id=' + _application.code + '] .noUi-origin').css('left', val_x + '%')
+                            $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-origin').css('left', val_y + '%')
+                            $('div.slider-control-move-x[data-id=' + _application.code + '] .noUi-tooltip').html(val_x)
+                            $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-tooltip').html(val_y)
+                        }
+
+                    }
                     if (sprite.ubName === "Rotate Tool") {
 
                         move_point.alpha = 0;
@@ -1291,6 +1312,9 @@ $(document).ready(function () {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');
                         }
 
+                        if (ub.branding.useAlternativeUI) {
+                            // $('div.slider-control-rotate[data-id=' + _application.code + ']').roundSlider({ value:});
+                        }
                         ub.updateApplicationSpecsPanel(_application.code);
 
                     }
@@ -1344,6 +1368,18 @@ $(document).ready(function () {
 
                         }
 
+                        if (ub.branding.useAlternativeUI) {
+                            var val = Math.abs(Math.round((application_obj.scale.x * 100 )/ 3));
+
+                            if(val < 1) {
+                                val = 1;
+                            }
+                            if (val > 100) {
+                                val = 100;
+                            }
+                                $('div.slider-control-scale[data-id=' + _application.code + '] .noUi-origin').css('left', val + '%')
+                                $('div.slider-control-scale[data-id=' + _application.code + '] .noUi-tooltip').html(val)
+                        }
 
                         _start = _start.toString().substr(0, 4);
 
