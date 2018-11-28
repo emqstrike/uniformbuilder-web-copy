@@ -3,6 +3,8 @@
  * - Modifier switcher
  * @since October 23, 2018
  * @author Romack Natividad <romack@qstrike.com>
+ * @author Aron Bagtas <aron@qstrike.com>
+ * @author Rodrigo Galura <rodrigo@qstrike.com>
  *
  * Required:
  *  jQuery, Tippy
