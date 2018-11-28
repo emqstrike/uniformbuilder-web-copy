@@ -6227,8 +6227,11 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
-        var sizes = sizes.slice(0,2);
-        
+        // CCO-159 @Nov 26 2018
+        var customSizeValidApplications = ['mascot', 'embellishments'];
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) { var sizes = sizes.slice(0,2); }
+        // end CCO-159
+
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
@@ -6253,12 +6256,25 @@ $(document).ready(function() {
         });
 
         // CCO-159 @Nov 23 2018
-        if (!ub.funcs.isFreeFormToolEnabled(_id)) {
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) {
             _htmlBuilder += "<span style='color:white;'>OR</span> &nbsp";
-            _htmlBuilder += "<select style='-webkit-border-radius: 0; border: 0; outline: 1px solid #ccc; outline-offset: -1px; height: 30px; width: 155px; text-align: center; background: white;'>";
+            _htmlBuilder += "<select class='customSize' style='-webkit-border-radius: 0; border: 0; outline: 1px solid #ccc; outline-offset: -1px; height: 30px; width: 155px; text-align: center; background: white;'>";
             _htmlBuilder += "<option value='0'>CUSTOM SIZE</option>";
             _.each(ub.data.customSizes, function(cSize) {
-                _htmlBuilder += "<option value='"+cSize+"'>" + cSize + "\"</option>";
+                
+                var selected = '';
+                
+                if (cSize === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+                    
+                    selected = 'selected';
+
+                    if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+                        (_.isEqual(settingsObject.custom_obj.active, true)) ? selected='' : selected='selected';
+                    }
+
+                }
+
+                _htmlBuilder += "<option value='"+cSize+"' "+selected+">" + cSize + "\"</option>";
             });
             _htmlBuilder += "</select>";
         }
@@ -8346,7 +8362,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.activateApplications = function (application_id) {
-        console.trace();
+        
         ub.funcs.beforeActivateApplication();
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
@@ -8539,6 +8555,15 @@ $(document).ready(function() {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
         _htmlBuilder        +=          '</div>';
+
+        // CCO-159 @Nov 27 2018
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end CCO-159
 
         // Rotate Team Name in Baseball and Fastpitch
         _htmlBuilder        += '<div class="ui-row angleItems">';

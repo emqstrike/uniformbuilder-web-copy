@@ -1409,9 +1409,9 @@
                     // Use Defaults if theres no record 
                     if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
 
-                        var _scaleSettings = ub.data.embellishmentSizes.getSize(_uniformCategory, settings_obj.size);
+                        // var _scaleSettings = ub.data.embellishmentSizes.getSize(_uniformCategory, settings_obj.size);
 
-                        ub.utilties.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                        ub.utilities.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
                         scale_settings = _scaleSettings.scale;
 
                     } 
