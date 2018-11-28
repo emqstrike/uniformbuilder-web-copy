@@ -3,6 +3,8 @@
  * - Modifier switcher
  * @since October 23, 2018
  * @author Romack Natividad <romack@qstrike.com>
+ * @author Aron Bagtas <aron@qstrike.com>
+ * @author Rodrigo Galura <rodrigo@qstrike.com>
  *
  * Required:
  *  jQuery, Tippy
@@ -197,9 +199,14 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        console.log('Show Numbers Panel');
+        ub.modifierController.controllers.numbers = new NumberPanel('m-decorations-numbers');
+        var numbers_panel = ub.modifierController.controllers.numbers.getPanel();
+        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
+        properties_panel.setBodyPanel(numbers_panel);
         // set event listeners
-        ub.modifierController.numbers.bindEvents();
+        ub.modifierController.controllers.numbers.bindEvents();
+
+        ub.funcs.initializer();
         
         // NumberPanel.initializeUISlider();
     },

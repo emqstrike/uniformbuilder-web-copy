@@ -14,13 +14,14 @@
 
 function PropertiesPanel(
     element,
-    brand,
+    brand
 ) {
     this.body_panel = document.querySelector(element);
     this.brand = brand;
     this.modifiers = [];
     this.parts = [];
     this.inserts = [];
+    this.numbers = [];
     this.isBind = true;
     this.panels = {
         parts: null,
@@ -28,6 +29,7 @@ function PropertiesPanel(
         patterns: new PatternPanel(null),
         pippings: null,
         inserts: null,
+        numbers: null,
         applications: null,
         logo: null
     };

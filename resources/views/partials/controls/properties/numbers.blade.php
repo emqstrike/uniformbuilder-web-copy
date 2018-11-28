@@ -1,6 +1,6 @@
 <script type="text/mustache" id="m-decorations-numbers">
 <div id="numbers-panel">
-    <div class="content application-numbers-container cp-padding-medium cp-padding-remove-vertical">
+    <div class="content application-numbers-container">
         <h4>DECORATION NUMBERS</h4>
         <div class="add-new-application-numbers">
             <button type="button" class="app-btn w-45 add-app-numbers app-numbers-button"><span class="fa fa-plus-circle"></span> Add Application</button>
@@ -8,8 +8,14 @@
         </div>
 
         @{{ #applications }}
-        <div class="applicationUIBlock">
-            <h5>@{{ application.name }}</h5>
+
+        <div class="application">
+            <div class="posContainer clearfix app-numbers-wrapper">
+                <button type="button" class="app-btn w-45 pull-left active view-numbers-opt app-numbers-button">View</button>
+                <button type="button" class="app-btn w-45 pull-right hide-numbers-opt app-numbers-button">Hide</button>
+            </div>
+
+            <h4 class="app-numbers-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
             <input
                 type="text"
                 value="@{{ text }}"
@@ -19,21 +25,17 @@
                 data-application-layer="@{{ application.layer }}"
                 data-application-id="@{{ application.id }}"
             >
-            <select
-                class="font-style"
-                data-application-type="@{{ application_type }}"
-                data-application-layer="@{{ application.layer }}"
-                data-application-id="@{{ application.id }}"
-            >
-                @{{ #fonts }}
-                <option value="@{{ id }}">
-                    @{{ caption }}
-                </option>
-                @{{ /fonts }}
-
-            </select>
 
             <div class="slidersContainer">
+                <div class="clearfix">
+                    <h5 class="app-numbers-subtitle">@{{ application.name.toUpperCase() }} TEAM NAME FONT</h5>
+                    <div class="posContainer input-group" align="center" style="color: black">
+                        <span class="input-group-addon fontStyleLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                        <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ font_obj.name }}">@{{ font_obj.caption }}</span>
+                        <span class="input-group-addon fontStyleRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                    </div>
+                </div>
+
                 <div class="manipulator-type-container scale" data-type="scale">
                     <h5>FONT SIZE</h5>
                     <div class="sc scale">
