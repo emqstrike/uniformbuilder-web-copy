@@ -6267,7 +6267,8 @@ $(document).ready(function () {
         var views = ub.data.views;
         var _rotationAngle = 0;
         var _extra         = {};
-        var _positiion     = {x: 0, y: 0};
+        // var _positiion     = {x: 0, y: 0};
+        var _positiion = position;
         target_name        = util.toTitleCase(target_name);
 
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
@@ -6369,6 +6370,12 @@ $(document).ready(function () {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
+            var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
+
+            if (_soPattern.dirty) {
+                _p.position = position;
+            }
+            
             _p.anchor = {x: 0.5, y: 0.5};
             _p.pivot = {x: 0.5, y: 0.5};
 
