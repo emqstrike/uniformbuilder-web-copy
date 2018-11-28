@@ -186,14 +186,12 @@ LogoPanel.utilities = {
                 }
 
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
+
                 if (_hasSavedLogoData) {
-                    console.log("ub.current_material.settings.logos[logo.position]", ub.current_material.settings.logos[logo.position])
                     return;
                 }
 
                 if (!_hasSavedLogoData && logo.enabled === 1) {
-
-                    console.log("_hasSavedLogoData is negative")
 
                     ub.current_material.settings.logos[logo.position] = {
                         position: logo.position,
@@ -325,7 +323,6 @@ LogoPanel.utilities = {
     processSavedLogo: function() {
         _.each(ub.current_material.settings.logos, function (logo, key) {
 
-
             var _result = _.find(ub.data.logos, {position: logo.position});
 
             if (logo.enabled === 0) {
@@ -333,7 +330,6 @@ LogoPanel.utilities = {
             }
 
             LogoPanel.utilities.renderLogo(_result, logo.numberOfLayers);
-
         });
     },
 
