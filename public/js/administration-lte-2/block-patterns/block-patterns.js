@@ -6,6 +6,12 @@ $(document).ready(function(){
         console.log(err.message);
     }
 
+    $('.part-and-fabrics .fabrics').select2({
+        data: JSON.parse($('#fabrics-list').val()),
+        multiple: true,
+        allowClear: true
+    });
+
     var layers_properties = {};
 
     $(document).on('click', '.clone-row', function() {
@@ -619,5 +625,44 @@ $(document).ready(function(){
     $('body').on('keypress', '.coordinating-colors-name', function() {
         var length = $('.layers-row').length;
         updateJSON(length, 1);
+    });
+
+    $('.clone-parts-and-fabrics').click(function(e) {
+        e.preventDefault();
+
+        $('.part-and-fabrics .fabrics').select2('destroy');
+
+        var cloned = $('.part-and-fabrics').first().clone(true);
+
+        cloned.find('.fabrics option').remove();
+        cloned.find('.name').val('');
+        cloned.find('.part-fabrics-field').val('');
+
+        $('#part-and-fabrics-container').append(cloned);
+
+        $('.part-and-fabrics .fabrics').each(function() {
+            $(this).removeAttr('data-select2-id').select2();
+        });
+
+        if ($('.part-and-fabrics').length > 1) {
+            cloned.find('.remove-parts-and-fabric').removeAttr('style');
+        }
+
+        $('.part-and-fabrics .fabrics').select2({
+            data: JSON.parse($('#fabrics-list').val()),
+            multiple: true,
+            allowClear: true
+        });
+    });
+
+    $('.remove-parts-and-fabric').click(function(e) {
+        e.preventDefault();
+
+        $(this).closest('.part-and-fabrics').remove();
+    });
+
+    $('body').on('change', '.part-and-fabrics .fabrics', function() {
+        var field = $(this).prev('.part-fabrics-field');
+        field.val($(this).val());
     });
 });
