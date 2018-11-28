@@ -1,0 +1,41 @@
+.fabric-container {
+    padding: 30px;
+
+    .fabric-layers {
+        .fabric-item {
+            margin-bottom: 20px;
+
+            .image-wrapper,
+            .fabric-description {
+                display: inline-block;
+            }
+
+            .image-wrapper {
+                vertical-align: top;
+                width: 25%;
+            }
+
+            .fabric-description {
+                width: 70%;
+                margin-top: 0;
+                margin-left: 10px;
+
+                .description-list {
+                    list-style: none;
+                    padding: 0;
+
+                    li {
+                        p {
+                            margin-left: 10px;
+                        }
+
+                        &:before {
+                            position: absolute;
+                            content: "-";
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

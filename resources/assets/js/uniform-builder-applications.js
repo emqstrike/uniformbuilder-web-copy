@@ -3971,6 +3971,7 @@ $(document).ready(function () {
                             return;
                         }
                     }
+                }
 
             if (! ub.branding.useAlternativeUI) {
                 /// Check if CW if empty, draw Pickers if it is

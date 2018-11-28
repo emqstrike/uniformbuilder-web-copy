@@ -107,6 +107,7 @@ elixir(function(mix) {
             'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
+            'panels/FabricPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
@@ -129,6 +130,7 @@ elixir(function(mix) {
             'application-ui-new.less',
             'application-ui-new-letters.less',
             'application-ui-new-numbers.less',
+            'application-ui-new-fabrics.less'
         ],
 
         // Result

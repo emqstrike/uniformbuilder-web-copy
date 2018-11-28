@@ -117,6 +117,12 @@ ModifierController.prototype = {
 
     fabrics: function() {
         console.log('Show Fabrics Panel');
+
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.fabrics = new FabricPanel('fabric-tmpl');
+
+        var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
+        propertiesPanel.setBodyPanel(fabric_panel);
     },
 
     parts: function() {
