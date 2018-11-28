@@ -4,6 +4,7 @@
  * @since November 13, 2018
  * @authors
  * - Romack Natividad <romack@qstrike.com>
+ * - Rodrigo Galura <rodrigo@qstrike.com>
  * Requirements:
  * - jQuery
  * - Mustache
@@ -68,7 +69,7 @@ NumberPanel.prototype = {
         });
 
         _.each(applications, function(appl) {
-            appl.fonts = ub.data.fonts;
+            appl.fonts = _this.getFontsList();
             appl.accents = _this.getAccentsList(appl);
             appl.slider = true;
             appl.fonts = true;
@@ -93,8 +94,21 @@ NumberPanel.prototype = {
 
             accents.push(accent);
         });
-        console.log(accents);
         return accents;
+    },
+
+    getFontsList: function() {
+        var fonts = [];
+        _.map(ub.data.fonts, function(font) {
+            var temp = {
+                type: font.type,
+                fontStyle: font.name,
+                fontCaption: font.caption
+            }
+            var temp = font;
+            fonts.push(temp);
+        });
+        return fonts;
     },
 
     hasApplications: function() {
