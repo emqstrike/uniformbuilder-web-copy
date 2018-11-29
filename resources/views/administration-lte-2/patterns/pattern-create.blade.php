@@ -97,6 +97,12 @@ select:hover {
                                 </select>
                               </div>
                         </div>
+                        <div class="form-group">
+                                <label class="col-md-4 control-label">Range Position</label>
+                                <div class="col-md-2">
+                                <input class="form-control range-position" type="number" name="range_position">
+                                </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Pattern Layers
