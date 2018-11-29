@@ -1554,19 +1554,108 @@ $(document).ready(function() {
 
         });
 
+        // initialize an empty array of errors
+        var errors = [];
+
+        /*
+        * This onblur js event validate if the client-name field have or not have a value
+        * and error messages will be displayed accordingly
+        */
+        $('input#client-name').on('blur', function() {
+            
+            if ($('input#client-name').val() != '') {
+                
+                errors = [];
+                ub.funcs.billingShippingStateAreRequired(errors);
+                $(this).removeClass('is-invalid');
+            } else {
+                errors = [];
+                errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+                ub.funcs.billingShippingStateAreRequired(errors);
+                $(this).addClass('is-invalid');
+            }
+            ub.funcs.displayOrderFormErrors(errors);
+        });
+
+        /*
+        * This onchange js event validate if the billing-state field has been changed its default value
+        * and if not, an error message is displayed accordingly
+        */
+        $('select#billing-state').on('change', function() {
+            if ($('select#billing-state').val() != 0) {
+                errors = [];
+                ub.funcs.clientNameShippingStateAreRequired(errors);
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid #aaa');
+            } else {
+                errors = [];
+                errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+                ub.funcs.clientNameShippingStateAreRequired(errors);
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+            }
+            ub.funcs.displayOrderFormErrors(errors);
+        });
+
+        /*
+        * This onchange js event validate if the shipping-state field has been changed its default value
+        * and if not, an error message is displayed accordingly
+        */
+        $('select#shipping-state').on('change', function() {
+            
+            if ($('select#shipping-state').val() != 0) {
+                
+                errors = [];
+                ub.funcs.clientNameBillingStateAreRequired(errors);
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
+
+            } else {
+
+                errors = [];
+                errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+                ub.funcs.clientNameBillingStateAreRequired(errors);
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+
+            }
+
+            ub.funcs.displayOrderFormErrors(errors);
+
+        });
+
         $('span.submit-order').unbind('click');
         $('span.submit-order').on('click', function () {
 
+             var errors = [];
+
             if ($('input#client-name').val().trim() === "") {
 
-                $(window).scrollTop(0);
+                errors.push({'message': 'Client name is required!', 'id': 'client-name'});
+
                 $('input#client-name').addClass('is-invalid');
-                $.smkAlert({text: 'Please enter client name!', type: 'warning', time: 3, marginTop: '80px'});
-                return;
 
             } else {
 
                 $('input#client-name').removeClass('.is-invalid');
+
+            }
+
+            if ($('select#billing-state').val() == 0) {
+
+                errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+
+            } else {
+
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid #aaa');
+
+            }
+
+            if ($('select#shipping-state').val() == 0) {
+
+                errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+
+            } else {
+
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
 
             }
 
@@ -1577,7 +1666,16 @@ $(document).ready(function() {
 
             }
 
-            ub.funcs.validateOrderForm();
+            var html = ub.utilities.buildTemplateString("#m-order-form-error", {errors: errors});
+            
+            $('.error-container').html(html);
+            
+            if (_.size(errors) > 0) {
+                $('.error-container').addClass('has-error');
+            } else {
+                $('.error-container').removeClass('has-error');
+                ub.funcs.validateOrderForm();
+            }
 
         });
 
@@ -1648,6 +1746,95 @@ $(document).ready(function() {
         ub.current_material.settings.roster = _validate.roster;
         ub.funcs.showOrderForm(orderInfo);
 
+    }
+
+     /*
+    * @desc display the error lists (if any) in .error-container html element
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.displayOrderFormErrors = function (errors) {
+        if (_.size(errors) > 0) {
+            $('.error-container').addClass('has-error');
+        } else {
+            $('.error-container').removeClass('has-error');
+        }
+        var html = ub.utilities.buildTemplateString("#m-order-form-error", {errors: errors});
+        $('.error-container').html(html);
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `state` field in Billing and Shipping Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.billingShippingStateAreRequired = function (errors) {
+        if ($('select#billing-state').val() == 0) {
+            errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+            $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+        }
+        if ($('select#shipping-state').val() == 0) {
+            errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+            $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+        }
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `client name` field in Client Info tab and the `state` field in Shipping Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.clientNameShippingStateAreRequired = function (errors) {
+        if ($('input#client-name').val().trim() === "") {
+            errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+            $('input#client-name').addClass('is-invalid');
+        }
+        if ($('select#shipping-state').val() == 0) {
+            errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+        }
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `client name` field in Client Info tab and the `state` field in Billing Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.clientNameBillingStateAreRequired = function (errors) {
+        if ($('input#client-name').val().trim() === "") {
+            errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+            $('input#client-name').addClass('is-invalid');
+        }
+        if ($('select#billing-state').val() == 0) {
+            errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+        }
+        return errors;
+    }
+
+    /*
+    * @desc display the active tab and its content in ORDER FORM page according to the given id field
+    * @param string id
+    */
+    ub.funcs.gotoField = function (id) {
+        (_.isEqual(id, '#client-name')) ? $(window).scrollTop(300): $(window).scrollTop(900);
+        if (_.isEqual(id, '#client-name')) {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=client-info]').addClass('active-tab');
+            $('div.order-tab[data-name=client-info]').addClass('active-tab');
+        } else if (_.isEqual(id, '#billing-state')) {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=billing-info]').addClass('active-tab');
+            $('div.order-tab[data-name=billing-info]').addClass('active-tab');
+        } else {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=shipping-info]').addClass('active-tab');
+            $('div.order-tab[data-name=shipping-info]').addClass('active-tab');
+        }
     }
 
     ub.funcs.prepareState = function () {
