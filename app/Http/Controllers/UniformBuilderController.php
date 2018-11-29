@@ -544,6 +544,12 @@ class UniformBuilderController extends Controller
             'render' => true
         ];
 
+//        Log::info('(Request Before) Code  ' . $code);
+//        Log::info('(Request Before) !isNull  ' . !is_null($code));
+        if (config('app.debug')) Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
+        if (config('app.debug')) Log::info('(Request Before) Team Colors  ' . $request->team_colors);
+        if (config('app.debug')) Log::info('Request Object ' . $request);
+
         return $this->showBuilder($config);
 
     }
@@ -658,6 +664,7 @@ class UniformBuilderController extends Controller
         {
             $config['product_id'] = $product_id;
         }
+        if (config('app.debug')) Log::info(print_r($config, true));
     }
 
     public function fileUpload(Request $request) {

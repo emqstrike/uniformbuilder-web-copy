@@ -143,6 +143,18 @@ $(document).ready(function() {
 
             return decodedString;
 
+        },
+
+        underscoreToWhitespace(haystack) {
+            haystack.replace('left_', '').replace('right_', '');
+            return haystack.replace(/_/g, ' ');
+        },
+
+        titleCase: function(str) {
+            return str.toLowerCase().split(' ').map(function(word) {
+                if (!word[0]) return;
+                return word.replace(word[0], word[0].toUpperCase());
+            }).join(' ');
         }
 
     };

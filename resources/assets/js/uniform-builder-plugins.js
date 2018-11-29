@@ -258,55 +258,55 @@
 
             str_builder = str_builder + color_elements;
             str_builder = str_builder + '</div></div>';
+             if (!ub.data.useScrollingUI) {
+                var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
+                var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
 
-            var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
-            var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
+                el_parent.addClass('ubColorPicker');
 
-            el_parent.addClass('ubColorPicker');
+                el.data('target');
+                el.data('target', settings.target);
+                el.data('type');
+                el.data('type', settings.type);
+                el_parent.append(btn_el);
+                el_parent.append(popup_picker);
 
-            el.data('target');
-            el.data('target', settings.target);
-            el.data('type');
-            el.data('type', settings.type);
-            el_parent.append(btn_el);
-            el_parent.append(popup_picker);
+                var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
 
-            var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
-
-            colors_btn.on('click', function() {
-
-                var color = $(this).data('color');
-                
-                $('input#primary_text').val(color);
-                el_parent.find('span').css('background-color', color);
-                el_parent.find('span').html($(this).html());
-                el_parent.find('span').css('font-size', '10px');
-                el_parent.find('span').css('padding-top', '2px');
-                el_parent.find('span').css('color', '#eeeeee');
-
-                if($(this).html() === 'W'){
-                    el_parent.find('span').css('background-color', "#ffffff");
+                colors_btn.on('click', function() {
+                    console.log("Clicking colors btn");
+                    var color = $(this).data('color');
+                    $('input#primary_text').val(color);
+                    el_parent.find('span').css('background-color', color);
+                    el_parent.find('span').html($(this).html());
+                    el_parent.find('span').css('font-size', '10px');
+                    el_parent.find('span').css('padding-top', '2px');
                     el_parent.find('span').css('color', '#eeeeee');
-                }
 
-                if($(this).html() === 'CR'){
-                    el_parent.find('span').css('color', '#000000');
-                }
+                    if($(this).html() === 'W'){
+                        el_parent.find('span').css('background-color', "#ffffff");
+                        el_parent.find('span').css('color', '#eeeeee');
+                    }
 
-                if (settings.type === 'single') {
+                    if($(this).html() === 'CR'){
+                        el_parent.find('span').css('color', '#000000');
+                    }
 
-                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
-                    
-                }
+                    if (settings.type === 'single') {
+                        $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                    }
 
-                if (settings.type === 'withMatch') {
+                    if (settings.type === 'withMatch') {
 
-                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
-                    $('button.btn.change-color[data-target="' + settings.matchingSide + '"][data-color="' + color +'"]').click();
+                        $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                        $('button.btn.change-color[data-target="' + settings.matchingSide + '"][data-color="' + color +'"]').click();
 
-                }
+                    }
 
-            });
+                });
+            } else {
+                return;
+            }
 
             var preamble = 'div.options_panel_section.ubColorPicker';
             var panels = util.dataSelector(preamble, { 'option': target_name });

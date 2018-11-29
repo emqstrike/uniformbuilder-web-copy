@@ -648,7 +648,24 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
+
+            ub.funcs.changeControls();
+
+            // executeAfterLoadFunctionList()
+
             ub.funcs.executeAfterLoadFunctionList();
+        };
+
+        // afterLoad function container
+        ub.funcs.afterLoadFunctionList = [];
+
+        // create desc here
+        ub.funcs.executeAfterLoadFunctionList = function () {
+  
+             _.each(ub.funcs.afterLoadFunctionList, function (func){
+                 func();
+            });
 
         };
 
@@ -1114,31 +1131,41 @@ $(document).ready(function () {
         };
 
         ub.loader = function (url, object_name, cb) {
-          
-            $.ajax({
-            
-                url: url,
-                type: "GET", 
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
 
-                    if (object_name === "tailSweeps") {
-
-                        cb(response['tailsweeps'], object_name);
-
-                    } else {
-
-                        cb(response[object_name], object_name);
-
-                    }
-
+            if (window.Worker) {
+                data = {
+                    url: url
                 }
-            
-            });
+                var worker = new Worker('/workers/json-loader-worker.js');
+
+                worker.onmessage = function(e) {
+                    if (e.data.response) {
+                        key = object_name;
+                        if (object_name === "tailSweeps") {
+                            key = 'tailsweeps';
+                        }
+                        cb(e.data.response[key], object_name);
+                    }
+                }
+                worker.postMessage(JSON.parse(JSON.stringify(data)));
+            } else {
+                $.ajax({
+                    url: url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response) {
+                        if (object_name === "tailSweeps") {
+                            cb(response['tailsweeps'], object_name);
+                        } else {
+                            cb(response[object_name], object_name);
+                        }
+                    }
+                });
+            }
 
         };
 
@@ -2811,6 +2838,22 @@ $(document).ready(function () {
             }
 
         }
+
+        // Process Prolook Logo Here
+        LogoPanel.init();
+        // if (ub.current_material.material.logo_position !== null) {
+
+        //     LogoPanel.process.initLogoData(ub.current_material.material.logo_position);
+
+        //     ub.funcs.afterLoadFunctionList.push(function() {
+        //         LogoPanel.process.processLogo();
+        //     });
+
+        //     if (_.size(ub.current_material.settings.logos) > 0) {
+
+        //         LogoPanel.process.processSavedLogo();
+        //     }
+        // }
 
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
@@ -5833,11 +5876,15 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') { 
+                if (view === 'colors') {
 
-                    ub.funcs.activateColorPickers();
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateColorPickers();
+                    } else {
+                        ub.modifierController.activateColorAndPatternPanel();
+                    }
+
                     ub.funcs.activeStyle('colors');
-                    
                     return;
                     
                 }
@@ -5937,6 +5984,11 @@ $(document).ready(function () {
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
+
+                    if (ub.data.useScrollingUI) {
+                        $("#parts-with-insert-container").hide();
+                        $(".parts-container").hide();
+                    }
                     
                     return;
 

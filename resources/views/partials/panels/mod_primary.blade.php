@@ -68,39 +68,31 @@
     </div>
 
     <!-- 
-
     <div id="bottom_modifier_tabs">
-
             <a class="footer-buttons change-view" data-view="front">
                 F
                 <br /><span>Front View</span>
             </a>
-
             <a class="footer-buttons change-view" data-view="back">
                 B
                 <br /><span>Back View</span>
             </a>
-
             <a class="footer-buttons change-view" data-view="left">
                 L
                 <br /><span>Left View</span>
             </a>
-
             <a class="footer-buttons change-view" data-view="right">
                 R
                 <br /><span>Right View</span>
             </a>
-
             <a class="footer-buttons change-view" data-view="zoom">
                 <i class="fa fa-search"></i>
                 <br /><span>Zoom</span>
             </a>
-
             <a class="footer-buttons change-view" data-view="home">
                 <i class="fa fa-home"></i>
                 <br /><span>Home</span>
             </a>
-
         
         <div class='tabs'>
         
@@ -123,19 +115,13 @@
             <div class="mTab" data-type="number">
                 <img src="/images/uiV1/modifier_tabs/inactive/number.png">
             </div>
-
         </div>
-
         <div id="next_container">
             
             <button id="prev_mo"><i class="fa fa-arrow-left" aria-hidden="true"></i></button><button id="next_mo">Shoulder Cowl Insert <br /> Next Part
             </button>
-
         </div>
-
-
     </div>
-
     -->
 
 

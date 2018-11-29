@@ -1,0 +1,224 @@
+#primary_options_container {
+    height: 100% !important;
+    max-height: 450px !important;
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+
+    overflow-y: auto;
+    -ms-overflow-y: auto;
+}
+
+.app-btn {
+    width: auto !important;
+    font-size: 100% !important;
+    margin: 0 !important;
+
+    &.active {
+        background: #343434;
+        color: white;
+    }
+}
+
+.transition {
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+#right-main-window {
+    //width: 90% !important;
+    position: relative;
+}
+
+.borders (@color) {
+    border: 1px solid @color;
+}
+
+.radius (@size) {
+    border-radius: @size;
+}
+
+.w-45 {
+    width: 45% !important;
+}
+
+#new-toolbar {
+    //display: none;
+    &:extend(.transition);
+    height: 530px;
+    width: 36px;
+    position: absolute;
+    left: -30px;
+    top: 80px;
+
+    .group-pane {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        background: white;
+        color: #666;
+        text-align: center;
+        .borders(#666);
+        padding-top: 8px;
+        font-weight: bold;
+
+        &:hover, &:focus, &:visited {
+            text-decoration: none;
+        }
+    }
+
+    .active {
+        background: #333;
+        color: white;
+        //.borders(red);
+    }
+}
+
+.applicationUIBlock {
+    &:extend(.transition);
+    width: 100%;
+    background: white;
+    border-top: 1px solid #666;
+    padding-top: 15px;
+    margin-top: 20px;
+
+    .thumb-container {
+
+        .thumbnail {
+            height: 153px;
+            width: 175px;
+            .borders(#666);
+            .radius(0);
+            margin-right: 15px;
+        }
+
+        .thumb-links {
+            padding-top: 15px;
+        }
+
+        .thumb-name {
+            //background: green;
+            display: block;
+            width: 175px;
+            text-align: center;
+            margin-bottom: 15px;
+            margin-top: -10px;
+        }
+
+        .flip {
+            display: block;
+            margin-bottom: 15px;
+        }
+
+    }
+
+    .posContainer {
+        width: 100%;
+    }
+
+    .slidersContainer {
+        display: block;
+        width: 100%;
+        background: transparent;
+        margin: 15px 0 0 0;
+        padding: 15px 30px;
+
+        .manipulator-type-container {
+            &.scale {
+                margin-top: 0;
+            }
+
+            &.move {
+                margin-top: 65px;
+            }
+
+            &.rotate {
+                margin-top: 65px;
+            }
+
+            .sc {
+                .move {
+                    margin-bottom: 65px;
+                }
+            }
+
+            .slider-control-rotate {
+                margin: 0 auto;
+
+                .rs-inner {
+                    background-color: #fff;
+                }
+
+                .rs-handle {
+                    width: 30px !important;
+                    height: 30px !important;
+                    background-color: #3d3d3d;
+                    margin: -6px!important;
+                    border: 1px solid #fff;
+                }
+            }
+
+            .noUi-value-large {
+                color: black;
+                font-size: 10px;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    .colorSelectionContainer {
+        .tab-content {
+            margin-bottom: 80px;
+
+            .colorItem {
+                width: 35px;
+                height: 35px;
+                float: left;
+                .borders(#aaaaaa);
+                margin-right: 5px;
+                text-align: center;
+                //position: relative;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                i.fa {
+                    //color: white;
+                    font-size: 18px;
+                    margin-top: 8px;
+                    //position: absolute;
+                    //left: 50%;
+                }
+            }
+        }
+
+        .color-selection-tab > li > a {
+            color: #333 !important;
+            border-radius: 0 !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .color-selection-tab > li.active > a {
+            background-color: #343434 !important;
+            color: #fff !important;
+            border-color: #343434 !important;
+        }
+    }
+}
+
+.add-new-application {
+    margin-bottom: 15px;
+}
+
+div.options_panel_section#primary_options_container {
+    height: 100% !important;
+    max-height: 450px !important;
+    display: block !important;
+    padding: 10px;
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+
+    overflow-y: auto;
+    -ms-overflow-y: auto;
+}

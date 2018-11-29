@@ -404,7 +404,7 @@ $(document).ready(function() {
 
     window.is.createSession = function () { /* TODO: Fill this in ... */ };
 
-    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ }    
+    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ };
 
     ub.funcs.createNewEmbellishmentData = function (obj) {
 
@@ -780,6 +780,7 @@ $(document).ready(function() {
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
         var _maxLength          = 12;
+        var _generateSizes      = '';
 
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
@@ -787,25 +788,25 @@ $(document).ready(function() {
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _settingsObject.status !== 'undefined') { _status = _settingsObject.status; }
 
-        _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + 'Custom Mascot <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
-        _htmlBuilder        +=      '<div class="body">';
-        _htmlBuilder        +=          '<div class="cover"></div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
-        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';                       
-        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
+        // _htmlBuilder        +=      '<div class="header">';
+        // _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        // _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + 'Custom Mascot <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        // _htmlBuilder        +=      '<div class="body">';
+        // _htmlBuilder        +=          '<div class="cover"></div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        //
+        // _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
+        // _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';
+        // _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';
+        // _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+        //
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
 
         var _label = 'Size';
         var _class = '';
@@ -814,7 +815,7 @@ $(document).ready(function() {
             _label = 'Measurements'; _class = "custom"; 
         }
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
+        // _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
 
         var _inputSizes;
 
@@ -846,58 +847,97 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+        _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _htmlBuilder        +=          '</div>';
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="clearfix"></div>';
+        //
+        // _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
+        // _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
+        // _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';
+        // _htmlBuilder        +=          '</div>';
+        //
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
+        //
+        // _htmlBuilder        +=              '<div class="sub1">';
+        // _htmlBuilder        +=                  '<br />';
+        // _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
+        // _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';
+        //
+        // if (_settingsObject.embellishment.name === 'Custom Logo') {
+        //     _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+        //     _htmlBuilder        +=                  '<br /><br />';
+        // }
+        //
+        // _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';
+        //
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=              '<div class="colorContainer">';
+        // _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';
+        // _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';
+        //
+        // if (ub.config.uniform_application_type === "sublimated") {
+        //     _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
+        //     _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        // }
 
-        _htmlBuilder        +=          '<div class="clearfix"></div>';
-
-        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
-        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
-
-        _htmlBuilder        +=              '<div class="sub1">';
-        _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
-        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
-
-        if (_settingsObject.embellishment.name === 'Custom Logo') {
-            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-            _htmlBuilder        +=                  '<br /><br />';
-        }
-
-        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>'; 
-        
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=              '<div class="colorContainer">';   
-        _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
-        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
-        
+        var _isSublimated = false;
         if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-            _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+            _isSublimated = true;
         }
-        
-        _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=        '</div>';
+        //
+        var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
+        //
+        var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+        //
+        // _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+        // _htmlBuilder        +=                  _templateStrManipulators;
+        // _htmlBuilder        +=              '</div>';
+        //
+        // _htmlBuilder        +=          '</div>';
+        // _htmlBuilder        +=      '</div>';
+        // _htmlBuilder        +=  '</div>';
 
-        _htmlBuilder        +=        '</div>';
+        var templateData = {
+            id: _id,
+            status: _status,
+            mascotFontName: _mascotName,
+            mascotFontCaption: _settingsObject.embellishment.name,
+            mascotFontArrowOpacity: 0,
+            class: _class,
+            label: _label,
+            appType: 'Custom Mascot',
+            appLabel: 'Embellishment',
+            generateSizes: _generateSizes,
+            thumbIcon: _mascotIcon,
+            accentName: _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')',
+            inksoftThumb: 'inksoftThumb',
+            // mascotIcon: _mascotIcon,
+            // isCustomLogo: _isCustomLogo,
+            // customFilename: _customFilename,
+            // colorPickers: _colorPickers,
+            isEmbellishment: 'true',
+            embellishmentSidebar: _embellishmentSidebar,
+            viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
+            viewPrint: _settingsObject.embellishment.svg_filename,
+            isSublimated: _isSublimated,
+            templateStrManipulators: _templateStrManipulators,
+            sampleTextContainerVisibility: 'hidden',
+            cogVisibility: 'hidden',
+            tailSweepsTabVisibility: 'hidden',
+            colorTabVisibility: 'hidden',
+            patternsTabVisibility: 'hidden',
+            flipLabel: 'Flip'
+        }
 
-        _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
-
-        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-
-        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
-        _htmlBuilder        +=                  _templateStrManipulators;
-        _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=          '</div>';
-        _htmlBuilder        +=      '</div>';
-        _htmlBuilder        +=  '</div>';
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui', templateData);
         
         $('.modifier_main_container').append(_htmlBuilder);
 
@@ -1132,73 +1172,78 @@ $(document).ready(function() {
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 var _validApplicationTypes  = _settingsObject.validApplicationTypes;
 
-                _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
-                _htmlBuilder        +=      '<div class="header">';
-                _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
-                _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
-                _htmlBuilder        +=      '<div class="body">';
+                // _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+                // _htmlBuilder        +=      '<div class="header">';
+                // _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+                // _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
+                // _htmlBuilder        +=      '<div class="body">';
+                //
+                // var _deactivated ='';
+                // var _currentlySelectedType = '';
+                // var _selected = ''
+                //
+                // if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
+                // if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+                //
+                // _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                // _deactivated ='';
+                // _currentlySelectedType = '';
+                // _selected = '';
+                //
+                // if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; }
+                // if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+                //
+                // _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                //
+                // _htmlBuilder        +=           '<br />';
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
+                //
+                // if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; }
+                // if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+                //
+                // _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
+                //
+                // if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+                // if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+                //
+                // _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
+                // _htmlBuilder        +=           '</div>';
+                //
+                // if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type === "tackle_twill") {
+                //     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }
+                // }
+                //
+                // _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+                // _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+                // _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
+                // _htmlBuilder        +=           '</div>';
+                //
+                // _htmlBuilder        +=      '</div>';
+                // _htmlBuilder        += "</div>";
+                // _deactivated = '';
+                // _currentlySelectedType = '';
+                // _selected = '';
 
-                var _deactivated ='';
-                var _currentlySelectedType = '';
-                var _selected = ''
+                var vAppTypes = ub.funcs.selectApplicationTypeLocation(_id, _applicationType, _validApplicationTypes);
 
-                if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
-                if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-
-                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
-                _deactivated ='';
-                _currentlySelectedType = '';
-                _selected = '';
-
-                if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
-                if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-
-                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
-                _htmlBuilder        +=           '</div>';
-
-                _htmlBuilder        +=           '<br />';
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
-
-                if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
-                if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-
-                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
-
-                if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
-                if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
-
-                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
-                _htmlBuilder        +=           '</div>';
-
-                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type === "tackle_twill") {
-                    if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
-                }
-
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
-                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
-                _htmlBuilder        +=           '</div>';
-
-                _htmlBuilder        +=      '</div>';
-                _htmlBuilder        += "</div>";
-                _deactivated = '';
-                _currentlySelectedType = '';
-                _selected = '';
+                // send to mustache
+                _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-choices', vAppTypes);
 
                 $('.modifier_main_container').append(_htmlBuilder);
                 $('div#changeApplicationUI').fadeIn().data('status', 'visible');
