@@ -220,7 +220,8 @@ class MaterialsOptionsController extends Controller
         $default_display = $request->input('default_display');
         $build_type = $request->input('build_type');
         $pattern_opacity = $request->input('pattern_opacity');
-        
+        $fabric_id = $request->input('fabric_id');
+
         if ($request->input('default_asset') == 'on') {
             $default_asset = true;
         } else {
@@ -257,7 +258,8 @@ class MaterialsOptionsController extends Controller
             'build_type' => $build_type,
             'part_type' => $partType,
             'pattern_opacity' => $pattern_opacity,
-            'default_asset' => $default_asset
+            'default_asset' => $default_asset,
+            'fabric_id' => $fabric_id
         ];
 // dd(json_encode($data));
         try
