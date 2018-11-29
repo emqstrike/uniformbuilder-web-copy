@@ -88,6 +88,7 @@
                             <th>Block Pattern Options</th>
                             <th id="select-filter">Brand</th>
                             <th id="select-filter">Asset Target</th>
+                            <th>Range Position</th>
                             <th>Active</th>
                             <th>Actions</th>
                             <th>
@@ -126,6 +127,9 @@
                             <td>
                                 {{ $pattern->asset_target }}
                             </td>
+                            <td>
+                                {{ $pattern->range_position }}
+                            </td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -139,11 +143,11 @@
                                 <a href="/administration/v1-0/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-sm btn-flat edit-button" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Edit
                                 </a>
-                                @else
-                                @endif
                                 <a href="#" class="btn btn-default btn-sm clone-pattern btn-flat" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Clone
                                 </a>
+                                @else
+                                @endif
                                 <a href="#" class="btn btn-danger btn-sm btn-flat delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Remove
                                 </a>

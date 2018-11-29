@@ -889,16 +889,27 @@ $(document).ready(function () {
 
                 // Set order Weight, so it can be sorted
                 randomFeed.sortID = ub.data.randomFeedArrangement.getSortID(randomFeed.set).order;
+
+                // Debug Info
+                // console.log(randomFeed);
+                // console.log(randomFeed.set);
+                // console.log('Enabled: ' + randomFeed.enabled);
+                // console.log('Typeof Enabled: ' + typeof randomFeed.enabled);
+                // console.log(randomFeed.enabled === 1);
+                // console.log(randomFeed.sortID);
                 
                 // Skip setup of randomFeed settings if coming from saved design, so the saved data will be rendered instead of the default randomFeed style
 
-                var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined" || _.isEmpty(ub.current_material.settings.randomFeeds));
+                // var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined" || _.isEmpty(ub.current_material.settings.randomFeeds));
+                var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined");
 
                 if (_hasSavedRandomFeedData) { return; }
 
                 if (ub.dataPatches.forRandomFeedPatching()) { return; }
 
                 if (!_hasSavedRandomFeedData && randomFeed.enabled === 1) {
+
+
 
                     ub.current_material.settings.randomFeeds[randomFeed.set] = {
 

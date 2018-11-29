@@ -1,6 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -19,7 +18,7 @@
             <div class="modal-body">
                 <form role="form" id="myForm" action="#" method="POST">
                   <div class="form-group">
-                    <input type="hidden" name="properties" id="properties">
+                    <input type="text" name="properties" id="properties" aria-hidden="true">
                     <label>Name</label>
                       <input type="hidden" class="form-control input-size-id" name="id">
                       <input type="name" class="form-control input-size-name" name="name" required>
@@ -59,15 +58,16 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="control-label">Active</label>
-                      <select name="active" class="form-control active" required>
-                        <option value="1">Yes</option>
-                        <option value="0"f>No</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
                             <label class="control-label">Properties</label>
                                 <a href="#" class="btn btn-success btn-xs btn-flat add-props">Add Property</a>
+                                <button class="btn btn-primary btn-xs btn-flat copy-properties">Copy Properties</button>
+                                <button class="btn btn-warning btn-xs btn-flat load-properties">Load Properties</button>
+
+                                <div id="load-properties-container" style="display: none;">
+                                    <textarea id="load-properties" class="form-control"></textarea>
+                                    <button class="btn btn-flat btn-danger btn-xs update-properties">Update Properties</button>
+                                </div>
+
                                 <table class="table table-bordered table-striped">
                                     <tr>
                                         <thead>

@@ -40,13 +40,13 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 </style>
 @endsection
@@ -152,7 +152,7 @@
 $(document).ready(function(){
     //     $('.delete-mascot-group-category').on('click', function(){
     //     console.log("asdsadasd");
-      
+
     //     modalConfirm('Remove mascot category', 'Are you sure you want to delete the mascot category?', id);
     // });
 
@@ -168,16 +168,16 @@ $(document).ready(function(){
       cancelButtonClass: 'confirmButtonNo btn-success',
       });
       $(".confirmButtonYes").attr('data-mascot-group-category-id',id);
-     
 
-     
+
+
     });
     $(document).on('click', '.confirmButtonYes', function(){
         var id = $(this).data('mascot-group-category-id');
 
        //  var url = "http://localhost:8888/api/mascot_group_category/delete";
         var url = "//" + api_host + "/api/mascot_group_category/delete";
-                   
+
         $.ajax({
             url: url,
             type: "POST",
@@ -196,7 +196,7 @@ $(document).ready(function(){
                     });
                     // $('#confirmation-modal').modal('hide');
                     $('.font-' + id).fadeOut();
-                     $( ".box-body" ).load( location+" .mascots-groups-categories-table" );  
+                     $( ".box-body" ).load( location+" .mascots-groups-categories-table" );
 
                 }
             }
@@ -204,7 +204,7 @@ $(document).ready(function(){
      });
        $('.toggle-mascot-group-category').on('click', function(){
         var id = $(this).data('mascot-group-category-id');
-  
+
         // var url = "http://localhost:8888/api/mascot_group_category/toggle/";
          var url = "//" + api_host + "/api/mascot_group_category/toggle/";
         $.ajax({
@@ -229,7 +229,7 @@ $(document).ready(function(){
         });
      });
 
-  
+
 
 });
 </script>

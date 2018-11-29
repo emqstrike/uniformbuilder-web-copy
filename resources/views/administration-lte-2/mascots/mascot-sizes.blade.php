@@ -1,6 +1,63 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+<style type="text/css">
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+
+    #properties {
+        left: -999em;
+        position: absolute;
+    }
+
+    #load-properties {
+        margin: 15px 0;
+        min-height: 100px;
+        resize: none;
+    }
+
+    #load-properties-container {
+        margin-bottom: 15px;
+    }
+</style>
 @endsection
 @section('content')
 <section class="content">
@@ -42,11 +99,19 @@
                             <td class="td-size-option col-md-2">{{ $size->block_pattern_options }}</td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
-                            <td class="td-size-active col-md-1">{{ $size->active }}</td>
+                            <td class="td-size-active col-md-1">
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-size-active" id="switch-active-{{ $size->id }}" data-size-id="{{ $size->id }}" {{ ($size->active) ? 'checked' : '' }}>
+                                      <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </td>
                             <td class="col-md-2">
-                                <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
+                                <textarea name="size_props" class="td-size-props" data-size-id="{{ $size->id }}" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <button href="#" class="btn btn-success btn-sm btn-flat clone-size" data-size-id="{{ $size->id }}" role="button">Clone</button>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-size" data-size-id="{{ $size->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -240,7 +305,7 @@ $(document).ready(function(){
     }
 
     function updateFields(){
-        $(document).on('keyup', '.prop-size, .prop-scale', function(){
+        $(document).on('change', '.prop-size, .prop-scale', function(){
             updateData();
         });
     }
@@ -254,11 +319,18 @@ $(document).ready(function(){
         $('.neck-option-val').val('');
         $('#neck_option').val('');
         $('.input-size-type').val('');
-        $('.active').val('');
         $('.input-brand').val('');
         $('#properties').val('');
         $('.props-content').empty();
         $('.submit-new-record').removeAttr('disabled');
+
+        $('#load-properties').val('');
+
+        if ($('#load-properties-container').css('display') !== 'none') {
+            $('#load-properties-container').animate({
+                height: 'toggle',
+            }, 100);
+        }
     });
 
     $('.add-record').on('click', function(e) {
@@ -273,18 +345,28 @@ $(document).ready(function(){
         window.modal_action = 'update';
         $('.modal-title').text('Edit Mascot Size Information');
         $('.submit-new-record').text('Update Record');
+
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-size-id').text();
         data.name = $(this).parent().parent().parent().find('.td-size-name').text();
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
+
         var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
         data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
+
         var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
+
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
-        data.active = $(this).parent().parent().parent().find('.td-size-active').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
+
+        var props = $(this).parent().parent().parent().find('.td-size-props').val();
+
+        if (props.length > 1) {
+            data.properties = JSON.parse(props);
+        } else {
+            data.properties = null;
+        }
 
         $('.input-size-id').val(data.id);
         $('.input-size-name').val(data.name);
@@ -294,10 +376,13 @@ $(document).ready(function(){
         $('.neck-option-val').val(data.neck_option);
         $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
         $('.input-size-type').val(data.type);
-        $('.active').val(data.active);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
-        loadProperties(data.properties);
+
+
+        if (data.properties != null) {
+            loadProperties(data.properties);
+        }
     });
 
     $("#myForm").submit(function(e) {
@@ -311,7 +396,6 @@ $(document).ready(function(){
         data.block_pattern_options = raw_bpo.split(",");
         data.type = $('.input-size-type').find(":selected").val();
         data.brand = $('.input-brand').find(":selected").val();
-        data.active = $('.active').find(":selected").val();
         data.properties = $('#properties').val();
 
         if(window.modal_action == 'add'){
@@ -396,6 +480,34 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.toggle-size-active', function(e){
+        e.preventDefault();
+        var id = $(this).data('size-id');
+        console.log(id);
+         var url = "//" + api_host + "/api/v1-0/mascot_size/toggle";
+         $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    var elem = '.pattern-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -468,6 +580,67 @@ $(document).ready(function(){
             });
     }
 
+    $(document).on('click', '.clone-size', function() {
+        var id = $(this).data('size-id');
+        var url = "//" + api_host + "/api/mascot_size/duplicate/";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+
+    $('.copy-properties').on('click', function(e) {
+        e.preventDefault();
+        $('#properties').select();
+        document.execCommand('copy');
+
+        new PNotify({
+            title: 'Success',
+            text: "Data copied",
+            type: 'success',
+            hide: true
+        });
+
+        setTimeout(function() {
+            PNotify.removeAll();
+        }, 500)
+    });
+
+    $('.load-properties').click(function(event) {
+        event.preventDefault();
+
+        $('#load-properties-container').animate({
+            height: 'toggle',
+        }, 100);
+    });
+
+    $('.update-properties').click(function(event) {
+        event.preventDefault();
+
+        var properties = JSON.parse($('#load-properties').val());
+
+        if (properties) {
+            $('.props-content').empty();
+            loadProperties(properties);
+        }
+
+        $('#load-properties-container').animate({
+            height: 'toggle',
+        }, 100);
+
+        $('#load-properties').val('');
+    });
 });
 </script>
 @endsection

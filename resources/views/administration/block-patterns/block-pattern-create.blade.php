@@ -35,6 +35,7 @@
                                 <input type="file" class="form-control cut-preview-file" name="cut_preview" accept="image/*">
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">

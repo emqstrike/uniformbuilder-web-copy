@@ -107,4 +107,15 @@ class MascotsAPIClient extends APIClient
         }
         return null;
     }
+
+    public function getFilteredMascots($active_sport, $active_category)
+    {
+        $response = $this->get('mascots/filter/'.$active_sport.'/'.$active_category);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->mascots;
+        }
+        return null;
+    }
 }

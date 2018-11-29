@@ -279,8 +279,8 @@ div.save-design-post-dialog {
             margin-top: 20px;
             font-size: 0.5em;
 
-            span.container-label { font-family: "Avenir Next LT W04 Bold"; margin-right: 30px;}
-
+            /* span.container-label { font-family: "Avenir Next LT W04 Bold"; margin-right: 30px;} */
+            span.container-label { font-family: 'Gotham-Bold'; margin-right: 30px;}
 
             span.sizeButton {
 
@@ -307,7 +307,8 @@ div.save-design-post-dialog {
 
                 background-color: #3d3d3d;
                 color: #fff;
-                font-family: "Avenir Next LT W04 Bold";
+                /* font-family: "Avenir Next LT W04 Bold"; */
+                font-family: 'Gotham-Bold';
 
             }
 
@@ -339,26 +340,52 @@ div.save-design-post-dialog {
 }
 
 @font-face {
-   font-family: "Avenir";
-   font-weight: 400;
-   src: url(/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix);
-   src: url(/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix) format("eot"), url("/Fonts/1491474/7db1f672-3a8f-4d19-9c49-7f61aed450b5.woff2") format("woff2"), url("/Fonts/1491474/4ab86b35-c0c2-42b5-98ad-4b6eba66b197.woff") format("woff"), url("/Fonts/1491474/276b3566-1c3b-4bc1-8915-15314f091f29.ttf") format("truetype");
+    font-family: "Avenir";
+    font-weight: 400;
+    src: url(/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix);
+    src: url(/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix) format("eot"), url("/Fonts/1491474/7db1f672-3a8f-4d19-9c49-7f61aed450b5.woff2") format("woff2"), url("/Fonts/1491474/4ab86b35-c0c2-42b5-98ad-4b6eba66b197.woff") format("woff"), url("/Fonts/1491474/276b3566-1c3b-4bc1-8915-15314f091f29.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Gotham-Bold';
+    src: url('/fonts/Gotham/Bold/Gotham-Bold.eot');
+    src: url('/fonts/Gotham/Bold/Gotham-Bold.woff2') format('woff2'),
+         url('/fonts/Gotham/Bold/Gotham-Bold.woff') format('woff'),
+         url('/fonts/Gotham/Bold/Gotham-Bold.ttf') format('truetype'),
+         url('/fonts/Gotham/Bold/Gotham-Bold.svg#Gotham-Bold') format('svg'),
+         url('/fonts/Gotham/Bold/Gotham-Bold.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham-Book';
+    src: url('/fonts/Gotham/Book/Gotham-Book.eot');
+    src: url('/fonts/Gotham/Book/Gotham-Book.woff2') format('woff2'),
+         url('/fonts/Gotham/Book/Gotham-Book.woff') format('woff'),
+         url('/fonts/Gotham/Book/Gotham-Book.ttf') format('truetype'),
+         url('/fonts/Gotham/Book/Gotham-Book.svg#Gotham-Book') format('svg'),
+         url('/fonts/Gotham/Book/Gotham-Book.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* End Fonts */
 
 body, button, a, p {
-    font-family: 'Avenir', sans-serif;
+    /* font-family: 'Avenir', sans-serif; */
+    font-family: 'Gotham-Book' !important;
 }
 
 strong, h1, h2, h3, h4, h5, h6 {
-    font-family: 'Avenir', sans-serif;
+    /* font-family: 'Avenir', sans-serif; */
+    font-family: 'Gotham-Book';
 }
 
 /* TODO: This should be Tested */
 
 html, body {
-    
+
     width: 100%;
     background-attachment:fixed;
 
@@ -374,6 +401,7 @@ html, body {
 .generic-canvas {
 
     background-color: #61605e;
+
 
 }
 
@@ -413,6 +441,7 @@ div.navbar-header {
 
 #header_text {
     color: @text_color;
+    font-size: 2.2em;
 }
 
 .navbar-default {
@@ -1393,7 +1422,7 @@ img.highlighter {
 }
 
 .user-profile { 
-    margin-top: -47px;
+    margin-top: -52px;
     margin-right: 10px;
 }
 
@@ -2459,7 +2488,7 @@ div#main-picker-container {
     background-size: contain;
     position: relative;
     width: 100%;
-    background-image: url(/images/main-ui/_unleash.png);
+    background-image: url(/images/main-ui/_unleash_new.png);
     background-repeat: no-repeat;
     background-position: center center;
 
@@ -2475,7 +2504,7 @@ div#main-picker-container {
         height: 50px;
         background-color: #ffffff;
         font-size: 1.4em;
-        padding-top: 10px;
+        padding-top: 13px;
         color: @text_color;
         border-bottom: solid 1px #e7e7e7;
 
@@ -2484,14 +2513,16 @@ div#main-picker-container {
             cursor: pointer;
             width: 80px;
             display: inline-block;
-            font-family: 'Avenir';
+            /* font-family: 'Avenir'; */
+            font-family: 'Gotham-Book';
 
         }
 
         span.slink.active {
 
             width: 80px;
-            font-family: "Avenir Next LT W04 Bold";
+            /* font-family: "Avenir Next LT W04 Bold"; */
+            font-family: "Gotham-Bold";
 
         }
 
@@ -2527,7 +2558,7 @@ div#main-picker-container {
             font-size: 0.7em;
             padding: 5px;
             margin-left: 13px;
-            font-family: 'Avenir';
+            isSublimatedAndSeparated: 'Avenir';
 
         }
 
@@ -2569,9 +2600,10 @@ div#main-picker-container {
             display: inline-block;
             padding: 5px;
             font-size: 0.7em;
-            width: 200px;
+            width: 230px;
             text-transform: uppercase;
-            font-family: 'Avenir', sans-serif;
+            /* font-family: 'Avenir', sans-serif; */
+            font-family: 'Gotham-Book' !important;
 
         }
 
@@ -2643,7 +2675,8 @@ div#main-picker-container {
             text-transform: uppercase;
             padding-left: 7px;
             padding-right: 7px;
-            font-family: 'Avenir', sans-serif;
+            /* font-family: 'Avenir', sans-serif; */
+            font-family: 'Gotham-Book' !important;
 
         }
 
@@ -2817,7 +2850,8 @@ div.quarternary-bar  {
 
                     background-color: @ubBlack;
                     color: white;
-                    font-family:"Avenir";
+                    /* font-family:"Avenir"; */
+                    font-family:"Gotham-Book";
                     font-size: 0.8em;
 
                     // -webkit-box-shadow: 3px 7px 9px -5px rgba(0,0,0,0.7);
@@ -2884,7 +2918,8 @@ div.quarternary-bar  {
                 transition: all 0.2s ease-in-out;
                 text-align: center;
                 font-size: 1.1em;
-                font-family: 'Avenir';
+                /* font-family: 'Avenir'; */
+                font-family: 'Gotham-Book';
                 margin-top: -10px !important;
                 text-transform: uppercase;
                 position: absolute;
@@ -2910,7 +2945,8 @@ div.quarternary-bar  {
                     font-size: 0.8em;
                     text-transform: uppercase;
 
-                    font-family: 'Avenir';
+                    /* font-family: 'Avenir'; */
+                    font-family: 'Gotham-Book';
 
                 }
                 
@@ -2928,7 +2964,8 @@ div.quarternary-bar  {
                 width: 70%;
                 opacity: 0.8;
                 z-index: 1000;
-                font-family: "Avenir Next LT W04 Bold";
+                /* font-family: "Avenir Next LT W04 Bold"; */
+                font-family: "Gotham-Bold";
                 margin-left: 15%;
 
             }
@@ -3111,7 +3148,7 @@ div.header-container.main {
         height: 459px;
         background-color: #3d3d3d;
         overflow-y: scroll;
-        z-index: 1000;
+        z-index: 1001;
     }
 
     i.button_drop {
@@ -3426,7 +3463,7 @@ div.header-container.main {
             text-decoration: none;
 
             span { 
-                font-size: 0.75em;
+                font-size: 0.65em;
                 text-transform: uppercase;
             }
 
@@ -3524,13 +3561,15 @@ div.header-container.main {
         font-size: 1.7em;
         text-transform: uppercase;
         text-align: left;
-        font-family: 'Avenir', sans-serif;
+        /* font-family: 'Avenir', sans-serif; */
+        font-family: 'Gotham-Book' !important;
 
         span.type {
             
             font-size: 0.45em;
             background-color: #1e1e1e;
-            font-family: 'Avenir Next LT W04 Bold';
+            /* font-family: 'Avenir Next LT W04 Bold'; */
+            font-family: "Gotham-Bold";
             padding: 3px 7px 3px 7px;
 
         }
@@ -3562,7 +3601,8 @@ div.header-container.main {
         margin-top: 5.9em;
         text-align: left;
 
-        font-family: "Avenir Next LT W04 Bold";
+        /* font-family: "Avenir Next LT W04 Bold"; */
+        font-family: "Gotham-Bold";
 
         span.youthPriceCustomizer.sale, span.adultPriceCustomizer.sale {
 
@@ -3608,7 +3648,8 @@ div.header-container.main {
         color: @ubBlack;
         
         text-transform: lowercase;
-        font-family: 'Avenir', sans-serif;
+        /* font-family: 'Avenir', sans-serif; */
+        font-family: 'Gotham-Book';
 
     }
 
@@ -4958,7 +4999,8 @@ div.header-container.main {
 
                     span.piping-sizes-buttons.active, span.piping-colors-buttons.active {
 
-                        font-family: 'Avenir Next LT W04 Bold', sans-serif;
+                        /* font-family: 'Avenir Next LT W04 Bold', sans-serif; */
+                        font-family: 'Gotham-Bold';
                         
                     }
 
@@ -5380,7 +5422,8 @@ div.header-container.main {
 
                     span.randomFeed-sizes-buttons.active, span.randomFeed-colors-buttons.active {
 
-                        font-family: 'Avenir Next LT W04 Bold', sans-serif;
+                        /* font-family: 'Avenir Next LT W04 Bold', sans-serif; */
+                        font-family: 'Gotham-Bold';
                         
                     }
 
@@ -7467,7 +7510,8 @@ div.header-container.main {
 
                 label.additional-notes-label {
 
-                    font-family: "Avenir Next LT W04 Bold";
+                    /* font-family: "Avenir Next LT W04 Bold"; */
+                    font-family: 'Gotham-Bold';
 
                 }
 
@@ -7619,7 +7663,7 @@ div.header-container.main {
                 span.tabButton {
 
                     display: none;
-                    width: 50px;
+                    width: 100px;
                     height: 30px;
                     text-align: center;
                     padding-top: 7px;
@@ -7823,15 +7867,15 @@ div.header-container.main {
             span.size {
 
                 display: inline-block;
-                width: 50px;
-                height: 50px;
+                width: 70px;
+                height: 70px;
                 vertical-align: middle;
                 text-align: center;
                 border: solid 1px @text_color;
-                border-radius: 25px 25px 25px 25px;
+                border-radius: 50px 50px 50px 50px;
                 margin: 3px;
                 
-                padding-top: 15px;
+                padding-top: 25px;
                 font-size: 0.9em;
                 cursor: pointer;
 
@@ -8011,7 +8055,8 @@ div.header-container.main {
 
     .callForTeamPricing {
 
-        font-family: "Avenir";
+        /* font-family: "Avenir"; */
+        font-family: 'Gotham-Book';
         font-size: 0.8em;
         color: #3d3d3d;
 
@@ -8039,7 +8084,8 @@ div.header-container.main {
         text-transform: none;
 
         strong {
-            font-family: "Avenir Next LT W04 Bold";
+            /* font-family: "Avenir Next LT W04 Bold"; */
+            font-family: 'Gotham-Bold';
             font-size: 0.9em;
             font-weight: normal;
         }
@@ -8062,7 +8108,8 @@ div.header-container.main {
         text-transform: none;
 
         strong {
-            font-family: "Avenir Next LT W04 Bold";
+            /* font-family: "Avenir Next LT W04 Bold"; */
+            font-family: 'Gotham-Bold';
             font-size: 0.9em;
             font-weight: normal;
         }
@@ -8086,7 +8133,8 @@ div.header-container.main {
 
             position: absolute;
 
-            font-family: 'Avenir Next LT W04 Bold';
+            /* font-family: 'Avenir Next LT W04 Bold'; */
+            font-family: 'Gotham-Bold';
             background-color: red;
             color: white;
             padding: 3px;
@@ -9569,7 +9617,9 @@ div.header-container.main {
                 margin-top: 0px;
                 text-align: center;
                 margin-bottom: 30px;
-                font-family: 'Avenir Next LT W04 Thin';
+                /* font-family: 'Avenir Next LT W04 Thin'; */
+                font-family: 'Gotham-Bold';
+
 
                 border-bottom: dashed 1px #acacac;
                 padding-bottom: 30px;
@@ -9688,7 +9738,8 @@ div.header-container.main {
                 margin-top: 0px;
                 text-align: center;
                 margin-bottom: 30px;
-                font-family: 'Avenir Next LT W04 Thin';
+                /* font-family: 'Avenir Next LT W04 Thin'; */
+                font-family: 'Gotham-Bold';
 
                 border-bottom: dashed 1px #acacac;
                 padding-bottom: 30px;
@@ -9815,7 +9866,7 @@ strong.hello {
 
         div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
 
-        span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn  { display: none; }
+        span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn, span.table-btn  { display: none; }
 
         span.toolbar-item {
 
@@ -10011,7 +10062,8 @@ strong.hello {
             text-transform: uppercase;
             display: block;
             margin-bottom: 10px;
-            font-family: 'Avenir Next LT W04 Bold';
+            /* font-family: 'Avenir Next LT W04 Bold'; */
+            font-family: 'Gotham-Bold';
             font-size: 0.9em;
             width: 100%;
 
@@ -10058,7 +10110,8 @@ strong.hello {
                 background-color: #888888;
                 margin: 3px;
                 cursor: move;
-                font-family: 'Avenir Next LT W04 Bold';
+                /* font-family: 'Avenir Next LT W04 Bold'; */
+                font-family: 'Gotham-Bold';
                 font-size: 0.8em;
                 text-align: left;
                 border: 1px solid #888888;
@@ -10324,7 +10377,8 @@ div#team-store-toolbox.visible {
             text-transform: uppercase;
             display: block;
             margin-bottom: 10px;
-            font-family: 'Avenir Next LT W04 Bold';
+            /* font-family: 'Avenir Next LT W04 Bold'; */
+            font-family: 'Gotham-Bold';
             font-size: 0.9em;
             width: 100%;
 
@@ -10373,7 +10427,8 @@ div#team-store-toolbox.visible {
                 cursor: pointer;
                 font-size: 0.8em;
                 text-align: left;
-                font-family: 'Avenir Next LT W04 Thin';
+                /* font-family: 'Avenir Next LT W04 Thin'; */
+                font-family: 'Gotham-Bold';
                 color: #3d3d3d;
 
                 
@@ -10422,7 +10477,8 @@ div#team-store-toolbox.visible {
 
             background-color: #3d3d3d !important;
             color: white !important;
-            font-family: 'Avenir Next LT W04 Bold' !important;
+            /* font-family: 'Avenir Next LT W04 Bold' !important; */
+            font-family: 'Gotham-Bold';
 
             -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
             -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
@@ -10573,7 +10629,8 @@ div#team-store-toolbox.visible {
             text-transform: uppercase;
             display: block;
             margin-bottom: 10px;
-            font-family: 'Avenir Next LT W04 Bold';
+            /* font-family: 'Avenir Next LT W04 Bold'; */
+            font-family: 'Gotham-Bold';
             font-size: 0.9em;
             width: 100%;
 
@@ -10622,7 +10679,8 @@ div#team-store-toolbox.visible {
                 cursor: pointer;
                 font-size: 0.8em;
                 text-align: left;
-                font-family: 'Avenir Next LT W04 Thin';
+                /* font-family: 'Avenir Next LT W04 Thin'; */
+                font-family: 'Gotham-Bold';
                 color: #3d3d3d;
 
                 
@@ -10671,7 +10729,8 @@ div#team-store-toolbox.visible {
 
             background-color: #3d3d3d !important;
             color: white !important;
-            font-family: 'Avenir Next LT W04 Bold' !important;
+            /* font-family: 'Avenir Next LT W04 Bold' !important; */
+            font-family: 'Gotham-Bold';
 
             -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
             -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
@@ -10852,7 +10911,8 @@ button.loginRest {
 
             span.perspective.active, span.part.active, span.optionButton.active, span.side.active {
 
-                font-family: "Avenir Next LT W04 Bold";
+                /* font-family: "Avenir Next LT W04 Bold"; */
+                font-family: 'Gotham-Bold';
                 color: white;
                 background-color: #3d3d3d;
 
@@ -11026,7 +11086,8 @@ div.logo-container {
             span.author {
 
                 color: @ubBlack;
-                font-family: "Avenir";
+                /* font-family: "Avenir"; */
+                font-family: 'Gotham-Book';
                 font-size: 0.9em;
 
             }
@@ -11369,6 +11430,16 @@ span.load-line.awesomeness {
 
 /* End Validation Styles */
 
+/* ORDER FORM Error Styles */
+    .has-error {
+        padding: 20px;
+        color: rgb(255, 0, 0);
+        font-size: 1.2em;
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+/* End ORDER FORM Error Styles */
+
 /* isModal */
 
     div#isModal {
@@ -11399,6 +11470,26 @@ span.load-line.awesomeness {
     }
 
 /* end isModal */
+
+/* Fabrics */
+
+    button.fabric-button {
+
+        display: block;
+        width: 100% !important;
+
+    } 
+
+    button.fabric-button.active {
+
+        background-color: #3d3d3d;
+        color: white;
+
+    } 
+
+
+
+/* End Fabrics */
 
 /* Custom Artwork Requests */
 

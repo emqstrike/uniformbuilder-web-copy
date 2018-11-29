@@ -247,6 +247,10 @@ $(document).ready(function () {
 		ub.shortcut.add("Alt+4", function () {
 			ub.showThumbnail3(); 
 		});
+
+		ub.shortcut.add("Alt+5", function () {
+			ub.funcs.enableAlternativeUI();
+		});
 		
 		// Dev Tools is at shift + alt,
 

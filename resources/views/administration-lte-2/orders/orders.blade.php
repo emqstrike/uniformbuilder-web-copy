@@ -1,7 +1,7 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+
 @endsection
 
 @section('custom-styles')
@@ -20,6 +20,20 @@
                     <h1>
                         Orders
                     </h1>
+                    <hr>
+                    <label>DATE RANGE -- From:</label>
+                    <input type="text" id="from-date" value="{{ $from_date }}">
+                    <label>To:</label>
+                    <input type="text" id="to-date" value="{{ $to_date }}">
+                    <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
+                    <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
+                    <div class="pull-right">
+                        <label>Load Test Orders: </label>
+                        <select id="load-test-order">
+                            <option value="0" @if($test_order == 0) selected="selected"@endif>No</option>
+                            <option value="1" @if($test_order == 1) selected="selected"@endif>Yes</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -31,7 +45,7 @@
                             <th>Client</th>
                             <th>PDF Link</th>
                             <th>Submitted by User</th>
-                            <th>Test Order</th>
+                            <th id="select-filter">Test Order</th>
                             <th>FOID</th>
                             <th>Assigned Sales Rep</th>
                             <th>Date Submitted</th>
@@ -62,6 +76,7 @@
                                 <option value="0">Select Sales Rep</option>
                             </select>
                             @endif
+                            {{ $order->rep_email or '' }}
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
@@ -84,6 +99,20 @@
                     @endforelse
 
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                     </table>
                 </div>
             </div>
@@ -94,9 +123,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/bootbox.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -111,8 +138,31 @@ $(document).ready(function(){
             console.log( 'Table redrawn ' );
             $('.rep-id').html('<option value="0">Select Sales Rep</option>');
             $('.rep-id').append(window.sales_reps_dd);
+        },
+        initComplete: function () {
+        this.api().columns('#select-filter').every( function () {
+            var column = this;
+            var select = $(`<select><option value=""></option></select>`)
+                .appendTo( $(column.footer()).empty() )
+                .on( 'change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                    .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                } );
+            column.data().unique().sort().each( function ( d, j ) {
+
+                select.append( `<option value="`+d+`">`+d+`</option>` );
+            } );
+        } );
         }
     });
+
+    $('#to-date').datepicker({ format: 'yyyy-mm-dd'});
+    $('#from-date').datepicker({ format: 'yyyy-mm-dd' });
 
     window.roster = [];
     window.item_sizes = null;
@@ -162,6 +212,25 @@ $(document).ready(function(){
     console.log(window.qx_reps_url);
     console.log(window.sales_reps_dd);
 
+    $(document).on('click', '.date-range-filter', function(e) {
+        e.preventDefault();
+        $from = $('#from-date').val();
+        $to = $('#to-date').val();
+        $test_order = $('#load-test-order').val();
+        window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
+
+    });
+
+    $(document).on('change', '#load-test-order', function(e) {
+        e.preventDefault();
+        $test_order = $(this).val();
+        $from = $('#from-date').val();
+        $to = $('#to-date').val();
+        $test_order = $('#load-test-order').val();
+        window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
+
+    });
+
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
         var ste_button = $(this).parent().parent().find('.send-to-factory');
@@ -178,14 +247,19 @@ $(document).ready(function(){
 
     $(document).on('click', '.view-pdf', function(e) {
         window.order_code = $(this).parent().parent().parent().find('.td-order-code').text();
-        console.log(window.order_code);
         getOrderItem(function(order_info){ window.order_info = order_info; });
-        console.log(window.order_info);
-        var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
-        var url = customizer_host+bc.pdfOrderForm;
-        console.log('open pdf!');
-        console.log(url);
-        OpenInNewTab(url);
+
+        if (typeof window.order_info['items'][0]['builder_customizations'] !== 'undefined') {
+            var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
+
+            if (typeof bc.pdfOrderForm !== 'undefined') {
+                OpenInNewTab(bc.pdfOrderForm);
+            } else {
+                alert('PDF File not found.');
+            }
+        } else {
+            alert('Unable to find PDF file.');
+        }
     });
 
     $(document).on('click', '.send-to-factory', function(e) {
@@ -260,10 +334,18 @@ $(document).ready(function(){
 
                 var teamcolors = bcx.team_colors;
 
+                var pdfOrderFormValue = bcx.pdfOrderForm;
+                var s3regex = 's3-us-west-2.amazonaws.com';
+                var found = pdfOrderFormValue.match(s3regex);
+
+                if (found == null) {
+                    pdfOrderFormValue = customizer_host+pdfOrderFormValue;
+                }
+
                 entry.orderPart = {
                     "ID" : entry.id,
                     "Description" : entry.description,
-                    "DesignSheet" : customizer_host+bcx.pdfOrderForm
+                    "DesignSheet" : pdfOrderFormValue
                 };
 
                 getMaterial(function(material){ window.material = material; });
@@ -533,7 +615,7 @@ $(document).ready(function(){
                             console.log('FACTORY ORDER ID >>>>>');
                             console.log(factory_order_id);
                             console.log(JSON.stringify(parts));
-                            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                            updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                             document.location.reload(); // UNCOMMENT
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
@@ -981,11 +1063,11 @@ $(document).ready(function(){
         });
     }
 
-    function updateFOID(id, factory_order_id, parts){
+    function updateFOID(id, factory_order_id, parts, rep_id){
         $.ajax({
             url: '//' + api_host + '/api/order/updateFOID',
             type: "POST",
-            data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+            data: JSON.stringify({id: id, factory_order_id: factory_order_id, sent_to_rep_qx_id: rep_id}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',

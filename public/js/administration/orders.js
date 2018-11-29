@@ -521,7 +521,7 @@ $('.send-to-factory').on('click', function(e){
         entry.orderPart = {
             "ID" : entry.id,
             "Description" : entry.description,
-            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
+            "DesignSheet" : bcx.pdfOrderForm
         };
 
         getMaterial(function(material){ window.material = material; });

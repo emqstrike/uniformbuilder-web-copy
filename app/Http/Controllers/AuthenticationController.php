@@ -27,7 +27,6 @@ class AuthenticationController extends AdminAuthController
     {
         $rep_emails_raw = env('REP_EMAILS');
         $rep_emails = explode(",", $rep_emails_raw);
-
         $email = $request->input('email');
         $password = $request->input('password');
         try
@@ -96,22 +95,18 @@ class AuthenticationController extends AdminAuthController
         if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0)
         {
             return [
-                'sucess' => false, 
+                'sucess' => false,
                 'message' => 'Invalid Email / Password Combination',
             ];
-        } 
+        }
 
         try {
-
-            $response = $this->client->post('user/login', [
-                'json' => [
-                    'email' => $email,
-                    'password' => $password
-                ],
-            ]);
-
-            $decoder = new JsonDecoder();
-            $result = $decoder->decode($response->getBody());
+            $data = [
+                'email' => $email,
+                'password' => $password,
+                'login_origin' => 'frontend'
+            ];
+            $result = $this->client->login($data);
 
             if ($result->success) {
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
@@ -132,11 +127,18 @@ class AuthenticationController extends AdminAuthController
 
                 Session::put('accountType', $user->type);
                 Session::put('accessToken', $access_token);
+
+                Session::put('role', $user->role);
+                Session::put('userType', $user->type);
+                Session::put('userLimitedAccess', $user->limited_access);
+                Session::put('userAllowedPages', $user->allowed_pages);
+
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
+                $decoder = new JsonDecoder();
                 $response = $this->client->get('get_feature_by_name/' . config('teamstores.feature_name'));
                 $response = $decoder->decode($response->getBody());
 
@@ -179,13 +181,13 @@ class AuthenticationController extends AdminAuthController
                     }
                 }
 
-                
+
 
                 #
                 # CUSTOMIZER LOGIN HANDLER
                 #
                 return [
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'Welcome back ' . $user->first_name,
                     'userId' => $user->id,
                     'firstName' => $user->first_name,
@@ -206,7 +208,7 @@ class AuthenticationController extends AdminAuthController
 
                 return [
 
-                    'sucess' => false, 
+                    'sucess' => false,
                     'message' => 'Invalid Email / Password Combination',
 
                 ];
@@ -218,7 +220,7 @@ class AuthenticationController extends AdminAuthController
         {
             return [
 
-                'sucess' => false, 
+                'sucess' => false,
                 'message' => 'Invalid Email / Password',
 
             ];
@@ -226,7 +228,7 @@ class AuthenticationController extends AdminAuthController
 
         return [
 
-            'sucess' => false, 
+            'sucess' => false,
             'message' => 'Invalid Email / Password',
 
         ];

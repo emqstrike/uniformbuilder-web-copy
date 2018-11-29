@@ -9,7 +9,7 @@ $(document).ready(function () {
     ub.devtools = {};
     ub.devtools.debugMode = true;
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948, 1979, 1625];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948, 1979, 1625, 2109, 1909, 1454, 543];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -17,13 +17,13 @@ $(document).ready(function () {
 
         ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
+        ub.utilities.info('Brand: ' + material.brand);
         ub.utilities.info('ID: ' + material.id);
         ub.utilities.info('Item ID: ' + material.item_id);
         ub.utilities.info('Uniform: ' + material.name);
-        ub.utilities.info('Neck Option: ' + material.neck_option);
-        ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
-        ub.utilities.info('Block Pattern: ' + material.block_pattern);
         ub.utilities.info('Sport: ' + material.uniform_category);
+        ub.utilities.info('Block Pattern: ' + material.block_pattern_id + ' / ' +  material.block_pattern);
+        ub.utilities.info('Neck Option: ' + material.neck_option);
         ub.utilities.info('Type: ' + material.type);
         ub.utilities.info('Gender: ' + material.gender);
         ub.utilities.info('Factory Code: ' + material.factory_code);
@@ -32,7 +32,7 @@ $(document).ready(function () {
         ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
-        ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
+        ub.utilities.info('Hidden Body: ' + ub.config.hiddenBody);
         ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
         ub.utilities.info('Customizer Available: ' + ub.current_material.material.customizer_available);
 
@@ -63,6 +63,8 @@ $(document).ready(function () {
             var _primaryViewObjectPosition = ""; var _positionStr = "";
             var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
 
+            if (typeof app.custom_obj !== 'undefined') var _isCustomScale = app.custom_obj.active;
+            
             _.each(app.application.views, function (view) {
 
                 if (view.application.isPrimary === 1) {
@@ -88,7 +90,10 @@ $(document).ready(function () {
 
                 if (typeof _appObj !== "undefined") {
                     var _scale = _appObj.scale;
-                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+
+                    // Add (custom scale) label for embellishment application that uses custom scaling
+                    (typeof _isCustomScale === 'undefined' && !_isCustomScale && app.type !== 'embellishments') ? _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}' : _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '} (custom scale)';
+                    
                 } else {
                     _scaleStr = 'scale not set.';
                 }

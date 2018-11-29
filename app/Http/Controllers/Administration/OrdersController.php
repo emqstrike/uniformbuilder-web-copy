@@ -9,6 +9,7 @@ use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\OrdersAPIClient as APIClient;
+use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
@@ -19,16 +20,28 @@ class OrdersController extends Controller
         $this->client = $apiClient;
     }
 
-    public function ordersMinified(Request $request)
+    public function ordersMinified($from = null, $to = null, $test_order = null)
     {
-        $orders = $this->client->getOrdersMinified();
+        if($from == null) {
+            $from = Carbon::now()->subDays(30)->format("Y-m-d");
+        }
+        if($to == null) {
+            $to = Carbon::now()->format("Y-m-d");
+        }
+        if($test_order == null) {
+            $test_order = 1;
+        }
+        $orders = $this->client->getOrdersMinified($from, $to, $test_order);
         foreach($orders as $order)
         {
             $order->created_at = date('M-d-Y', strtotime($order->created_at));
         }
 
         return view('administration-lte-2.orders.orders', [
-            'orders' => $orders
+            'orders' => $orders,
+            'from_date' => $from,
+            'to_date' => $to,
+            'test_order' => $test_order
         ]);
     }
 

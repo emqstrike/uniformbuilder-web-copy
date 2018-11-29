@@ -48,10 +48,9 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
-    public function getOrdersMinified()
+    public function getOrdersMinified($from, $to, $test_order)
     {
-        $endpoint = 'ordersMinified';
-
+        $endpoint = 'ordersMinified/getByDateRange/'.$from.'/'.$to.'/'.$test_order;
         $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());
 
@@ -226,7 +225,7 @@ class OrdersAPIClient extends APIClient
         if ($result->success) {
             $count = $result->count;
         }
-        
+
         return $count;
     }
 

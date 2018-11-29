@@ -1,6 +1,56 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+<style type="text/css">
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice
+    {
+        color:black;
+    }
+</style>
 @endsection
 @section('content')
 <section class="content">
@@ -21,12 +71,13 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Category</th>
+                            <th id="select-filter">Category</th>
                             <th>Block Pattern</th>
                             <th>Options</th>
                             <th id="select-filter">Type</th>
                             <th id="select-filter">Uniform Appliction Type</th>
                             <th id="select-filter">Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -36,13 +87,21 @@
 
                         <tr class='item-{{ $size->id }}'>
                             <td class="td-size-id col-md-1">{{ $size->id }}</td>
-                            <td class="td-size-name col-md-1">{{ $size->name }}</td>
-                            <td class="col-md-1">{{ $size->sport }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
+                            <td class="td-size-name col-md-1">{{ $size->name }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
+                            <td class="col-md-1">{{ $size->sport }}</td>
                             <td class="td-size-block-pattern col-md-1">{{ $size->block_pattern }}</td>
-                            <td class="td-size-option col-md-1">{{ $size->neck_option }}</td>
+                            <td class="col-md-1"><textarea class="td-size-option" style="display: none;">{{ $size->neck_option }}</textarea><button class="view-options btn btn-default btn-flat btn-sm">View</button></td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
+                            <td>
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-size" id="switch-{{ $size->id }}" data-size-id="{{ $size->id }}" {{ ($size->active) ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </td>
                             <td class="col-md-2">
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
@@ -54,8 +113,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='9'>
-                                No Price Item
+                            <td colspan='10'>
+                                No Application Sizes
                             </td>
                         </tr>
                     @endforelse
@@ -72,11 +131,34 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+         <!-- Category Modal -->
+    <div id="viewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+            <div class="modal-content modal-md">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3 class="modal-title" align="center">Category Value</h3>
+                </div>
+                <div class="modal-body" align="left">
+                      <div class="category_div" >
+                          <pre id="category_text" ></pre>
+                      </div>
+                </div>
+                <div class="modal-footer" >
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -241,13 +323,17 @@ $(document).ready(function(){
         data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
         var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
         data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
+        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').val();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
-
+        var props = $(this).parent().parent().parent().find('.td-size-props').val();
+        if (props.length > 1) {
+            data.properties = JSON.parse(props);
+        } else {
+            data.properties = null;
+        }
         $('.input-size-id').val(data.id);
         $('.input-size-name').val(data.name);
         $('.sport').val(data.uniform_category_id).trigger('change');
@@ -259,7 +345,9 @@ $(document).ready(function(){
         $('.uniform-application-type').val(data.uniform_application_type);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
-        loadConfigurations(data.properties);
+        if (data.properties != null) {
+            loadConfigurations(data.properties);
+        }
     });
 
     $("#myForm").submit(function(e) {
@@ -398,6 +486,32 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.toggle-size', function(e) {
+        e.preventDefault();
+        var id = $(this).data('size-id');
+        var url = "//" + api_host + "/api/application_size/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -428,6 +542,13 @@ $(document).ready(function(){
     }
     });
 
+    $(document).on('click', '.view-options', function(e) {
+        e.preventDefault();
+        var category = $(this).parent().parent().find('.td-size-option').val();
+        $('#category_text').text(category);
+        $('#viewModal').modal('show');
+    });
+
     $(document).on("change", ".app-size", function(e){
         e.preventDefault();
         setValue($(this));
@@ -452,7 +573,7 @@ $(document).ready(function(){
         var app_numbers_ref = [];
         var app_sizes_ref = [];
         var default_sizes = [];
-        // window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
+
         data.forEach(function(entry, i) {
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums);
@@ -545,10 +666,13 @@ $(document).ready(function(){
 
     function buildAppSizeOptions() {
         var elem = '';
+        elem += '<option value="'+0.25+'">'+0.25+'</option>';
         elem += '<option value="'+0.5+'">'+0.5+'</option>';
+        elem += '<option value="'+0.75+'">'+0.75+'</option>';
+        elem += '<option value="'+1.25+'">'+1.25+'</option>';
         elem += '<option value="'+1.5+'">'+1.5+'</option>';
         elem += '<option value="'+2.5+'">'+2.5+'</option>';
-        for(var i = 1; i <= 15; i++){
+        for(var i = 1; i <= 50; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
         }
         return elem;

@@ -161,6 +161,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
+                                    data-material-brand="{{ $material->brand }}"
                                     data-material-option-name="{{ $option->name }}"
                                     data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $front_guide }}"
@@ -222,12 +223,15 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                data-default-fabric="{{ $option->fabric_id }}"
+                                data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -247,6 +251,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
+                                    data-material-brand="{{ $material->brand }}"
                                     data-material-option-name="{{ $option->name }}"
                                     data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $back_guide }}"
@@ -308,12 +313,15 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                data-default-fabric="{{ $option->fabric_id }}"
+                                data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -333,6 +341,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
+                                    data-material-brand="{{ $material->brand }}"
                                     data-material-option-name="{{ $option->name }}"
                                     data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $left_guide }}"
@@ -394,12 +403,15 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                data-default-fabric="{{ $option->fabric_id }}"
+                                data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -419,6 +431,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
+                                    data-material-brand="{{ $material->brand }}"
                                     data-material-option-name="{{ $option->name }}"
                                     data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $right_guide }}"
@@ -480,12 +493,15 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
                                 data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
+                                data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                data-default-fabric="{{ $option->fabric_id }}"
+                                data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>

@@ -18,11 +18,13 @@ window.piping_sets = [
 					"Right Pant Piping",
 					"Left Pant Piping",
 					"Sleeve Piping 1 inch Up",
+					"Back Insert Piping"
 				];
 
 function buildSetsDropdown(value){
 	var dropdown = '<select class="form-control piping-set">';
-	window.piping_sets.forEach(function(entry) {
+	var x = window.piping_sets.sort()
+	x.forEach(function(entry) {
 		if(entry == value){
 			dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
 		} else {
