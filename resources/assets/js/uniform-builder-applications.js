@@ -4077,6 +4077,8 @@ $(document).ready(function() {
             if (_obj.setting_type === 'mesh_shadows') { return; }
 
             if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
