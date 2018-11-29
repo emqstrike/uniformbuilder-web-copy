@@ -224,7 +224,7 @@ $(document).ready(function() {
 
     ub.fabric.init = function () {
 
-        if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
+        // if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
         if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
 
     }

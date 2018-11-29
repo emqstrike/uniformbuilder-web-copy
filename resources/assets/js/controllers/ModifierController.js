@@ -120,9 +120,12 @@ ModifierController.prototype = {
 
         var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
         ub.modifierController.controllers.fabrics = new FabricPanel('fabric-tmpl');
+        ub.modifierController.controllers.fabrics.setItems();
 
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         propertiesPanel.setBodyPanel(fabric_panel);
+
+        FabricPanel.setInitialState();
     },
 
     parts: function() {
