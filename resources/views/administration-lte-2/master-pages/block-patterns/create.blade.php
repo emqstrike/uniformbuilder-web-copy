@@ -37,6 +37,23 @@
             margin-bottom: 15px;
             padding: 10px;
         }
+
+        .part-and-fabrics .name {
+            width: 90% !important;
+        }
+
+        .part-and-fabrics span.select2 {
+            vertical-align: top;
+            width: 84% !important;
+        }
+
+        .select2-selection__choice {
+            color: #000000 !important;
+        }
+
+        .part-and-fabrics {
+            margin-bottom: 10px;
+        }
     </style>
 @endsection
 
@@ -53,6 +70,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/{{ env('ENDPOINT_VERSION') }}/block_pattern/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="neck_options" id="neck_options" value="">
+                        <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         @include('administration.partials.flash-message')
 
@@ -108,6 +126,46 @@
                             <label class="col-md-4 control-label">Alias</label>
                             <div class="col-md-6">
                                 <input type="text" name="alias" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Parts and Fabrics
+
+                                <div>
+                                    <button class="btn btn-flat btn-primary clone-parts-and-fabrics btn-xs">
+                                        <i class="fa fa-plus"></i> Add Parts and Fabrics
+                                    </button>
+                                </div>
+                            </label>
+
+                            <div id="part-and-fabrics-container" class="col-md-6">
+                                <div class="part-and-fabrics">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-inline">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control name" name="part_name[]">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <div class="form-inline">
+                                                <label>Fabrics</label>
+                                                <input type="hidden" name="part_fabrics[]" class="part-fabrics-field">
+
+                                                <select class="fabrics" multiple="multiple"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                <span class="fa fa-minus"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -275,6 +333,5 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/ddslick.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
-    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
 @endsection
