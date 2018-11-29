@@ -174,12 +174,20 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="col-md-1">
-                                                <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
-                                                    <span class="fa fa-minus"></span>
-                                                </button>
-                                            </div>
+                                            
+                                            @if ($key == 0)
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                        <span class="fa fa-minus"></span>
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric">
+                                                        <span class="fa fa-minus"></span>
+                                                    </button>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach
