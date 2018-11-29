@@ -81,6 +81,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Range Position</label>
+                            <div class="col-md-2">
+                                <input class="form-control range-position" type="number" name="range_position" value="{{ $pattern->range_position }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6">
                                 @if ($pattern->thumbnail_path)
