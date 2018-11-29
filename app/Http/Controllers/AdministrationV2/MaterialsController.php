@@ -301,10 +301,8 @@ class MaterialsController extends Controller
             'reversible_group' => $reversible_group,
             'reversible_pair_id' => $reversible_pair_id,
             'reversible_type' => $reversible_type,
-            'model_id' => $request->input('model_id')
+            'model_number' => $request->input('model_number')
         ];
-
-        Log::info(print_r($data, true));
 
         try {
             // Thumbnail Files
