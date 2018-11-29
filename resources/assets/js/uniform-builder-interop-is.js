@@ -1417,6 +1417,7 @@ $(document).ready(function() {
                 $('span.font_size').removeClass('active');
 
             });
+            // end CCO-159
 
         // End Small Color Pickers
 

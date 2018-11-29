@@ -6729,6 +6729,15 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
+        // CCO-159 @Nov 23 2018
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end CCO-159
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
@@ -7179,6 +7188,8 @@ $(document).ready(function() {
 
                 }
 
+                $('select.customSize option:first').prop('selected', true);
+
             });
 
             $('span.font_name').on('click', function () {
@@ -7260,6 +7271,35 @@ $(document).ready(function() {
    
             });
 
+            // CCO-159 @Nov 26, 2018
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeMascotSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeMascotSize(selectedSize, _matchingSettingsObject);
+
+                }
+                
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+
+            });
+            // end CCO-159
+
         // End Small Color Pickers
 
         // End Events
@@ -7318,6 +7358,13 @@ $(document).ready(function() {
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
+
+        // CCO-159 @Nov 26 2018
+        if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
+            $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+            $('input.custom-size-type').attr('disabled', true);
+        }
+        // end CCO-159
 
     }
 
