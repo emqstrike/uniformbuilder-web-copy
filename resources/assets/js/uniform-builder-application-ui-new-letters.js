@@ -890,54 +890,63 @@ $(function() {
 
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
-        var types = [];
-        var showTypes = '';
-        if(_designType === 'letters') { 
-            types.push({
-                type: 'team_name',
-                name: 'Team Name',
-            });
+        var _htmlBuilder = '';
+        var templateData = {
+            isTwill: true,
+            title: _title,
+            disabled: 'disabled'
+        };
+        _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData)
 
-            types.push({
-                type: 'player_name',
-                name: 'Player Name',
-            });
+        if (! ub.funcs.isTackleTwill()) {
+            var types = [];
+            var showTypes = '';
+            if(_designType === 'letters') { 
+                types.push({
+                    type: 'team_name',
+                    name: 'Team Name',
+                });
+
+                types.push({
+                    type: 'player_name',
+                    name: 'Player Name',
+                });
 
             
-        } else if (_designType === 'numbers') {
-            types.push({
-                type: 'player_number',
-                name: 'Player Number',
-            });
+            } else if (_designType === 'numbers') {
+                types.push({
+                    type: 'player_number',
+                    name: 'Player Number',
+                });
 
-            showTypes = 'hide';
-        } else if (_designType === 'mascots') {
-            types.push({
-                type: 'mascot',
-                name: 'Stock Mascot',
-            });
-            types.push({
-                type: 'embellishments',
-                name: 'Custom Mascot',
-            });
+                showTypes = 'hide';
+            } else if (_designType === 'mascots') {
+                types.push({
+                    type: 'mascot',
+                    name: 'Stock Mascot',
+                });
+                types.push({
+                    type: 'embellishments',
+                    name: 'Custom Mascot',
+                });
+            }
+
+            templateData = {
+                isTwill: false,
+                title: _title,
+                designType: true,
+                designTypeData: types,
+                perspective: true,
+                part: true,
+                side: true,
+                partsData: ub.funcs.getFreeFormLayers(),
+                showTypes: showTypes
+            }
+
+            _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
         }
 
-        var templateData = {
-            title: _title,
-            designType: true,
-            designTypeData: types,
-            perspective: true,
-            part: true,
-            side: true,
-            partsData: ub.funcs.getFreeFormLayers(),
-            showTypes: showTypes
-
-        }
-
-        // Template is currently for letters only
-        var _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
         return _htmlBuilder;
-
     }
 
     ub.funcs.activateApplicationsMascots = function (application_id) {
@@ -1876,7 +1885,7 @@ $(function() {
             var objStock = {
                 type: 'UNUSED',
                 code: i.code,
-                perspective: i.application.views[0].perspective,
+                perspective: ub.funcs.getPrimaryView(i.application),
                 appTypes: _types,
                 isVisible: _types.length >= 1 ? true : false,
             }

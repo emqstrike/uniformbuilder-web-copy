@@ -1042,6 +1042,7 @@
 
     <script type="text/mustache" id="add-new-application-letters">
         <h4>@{{ title }}</h4>
+        @{{^isTwill}}
         <div class="addApplicationsOpts hide">
 
             @{{#designType}}
@@ -1082,9 +1083,10 @@
             @{{/side}}
             
         </div>
+        @{{/isTwill}}
 
         <div class="add-new-application-letters">
-            <button type="button" class="app-btn w-45 pull-left add-app-letters">Add Application</button>
+            <button type="button" class="app-btn w-45 pull-left add-app-letters @{{ disabled }}" @{{ disabled }}>Add Application</button>
             <button type="button" class="app-btn w-45 pull-right view-app-letters">View All Application</button>
         </div>
 
@@ -1240,7 +1242,6 @@
 <!-- Start Slider Container -->
 
     <script type="text/mustache" id="m-slider-container">
-        @{{#isResizeable}}
         <div class="slidersContainer">
             <div class="manipulator-type-container scale" data-type="scale">
                 <h5>LOGO SIZE</h5>
@@ -1249,7 +1250,7 @@
                 </div>
             </div>
 
-            <div class="manipulator-type-container move" data-type="move" style="margin: 0px" @{{/isResizeable}}>
+            <div class="manipulator-type-container move" data-type="move" style="margin: 0px">
                 <h5>POSITION</h5>
                 <div class="sc move">
                     <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
@@ -1264,9 +1265,6 @@
                 </div>
             </div>
         </div>
-    @{{/isResizeable}}
-
-
     </script>
 
 <!-- End Slider Container  -->
