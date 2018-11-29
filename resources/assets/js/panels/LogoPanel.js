@@ -96,6 +96,7 @@ LogoPanel.isBindEvents = 0;
 LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
 LogoPanel.excluded_lower = ['base', 'highlights', 'shadows'];
 LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+LogoPanel.special_block_pattern = ["PTS Select Pant"];
 
 LogoPanel.init = function () {
     if (ub.current_material.material.logo_position !== null) {
@@ -458,6 +459,11 @@ LogoPanel.utilities = {
             material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
         } else if (current_active_logo.position.includes("left") || current_active_logo.position.includes("sleeve")) {
             material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
+        }
+
+        if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+            return;
         }
 
         if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
