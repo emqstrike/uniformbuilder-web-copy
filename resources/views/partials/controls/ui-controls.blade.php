@@ -1107,13 +1107,8 @@
 
                 <div class="">
                     <h5>INPUT @{{ type }}</h5>
-                    @{{#isLetter}}
-                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
-                    @{{/isLetter}}
 
-                    @{{#isNumber}}
-                    <input type="number" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
-                    @{{/isNumber}}
+                    <input type="text" name="sampleText" class="sampleText" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
                 </div>
 
                 <div class="lettersOptsContainer"> 
@@ -1172,6 +1167,22 @@
     </script>
 <!-- End of Font Accents -->
 
+<!-- Free Applications Block -->
+    <script type="text/mustache" id="free-applications-container">
+        @{{#applications}}
+            @{{#isVisible}}
+            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                @{{#appTypes}}
+                <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                @{{/appTypes}}
+            </div>
+            @{{/isVisible}}
+    @{{/applications}}
+    </script>
+<!-- End Free Applications Block -->
+
 <!-- Application UI Block -->
 
     <script type="text/mustache" id="m-application-ui-block">
@@ -1229,7 +1240,7 @@
 <!-- Start Slider Container -->
 
     <script type="text/mustache" id="m-slider-container">
-
+        @{{#isResizeable}}
         <div class="slidersContainer">
             <div class="manipulator-type-container scale" data-type="scale">
                 <h5>LOGO SIZE</h5>
@@ -1238,7 +1249,7 @@
                 </div>
             </div>
 
-            <div class="manipulator-type-container move" data-type="move">
+            <div class="manipulator-type-container move" data-type="move" style="margin: 0px" @{{/isResizeable}}>
                 <h5>POSITION</h5>
                 <div class="sc move">
                     <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
@@ -1253,6 +1264,8 @@
                 </div>
             </div>
         </div>
+    @{{/isResizeable}}
+
 
     </script>
 

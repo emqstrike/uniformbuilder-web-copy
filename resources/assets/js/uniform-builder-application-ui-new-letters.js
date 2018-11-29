@@ -413,6 +413,13 @@ $(function() {
                     }
 
                 }
+            })
+            .on('click', '.change-free-app', function () {
+                var _id = $(this).closest('.applicationUIBlock').data('application-id');
+                var _type = $(this).data('type')
+                var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id.toString() });
+                _settingsObject.status = 'on';
+                ub.funcs.changeApplicationType(_settingsObject, _type)
             });
 
     // Show group 5 contents
@@ -441,7 +448,7 @@ $(function() {
                 placeholder: 'Your ' + i.application.name.toLowerCase(),
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
@@ -466,6 +473,9 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('letters');
+        }
         // initializer
         ub.funcs.initializer();
 
@@ -494,22 +504,20 @@ $(function() {
                 placeholder: i.text,
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
-                isPlayerName: false,    
-                isLetter: false,    
-                isNumber: true,    
+                isPlayerName: false, 
             }
             _appData.push(objStock);
         });
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'numbers');
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION NUMBERS', 'numbers');
         $('.modifier_main_container').append(_htmlBuilder);
-        
+
         // prepare data
         var templateData = {
             applications: _appData
@@ -520,6 +528,10 @@ $(function() {
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
+
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('numbers');
+        }
 
         // initializer
         ub.funcs.initializer();
@@ -788,7 +800,7 @@ $(function() {
             placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
             fonts: true,
             fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-            slider: true,
+            slider: ub.funcs.isTackleTwill() ? false : true,
             sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
             colorPicker: true,
             colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
@@ -1189,7 +1201,7 @@ $(function() {
                 code: _settingsObject.code,
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.mascot.name,
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -1207,7 +1219,7 @@ $(function() {
                 name: _settingsObject.embellishment.name,
                 viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
             };
         }
@@ -1526,7 +1538,7 @@ $(function() {
         ub.funcs.preProcessApplication(application_id);
         
         if (isLetters || isNumbers) {
-            
+
 
             if (_uniformCategory === "Football") {
     
@@ -1622,8 +1634,6 @@ $(function() {
             }
         }
 
-        var _htmlBuilder = '';
-
         if (_applicationType === 'mascot' || _applicationType === "embellishments") {
 
             ub.updateApplicationSpecsPanel(_id);
@@ -1677,14 +1687,13 @@ $(function() {
                 placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
                 isPlayerName: isPlayerName,
-                isNumber: false
             }
         
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
@@ -1701,7 +1710,7 @@ $(function() {
                     code: _settingsObject.code,
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.mascot.name,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -1718,7 +1727,7 @@ $(function() {
                     name: _settingsObject.embellishment.name,
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
                     viewPrint: _settingsObject.embellishment.svg_filename,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
                 };
             }
@@ -1735,15 +1744,13 @@ $(function() {
                 placeholder: _settingsObject.text,
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-                slider: true,
+                slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(_settingsObject, 'CHOOSE FONT ACCENT'),
                 isPlayerName: false,    
-                isLetter: false,    
-                isNumber: true,    
             }
 
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
@@ -1752,11 +1759,11 @@ $(function() {
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
-            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
         } else {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
         }
+        setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
 
         /// Applications Color Events
 
@@ -1806,5 +1813,85 @@ $(function() {
         } else if (isLetters || isNumbers) {
             ub.funcs.afterActivateApplication(application_id);
         }
+    }
+
+    ub.funcs.getFreeApplicationsContainer = function (activeTab) {
+        var _freeData = [];
+
+        // get free applications
+        freeApps = _.filter(ub.current_material.settings.applications, function(i) {
+            if (i.application_type === 'free') {
+                return i;
+            }
+        });
+
+        _.map(freeApps, function (i) {
+            var _types = [];
+            var _validApplicationTypes = i.validApplicationTypes;
+
+            // if numbers (6) tab is currently displayed
+            if (activeTab === "numbers") {
+                if (_.contains(_validApplicationTypes, 'number')) {
+                    _types.push({
+                        name: 'player_number',
+                        defaultText: 'Player Number'
+                    })
+                }
+            }
+
+            // if letters tab (5) is currently displayed
+            if (activeTab === "letters") {
+            if (_.contains(_validApplicationTypes, 'team_name')) {
+                _types.push({
+                    name: 'team_name',
+                    defaultText: 'Team Name'
+                })
+            }
+            if (_.contains(_validApplicationTypes, 'player_name')) {
+                    _types.push({
+                        name: 'player_name',
+                        defaultText: 'Player Name'
+                    })
+                }
+            }
+            // if mascots (7) tab is currently displayed
+            if (activeTab === "mascots") {
+                if (_.contains(_validApplicationTypes, 'logo')) {
+                    _types.push({
+                        name: 'mascot',
+                        defaultText: 'Stock Mascot'
+                    })
+                }
+
+                if (ub.config.uniform_application_type !== "sublimated") {
+                    if (_.contains(_validApplicationTypes, 'embellishments')) {
+                        _types.push({
+                            name: 'embellishments',
+                            defaultText: 'Custom Mascot'
+                        })
+                    }
+                }
+            }
+
+            var objStock = {
+                type: 'UNUSED',
+                code: i.code,
+                perspective: i.application.views[0].perspective,
+                appTypes: _types,
+                isVisible: _types.length >= 1 ? true : false,
+            }
+
+            _freeData.push(objStock);
+        });
+
+        templateData = {
+            applications: _freeData
+        };
+
+        // append to tab
+        _htmlBuilder = ub.utilities.buildTemplateString('#free-applications-container', templateData);
+
+        // output to page
+        $('.modifier_main_container').append(_htmlBuilder);
     }
 });

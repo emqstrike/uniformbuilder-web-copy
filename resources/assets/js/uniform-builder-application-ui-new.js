@@ -212,7 +212,7 @@ $(function() {
                     name: i.embellishment.name,
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code)
                 };
                 _appData.push(objCustom);
@@ -223,7 +223,7 @@ $(function() {
                     code: i.code,
                     perspective: i.application.views[0].perspective,
                     name: i.mascot.name,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -251,6 +251,9 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('mascots');
+        }
         // initializer
         ub.funcs.initializer();
 
@@ -538,7 +541,7 @@ $(function() {
         }
 
         // send to mustache
-        return ub.utilities.buildTemplateString('#m-slider-container', props);
+        return ub.funcs.isTackleTwill() ? '' : ub.utilities.buildTemplateString('#m-slider-container', props);
 
     };
 
