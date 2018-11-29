@@ -7683,7 +7683,8 @@ $(document).ready(function() {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
+            var _mascotID = ub.data.mascots[_randomIndex].id;
             var _size;
 
             ub.funcs.deActivateApplications();
