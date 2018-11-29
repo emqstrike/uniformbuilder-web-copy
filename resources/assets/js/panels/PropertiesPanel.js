@@ -74,8 +74,10 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
+        var filter = ["Insert", "Panel", "Piping"];
+
         this.inserts = _.filter(this.modifiers, function (modifier) {
-            return modifier.name.includes("Insert");
+            return _.includes(modifier.name, filter);
         });
         this.parts = _.difference(this.modifiers, this.inserts);
     },
