@@ -286,7 +286,7 @@ LogoPanel.utilities = {
     },
 
     getLogoSettingsObject: function(position) {
-        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
+        var current_active_logo = LogoPanel.utilities.getEnableLogo();
 
         if (typeof ub.current_material.settings.logos[position] === "undefined") {
 
@@ -357,6 +357,11 @@ LogoPanel.utilities = {
         }
 
         LogoPanel.utilities.reInitiateLogo();
+    },
+
+    getEnableLogo: function() {
+        var active = _.find(ub.current_material.settings.logos, {enabled: 1});
+        return active;
     },
 
     changeLogoColorByLayer: function(position, colorObj, layer_number) {
@@ -444,7 +449,7 @@ LogoPanel.utilities = {
 
     reInitiateLogo: function() {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
-        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
+        var current_active_logo = LogoPanel.utilities.getEnableLogo();
         var material_ops = null;
 
         if (current_active_logo.position.includes("front") || current_active_logo.position.includes("chest")) {
@@ -474,14 +479,13 @@ LogoPanel.utilities = {
 LogoPanel.colors = {
     getSecondaryColor: function() {
         var color_sum = [];
-        var colors = [];
+        var color_array = [];
 
         var parts_color_array = LogoPanel.colors.getPartsColors();
         var pipings_color_array = LogoPanel.colors.getPipingsColors();
         var applications_color_array = LogoPanel.colors.getApplicationsColors();
 
-        colors = parts_color_array.concat(pipings_color_array, applications_color_array);
-
+        var colors = color_array.concat(parts_color_array, applications_color_array, pipings_color_array);
         var secondary_colors = LogoPanel.colors.sumOfColors(colors);
 
         return secondary_colors;
@@ -495,7 +499,10 @@ LogoPanel.colors = {
             if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
                 if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
                     if (!_.includes(excluded_parts, mo.code)) {
-                        secondary_color.push(mo.colorObj.color_code);
+                        secondary_color.push({
+                            color_code: mo.colorObj.color_code,
+                            code: "parts"
+                        });
                     }
                 }
             }
@@ -516,7 +523,10 @@ LogoPanel.colors = {
                                 return;
                             }
                             if (_.includes(LogoPanel.valid_colors, index.colorCode)) {
-                                colors.push(index.colorCode);
+                                colors.push({
+                                    color_code: index.colorCode,
+                                    code: "pipings"
+                                });
                             }
                         });
                     }
@@ -535,7 +545,10 @@ LogoPanel.colors = {
                     if (typeof index.color_array !== "undefined") {
                         _.each(index.color_array, function(index, el) {
                             if (_.includes(LogoPanel.valid_colors, index.color_code)) {
-                                colors.push(index.color_code);
+                                colors.push({
+                                    color_code: index.color_code,
+                                    code: "applications"
+                                });
                             }
                         });
                     }
@@ -548,24 +561,34 @@ LogoPanel.colors = {
 
     sumOfColors: function(colors) {
         var color_sum = [];
-        var color;
+        var color_code;
         var is_exist;
 
         for (var i = 0; i < colors.length; i++) {
-            color = colors[i];
+            color_code = colors[i].color_code;
             is_exist = false;
 
             for (var j = 0; j < color_sum.length; j++) {
-                if (color_sum[j].color_code === color) {
+                if (color_sum[j].color_code === color_code) {
                     is_exist = true;
                     break;
                 }
             }
 
-            if (is_exist) {
-                color_sum[j].count++;
+            var to_be_add = null;
+
+            if (colors[i].code === "parts") {
+                to_be_add = 5;
+            } else if (colors[i].code === "applications") {
+                to_be_add = 2;
             } else {
-                color_sum.push({color_code: color, count: 1});
+                to_be_add = 0.5;
+            }
+
+            if (is_exist) {
+                color_sum[j].count += to_be_add;
+            } else {
+                color_sum.push({color_code: color_code, count: to_be_add});
             }
         }
 
