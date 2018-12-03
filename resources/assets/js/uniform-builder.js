@@ -6613,13 +6613,19 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
+                var itemExcemptions = ['Apparel', 'eSports'];
 
-                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (!_.contains(itemExcemptions, _item)) {
 
-                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+                    if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
+                    if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
 
+                    var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+                    if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+
+                }
+                
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
@@ -7878,11 +7884,12 @@ $(document).ready(function () {
 
         ub.funcs.prepPickers();
 
-        var _apparel = _.find(ub.data.apparel, {gender: sport});
+        // var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
-        var esports = _.find(ub.data.esportsCategory, {gender: sport});
+        var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
+        var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports, undefined, esports.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -7924,11 +7931,17 @@ $(document).ready(function () {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
-        } else if (sport === "eSports")  {
+        } else if (sport === "eSports") {
+            $(window).scrollTop(0);
             var esports = _.find(ub.data.esports, {gender: gender});
-            ub.funcs.initScroller('sports', undefined, gender, undefined, undefined, undefined, esports.sports);
+            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined);
             return;
-        } else if (_availableForUnisex)  {
+        } else if (sport === "Apparel") {
+            $(window).scrollTop(0);
+            var apparel = _.find(ub.data.apparel, {gender: gender});
+            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (_availableForUnisex) {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });

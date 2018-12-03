@@ -136,26 +136,57 @@ $(document).ready(function() {
             }
         ];
 
-        ub.data.esportsCategory = [
-            {
-                gender: 'Men',
-                sports: [
-                    {
-                        'active': 1,
-                        'name': 'eSports',
-                        'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png'
-                    }
-                ]
-            },
-            {
-                gender: 'Women',
-                sports: []
-            },
-            {
-                gender: 'Youth',
-                sports: []
-            }
-        ];
+        ub.data.sportsCategory = {
+            
+            esports: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'eSports',
+                            'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: []
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ],
+
+            apparel: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Apparel',
+                            'thumbnail_male': '/images/main-ui/pickers/hoodie.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Apparel',
+                            'thumbnail_female': '/images/main-ui/pickers/hoodie.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ]
+
+        };
 
 	}
 

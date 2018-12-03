@@ -11247,11 +11247,7 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Tech Tee (eSports)',
             filters: ['All'],
-        },
-        {
-            sport: 'eSports',
-            filters: ['All'],
-        },
+        }
           
     ];
 
