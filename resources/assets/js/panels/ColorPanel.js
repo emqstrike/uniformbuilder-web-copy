@@ -38,53 +38,6 @@ ColorPanel.prototype = {
             selected_color.removeClass('active-color');
             selected_color.html("");
 
-            // Set Perspective
-            var perspective = new PerspectiveController();
-
-            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
-
-                perspective.front();
-
-            } else if (modifier_category.includes("back")) {
-
-                perspective.back();
-
-            } else if (modifier_category.includes("left")) {
-
-                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.left();
-                }
-
-            } else if (modifier_category.includes("right")) {
-
-                if (ub.config.option !== "Long Sleeves" && ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.right();
-                }
-            }
-
-            if (_.size(ub.data.logos) !== 0) {
-                var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
-                var material_settings = ub.current_material.settings[ub.config.type];
-
-                if (current_active_logo.position.includes("sleeve") && modifier_category.includes("sleeve")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
-
-                if (current_active_logo.position.includes("back") && modifier_category.includes("back")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
-
-                if (current_active_logo.position.includes("chest") && modifier_category.includes("front") || modifier_category.includes("chest")) {
-                    if (current_active_logo.layers[2].colorCode === colorLabel) {
-                        LogoPanel.process.sameColorForColorPanel(current_active_logo, colorLabel);
-                    }
-                }
-            }
-
             _this.addCheckOnSelectedColor($(this), colorLabel);
 
             // Retrieve Color Object
@@ -93,6 +46,10 @@ ColorPanel.prototype = {
 
             // Apply the color to the Canvas
             _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
+
+            if (_.size(ub.data.logos) !== 0) {
+                LogoPanel.utilities.reInitiateLogo();
+            }
         });
     },
 
