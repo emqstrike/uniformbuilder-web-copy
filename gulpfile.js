@@ -106,6 +106,7 @@ elixir(function(mix) {
             'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
+            'panels/GradientPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
