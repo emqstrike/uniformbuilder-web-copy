@@ -1327,6 +1327,7 @@ class UniformBuilderController extends Controller
             if ($partX['code'] === 'elastic_belt') { continue; }
             if ($partX['code'] === 'body_inside') { continue; }
             if ($partX['code'] === 'extra') { continue; }
+            if ($partX['code'] === 'extra_cowl') { continue; }
 
             if ($hiddenBody and $partX['code'] === 'body') { continue; }
 
