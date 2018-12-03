@@ -136,6 +136,27 @@ $(document).ready(function() {
             }
         ];
 
+        ub.data.esportsCategory = [
+            {
+                gender: 'Men',
+                sports: [
+                    {
+                        'active': 1,
+                        'name': 'eSports',
+                        'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png'
+                    }
+                ]
+            },
+            {
+                gender: 'Women',
+                sports: []
+            },
+            {
+                gender: 'Youth',
+                sports: []
+            }
+        ];
+
 	}
 
     ub.funcs.menActiveSportsApparel = function (items, properties) {
