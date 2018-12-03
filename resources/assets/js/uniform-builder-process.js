@@ -156,9 +156,10 @@ $(document).ready(function() {
     ub.funcs.hideColumns = function () {
 
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isFootball() || ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
-        
-            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+        // !ub.funcs.isFootball() ||
+        if (!ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
+
+            $('th.sleevetype, th.lastnameapplication, td.sleevetype, td.lastnameapplication').hide();
 
         }
 
@@ -2339,6 +2340,7 @@ $(document).ready(function() {
         }
 
         $('div#roster-input').fadeIn();
+        console.log('AFTER FADE IN ROSTER INPUT CONTAINER=======>');
 
         // Setup Events if this is not rejected
         if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.updateOrderFromCustomArtworkRequest) {
@@ -2352,6 +2354,7 @@ $(document).ready(function() {
             });
 
             $('span.add-player').on('click', function () {
+                console.log('ON CLICK ADD PLAYER=======>');
 
                 var _numbers    = ''; 
                 var _size       = '';
@@ -2438,6 +2441,7 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.hideColumns();
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order
