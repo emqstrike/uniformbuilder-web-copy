@@ -7880,7 +7880,7 @@ $(document).ready(function () {
 
         var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
-        var esports = _.find(ub.data.esports, {gender: sport});
+        var esports = _.find(ub.data.esportsCategory, {gender: sport});
 
         ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports, undefined, esports.sports);
 
@@ -7924,6 +7924,10 @@ $(document).ready(function () {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
+        } else if (sport === "eSports")  {
+            var esports = _.find(ub.data.esports, {gender: gender});
+            ub.funcs.initScroller('sports', undefined, gender, undefined, undefined, undefined, esports.sports);
+            return;
         } else if (_availableForUnisex)  {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
