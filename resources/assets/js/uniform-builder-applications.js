@@ -1257,7 +1257,7 @@ $(document).ready(function () {
 
                         ub.updateApplicationSpecsPanel(_application.code);
 
-                        if (ub.branding.useAlternativeUI) {
+                        if (ub.data.useScrollingUI) {
                             var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
                             var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
 
@@ -1312,7 +1312,7 @@ $(document).ready(function () {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');
                         }
 
-                        if (ub.branding.useAlternativeUI) {
+                        if (ub.data.useScrollingUI) {
                             var rotation = (view.application.rotation * 5) / 18;
                             if (rotation < 0 && rotation > -60) {
                                 rotation += 60 + 40;
@@ -1372,7 +1372,7 @@ $(document).ready(function () {
 
                         }
 
-                        if (ub.branding.useAlternativeUI) {
+                        if (ub.data.useScrollingUI) {
                             var val = Math.abs(Math.round((application_obj.scale.x * 100 )/ 3));
 
                             if(val < 1) {
@@ -6724,7 +6724,7 @@ $(document).ready(function () {
 
         if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
             
-            if (ub.branding.useAlternativeUI) {
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateMascotColors(application_id);
             } else {
                 ub.funcs.activateColors(application_id);
@@ -8989,8 +8989,7 @@ $(document).ready(function () {
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
 
-            if (ub.branding.useAlternativeUI) {
-                // ub.funcs.activateApplicationsMascots(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateMascots(_settingsObject.code);
@@ -9034,8 +9033,7 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            if (ub.branding.useAlternativeUI) {
-                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
@@ -9134,7 +9132,7 @@ $(document).ready(function () {
             }
 
             ub.create_application(_settingsObject, undefined);
-            if (ub.branding.useAlternativeUI) {
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
@@ -9172,8 +9170,7 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            if (ub.branding.useAlternativeUI) {
-                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
@@ -9214,8 +9211,7 @@ $(document).ready(function () {
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
 
-            if (ub.branding.useAlternativeUI) {
-                // ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateEmbellishments(_settingsObject.code);
@@ -11340,7 +11336,7 @@ $(document).ready(function () {
                 }
                 else if (_settingsObject.application_type === "mascot") {
 
-                    if (ub.branding.useAlternativeUI) {
+                    if (ub.data.useScrollingUI) {
                         // Trigger click on tab
                         ModifierController.scrollToOptions(_settingsObject.application_type, _id);
                     } else {
