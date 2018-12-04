@@ -18,11 +18,6 @@ $(function() {
 
 */
 
-    // on click on any group pane switch to active
-    // $('#new-toolbar > .group-pane').on('click', function () {
-    //     $(this).addClass('active').siblings().removeClass("active");
-    // });
-
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-7').on('click', function () {
         console.log('GROUP 7 CLICKED===>');
@@ -459,11 +454,6 @@ $(function() {
                 stepped: true,
                 density: 4
             }
-            // pips: {
-            //     mode: 'values',
-            //     values: [0, 25, 50, 75, 100],
-            //     density: 4,
-            // }
         });
 
         element.noUiSlider.on('update', function (values, handle) {
@@ -515,11 +505,6 @@ $(function() {
                 stepped: true,
                 density: 4
             }
-            // pips: {
-            //     mode: 'values',
-            //     values: [0, 25, 50, 75, 100],
-            //     density: 4,
-            // }
         });
 
         element.noUiSlider.on('update', function (values, handle) {
@@ -644,7 +629,6 @@ $(function() {
     ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
-        // var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
         var _teamColors = ub.current_material.settings.team_colors;
 
         var _objectType = objectType;
@@ -658,7 +642,6 @@ $(function() {
             _.each(_teamColors, function (_color) {
 
                 var _checkMark = '&nbsp;';
-                // var _style = "25px";
                 var _class = '';
 
                 if (activeColorCode === _color.color_code) {
@@ -667,8 +650,6 @@ $(function() {
                 }
 
                 var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-                // _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
-
                 _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
 
             });
