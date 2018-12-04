@@ -267,6 +267,7 @@ $(function() {
 
                                     _application.text = _val;
                                     ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
 
                                 }
 
@@ -302,6 +303,7 @@ $(function() {
 
                             _application.text = _val;
                             ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                            $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
 
                         }
 
