@@ -665,6 +665,7 @@
                                 <input type="number" class="form-control reversible-pair-id"  name="reversible_pair_id" value={{ $material->reversible_pair_id }}>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Type</label>
                            <div class="col-md-6">
@@ -674,6 +675,14 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Model Number</label>
+                            <div class="col-md-6">
+                                <input type="text" name="model_number" class="form-control" value="{{ $material->model_number }}">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
