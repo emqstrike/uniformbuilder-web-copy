@@ -13364,6 +13364,10 @@ $(document).ready(function () {
                 _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 
+            case 'gradients':
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 10;
+                break;
+
             default:
                 _val = 0;
 
