@@ -7,6 +7,7 @@ $(document).ready(function() {
         "ordering": false,
         "info": true,
         "autoWidth": true,
+        "stateSave": true,
         initComplete: function () {
             this.api().columns().every( function () {
 
@@ -64,9 +65,24 @@ $(document).ready(function() {
     sports_sorted = _.sortBy(sports, function(o) { return o.name; });
 
     sports_sorted.forEach(function(entry) {
-        var elem = '<option value="'+entry.name+'">'+entry.name+'</option>';
-        $('.active-sport').append(elem);
+        if (entry.name) {
+            var elem = '<option value="' + entry.name + '">' + entry.name + '</option>';
+            $('.active-sport').append(elem);
+        }
     });
+
+    var is_all_option_exists = false;
+
+    $('.active-sport option').each(function() {
+        if (this.value == 'All') {
+            is_all_option_exists = true;
+        }
+    });
+
+    if (! is_all_option_exists) {
+        var elem = '<option value="all">All</option>';
+        $('.active-sport').prepend(elem);
+    }
 
     // console.log("SPORTS");
     // console.log(sports);

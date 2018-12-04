@@ -22,6 +22,7 @@ use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
+use Storage;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
@@ -75,9 +76,6 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-
-        Log::info('Load Builder');
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -546,12 +544,6 @@ class UniformBuilderController extends Controller
             'render' => true
         ];
 
-//        Log::info('(Request Before) Code  ' . $code);
-//        Log::info('(Request Before) !isNull  ' . !is_null($code));
-        Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
-        Log::info('(Request Before) Team Colors  ' . $request->team_colors);
-        Log::info('Request Object ' . $request);
-
         return $this->showBuilder($config);
 
     }
@@ -666,7 +658,6 @@ class UniformBuilderController extends Controller
         {
             $config['product_id'] = $product_id;
         }
-        Log::info(print_r($config, true));
     }
 
     public function fileUpload(Request $request) {
@@ -807,8 +798,8 @@ class UniformBuilderController extends Controller
 
         $ctrPipings = 0;
 
-        foreach ($pipings as $key => &$piping) {
-
+        foreach ($pipings as $key => &$piping)
+        {
             $pipingType = $key;
 
             if ($piping["enabled"] == "0") { continue; }
@@ -826,11 +817,17 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['size'];
+            if (isset($piping['size']))
+            {
+                $html .=   $piping['size'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['numberOfColors'];
+            if (isset($piping['numberOfColors']))
+            {
+                $html .=   $piping['numberOfColors'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
@@ -838,12 +835,15 @@ class UniformBuilderController extends Controller
             $colors = '';
             $val = 1;
             $noOfColors = intval($piping['numberOfColors']);
-            foreach ($piping['layers'] as &$color) {
+            if (isset($piping['layers']))
+            {
+                foreach ($piping['layers'] as &$color)
+                {
+                    if ($val > $noOfColors) { continue; }
+                    $colors .= $color['colorCode'] . ",";
+                    $val++;
 
-                if ($val > $noOfColors) { continue; }
-                $colors .= $color['colorCode'] . ",";
-                $val++;
-
+                }
             }
 
             $colorsTrimmed = rtrim($colors, ",");
@@ -1770,10 +1770,13 @@ class UniformBuilderController extends Controller
             $table .= '</p>';
         }
 
-        $table .= '<strong>SIZING TABLE</strong><br /><br />';
-        $table .= '<table style="font-size: 1.5em">';
-        $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
-        $table .= '</table>';
+        if (isset($bc['sizingTableHTML']))
+        {
+            $table .= '<strong>SIZING TABLE</strong><br /><br />';
+            $table .= '<table style="font-size: 1.5em">';
+            $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
+            $table .= '</table>';
+        }
 
         $table .= '<table width="90%">';
 
@@ -1813,9 +1816,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generatePDF ($builder_customizations, $previousTransformedPath) {
-
-        Log::info('Init Generate PDF');
+    function generatePDF($builder_customizations, $previousTransformedPath) {
 
         $pdf = new TCPDF();
 
@@ -1907,7 +1908,12 @@ class UniformBuilderController extends Controller
         $style_url_text = 'STYLE URL';
 
         $builder_url_link = $firstOrderItem["url"];
-        $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+
+        // PDF FILE PATH
+        $s3_target_path = '/design_sheets/' . str_slug(env('APP_VENDOR'), '-') . '/' . env('S3_ENV') . '/' . $firstOrderItem['material_id']  . '/' . $filename . '.pdf';
+        $pdf_url_link = 'https://s3-us-west-2.amazonaws.com/uniformbuilder' . $s3_target_path;
+        // $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+
         $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
         $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
 
@@ -1956,8 +1962,8 @@ class UniformBuilderController extends Controller
         $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
-            $leftCaption = '(Outside)';
-            $rightCaption = '(Inside)';
+            $leftCaption = '(Inside)';
+            $rightCaption = '(Outside)';
         }
 
         $html  = '';
@@ -2071,7 +2077,7 @@ class UniformBuilderController extends Controller
 
             if ($appType === "EMBELLISHMENTS") {
 
-                Log::info('==========>Embellisments Detected!');
+                // Log::info('==========>Embellisments Detected!');
                 $appTypeCaption = "CUSTOM MASCOT";
                 $embellishment = $application['embellishment'];
                 $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2083,7 +2089,7 @@ class UniformBuilderController extends Controller
 
             } else if ($appType === "MASCOT" ) {
 
-                Log::info('==========>Mascot Detected!');
+                // Log::info('==========>Mascot Detected!');
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
                     $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2124,29 +2130,45 @@ class UniformBuilderController extends Controller
 
         // End Piping
 
+        $pdf->SetAuthor('ProLook Sports');
+        $pdf->SetCreator('ProLook Sports Customizer');
         $pdf->Output($path, 'F');
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
 
+        // Upload PDF to S3
+        $source_path = base_path() . '/public/' . $transformedPath;
+        $target_remote_path = $s3_target_path;
+        if (file_exists($source_path))
+        {
+            $result = Storage::disk('s3')->put($target_remote_path, file_get_contents($source_path), 'public');
+            Log::info('File Uploaded Status: ' . $result);
+
+            // If upload is successful, remove the file
+            if ($result)
+            {
+                Log::info('PDF PATH = ' . $pdf_url_link);
+                Log::info('Delete File Status: ' . unlink($source_path));
+            }
+        }
+        else
+        {
+            Log::info('Missing PDF File');
+        }
+
         $user = Session::get('userId');
-        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
 
         if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
-            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
         }
 
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
-        if($previousTransformedPath) {
-            Log::info('Returning previous transformed path: ' . $previousTransformedPath);
-            return $previousTransformedPath;
-        } else {
-            Log::info('Returning transformed path: ' . $transformedPath);
-            return $transformedPath;
-        }
+        return $pdf_url_link;
 
     }
 
@@ -2163,7 +2185,7 @@ class UniformBuilderController extends Controller
 
     public function generateLegacy($orderId){
 
-        Log::info('GENERATING LEGACY PDF===> ' . $orderId);
+        // Log::info('GENERATING LEGACY PDF===> ' . $orderId);
 
         $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
         $orderDetails = $this->ordersClient->getOrderItems($orderId);
@@ -2377,20 +2399,20 @@ class UniformBuilderController extends Controller
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
-        Log::info("Finished converting base64 image and uploaded to S3");
-        Log::info("It took {$time} seconds\n");
+        // Log::info("Finished converting base64 image and uploaded to S3");
+        // Log::info("It took {$time} seconds\n");
 
-        Log::info('Saving uniform design');
+        // Log::info('Saving uniform design');
         $response = $this->ordersClient->saveOrder($data);
         if ($response->success)
         {
-            Log::info('Success');
+            // Log::info('Success');
             return Redirect::to('/order/' . $response->order->order_id)
                         ->with('message', 'Successfully saved your uniform design');
         }
         else
         {
-            Log::info('Failed');
+            // Log::info('Failed');
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
@@ -2404,7 +2426,7 @@ class UniformBuilderController extends Controller
     public function loadSavedDesign($id, $render = false)
     {
 
-        Log::info('Load Saved Design');
+        // Log::info('Load Saved Design');
 
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
 

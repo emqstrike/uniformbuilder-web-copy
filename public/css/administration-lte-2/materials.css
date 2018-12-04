@@ -70,8 +70,7 @@
     background-size: 496px 550px;
     box-shadow: none;
     -webkit-box-shadow: none;
-    margin-top: 20px;
-    width: 100%;
+    margin: 20px auto 0;
 }
 
 #boundary_template_name {
@@ -82,8 +81,10 @@
     margin: 15px 0;
 }
 
-.canvas-container, #bounding-box-canvas, .upper-canvas {
-    width: 100% !important;
+#bounding-box-canvas,
+.canvas-container,
+.upper-canvas  {
+    margin: 0 auto;
 }
 
 .select2 span,

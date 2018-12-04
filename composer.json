@@ -13,7 +13,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "intervention/image": "^2.3",
         "google/recaptcha": "^1.1",
-        "elibyy/laravel-tcpdf": "5.1.x-dev",
+        "elibyy/tcpdf-laravel": "5.1.*",
         "maknz/slack-laravel": "^1.0",
         "maknz/slack": "^1.7",
         "miladrahimi/phpcrypt": "^3.0",

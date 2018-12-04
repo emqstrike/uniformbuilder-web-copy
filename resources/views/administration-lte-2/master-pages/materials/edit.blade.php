@@ -9,7 +9,7 @@
                     <div class="panel-heading">Edit Material</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_material_store') }}" enctype="multipart/form-data" id='edit-material-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='edit-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
 
@@ -653,6 +653,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Group</label>
                             <div class="col-md-6">
@@ -664,6 +665,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Pair ID</label>
                             <div class="col-md-6">
@@ -679,13 +681,21 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Model Number</label>
+                            <div class="col-md-6">
+                                <input type="text" name="model_number" class="form-control" value="{{ $material->model_number }}">
+                            </div>
+                        </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-flat btn-primary edit-material">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Update Material
                                     </button>
-                                    <a href="/administration/materials" class="btn btn-flat btn-danger" style="margin-right: 15px;">
+                                    <a href="{{ route('v1_materials_index') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
@@ -697,4 +707,232 @@
             </div>
         </div>
     </div>
+
+    @include('partials.confirmation-modal')
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="/js/libs/autosize.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+            $('.autosized').autosize({append: "\n"});
+
+            window.price_items = null;
+
+            getPriceItems(function(price_items){ window.price_items = price_items; });
+            function getPriceItems(callback){
+                var price_items;
+                var url = "//" +api_host+ "/api/price_items";
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        price_items = data['price_items'];
+                        if(typeof callback === "function") callback(price_items);
+                    }
+                });
+            }
+
+            var price_items_dd = '<option value=""> - - - </option>';
+            window.price_items.forEach(function(entry) {
+                price_items_dd += '<option value="' + entry.price_item + '" data-msrp="' + entry.msrp + '" data-wsp="' + entry.web_price_sale + '">' + entry.price_item + '</option>';
+            });
+
+            $(".pi-dd").each(function(i) {
+            });
+
+            $(".pi-dd").change(function() {
+            });
+
+            function buildPIxSizes(){
+                sizes = {};
+                sizes['adult'] = [];
+                sizes['youth'] = [];
+                $(".a-size").each(function(i) {
+                    if( $(this).val() != "" ){
+                        data = {
+                            "size" : $(this).data('size'),
+                            "msrp" : parseInt($(this).find(':selected').data('msrp')),
+                            "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
+                            "price_item" : $(this).val()
+                        };
+                        sizes['adult'].push(data);
+                    }
+                });
+                $(".y-size").each(function(i) {
+                    if( $(this).val() != "" ){
+                        data = {
+                            "size" : $(this).data('size'),
+                            "msrp" : parseInt($(this).find(':selected').data('msrp')),
+                            "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
+                            "price_item" : $(this).val()
+                        };
+                        sizes['youth'].push(data);
+                    }
+                });
+                strResult = JSON.stringify(sizes);
+                console.log( strResult );
+                $('#sizes').val( '"' + strResult + '"' );
+            }
+
+            tinymce.init({
+                selector:'textarea.material-description'
+            });
+
+            loadEditor();
+            function loadEditor(){
+                setTimeout(function(){
+                    window.mce = $('#description').val();
+                    tinymce.editors[0].setContent(window.mce);
+                    $('#description').val('');
+                }, 1000);
+            }
+
+            $('.edit-material').on('click', function(){
+                saveEditor();
+            });
+
+            function saveEditor(){
+                window.mce = tinyMCE.activeEditor.getContent();
+                console.log('MCE: ' + window.mce);
+                $('#description').val(window.mce);
+            }
+
+            window.block_patterns = null;
+            getBlockPatterns(function(block_patterns){
+                window.block_patterns = block_patterns;
+            });
+
+            function getBlockPatterns(callback){
+                var block_patterns;
+                var url = "//" +api_host+ "/api/block_patterns";
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        block_patterns = data['block_patterns'];
+                        if(typeof callback === "function") callback(block_patterns);
+                    }
+                });
+            }
+
+            var block_pattern_id = $('#block_pattern_id').val();
+            var existing_neck_option = $('#existing_neck_option').val();
+
+            $.each(window.block_patterns, function(i, item) {
+                if( item.id == block_pattern_id ){
+                    window.neck_options = JSON.parse(item.neck_options);
+                    $.each(window.neck_options, function(i, item) {
+                        if( existing_neck_option == item.name ){
+                            console.log(' IF ');
+                            $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+                        } else {
+                            console.log(' IF ');
+                            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                        }
+                    });
+                }
+            });
+
+            $(document).on('change', '#block_pattern_id', function() {
+                var id = $(this).val();
+                $( '#neck_option' ).html('');
+
+                $.each(window.block_patterns, function(i, item) {
+                    if( item.id == id ){
+                        window.neck_options = JSON.parse(item.neck_options);
+                        $.each(window.neck_options, function(i, item) {
+                            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                        });
+                    }
+                });
+            });
+
+            $('.delete-material-image').on('click', function(e){
+                e.preventDefault();
+                var id =  $(this).data('material-id');
+                var field = $(this).data('field');
+                $('#confirmation-modal .confirm-yes').data('field', field);
+                modalConfirm('Remove Image', 'Are you sure you want to remove this Image?', id);
+            });
+
+            $('#confirmation-modal .confirm-yes').on('click', function(){
+                var id = $(this).data('value');
+                var field = $(this).data('field');
+                var url = "//" + api_host + "/api/material/deleteImage/";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify({id: id, field: field}),
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response){
+                        if (response.success) {
+                            $('#confirmation-modal').modal('hide');
+                            $('.' + field).fadeOut();
+                        }
+                    }
+                });
+            });
+
+            $('body .delete-styles-pdf').on('click', function(e){
+                e.preventDefault();
+                var id =  $(this).data('material-id');
+                var field = $(this).data('field');
+                $('#confirmation-modal .confirm-yes').data('field', field);
+                modalConfirm('Remove PDF Link', 'Are you sure you want to remove this Styles PDF?', id);
+            });
+
+            $('#confirmation-modal .confirm-yes').on('click', function(){
+                var id = $(this).data('value');
+                var field = $(this).data('field');
+                var url = "//" + api_host + "/api/material/deleteStylesPDF";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify({id: id, field: field}),
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response){
+                        if (response.success) {
+                            $('#confirmation-modal').modal('hide');
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+            var item_size_array = $('#item_sizes_string').text();
+            var size_prop = JSON.parse(item_size_array);
+
+            $("#edit-material-form").on("change", ".qx-sizing-config", function(e){
+                selectedConfig();
+            });
+
+            function selectedConfig() {
+                var selected_size_config = $('#qx_sizing_config option:selected').val();
+                $('#sizing_config_prop').text('');
+                $.each(size_prop, function(i, item) {
+                    if (item.id == selected_size_config) {
+                        $('#sizing_config_prop').text(item.properties);
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

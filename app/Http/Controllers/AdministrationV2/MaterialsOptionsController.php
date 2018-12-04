@@ -103,7 +103,7 @@ class MaterialsOptionsController extends Controller
 
         $response = $this->client->updateMaterialOptions($data);
 
-        return back()->with('message', 'Update Saved');
+        return redirect()->route('v1_materials_options_setup', ['id' => $materialID])->with('message', 'Update saved');
 
     }
 
@@ -292,6 +292,12 @@ class MaterialsOptionsController extends Controller
         $build_type = $request->input('build_type');
         $pattern_opacity = $request->input('pattern_opacity');
 
+        if ($request->input('default_asset') == 'on') {
+            $default_asset = true;
+        } else {
+            $default_asset = false;
+        }
+
         if( is_null($default_display) ){
             $default_display = "color";
         }
@@ -321,7 +327,8 @@ class MaterialsOptionsController extends Controller
             'default_display' => $default_display,
             'build_type' => $build_type,
             'part_type' => $partType,
-            'pattern_opacity' => $pattern_opacity
+            'pattern_opacity' => $pattern_opacity,
+            'default_asset' => $default_asset
         ];
 
         try
@@ -374,6 +381,36 @@ class MaterialsOptionsController extends Controller
             Log::info('Failed');
             return redirect()->route('v1_view_material_option', ['id' => $data['material_id']])
                              ->with('message', 'There was a problem saving your material option');
+        }
+    }
+
+    public function saveBoundary(Request $request)
+    {
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+
+        $boundary_properties = $request->input('boundary_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $materialId,
+            'boundary_properties' => $boundary_properties
+        ];
+
+        $response = null;
+        if (!empty($materialOptionId)) {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->updateBoundary($data);
+        }
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_view_material_option', ['id' => $data['material_id']])->with('message', $response->message);
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
         }
     }
 }

@@ -10,3 +10,4 @@ Vagrantfile
 after.sh
 aliases
 \.idea/
+npm-debug.log

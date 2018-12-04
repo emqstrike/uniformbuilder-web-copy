@@ -323,28 +323,13 @@ $(document).ready(function() {
 
             ub.funcs.hideColumns();
 
+            // Remove Roster Item
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
-                var _index          = $(this).data('index');
-                var _size           = $(this).data('size');
-                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
-                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
-                var _number = $row.find('input[name="number"]').val();
-
-                ub.funcs.setNumberStatus(_number, 'free');
-
-                $row.remove();
-
-                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
-
-                    var index = indexVar + 1;
-
-                    $(this).find('td').first().html(index);
-                    $(this).find('span.clear-row').attr('data-index', index);
-                    $(this).attr('data-index', index)
-
-                });
+                var _index = $(this).data('index');
+                var _size = $(this).data('size');
+                ub.funcs.bindRemoveRosterItemButton(_index, _size);
 
             });
 
@@ -353,6 +338,26 @@ $(document).ready(function() {
 
         });
 
+    };
+
+    ub.funcs.bindRemoveRosterItemButton = function(index, size) {
+        var $table = $('table.roster-table[data-size="' + size + '"] > tbody');
+        var $row = $('tr[data-size="' + size + '"][data-index="' + index + '"]');
+        var number = $row.find('input[name="number"]').val();
+
+        ub.funcs.setNumberStatus(number, 'free');
+
+        $row.remove();
+
+        $('table.roster-table[data-size="' + size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+            var index_id = indexVar + 1;
+
+            $(this).find('td').first().html(index_id);
+            $(this).find('span.clear-row').attr('data-index', index_id);
+            $(this).attr('data-index', index_id);
+
+        });
     };
 
     ub.funcs.extractFields = function (row) {
@@ -840,7 +845,8 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.submitOrderForm = function (save) {
+    // action variable contents are in the ub.constants.order_actions.*
+    ub.funcs.submitOrderForm = function (action) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
         
@@ -934,14 +940,13 @@ $(document).ready(function() {
 
         var _type = ub.config.uniform_application_type.toTitleCase(); 
         var _submitted = '1';
-
-        if (typeof save === "number") {
-
+        if (action == ub.constants.order_actions.SAVE_ORDER) {
             _submitted = 0;
-
         }
 
         var orderInput = {
+
+            action: action,
 
             order: {
 
@@ -1070,7 +1075,7 @@ $(document).ready(function() {
 
             } else {
 
-                ub.funcs.submitOrderForm();
+                ub.funcs.submitOrderForm(ub.constants.order_actions.SUBMIT_ORDER);
                 $('span.submit-confirmed-order').html('Submitting Order...');
 
             }
@@ -1084,7 +1089,7 @@ $(document).ready(function() {
                 return;
             }
 
-            ub.funcs.submitOrderForm(0);
+            ub.funcs.submitOrderForm(ub.constants.order_actions.SAVE_ORDER);
             $('span.save-order').html('Saving Order...');
 
         });
@@ -1278,9 +1283,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
         
-            success: function (response){
-                
-                if(response.success) {
+            success: function(response) {
+
+                if (response.success) {
 
                     ub.funcs.displayLinks(response.filename);
 
@@ -1304,6 +1309,12 @@ $(document).ready(function() {
                     console.log(response.message);
                 }
 
+            },
+            error: function(error) {
+                $.smkAlert({
+                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                    type: 'warning'
+                });
             }
         
         });
@@ -1462,7 +1473,7 @@ $(document).ready(function() {
         window.scrollTo(0,0);
         
         ub.funcs.prepareOrderForm(orderInfo);
-        ub.funcs.prepareSizingTable(); 
+        ub.funcs.prepareSizingTable();
 
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
@@ -1543,19 +1554,108 @@ $(document).ready(function() {
 
         });
 
+        // initialize an empty array of errors
+        var errors = [];
+
+        /*
+        * This onblur js event validate if the client-name field have or not have a value
+        * and error messages will be displayed accordingly
+        */
+        $('input#client-name').on('blur', function() {
+            
+            if ($('input#client-name').val() != '') {
+                
+                errors = [];
+                ub.funcs.billingShippingStateAreRequired(errors);
+                $(this).removeClass('is-invalid');
+            } else {
+                errors = [];
+                errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+                ub.funcs.billingShippingStateAreRequired(errors);
+                $(this).addClass('is-invalid');
+            }
+            ub.funcs.displayOrderFormErrors(errors);
+        });
+
+        /*
+        * This onchange js event validate if the billing-state field has been changed its default value
+        * and if not, an error message is displayed accordingly
+        */
+        $('select#billing-state').on('change', function() {
+            if ($('select#billing-state').val() != 0) {
+                errors = [];
+                ub.funcs.clientNameShippingStateAreRequired(errors);
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid #aaa');
+            } else {
+                errors = [];
+                errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+                ub.funcs.clientNameShippingStateAreRequired(errors);
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+            }
+            ub.funcs.displayOrderFormErrors(errors);
+        });
+
+        /*
+        * This onchange js event validate if the shipping-state field has been changed its default value
+        * and if not, an error message is displayed accordingly
+        */
+        $('select#shipping-state').on('change', function() {
+            
+            if ($('select#shipping-state').val() != 0) {
+                
+                errors = [];
+                ub.funcs.clientNameBillingStateAreRequired(errors);
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
+
+            } else {
+
+                errors = [];
+                errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+                ub.funcs.clientNameBillingStateAreRequired(errors);
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+
+            }
+
+            ub.funcs.displayOrderFormErrors(errors);
+
+        });
+
         $('span.submit-order').unbind('click');
         $('span.submit-order').on('click', function () {
 
+             var errors = [];
+
             if ($('input#client-name').val().trim() === "") {
 
-                $(window).scrollTop(0);
+                errors.push({'message': 'Client name is required!', 'id': 'client-name'});
+
                 $('input#client-name').addClass('is-invalid');
-                $.smkAlert({text: 'Please enter client name!', type: 'warning', time: 3, marginTop: '80px'});
-                return;
 
             } else {
 
                 $('input#client-name').removeClass('.is-invalid');
+
+            }
+
+            if ($('select#billing-state').val() == 0) {
+
+                errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+
+            } else {
+
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid #aaa');
+
+            }
+
+            if ($('select#shipping-state').val() == 0) {
+
+                errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+
+            } else {
+
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
 
             }
 
@@ -1566,7 +1666,16 @@ $(document).ready(function() {
 
             }
 
-            ub.funcs.validateOrderForm();
+            var html = ub.utilities.buildTemplateString("#m-order-form-error", {errors: errors});
+            
+            $('.error-container').html(html);
+            
+            if (_.size(errors) > 0) {
+                $('.error-container').addClass('has-error');
+            } else {
+                $('.error-container').removeClass('has-error');
+                ub.funcs.validateOrderForm();
+            }
 
         });
 
@@ -1637,6 +1746,95 @@ $(document).ready(function() {
         ub.current_material.settings.roster = _validate.roster;
         ub.funcs.showOrderForm(orderInfo);
 
+    }
+
+     /*
+    * @desc display the error lists (if any) in .error-container html element
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.displayOrderFormErrors = function (errors) {
+        if (_.size(errors) > 0) {
+            $('.error-container').addClass('has-error');
+        } else {
+            $('.error-container').removeClass('has-error');
+        }
+        var html = ub.utilities.buildTemplateString("#m-order-form-error", {errors: errors});
+        $('.error-container').html(html);
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `state` field in Billing and Shipping Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.billingShippingStateAreRequired = function (errors) {
+        if ($('select#billing-state').val() == 0) {
+            errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+            $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+        }
+        if ($('select#shipping-state').val() == 0) {
+            errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+            $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+        }
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `client name` field in Client Info tab and the `state` field in Shipping Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.clientNameShippingStateAreRequired = function (errors) {
+        if ($('input#client-name').val().trim() === "") {
+            errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+            $('input#client-name').addClass('is-invalid');
+        }
+        if ($('select#shipping-state').val() == 0) {
+            errors.push({'message': 'State in Shipping Info is required!', 'id': 'shipping-state'});
+        }
+        return errors;
+    }
+
+    /*
+    * @desc validate if the `client name` field in Client Info tab and the `state` field in Billing Info tab have value
+    * @param array errors
+    * @return array errors
+    */
+    ub.funcs.clientNameBillingStateAreRequired = function (errors) {
+        if ($('input#client-name').val().trim() === "") {
+            errors.unshift({'message': 'Client name is required!', 'id': 'client-name'});
+            $('input#client-name').addClass('is-invalid');
+        }
+        if ($('select#billing-state').val() == 0) {
+            errors.push({'message': 'State in Billing Info is required!', 'id': 'billing-state'});
+        }
+        return errors;
+    }
+
+    /*
+    * @desc display the active tab and its content in ORDER FORM page according to the given id field
+    * @param string id
+    */
+    ub.funcs.gotoField = function (id) {
+        (_.isEqual(id, '#client-name')) ? $(window).scrollTop(300): $(window).scrollTop(900);
+        if (_.isEqual(id, '#client-name')) {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=client-info]').addClass('active-tab');
+            $('div.order-tab[data-name=client-info]').addClass('active-tab');
+        } else if (_.isEqual(id, '#billing-state')) {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=billing-info]').addClass('active-tab');
+            $('div.order-tab[data-name=billing-info]').addClass('active-tab');
+        } else {
+            $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+            $('div.order-tab-button[data-name=shipping-info]').addClass('active-tab');
+            $('div.order-tab[data-name=shipping-info]').addClass('active-tab');
+        }
     }
 
     ub.funcs.prepareState = function () {
@@ -1882,8 +2080,19 @@ $(document).ready(function() {
 
         });
 
+        // Remove Roster Item
+        $('span.clear-row').unbind('click');
+        $('span.clear-row').on('click', function () {
+
+            var _index = $(this).data('index');
+            var _size = $(this).data('size');
+            ub.funcs.bindRemoveRosterItemButton(_index, _size);
+        });
+
         // Activate last tab
-        setTimeout(function () { $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click'); }, 1000);
+        setTimeout(function(){
+            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
+        }, 1000);
 
     }
 
@@ -2073,8 +2282,10 @@ $(document).ready(function() {
 
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
-    
-        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
+
+        if (typeof orderInfo !== "undefined") {
+            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster);
+        }
 
         ub.data.rosterInitialized = true;
 
@@ -2082,7 +2293,7 @@ $(document).ready(function() {
         if (typeof ub.user.id === "undefined") { return; }
 
         ub.funcs.uiPrepBeforeOrderForm();
-        
+
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
        
@@ -2146,7 +2357,7 @@ $(document).ready(function() {
                     !ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
                     ) {
 
-                    _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
+                    _numbers = ub.funcs.createNumbersSelectionPopup(_size);
 
                 } else {
 

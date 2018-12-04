@@ -454,6 +454,38 @@
 
         @{{/picker_items}}
 
+        @{{#esports}}
+            
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+                
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/esports}}
 
         @{{#apparel}}
             
@@ -3165,6 +3197,8 @@
     
     <script type="text/mustache" id="m-us-states">
 
+        <option value="0">Select your state</option>
+
         @{{#states}}
             <option value="@{{code}}">@{{name}} (@{{code}})</option>
         @{{/states}}
@@ -3173,5 +3207,21 @@
 
 
 <!-- End States -->
+
+<!-- ORDER FORM Error list -->
+    
+    <script type="text/mustache" id="m-order-form-error">
+        
+        <ul style="display: table;margin: 0 auto;">
+            @{{#errors}}
+                <li>
+                    <span>@{{message}}</span>
+                    <a id="@{{id}}-btn" onClick="ub.funcs.gotoField('#@{{id}}')">Go to field.</a>
+                </li>
+            @{{/errors}}
+        </ul>
+        
+    </script>
+<!-- End ORDER FORM Error list -->
 
 @include('partials.controls.team-store-products-picker')

@@ -21,22 +21,18 @@ class ColorsController extends Controller
     /**
      * Colors
      */
-    public function index()
+    public function index($active_brand = null)
     {
-        $colors = $this->client->getColors();
-
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.colors.colors', [
-            'colors' => $colors
-            ]);
+        if($active_brand == null) {
+            $active_brand = "prolook";
         }
-        else {
-                return redirect('administration');
-        }
+
+        $colors = $this->client->getColors($active_brand);
+        
+        return view('administration-lte-2.colors.colors', [
+            'colors' => $colors,
+            'active_brand' => $active_brand
+        ]);
     }
 
 }

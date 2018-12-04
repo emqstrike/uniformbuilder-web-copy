@@ -297,4 +297,10 @@ class UsersController extends Controller
                             ->with('message', $response->message);
         }
     }
+
+    public function updateAllowedPages(Request $request)
+    {
+        $result =  $this->client->updateAllowedPages($request->all());
+        return response()->json($result);
+    }
 }

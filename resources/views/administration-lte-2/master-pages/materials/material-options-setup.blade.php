@@ -5,6 +5,10 @@
         th h3 {
             text-align: center;
         }
+
+        tr.ui-sortable-handle:nth-child(odd) {
+            background: #d3ccd0;
+        }
     </style>
 @endsection
 

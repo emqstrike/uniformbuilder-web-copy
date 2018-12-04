@@ -594,6 +594,24 @@ $(document).ready(function() {
         flipApplication(id);
     });
 
+    function dynamicSort(property)
+    {
+        var sortOrder = 1;
+
+        if (property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+
+        return function (a,b) {
+            if (sortOrder == -1) {
+                return b[property].localeCompare(a[property]);
+            } else { 
+                return a[property].localeCompare(b[property]);
+            }        
+        }
+    }
+
     $('#add_front_application').mousedown(function() {
         var default_item = $('#front-default-item').val();
         var default_name_raw = $('#application_name').val();
@@ -626,7 +644,7 @@ $(document).ready(function() {
                 cornerBackgroundColor: 'blue'
             },
             tl: {
-                icon: 'http://52.39.10.209/rotate.svg'
+                // icon: 'http://52.39.10.209/rotate.svg'
             }
         });
         group.setControlsVisibility({
@@ -643,8 +661,9 @@ $(document).ready(function() {
         canvasFront.add(group);
 
         var fonts_options = '<option value="">Not Set</option>';
+        var app_material_brand = $('#app-material-brand').val();
         for(var i = 0; i < window.fonts.length; i++) {
-            if(window.fonts[i].active == 1){
+            if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
             fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
             }
         }
@@ -663,8 +682,11 @@ $(document).ready(function() {
                 return (sportOk && optionsOk && asset_target === current_asset_target);
         });
 
+        // sort input patterns by name in ascending order
+        input_patterns.sort(dynamicSort('name'));
+
         $.each(input_patterns, function (i, item) {
-            if(item.id == 33) {
+            if (item.id == 33) {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             }
             else {
@@ -1264,6 +1286,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1294,9 +1317,10 @@ $(document).ready(function() {
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-guide").css("background-image", "url("+material.option.guide+")");
-        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
+        // $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $('#app-material-brand').val(material.brand);
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications point
         canvasFront.clear();
@@ -1354,6 +1378,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1383,6 +1408,7 @@ $(document).ready(function() {
                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+                default_asset: ($(this).data('material-option-default-asset') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
@@ -1443,6 +1469,7 @@ $(document).ready(function() {
         $('#allow_pattern').prop('checked', false);
         $('#allow_gradient').prop('checked', false);
         $('#allow_color').prop('checked', false);
+        $('#default_asset').prop('checked', false);
 
         if(material.option.blend){
             $('#is_blend').prop('checked','checked');
@@ -1455,6 +1482,10 @@ $(document).ready(function() {
         }
         if(material.option.allow_color){
             $('#allow_color').prop('checked','checked');
+        }
+
+        if (material.option.default_asset) {
+            $('#default_asset').prop('checked','checked');
         }
 
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
@@ -1526,19 +1557,20 @@ $(document).ready(function() {
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
         try {
-            $.each(window.patterns, function(i, item) {
+            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+            $.each(active_patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
 
                 if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
+                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
                         } else {
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
                         }
                     }
-                    else if(item.asset_target == material.option.asset_target && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
+                    else if(item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
                         ctr++;
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
@@ -1647,7 +1679,7 @@ $(document).ready(function() {
                     // cornerPadding: 5
                 },
                 tl: {
-                    icon: 'http://52.39.10.209/rotate.svg'
+                    // icon: 'http://52.39.10.209/rotate.svg'
                 }
             });
             group.setControlsVisibility({
@@ -1734,8 +1766,9 @@ $(document).ready(function() {
 
 
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
+                var app_material_brand = $('#app-material-brand').val();
                 for(var i = 0; i < window.fonts.length; i++) {
-                    if(window.fonts[i].active == 1){
+                    if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
                         if(app_font == window.fonts[i].id){
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
@@ -2673,7 +2706,7 @@ $(document).ready(function() {
 
     function formatColor(state) {
         var element = $(state.element);
-        
+
         if (! state.id) { return state.text; }
         var $state = $(
           '<span style="background-color: ' + element.data('color') + '" class="color-label"></span><span>' + state.text + '</span>'

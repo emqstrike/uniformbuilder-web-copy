@@ -85,6 +85,8 @@ function insertMessage(data){
     var order_code = data.order_code;
     var type = data.type;
     var content = data.content;
+    var recipient_id = data.recipient_id;
+
     console.log(data);
     $.ajax({
         // url: '//' + api_host + '/api/api/message',
@@ -94,7 +96,7 @@ function insertMessage(data){
         contentType: 'application/json;',
         success: function (data) {
             // alert(data['message']);
-            rejectArtwork(order_code, type, content);
+            rejectArtwork(order_code, type, content, recipient_id);
             // window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -102,11 +104,13 @@ function insertMessage(data){
     });
 }
 
-function rejectArtwork(order_code, type, content){
+function rejectArtwork(order_code, type, content,recipient_id){
     var data = {};
     data.order_code = order_code;
     data.content = content;
     data.type = type;
+    data.recipient_id = recipient_id;
+    
     $.ajax({
         url: '//' + api_host + '/api/v1-0/logo_request/reject',
         type: "POST",

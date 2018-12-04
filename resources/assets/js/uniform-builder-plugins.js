@@ -1374,6 +1374,9 @@
             // console.log('--- Embellishment Object: ---');
             // console.log(embellishment_obj);
 
+            // add embellishment custom scale in ub.styleValues.embellishmentScales
+            if (settings_obj.application_type === 'embellishments') { ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); }
+
             var _uniformCategory = ub.current_material.material.uniform_category;
 
             /// Wrestling
@@ -1393,8 +1396,14 @@
 
             if (ub.styleValues.embellishmentScales.hasValues()) {
 
-                var _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+                var _result;
 
+                if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+                    _result = ub.funcs.processScale(settings_obj);
+                } else {
+                    _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+                }
+                
                 if(typeof _result === "undefined") {
 
                     // Use Defaults if theres no record 

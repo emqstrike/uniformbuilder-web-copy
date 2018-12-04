@@ -33,6 +33,12 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.setupHiddenBody = function (obj) {
+
+        return ub.config.hiddenBody = obj;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -2533,6 +2539,7 @@ $(document).ready(function() {
                 if (typeof mask === "undefined") {
                     errorCode = ub.errorCodes.getCode('maskLayerNotFound');
                     ub.utilities.errorWithCode(errorCode, mat_option + ' / ' + view.perspective);
+                    return;
                     // TODO: PartialApplications
                 }
                 
@@ -4056,7 +4063,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _hideBody = ub.data.hiddenBody.currentUniformOk();
+        var _hideBody = ub.config.hiddenBody;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -4070,6 +4077,8 @@ $(document).ready(function() {
             if (_obj.setting_type === 'mesh_shadows') { return; }
 
             if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
@@ -4098,6 +4107,10 @@ $(document).ready(function() {
     /// End Get Modifier Labels
 
     ub.funcs.drawPartsDrop = function () {
+
+        // omit `neck_tape_1` on ub.data.modifierLabels
+        var labelsToHide = ['neck_tape_2'];
+        ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
@@ -4132,8 +4145,9 @@ $(document).ready(function() {
 
             var _tempLabel = label.name;
 
-            if (_tempLabel === "Body Left") { _tempLabel = "Left Body"; }
-            if (_tempLabel === "Body Right") { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Body Left")     { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right")    { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Neck Tape 1")   { _tempLabel = "Neck Tape"; }
 
             strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
@@ -4177,6 +4191,21 @@ $(document).ready(function() {
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
+                // Add `thread_colors` flag in ub.current_material.settings
+                // if the category of uniform is `Socks (Apparel)`
+                // and base on the truthiness of the flag, thread colors will be used
+                if ( _.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)') 
+                    && ub.funcs.isKnitted() ) {
+
+                    if ( _.isEqual(ub.page, 'builder') 
+                        || ub.current_material.settings.threadColors === 'undefined' ) {
+
+                        ub.current_material.settings.threadColors = true;
+
+                    }
+
+                }
+
                 ub.funcs.initTeamColors();
                 $pd.hide();
                 $('div#right-main-window').css('overflow','hidden');
@@ -4201,8 +4230,9 @@ $(document).ready(function() {
 
             var _htTemp = _ht;
 
-            if (_ht === "Left Body")    { _htTemp = 'Body Left'};
-            if (_ht === "Right Body")   { _htTemp = 'Body Right'};
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
+            if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
 
             if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
                 
@@ -6198,7 +6228,12 @@ $(document).ready(function() {
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
-                _additionalClass = 'active'; 
+                _additionalClass = 'active';
+
+                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+                    (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
+                }
+
             } else {
                 _additionalClass = '';
             }
@@ -6212,6 +6247,20 @@ $(document).ready(function() {
             }
 
         });
+
+        // show BESTFIT option on embellishment's application sizes
+        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+
+            (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
+
+            var customSize  = settingsObject.custom_obj.fontSize;
+            var customScale = settingsObject.custom_obj.scale.x;
+            var type        = 'custom';
+
+            // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
+            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+
+        }
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
@@ -7302,7 +7351,8 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
+        // exception on 'Hockey Sock' block pattern
+        if (parseInt(_id) > 70 && ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' ) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 
@@ -7622,6 +7672,12 @@ $(document).ready(function() {
 
     ub.funcs.changeApplicationType = function (settingsObject, type) {
 
+        // delete custom object amd scale type
+        // this are use for embellishment applications only
+        // TODO: create a cleaup funcs
+        delete settingsObject.custom_obj;
+        delete settingsObject.scale_type;
+
         var _settingsObject = settingsObject;
         var _type           = type;
         var _id             = parseInt(_settingsObject.code);
@@ -7629,7 +7685,8 @@ $(document).ready(function() {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
+            var _mascotID = ub.data.mascots[_randomIndex].id;
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -7693,7 +7750,7 @@ $(document).ready(function() {
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -8025,7 +8082,17 @@ $(document).ready(function() {
         // Set on Move Tool mouse down
         
         if (!_settingsObject.dirty) {
-            ub.funcs.oneInchPullUp(application_id);
+            if (ub.current_material.material.brand !== 'richardson') {
+
+                var sport           = ub.current_material.material.uniform_category;
+                var blockPattern    = ub.current_material.material.block_pattern;
+
+                // Disable oneInchPullUp for Socks (Apparel) with block pattern of Hockey Socks
+                if (!ub.data.oneInchPullUpExemptions.isExempted(sport, blockPattern)) {
+                    ub.funcs.oneInchPullUp(application_id);
+                }
+
+            }
         }
         
         ub.funcs.updateCaption(application_id);
@@ -8118,8 +8185,6 @@ $(document).ready(function() {
         ub.funcs.deActivateRandomFeeds();
 
     }
-
-
 
     ub.funcs.popupsVisible = function () {
 
@@ -10236,7 +10301,19 @@ $(document).ready(function() {
 
         if (ub.funcs.isUniformFullSublimation()) {
 
-            _list   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+            _list   = _.sortBy(ub.data.modifierLabels, function(item) {
+                
+                var i = 100;
+                
+                // set intGroupID value (if it is NaN),
+                // this is to make sure that _.sortBy work
+                if (Number.isNaN(item.intGroupID)) {
+                    item.intGroupID = i++;
+                }
+
+                return item.intGroupID;
+                
+            });
 
             _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
                                                                  item.name.indexOf('Piping') > -1 || 
@@ -10627,13 +10704,6 @@ $(document).ready(function() {
 
     ub.funcs.addLocation = function (artOnly) {
 
-        // Guard
-
-        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
-        if (typeof _submimatedSport === "undefined") { return; }
-
-        // End Guard
-
         // Select Perspective
 
         var template = $('#m-add-free-form-application').html();
@@ -10667,8 +10737,56 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
-                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                        if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+                            
+                            $('span.part').first().addClass('active');
+
+                        } else {
+
+                            _partToMakeActive =  _perspective.toTitleCase();
+
+                            $('div.part-container span').each(function() {
+                                
+                                var part = $(this).text();
+
+                                if (part.indexOf(_partToMakeActive) !== -1) {
+                                    _partToMakeActive = part;
+                                }
+
+                            });
+
+                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                        }
+
+                        // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
+                        $('label.leftrightPart, div.side-container').hide();
+                        $('span.side').removeClass('active');
+
+                    } else {
+
+                        // If perspective is not Front or Back, just select the first part
+                        $('span.part').first().addClass('active');
+
+                        var side = $('span.side.active').data('id');
+
+                        if ($('span.side').hasClass('active')) {
+
+                            side = side.toTitleCase() + " ";
+
+                            side = $('span.side.active').text().replace(side, '');
+
+                            $('span.part.active').removeClass('active');
+
+                            $('span.part[data-id="' + side + '"]').addClass('active');
+
+                            $('span.side.active').removeClass('active');
+
+                            $('span.side[data-id="' + _perspective + '"]').addClass('active');
+
+                            if (typeof $('span.part.active').data('id') === 'undefined') { $('span.part').first().addClass('active'); $('span.side.active').removeClass('active'); }
+
+                        }
 
                     }
 
@@ -10749,7 +10867,7 @@ $(document).ready(function() {
 
                     }
 
-                    $('label.leftrightPart, div.side-container').hide();                    
+                    $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
                     $('span.side[data-id="na"]').addClass('active');
                     $('span.side[data-id="na"]').show();
@@ -10795,8 +10913,9 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isSocks()) {
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
+                // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
 
@@ -10831,9 +10950,41 @@ $(document).ready(function() {
 
             }
 
-            // Catch all expression when nothing is selected, just select first
+            // Catch all expression when nothing is selected, just select first if perspective is not Front or Back
             if(!$('span.part').hasClass('active')) {
-                $('span.part').first().addClass('active');
+
+                var $perspective = $('div.perspective-container').find('span.perspective.active');
+
+                if ($perspective.text() === "Back" || $perspective.text() === "Front") {
+
+                    if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+
+                        $('span.part').first().addClass('active');
+
+                    } else {
+
+                        var _partToMakeActive =  $perspective.text().toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
+                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                    }
+
+                } else {
+
+                    $('span.part').first().addClass('active');
+
+                }
+
             }
 
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
@@ -10892,6 +11043,9 @@ $(document).ready(function() {
         });
 
         // End Select Perspective 
+
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
 
     };
 

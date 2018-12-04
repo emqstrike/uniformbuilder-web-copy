@@ -34,6 +34,11 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                // prevent apostrophe problem
+                ub.config.sport         = ub.utilities.domParserDecoder(ub.config.sport);
+                ub.config.option        = ub.utilities.domParserDecoder(ub.config.option);
+                ub.config.blockPattern  = ub.utilities.domParserDecoder(ub.config.blockPattern);
+
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
@@ -56,6 +61,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
+
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -63,7 +72,11 @@ $(document).ready(function () {
 
                 // Application Sizes
                 ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
-                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
+
+                // Hidden Bodies
+                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
+                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);  
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -383,7 +396,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
             }
 
-            if(ub.funcs.isSocks() && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
                 $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
             } else {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
@@ -442,7 +455,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
-            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
+            ub.current_material.settings.hiddenBody = ub.config.hiddenBody;
 
             ub.funcs.activatePartByIndex(0);
 
@@ -633,17 +646,30 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.branding.useAllColors) {
-                ub.funcs.addAllColorToTeamColors();
-            }
+            if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
+
+            ub.funcs.executeAfterLoadFunctionList();
 
         };
 
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Outside View');
-                $('a.change-view[data-view="right"] > span').text('Inside View');
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+
+                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
+
+                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
+                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
+                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+
+                    $('span.perspective[data-id="left"]').text('Outside');
+                    $('span.perspective[data-id="right"]').text('Inside');
+                }
             }
 
         }
@@ -967,6 +993,8 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
+                'colors_sets',
+                'hidden_bodies'
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1015,6 +1043,17 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get Thread Colors from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
+
+            if (object_name === 'hidden_bodies') { ub.funcs.setupHiddenBody(obj); }
 
             if (object_name === 'cuts_links') {
 
@@ -1667,15 +1706,28 @@ $(document).ready(function () {
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
-                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
+                    (material.uniform_category === "SFN Jogger (Apparel)") ||
+                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+
+                    var tempLeftThumbnail = material.thumbnail_path_left;
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
+
+                    if (material.block_pattern === "Hockey Sock") {
+                        material.thumbnail_path_left = tempLeftThumbnail;
+                    }
+
                 }
 
                 if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-   
+
+                if (material.uniform_category === "Tech Tee (eSports)") {
+                    material.thumbnail_path_left = material.thumbnail_path_back;
+                }
+                
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
@@ -2438,7 +2490,7 @@ $(document).ready(function () {
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
             _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
 
-            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+            if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                 ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
                 ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
@@ -2620,7 +2672,7 @@ $(document).ready(function () {
 
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
-                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+                if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                     if (application_obj.application.layer === "Body") {
 
@@ -2737,6 +2789,8 @@ $(document).ready(function () {
                 if (_.size(ub.current_material.settings.pipings) > 0) {
 
                     ub.funcs.processSavedPipings();
+                    
+                    // ub.funcs.afterLoadFunctionList.push(logoObj.processColors); 
 
                 }
 
@@ -2758,9 +2812,9 @@ $(document).ready(function () {
 
         }
 
-        if (ub.funcs.isSocks()) {
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
-            // Activate Left View when a sock is loaded
+            // Activate Left View on all Socks (Apparel) except on 'Hockey Sock' block pattern
             ub.funcs.activateLeftView();
 
         }
@@ -3147,6 +3201,8 @@ $(document).ready(function () {
 
     window.ub.setup_material_options = function () {
 
+        ub.fabric.fabricCollections = [];
+
         ub.current_material.options_distinct_names = {};
 
         ub.maxLayers = 0;
@@ -3165,14 +3221,29 @@ $(document).ready(function () {
 
                 var name = obj.name.toCodeCase();
 
-                current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
+                var _sprite = ub.pixi.new_sprite(obj.material_option_path);
+
+                current_view_objects[name] = _sprite;
                 var current_object = current_view_objects[name];
 
                 current_object.name = name;
 
+                if (name === "highlights" || name === "shadows") {
+
+                    ub.fabric.fabricCollections.push({
+                        code: name,
+                        name: name + '_' + obj.layer_level,
+                        id: obj.layer_level,
+                        perspective: obj.perspective,
+                        obj: _sprite,
+                    });
+
+                }
+                
                 // Multiplied to negative one because
                 // UpdateLayers order puts the least zIndex on the topmost position
 
+                current_object.spriteID = name + '_' + obj.layer_level;
                 current_object.zIndex = (obj.layer_level * ub.zIndexMultiplier) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
                 
@@ -3201,9 +3272,11 @@ $(document).ready(function () {
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                    current_object.layerID = obj.layer_level;
 
                 } else if (obj.setting_type === 'shadows') {
 
+                    current_object.layerID = obj.layer_level;
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                 } else {
@@ -6194,7 +6267,8 @@ $(document).ready(function () {
         var views = ub.data.views;
         var _rotationAngle = 0;
         var _extra         = {};
-        var _positiion     = {x: 0, y: 0};
+        // var _positiion     = {x: 0, y: 0};
+        var _positiion = position;
         target_name        = util.toTitleCase(target_name);
 
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
@@ -6296,6 +6370,12 @@ $(document).ready(function () {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
+            var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
+
+            if (_soPattern.dirty) {
+                _p.position = position;
+            }
+            
             _p.anchor = {x: 0.5, y: 0.5};
             _p.pivot = {x: 0.5, y: 0.5};
 
@@ -6533,13 +6613,19 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
+                var itemExcemptions = ['Apparel', 'eSports'];
 
-                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (!_.contains(itemExcemptions, _item)) {
 
-                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+                    if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
+                    if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
 
+                    var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+                    if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+
+                }
+                
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
@@ -6769,7 +6855,11 @@ $(document).ready(function () {
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
 
             // Blank styles goes to the bottom ...
-            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; }
+
+            // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
+            // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
+            if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
 
             return _weight;
 
@@ -7009,7 +7099,7 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
 
         ub.funcs.fadeOutElements();
 
@@ -7077,8 +7167,9 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: items,
                 apparel: _apparel,
+                esports: esports,
             }
-            
+
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
             _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
@@ -7263,9 +7354,15 @@ $(document).ready(function () {
 
                 if (option === null) { return; }
 
+                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+
+                _alias = ub.data.blockPatternsAlias.getAlias(_alias);
+
                 _blockPatternsCollection.push({
-                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+
+                    alias: _alias,
                     item: option,
+
                 });
 
             });
@@ -7719,8 +7816,8 @@ $(document).ready(function () {
 
         $('body').removeClass('generic-canvas');
 
-        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
-        $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
+        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash_new.png)');
+        //$('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
         ub.funcs.hideRosterAndOrderForm();
 
@@ -7787,10 +7884,12 @@ $(document).ready(function () {
 
         ub.funcs.prepPickers();
 
-        var _apparel = _.find(ub.data.apparel, {gender: sport});
+        // var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
+        var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
+        var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -7832,7 +7931,17 @@ $(document).ready(function () {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
-        } else if (_availableForUnisex)  {
+        } else if (sport === "eSports") {
+            $(window).scrollTop(0);
+            var esports = _.find(ub.data.esports, {gender: gender});
+            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (sport === "Apparel") {
+            $(window).scrollTop(0);
+            var apparel = _.find(ub.data.apparel, {gender: gender});
+            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (_availableForUnisex) {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
@@ -7946,6 +8055,26 @@ $(document).ready(function () {
         var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
         var _result = _.find(ub.filterStructure.primary, {name: _type});
         var _sportFilters = _.find(ub.data.sportFilters, {sport: sport}).filters;
+
+        // create exception on Tennis _sportFilters array
+        // men: Shorts
+        // women: Skorts
+        if ( _.isEqual(sport, 'Tennis') ) {
+
+            // get Shorts/Skorts index on _sportFilters array
+            var index = (_.contains(_sportFilters, 'Shorts')) 
+                        ? _sportFilters.indexOf('Shorts') 
+                        : (_.contains(_sportFilters, 'Skorts')) 
+                        ? _sportFilters.indexOf('Skorts') 
+                        : _sportFilters.indexOf('Shorts');
+
+            if (gender === 'men') {
+                _sportFilters[index] = 'Shorts';
+            } else {
+                _sportFilters[index] = 'Skorts';
+            }
+
+        }
 
         $('span.primary-filters').each(function (index, value) {
 
@@ -8723,7 +8852,7 @@ $(document).ready(function () {
 
             if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
 
-            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0});
 
             return _colorObj;
 
@@ -8800,7 +8929,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 

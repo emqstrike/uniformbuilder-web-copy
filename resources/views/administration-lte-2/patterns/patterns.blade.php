@@ -88,6 +88,7 @@
                             <th>Block Pattern Options</th>
                             <th id="select-filter">Brand</th>
                             <th id="select-filter">Asset Target</th>
+                            <th>Range Position</th>
                             <th>Active</th>
                             <th>Actions</th>
                             <th>
@@ -125,6 +126,9 @@
                             </td>
                             <td>
                                 {{ $pattern->asset_target }}
+                            </td>
+                            <td>
+                                {{ $pattern->range_position }}
                             </td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">

@@ -76,6 +76,7 @@
                                 <option value="0">Select Sales Rep</option>
                             </select>
                             @endif
+                            {{ $order->rep_email or '' }}
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
@@ -246,14 +247,19 @@ $(document).ready(function(){
 
     $(document).on('click', '.view-pdf', function(e) {
         window.order_code = $(this).parent().parent().parent().find('.td-order-code').text();
-        console.log(window.order_code);
         getOrderItem(function(order_info){ window.order_info = order_info; });
-        console.log(window.order_info);
-        var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
-        var url = customizer_host+bc.pdfOrderForm;
-        console.log('open pdf!');
-        console.log(url);
-        OpenInNewTab(url);
+
+        if (typeof window.order_info['items'][0]['builder_customizations'] !== 'undefined') {
+            var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
+
+            if (typeof bc.pdfOrderForm !== 'undefined') {
+                OpenInNewTab(bc.pdfOrderForm);
+            } else {
+                alert('PDF File not found.');
+            }
+        } else {
+            alert('Unable to find PDF file.');
+        }
     });
 
     $(document).on('click', '.send-to-factory', function(e) {
@@ -328,10 +334,18 @@ $(document).ready(function(){
 
                 var teamcolors = bcx.team_colors;
 
+                var pdfOrderFormValue = bcx.pdfOrderForm;
+                var s3regex = 's3-us-west-2.amazonaws.com';
+                var found = pdfOrderFormValue.match(s3regex);
+
+                if (found == null) {
+                    pdfOrderFormValue = customizer_host+pdfOrderFormValue;
+                }
+
                 entry.orderPart = {
                     "ID" : entry.id,
                     "Description" : entry.description,
-                    "DesignSheet" : customizer_host+bcx.pdfOrderForm
+                    "DesignSheet" : pdfOrderFormValue
                 };
 
                 getMaterial(function(material){ window.material = material; });
@@ -601,7 +615,7 @@ $(document).ready(function(){
                             console.log('FACTORY ORDER ID >>>>>');
                             console.log(factory_order_id);
                             console.log(JSON.stringify(parts));
-                            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                            updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                             document.location.reload(); // UNCOMMENT
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
@@ -1049,11 +1063,11 @@ $(document).ready(function(){
         });
     }
 
-    function updateFOID(id, factory_order_id, parts){
+    function updateFOID(id, factory_order_id, parts, rep_id){
         $.ajax({
             url: '//' + api_host + '/api/order/updateFOID',
             type: "POST",
-            data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+            data: JSON.stringify({id: id, factory_order_id: factory_order_id, sent_to_rep_qx_id: rep_id}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',

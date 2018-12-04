@@ -23,7 +23,7 @@ window.piping_sets = [
 function buildSetsDropdown(value){
     var dropdown = '<select class="form-control piping-set">';
     window.piping_sets.forEach(function(entry) {
-        if(entry == value){
+        if(entry == value) {
             dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
         } else {
             dropdown += '<option value="'+entry+'">'+entry+'</option>';

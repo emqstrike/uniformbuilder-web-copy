@@ -35,18 +35,10 @@ class PatternsController extends Controller
         }
         $patterns = $this->client->getPatternsBySport($active_sport);
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.patterns.patterns', [
-                'patterns' => $patterns,
-                'active_sport' => $active_sport
-            ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.patterns.patterns', [
+            'patterns' => $patterns,
+            'active_sport' => $active_sport
+        ]);
     }
 
     public function editPatternForm($id)
@@ -56,20 +48,11 @@ class PatternsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.patterns.pattern-edit', [
+        return view('administration-lte-2.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors,
             'categories' => $uniformCategories
         ]);
-        }
-        else {
-            return redirect('administration');
-        }
     }
 
     public function addPatternForm()
@@ -78,19 +61,10 @@ class PatternsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.patterns.pattern-create', [
+        return view('administration-lte-2.patterns.pattern-create', [
             'color' => $colors,
             'categories' => $uniformCategories
         ]);
-        }
-        else {
-            return redirect('administration');
-        }
     }
 
     public function store(Request $request)
@@ -99,6 +73,7 @@ class PatternsController extends Controller
         $assetTarget = $request->input('asset_target');
         $patternProperties = $request->input('pattern_properties');
         $brand = $request->input('brand');
+        $range_position = $request->input('range_position');
         $sports = explode(",", $request->input('sports_value'));
         $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
 
@@ -108,7 +83,8 @@ class PatternsController extends Controller
             'sports' => $sports,
             'block_pattern_options' => $blockPatternOptions,
             'asset_target' => $assetTarget,
-            'brand' => $brand
+            'brand' => $brand,
+            'range_position' => $range_position
         ];
 
         $patternId = null;

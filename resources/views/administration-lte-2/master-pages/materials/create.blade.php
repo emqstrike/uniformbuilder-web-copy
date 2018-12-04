@@ -11,7 +11,7 @@
                     <div class="panel-body">
                         @include('administration.partials.validation-error')
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_material_store') }}" enctype="multipart/form-data" id='create-material-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='create-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
@@ -461,7 +461,7 @@
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Add New Material
                                     </button>
-                                    <a href="/administration/materials" class="btn btn-danger">
+                                    <a href="{{ route('v1_materials_index') }}" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>

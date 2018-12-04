@@ -34,10 +34,9 @@
                   </div>
                   <div class="form-group">
                     <label>Brand</label>
-                      <select class="form-control input-brand-id">
-                        <option value="0">No Brand</option>
-                        <option value="1">Prolook</option>
-                        <option value="2">Richardson</option>
+                      <select class="form-control input-brand">
+                        <option value="prolook">Prolook</option>
+                        <option value="richardson">Richardson</option>
                       </select>
                   </div>
                   <div class="form-group">

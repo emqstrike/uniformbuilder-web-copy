@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
 colors = getColors().colors;
 
 window.gradient_position = [
@@ -43,6 +44,7 @@ function buildPositionDropdown(value){
 
     if(gradient_data){
         if(gradient_data != null && gradient_data != '""'){
+
             console.log('Has value');
             loadGradient();
         } else {
@@ -60,13 +62,13 @@ function buildPositionDropdown(value){
             gradient = JSON.parse(gradient);
         } else {
             $('.gradient-content').html('');
-
-            gradient = JSON.parse(copydata);
+            gradient = JSON.parse(data);
             x = gradient;
         }
 
         gradient.forEach(function(entry) {
             console.log(entry);
+
             var size = entry.size;
 
         var ischecked = '';
@@ -75,30 +77,19 @@ function buildPositionDropdown(value){
         }
 
         var topchecked = '';
-        if(entry.color1 == true){
+        if(entry.top_color == true){
             topchecked = 'checked';
         }
 
         var bottomchecked = '';
-        if(entry.color2 == true){
+        if(entry.bottom_color == true){
             bottomchecked = 'checked';
         }
 
         var basechecked = '';
-        if(entry.color3 == true){
+        if(entry.base_color == true){
             basechecked = 'checked';
         }
-
-        // var selectbox = '<select class="form-control piping-size">';
-        // var piping_sizes = ["1/8", "1/4", "1/2"];
-        // piping_sizes.forEach(function(entry) {
-        //     if(entry == size){
-        //         selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
-        //     } else {
-        //         selectbox += '<option value="'+entry+'">'+entry+'</option>';
-        //     }
-        // });
-        // selectbox += '</select>';
 
         if(!entry.colors_array){
             entry.colors_array = ["","","",];
@@ -185,10 +176,12 @@ function buildPositionDropdown(value){
 
 
         }); // loop closing
+
         deleteGradient();
         changeImage();
         changeEvent();
         refreshJSON();
+
         $('#load-gradient-data-modal').modal('hide');
         $('#ta_load_gradient').val('');
     }
@@ -279,12 +272,21 @@ function buildPositionDropdown(value){
             </tr>
         </tbody>
         </table>`;
+
         $('.gradient-content').prepend(elem);
         deleteGradient();
         changeImage();
         changeEvent();
         refreshJSON();
     });
+
+
+    function deleteGradient(){
+        $('.delete-gradient').on('click', function(e){
+            $(this).parent().parent().parent().parent().remove();
+            refreshJSON();
+        });
+    }
 
     function detectImages(){
         $(".image").each(function(i) {
@@ -312,6 +314,7 @@ function buildPositionDropdown(value){
         $(".gradient-table").each(function(i) {
             var info = {};
             info.position = $(this).find('.gradient-position option:selected').val();
+
             var cbx = $(this).find('.gradient-toggler');
             if(cbx.is(":checked")){
                 info.enabled = 1;
@@ -429,6 +432,7 @@ function buildPositionDropdown(value){
             perspectives.push(right_data);
 
             info.perspectives = perspectives;
+
             data.push(info);
             console.log(JSON.stringify(info));
         });
@@ -440,36 +444,20 @@ function buildPositionDropdown(value){
     function changeImage(){
         $(".image").change( function() {
 
-                console.log('uploading');
                 var elem = $(this);
-                console.log(elem);
 
                 if (this.files && this.files[0]) {
 
                     var _filename = fileUploadAttachment(this.files[0], elem, function (filename, extension, valid, element) {
                         if (typeof filename === 'undefined') {
-
-                            $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                            $('span.additional-attachment-message').html('Error Uploading File');
-
                             return;
-
                         }
-
                         if (valid){
-
-                            console.log('Valid');
-                            console.log(element);
                             element.attr("data-img-url", filename);
                             refreshJSON();
-
                         } else {
 
-                            $('span.additional-attachment-message').html('Invalid File Type: ' + extension);
-                            $.smkAlert({text: 'Invalid File Type: ' + extension, type:'warning', time: 3, marginTop: '80px'});
-                            console.log('Invalid');
                         }
-
 
                     });
 
@@ -480,49 +468,32 @@ function buildPositionDropdown(value){
 
     fileUploadAttachment = function (file, elem, callback) {
 
-        $('span.ok_btn').attr('data-status', 'processing');
-        $('em.unsupported-file').html('');
-
         var _file = file;
         var formData = new FormData();
         var x = elem;
 
         formData.append('file', file);
 
-        if (typeof $.ajaxSettings.headers !== "undefined") {
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
-        }
-
         $.ajax({
 
             data: formData,
             url: "//" + api_host + "/api/fileUpload",
             type: "POST",
-            processData: false,  // tell jQuery not to process the data
+            processData: false,
             contentType: false,
             crossDomain: true,
 
             success: function (response){
 
                 if(response.success) {
-
                     var _extension = response.filename.split('.').pop();
-
-                    console.log('success' + response.filename);
-
                         callback(response.filename, _extension, true, x);
-
                 }
                 else {
-
                     callback(undefined, undefined, undefined);
-
                 }
-
             }
-
         });
-
     }
 
     function getColors(){
@@ -533,13 +504,10 @@ function buildPositionDropdown(value){
             dataType: 'json',
             data: { action : 'getColors' },
             done: function(results) {
-                // uhm, maybe I don't even need this?
-                // return  results.colors.colors;
             },
             fail: function( jqXHR, textStatus, errorThrown ) {
-                console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
             }
-        }).responseJSON; // <-- this instead of .responseText
+        }).responseJSON;
     }
 
     function getSelectColorTemplate(result,c_code){
@@ -556,7 +524,6 @@ function buildPositionDropdown(value){
                     fontColor = "white";
             }
 
-            console.log(fontColor);
             if(entry.color_code == c_code){
 
                 template += '<option value="'+ entry.color_code +'" style="background:#'+ entry.hex_code + ';color:'+ fontColor + '" selected>' + entry.name + '</option>';

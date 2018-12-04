@@ -2,7 +2,7 @@
 <div class="modal fade" id="save-material-option-info-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('v1_save_material_option_info') }}" role="form" method="POST" enctype="multipart/form-data">
+            <form action="/administration/v1-0/material_option/save" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
@@ -188,6 +188,10 @@
                     </div>
                 </div>
 
+                <div class="col-md-12" id="pattern_layers_OC">
+                    <hr>
+                </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Build Type:</label>
@@ -226,6 +230,13 @@
                     <div class="form-group">
                         <label class="control-label">Color:</label>
                         <input type="checkbox" name="allow_color" id="allow_color" value="1">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Default Asset:</label>
+                        <input type="checkbox" name="default_asset" id="default_asset">
                     </div>
                 </div>
 
