@@ -782,12 +782,6 @@ $(function() {
             _tailSweepPanel = ub.funcs.tailSweepPanel(_tailSweepThumb, _tailSweepCode);
         }
     
-        // var _patternObject = _settingsObject.pattern_obj;
-        // var _patternsPanel = ub.funcs.updateTextPatternPanel(_patternObject);
-        // var _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
-
-
-        ////
         var templateData = {}
 
         var isPlayerName = _applicationType === "player_name" ? 'disabled' : '';
@@ -1073,37 +1067,21 @@ $(function() {
 
         if (_applicationType === "mascot") {
             var _mascotObj = _settingsObject.mascot;
-            // var _currentSize = _settingsObject.size;
-            // var _colorArray = _settingsObject.color_array;
             var _mascotName = _mascotObj.name;
             var _thumbIcon = _mascotObj.icon;
-            // var _title = _applicationType.toTitleCase();
-            // var _htmlBuilder = '';
-            // var _generateSizes = '';
             var _colorPickers = '';
             var _appActive = 'checked';
             var _maxLength = 12;
         } else if (_applicationType === "embellishments") {
             var _embellishmentObj   = _settingsObject.embellishment;
-            // var _currentSize        = _settingsObject.size;
-            // var _colorArray         = _settingsObject.color_array;
             var _mascotName         = _embellishmentObj.design_id;
             var _mascotIcon         = _embellishmentObj.thumbnail;
-            // var _title              = _applicationType.toTitleCase();
-            // var _htmlBuilder        = "";
-            // var _appActive          = 'checked';
-            // var _maxLength          = 12;
-            // var _generateSizes      = '';
         }
-        // var _mascotObj = _settingsObject.mascot;
         var _currentSize = _settingsObject.size;
         var _colorArray = _settingsObject.color_array;
-        // var _mascotName = _mascotObj.name;
-        // var _thumbIcon = _mascotObj.icon;
         var _title = _applicationType.toTitleCase();
         var _htmlBuilder = '';
         var _generateSizes = '';
-        // var _colorPickers = '';
         var _appActive = 'checked';
         var _maxLength = 12;
 
@@ -1363,7 +1341,6 @@ $(function() {
 
         // End Events
 
-        // $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
@@ -1385,8 +1362,6 @@ $(function() {
         }
 
         var _views = _settingsObj.application.views;
-
-        ////
 
         var _state = state;
 
