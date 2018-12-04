@@ -18,11 +18,6 @@ $(function() {
 
 */
 
-    // on click on any group pane switch to active
-    // $('#new-toolbar > .group-pane').on('click', function () {
-    //     $(this).addClass('active').siblings().removeClass("active");
-    // });
-
     // on click mascot and embellishments group #7
     $('#new-toolbar > .group-7').on('click', function () {
         console.log('GROUP 7 CLICKED===>');
@@ -45,14 +40,14 @@ $(function() {
     $('#primary_options_container').on('click', '.view-sliders', function () {
         $(this).addClass('active');
         $(this).next().removeClass('active');
-        $(this).parent().next().fadeIn();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
     });
 
     // on click hide slidersContainer
     $('#primary_options_container').on('click', '.hide-sliders', function () {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
-        $(this).parent().next().hide();
+        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
     });
 
     // on click color item type mascot
@@ -94,7 +89,7 @@ $(function() {
         var _matchingID = undefined;
         var _matchingSettingsObject = undefined;
 
-        _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+        _matchingID = ub.data.matchingIDs.getMatchingID(dataId);
 
         if (typeof _matchingID !== "undefined") {
             _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
@@ -212,7 +207,7 @@ $(function() {
                     name: i.embellishment.name,
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code)
                 };
                 _appData.push(objCustom);
@@ -223,7 +218,7 @@ $(function() {
                     code: i.code,
                     perspective: i.application.views[0].perspective,
                     name: i.mascot.name,
-                    slider: true,
+                    slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -251,6 +246,9 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('mascots');
+        }
         // initializer
         ub.funcs.initializer();
 
@@ -259,7 +257,6 @@ $(function() {
     };
 
     ub.funcs.initializer = function () {
-
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
         $(scaleSliders).each(function(i) {
@@ -267,6 +264,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initScalePanel(scaleSliders[i], _settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Small');
             $(this).find('.noUi-value-large').last().html('Large');
         });
@@ -278,6 +279,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelX(moveXSliders[i],_settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Left');
             $(this).find('.noUi-value-large').last().html('Right');
         });
@@ -289,6 +294,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelY(moveYSliders[i],_settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
             $(this).find('.noUi-value-large').first().html('Down');
             $(this).find('.noUi-value-large').last().html('Up');
         });
@@ -300,6 +309,10 @@ $(function() {
             var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initRotatePanel(rotateSliders[i], _settingsObject, _applicationType);
+            if (! $(this).hasClass('init')) {
+                // Marker that applications has been initialized
+                $(this).addClass('init')
+            }
         });
 
         // add class active to all first tab of color selection tab
@@ -315,6 +328,7 @@ $(function() {
         // add applications opt
         var selectNewAppOptions = document.getElementsByClassName('addApplicationsOpts');
         $(selectNewAppOptions).each(function(){
+            $(this).find('div > button').removeClass('active');
             $(this).find('div > button:first-of-type').addClass('active');
             $(this).find('div > button:nth-of-type(odd)').addClass('pull-left');
             $(this).find('div > button:nth-of-type(even)').addClass('pull-right');
@@ -325,6 +339,7 @@ $(function() {
     ub.funcs.initRotatePanel = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initRotatePanel=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -357,6 +372,7 @@ $(function() {
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initScalePanel=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -366,7 +382,6 @@ $(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        console.log(_start);
         if (typeof element.noUiSlider === "object") {
             element.noUiSlider.set(_start);
             return;
@@ -405,6 +420,7 @@ $(function() {
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initMovePanelX=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -438,11 +454,6 @@ $(function() {
                 stepped: true,
                 density: 4
             }
-            // pips: {
-            //     mode: 'values',
-            //     values: [0, 25, 50, 75, 100],
-            //     density: 4,
-            // }
         });
 
         element.noUiSlider.on('update', function (values, handle) {
@@ -460,6 +471,7 @@ $(function() {
     ub.funcs.initMovePanelY = function (element, _settingsObject, applicationType) {
         console.log('=======ub.funcs.initMovePanelY=======');
 
+        if ($(element).hasClass('init')) { return; }
         var _flag = false;
         var _multiplier = 100;
         if (applicationType !== "mascot") {
@@ -493,11 +505,6 @@ $(function() {
                 stepped: true,
                 density: 4
             }
-            // pips: {
-            //     mode: 'values',
-            //     values: [0, 25, 50, 75, 100],
-            //     density: 4,
-            // }
         });
 
         element.noUiSlider.on('update', function (values, handle) {
@@ -519,7 +526,7 @@ $(function() {
         }
 
         // send to mustache
-        return ub.utilities.buildTemplateString('#m-slider-container', props);
+        return ub.funcs.isTackleTwill() ? '' : ub.utilities.buildTemplateString('#m-slider-container', props);
 
     };
 
@@ -622,7 +629,6 @@ $(function() {
     ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
-        // var _cObj = ub.funcs.getColorByColorCode(activeColorCode);
         var _teamColors = ub.current_material.settings.team_colors;
 
         var _objectType = objectType;
@@ -636,7 +642,6 @@ $(function() {
             _.each(_teamColors, function (_color) {
 
                 var _checkMark = '&nbsp;';
-                // var _style = "25px";
                 var _class = '';
 
                 if (activeColorCode === _color.color_code) {
@@ -645,8 +650,6 @@ $(function() {
                 }
 
                 var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-                // _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
-
                 _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
 
             });

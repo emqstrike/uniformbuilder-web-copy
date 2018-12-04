@@ -1075,10 +1075,11 @@
     <script type="text/mustache" id="add-new-application-letters">
         <div class="application-letters-container cp-padding-medium cp-padding-remove-vertical">
             <h4 class="app-letters-title">@{{ title }}</h4>
+            @{{^isTwill}}
             <div class="addApplicationsOpts hide">
 
                 @{{#designType}}
-                    <div class="posContainer clearfix app-letters-wrapper">
+                    <div class="posContainer clearfix app-letters-wrapper @{{ showTypes }}">
                         <h5>CHOOSE A DESIGN TYPE</h5>
                         @{{#designTypeData}}
                             <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
@@ -1114,9 +1115,10 @@
                     </div>
                 @{{/side}}
             </div>
+            @{{/isTwill}}
 
             <div class="add-new-application-letters">
-                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button"><span class="fa fa-plus-circle"></span> Add Application</button>
+                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
                 <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
             </div>
 
@@ -1133,14 +1135,14 @@
             <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
-                <div class="posContainer clearfix app-letters-wrapper">
-                    <button type="button" class="app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-letters-opt app-letters-button">Hide</button>
+                <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-letters-opt app-letters-button">Hide</button>
                 </div>
 
                 <div class="app-letters-wrapper">
                     <h5 class="app-letters-subtitle">INPUT @{{ type }}</h5>
-                    <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" />
+                    <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
                 </div>
 
                 <div class="lettersOptsContainer app-letters-wrapper">
@@ -1198,6 +1200,22 @@
     </script>
 <!-- End of Font Accents -->
 
+<!-- Free Applications Block -->
+    <script type="text/mustache" id="free-applications-container">
+        @{{#applications}}
+            @{{#isVisible}}
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                @{{#appTypes}}
+                <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                @{{/appTypes}}
+            </div>
+            @{{/isVisible}}
+    @{{/applications}}
+    </script>
+<!-- End Free Applications Block -->
+
 <!-- Application UI Block -->
 
     <script type="text/mustache" id="m-application-ui-block">
@@ -1209,7 +1227,7 @@
         <div class="clearfix"></div>
 
         @{{#applications}}
-            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
@@ -1232,9 +1250,9 @@
                     </span>
                 </div>
 
-                <div class="posContainer clearfix">
-                    <button type="button" class="app-btn w-45 pull-left view-sliders active">View</button>
-                    <button type="button" class="app-btn w-45 pull-right hide-sliders">Hide</button>
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-sliders">Hide</button>
                 </div>
 
                 @{{#slider}}
@@ -1255,7 +1273,6 @@
 <!-- Start Slider Container -->
 
     <script type="text/mustache" id="m-slider-container">
-
         <div class="slidersContainer">
             <div class="manipulator-type-container scale" data-type="scale">
                 <h5>LOGO SIZE</h5>
@@ -1264,7 +1281,7 @@
                 </div>
             </div>
 
-            <div class="manipulator-type-container move" data-type="move">
+            <div class="manipulator-type-container move" data-type="move" style="margin: 0px">
                 <h5>POSITION</h5>
                 <div class="sc move">
                     <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
@@ -1279,7 +1296,6 @@
                 </div>
             </div>
         </div>
-
     </script>
 
 <!-- End Slider Container  -->

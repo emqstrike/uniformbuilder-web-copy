@@ -1109,6 +1109,9 @@ $(document).ready(function () {
             if (sprite.ubName === "Delete Tool") {
 
                 ub.funcs.deleteLocation(_application.code);
+                if(ub.data.useScrollingUI) {
+                    ModifierController.deleteApplicationContainer(_application.code)
+                }
                 return;
 
             }
@@ -1257,8 +1260,29 @@ $(document).ready(function () {
 
                         ub.updateApplicationSpecsPanel(_application.code);
 
-                    }
+                        if (ub.data.useScrollingUI) {
+                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
+                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
 
+                            if(val_x < 1) {
+                                val_x = 1;
+                            }
+                            if (val_x > 100) {
+                                val_x = 100;
+                            }
+                            if(val_y < 1) {
+                                val_y = 1;
+                            }
+                            if (val_y > 100) {
+                                val_y = 100;
+                            }
+                            $('div.slider-control-move-x[data-id=' + _application.code + '] .noUi-origin').css('left', val_x + '%')
+                            $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-origin').css('left', val_y + '%')
+                            $('div.slider-control-move-x[data-id=' + _application.code + '] .noUi-tooltip').html(val_x)
+                            $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-tooltip').html(val_y)
+                        }
+
+                    }
                     if (sprite.ubName === "Rotate Tool") {
 
                         move_point.alpha = 0;
@@ -1291,6 +1315,13 @@ $(document).ready(function () {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');
                         }
 
+                        if (ub.data.useScrollingUI) {
+                            var rotation = (view.application.rotation * 5) / 18;
+                            if (rotation < 0 && rotation > -60) {
+                                rotation += 60 + 40;
+                            }
+                            $('div.slider-control-rotate[data-id=' + _application.code + ']').roundSlider({ value: rotation });
+                        }
                         ub.updateApplicationSpecsPanel(_application.code);
 
                     }
@@ -1344,6 +1375,18 @@ $(document).ready(function () {
 
                         }
 
+                        if (ub.data.useScrollingUI) {
+                            var val = Math.abs(Math.round((application_obj.scale.x * 100 )/ 3));
+
+                            if(val < 1) {
+                                val = 1;
+                            }
+                            if (val > 100) {
+                                val = 100;
+                            }
+                                $('div.slider-control-scale[data-id=' + _application.code + '] .noUi-origin').css('left', val + '%')
+                                $('div.slider-control-scale[data-id=' + _application.code + '] .noUi-tooltip').html(val)
+                        }
 
                         _start = _start.toString().substr(0, 4);
 
@@ -1929,14 +1972,8 @@ $(document).ready(function () {
 
                 if (application.type !== "mascot" && application.type !== "logo") {
 
-                    if (ub.branding.useAlternativeUI) {
-                        // Check if clicked application is TEAM NAME or PLAYER NAME,
-                        if (application.type === "team_name" || application.type === "player_name") {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        }
+                    if (ub.data.useScrollingUI) {
+                        ModifierController.scrollToOptions(application.type, _id);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -1948,9 +1985,11 @@ $(document).ready(function () {
                         $("#parts-with-insert-container").hide();
                         $(".parts-container").hide();
                         ub.funcs.activeStyle('layers');
-                    }
+                        ModifierController.scrollToOptions(application.type, _id);
 
-                    ub.funcs.activateMascots(_id);
+                    } else {
+                        ub.funcs.activateMascots(_id);
+                    }
                 }
 
             }
@@ -6687,7 +6726,12 @@ $(document).ready(function () {
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
-            ub.funcs.activateColors(application_id);
+            
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateMascotColors(application_id);
+            } else {
+                ub.funcs.activateColors(application_id);
+            }
         }
 
     };
@@ -8908,7 +8952,7 @@ $(document).ready(function () {
 
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -8949,7 +8993,11 @@ $(document).ready(function () {
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
 
-            ub.funcs.activateMascots(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
+            } else {
+                ub.funcs.activateMascots(_settingsObject.code);
+            }
 
         }
 
@@ -8989,8 +9037,8 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
@@ -9088,7 +9136,11 @@ $(document).ready(function () {
             }
 
             ub.create_application(_settingsObject, undefined);
-            ub.funcs.activateApplications(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
+            } else {
+                ub.funcs.activateApplications(_settingsObject.code);
+            }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
@@ -9122,8 +9174,8 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             ub.create_application(_settingsObject, undefined);
-            if (ub.branding.useAlternativeUI) {
-                ub.funcs.activateApplicationsLetters(_settingsObject.code);
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
@@ -9162,7 +9214,12 @@ $(document).ready(function () {
             ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
-            ub.funcs.activateEmbellishments(_settingsObject.code);
+
+            if (ub.data.useScrollingUI) {
+                ub.funcs.activateApplicationsAll(_settingsObject.code);
+            } else {
+                ub.funcs.activateEmbellishments(_settingsObject.code);
+            }
 
             //==>
 
@@ -11283,18 +11340,17 @@ $(document).ready(function () {
                 }
                 else if (_settingsObject.application_type === "mascot") {
 
-                    ub.funcs.activateMascots(locationCode);
+                    if (ub.data.useScrollingUI) {
+                        // Trigger click on tab
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                    } else {
+                        ub.funcs.activateMascots(locationCode);
+                    }
 
                 } else {
 
-                    if (ub.branding.useAlternativeUI) {
-                        // Check if clicked application is TEAM NAME or PLAYER NAME,
-                        if (_settingsObject.application_type === "team_name" || _settingsObject.application_type === "player_name") {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        }
+                    if (ub.data.useScrollingUI) {
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
