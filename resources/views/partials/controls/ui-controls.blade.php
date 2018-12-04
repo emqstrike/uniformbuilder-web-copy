@@ -1239,7 +1239,6 @@
 <!-- Start Slider Container -->
 
     <script type="text/mustache" id="m-slider-container">
-        @{{#isResizeable}}
         <div class="slidersContainer">
             <div class="manipulator-type-container scale" data-type="scale">
                 <h5>LOGO SIZE</h5>
@@ -1248,7 +1247,7 @@
                 </div>
             </div>
 
-            <div class="manipulator-type-container move" data-type="move" style="margin: 0px" @{{/isResizeable}}>
+            <div class="manipulator-type-container move" data-type="move" style="margin: 0px">
                 <h5>POSITION</h5>
                 <div class="sc move">
                     <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
@@ -1263,8 +1262,6 @@
                 </div>
             </div>
         </div>
-    @{{/isResizeable}}
-
 
     </script>
 

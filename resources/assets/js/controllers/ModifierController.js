@@ -199,16 +199,7 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        ub.modifierController.controllers.numbers = new NumberPanel('m-decorations-numbers');
-        var numbers_panel = ub.modifierController.controllers.numbers.getPanel();
-        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
-        properties_panel.setBodyPanel(numbers_panel);
-        // set event listeners
-        ub.modifierController.controllers.numbers.bindEvents();
-
-        ub.funcs.initializer();
-        
-        // NumberPanel.initializeUISlider();
+        ub.funcs.startNewApplicationNumbers();
     },
 
     applications: function() {
