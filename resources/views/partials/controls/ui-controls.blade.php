@@ -1043,6 +1043,7 @@
     <script type="text/mustache" id="add-new-application-letters">
         <div class="application-letters-container cp-padding-medium cp-padding-remove-vertical">
             <h4 class="app-letters-title">@{{ title }}</h4>
+            @{{^isTwill}}
             <div class="addApplicationsOpts hide">
 
                 @{{#designType}}
@@ -1082,9 +1083,10 @@
                     </div>
                 @{{/side}}
             </div>
+            @{{/isTwill}}
 
             <div class="add-new-application-letters">
-                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button"><span class="fa fa-plus-circle"></span> Add Application</button>
+                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
                 <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
             </div>
 
@@ -1170,7 +1172,7 @@
     <script type="text/mustache" id="free-applications-container">
         @{{#applications}}
             @{{#isVisible}}
-            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 @{{#appTypes}}
@@ -1193,7 +1195,7 @@
         <div class="clearfix"></div>
 
         @{{#applications}}
-            <div class="applicationUIBlock" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
@@ -1262,7 +1264,6 @@
                 </div>
             </div>
         </div>
-
     </script>
 
 <!-- End Slider Container  -->

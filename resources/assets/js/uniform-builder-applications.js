@@ -1969,20 +1969,8 @@ $(document).ready(function () {
 
                 if (application.type !== "mascot" && application.type !== "logo") {
 
-                    if (ub.branding.useAlternativeUI) {
-                        // Check if clicked application is TEAM NAME or PLAYER NAME,
-                        if (application.type === "team_name" || application.type === "player_name") {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        } else {
-                            // Numbers
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-6').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        } 
+                    if (ub.data.useScrollingUI) {
+                        ModifierController.scrollToOptions(application.type, _id);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -1994,9 +1982,11 @@ $(document).ready(function () {
                         $("#parts-with-insert-container").hide();
                         $(".parts-container").hide();
                         ub.funcs.activeStyle('layers');
-                    }
+                        ModifierController.scrollToOptions(application.type, _id);
 
-                    ub.funcs.activateMascots(_id);
+                    } else {
+                        ub.funcs.activateMascots(_id);
+                    }
                 }
 
             }
@@ -8958,7 +8948,7 @@ $(document).ready(function () {
 
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -11351,24 +11341,16 @@ $(document).ready(function () {
                 else if (_settingsObject.application_type === "mascot") {
 
                     if (ub.branding.useAlternativeUI) {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-7').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
+                        // Trigger click on tab
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
                     } else {
                         ub.funcs.activateMascots(locationCode);
                     }
 
                 } else {
 
-                    if (ub.branding.useAlternativeUI) {
-                        // Check if clicked application is TEAM NAME or PLAYER NAME,
-                        if (_settingsObject.application_type === "team_name" || _settingsObject.application_type === "player_name") {
-                            // Trigger click on tab
-                            $('#new-toolbar > .group-5').trigger('click')
-                            // Scroll to application's settings
-                            $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                        }
+                    if (ub.data.useScrollingUI) {
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
