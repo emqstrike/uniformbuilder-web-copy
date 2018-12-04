@@ -4333,9 +4333,9 @@ $(document).ready(function () {
                 return;
             }
 
-            if (_obj.name === "Extra") {
-                return;
-            }
+            if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
@@ -8797,7 +8797,8 @@ $(document).ready(function () {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
+            var _mascotID = ub.data.mascots[_randomIndex].id;
             var _size;
 
             ub.funcs.deActivateApplications();

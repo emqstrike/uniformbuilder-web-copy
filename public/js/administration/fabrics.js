@@ -33,14 +33,29 @@ $(document).ready(function(){
                 }
             });
         });
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
+
+            $(document).on('click', '.delete-fabric-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('fabric-id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/fabric/deleteImage";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
     });
+
     // $('.enable-fabric').on('click', function(){
     //     var id = $(this).data('fabric-id');
     //     var url = "//" + api_host + "/api/fabric/enable/";
@@ -97,7 +112,7 @@ $(document).ready(function(){
     //     });
     // });
 
-   
+
 
     // $('.delete-fabric-path').on('click', function(){
     //     var id = $(this).data('fabric-id');console.log(id);

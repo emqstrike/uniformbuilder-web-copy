@@ -2193,6 +2193,18 @@ $(document).ready(function() {
                 name: "Tennis",
                 alias: "tennis",
             },
+            { 
+                name: "SFN Jogger (Apparel)",
+                alias: "sfn-jogger",
+            },
+            { 
+                name: "Yoga Pant (Apparel)",
+                alias: "yoga-pant",
+            },
+            { 
+                name: "Tech Tee (eSports)",
+                alias: "gamer-jersey",
+            },
 
         ],
 
@@ -11234,6 +11246,11 @@ ub.funcs.fontOffSets = [
             sport: 'SFN Jogger (Apparel)',
             filters: ['All'],
         },
+        // eSports Uniform
+        {
+            sport: 'Tech Tee (eSports)',
+            filters: ['All'],
+        },
           
     ];
 
@@ -11704,103 +11721,122 @@ ub.funcs.fontOffSets = [
                 shortCode: 'crew-socks',
                 urlAlias: 'Crew Socks (Apparel)',
                 thumbFilename: 'crew_sock.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'hoodie',
                 urlAlias: 'Hoodie (Apparel)',    
                 thumbFilename: 'hoodie.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'football',
                 urlAlias: 'Football',    
                 thumbFilename: 'football.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'baseball',
                 urlAlias: 'Baseball',  
                 thumbFilename: 'baseball.png',  
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'wrestling',
                 urlAlias: 'Wrestling',  
                 thumbFilename: 'wrestling.png',  
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'hockey',
                 urlAlias: 'Hockey',  
                 thumbFilename: 'hockey.png',  
-                gender: ['men','women'],    
+                gender: ['men','women'],
             },
             {
                 shortCode: 'cinch-sack',
                 urlAlias: 'Cinch Sack (Apparel)',
                 thumbFilename: 'cinch_sack.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'one-fourth-zip-jacket',
                 urlAlias: 'Quarter Zip Jacket (Apparel)',
                 thumbFilename: '1-4 zip.png',
-                gender: ['men','women'],       
+                gender: ['men','women'],
             },
             {
                 shortCode: 'fan-replica-jersey',
                 urlAlias: 'Fan Replica Jersey (Apparel)',
                 thumbFilename: 'fan_replica.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'team-shorts',
                 urlAlias: '2017 Team Short with Pockets (Apparel)',
                 thumbFilename: 'team-short.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'signature-coaches-short',
                 urlAlias: 'Signature Coaches Short (Apparel)',
                 thumbFilename: 'signature-coaches-short.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'game-day-coaches-jackets',
                 urlAlias: 'Game Day Jackets (Apparel)',
                 thumbFilename: 'game-day-coaches-jackets.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'socks',
                 urlAlias: 'Socks (Apparel)',
                 thumbFilename: 'socks.png',
-                gender: ['men', 'women'],    
+                gender: ['men', 'women'],
             },
             {
                 shortCode: 'cage-jacket',
                 urlAlias: 'Cage Jacket (Apparel)',
                 thumbFilename: 'cage-jacket.png',
-                gender: ['men', 'women'],    
+                gender: ['men', 'women'],
             },
             {
                 shortCode: 'compression-pant',
                 urlAlias: 'Compression Pant (Apparel)',
                 thumbFilename: 'compression-pant.png',
-                gender: ['men',],    
+                gender: ['men',],
             },
             {
                 shortCode: 'field-hockey',
                 urlAlias: 'Field Hockey',
                 thumbFilename: 'field-hockey.png',
-                gender: ['women',],    
+                gender: ['women',],
             },
             {
                 shortCode: 'wrestling-compression-shorts',
                 urlAlias: 'Wrestling Compression Shorts (Apparel)',
                 thumbFilename: 'wrestling-compression-shorts.png',
-                gender: ['men',],    
+                gender: ['men',],
+            },
+            {
+                shortCode: 'sfn-jogger',
+                urlAlias: 'SFN Jogger (Apparel)',
+                // thumbFilename: '',
+                gender: ['men',],
+            },
+            {
+                shortCode: 'yoga-pant',
+                urlAlias: 'Yoga Pant (Apparel)',
+                // thumbFilename: '',
+                gender: ['women',],
+            },
+            // eSports
+            {
+                shortCode: 'gamer-jersey',
+                urlAlias: 'Tech Tee (eSports)',
+                // thumbFilename: '',
+                gender: ['men',],
             },
         ],
 
@@ -12116,6 +12152,7 @@ ub.funcs.fontOffSets = [
             'Cage Jacket (Apparel)',
             'Game Day Jackets (Apparel)',
             'Compression Pant (Apparel)',
+            'Tech Tee (eSports)',
         ],
         isNonTackleTwill: function (uniformCategory) {
 
