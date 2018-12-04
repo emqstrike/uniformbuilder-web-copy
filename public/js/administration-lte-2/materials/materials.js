@@ -56,6 +56,7 @@ $(document).ready(function() {
     getPatterns(function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
+    getFabrics(function(fabrics){ window.fabrics = fabrics; });
 
     console.log(window.tailsweeps);
 
@@ -1416,6 +1417,8 @@ $(document).ready(function() {
                 pattern_properties: ($(this).data('pattern-properties')),
                 default_display: ($(this).data('default-display')),
                 build_type: ($(this).data('build-type')),
+                pattern_opacity: ($(this).data('pattern-opacity')),
+                fabric_id: ($(this).data('default-fabric')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1464,6 +1467,12 @@ $(document).ready(function() {
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
+
+        if(material.option.pattern_opacity == null || material.option.pattern_opacity == "" || material.option.pattern_opacity == undefined) {
+            $('#pattern-opacity').val(100);
+        } else {
+            $('#pattern-opacity').val(material.option.pattern_opacity);
+        }
 
         $('#is_blend').prop('checked', false);
         $('#allow_pattern').prop('checked', false);
@@ -1542,7 +1551,17 @@ $(document).ready(function() {
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        // var patterns_dropdown = '<option value="0">None</option>';
+        var fabric_dropdown = '<option value="0">None</option>';
+
+        $.each(window.fabrics, function(i, fabric) {
+            if(fabric.id == material.option.fabric_id) {
+                console.log('selected shit');
+                fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
+            } else {
+                fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
+            }
+        });
+
         var patterns_dropdown = '';
         var patterns_dropdown_bpomatch = '<option value="0">None</option>';
         var patterns_dropdown_nobpomatch = '<option value="0">None</option>';
@@ -1599,6 +1618,9 @@ $(document).ready(function() {
             team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
             tid++;
         }
+
+        $('#default_fabric').html('');
+        $('#default_fabric').append( fabric_dropdown );
 
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
@@ -2603,6 +2625,23 @@ $(document).ready(function() {
             success: function(data){
                 patterns = data['patterns'];
                 if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
+
+    function getFabrics(callback){
+        var fabrics;
+        var url = "//" + api_host + "/api/fabrics";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fabrics = data['fabrics'];
+                if(typeof callback === "function") callback(fabrics);
             }
         });
     }
