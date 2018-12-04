@@ -83,7 +83,7 @@ ModifierController.prototype = {
         $('#property-modifiers-menu a').removeClass('active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
 
-        $(this).addClass('actiNC FLIGHTve');
+        $(this).addClass('active');
         $(this).css('pointer-events', "none");
     },
 
