@@ -1109,6 +1109,9 @@ $(document).ready(function () {
             if (sprite.ubName === "Delete Tool") {
 
                 ub.funcs.deleteLocation(_application.code);
+                if(ub.data.useScrollingUI) {
+                    ModifierController.deleteApplicationContainer(_application.code)
+                }
                 return;
 
             }

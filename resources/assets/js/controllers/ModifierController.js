@@ -262,4 +262,8 @@ ModifierController.scrollToOptions = function (application_type, application_id)
 
     $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
 
+};
+
+ModifierController.deleteApplicationContainer = function (application_id) {
+    $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
 }
