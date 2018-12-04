@@ -1373,16 +1373,12 @@ $(function() {
             }
 
             element.data('status', "off");
-            if (_settingsObj.application_type === "team_name") {
-                element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
-            }
+            element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
 
         } else {
 
             element.data('status', "on");
-            if (_settingsObj.application_type === "team_name") {
-                element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
-            }
+            element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
 
             ub.funcs.hideGAFontTool();
 

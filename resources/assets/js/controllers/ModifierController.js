@@ -83,7 +83,7 @@ ModifierController.prototype = {
         $('#property-modifiers-menu a').removeClass('active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
 
-        $(this).addClass('active');
+        $(this).addClass('actiNC FLIGHTve');
         $(this).css('pointer-events', "none");
     },
 
@@ -248,7 +248,6 @@ ModifierController.prototype = {
 };
 
 ModifierController.scrollToOptions = function (application_type, application_id) {
-    console.log('TYPE: ' + application_type)
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if (application_type === "team_name" || application_type === "player_name") {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
