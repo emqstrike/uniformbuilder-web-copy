@@ -11097,6 +11097,12 @@ ub.funcs.fontOffSets = [
                 type: 'lower',
                 lowerLabel: ' Pants',
             },
+            // eSports Uniform
+            {
+                sport: 'Tech Tee (eSports)',
+                type: 'upper',
+                lowerLabel: ' Jersey',
+            },
         ],
         getLabel: function (sport) {
 
