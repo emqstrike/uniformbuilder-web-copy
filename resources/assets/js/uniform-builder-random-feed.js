@@ -530,9 +530,10 @@ $(document).ready(function () {
 
         });
 
-        ub.current_material.settings.randomFeeds[randomFeedSet].enabled = 0;
-        ub.current_material.settings.randomFeeds[randomFeedSet].numberOfColors = 0;
-
+        if (typeof(ub.current_material.settings.randomFeeds[randomFeedSet]) !== "undefined") {
+            ub.current_material.settings.randomFeeds[randomFeedSet].enabled = 0;
+            ub.current_material.settings.randomFeeds[randomFeedSet].numberOfColors = 0;
+        }
     }
 
     ub.funcs.getMatchingSide = function (name) {

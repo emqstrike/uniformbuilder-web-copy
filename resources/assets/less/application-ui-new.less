@@ -1,8 +1,6 @@
 #primary_options_container {
-    background: white;
     height: 100% !important;
     max-height: 450px !important;
-    padding: 15px !important;
     overflow-x: hidden;
     -ms-overflow-x: hidden;
 
@@ -70,7 +68,7 @@
     }
 
     .active {
-        background: #e32139;
+        background: #333;
         color: white;
         //.borders(red);
     }
@@ -121,7 +119,7 @@
     .slidersContainer {
         display: block;
         width: 100%;
-        background: #f4f4f4;
+        background: transparent;
         margin: 15px 0 0 0;
         padding: 15px 30px;
 
@@ -211,4 +209,16 @@
 
 .add-new-application {
     margin-bottom: 15px;
+}
+
+div.options_panel_section#primary_options_container {
+    height: 100% !important;
+    max-height: 450px !important;
+    display: block !important;
+    padding: 10px;
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+
+    overflow-y: auto;
+    -ms-overflow-y: auto;
 }

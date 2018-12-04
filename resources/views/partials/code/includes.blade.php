@@ -42,3 +42,4 @@
 <script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
 
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
+<script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>

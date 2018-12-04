@@ -89,7 +89,7 @@ $(document).ready(function () {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
+                var views                   = ['front', 'back', 'left', 'right'];
                 var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
                 _.each(views, function (v) {
@@ -1015,6 +1015,11 @@ $(document).ready(function () {
           top: 254,
         });
 
+        var group   = new fabric.Group([bg], {
+          left: 28,
+          top: 254,
+        });
+
         group.selectable    = true;
         group.hasControls   = false;
         group.lockMovementX = true;
@@ -1031,18 +1036,32 @@ $(document).ready(function () {
         text.bringToFront();
         ub.data.patternToolTip = group;
         canvas.add(ub.data.patternToolTip);
-        //ub.data.patternToolTip.selectable = false;
+        // ub.data.patternToolTip.selectable = false;
         ub.data.patternToolTip.bringToFront();
 
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
 
         $('div.patternColorNavigator > div.left').on('click', function () {
 
+            // activate the color pickers if the selected pattern is blank
+            // see FEED-27 for details
+            if ( _.isEqual(_patternObj.name, 'Blank') || _.isEqual(_patternObj.pattern_id, 33) ) { 
+                ub.funcs.activateColorPickers(); 
+                return; 
+            }
+
             ub.funcs.moveToPreviousPatternColor(_patternObj);
 
         });
 
         $('div.patternColorNavigator > div.right').on('click', function () {
+
+            // activate the color pickers if the selected pattern is blank
+            // see FEED-27 for details
+            if ( _.isEqual(_patternObj.name, 'Blank') || _.isEqual(_patternObj.pattern_id, 33) ) { 
+                ub.funcs.activateColorPickers(); 
+                return; 
+            }
 
             ub.funcs.moveToNextPatternColor(_patternObj);
 

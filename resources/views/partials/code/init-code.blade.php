@@ -9,11 +9,11 @@
         window.is           = {};
 
         window.ub.config = {
-            brand: "{{ env('BRAND') }}",
+            brand: "{{ config('brand.name') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
-            api_host: "https://{{ env('API_HOST') }}",
-            asset_version: "{{$asset_version}}",
+            api_host: "{{ config('customizer.api_http_protocol') }}://{{ config('customizer.api_host') }}",
+            asset_version: "{{ $asset_version }}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
 
             material_id: {{ $material_id }},

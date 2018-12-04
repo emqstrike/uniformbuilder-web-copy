@@ -1968,6 +1968,7 @@ $(document).ready(function () {
                 sprite.ubHover = false;
 
                 if (application.type !== "mascot" && application.type !== "logo") {
+
                     if (ub.branding.useAlternativeUI) {
                         // Check if clicked application is TEAM NAME or PLAYER NAME,
                         if (application.type === "team_name" || application.type === "player_name") {
@@ -1985,17 +1986,17 @@ $(document).ready(function () {
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
-                } else {
-                    // ub.funcs.activateMascots(_id);
 
-                    if (ub.branding.useAlternativeUI) {
-                        // Trigger click on tab
-                        $('#new-toolbar > .group-7').trigger('click')
-                        // Scroll to application's settings
-                        $('.modifier_main_container').scrollTo($('div[data-application-id=' + _id + '].applicationUIBlock'))
-                    } else {
-                        ub.funcs.activateMascots(locationCode);
+                } else {
+                    // Check if scrolling UI is active
+                    if (ub.data.useScrollingUI) {
+                        $("#primary_options_container").scrollTo(0, { duration: 0 });
+                        $("#parts-with-insert-container").hide();
+                        $(".parts-container").hide();
+                        ub.funcs.activeStyle('layers');
                     }
+
+                    ub.funcs.activateMascots(_id);
                 }
 
             }
@@ -3950,108 +3951,110 @@ $(document).ready(function () {
 
         ub.stage.on('mousedown', function (mousedata) {
 
-            if (ub.tools.activeTool.active()) {
-                return;
-            }
-
-            if (ub.status.fullView.getStatus()) {
-
-                if (ub.status.fullViewZoom.getStatus()) {
-
-                    // Turn Off Full View Zoom
-                    ub.funcs.resetZoom();
-                    ub.status.fullViewZoom.setStatus(false, undefined);
-
-                } else {
-
-                    // Zoom View Depending on the area that was clicked
-                    ub.funcs.resetZoom();
-
-                    var _view = ub.funcs.getZoomView(mousedata.data.global)
-
-                    if (typeof _view !== "undefined") {
-
-                        ub.funcs.hideViews();
-                        ub.funcs.zoomView(_view);
-
-                    }
-
-                    ub.status.fullViewZoom.setStatus(true, _view);
-
-                }
-
-                return;
-
-            }
-
-            if (ub.zoom) {
-
-                ub.zoom_off();
-                return;
-
-            }
-
-            ub.funcs.hideVisiblePopups();
-
-            if (typeof ub.activeApplication !== "undefined") {
-                return;
-            }
-
-            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
-
-                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
-                if (_sizeOfTeamColors < 2) {
-                    ub.startModal(1);
+            if (!ub.data.useScrollingUI) {
+                if (ub.tools.activeTool.active()) {
                     return;
                 }
 
-                if (!ub.branding.useAllColors) {
-                    if (_sizeOfTeamColors > 8) {
-                        ub.startModal(2);
+                if (ub.status.fullView.getStatus()) {
+
+                    if (ub.status.fullViewZoom.getStatus()) {
+
+                        // Turn Off Full View Zoom
+                        ub.funcs.resetZoom();
+                        ub.status.fullViewZoom.setStatus(false, undefined);
+
+                    } else {
+
+                        // Zoom View Depending on the area that was clicked
+                        ub.funcs.resetZoom();
+
+                        var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                        if (typeof _view !== "undefined") {
+
+                            ub.funcs.hideViews();
+                            ub.funcs.zoomView(_view);
+
+                        }
+
+                        ub.status.fullViewZoom.setStatus(true, _view);
+
+                    }
+
+                    return;
+
+                }
+
+                if (ub.zoom) {
+
+                    ub.zoom_off();
+                    return;
+
+                }
+
+                ub.funcs.hideVisiblePopups();
+
+                if (typeof ub.activeApplication !== "undefined") {
+                    return;
+                }
+
+                var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+                var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+
+                if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
+
+                    //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                    if (_sizeOfTeamColors < 2) {
+                        ub.startModal(1);
                         return;
+                    }
+
+                    if (!ub.branding.useAllColors) {
+                        if (_sizeOfTeamColors > 8) {
+                            ub.startModal(2);
+                            return;
+                        }
+                    }
+
+                }
+
+                /// Check if CW if empty, draw Pickers if it is
+                if ($('div#cw').length) {
+                    if ($('div#cw').html().length === 0) {
+
+                        ub.funcs.drawColorPickers();
+
                     }
                 }
 
-            }
+                var current_coodinates = mousedata.data.global;
+                var results = ub.funcs.withinMaterialOption(current_coodinates);
 
-            if (! ub.branding.useAlternativeUI) {
-                /// Check if CW if empty, draw Pickers if it is
-                if ($('div#cw').html().length === 0) {
+                if (results.length > 0) {
 
-                    ub.funcs.drawColorPickers();
+                    ub.states.canDoubleClick = true;
+
+                    var _originalName = _.first(results).name;
+
+                    // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+                    // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+                    // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+                    // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+
+                    var _match = _.first(results).name.toCodeCase();
+                    var _result = _match.replace('right_', 'left_');
+                    var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                    var _index = ub.funcs.getIndexByName(_result);
+
+                    ub.funcs.activatePartByIndex(_index);
 
                 }
-            }
+                else {
 
-            var current_coodinates = mousedata.data.global;
-            var results = ub.funcs.withinMaterialOption(current_coodinates);
+                    ub.funcs.clickOutside();
 
-            if (results.length > 0) {
-
-                ub.states.canDoubleClick = true;
-
-                var _originalName = _.first(results).name;
-
-                // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
-                // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
-                // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
-                // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
-
-                var _match = _.first(results).name.toCodeCase();
-                var _result = _match.replace('right_', 'left_');
-                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
-                var _index = ub.funcs.getIndexByName(_result);
-
-                ub.funcs.activatePartByIndex(_index);
-
-            }
-            else {
-
-                ub.funcs.clickOutside();
-
+                }
             }
 
         });
@@ -4517,7 +4520,8 @@ $(document).ready(function () {
             }
 
             ub.funcs.deactivateMoveTool();
-            if (! ub.branding.useAlternativeUI) {
+        
+            if ($('div#cw').length) {
                 if ($('div#cw').html().length === 0) {
                     ub.funcs.drawColorPickers();
                 }
@@ -4846,6 +4850,8 @@ $(document).ready(function () {
         $('a.change-view[data-view="layers"]').removeClass('active-change-view');
         $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view');
         $('a.change-view[data-view="patterns"]').removeClass('active-change-view');
+        // Aron Joshua
+        $('a.change-view[data-view="inserts"]').removeClass('active-change-view');
 
         $('a.change-view[data-view="' + tab + '"]').addClass('active-change-view');
 
@@ -12617,7 +12623,7 @@ $(document).ready(function () {
             ub.funcs.activateFreeApplication(_appCode);
 
         } else {
-
+            console.log("Activate Manipulator");
             ub.funcs.activateApplications(_appCode);
 
         }
@@ -13426,6 +13432,10 @@ $(document).ready(function () {
                 break;
 
             case 'namedrops':
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                break;
+
+            case 'logos':
                 _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 

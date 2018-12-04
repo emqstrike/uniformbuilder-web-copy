@@ -557,7 +557,7 @@ $(function() {
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
                 _html += '<div class="colorSelectionContainer">';
-                _html += '<h4>'+_title+'</h4>';
+                _html += '<h4 class="app-letters-subtitle">'+_title+'</h4>';
                 _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
                 _.each(_settingsObject.mascot.layers_properties, function (layer) {
@@ -590,7 +590,7 @@ $(function() {
         } else {
 
             _html += '<div class="colorSelectionContainer">';
-            _html += '<h5>'+_title+'</h5>';
+            _html += '<h5 class="app-letters-subtitle">'+_title+'</h5>';
             _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
             _.each(_settingsObject.accent_obj.layers, function (layer) {
