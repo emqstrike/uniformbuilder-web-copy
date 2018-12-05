@@ -13422,7 +13422,7 @@ $(document).ready(function () {
                 break;
 
             case 'gradients':
-                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 10;
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 
             default:

@@ -38,6 +38,7 @@
                     data-color-code="@{{ color_code }}"
                     data-color-id="@{{ id }}"
                     data-layer-name="@{{ layer }}"
+                    data-modifier="@{{ modifier }}"
                 >
                 </button>
             </div>

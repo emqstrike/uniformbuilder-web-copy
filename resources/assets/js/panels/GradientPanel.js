@@ -27,10 +27,9 @@ GradientPanel.events = {
 
     init: function() {
         if (GradientPanel.events.is_init_events_called === 0) {
-            $(".gradient-container-button").on('click', '.gradient-selector-button', GradientPanel.events.onSelect);
+            $(".color_element").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
             $(".pattern-modal-selector-container").on('click', '.edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
             $(".gradient-color-picker-1-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor1);
-
             $(".gradient-color-picker-2-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor2);
             GradientPanel.events.is_init_events_called = 1;
         }
@@ -39,22 +38,28 @@ GradientPanel.events = {
     onSelect: function() {
         var index = $(this).data("modifier-index");
         var modifier_category = $(this).data("modifier-category");
+        var modifier_index = $(this).data("modifier-index");
         var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
 
         selected_pattern.removeClass('active-pattern');
         selected_pattern.html("");
 
-        var gradientObject = ub.data.gradients[0];
+        var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
+        var modifierTitle = ub.utilities.titleCase(modifier)
 
-        GradientPanel.utilities.renderGradient(gradientObject, index)
+
+        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier_index);
 
         $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal-button' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'>Edit Gradient Color</button>");
-
         $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
         $(this).addClass('active-pattern');
     },
 
     onEditGradientColor: function () {
+        var modifier_category = $(this).data("modifier-category");
+        var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
+        var modifierTitle = ub.utilities.titleCase(modifier);
         var items = ub.data.gradientColorLayerFilter.getColors();
         var colors = [];
 
@@ -68,23 +73,25 @@ GradientPanel.events = {
         var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
         var render = Mustache.render(gradient_color_element, {
             colors: colors,
-            layer: "Layer 1"
+            layer: "Layer 1",
+            modifier: modifierTitle
         });
 
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html("");
+        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html("");
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html(render);
 
         $('#gradient-change-color-modal').modal('show');
     },
 
     onSelectColor1: function() {
+        var layerID = 1;
         var color_code = $(this).data("color-code");
+        var modifier = $(this).data("modifier");
         var items = ub.data.gradientColorLayerFilter.getSecondaryColor(color_code);
         var colors = [];
-
-        var selected_color = $(".gradient-color-picker-1-container .gradient-color-main-container").find(".active-color-1");
-        selected_color.html("");
-        selected_color.removeClass('active-color-1');
+        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifier);
+        var modifierObject = _.find(ub.data.modifierLabels, {name: modifier});
 
         _.each(items.color2, function(index, el) {
             var colorObj = ub.funcs.getColorByColorCode(index);
@@ -96,11 +103,18 @@ GradientPanel.events = {
         var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
         var render = Mustache.render(gradient_color_element, {
             colors: colors,
-            layer: "Layer 2"
+            layer: "Layer 2",
+            modifier: modifier
         });
+
+        var selected_color = $(".gradient-color-picker-1-container .gradient-color-main-container").find(".active-color-1");
+        selected_color.html("");
+        selected_color.removeClass('active-color-1');
 
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html("");
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html(render);
+
+        GradientPanel.utilities.changeGradientColor(gradientObjectSettings, 1, color_code, modifierObject.index);
 
         GradientPanel.events.checkModifier($(this), color_code);
         $(this).addClass('active-color-1');
@@ -110,6 +124,11 @@ GradientPanel.events = {
         var color_code = $(this).data("color-code");
         var color_id = $(this).data("color-id");
         var layer = $(this).data("layer-name");
+        var modifier = $(this).data("modifier");
+        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifier);
+        var modifierObject = _.find(ub.data.modifierLabels, {name: modifier});
+
+        GradientPanel.utilities.changeGradientColor(gradientObjectSettings, 2, color_code, modifierObject.index);
 
         var selected_color = $(".gradient-color-picker-2-container .gradient-color-main-container").find(".active-color-2");
         selected_color.html("");
@@ -143,42 +162,25 @@ GradientPanel.utilities = {
             gradient = JSON.parse(gradient);
 
             ub.data.gradients = gradient;
-
-            _.each(ub.data.gradients, function(index, el) {
-                ub.data.gradients[el].name = index.files[el].file;
-            });
         }
     },
 
     processGradientColor: function(gradients) {
         if (!util.isNullOrUndefined(gradients)) {
             _.each(gradients, function(gradient) {
-                var _layerCount = 0;
-
-                if (gradient.layer1) { _layerCount += 1 };
-                if (gradient.layer2) { _layerCount += 1 };
-                if (gradient.layer3) { _layerCount += 1 };
-
-                gradient.colors_array = [
-                    "W",
-                    "NB",
-                    "R"
-                ];
-
                 var _colorArray = [];
                 var _layers = [];
 
-                // Normalize Logo Position From source
-                // _.each (logo.perspectives, function (perspective) {
-                //     _.each(perspective.layers, function (layer) {
-                //         layer.position = layer.position;
-                //     });
-                // });
+                // Normalize Piping Position From source
+                _.each (gradient.perspectives, function (perspective) {
+                    _.each(perspective.layers, function (layer) {
+                        layer.position = layer.position;
+                    });
+                });
 
-                // Process color array
+                // Manage Color Array
                 if (typeof gradient.colors_array !== "undefined") {
                     _.each(gradient.colors_array, function (color, index) {
-
                         var _color = ub.funcs.getColorByColorCode(color);
                         _colorArray.push(_color);
                         _layers.push({
@@ -186,100 +188,76 @@ GradientPanel.utilities = {
                             colorObj: _color,
                             layer: index + 1,
                             status: false,
+                            filename: gradient.perspectives[0].layers[index].filename
                         });
                     });
-
                 } else {
-
-                    console.log('No Color Array for ' + gradient.name);
+                    console.warn('No Color Array for ' + gradient.position);
                 }
 
-                var _hasSavedGradientData = (typeof ub.current_material.settings.gradients[gradient.name] !== "undefined");
+                var _hasSavedGradientData = (typeof ub.current_material.settings.gradients[gradient.position] !== "undefined");
 
                 if (_hasSavedGradientData) {
                     return;
                 }
 
                 if (!_hasSavedGradientData && gradient.enabled === 1) {
-                    ub.current_material.settings.gradients[gradient.name] = {
-                        numberOfLayers: _layerCount,
-                        position: gradient.name,
-                        layers: _layers
+                    ub.current_material.settings.gradients[gradient.position] = {
+                        position: gradient.position,
+                        layers: _layers,
                     }
 
-                    ub.current_material.settings.gradients[gradient.name].enabled = gradient.enabled;
-                    ub.current_material.settings.gradients[gradient.name].numberOfLayers = _layerCount;
-
+                    ub.current_material.settings.gradients[gradient.position].enabled = gradient.enabled;
                     var gradientObject = gradient;
+                    var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(gradientObject.position)
+                    var modifier = undefined;
 
-                    console.log(gradientObject)
-                    var gradientSettingsObject = GradientPanel.utilities.getGradientSettingsObject(gradient.name);
-                    if (ub.current_part === 0) {
-                        ub.current_part += 1;
+                    if (gradient.position.includes("Right") || gradient.position.includes("Left")) {
+                        modifier = _.find(ub.data.modifierLabels, {name: "Sleeve"});
+                    } else {
+                        modifier = _.find(ub.data.modifierLabels, {name: gradient.position});
                     }
-                    GradientPanel.utilities.renderGradient(gradient, ub.current_part);
+
+                    GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier.index);
                 }
             });
-
         } else {
-
             ub.utilities.info('This uniform has no Gradient.');
-
         }
     },
 
-    applyGradientColor: function(gradientObject, _layerCount, perspective, gradientSettingsObject) {
-        var sprite;
-        var gradientObject = gradientObject;
-        var settings = ub.current_material.settings;
-        var view = ub[perspective + '_view'];
-        var view_objects = ub.objects[perspective + '_view'];
-        var container = ub.objects.front_view.front_body_mask;
-        var elements = "";
-        var _frontObject = _.find(gradientObject.files, {file: perspective});
+    getGradientSettingsObject: function(name) {
+        if (typeof ub.current_material.settings.gradients[name] === "undefined") {
+            var _layers = [];
+            var gradientObject = _.find(ub.data.gradients, {position: name})
 
-        if (typeof _frontObject !== "undefined") {
-            _.each(_frontObject.layers.slice(0).reverse(), function(layer, index) {
-                var _layerSettings = _.find(gradientSettingsObject.layers, {layer: layer.layer});
-                var gradientLayer = ub.pixi.new_sprite(layer.filename);
-                gradientLayer.ubName = 'Layer ' + (index + 1);
-                gradientLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
+            if (typeof gradientObject.colors_array !== "undefined") {
+                _.each(gradientObject.colors_array, function (color, index) {
+                    var _color = ub.funcs.getColorByColorCode(color);
+                    _layers.push({
+                        colorCode: color,
+                        colorObj: _color,
+                        layer: index + 1,
+                        status: false,
+                        filename: gradientObject.perspectives[0].layers[index].filename
+                    });
+                });
+            } else {
+                console.warn('No Color Array for ' + gradient.position);
+            }
 
-                if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
+            ub.current_material.settings.gradients[name] = {
+                enabled: 0,
+                layers: _layers,
+                position: name
+            };
 
-                    gradientLayer.alpha = 0;
-
-                } else {
-
-                    gradientLayer.alpha = 1;
-                }
-
-                container.addChild(gradientLayer);
-                gradientLayer.zIndex = layer.position;
-            });
-        } else {
-            return;
         }
 
-        sprite = container;
-
-        ub.updateLayersOrder(sprite);
-
-        var _gradientLengthBefore = _.filter(ub.current_material.settings.gradients, {enabled: 1}).length;
-
-        ub.current_material.containers[gradientObject.name] = {};
-        ub.current_material.containers[gradientObject.name].gradientObject = sprite;
-
-        var temp                    = {};
-        var layer_order             = ( ub.funcs.generateZindex('gradients') + _gradientLengthBefore + 1);
-
-        sprite.originalZIndex       = layer_order * (-1);
-        sprite.zIndex               = layer_order * (-1);
-
-        return sprite;
+        return ub.current_material.settings.gradients[name];
     },
 
-    renderGradient: function(gradientObject, index) {
+    renderGradient: function(gradientObjectSettings, index) {
         var _modifier                   = ub.funcs.getModifierByIndex(index);
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
@@ -290,7 +268,7 @@ GradientPanel.utilities = {
             var _materialOptions        = ub.funcs.getMaterialOptions(name.toTitleCase());
 
             materialOption              = _materialOptions[0];
-            outputPatternObject         = GradientPanel.utilities.convertGradientObjectForMaterialOption(gradientObject, materialOption);
+            outputPatternObject         = GradientPanel.utilities.convertGradientObjectForMaterialOption(gradientObjectSettings, materialOption);
             _settingsObject.gradient     = outputPatternObject;
             e = _settingsObject;
 
@@ -298,48 +276,20 @@ GradientPanel.utilities = {
         });
     },
 
-    getGradientSettingsObject: function(name) {
-        if (typeof ub.current_material.settings.gradients[name] === "undefined") {
-            ub.current_material.settings.gradients[name] = {
-                enabled: 0,
-                numberOfLayers: 0,
-                layers: [
-                    {
-                        layer: 1,
-                        status: false,
-                        colorCode: ''
-                    },
-                    {
-                        layer: 1,
-                        status: false,
-                        colorCode: ''
-                    },
-                    {
-                        layer: 1,
-                        status: false,
-                        colorCode: ''
-                    }
-                ]
-            };
-        }
-
-        return ub.current_material.settings.gradients[name];
-    },
-
-    convertGradientObjectForMaterialOption: function(gradientObject, materialOption) {
-        var gradientPropertiesParsed     = gradientObject;
+    convertGradientObjectForMaterialOption: function(gradientObjectSettings, materialOption) {
+        var gradientPropertiesParsed     = gradientObjectSettings;
         var _rotationAngle              = ub.funcs.translateAngle(materialOption.angle);
 
         if (materialOption.pattern_id === null) { return undefined; }
 
         var _gradientObject  = {
-            gradient_id: gradientObject.name,
+            gradient_id: gradientObjectSettings.position,
             scale: 0,
             rotation: ub.funcs.translateAngle(materialOption.angle),
             opacity: 0,
             position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
             gradient_obj : {
-                name: gradientObject.name,
+                name: gradientObjectSettings.position,
                 layers: [],
                 scale: 0,
                 rotation: 0,
@@ -348,9 +298,9 @@ GradientPanel.utilities = {
             }
         };
 
-        _.each(gradientObject.files[0].layers.slice(0).reverse(), function(_property, index) {
+        _.each(gradientObjectSettings.layers.slice(0).reverse(), function(_property, index) {
             var _layer = {
-                color_code: ub.funcs.getColorByColorCode(gradientObject.colors_array[index]),
+                color_code: _property.colorObj,
                 layer_no: _property.layer.toString(),
                 filename: _property.filename,
                 container_position: {
@@ -388,7 +338,7 @@ GradientPanel.utilities = {
 
             _extra = ub.getAngleofPattern(v, target_name)
             if (typeof _extra !== 'undefined') {
-                _rotationAngle = _extra.angle;    
+                _rotationAngle = _extra.angle;
             }
             else {
                 _rotationAngle = 0;
@@ -416,9 +366,9 @@ GradientPanel.utilities = {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
                     if (typeof layer.team_color_id !== "undefined") {
-                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };
                     } else {
-                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                     }
                 }
 
@@ -481,7 +431,7 @@ GradientPanel.utilities = {
         });
     },
 
-    setMaterialOptionGradientColor: function(materialOption, colorObj, layerID, patternObj) {
+    setMaterialOptionGradientColor: function(materialOption, colorObj, layerID,  ) {
         var _materialOption = materialOption;
         var _colorOBJ = colorOBJ;
         var _layerID = layerID;
@@ -517,5 +467,25 @@ GradientPanel.utilities = {
                 });
             });
         })
+    },
+
+    changeGradientColor: function(gradientObjectSettings, layerID, color_code, index) {
+        var colorOBJ = ub.funcs.getColorByColorCode(color_code);
+        var layerSetting = _.find(gradientObjectSettings.layers, {layer: layerID});
+
+        if (color_code === 1) {
+            var secondLayer = _.find(gradientObjectSettings.layers, {layer: 2});
+            if (typeof secondLayer !== "undefined") {
+                secondLayer.colorCode = "none";
+                secondLayer.colorObj = "";
+            }
+        }
+
+        if (typeof layerSetting !== "undefined") {
+            layerSetting.colorCode = color_code;
+            layerSetting.colorObj = colorOBJ;
+        }
+
+        GradientPanel.utilities.renderGradient(gradientObjectSettings, index);
     }
 }
