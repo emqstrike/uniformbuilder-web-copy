@@ -25,7 +25,11 @@ $(document).ready(function() {
 
         },
 
-    }
+    };
+
+    ub.fabric.getFabricInfo = function (fabric_id) {
+
+    };
 
     ub.fabric.defaultFabric = function () {
 
@@ -39,7 +43,9 @@ $(document).ready(function() {
                 layer: mo.layer_level,
                 default_asset: mo.default_asset,
                 perspective: mo.perspective, 
-            }
+                fabric_id: mo.fabric_id,
+                fabric: ub.fabric.getFabricInfo(mo.fabric_id)
+            };
         });
 
         var _uniqIDS = _.uniq(_.pluck(_filteredFields, "layer"));

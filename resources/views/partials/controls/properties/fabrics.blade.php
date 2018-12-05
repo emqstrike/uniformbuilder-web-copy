@@ -5,12 +5,12 @@
 
         <div class="fabric-layers">
             @{{ #fabric_layers }}
-                <div class="fabric-layer" data-layer="@{{ layer }}">
+                <div class="fabric-layer" data-layer-id="@{{ layer_id }}">
                     <div class="image-wrapper">
-                        <img src="http://34.212.160.37/img/fabric-texture.jpg" class="img-responsive" alt="" />
+                        <img src="@{{ thumbnail }}" class="img-responsive @{{ class_active }}" alt="" />
                     </div>
                     <div class="fabric-description">
-                        <h4 class="fabric-layer-title">@{{ layer_title }} (@{{ layer_code }})</h4>
+                        <h4 class="fabric-layer-title">@{{ layer_title }} (@{{ layer_abbr }})</h4>
 
                         <ul class="description-list">
                             @{{ #description_list }}

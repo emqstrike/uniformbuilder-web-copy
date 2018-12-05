@@ -124,8 +124,6 @@ ModifierController.prototype = {
 
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         propertiesPanel.setBodyPanel(fabric_panel);
-
-        FabricPanel.setInitialState();
     },
 
     parts: function() {

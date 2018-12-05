@@ -1,18 +1,6 @@
 function FabricPanel(element) {
     this.panel = document.getElementById(element);
-    this.items = {
-        fabric_layers: [
-            {
-                layer: "solid",
-                layer_title: "Solid",
-                layer_code: "100 - 101",
-                description_list: [
-                    {description: "hello"},
-                    {description: "world"}
-                ]
-            }
-        ]
-    };
+    this.items = {};
 
     FabricPanel.events.init();
 }
@@ -26,14 +14,29 @@ FabricPanel.prototype = {
     },
 
     setItems: function() {
-        this.items = {};
+        var default_fabric = FabricPanel.getDefaultFabric();
 
-        var highlightsAndShadows = FabricPanel.getHighlightAndShadows();
-        var fabric_ids = _.uniq(_.pluck(highlightsAndShadows, "layer_level"));
+        this.items.fabric_layers = _.map(FabricPanel.getFabrics(FabricPanel.getMaterialOptionsOfFabrics()), function(layer) {
+            var dummy_thumbnail = ["fabric-texture", "fabric-texture-2", "fabric-texture-3"];
+            var pick_thumbnail = dummy_thumbnail[Math.floor(Math.random() * 3)];
+
+            return {
+                layer_id: layer.id,
+                layer_title: layer.material,
+                layer_abbr: layer.material_abbreviation,
+                thumbnail: "http://34.212.160.37/img/" + pick_thumbnail + ".jpg",
+                class_active: layer.id == default_fabric.id ? "active" : "",
+                description_list: [
+                    {description: layer.material},
+                    {description: layer.material_abbreviation},
+                    {description: "lorem ipsum dolor"},
+                ]
+            };
+        });
     },
 
     getFabric: function() {
-        var active_fabrics = FabricPanel.getHighlightAndShadows(1);
+        var active_fabrics = FabricPanel.getMaterialOptionsOfFabrics(1);
 
         var fabric_ids = _.uniq(_.pluck(active_fabrics, "layer_level"));
 
@@ -94,40 +97,52 @@ FabricPanel.events = {
     }
 };
 
-FabricPanel.setInitialState = function() {
-    var default_fabric = ub.fabric.defaultFabric();
-
-    $('#primary_options_container .fabric-layer .image-wrapper img').removeClass('active');
-
-    switch(default_fabric) {
-        case "one":
-            $('#primary_options_container .fabric-layer[data-layer="'+FabricPanel.FABRIC_SOLID+'"] .image-wrapper img').addClass('active');
-            break;
-
-        case "two":
-            $('#primary_options_container .fabric-layer[data-layer="'+FabricPanel.FABRIC_ALL_MESH+'"] .image-wrapper img').addClass('active');
-            break;
-
-        case "three":
-            $('#primary_options_container .fabric-layer[data-layer="'+FabricPanel.FABRIC_MIXED+'"] .image-wrapper img').addClass('active');
-            break;
-    }
-};
-
 FabricPanel.changeFabricVisible = function(fabric_ids) {
     _.each(ub.fabric.fabricCollections, function (fc) {
         fc.obj.visible = _.contains(fabric_ids, fc.id);
     });
 };
 
-FabricPanel.getHighlightAndShadows = function(default_asset) {
-    var highlightsAndShadows = _.filter(ub.current_material.materials_options, function (mo) {
-        var condition = mo.name === "Highlights" || mo.name === "Shadows";
+FabricPanel.getMaterialOptionsOfFabrics = function(default_asset) {
+    default_asset = typeof(default_asset) !== "undefined" ? default_asset : null;
 
-        return typeof default_asset === "undefined" ?
-                condition :
-                condition && mo.default_asset === default_asset;
+    var fabrics = _.filter(ub.current_material.materials_options, function (mo) {
+        var is_fabric = mo.name === "Highlights" || mo.name === "Shadows";
+
+        if (default_asset !== null) {
+            var is_default_asset = mo.default_asset === default_asset;
+
+            return is_fabric && is_default_asset;
+        }
+
+        return is_fabric;
     });
 
-    return highlightsAndShadows;
+    return fabrics;
+};
+
+/**
+ * @param  array mo_fabrics  material options of fabrics
+ * @return array
+ */
+FabricPanel.getFabrics = function(mo_fabrics) {
+    // filter no zero fabric id
+    mo_fabrics = _.filter(mo_fabrics, function(fabric) {
+        return fabric.fabric_id !== 0;
+    });
+
+    var uniq_fabric_ids = _.uniq(_.pluck(mo_fabrics, 'fabric_id'));
+
+    var fabrics = _.filter(ub.current_material.fabrics, function(fabric) {
+        return _.contains(uniq_fabric_ids, parseInt(fabric.id));
+    });
+
+    return fabrics;
+};
+
+FabricPanel.getDefaultFabric = function() {
+    var mo_fabrics = FabricPanel.getMaterialOptionsOfFabrics(1);
+    var fabrics = FabricPanel.getFabrics(mo_fabrics);
+
+    return !_.isEmpty(fabrics) ? fabrics[0] : null;
 };
