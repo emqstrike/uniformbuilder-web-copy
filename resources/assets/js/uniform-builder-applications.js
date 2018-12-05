@@ -4642,8 +4642,9 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id         = settingsObj.id;
+        var _id         = settingsObj.code;
         var _length     = 'short';
 
         ub.funcs.removeApplicationByID(_id);
@@ -7544,8 +7545,11 @@ $(document).ready(function() {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
+                if (_.contains(_settingsObj.validApplicationTypes, 'number')) {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj)
+                }
+                ub.updateLayersOrder(ub[_view]);
                 
             } else {
 
