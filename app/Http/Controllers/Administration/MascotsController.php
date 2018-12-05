@@ -450,7 +450,8 @@ class MascotsController extends Controller
             'code' => $code,
             'category' => $category,
             'layers_properties' => $layersProperties,
-            'user_id' => $artworkUserId
+            'user_id' => $artworkUserId,
+            'brand' => $request->input('brand')
         ];
 
         $id = null;
