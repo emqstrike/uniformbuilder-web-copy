@@ -12436,6 +12436,47 @@ ub.funcs.fontOffSets = [
 
             return false;
         }
+    },
+
+    ub.data.gradientColorLayerFilter = {
+        items: [
+            {
+                color1: "R",
+                color2: ["GR"]
+            },
+            {
+                color1: "B",
+                color2: ["R", "O", "G", "GR"]
+            },
+            {
+                color1: "W",
+                color2: ["B", "NB", "RB", "R", "DG"]
+            },
+            {
+                color1: "CG",
+                color2: ["R", "NB", "RB", "R"]
+            },
+            {
+                color1: "NB",
+                color2: ["GR", "R"]
+            },
+            {
+                color1: "RB",
+                color2: ["GR", "R"]
+            },
+        ],
+
+        getColors: function() {
+            return this.items;
+        },
+
+        getSecondaryColor: function(color1) {
+            var _result = undefined;
+
+            _result = _.find(this.items, {color1: color1});
+
+            return _result;
+        }
     }
 
 });

@@ -136,6 +136,7 @@ ModifierController.prototype = {
 
         // Bind Events
         propertiesPanel.bindEvents();
+        GradientPanel.events.init();
 
         $("#primary_options_container").scrollTo(0);
     },

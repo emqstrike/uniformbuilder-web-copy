@@ -3605,5 +3605,6 @@
 @include('partials.controls.properties.inserts')
 @include('partials.controls.properties.numbers')
 @include('partials.controls.properties.logo')
+@include('partials.controls.properties.gradient')
 
 @include('partials.controls.team-store-products-picker')

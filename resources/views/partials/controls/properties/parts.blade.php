@@ -55,6 +55,19 @@
                                     </div>
                                 </div>
                             @{{ /patterns }}
+                                <div class="color_element">
+                                    <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
+                                        <button
+                                            class="grow change-color whitebtn cp-new-color-box gradient-selector-button"
+                                            style="background-image: linear-gradient(red, yellow)"
+                                            data-gradient-name="gradient"
+                                            data-modifier-category="@{{ fullname }}"
+                                            data-modifier-index="@{{ index }}"
+                                        >
+                                        </button>
+                                        <p class="cp-fc-white">Gradient</p>
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>
