@@ -1975,7 +1975,7 @@ $(document).ready(function () {
                     if (ub.data.useScrollingUI) {
                         ModifierController.scrollToOptions(application.type, _id);
                     } else {
-                        ub.funcs.activateApplications(_settingsObject.code);
+                        ub.funcs.activateApplications(application.code);
                     }
 
                 } else {

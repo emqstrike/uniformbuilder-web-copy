@@ -427,6 +427,7 @@ $(function() {
     // Show group 5 contents
     ub.funcs.startNewApplicationLetters = function () {
         $('#mod_primary_panel > .modifier_main_container').empty();
+        $('.modifier_main_container').scrollTop(0);
 
         // get applications and filter
         var _Applications = ub.current_material.settings.applications;
@@ -485,6 +486,7 @@ $(function() {
 
     ub.funcs.startNewApplicationNumbers = function () {
         $('#mod_primary_panel > .modifier_main_container').empty();
+        $('.modifier_main_container').scrollTop(0);
 
         // get applications and filter
         var _Applications = ub.current_material.settings.applications;

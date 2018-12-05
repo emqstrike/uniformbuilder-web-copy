@@ -185,6 +185,7 @@ $(function() {
 
         // clear contents
         $('#mod_primary_panel > .modifier_main_container').empty();
+        $('.modifier_main_container').scrollTop(0);
 
         // get applications and filter
         var _Applications = ub.current_material.settings.applications;
@@ -198,6 +199,8 @@ $(function() {
 
         // getting only data that i need
         _.map(_filteredApplications, function (i) {
+            _generateSizes = ub.funcs.getGeneratedObjectSizes(i)
+
             if (i.application_type === 'embellishments') {
                 var objCustom = {
                     thumbnail: i.embellishment.thumbnail,
@@ -208,7 +211,8 @@ $(function() {
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
-                    sliderContainer: ub.funcs.sliderContainer(i.code)
+                    sliderContainer: ub.funcs.sliderContainer(i.code),
+                    generateSizes: _generateSizes
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -221,7 +225,8 @@ $(function() {
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
+                    generateSizes: _generateSizes
                 };
                 _appData.push(objStock);
             }
