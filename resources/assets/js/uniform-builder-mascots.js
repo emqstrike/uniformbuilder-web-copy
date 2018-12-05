@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         // Hide Richardson Mascots #Richardson #BrandSpecific
 
-        if (ub.config.brand.toLowerCase() === "prolook") {
+        if (ub.current_material.material.brand === "prolook") {
 
             if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
             
@@ -28,7 +28,7 @@ $(document).ready(function() {
         } else {
 
             ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
-                if (mascot.brand === ub.config.brand.toLowerCase()) { return mascot; }
+                if (mascot.brand ===ub.current_material.material.brand) { return mascot; }
             });
 
         }
