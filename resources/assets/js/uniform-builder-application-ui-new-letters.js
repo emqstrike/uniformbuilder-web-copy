@@ -1396,8 +1396,9 @@ $(function() {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
+                ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+                ub.updateLayersOrder(ub[_view]);
 
             } else {
 
