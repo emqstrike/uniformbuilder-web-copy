@@ -71,12 +71,7 @@ NumberPanel.prototype = {
         _.each(applications, function(appl) {
             appl.fonts = _this.getFontsList();
             appl.accents = _this.getAccentsList(appl);
-            appl.slider = true;
-            appl.fonts = true;
-            appl.slider = true;
-            appl.colorPicker = true;
         });
-        console.log(applications);
 
         return applications;
     },

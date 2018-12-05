@@ -3,6 +3,8 @@
  * - Modifier switcher
  * @since October 23, 2018
  * @author Romack Natividad <romack@qstrike.com>
+ * @author Aron Bagtas <aron@qstrike.com>
+ * @author Rodrigo Galura <rodrigo@qstrike.com>
  *
  * Required:
  *  jQuery, Tippy
@@ -28,7 +30,6 @@ function ModifierController(element, brand) {
         parts: {},
         inserts: {},
         pippings: {},
-        random_feeds: {},
         letters: {},
         numbers: {},
         applications: {},
@@ -38,6 +39,8 @@ function ModifierController(element, brand) {
     this.initControls();
     this.bindEvents();
     this.enable();
+
+    ub.modifierController = this;
 }
 
 ModifierController.prototype = {
@@ -126,7 +129,7 @@ ModifierController.prototype = {
         propertiesPanel.setBodyPanel(fabric_panel);
     },
 
-    parts: function() {
+    parts: function(_this) {
         ub.modifierController.clearControls();
         ub.funcs.activeStyle('colors');
 
@@ -170,10 +173,10 @@ ModifierController.prototype = {
         var piping_panel;
 
         if (ub.funcs.isSocks()) { // display random feeds
-            ub.modifierController.controllers.random_feeds = new RandomFeedPanel('random-feeds-list');
-            ub.modifierController.controllers.random_feeds.setRandomFeedSetItems();
+            ub.modifierController.controllers.pipings = new RandomFeedPanel('random-feeds-list');
+            ub.modifierController.controllers.pipings.setRandomFeedSetItems();
 
-            var random_feed_panel = ub.modifierController.controllers.random_feeds.getPanel();
+            var random_feed_panel = ub.modifierController.controllers.pipings.getPanel();
             properties_panel.setBodyPanel(random_feed_panel);
 
             RandomFeedPanel.events.init();
@@ -203,16 +206,7 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        ub.modifierController.controllers.numbers = new NumberPanel('m-decorations-numbers');
-        var numbers_panel = ub.modifierController.controllers.numbers.getPanel();
-        var properties_panel = new PropertiesPanel('#primary_options_container', this.brand);
-        properties_panel.setBodyPanel(numbers_panel);
-        // set event listeners
-        ub.modifierController.controllers.numbers.bindEvents();
-
-        ub.funcs.initializer();
-        
-        // NumberPanel.initializeUISlider();
+        ub.funcs.startNewApplicationNumbers();
     },
 
     applications: function() {
@@ -220,7 +214,6 @@ ModifierController.prototype = {
     },
 
     logo: function() {
-        console.log('Show Logo Panel');
         var logo_positions = ub.data.logos;
         var properties_panel = new PropertiesPanel("#primary_options_container", this.brand);
 
@@ -260,3 +253,24 @@ ModifierController.prototype = {
         }
     }
 };
+
+ModifierController.scrollToOptions = function (application_type, application_id) {
+    console.log('TYPE: ' + application_type)
+    // Check if clicked application is TEAM NAME or PLAYER NAME,
+    if (application_type === "team_name" || application_type === "player_name") {
+        $('#property-modifiers-menu .menu-item-letters').trigger('click')
+    } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
+        // Numbers
+        $('#property-modifiers-menu .menu-item-numbers').trigger('click')
+    } else if (application_type === "mascot" || application_type === "embellishments") {
+        // Mascots/Embellishments
+        $('#property-modifiers-menu .menu-item-applications').trigger('click')
+    }
+
+    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
+
+};
+
+ModifierController.deleteApplicationContainer = function (application_id) {
+    $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
+}

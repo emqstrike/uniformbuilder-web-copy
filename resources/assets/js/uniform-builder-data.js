@@ -12336,4 +12336,105 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    // Apply rubber patch with the following block pattern
+    ub.data.rubberPatch = {
+        items: [
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Singature Dyed Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Singature Dyed Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Dyed Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Dyed Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Signature Sublimated Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Signature Sublimated Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Sublimated Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Sublimated Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "Cage Jacket",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Set-In",
+                option: ""
+            },
+        ],
+
+        hasRubberPatchLogo: function(brand, blockPattern) {
+            var _result = undefined;
+
+            _result = _.find(this.items, {brand: brand, blockPattern: blockPattern});
+
+            if (_.size(_result) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    // Apply rubber patch with the following block pattern
+    ub.data.sublimatedLogo = {
+        items: [
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "Hoodie",
+                option: ""
+            }
+        ],
+
+        hasSublimatedLogo: function(brand, blockPattern) {
+            var _result = undefined;
+
+            _result = _.find(this.items, {brand: brand, blockPattern: blockPattern});
+
+            if (_.size(_result) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
 });

@@ -12,7 +12,8 @@
 function LogoPanel(element, logo_positions) {
     this.panel = document.getElementById(element);
     this.data = {
-        logo_position: logo_positions
+        logo_position: logo_positions,
+        brand: ub.config.brand
     };
     this.bindEvents();
 }
@@ -35,36 +36,31 @@ LogoPanel.prototype = {
         var current_position = current_active_position.data("position");
         current_active_position.removeClass('cp-button-active');
         var material_ops = null;
-
         var new_position = $(this).data("position");
 
         if (new_position.includes("front") || new_position.includes("chest")) {
             $('a.change-view[data-view="front"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "front_body"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
 
         } else if (new_position.includes("back")) {
             $('a.change-view[data-view="back"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "back_body"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
 
         } else if (new_position.includes("left") || new_position.includes("sleeve")) {
             $('a.change-view[data-view="left"]').trigger('click');
-            var find = _.find(ub.current_material.settings[ub.config.type], {code: "left_sleeve"});
-            material_ops = find;
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
         }
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
-        var logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logoObject.position);
+        var logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
         var _layerCount = 0;
 
         if (logoObject.layer1) { _layerCount +=1 };
         if (logoObject.layer2) { _layerCount +=1 };
         if (logoObject.layer3) { _layerCount +=1 };
 
-        LogoPanel.process.removeLogo(current_position);
-        LogoPanel.process.addLogo(logoObject, _layerCount);
-        LogoPanel.process.sameColorAsBackground(material_ops, logoSettingsObject);
+        LogoPanel.utilities.removeLogo(current_position);
+        LogoPanel.utilities.addLogo(logoObject, _layerCount);
 
         $(this).addClass('cp-button-active');
         $(this).css('pointer-events', "none");
@@ -85,7 +81,6 @@ LogoPanel.prototype = {
             $("#logo-preview").show();
             $(".logo-image-loader").hide();
         }, 2000);
-
     },
 
     bindEvents: function() {
@@ -98,65 +93,79 @@ LogoPanel.prototype = {
 
 LogoPanel.isBindEvents = 0;
 
-LogoPanel.excluded = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_lower = ['base', 'highlights', 'shadows'];
 LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+LogoPanel.special_block_pattern = ["PTS Select Pant"];
 
-LogoPanel.process = {
+LogoPanel.init = function () {
+    if (ub.current_material.material.logo_position !== null) {
 
-    processLogo: function(logo_data) {
+        LogoPanel.utilities.initLogoData(ub.current_material.material.logo_position);
 
-        if (!util.isNullOrUndefined(logo_data))
-        {
+        if (_.size(ub.current_material.settings.logos) > 0) {
+            LogoPanel.utilities.processSavedLogo();
+        } else {
+            ub.funcs.afterLoadFunctionList.push(function() {
+                LogoPanel.utilities.processLogo();
+            });
+        }
+    }
+};
+
+LogoPanel.utilities = {
+    initLogoData: function (logo_data) {
+        if (!util.isNullOrUndefined(logo_data)) {
             var _logo_position = logo_data.replace(new RegExp("\\\\", "g"), "");
             _logo_position = _logo_position.slice(1, -1);
             _logo_position = JSON.parse(_logo_position);
 
             ub.data.logos = _logo_position;
 
-
             _.each(ub.data.logos, function(logo) {
 
                 if (logo.position === "left_sleeve") {
-                    logo.position = "bottom_sleeve";
+                    logo.position = "left_sleeve_logo";
                 }
 
-                var secondary_color = LogoPanel.process.getSecondaryColor();
+                // Format Logo Name Position
+                logo.name = ub.utilities.titleCase(logo.position.replace(/_/g, " ").replace("logo", ""));
+            });
+        }
+    },
+
+    processLogo: function() {
+
+        if (!util.isNullOrUndefined(ub.data.logos))
+        {
+            _.each(ub.data.logos, function(logo) {
 
 
+                var _layerCount = 0;
+
+                if (logo.layer1) { _layerCount += 1 };
+                if (logo.layer2) { _layerCount += 1 };
+                if (logo.layer3) { _layerCount += 1 };
+
+                // Get secondary color
+                var secondary_color = LogoPanel.colors.getSecondaryColor();
                 logo.colors_array = [
                     "W",
-                    "W",
-                    secondary_color.length > 0 ? secondary_color[0] : "CG"
+                    _layerCount === 2 ? "none" : "W",
+                    "CG"
                 ];
-
-                // Logo Layer 2 color
-                if (ub.config.uniform_application_type === "sublimated") {
-                    logo.colors_array[1] = "none";
-                } else {
-                    logo.colors_array[1] = secondary_color.length > 0 ? secondary_color[0] : "W";
-                }
-
-                // Logo Layer 3 Color
-                if (logo.colors_array[2] === "W") {
-                    logo.colors_array[0] = "CG";
-                }
 
                 var _colorArray = [];
                 var _layers = [];
 
-                logo.name = ub.utilities.titleCase(logo.position.replace("_", " "));
-
                 // Normalize Logo Position From source
-
                 _.each (logo.perspectives, function (perspective) {
-
                     _.each(perspective.layers, function (layer) {
-
                         layer.position = layer.position;
-
                     });
                 });
 
+                // Process color array
                 if (typeof logo.colors_array !== "undefined") {
                     _.each(logo.colors_array, function (color, index) {
 
@@ -177,15 +186,11 @@ LogoPanel.process = {
                     console.log('No Color Array for ' + logo.position);
                 }
 
-                var _layerCount = 0;
-
-                if (logo.layer1) { _layerCount +=1 };
-                if (logo.layer2) { _layerCount +=1 };
-                if (logo.layer3) { _layerCount +=1 };
-
                 var _hasSavedLogoData = (typeof ub.current_material.settings.logos[logo.position] !== "undefined");
 
-                if (_hasSavedLogoData) { return; }
+                if (_hasSavedLogoData) {
+                    return;
+                }
 
                 if (!_hasSavedLogoData && logo.enabled === 1) {
 
@@ -199,24 +204,23 @@ LogoPanel.process = {
                     ub.current_material.settings.logos[logo.position].numberOfLayers = _layerCount;
 
                     var _logoObject = logo;
-                    var _logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logo.position);
-                    var selectedColorArray = ub.current_material.settings.team_colors;
+                    var _logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logo.position);
 
-                    LogoPanel.process.initLogoColors(_logoObject, selectedColorArray[0]);
-                    LogoPanel.process.renderLogo(logo, _layerCount);
+                    LogoPanel.utilities.renderLogo(logo, _layerCount);
+                    LogoPanel.utilities.reInitiateLogo();
                 }
             });
         }
     },
 
     renderLogo: function(logoObject, _layerCount) {
-        var _logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logoObject.position);
+        var _logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
 
         _.each (ub.views, function (perspective) {
 
             var _perspectiveString = perspective + '_view';
 
-            var _sprites = LogoPanel.process.createLogo(logoObject, _layerCount, perspective, _logoSettingsObject);
+            var _sprites = LogoPanel.utilities.createLogo(logoObject, _layerCount, perspective, _logoSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
 
@@ -225,7 +229,6 @@ LogoPanel.process = {
                     ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][logoObject.position]);
 
                 }
-
             }
 
             ub[_perspectiveString].addChild(_sprites);
@@ -247,14 +250,13 @@ LogoPanel.process = {
         var _frontObject = _.find(logoObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers.slice(0).reverse(), function (layer, index) {
-            if (index + 1 > _layerCount) { return; }
-
             var _layerSettings = _.find(logoSettingObject.layers, {layer: layer.layer});
             var logoLayer = ub.pixi.new_sprite(layer.filename);
             logoLayer.ubName = 'Layer ' + (index + 1);
             logoLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
             if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
+
                 logoLayer.alpha = 0;
 
             } else {
@@ -282,23 +284,10 @@ LogoPanel.process = {
         sprite.zIndex               = layer_order * (-1);
 
         return sprite;
-
-    },
-
-    initLogoColors: function(logoObject, firstColor) {
-        var _logoSettingsObject = LogoPanel.process.getLogoSettingsObject(logoObject.position);
-
-        _.each(_logoSettingsObject.layers, function (layer) {
-
-            if (typeof layer.colorObj === "undefined") {
-                layer.colorCode = firstColor.color_code;
-                layer.colorObj = firstColor;
-            }
-        });
     },
 
     getLogoSettingsObject: function(position) {
-        var current_active_logo = _.find(ub.current_material.settings.logos, {enabled: 1});
+        var current_active_logo = LogoPanel.utilities.getEnableLogo();
 
         if (typeof ub.current_material.settings.logos[position] === "undefined") {
 
@@ -335,12 +324,13 @@ LogoPanel.process = {
     processSavedLogo: function() {
         _.each(ub.current_material.settings.logos, function (logo, key) {
 
-            var _result = _.find(ub.data.logos, {position: key});
+            var _result = _.find(ub.data.logos, {position: logo.position});
 
-            if (logo.position === "") { return; }
+            if (logo.enabled === 0) {
+                return;
+            }
 
-            LogoPanel.process.renderLogo(_result, logo.numberOfLayers);
-
+            LogoPanel.utilities.renderLogo(_result, logo.numberOfLayers);
         });
     },
 
@@ -360,263 +350,254 @@ LogoPanel.process = {
     },
 
     addLogo: function(logoObject, _layerCount) {
-        LogoPanel.process.renderLogo(logoObject, _layerCount);
+        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
 
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
+
+        LogoPanel.utilities.reInitiateLogo();
     },
 
-    changeColor: function(logo_data) {
-        _.each(logo_data, function(index) {
-            _.each (ub.views, function (perspective) {
-
-                var _objectReference = ub.objects[perspective + '_view'][index.position];
-                var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + index.layer});
-                _childLayer.tint = parseInt(index.colorObj.hex_code, 16);
-
-                if (index.colorObj.color_code === "none") {
-                    _childLayer.alpha = 0;
-                } else {
-                    _childLayer.alpha = 1;
-                }
-            });
-        });
+    getEnableLogo: function() {
+        var active = _.find(ub.current_material.settings.logos, {enabled: 1});
+        return active;
     },
 
-    changeRichardsonLogoBackground: function(position, color_code) {
-        // Get color object by color code
-        var colorObj = ub.funcs.getColorByColorCode(color_code);
+    changeLogoColorByLayer: function(position, colorObj, layer_number) {
 
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
-            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "1"});
+            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + layer_number.toString()});
             _childLayer.tint = parseInt(colorObj.hex_code, 16);
             _childLayer.alpha = 1;
         });
+    },
+
+    changeBackgroundColor: function(position, color_code) {
+        // Get color object by color code
+        var colorObj = ub.funcs.getColorByColorCode(color_code);
+        LogoPanel.utilities.changeLogoColorByLayer(position, colorObj, 1);
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
-        var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
+        var logoSettings = LogoPanel.utilities.getLogoSettingsObject(position);
 
         logoSettings.layers[2].colorCode = colorObj.color_code;
         logoSettings.layers[2].colorObj = colorObj;
     },
 
-    changeRichardsonLogoOutline: function(position, color_code) {
+    changeGutterColor: function(position, color_code) {
         // Get color object by color code
         var colorObj = ub.funcs.getColorByColorCode(color_code);
-
-        _.each (ub.views, function (perspective) {
-
-            var _objectReference = ub.objects[perspective + '_view'][position];
-            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "2"});
-            _childLayer.tint = parseInt(colorObj.hex_code, 16);
-            _childLayer.alpha = 1;
-        });
+        LogoPanel.utilities.changeLogoColorByLayer(position, colorObj, 2);
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
-        var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
+        var logoSettings = LogoPanel.utilities.getLogoSettingsObject(position);
 
         logoSettings.layers[1].colorCode = colorObj.color_code;
         logoSettings.layers[1].colorObj = colorObj;
     },
 
-    changeRColor: function(position, color_code) {
+    changeLogoColor: function(position, color_code) {
         // Get color object by color code
         var colorObj = ub.funcs.getColorByColorCode(color_code);
-
-        _.each (ub.views, function (perspective) {
-
-            var _objectReference = ub.objects[perspective + '_view'][position];
-            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + "3"});
-            _childLayer.tint = parseInt(colorObj.hex_code, 16);
-            _childLayer.alpha = 1;
-        });
+        LogoPanel.utilities.changeLogoColorByLayer(position, colorObj, 3);
 
         // CHANGE CURRENT CODE AND COLOR OBJ in current_materials.logos
-        var logoSettings = LogoPanel.process.getLogoSettingsObject(position);
+        var logoSettings = LogoPanel.utilities.getLogoSettingsObject(position);
 
         logoSettings.layers[0].colorCode = colorObj.color_code;
         logoSettings.layers[0].colorObj = colorObj;
     },
 
-    getSecondaryColor: function() {
-        var included_modifier = [];
-        var excluded_modifier = [];
-        var secondary_color = [];
-
-        if (typeof ub.current_material.settings.team_colors !== "undefined" && _.size(ub.current_material.settings.team_colors) > 0) {
-            var team_colors = ub.current_material.settings.team_colors;
-
-            for (var i = 1; i < _.size(team_colors); i++) {
-                if (_.includes(LogoPanel.valid_colors, team_colors[i].color_code)) {
-                    secondary_color.push(team_colors[i].color_code);
-                }
-            }
+    initiateLogoColor: function(logoSettingsObject, color_code) {
+        if (color_code !== "W") {
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
         } else {
-            _.map(ub.current_material.settings[ub.config.type], function(mo) {
-                if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
-                    if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
-                        if (!_.includes(LogoPanel.excluded, mo.code)) {
-                            included_modifier.push({
-                                code: mo.code,
-                                color_code: mo.colorObj.color_code
-                            });
-                        } else {
-                            excluded_modifier.push({
-                                code: mo.code,
-                                color_code: mo.colorObj.color_code
-                            });
-                        }
-                    }
-                }
-            });
-
-            _.map(excluded_modifier, function(index) {
-                for (var i = 0; i < _.size(included_modifier); i++) {
-                    if (index.color_code === included_modifier[i].color_code) {
-                        continue;
-                    } else {
-                        secondary_color.push(included_modifier[i].color_code);
-                    }
-                }
-            });
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "CG");
         }
 
-        return LogoPanel.process.removeDuplicateColor(secondary_color);
-    },
-
-    sameColorAsBackground: function(material_ops, logoSettingsObject) {
-        var secondary_color = LogoPanel.process.getSecondaryColor();
-
-        if (typeof material_ops !== "undefined") {
-            if (material_ops.colorObj.color_code === logoSettingsObject.layers[2].colorCode) {
-                if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
-                    for (var i = 0; i < _.size(secondary_color); i++) {
-                        if (material_ops.colorObj.color_code === secondary_color[i]) {
-                            // Load default color
-                            LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code)
-                            console.log("Secondary is amazing");
-                            continue;
-                        } else {
-                            if (secondary_color[i] !== "W") {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i]);
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
-
-                                if (ub.config.uniform_application_type === "tackle_twill") {
-                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
-                                    logoSettingsObject.layers[1].colorCode = "W";
-                                }
-
-                            } else {
-                                LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, secondary_color[i]);
-                                LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
-
-                                if (ub.config.uniform_application_type === "tackle_twill") {
-                                    LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
-                                    logoSettingsObject.layers[1].colorCode = "CG";
-                                }
-                            }
-                            break;
-                        }
-                    }
-                } else {
-                    // Load Default Color
-                    LogoPanel.process.loadDefaultLogo(logoSettingsObject, material_ops.colorObj.color_code);
-                    console.log("No Secondary Color");
-                }
+        if (logoSettingsObject.numberOfLayers !== 2) {
+            if (color_code === "W") {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "CG");
+            } else {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "W");
             }
         }
-
-        // Update Logo Setting Layer
-        LogoPanel.process.updateLayers(logoSettingsObject.layers);
     },
 
-    sameColorForColorPanel: function(current_active_logo, colorLabel) {
-        var secondary_color = LogoPanel.process.getSecondaryColor();
+    initiateDefaultLogoColor: function(logoSettingsObject, color_code) {
+        if (color_code === "CG") {
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, "W");
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "CG");
+            if (logoSettingsObject.numberOfLayers !== 2) {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "CG");
+            }
 
-        if (secondary_color.length > 0 && typeof secondary_color !== "undefined") {
-            for (var i = 0; i < _.size(secondary_color); i++) {
-                if (colorLabel === secondary_color[i]) {
-                    LogoPanel.process.loadDefaultLogo(current_active_logo, secondary_color[i])
+        } else {
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, "CG");
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
+
+            if (logoSettingsObject.numberOfLayers !== 2) {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "W");
+            }
+        }
+    },
+
+    reInitiateLogo: function() {
+        var secondary_color = LogoPanel.colors.getSecondaryColor();
+        var current_active_logo = LogoPanel.utilities.getEnableLogo();
+        var material_ops = null;
+
+        if (current_active_logo.position.includes("front") || current_active_logo.position.includes("chest")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
+        } else if (current_active_logo.position.includes("back")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
+        } else if (current_active_logo.position.includes("left") || current_active_logo.position.includes("sleeve")) {
+            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
+        }
+
+        if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+            return;
+        }
+
+        if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
+            for (var i = 0; i < secondary_color.length; i++) {
+                if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
+                    LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
                     continue;
                 } else {
-                    if (secondary_color[i] !== "W") {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i]);
-                        LogoPanel.process.changeRColor(current_active_logo.position, "W");
-
-                        if (ub.config.uniform_application_type === "tackle_twill") {
-                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "W");
-                            current_active_logo.layers[1].colorCode = "W";
-                        }
-
-                    } else {
-                        LogoPanel.process.changeRichardsonLogoBackground(current_active_logo.position, secondary_color[i]);
-                        LogoPanel.process.changeRColor(current_active_logo.position, "CG");
-
-                        if (ub.config.uniform_application_type === "tackle_twill") {
-                            LogoPanel.process.changeRichardsonLogoOutline(current_active_logo.position, "CG");
-                            current_active_logo.layers[1].colorCode = "CG";
-                        }
-                    }
+                    LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
                     break;
                 }
             }
         } else {
-            LogoPanel.process.loadDefaultLogo(current_active_logo, colorLabel);
-        }
-
-        // Update Logo Setting Layer
-        LogoPanel.process.updateLayers(current_active_logo .layers);
-    },
-
-    removeDuplicateColor: function(arr) {
-        let unique_array = [];
-        for(let i = 0; i < arr.length; i++){
-            if(unique_array.indexOf(arr[i]) == -1){
-                unique_array.push(arr[i])
-            }
-        }
-
-        return unique_array;
-    },
-
-    loadDefaultLogo: function(logoSettingsObject, colorLabel) {
-
-        if (colorLabel === "CG") {
-            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "W");
-            LogoPanel.process.changeRColor(logoSettingsObject.position, "CG");
-
-            if (ub.config.uniform_application_type === "tackle_twill") {
-                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "CG");
-                logoSettingsObject.layers[1].colorCode = "CG";
-            }
-
-            logoSettingsObject.layers[0].colorCode = "CG";
-            logoSettingsObject.layers[2].colorCode = "W";
-
-        } else {
-
-            LogoPanel.process.changeRichardsonLogoBackground(logoSettingsObject.position, "CG");
-            LogoPanel.process.changeRColor(logoSettingsObject.position, "W");
-            logoSettingsObject.layers[0].colorCode = "W";
-            logoSettingsObject.layers[2].colorCode = "CG";
-
-            if (ub.config.uniform_application_type === "tackle_twill") {
-                LogoPanel.process.changeRichardsonLogoOutline(logoSettingsObject.position, "W");
-                logoSettingsObject.layers[1].colorCode = "W";
-
-                console.log("HERE CG");
-            }
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
         }
     },
+};
 
-    updateLayers: function(layers) {
-        _.each(ub.current_material.settings.logos, function(index) {
-            index.layers = layers;
+LogoPanel.colors = {
+    getSecondaryColor: function() {
+        var color_sum = [];
+        var color_array = [];
+
+        var parts_color_array = LogoPanel.colors.getPartsColors();
+        var pipings_color_array = LogoPanel.colors.getPipingsColors();
+        var applications_color_array = LogoPanel.colors.getApplicationsColors();
+
+        var colors = color_array.concat(parts_color_array, applications_color_array, pipings_color_array);
+        var secondary_colors = LogoPanel.colors.sumOfColors(colors);
+
+        return secondary_colors;
+    },
+
+    getPartsColors: function() {
+        var excluded_parts = ub.config.type === "upper" ? LogoPanel.excluded_upper : LogoPanel.excluded_lower;
+        var secondary_color = [];
+
+        _.map(ub.current_material.settings[ub.config.type], function(mo) {
+            if (typeof mo.code !== "undefined" && typeof mo.colorObj !== "undefined") {
+                if (_.includes(LogoPanel.valid_colors, mo.colorObj.color_code)) {
+                    if (!_.includes(excluded_parts, mo.code)) {
+                        secondary_color.push({
+                            color_code: mo.colorObj.color_code,
+                            code: "parts"
+                        });
+                    }
+                }
+            }
         });
-    }
-}
 
+        return secondary_color;
+    },
+
+    getPipingsColors: function() {
+        var colors = [];
+        if (typeof ub.current_material.settings.pipings !== "undefined") {
+            if (!util.isNullOrUndefined(ub.current_material.settings.pipings)) {
+                _.map(ub.current_material.settings.pipings, function(index, elem) {
+                    var numberOfColors = index.numberOfColors;
+                    if (index.enabled === 1) {
+                        _.map(index.layers, function(index, elem) {
+                            if (elem + 1 > numberOfColors) {
+                                return;
+                            }
+                            if (_.includes(LogoPanel.valid_colors, index.colorCode)) {
+                                colors.push({
+                                    color_code: index.colorCode,
+                                    code: "pipings"
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        return colors;
+    },
+
+    getApplicationsColors: function () {
+        var colors = [];
+        if (typeof ub.current_material.settings.applications !== "undefined") {
+            if (_.size(ub.current_material.settings.applications) > 0) {
+                _.map(ub.current_material.settings.applications, function(index, elem) {
+                    if (typeof index.color_array !== "undefined") {
+                        _.each(index.color_array, function(index, el) {
+                            if (_.includes(LogoPanel.valid_colors, index.color_code)) {
+                                colors.push({
+                                    color_code: index.color_code,
+                                    code: "applications"
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        return colors;
+    },
+
+    sumOfColors: function(colors) {
+        var color_sum = [];
+        var color_code;
+        var is_exist;
+
+        for (var i = 0; i < colors.length; i++) {
+            color_code = colors[i].color_code;
+            is_exist = false;
+
+            for (var j = 0; j < color_sum.length; j++) {
+                if (color_sum[j].color_code === color_code) {
+                    is_exist = true;
+                    break;
+                }
+            }
+
+            var to_be_add = null;
+
+            if (colors[i].code === "parts") {
+                to_be_add = 5;
+            } else if (colors[i].code === "applications") {
+                to_be_add = 2;
+            } else {
+                to_be_add = 0.5;
+            }
+
+            if (is_exist) {
+                color_sum[j].count += to_be_add;
+            } else {
+                color_sum.push({color_code: color_code, count: to_be_add});
+            }
+        }
+
+        return _.sortBy(color_sum, "count").reverse();
+    }
+};
