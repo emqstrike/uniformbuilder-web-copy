@@ -11344,6 +11344,14 @@ ub.funcs.fontOffSets = [
                 code: 'body',
             },
             {
+                sport: 'Hockey',
+                code: 'extra_left_cowl',
+            },
+            {
+                sport: 'Hockey',
+                code: 'extra_right_cowl',
+            },
+            {
                 sport: 'Quarter Zip Jacket (Apparel)',
                 code: 'body',
             },
