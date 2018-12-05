@@ -1339,14 +1339,20 @@ class UniformBuilderController extends Controller
 
             // pre check before transform
             if (strpos($partX->code, 'sleeve') !== false) {
-
                 $partX->code = 'sleeve';
             }
 
             // transform code to matching words
-            $trans_code = str_replace('_', ' ', $partX->code); // replace underscore with spaces
-            $upper_code = ucwords($trans_code); // convert every word to uppercase
-            $count_spaces = substr_count($upper_code, ' '); // count spaces
+            if (strpos($partX->code, '-') !== false ) { // if dash is detected inside a word
+                $trans_code = str_replace('-', ' ', $partX->code); // replace dash with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $upper_code = str_replace(' ', '-', $upper_code); // replace spaces back to dash
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            } else {
+                $trans_code = str_replace('_', ' ', $partX->code); // replace underscore with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            }
 
             // words thats are exempted from trim
             if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
@@ -1362,12 +1368,17 @@ class UniformBuilderController extends Controller
             foreach ($sml as $v) {
                 if ($upper_code === $v['name']) {
 
+                    Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
                     // add extra property
                     $partX = (object) array_merge( (array)$partX, array( 'group_id' => $v['group_id'] ) );
 
                     // push to array
                     array_push($newParts, $partX);
                 }
+
+//                if (strpos($upper_code, 'dry') !== false) {
+//                    Log::info('LOGGING PRO-DRY==========%%%%%%%%%%' . $upper_code);
+//                }
             }
         }
 
