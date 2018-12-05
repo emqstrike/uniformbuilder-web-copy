@@ -1348,9 +1348,15 @@ class UniformBuilderController extends Controller
             $upper_code = ucwords($trans_code); // convert every word to uppercase
             $count_spaces = substr_count($upper_code, ' '); // count spaces
 
-            if ($count_spaces >= 2) {
-                $pos = strpos($upper_code, ' ') + 1;
-                $upper_code = substr($upper_code, $pos);
+            // words thats are exempted from trim
+            if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
+                Log::info('EXEMPTED WORDS=======>' . $upper_code);
+            } else {
+                // trim
+                if ($count_spaces >= 2) {
+                    $pos = strpos($upper_code, ' ') + 1;
+                    $upper_code = substr($upper_code, $pos);
+                }
             }
 
             foreach ($sml as $v) {
