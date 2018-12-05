@@ -4947,8 +4947,9 @@ $(document).ready(function () {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id = settingsObj.id;
+        var _id = settingsObj.code;
         var _length = 'short';
 
         ub.funcs.removeApplicationByID(_id);
