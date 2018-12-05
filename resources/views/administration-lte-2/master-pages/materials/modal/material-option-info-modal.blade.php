@@ -181,6 +181,14 @@
 
                 <div class="col-md-12">
                     <div class="form-group">
+                        <label class="control-label">Default Fabric:</label>
+                        <select class="form-control default-fabric" name="fabric_id" id="default_fabric">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
                         <label class="control-label">Default Pattern:</label>
                         <select class="form-control default-pattern" name="pattern_id" id="default_pattern">
                             <option value="">None</option>
