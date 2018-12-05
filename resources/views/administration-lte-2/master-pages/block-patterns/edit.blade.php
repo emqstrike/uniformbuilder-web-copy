@@ -148,49 +148,77 @@
                             </label>
 
                             <div id="part-and-fabrics-container" class="col-md-6">
-                                @foreach (json_decode($block_pattern->parts_fabrics, true) as $key => $part_fabric)
+                                @if ($block_pattern->parts_fabrics)
+                                    @foreach (json_decode($block_pattern->parts_fabrics, true) as $key => $part_fabric)
+                                        <div class="part-and-fabrics">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-inline">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control name" name="part_name[]" value="{{ $part_fabric['name'] }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-5">
+                                                    <div class="form-inline">
+                                                        <label>Fabrics</label>
+                                                        <input type="hidden" name="part_fabrics[]" class="part-fabrics-field" value="{{ implode(',', $part_fabric['fabric_ids']) }}">
+
+                                                        <select class="fabrics fabric-1" multiple="multiple">
+                                                            @foreach ($fabrics as $fabric)
+                                                                @if (in_array($fabric['id'], $part_fabric['fabric_ids']))
+                                                                    <option value="{{ $fabric['id'] }}" selected="selected">{{ $fabric['text'] }}</option>
+                                                                @else
+                                                                    <option value="{{ $fabric['id'] }}">{{ $fabric['text'] }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                @if ($key == 0)
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                            <span class="fa fa-minus"></span>
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric">
+                                                            <span class="fa fa-minus"></span>
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
                                     <div class="part-and-fabrics">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-inline">
                                                     <label>Name</label>
-                                                    <input type="text" class="form-control name" name="part_name[]" value="{{ $part_fabric['name'] }}">
+                                                    <input type="text" class="form-control name" name="part_name[]">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-5">
                                                 <div class="form-inline">
                                                     <label>Fabrics</label>
-                                                    <input type="hidden" name="part_fabrics[]" class="part-fabrics-field" value="{{ implode(',', $part_fabric['fabric_ids']) }}">
+                                                    <input type="hidden" name="part_fabrics[]" class="part-fabrics-field">
 
-                                                    <select class="fabrics fabric-1" multiple="multiple">
-                                                        @foreach ($fabrics as $fabric)
-                                                            @if (in_array($fabric['id'], $part_fabric['fabric_ids']))
-                                                                <option value="{{ $fabric['id'] }}" selected="selected">{{ $fabric['text'] }}</option>
-                                                            @else
-                                                                <option value="{{ $fabric['id'] }}">{{ $fabric['text'] }}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
+                                                    <select class="fabrics" multiple="multiple"></select>
                                                 </div>
                                             </div>
-                                            
-                                            @if ($key == 0)
-                                                <div class="col-md-1">
-                                                    <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
-                                                        <span class="fa fa-minus"></span>
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <div class="col-md-1">
-                                                    <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric">
-                                                        <span class="fa fa-minus"></span>
-                                                    </button>
-                                                </div>
-                                            @endif
+
+                                            <div class="col-md-1">
+                                                <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                    <span class="fa fa-minus"></span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
                         </div>
 
