@@ -130,6 +130,8 @@ PropertiesPanel.prototype = {
         _.map(_this.modifiers, function(index) {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
+            var gradientObject = materialObject.gradient;
+            var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
             if (typeof materialObject !== "undefined")
             {
@@ -150,7 +152,6 @@ PropertiesPanel.prototype = {
 
                     // Get pattern and modifier object
                     var patternObject = _.find(ub.data.patterns.items, {name: pattern_name});
-                    var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
                     // Get Material Option
                     var materialOption = _this.getMaterialOptions(modifierObject.index);
@@ -170,6 +171,13 @@ PropertiesPanel.prototype = {
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
+                }
+
+                if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                    var gradientContainer = $(".pattern-main-container-"+ materialObject.code + " .gradient-container-button .gradient-selector-button[data-gradient-name='gradient']");
+                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Gradient Color</button>");
+                    gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                    gradientContainer.addClass('active-pattern');
                 }
             }
 

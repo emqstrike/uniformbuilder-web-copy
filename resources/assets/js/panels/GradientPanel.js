@@ -473,12 +473,16 @@ GradientPanel.utilities = {
         var colorOBJ = ub.funcs.getColorByColorCode(color_code);
         var layerSetting = _.find(gradientObjectSettings.layers, {layer: layerID});
 
-        if (color_code === 1) {
+        if (layerID === 1) {
             var secondLayer = _.find(gradientObjectSettings.layers, {layer: 2});
+            var secondColor = ub.data.gradientColorLayerFilter.getSecondaryColor(color_code);
+            var colorObj = ub.funcs.getColorByColorCode(secondColor.color2[0]);
             if (typeof secondLayer !== "undefined") {
-                secondLayer.colorCode = "none";
-                secondLayer.colorObj = "";
+                secondLayer.colorCode = secondColor.color2[0];
+                secondLayer.colorObj = colorObj;
             }
+
+            console.log(secondColor);
         }
 
         if (typeof layerSetting !== "undefined") {

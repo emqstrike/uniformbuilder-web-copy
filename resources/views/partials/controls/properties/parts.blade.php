@@ -65,7 +65,6 @@
                                         data-modifier-index="@{{ index }}"
                                     >
                                     </button>
-                                    <p class="cp-fc-white">Gradient</p>
                                 </div>
                             </div>
                         </div>
