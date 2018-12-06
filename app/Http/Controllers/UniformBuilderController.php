@@ -1337,8 +1337,8 @@ class UniformBuilderController extends Controller
             // add extra property
             $partX = (object) array_merge( (array)$partX, array( 'code_prev' => $prevCode ) );
 
-            // pre check before transform
-            if (strpos($partX->code, 'sleeve') !== false) {
+            // pre check if part name value is contains sleeve and only one separator then set it to sleeve only
+            if (strpos($partX->code, 'sleeve') !== false && substr_count($partX->code, '_') === 1) {
                 $partX->code = 'sleeve';
             }
 
@@ -1369,6 +1369,12 @@ class UniformBuilderController extends Controller
                 if ($upper_code === $v['name']) {
 
                     Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
+
+                    // check if $upper_code is sleeve then check prev_code it matches
+//                    if ($upper_code === 'sleeve') {
+//                        Log::info('SLEEVE CHECK===============>' . $partX->code);
+//                    }
+
                     // add extra property
                     $partX = (object) array_merge( (array)$partX, array( 'group_id' => $v['group_id'] ) );
 
@@ -1382,8 +1388,6 @@ class UniformBuilderController extends Controller
             }
         }
 
-//        Log::info('NEW PARTS===============>' . json_encode($newParts));
-
         // sort new parts before using
         usort($newParts, function($a, $b)
         {
@@ -1392,6 +1396,8 @@ class UniformBuilderController extends Controller
             }
             return ($a->group_id < $b->group_id) ? -1 : 1;
         });
+
+//        Log::info('NEW PARTS SORTED===============>' . json_encode($newParts));
 
         foreach (json_decode(json_encode($newParts), true) as &$part) {
 
