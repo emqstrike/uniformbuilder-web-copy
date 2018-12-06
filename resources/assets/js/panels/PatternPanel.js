@@ -99,35 +99,28 @@ PatternPanel.prototype = {
             // Find the selected pattern / And remove check icon and active pattern class
             let selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
 
-            // Set Perspective
-            var perspective = new PerspectiveController();
-
-            if (modifier_category.includes("front") || modifier_category.includes("chest")) {
-
-                perspective.front();
-
-            } else if (modifier_category.includes("back")) {
-
-                perspective.back();
-
-            } else if (modifier_category.includes("left")) {
-
-                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.left();
-                }
-
-            } else if (modifier_category.includes("right")) {
-
-                if (ub.config.option !== "Long Sleeves" || ub.config.blockPattern !== "Cage Jackets") {
-                    perspective.right();
-                }
-            }
-
             // Get pattern ID
             ub.current_part = modifier_index;
             var _id = $(this).data("pattern-id");
 
             var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
+
+            // Find if there is active gradient
+            if (_.size(ub.current_material.settings.gradients) > 0) {
+                var gradientSettings = undefined;
+                if (_modifier.fullname.includes("right")) {
+                    var modifier = ub.utilities.underscoreToWhitespace(_modifier.fullname);
+                    var modifierTitle = ub.utilities.titleCase(modifier);
+                    gradientSettings = _.find(ub.current_material.settings.gradients, {enabled: 1, position: modifierTitle});
+                } else {
+                    gradientSettings = _.find(ub.current_material.settings.gradients, {enabled: 1, position: _modifier.name});
+                }
+
+                if (typeof gradientSettings !== "undefined") {
+                    gradientSettings.enabled = 0;
+                }
+            }
+
             var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
             var titleNameFirstMaterial      = _names[0].toTitleCase();
             var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);

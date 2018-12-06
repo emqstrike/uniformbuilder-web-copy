@@ -70,6 +70,16 @@ PropertiesPanel.prototype = {
                 // if dont have limited color set the team colors
                 modifier.colors = ub.current_material.settings.team_colors;
             }
+
+            // Check if uniform has gradient
+            if (typeof ub.data.gradients !== "undefined" && _.size(ub.data.gradients) > 0) {
+                var gradientObject = _.find(ub.data.gradients, {name: modifier.fullname});
+                if (typeof gradientObject !== "undefined") {
+                    modifier.hasGradient = true;
+                } else {
+                    modifier.hasGradient = false;
+                }
+            }
         });
     },
 

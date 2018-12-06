@@ -55,6 +55,7 @@
                                     </div>
                                 </div>
                             @{{ /patterns }}
+                            @{{#hasGradient}}
                             <div class="color_element">
                                 <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
                                     <button
@@ -67,6 +68,7 @@
                                     </button>
                                 </div>
                             </div>
+                            @{{/hasGradient}}
                         </div>
                     </div>
                 </div>

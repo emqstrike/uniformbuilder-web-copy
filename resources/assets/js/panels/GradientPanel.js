@@ -27,7 +27,7 @@ GradientPanel.events = {
 
     init: function() {
         if (GradientPanel.events.is_init_events_called === 0) {
-            $(".color_element").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
+            $(".modifier-wrapper").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
             $(".pattern-modal-selector-container").on('click', '.edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
             $(".gradient-color-picker-1-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor1);
             $(".gradient-color-picker-2-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor2);
@@ -49,7 +49,11 @@ GradientPanel.events = {
 
 
         var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
-        GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier_index);
+
+        if (typeof gradientObjectSettings !== "undefined") {
+            gradientObjectSettings.enabled = 1;
+            GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier_index);
+        }
 
         $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal-button' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'>Edit Gradient Color</button>");
         $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
@@ -61,7 +65,14 @@ GradientPanel.events = {
         var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
         var modifierTitle = ub.utilities.titleCase(modifier);
         var items = ub.data.gradientColorLayerFilter.getColors();
+        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
         var colors = [];
+        var colors2 = [];
+
+        var firstLayer = _.find(gradientObjectSettings.layers, {layer: 1});
+        var secondLayer = _.find(gradientObjectSettings.layers, {layer: 2});
+
+        var items2 = ub.data.gradientColorLayerFilter.getSecondaryColor(firstLayer.colorCode);
 
         _.each(items, function(index, el) {
             var colorObj = ub.funcs.getColorByColorCode(index.color1);
@@ -70,16 +81,39 @@ GradientPanel.events = {
             }
         });
 
+        _.each(items2.color2, function(index, el) {
+            var colorObj = ub.funcs.getColorByColorCode(index);
+            if (typeof colorObj !== "undefined") {
+                colors2.push(colorObj);
+            }
+        });
+
         var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
-        var render = Mustache.render(gradient_color_element, {
+        var renderLayer1 = Mustache.render(gradient_color_element, {
             colors: colors,
             layer: "Layer 1",
             modifier: modifierTitle
         });
 
+        var renderLayer2 = Mustache.render(gradient_color_element, {
+            colors: colors2,
+            layer: "Layer 2",
+            modifier: modifierTitle
+        });
+
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html("");
         $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html("");
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html(render);
+        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html(renderLayer1);
+        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html(renderLayer2);
+
+        _.delay(function() {
+            var firstLayerContainer = $(".gradient-color-picker-1-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ firstLayer.colorCode +"']");
+            var secondLayerContainer = $(".gradient-color-picker-2-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ secondLayer.colorCode +"']");
+            GradientPanel.events.checkModifier(firstLayerContainer, firstLayer.colorCode);
+            firstLayerContainer.addClass('active-color-1');
+            GradientPanel.events.checkModifier(secondLayerContainer, secondLayer.colorCode);
+            secondLayerContainer.addClass('active-color-2');
+        }, 500)
 
         $('#gradient-change-color-modal').modal('show');
     },
@@ -91,7 +125,7 @@ GradientPanel.events = {
         var items = ub.data.gradientColorLayerFilter.getSecondaryColor(color_code);
         var colors = [];
         var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifier);
-        var modifierObject = _.find(ub.data.modifierLabels, {name: modifier});
+        var modifierObject = _.find(ub.data.modifierLabels, {fullname: gradientObjectSettings.name});
 
         _.each(items.color2, function(index, el) {
             var colorObj = ub.funcs.getColorByColorCode(index);
@@ -125,9 +159,9 @@ GradientPanel.events = {
         var color_id = $(this).data("color-id");
         var layer = $(this).data("layer-name");
         var modifier = $(this).data("modifier");
-        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifier);
-        var modifierObject = _.find(ub.data.modifierLabels, {name: modifier});
 
+        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifier);
+        var modifierObject = _.find(ub.data.modifierLabels, {fullname: gradientObjectSettings.name})
         GradientPanel.utilities.changeGradientColor(gradientObjectSettings, 2, color_code, modifierObject.index);
 
         var selected_color = $(".gradient-color-picker-2-container .gradient-color-main-container").find(".active-color-2");
@@ -162,6 +196,11 @@ GradientPanel.utilities = {
             gradient = JSON.parse(gradient);
 
             ub.data.gradients = gradient;
+
+            _.map(ub.data.gradients, function(gradient, index){
+                var underscore = gradient.position.replace(/ /g, "_");
+                ub.data.gradients[index].name = underscore.toLowerCase();
+            });
         }
     },
 
@@ -203,6 +242,7 @@ GradientPanel.utilities = {
 
                 if (!_hasSavedGradientData && gradient.enabled === 1) {
                     ub.current_material.settings.gradients[gradient.position] = {
+                        name: gradient.name,
                         position: gradient.position,
                         layers: _layers,
                     }
@@ -210,15 +250,11 @@ GradientPanel.utilities = {
                     ub.current_material.settings.gradients[gradient.position].enabled = gradient.enabled;
                     var gradientObject = gradient;
                     var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(gradientObject.position)
-                    var modifier = undefined;
+                    var modifier = _.find(ub.data.modifierLabels, {fullname: gradient.name});
 
-                    if (gradient.position.includes("Right") || gradient.position.includes("Left")) {
-                        modifier = _.find(ub.data.modifierLabels, {name: "Sleeve"});
-                    } else {
-                        modifier = _.find(ub.data.modifierLabels, {name: gradient.position});
+                    if (typeof modifier !== "undefined") {
+                        GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier.index);
                     }
-
-                    GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier.index);
                 }
             });
         } else {
@@ -226,10 +262,10 @@ GradientPanel.utilities = {
         }
     },
 
-    getGradientSettingsObject: function(name) {
-        if (typeof ub.current_material.settings.gradients[name] === "undefined") {
+    getGradientSettingsObject: function(position) {
+        if (typeof ub.current_material.settings.gradients[position] === "undefined") {
             var _layers = [];
-            var gradientObject = _.find(ub.data.gradients, {position: name})
+            var gradientObject = _.find(ub.data.gradients, {position: position})
 
             if (typeof gradientObject.colors_array !== "undefined") {
                 _.each(gradientObject.colors_array, function (color, index) {
@@ -246,30 +282,31 @@ GradientPanel.utilities = {
                 console.warn('No Color Array for ' + gradient.position);
             }
 
-            ub.current_material.settings.gradients[name] = {
-                enabled: 0,
+            ub.current_material.settings.gradients[position] = {
+                name: gradientObject.name,
+                position: position,
                 layers: _layers,
-                position: name
+                enabled: 0
             };
 
         }
 
-        return ub.current_material.settings.gradients[name];
+        return ub.current_material.settings.gradients[position];
     },
 
     renderGradient: function(gradientObjectSettings, index) {
-        var _modifier                   = ub.funcs.getModifierByIndex(index);
-        var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
-        var titleNameFirstMaterial      = _names[0].toTitleCase();
+        var _modifier = ub.funcs.getModifierByIndex(index);
+        var _names = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial = _names[0].toTitleCase();
 
         _.each(_names, function (name) {
 
-            var _settingsObject         = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
-            var _materialOptions        = ub.funcs.getMaterialOptions(name.toTitleCase());
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+            var _materialOptions = ub.funcs.getMaterialOptions(name.toTitleCase());
 
-            materialOption              = _materialOptions[0];
-            outputPatternObject         = GradientPanel.utilities.convertGradientObjectForMaterialOption(gradientObjectSettings, materialOption);
-            _settingsObject.gradient     = outputPatternObject;
+            materialOption = _materialOptions[0];
+            outputPatternObject = GradientPanel.utilities.convertGradientObjectForMaterialOption(gradientObjectSettings, materialOption);
+            _settingsObject.gradient = outputPatternObject;
             e = _settingsObject;
 
             GradientPanel.utilities.generateGradient(e.code, e.gradient.gradient_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
@@ -280,7 +317,7 @@ GradientPanel.utilities = {
         var gradientPropertiesParsed     = gradientObjectSettings;
         var _rotationAngle              = ub.funcs.translateAngle(materialOption.angle);
 
-        if (materialOption.pattern_id === null) { return undefined; }
+        if (materialOption.gradient_id === null) { return undefined; }
 
         var _gradientObject  = {
             gradient_id: gradientObjectSettings.position,
@@ -481,8 +518,9 @@ GradientPanel.utilities = {
                 secondLayer.colorCode = secondColor.color2[0];
                 secondLayer.colorObj = colorObj;
             }
-
-            console.log(secondColor);
+            var secondLayerContainer = $(".gradient-color-picker-2-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ secondColor.color2[0] +"']");
+            GradientPanel.events.checkModifier(secondLayerContainer, secondColor.color2[0]);
+            secondLayerContainer.addClass('active-color-2');
         }
 
         if (typeof layerSetting !== "undefined") {
