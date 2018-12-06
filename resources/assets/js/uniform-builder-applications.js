@@ -4023,8 +4023,6 @@ $(document).ready(function () {
                     }
                 }
 
-                }
-
                 /// Check if CW if empty, draw Pickers if it is
                 if ($('div#cw').length) {
                     if ($('div#cw').html().length === 0) {
