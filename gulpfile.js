@@ -37,7 +37,7 @@ elixir(function(mix) {
             'uniform-builder-endpoints.js',
             'uniform-builder-style-configuration.js',
             'uniform-builder-functions.js',
-            
+
             // Brand Specific
             'uniform-builder-application-ui-new.js',
 

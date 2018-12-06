@@ -1,5 +1,37 @@
 $(document).ready(function () {
 
+    // Pattern Data
+
+        ub.patterns = {};
+        ub.patterns.patternOffset = {
+
+            items: [
+                {
+                    patternCode: 'line_fade_body',
+                    partCodes: ['pocket'],
+                    blockPatterns: ['Hoodie'],
+                    
+                    offSet: 1000,
+                },
+            ],
+
+            getOffset: function (patternCode, blockPattern, part) {
+                
+                var a = _.find(this.items, function (item) {
+                    return item.patternCode === patternCode && 
+                        _.contains(item.blockPatterns, blockPattern) && 
+                        _.contains(item.partCodes, part);
+                });
+
+                return typeof a !== "undefined" ? a.offSet : undefined;
+
+            },
+
+        };
+
+        // Todo: place also the UBUI Data contents here, and assume similar form on other types
+
+    // End Pattern Data 
 
     ub.funcs.getPatternList = function () {
 
@@ -957,6 +989,8 @@ $(document).ready(function () {
             var _from = ub.uiData.patternSliderRange.starts;
             var _calibration = ub.uiData.patternSliderRange.adjustedStart;
             var _patternIsForCalibration = false; 
+
+            var _offset = ub.patterns.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
  
             _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, inputPattern.name);
 
@@ -980,6 +1014,13 @@ $(document).ready(function () {
 
             if (typeof $("#part-pattern-slider").destroy === "function") { 
                 $("#part-pattern-slider").destroy(); 
+            }
+
+            if (typeof _offset !== "undefined" && typeof _partSettingsObject.pattern.dirty === "undefined") {
+
+                _from = _offset;
+                ub.funcs.changePartPatternPosition(materialOption.name, _from, true);
+
             }
             
             $("#part-pattern-slider").ionRangeSlider({
@@ -1042,7 +1083,7 @@ $(document).ready(function () {
     }
 
 
-    ub.funcs.changePartPatternPosition = function (code, from) {
+    ub.funcs.changePartPatternPosition = function (code, from, dontSetDirtyFlag) {
 
         var _value = parseInt(from);
 
@@ -1064,9 +1105,9 @@ $(document).ready(function () {
 
             _patternObject.position.y = (0 + parseInt(from) + _calibration);
             _settingsObject.pattern.position = {x: _settingsObject.pattern.position.x, y: _positionY};
-
-            _settingsObject.pattern.dirty = true;
-
+            
+            if(typeof dontSetDirtyFlag !== "undefined") { _settingsObject.pattern.dirty = true; }
+            
         });
 
     };

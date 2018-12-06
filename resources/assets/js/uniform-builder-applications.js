@@ -4396,9 +4396,9 @@ $(document).ready(function () {
                 return;
             }
 
-            if (_obj.name === "Extra") {
-                return;
-            }
+            if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
@@ -4537,12 +4537,8 @@ $(document).ready(function () {
             }
 
             ub.funcs.deactivateMoveTool();
-<<<<<<< HEAD
-            if (! ub.branding.useAlternativeUI) {
-=======
         
             if ($('div#cw').length) {
->>>>>>> f3754d1f1d07f8fbc88072fcaef6158dbd98a4f1
                 if ($('div#cw').html().length === 0) {
                     ub.funcs.drawColorPickers();
                 }
@@ -4975,8 +4971,9 @@ $(document).ready(function () {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id = settingsObj.id;
+        var _id = settingsObj.code;
         var _length = 'short';
 
         ub.funcs.removeApplicationByID(_id);
@@ -8869,7 +8866,8 @@ $(document).ready(function () {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
+            var _mascotID = ub.data.mascots[_randomIndex].id;
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -12172,6 +12170,18 @@ $(document).ready(function () {
 
     ub.funcs.addLocation = function (artOnly) {
 
+<<<<<<< HEAD
+=======
+        // Guard
+
+        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
+        if (typeof _submimatedSport === "undefined") {
+            return;
+        }
+
+        // End Guard
+
+>>>>>>> ee9da78392cc168e03a76f5d9c1c222a58e78704
         // Select Perspective
 
         var template = $('#m-add-free-form-application').html();

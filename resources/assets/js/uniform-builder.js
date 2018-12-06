@@ -650,8 +650,6 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
-            ub.funcs.executeAfterLoadFunctionList();
-
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
             ub.funcs.changeControls();

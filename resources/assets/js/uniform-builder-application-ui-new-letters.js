@@ -267,6 +267,7 @@ $(function() {
 
                                     _application.text = _val;
                                     ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
 
                                 }
 
@@ -302,6 +303,7 @@ $(function() {
 
                             _application.text = _val;
                             ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                            $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
 
                         }
 
@@ -1371,16 +1373,12 @@ $(function() {
             }
 
             element.data('status', "off");
-            if (_settingsObj.application_type === "team_name") {
-                element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
-            }
+            element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
 
         } else {
 
             element.data('status', "on");
-            if (_settingsObj.application_type === "team_name") {
-                element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
-            }
+            element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
 
             ub.funcs.hideGAFontTool();
 
@@ -1398,8 +1396,9 @@ $(function() {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
+                ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+                ub.updateLayersOrder(ub[_view]);
 
             } else {
 
