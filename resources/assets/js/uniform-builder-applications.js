@@ -5084,7 +5084,7 @@ $(document).ready(function () {
 
     ub.funcs.changeSize = function (size, settingsObj) {
 
-        var _id = settingsObj.id;
+        var _id = settingsObj.code;
         ub.funcs.removeApplicationByID(_id);
 
         settingsObj.font_size = parseFloat(size);
@@ -9061,7 +9061,7 @@ $(document).ready(function () {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1 || _settingsObject.application.layer.indexOf('Cowl') !== -1;
                 var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
 
                 if (_inShoulder) {

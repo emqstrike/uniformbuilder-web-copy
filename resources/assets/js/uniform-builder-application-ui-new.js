@@ -199,6 +199,7 @@ $(function() {
 
         // getting only data that i need
         _.map(_filteredApplications, function (i) {
+            _generateSizes = ub.funcs.getGeneratedObjectSizes(i)
 
             if (i.application_type === 'embellishments') {
                 var objCustom = {
@@ -211,6 +212,7 @@ $(function() {
                     viewPrint: i.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
+                    generateSizes: _generateSizes
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -224,6 +226,7 @@ $(function() {
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
+                    generateSizes: _generateSizes
                 };
                 _appData.push(objStock);
             }

@@ -641,8 +641,8 @@ $(document).ready(function() {
 
         if (ub.data.afterLoadCalled === 0) { return; } // Skip activate when called on load prep
 
-        if (ub.branding.useAlternativeUI) {
-            ub.funcs.activateApplicationsMascots(application.id);
+        if (ub.data.useScrollingUI) {
+            ub.funcs.activateApplicationsAll(application.id);
         } else {
             ub.funcs.activateEmbellishments(application.id);
         }

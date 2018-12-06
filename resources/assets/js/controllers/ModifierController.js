@@ -251,7 +251,7 @@ ModifierController.scrollToOptions = function (application_type, application_id)
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if ((application_type === "team_name" || application_type === "player_name") && ! $('#property-modifiers-menu .menu-item-letters').hasClass('active')) {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
-    } else if ((application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number")
+    } else if ((application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number" || application_type === "shoulder_number")
         && ! $('#property-modifiers-menu .menu-item-numbers').hasClass('active')) {
         // Numbers
         $('#property-modifiers-menu .menu-item-numbers').trigger('click')
