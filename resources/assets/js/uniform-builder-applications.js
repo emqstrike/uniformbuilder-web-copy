@@ -12957,7 +12957,11 @@ $(document).ready(function () {
         _htmlBuilder += "</div>";
         _deactivated = '';
 
-        $('.modifier_main_container').append(_htmlBuilder);
+        if (ub.data.useScrollingUI) {
+            $('.modifier_main_container').html(_htmlBuilder);
+        } else {
+            $('.modifier_main_container').append(_htmlBuilder);
+        }
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {
