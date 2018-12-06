@@ -4023,16 +4023,6 @@ $(document).ready(function () {
                     }
                 }
 
-<<<<<<< HEAD
-            if (! ub.branding.useAlternativeUI) {
-                /// Check if CW if empty, draw Pickers if it is
-                if ($('div#cw').html().length === 0) {
-
-                    ub.funcs.drawColorPickers();
-
-                }
-            }
-=======
                 }
 
                 /// Check if CW if empty, draw Pickers if it is
@@ -4043,7 +4033,6 @@ $(document).ready(function () {
 
                     }
                 }
->>>>>>> f3754d1f1d07f8fbc88072fcaef6158dbd98a4f1
 
                 var current_coodinates = mousedata.data.global;
                 var results = ub.funcs.withinMaterialOption(current_coodinates);
@@ -12169,9 +12158,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.addLocation = function (artOnly) {
-
-<<<<<<< HEAD
-=======
         // Guard
 
         var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
@@ -12181,7 +12167,6 @@ $(document).ready(function () {
 
         // End Guard
 
->>>>>>> ee9da78392cc168e03a76f5d9c1c222a58e78704
         // Select Perspective
 
         var template = $('#m-add-free-form-application').html();
