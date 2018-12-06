@@ -27,8 +27,8 @@ GradientPanel.events = {
 
     init: function() {
         if (GradientPanel.events.is_init_events_called === 0) {
-            $(".modifier-wrapper").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
-            $(".pattern-modal-selector-container").on('click', '.edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
+            $(".modifier_main_container").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
+            $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
             $(".gradient-color-picker-1-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor1);
             $(".gradient-color-picker-2-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor2);
             GradientPanel.events.is_init_events_called = 1;
