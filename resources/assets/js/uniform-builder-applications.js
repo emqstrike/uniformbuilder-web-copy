@@ -1987,7 +1987,7 @@ $(document).ready(function () {
                     if (ub.data.useScrollingUI) {
                         ModifierController.scrollToOptions(application.type, _id);
                     } else {
-                        ub.funcs.activateApplications(_settingsObject.code);
+                        ub.funcs.activateApplications(application.code);
                     }
 
                 } else {
@@ -12968,7 +12968,11 @@ $(document).ready(function () {
         _htmlBuilder += "</div>";
         _deactivated = '';
 
-        $('.modifier_main_container').append(_htmlBuilder);
+        if (ub.data.useScrollingUI) {
+            $('.modifier_main_container').html(_htmlBuilder);
+        } else {
+            $('.modifier_main_container').append(_htmlBuilder);
+        }
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {

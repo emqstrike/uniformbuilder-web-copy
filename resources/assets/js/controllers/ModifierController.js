@@ -256,17 +256,18 @@ ModifierController.prototype = {
 
 ModifierController.scrollToOptions = function (application_type, application_id) {
     // Check if clicked application is TEAM NAME or PLAYER NAME,
-    if (application_type === "team_name" || application_type === "player_name") {
+    if ((application_type === "team_name" || application_type === "player_name") && ! $('#property-modifiers-menu .menu-item-letters').hasClass('active')) {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
-    } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
+    } else if ((application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number")
+        && ! $('#property-modifiers-menu .menu-item-numbers').hasClass('active')) {
         // Numbers
         $('#property-modifiers-menu .menu-item-numbers').trigger('click')
-    } else if (application_type === "mascot" || application_type === "embellishments") {
+    } else if ((application_type === "mascot" || application_type === "embellishments") && ! $('#property-modifiers-menu .menu-item-applications').hasClass('active')) {
         // Mascots/Embellishments
         $('#property-modifiers-menu .menu-item-applications').trigger('click')
     }
 
-    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
+    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'), { duration: 1000 })
 
 };
 
