@@ -11374,10 +11374,10 @@ ub.funcs.fontOffSets = [
         shouldSkip: function (sport, code) {
 
             var _result = _.find(this.items, {sport: sport, code: code});
+            var material = ub.current_material.material;
 
             if (typeof _result === "undefined") {
 
-                var material = ub.current_material.material;
 
                 var sportOk         = (sport === "Wrestling" || sport === "Baseball");
                 var neckOptionOk    = (material.neck_option === "Fight Short");
@@ -11393,6 +11393,9 @@ ub.funcs.fontOffSets = [
             }
 
             if (code === "body" || code === "extra") { console.log(code); }
+
+            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Sock") { _result = undefined; }
+
             
             return (typeof _result !== "undefined") || 
                 ((ub.config.hiddenBody && code === "body") || 
@@ -12240,7 +12243,8 @@ ub.funcs.fontOffSets = [
             'Socks (Apparel)',
             'Yoga Pant (Apparel)',
             'Basketball',
-            'SFN Jogger (Apparel)'
+            'SFN Jogger (Apparel)',
+            'Hockey'
         ],
         isValid: function (uniformCategory) {
 
