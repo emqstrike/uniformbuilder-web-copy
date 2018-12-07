@@ -29,6 +29,8 @@ $(document).ready(function () {
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
             ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
+            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
@@ -123,8 +125,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
-            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
 
@@ -2515,6 +2515,10 @@ $(document).ready(function () {
                 e.setting_type === 'mesh_shadows' || 
                 e.setting_type === 'static_layer') { return; }
 
+            if (typeof e.code === "undefined") { return; }
+
+            console.log(e.code);
+
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {
@@ -2525,7 +2529,6 @@ $(document).ready(function () {
 
             }
 
-            if (typeof e.code === "undefined") { return; }
 
             if (typeof e.code !== 'undefined') {
                 
