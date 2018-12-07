@@ -50,6 +50,7 @@ $(document).ready(function () {
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
+                ub.current_material.fabrics = ub.config.api_host + '/api/fabrics/';
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -60,6 +61,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
+                ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -1090,6 +1092,7 @@ $(document).ready(function () {
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
+                     typeof(ub.current_material.fabrics) !== 'undefined' &&
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined' &&
                      typeof(ub.data.fonts) !== 'undefined' && 
