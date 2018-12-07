@@ -38,15 +38,15 @@ $(function() {
 
     // on click view slidersContainer
     $('#primary_options_container').on('click', '.view-sliders', function () {
-        $(this).addClass('active');
-        $(this).next().removeClass('active');
+        $(this).addClass('active').attr('disabled', 'disabled');
+        $(this).next().removeClass('active').removeAttr('disabled');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
     });
 
     // on click hide slidersContainer
     $('#primary_options_container').on('click', '.hide-sliders', function () {
-        $(this).addClass('active');
-        $(this).prev().removeClass('active');
+        $(this).addClass('active').attr('disabled', 'disabled');
+        $(this).prev().removeClass('active').removeAttr('disabled');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
     });
 

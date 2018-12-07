@@ -367,7 +367,9 @@ $(function() {
             .on('click', 'button.toggleAppOpt', function () {
 
                 var _id = $(this).closest('.applicationUIBlock').data('application-id')
+                var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id.toString()})
                 var _currentStatus = $(this).parent().data('status');
+                var isMascots = _settingsObject.application_type === "mascot" || _settingsObject.application_type === "embellishments" ? true : false;
                 var s;
 
                 if (_currentStatus === "on") {
@@ -387,32 +389,49 @@ $(function() {
                 var _matchingID = undefined;
                 var _processMatchingSide = true;
                 var _matchingSettingsObject = undefined;
+                var toggleBtn;
 
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
                 if (typeof _matchingID !== "undefined") {
 
                     _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-
+                    toggleBtn = $('.modifier_main_container > div.applicationUIBlock[data-application-id='+ _matchingID +']')
                 }
 
-                if (typeof _matchingSettingsObject !== "undefined") {
+                if (isMascots) {
+                    if (typeof _matchingSettingsObject !== "undefined") {
 
-                    if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
 
-                        // Toggle matching mascot if the same mascot is selected
-                        _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+                            // Toggle matching mascot if the same mascot is selected
+                            _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+                        }
 
                     }
 
-                }
+                    if (typeof _matchingID !== "undefined") {
 
-                if (typeof _matchingID !== "undefined") {
+                        if (_processMatchingSide) {
+                            ub.funcs.toggleApplication(_matchingID, s);
+                            if (s === "off") {
+                                toggleBtn.find('.hide-sliders').trigger('click')
+                            } else if (s === "on") {
+                                toggleBtn.find('.view-sliders').trigger('click')
+                            }
+                        }
+                    }   
+                } else {
+                    if (typeof _matchingID !== "undefined") {
 
-                    if (_processMatchingSide) {
-                        ub.funcs.toggleApplication(_matchingID, s);
+                        ub.funcs.toggleApplication(_matchingID.toString(), s);
+                        if (s === "off") {
+                            toggleBtn.find('.hide-letters-opt').trigger('click')
+                        } else if (s === "on") {
+                            toggleBtn.find('.view-letters-opt').trigger('click')
+                        }
                     }
-
                 }
             })
             .on('click', '.change-free-app', function () {
@@ -693,6 +712,7 @@ $(function() {
     ub.funcs.toggleApplicationOpts = function (element, id, state) {
 
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+        var isMascots = _settingsObj.application_type === "mascot" || _settingsObj.application_type === "embellishments" ? true : false;
 
         // Consider deleted locations
         if (typeof _settingsObj === "undefined") {
@@ -733,7 +753,9 @@ $(function() {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
                 _settingsObj.status = "on";
-                ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+                if (!isMascots) {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+                }
                 ub.updateLayersOrder(ub[_view]);
 
             } else {
