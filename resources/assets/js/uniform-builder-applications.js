@@ -7546,7 +7546,7 @@ $(document).ready(function() {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
                 _settingsObj.status = "on";
-                if (_.contains(_settingsObj.validApplicationTypes, 'number')) {
+                if (! (_settingsObj.application_type === "mascot" || _settingsObj.application_type === "embellishments")) {
                     ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj)
                 }
                 ub.updateLayersOrder(ub[_view]);
