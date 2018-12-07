@@ -18,31 +18,31 @@ FabricPanel.prototype = {
         // mos = material options
         var fabric_mos = FabricPanel.getUniqueFabrics();
 
-        // if (!_.isEmpty(fabric_mos)) {
-        //     this.items.fabrics = {
-        //         fabric_layers: _.map(fabric_mos, function(fabric_mo) {
-        //             var dummy_thumbnail = ["fabric-texture", "fabric-texture-2", "fabric-texture-3"];
-        //             var pick_thumbnail = "http://34.212.160.37/img/" + dummy_thumbnail[Math.floor(Math.random() * 3)] + ".jpg";
+        if (!_.isEmpty(fabric_mos)) {
+            this.items.fabrics = {
+                fabric_layers: _.map(fabric_mos, function(fabric_mo) {
+                    var dummy_thumbnail = ["fabric-texture", "fabric-texture-2", "fabric-texture-3"];
+                    var pick_thumbnail = "http://34.212.160.37/img/" + dummy_thumbnail[Math.floor(Math.random() * 3)] + ".jpg";
 
-        //             var fabric_info = fabric_mo.fabric_info;
+                    var fabric_info = fabric_mo.fabric_info;
 
-        //             return {
-        //                 layer_title: fabric_info.material,
-        //                 layer_level_category: FabricPanel.getLayerLevelText(fabric_mo.layer_level),
-        //                 layer_level: JSON.stringify(FabricPanel.getLayerLevelByFabricId(fabric_info.id)),
+                    return {
+                        layer_title: fabric_info.material,
+                        layer_level_category: FabricPanel.getLayerLevelText(fabric_mo.layer_level),
+                        layer_level: JSON.stringify(FabricPanel.getLayerLevelByFabricId(fabric_info.id)),
 
-        //                 thumbnail: fabric_info.thumbnail !== null ? fabric_info.thumbnail : pick_thumbnail,
-        //                 class_active: fabric_info.id == default_fabric_mo.fabric_id ? "active" : "",
+                        thumbnail: fabric_info.thumbnail !== null ? fabric_info.thumbnail : pick_thumbnail,
+                        class_active: fabric_info.id == default_fabric_mo.fabric_id ? "active" : "",
 
-        //                 description_list: [
-        //                     {description: fabric_info.material},
-        //                     {description: fabric_info.material_abbreviation},
-        //                     {description: "lorem ipsum dolor"},
-        //                 ]
-        //             };
-        //         })
-        //     };
-        // }
+                        description_list: [
+                            {description: fabric_info.material},
+                            {description: fabric_info.material_abbreviation},
+                            {description: "lorem ipsum dolor"},
+                        ]
+                    };
+                })
+            };
+        }
     }
 };
 
