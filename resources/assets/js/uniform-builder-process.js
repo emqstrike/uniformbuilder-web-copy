@@ -1176,7 +1176,10 @@ $(document).ready(function() {
 
         });
 
-        var _type = ub.config.uniform_application_type.toTitleCase(); 
+        var _type = ub.config.uniform_application_type.toTitleCase();
+
+        // add modifier labels to settings
+        ub.current_material.settings.sorted_modifier_labels = _sortedModifierLabels;
 
         var orderInput = {
 
@@ -1242,8 +1245,7 @@ $(document).ready(function() {
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes
                 }
-            ],
-            sorted_modifier_labels: _sortedModifierLabels
+            ]
         };        
 
         return orderInput;

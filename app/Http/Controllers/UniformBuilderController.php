@@ -1265,12 +1265,13 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateMaterialOptionsTable ($itemData, $sml) {
+    function generateMaterialOptionsTable ($itemData) {
 
         $this->log_info('generateMaterialOptionsTable');
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
+        $sml = $bc['sorted_modifier_labels'];
 
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
@@ -1940,7 +1941,7 @@ class UniformBuilderController extends Controller
         $type = 'upper';
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
-        $sml = $builder_customizations['builder_customizations']['sorted_modifier_labels'];
+//        $sml = $builder_customizations['builder_customizations']['order_items'][0]['sorted_modifier_labels'];
 
 //        $block_pattern = $bc['cuts_links']['block_pattern'];
 
@@ -2134,7 +2135,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="70%">';
-        $html .=            $this->generateMaterialOptionsTable($bc, $sml);
+        $html .=            $this->generateMaterialOptionsTable($bc);
         $html .=        '</td>';
         $html .=        '<td width= "30%">';
         $html .=            '';
