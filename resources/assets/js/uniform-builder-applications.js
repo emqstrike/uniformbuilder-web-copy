@@ -10750,7 +10750,7 @@ $(document).ready(function() {
                             $('div.part-container span').each(function() {
                                 
                                 var part = $(this).text();
-
+                                
                                 if (part.indexOf(_partToMakeActive) !== -1) {
                                     _partToMakeActive = part;
                                 }
@@ -10967,11 +10967,14 @@ $(document).ready(function() {
 
                         var _partToMakeActive =  $perspective.text().toTitleCase();
 
+                        var partCount = 0; 
+
                         $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
+                            if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                partCount++;
                                 _partToMakeActive = part;
                             }
 
