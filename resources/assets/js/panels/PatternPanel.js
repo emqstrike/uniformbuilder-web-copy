@@ -90,8 +90,9 @@ PatternPanel.prototype = {
 
     onSelect: function() {
         let _this = this;
-        let DEFAULTPATTERNID = 33;
-        $(".pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+        var blank = _.find(ub.data.patterns.items, {name: "Blank"});
+
+        $(".modifier_main_container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
             // Get Modifier category and index
             let modifier_category = $(this).data("modifier-category");
             let modifier_index = $(this).data("modifier-index");
@@ -103,34 +104,32 @@ PatternPanel.prototype = {
             ub.current_part = modifier_index;
             var _id = $(this).data("pattern-id");
 
+            // Get Modifier Object
             var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
 
-            // Find if there is active gradient
-            if (_.size(ub.current_material.settings.gradients) > 0) {
-                var gradientSettings = undefined;
-                if (_modifier.fullname.includes("right")) {
-                    var modifier = ub.utilities.underscoreToWhitespace(_modifier.fullname);
-                    var modifierTitle = ub.utilities.titleCase(modifier);
-                    gradientSettings = _.find(ub.current_material.settings.gradients, {enabled: 1, position: modifierTitle});
-                } else {
-                    gradientSettings = _.find(ub.current_material.settings.gradients, {enabled: 1, position: _modifier.name});
-                }
+            // Get Material Option
+            var _names = ub.funcs.ui.getAllNames(_modifier.name);
+            var titleNameFirstMaterial = _names[0].toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-                if (typeof gradientSettings !== "undefined") {
-                    gradientSettings.enabled = 0;
+            // Find if there is active gradient
+            if (typeof ub.data.gradients !== "undefined" && _.size(ub.data.gradients) > 0) {
+                if (_.size(ub.current_material.settings.gradients) > 0) {
+                    var gradientSettings = _.find(ub.current_material.settings.gradients, {enabled: 1, name: modifier_category});
+                    if (typeof gradientSettings !== "undefined") {
+                        gradientSettings.enabled = 0;
+                        GradientPanel.utilities.removeGradient(_settingsObject);
+                    }
                 }
             }
 
-            var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
-            var titleNameFirstMaterial      = _names[0].toTitleCase();
-            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
             if (selected_pattern.data('pattern-id') === $(this).data("pattern-id"))
             {
                 selected_pattern.removeClass('active-pattern');
                 selected_pattern.html("");
 
-                _this.createPatternPreviewFromPatternPicker(ub.current_part, DEFAULTPATTERNID);
+                _this.loadBlankPattern(ub.current_part);
 
                 $(".edit-pattern-modal-container-"  + modifier_category).html("");
             }
@@ -144,7 +143,7 @@ PatternPanel.prototype = {
                 // Empty the Edit pattern button
                 $(".edit-pattern-modal-container-"  + modifier_category).html("");
 
-                if (DEFAULTPATTERNID !== _id) {
+                if (blank.id !== _id) {
                     // Show edit pattern button
                     $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit Pattern Color</button>");
                 }
@@ -158,7 +157,7 @@ PatternPanel.prototype = {
 
     onOpenModalPatternModifier: function() {
         let _this = this;
-        $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
+        $(".modifier_main_container .pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
             event.preventDefault();
             // Get the current modifier index
             var _modifier_index = $(this).data('modifier-index');
@@ -656,5 +655,14 @@ PatternPanel.prototype = {
             }
 
         }, 500);
+    },
+
+    loadBlankPattern: function(index) {
+        var blank = _.find(ub.data.patterns.items, {name: "Blank"});
+        if (typeof blank !== "undefined") {
+            this.createPatternPreviewFromPatternPicker(index, blank.id);
+        } else {
+            console.log("Blank Pattern is undefined");
+        }
     }
 }

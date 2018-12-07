@@ -15,10 +15,16 @@ function GradientPanel() {
 
 GradientPanel.init = function() {
     if (ub.current_material.material.gradient !== null) {
-        GradientPanel.utilities.initGradientLogo(ub.current_material.material.gradient)
-        ub.funcs.afterLoadFunctionList.push(function() {
-            GradientPanel.utilities.processGradientColor(ub.data.gradients)
-        });
+        GradientPanel.utilities.initGradientData(ub.current_material.material.gradient)
+        if (_.size(ub.current_material.settings.gradients) > 0) {
+            ub.funcs.afterLoadFunctionList.push(function() {
+                GradientPanel.utilities.processSavedGradientColor();
+            });
+        } else {
+            ub.funcs.afterLoadFunctionList.push(function() {
+                GradientPanel.utilities.processGradientColor(ub.data.gradients)
+            });
+        }
     }
 }
 
@@ -41,23 +47,43 @@ GradientPanel.events = {
         var modifier_index = $(this).data("modifier-index");
         var selected_pattern = $(".pattern-main-container-" + modifier_category).find('.active-pattern');
 
+        // Change current part
+        ub.current_part = modifier_index;
+
         selected_pattern.removeClass('active-pattern');
         selected_pattern.html("");
 
         var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
         var modifierTitle = ub.utilities.titleCase(modifier)
-
-
         var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        var _settingsObject = GradientPanel.utilities.getMaterialOptionByIndex(modifier_index);
 
-        if (typeof gradientObjectSettings !== "undefined") {
-            gradientObjectSettings.enabled = 1;
+        if (typeof gradientObjectSettings !== "undefined" && gradientObjectSettings.enabled === 1) {
+            // Remove gradient object in setting object
+            GradientPanel.utilities.removeGradient(_settingsObject);
+            PatternPanel.prototype.loadBlankPattern(modifier_index);
+            gradientObjectSettings.enabled = 0;
+
+            // Remove gradient as active
+            $(this).html("");
+            $(".edit-pattern-modal-container-"  + modifier_category).html("")
+            $(this).removeClass('active-pattern');
+
+        } else {
+            // Removing Existing pattern
+            if (typeof _settingsObject.pattern.pattern_id !== "undefined" && _settingsObject.pattern.pattern_id !== "") {
+                PatternPanel.prototype.loadBlankPattern(modifier_index);
+            }
+
+            // Render Gradient
             GradientPanel.utilities.renderGradient(gradientObjectSettings, modifier_index);
-        }
+            gradientObjectSettings.enabled = 1;
 
-        $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal-button' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'>Edit Gradient Color</button>");
-        $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
-        $(this).addClass('active-pattern');
+            // Add Check and Show edit gradient color button
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal-button' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'>Edit Gradient Color</button>");
+            $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+            $(this).addClass('active-pattern');
+        }
     },
 
     onEditGradientColor: function () {
@@ -68,10 +94,8 @@ GradientPanel.events = {
         var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
         var colors = [];
         var colors2 = [];
-
         var firstLayer = _.find(gradientObjectSettings.layers, {layer: 1});
         var secondLayer = _.find(gradientObjectSettings.layers, {layer: 2});
-
         var items2 = ub.data.gradientColorLayerFilter.getSecondaryColor(firstLayer.colorCode);
 
         _.each(items, function(index, el) {
@@ -88,13 +112,17 @@ GradientPanel.events = {
             }
         });
 
+        // Gradient color picker
         var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
+
+        // Render Layer Color 1
         var renderLayer1 = Mustache.render(gradient_color_element, {
             colors: colors,
             layer: "Layer 1",
             modifier: modifierTitle
         });
 
+        // Render Layer Color 2
         var renderLayer2 = Mustache.render(gradient_color_element, {
             colors: colors2,
             layer: "Layer 2",
@@ -185,11 +213,11 @@ GradientPanel.events = {
         ) {
             element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
         }
-    }
+    },
 }
 
 GradientPanel.utilities = {
-    initGradientLogo: function(gradient_data) {
+    initGradientData: function(gradient_data) {
         if (!util.isNullOrUndefined(gradient_data)) {
             var gradient = gradient_data.replace(new RegExp("\\\\", "g"), "");
             gradient = gradient.slice(1, -1);
@@ -260,6 +288,18 @@ GradientPanel.utilities = {
         } else {
             ub.utilities.info('This uniform has no Gradient.');
         }
+    },
+
+    processSavedGradientColor: function() {
+        _.each(ub.current_material.settings.gradients, function (gradient, key) {
+            if (gradient.enabled === 0) { return; }
+
+            var modifierObject = _.find(ub.data.modifierLabels, {fullname: gradient.name});
+
+            if (typeof modifierObject !== "undefined") {
+                GradientPanel.utilities.renderGradient(gradient, modifierObject.index);
+            }
+        });
     },
 
     getGradientSettingsObject: function(position) {
@@ -370,10 +410,9 @@ GradientPanel.utilities = {
 
         _.each(views, function(v) {
             var _adjustment = {x: 0, y: 0};
-
             _adjustment = ub.funcs.coordinateAdjustments(target_name, clone, v);
-
             _extra = ub.getAngleofPattern(v, target_name)
+
             if (typeof _extra !== 'undefined') {
                 _rotationAngle = _extra.angle;
             }
@@ -454,6 +493,11 @@ GradientPanel.utilities = {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
+            if (target.includes("sleeve")) {
+                _p.position.y -= 350;
+                console.log("_adjustment y");
+            }
+
             var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
 
             if (_soPattern.dirty) {
@@ -466,44 +510,6 @@ GradientPanel.utilities = {
             ub.updateLayersOrder(ub[view]);
 
         });
-    },
-
-    setMaterialOptionGradientColor: function(materialOption, colorObj, layerID,  ) {
-        var _materialOption = materialOption;
-        var _colorOBJ = colorOBJ;
-        var _layerID = layerID;
-        var _patternObj = patternObj;
-        var _layerObj = _.find(_patternObj.layers, {layer_no: layerID.toString()});
-        var _tintColor = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
-        var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
-        var _names = ub.funcs.ui.getAllNames(_modifier.name);
-
-        _layerObj.color = _tintColor;
-        _layerObj.color_code = colorOBJ.color_code;
-        _layerObj.default_color = colorOBJ.hex_code;
-
-        _.each(_names, function (_name) {
-
-            var titleNameFirstMaterial = _name.toTitleCase();
-            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
-            var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
-            layer.color = _tintColor;
-            layer.color_code = colorOBJ.color_code;
-            var _materialOptions = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
-
-            _.each(_materialOptions, function (_materialOption) {
-
-                var _materialOptionName = _materialOption.name;
-                var _uniformType = ub.current_material.material.type;
-                var _containers = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views = ['front', 'back', 'left', 'right'];
-                var c = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-
-                _.each(views, function (v) {
-                    c[v].container.children[layerID - 1].tint = _tintColor;
-                });
-            });
-        })
     },
 
     changeGradientColor: function(gradientObjectSettings, layerID, color_code, index) {
@@ -529,5 +535,23 @@ GradientPanel.utilities = {
         }
 
         GradientPanel.utilities.renderGradient(gradientObjectSettings, index);
+    },
+
+    getMaterialOptionByIndex: function(index) {
+        // Get Material Option
+        var _modifier = ub.funcs.getModifierByIndex(index);
+        var _names = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial = _names[0].toTitleCase();
+        var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+
+        return _settingsObject;
+    },
+
+    removeGradient: function(_settingsObject) {
+        if (typeof _settingsObject !== "undefined") {
+            _settingsObject.gradient["gradient_id"] = "";
+            _settingsObject.gradient["gradient_obj"] = undefined;
+        }
+        return;
     }
 }
