@@ -79,11 +79,7 @@ PropertiesPanel.prototype = {
                 modifier.name.includes("Piping") ||
                 modifier.name.includes("Insert")
         });
-
-        console.log(this.inserts);
         this.parts = _.difference(this.modifiers, this.inserts);
-        console.log(this.parts);
-
     },
 
     getBrand: function() {
@@ -135,6 +131,8 @@ PropertiesPanel.prototype = {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
 
+            console.log("patternObject", patternObject)
+
             if (typeof materialObject !== "undefined")
             {
                 var color_container = $(".color-main-container-" + materialObject.code + " .color-container-button .color-selector-button[data-color-id='"+ materialObject.colorObj.id +"']");
@@ -149,11 +147,15 @@ PropertiesPanel.prototype = {
                     var name = ub.utilities.underscoreToWhitespace(patternObject.pattern_id);
                     var pattern_name = ub.utilities.titleCase(name);
 
+
+
                     // Default Pattern Layers
                     var layers = materialObject.pattern.pattern_obj.layers;
 
+                    console.log("patternObject.pattern_obj.pattern_id", patternObject.pattern_obj.pattern_id)
+
                     // Get pattern and modifier object
-                    var patternObject = _.find(ub.data.patterns.items, {name: pattern_name});
+                    var _patternObject = _.find(ub.data.patterns.items, {id: patternObject.pattern_obj.pattern_id});
                     var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
                     // Get Material Option
@@ -166,9 +168,9 @@ PropertiesPanel.prototype = {
                         _this.panels.patterns.setPatternColor(modifierObject.fullname, parseInt(index.layer_no), colorObject, pattern, materialOption)
                     });
 
-                    _this.panels.patterns.setPreviousPattern(modifierObject.fullname, parseInt(patternObject.id));
+                    _this.panels.patterns.setPreviousPattern(modifierObject.fullname, parseInt(_patternObject.id));
 
-                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ patternObject.id +"']");
+                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ _patternObject.id +"']");
                     if (pattern_container.length > 0) {
                         $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');

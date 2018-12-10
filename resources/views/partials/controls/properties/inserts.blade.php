@@ -65,7 +65,7 @@
                 @{{/hasPattern}}
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
-                        <hr>
+                        <p class="cp-margin-remove-top cp-border"></p>
                     </div>
                 </div>
             </li>
