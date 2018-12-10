@@ -77,6 +77,9 @@ ModifierController.prototype = {
 
         // on click on any group pane switch to active
         $('#property-modifiers-menu a').click(this.enableDisableModifierMenu);
+
+        // On click dropdown shorts for modifier
+        $('div.pd-dropdown-links').on('click', ModifierController.dropdownLinks);
     },
 
     enableDisableModifierMenu: function() {
@@ -266,4 +269,59 @@ ModifierController.scrollToOptions = function (application_type, application_id)
 
 ModifierController.deleteApplicationContainer = function (application_id) {
     $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
+}
+
+ModifierController.dropdownLinks = function() {
+    var _group_id = $(this).data('group-id');
+    var _fullname = $(this).data('fullname');
+    var _name = $(this).data('name');
+    var _ctr = $(this).data('ctr');
+    var _ht = _name;
+    var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+
+    if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
+        // Add `thread_colors` flag in ub.current_material.settings
+        // if the category of uniform is `Socks (Apparel)`
+        // and base on the truthiness of the flag, thread colors will be used
+        if (_.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)')
+            && ub.funcs.isKnitted()) {
+
+            if (_.isEqual(ub.page, 'builder')
+                || ub.current_material.settings.threadColors === 'undefined') {
+
+                ub.current_material.settings.threadColors = true;
+
+            }
+
+        }
+
+        ub.funcs.initTeamColors();
+        $pd.hide();
+        $('div#right-main-window').css('overflow', 'hidden');
+
+        return;
+    }
+
+    var _index = ub.funcs.getIndexByName(_fullname);
+    ub.current_part = _index;
+
+    var filter = ["Insert", "Panel", "Piping"];
+
+    if (_.includes(_name, filter))
+    {
+        if ($("#primary_options_container #parts-with-insert-container").length === 0) {
+            $('#property-modifiers-menu .menu-item-inserts').trigger('click');
+        }
+    }
+    else
+    {
+        if ($("#primary_options_container .parts-container").length === 0) {
+            $('#property-modifiers-menu .menu-item-parts').trigger('click');
+        }
+    }
+
+    PropertiesPanel.prototype.activePanelbyIndex(_index);
+    $pd.hide();
+    $('div#right-main-window').css('overflow', 'hidden');
+    return;
 }

@@ -4470,113 +4470,115 @@ $(document).ready(function () {
 
         $('div.pd-dropdown-links').on('click', function () {
 
-            var _group_id = $(this).data('group-id');
-            var _fullname = $(this).data('fullname');
-            var _name = $(this).data('name');
-            var _ctr = $(this).data('ctr');
-            var _ht = _name;
-            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-            var _patternActivated = false;
+            if (!ub.data.useScrollingUI) {
+                var _group_id = $(this).data('group-id');
+                var _fullname = $(this).data('fullname');
+                var _name = $(this).data('name');
+                var _ctr = $(this).data('ctr');
+                var _ht = _name;
+                var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+                var _patternActivated = false;
 
-            ub.current_part = _ctr;
-            ub.funcs.clearPatternUI();
+                ub.current_part = _ctr;
+                ub.funcs.clearPatternUI();
 
-            _patternActivated = ub.funcs.activatePatterns();
+                _patternActivated = ub.funcs.activatePatterns();
 
-            if (!_patternActivated) {
-                ub.funcs.activateColorPickers();
-            }
+                if (!_patternActivated) {
+                    ub.funcs.activateColorPickers();
+                }
 
-            if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
+                if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
-                // Add `thread_colors` flag in ub.current_material.settings
-                // if the category of uniform is `Socks (Apparel)`
-                // and base on the truthiness of the flag, thread colors will be used
-                if (_.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)')
-                    && ub.funcs.isKnitted()) {
+                    // Add `thread_colors` flag in ub.current_material.settings
+                    // if the category of uniform is `Socks (Apparel)`
+                    // and base on the truthiness of the flag, thread colors will be used
+                    if (_.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)')
+                        && ub.funcs.isKnitted()) {
 
-                    if (_.isEqual(ub.page, 'builder')
-                        || ub.current_material.settings.threadColors === 'undefined') {
+                        if (_.isEqual(ub.page, 'builder')
+                            || ub.current_material.settings.threadColors === 'undefined') {
 
-                        ub.current_material.settings.threadColors = true;
+                            ub.current_material.settings.threadColors = true;
+
+                        }
 
                     }
 
+                    ub.funcs.initTeamColors();
+                    $pd.hide();
+                    $('div#right-main-window').css('overflow', 'hidden');
+
+                    return;
+
                 }
 
-                ub.funcs.initTeamColors();
+                ub.funcs.deactivateMoveTool();
+
+                if ($('div#cw').length) {
+                    if ($('div#cw').html().length === 0) {
+                        ub.funcs.drawColorPickers();
+                    }
+                }
+
+                ub.funcs.moveToColorPickerByIndex(_ctr - 1);
+
+                if (_patternActivated) {
+                    $('#color-wheel-container').hide();
+                }
+
+                ub.active_part = _fullname;
+
+                var _htTemp = _ht;
+
+                if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
+                if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
+                if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
+
+                if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
+
+                    _group_id = _group_id;
+
+                    $("span.part_label").html(_ht.toUpperCase());
+                    $("span.nOf").html(_ctr + ' of ' + _moCount);
+                    ub.current_group_id = _group_id;
+
+                }
+
+                var _next_part = _.find(_sortedModifierLabels, {index: _ctr + 1});
+
+                if (typeof _next_part !== 'undefined') {
+
+                    var _button_label = "<div class='left_side'>" + '<span class="next_label">Next Part:</span><br /><span class="part_label">' + _next_part.name + '</span></div> <div class="right_side"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>';
+
+                }
+
+                $('button#next_mo').html(_button_label);
+
                 $pd.hide();
-                $('div#right-main-window').css('overflow', 'hidden');
+                ub.funcs.match(_fullname);
 
-                return;
+                $('div.mTab[data-type="color"]').click();
 
-            }
+                if (ub.funcs.isSocks() && ub.data.afterLoadCalled === 1) {
 
-            ub.funcs.deactivateMoveTool();
-        
-            if ($('div#cw').length) {
-                if ($('div#cw').html().length === 0) {
-                    ub.funcs.drawColorPickers();
-                }
-            }
+                    var _set = _fullname.toString().toTitleCase();
 
-            ub.funcs.moveToColorPickerByIndex(_ctr - 1);
+                    if (typeof ub.current_material.settings.randomFeeds[_set] !== "undefined") {
 
-            if (_patternActivated) {
-                $('#color-wheel-container').hide();
-            }
+                        var _enabled = ub.current_material.settings.randomFeeds[_set].enabled;
 
-            ub.active_part = _fullname;
+                        if (parseInt(_enabled) === 1) {
 
-            var _htTemp = _ht;
+                            ub.funcs.activateRandomFeeds(_set);
 
-            if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
-            if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
-            if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
+                            return;
 
-            if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
-
-                _group_id = _group_id;
-
-                $("span.part_label").html(_ht.toUpperCase());
-                $("span.nOf").html(_ctr + ' of ' + _moCount);
-                ub.current_group_id = _group_id;
-
-            }
-
-            var _next_part = _.find(_sortedModifierLabels, {index: _ctr + 1});
-
-            if (typeof _next_part !== 'undefined') {
-
-                var _button_label = "<div class='left_side'>" + '<span class="next_label">Next Part:</span><br /><span class="part_label">' + _next_part.name + '</span></div> <div class="right_side"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>';
-
-            }
-
-            $('button#next_mo').html(_button_label);
-
-            $pd.hide();
-            ub.funcs.match(_fullname);
-
-            $('div.mTab[data-type="color"]').click();
-
-            if (ub.funcs.isSocks() && ub.data.afterLoadCalled === 1) {
-
-                var _set = _fullname.toString().toTitleCase();
-
-                if (typeof ub.current_material.settings.randomFeeds[_set] !== "undefined") {
-
-                    var _enabled = ub.current_material.settings.randomFeeds[_set].enabled;
-
-                    if (parseInt(_enabled) === 1) {
-
-                        ub.funcs.activateRandomFeeds(_set);
-
-                        return;
+                        }
 
                     }
 
                 }
-
             }
 
         });
