@@ -74,12 +74,16 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
-        var filter = ["Insert", "Panel", "Piping"];
-
         this.inserts = _.filter(this.modifiers, function (modifier) {
-            return _.includes(modifier.name, filter);
+            return modifier.name.includes("Panel") ||
+                modifier.name.includes("Piping") ||
+                modifier.name.includes("Insert")
         });
+
+        console.log(this.inserts);
         this.parts = _.difference(this.modifiers, this.inserts);
+        console.log(this.parts);
+
     },
 
     getBrand: function() {
@@ -197,7 +201,7 @@ PropertiesPanel.prototype = {
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if (_match.includes("insert"))
+                if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
                 {
                     if ($("#primary_options_container #parts-with-insert-container").length === 0) {
                         $('#property-modifiers-menu .menu-item-inserts').trigger('click');

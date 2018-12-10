@@ -305,9 +305,7 @@ ModifierController.dropdownLinks = function() {
     var _index = ub.funcs.getIndexByName(_fullname);
     ub.current_part = _index;
 
-    var filter = ["Insert", "Panel", "Piping"];
-
-    if (_.includes(_name, filter))
+    if (_name.includes("Insert") || _name.includes("Piping") || _name.includes("Panel"))
     {
         if ($("#primary_options_container #parts-with-insert-container").length === 0) {
             $('#property-modifiers-menu .menu-item-inserts').trigger('click');
@@ -321,7 +319,7 @@ ModifierController.dropdownLinks = function() {
     }
 
     PropertiesPanel.prototype.activePanelbyIndex(_index);
-    $pd.hide();
     $('div#right-main-window').css('overflow', 'hidden');
+    $pd.hide();
     return;
 }
