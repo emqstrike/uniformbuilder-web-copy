@@ -29,8 +29,19 @@ PartPanel.prototype = {
 
     initColorPalette: function () {
         var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+        var base = configuration.colors.base;
 
-        console.log("Palette configuration", configuration.colors.base);
+        switch (base) {
+            case "Palette 1":
+                this.items.color_palette = ub.data.firstColorPalette;
+                break;
+            case "Palette 2":
+                this.items.color_palette = ub.data.secondaryColorPalette;
+                break;
+            case "Palette 3":
+                this.items.color_palette = ub.data.tertiaryColorPalette;
+                break;
+        }
     },
 
     getPanel: function() {

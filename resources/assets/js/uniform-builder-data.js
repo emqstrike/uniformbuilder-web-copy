@@ -12470,9 +12470,9 @@ ub.funcs.fontOffSets = [
                 application_type: "tackle_twill",
                 type: "upper",
                 colors: {
-                    base: "Palete 1",
-                    tackle_twill: "Palete 1",
-                    piping: "Palete 1",
+                    base: "Palette 1",
+                    tackle_twill: "Palette 1",
+                    piping: "Palette 1",
                     pattern: "Palette 2",
                     mascots: "Palette 2"
                 }
@@ -12483,8 +12483,8 @@ ub.funcs.fontOffSets = [
                 application_type: "tackle_twill",
                 type: "lower",
                 colors: {
-                    base: "Palete 1",
-                    piping: "Palete 1",
+                    base: "Palette 1",
+                    piping: "Palette 1",
                     pattern: "Palette 2",
                     mascots: "Palette 2"
                 }

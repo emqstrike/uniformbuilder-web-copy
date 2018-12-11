@@ -9,17 +9,11 @@ ColorPalette.funcs = {
 
     getColorsSets: function (name) {
         var colors = [];
-        var _url = window.ub.config.api_host + '/api/colors_sets';
+        var colorSet = _.find(ub.data.colors_sets, { name: name});
 
-        ub.loader(_url, 'colors_sets', function (result) {
+        _.map(JSON.parse(colorSet.colors), function(color) {
 
-            var colorSet = _.find(result, { name: name});
-
-            _.map(JSON.parse(colorSet.colors), function(color) {
-
-                colors.push(ub.funcs.getColorByColorCode(color));
-
-            });
+            colors.push(ub.funcs.getColorByColorCode(color));
 
         });
 
