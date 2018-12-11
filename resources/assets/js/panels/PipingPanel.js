@@ -273,7 +273,7 @@ PipingPanel.events = {
 
         var colorPalette = undefined;
 
-        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type, ub.config.option);
         var piping = configuration.colors.piping;
 
         switch (piping) {

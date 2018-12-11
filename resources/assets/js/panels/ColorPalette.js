@@ -26,5 +26,26 @@ ColorPalette.funcs = {
         ub.data.tertiaryColorPalette = ColorPalette.funcs.getColorsSets("Richardson Color Palette 3");
 
         return;
+    },
+
+    getConfigurationPerTab: function(name) {
+        var colorPalette = undefined;
+
+        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type, ub.config.option);
+        var config = configuration.colors[name];
+
+        switch (config) {
+            case "Palette 1":
+                colorPalette = ub.data.firstColorPalette;
+                break;
+            case "Palette 2":
+                colorPalette = ub.data.secondaryColorPalette;
+                break;
+            case "Palette 3":
+                colorPalette = ub.data.tertiaryColorPalette;
+                break;
+        }
+
+        return colorPalette;
     }
 }

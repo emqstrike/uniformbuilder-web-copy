@@ -219,12 +219,15 @@ PatternPanel.prototype = {
             // Append Pattern Name
             $(".modal-pattern-name").text(selected_pattern.data("pattern-name"));
 
+            // Color Palette Configuration
+            var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
+
             // Render Mustache
             var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
             var render_pattern_colors = Mustache.render(
                 pattern_colors_element.innerHTML,
                 {
-                    colors: ub.current_material.settings.team_colors,
+                    colors: color_palette,
                     modifier_category: _modifier_category
                 }
             );
