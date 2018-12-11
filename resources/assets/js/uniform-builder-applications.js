@@ -1303,6 +1303,18 @@ $(document).ready(function () {
                         // view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180.00;
 
+                        console.log("view.application.rotation", view.application.rotation);
+                        console.log("angleRadians", angleRadians);
+
+                        console.log("bum: ", (view.application.rotation * 5) / 18);
+
+                        var a = (view.application.rotation * 5) / 18;
+                        if (a < 0 && a > -60) {
+                            a += 60 + 40;
+                        }
+
+                        console.log(a);
+
                         move_point.rotation = angleRadians;
 
                         if (ub.config.uniform_application_type === "sublimated") {
@@ -4009,7 +4021,6 @@ $(document).ready(function () {
                             return;
                         }
                     }
-
                 }
 
                 /// Check if CW if empty, draw Pickers if it is
@@ -4372,9 +4383,9 @@ $(document).ready(function () {
                 return;
             }
 
-            if (_obj.name === "Extra") {
-                return;
-            }
+            if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
@@ -4949,8 +4960,9 @@ $(document).ready(function () {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id = settingsObj.id;
+        var _id = settingsObj.code;
         var _length = 'short';
 
         ub.funcs.removeApplicationByID(_id);
@@ -8843,7 +8855,8 @@ $(document).ready(function () {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
+            var _mascotID = ub.data.mascots[_randomIndex].id;
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -12145,7 +12158,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.addLocation = function (artOnly) {
-
         // Guard
 
         var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);

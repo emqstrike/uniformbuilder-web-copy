@@ -123,6 +123,13 @@ ModifierController.prototype = {
 
     fabrics: function() {
         console.log('Show Fabrics Panel');
+
+        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        ub.modifierController.controllers.fabrics = new FabricPanel('fabric-tmpl');
+        ub.modifierController.controllers.fabrics.setItems();
+
+        var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
+        propertiesPanel.setBodyPanel(fabric_panel);
     },
 
     parts: function(_this) {
@@ -251,7 +258,6 @@ ModifierController.prototype = {
 };
 
 ModifierController.scrollToOptions = function (application_type, application_id) {
-    console.log('TYPE: ' + application_type)
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if (application_type === "team_name" || application_type === "player_name") {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     window.position_sets = [
-                        "Right Chest",
+                        "Top Left of Pocket",
                         "Left Sleeve",
                         "Back Neck",
                         "Front Left Hip",

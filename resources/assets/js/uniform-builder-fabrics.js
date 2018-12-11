@@ -25,7 +25,57 @@ $(document).ready(function() {
 
         },
 
-    }
+    };
+
+    ub.fabric.getFabricInfo = function (fabric_id) {
+
+    };
+
+    ub.fabric.defaultFabric = function () {
+
+        var _highlightsAndShadows = _.filter(ub.current_material.materials_options, function (mo) { 
+            return (mo.name === "Highlights" || mo.name === "Shadows") && mo.default_asset === 1;
+        });
+
+        var _filteredFields =_.map(_highlightsAndShadows, function (mo) {
+            return {
+                name: mo.name,
+                layer: mo.layer_level,
+                default_asset: mo.default_asset,
+                perspective: mo.perspective, 
+                fabric_id: mo.fabric_id,
+                fabric: ub.fabric.getFabricInfo(mo.fabric_id)
+            };
+        });
+
+        var _uniqIDS = _.uniq(_.pluck(_filteredFields, "layer"));
+        
+        ub.utilities.info('Activating Fabric ids: ');
+        ub.utilities.info(_uniqIDS);
+
+        if (_.contains(_uniqIDS, 98)) {
+            return "one";
+        } else if (_.contains(_uniqIDS, 100)) {
+            return "two";
+        } else if (_.contains(_uniqIDS, 102)) {
+            return "three";
+        } else {
+            return "none";
+        }
+
+    };
+
+    ub.fabric.initFabric = function () {
+
+        var _defaultFabric = ub.fabric.defaultFabric();
+
+        if (_defaultFabric === "one") { ub.fabric.fabricOne(); }
+        if (_defaultFabric === "two") { ub.fabric.fabricTwo(); }
+        if (_defaultFabric === "three") { ub.fabric.fabricThree(); }
+
+        ub.utilities.info('Initializing fabric function...')
+
+    };
 
 	ub.fabric.testFabric = function () {
 
@@ -177,5 +227,18 @@ $(document).ready(function() {
         /// End Initialize
 
     }
+
+    ub.fabric.init = function () {
+
+        // if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
+        if (ub.current_material.material.brand === "richardson") { ub.fabric.initFabric(); }
+
+    }
+
+    /// Executable Portion
+
+        ub.funcs.addFunctionToAfterloadList(ub.fabric.init);
+
+    ///
 
 });
