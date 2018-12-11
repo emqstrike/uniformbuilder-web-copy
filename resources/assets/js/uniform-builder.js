@@ -2842,6 +2842,9 @@ $(document).ready(function () {
 
         }
 
+        // Init Richardson Palette
+        ColorPalette.funcs.prepareRichardsonPalette();
+
         // Process Prolook Logo Here
         LogoPanel.init();
         // if (ub.current_material.material.logo_position !== null) {
