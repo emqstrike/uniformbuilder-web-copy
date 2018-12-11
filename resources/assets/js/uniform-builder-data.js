@@ -12489,6 +12489,20 @@ ub.funcs.fontOffSets = [
                     mascots: "Palette 2"
                 }
             },
+            {
+                blockPattern: "PTS Signature Raglan",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "upper",
+                colors: {
+                    base: "Palette 1",
+                    insert: "Palette 2",
+                    tackle_twill: "Palette 1",
+                    piping: "Palette 1",
+                    pattern: "Palette 2",
+                    mascots: "Palette 2"
+                }
+            },
         ],
 
         getColorPaletteConfiguration: function(blockPattern, brand, application_type, type) {

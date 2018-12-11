@@ -17,10 +17,29 @@ function InsertPanel(element, inserts) {
         inserts: this.inserts,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
+
+    this.initColorPalette();
 }
 
 InsertPanel.prototype = {
     constructor: InsertPanel,
+
+    initColorPalette: function () {
+        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+        var insert = configuration.colors.insert;
+
+        switch (insert) {
+            case "Palette 1":
+                this.items.color_palette = ub.data.firstColorPalette;
+                break;
+            case "Palette 2":
+                this.items.color_palette = ub.data.secondaryColorPalette;
+                break;
+            case "Palette 3":
+                this.items.color_palette = ub.data.tertiaryColorPalette;
+                break;
+        }
+    },
 
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);

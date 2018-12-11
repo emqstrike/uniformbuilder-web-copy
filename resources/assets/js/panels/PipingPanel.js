@@ -271,13 +271,30 @@ PipingPanel.events = {
                 break;
         }
 
+        var colorPalette = undefined;
+
+        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+        var piping = configuration.colors.piping;
+
+        switch (piping) {
+            case "Palette 1":
+                colorPalette = ub.data.firstColorPalette;
+                break;
+            case "Palette 2":
+                colorPalette = ub.data.secondaryColorPalette;
+                break;
+            case "Palette 3":
+                colorPalette = ub.data.tertiaryColorPalette;
+                break;
+        }
+
         // Render Mustache
         var pipping_colors_element = document.getElementById("m-tab-piping-colors");
         var render_piping_colors = Mustache.render(
             pipping_colors_element.innerHTML,
             {
                 modifier: modifier,
-                colors: ub.current_material.settings.team_colors,
+                colors: colorPalette,
             }
         );
 
