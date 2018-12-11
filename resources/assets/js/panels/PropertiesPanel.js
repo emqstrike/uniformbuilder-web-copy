@@ -131,8 +131,6 @@ PropertiesPanel.prototype = {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
 
-            console.log("patternObject", patternObject)
-
             if (typeof materialObject !== "undefined")
             {
                 var color_container = $(".color-main-container-" + materialObject.code + " .color-container-button .color-selector-button[data-color-id='"+ materialObject.colorObj.id +"']");
@@ -147,12 +145,8 @@ PropertiesPanel.prototype = {
                     var name = ub.utilities.underscoreToWhitespace(patternObject.pattern_id);
                     var pattern_name = ub.utilities.titleCase(name);
 
-
-
                     // Default Pattern Layers
                     var layers = materialObject.pattern.pattern_obj.layers;
-
-                    console.log("patternObject.pattern_obj.pattern_id", patternObject.pattern_obj.pattern_id)
 
                     // Get pattern and modifier object
                     var _patternObject = _.find(ub.data.patterns.items, {id: patternObject.pattern_obj.pattern_id});
