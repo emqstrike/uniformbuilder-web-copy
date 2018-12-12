@@ -108,6 +108,7 @@ elixir(function(mix) {
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
             'panels/FabricPanel.js',
+            'panels/ColorPalette.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
