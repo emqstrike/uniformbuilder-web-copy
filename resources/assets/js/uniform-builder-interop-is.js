@@ -694,7 +694,7 @@ $(document).ready(function() {
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _sizes              = ub.funcs.getApplicationSizes('mascot', _alias.alias);  // Force Mascot
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
-
+        
         // Change This for Embellishment Specific Size Settings   
 
             if (ub.current_material.material.uniform_category === "Football") {
@@ -850,14 +850,17 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
-        // CCO-159 @Nov 23 2018
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
         _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
         _htmlBuilder        +=          '</div>'
-        // end CCO-159
+        // end custom size options
+        }
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
@@ -1288,13 +1291,6 @@ $(document).ready(function() {
 
                 }
 
-                // CCO-159 @Nov 26 2018
-                // add scale_type flag on application settings
-                // this is to know if the application is using custom scale or not (embellishment application only)
-                // var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
-                // _settingsObject.scale_type = _scaleType;
-                // end CCO-159
-
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
 
@@ -1311,6 +1307,10 @@ $(document).ready(function() {
                 }
 
                 $('select.customSize option:first').prop('selected', true);
+                
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
             });
 
@@ -1393,11 +1393,13 @@ $(document).ready(function() {
    
             });
 
-            // CCO-159 @Nov 26, 2018
             $('select.customSize').on('change', function () {
                 
                 var selectedOption = $(this).find(':selected');
                 var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
 
                 ub.funcs.changeCustomMascotSize(selectedSize, _settingsObject);
 
@@ -1415,9 +1417,16 @@ $(document).ready(function() {
                 $('input.custom-size-type').attr('disabled', false);
 
                 $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
             });
-            // end CCO-159
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
+            });
 
         // End Small Color Pickers
 
@@ -1480,13 +1489,20 @@ $(document).ready(function() {
         // Is this needed ??? 
         // ub.funcs.afterActivateMascots(_id);
 
-        // CCO-159 @Nov 26 2018
+        // Automatically select bestfit option if scale is custom scale for Tackle twill uniform
         if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
             $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
             $('input.custom-size-type').attr('disabled', true);
         }
-        // end CCO-159
 
+    }
+
+    // activate bastfit radio button
+    ub.funcs.activateBestFitOption = function () {
+        $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+        $('input.custom-size-type').attr('disabled', true);
+        $('select.customSize option:first').prop('selected', true);
+        $('span.font_size').removeClass('active');
     }
 
     // ub.status.embellishmentPopupVisible = false;

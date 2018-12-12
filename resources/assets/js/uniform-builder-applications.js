@@ -1068,6 +1068,12 @@ $(document).ready(function() {
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     
+                    // activate bestfit option application panel
+                    ub.funcs.activateBestFitOption();
+
+                    // add `custom_size_type` flag on application setting instance
+                    _application.custom_size_type = "bestfit";
+
                 }
 
             });
@@ -1341,6 +1347,12 @@ $(document).ready(function() {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
+
+                        // activate bestfit option application panel
+                        ub.funcs.activateBestFitOption();
+
+                        // add `custom_size_type` flag on application setting instance
+                        _application.custom_size_type = "bestfit";
 
                     }
 
@@ -6227,19 +6239,16 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
-        // CCO-159 @Nov 26 2018
+        // Custom sizes should be only available on mascot and embellishments
         var customSizeValidApplications = ['mascot', 'embellishments'];
+
+        // Get the first 2 sizes array value
         if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) { var sizes = sizes.slice(0,2); }
-        // end CCO-159
 
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
                 _additionalClass = 'active';
-
-                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
-                    (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
-                }
 
             } else {
                 _additionalClass = '';
@@ -6255,11 +6264,16 @@ $(document).ready(function() {
 
         });
 
-        // CCO-159 @Nov 23 2018
+        // Custom size select option
         if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) {
-            _htmlBuilder += "<span style='color:white;'>OR</span> &nbsp";
-            _htmlBuilder += "<select class='customSize' style='-webkit-border-radius: 0; border: 0; outline: 1px solid #ccc; outline-offset: -1px; height: 30px; width: 155px; text-align: center; background: white;'>";
-            _htmlBuilder += "<option value='0'>CUSTOM SIZE</option>";
+
+            var sizeCount = _.size(sizes);
+            var width = (sizeCount > 1) ? 155 : 205;
+
+            _htmlBuilder += '<span style="color:white;">OR</span> &nbsp';
+            _htmlBuilder += '<select class="customSize" style="width: '+width+'px">';
+            _htmlBuilder += '<option value="0">CUSTOM SIZE</option>';
+
             _.each(ub.data.customSizes, function(cSize) {
                 
                 var selected = '';
@@ -6275,24 +6289,13 @@ $(document).ready(function() {
                 }
 
                 _htmlBuilder += "<option value='"+cSize+"' "+selected+">" + cSize + "\"</option>";
+
             });
-            _htmlBuilder += "</select>";
+
+            _htmlBuilder += '</select>';
+
         }
-        // end CCO-159
-
-        // show BESTFIT option on embellishment's application sizes
-        // if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
-
-        //     (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
-
-        //     var customSize  = settingsObject.custom_obj.fontSize;
-        //     var customScale = settingsObject.custom_obj.scale.x;
-        //     var type        = 'custom';
-
-        //     // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
-        //     if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
-
-        // }
+        // end Custom size select option
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
@@ -6729,14 +6732,17 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
-        // CCO-159 @Nov 23 2018
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
         _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
         _htmlBuilder        +=          '</div>'
-        // end CCO-159
+        // end custom size options
+        }
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
@@ -7190,6 +7196,10 @@ $(document).ready(function() {
 
                 $('select.customSize option:first').prop('selected', true);
 
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
             });
 
             $('span.font_name').on('click', function () {
@@ -7271,7 +7281,6 @@ $(document).ready(function() {
    
             });
 
-            // CCO-159 @Nov 26, 2018
             $('select.customSize').on('change', function () {
                 
                 var selectedOption = $(this).find(':selected');
@@ -7296,9 +7305,16 @@ $(document).ready(function() {
                 $('input.custom-size-type').attr('disabled', false);
 
                 $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
             });
-            // end CCO-159
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
+            });
 
         // End Small Color Pickers
 
@@ -7359,12 +7375,8 @@ $(document).ready(function() {
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
 
-        // CCO-159 @Nov 26 2018
-        if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
-            $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
-            $('input.custom-size-type').attr('disabled', true);
-        }
-        // end CCO-159
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
     }
 
@@ -8603,14 +8615,17 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
-        // CCO-159 @Nov 27 2018
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
         _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
-        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
         _htmlBuilder        +=          '</div>'
-        // end CCO-159
+        // end custom size options
+        }
 
         // Rotate Team Name in Baseball and Fastpitch
         _htmlBuilder        += '<div class="ui-row angleItems">';
@@ -9109,10 +9124,22 @@ $(document).ready(function() {
                 if (typeof _matchingID !== "undefined") {
 
                     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);
 
                 }
+
+                $('select.customSize option:first').prop('selected', true);
+
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
                 
+            });
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
             });
 
             $('span.font_name').on('click', function () {
@@ -9570,6 +9597,9 @@ $(document).ready(function() {
 
         ub.funcs.afterActivateApplication(application_id);
 
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
     }
 
     ub.funcs.activateMoveTool = function (application_id) {
@@ -9764,28 +9794,28 @@ $(document).ready(function() {
         // --- Scale --- ///
 
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || ub.config.uniform_application_type === "tackle_twill") {
+        // if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || ub.config.uniform_application_type === "tackle_twill") {
 
-            var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-            var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-            ub.objects[_perspective].scale_tool = _spriteScale;
-            ub[_perspective].addChild(_spriteScale);
+        ub.objects[_perspective].scale_tool = _spriteScale;
+        ub[_perspective].addChild(_spriteScale);
 
-            var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-            _spriteScale.position.x  = _view.application.center.x;
-            _spriteScale.position.y  = _view.application.center.y;
-            _spriteScale.ubName = 'Scale Tool';
+        _spriteScale.position.x  = _view.application.center.x;
+        _spriteScale.position.y  = _view.application.center.y;
+        _spriteScale.ubName = 'Scale Tool';
 
-            var _x = _xAnchor;
+        var _x = _xAnchor;
 
-            _spriteScale.anchor.set(_x, -2);
-            _spriteScale.zIndex = -1000;
+        _spriteScale.anchor.set(_x, -2);
+        _spriteScale.zIndex = -1000;
 
-            ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
-        }
+        // }
 
         // --- Reset --- ///
 

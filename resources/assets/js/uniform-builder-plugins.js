@@ -67,6 +67,8 @@
                 width = '38px';
                 sublimatedClass = ('sublimated');
 
+                $('div#right-main-window').css('height','530px');
+
             }
 
             el_parent.hide();
@@ -1371,9 +1373,6 @@
             var container = new PIXI.Container();
             var elements = "";
 
-            // console.log('--- Embellishment Object: ---');
-            // console.log(embellishment_obj);
-
             // add embellishment custom scale in ub.styleValues.embellishmentScales
             if (settings_obj.application_type === 'embellishments') { ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); }
 
@@ -1412,7 +1411,7 @@
                         // var _scaleSettings = ub.data.embellishmentSizes.getSize(_uniformCategory, settings_obj.size);
 
                         ub.utilities.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
-                        scale_settings = _scaleSettings.scale;
+                        // scale_settings = _scaleSettings.scale;
 
                     } 
 
