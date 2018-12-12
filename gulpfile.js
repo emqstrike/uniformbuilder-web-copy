@@ -36,7 +36,6 @@ elixir(function(mix) {
             'uniform-builder-error-codes.js',
             'uniform-builder-endpoints.js',
             'uniform-builder-style-configuration.js',
-
             'uniform-builder-functions.js',
 
             // Brand Specific
@@ -109,6 +108,8 @@ elixir(function(mix) {
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
             'panels/GradientPanel.js',
+            'panels/FabricPanel.js',
+            'panels/ColorPalette.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
@@ -131,6 +132,7 @@ elixir(function(mix) {
             'application-ui-new.less',
             'application-ui-new-letters.less',
             'application-ui-new-numbers.less',
+            'application-ui-new-fabrics.less'
         ],
 
         // Result

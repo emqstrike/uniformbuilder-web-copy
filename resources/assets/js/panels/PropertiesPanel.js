@@ -84,10 +84,10 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
-        var filter = ["Insert", "Panel", "Piping"];
-
         this.inserts = _.filter(this.modifiers, function (modifier) {
-            return _.includes(modifier.name, filter);
+            return modifier.name.includes("Panel") ||
+                modifier.name.includes("Piping") ||
+                modifier.name.includes("Insert")
         });
         this.parts = _.difference(this.modifiers, this.inserts);
     },
@@ -161,7 +161,8 @@ PropertiesPanel.prototype = {
                     var layers = materialObject.pattern.pattern_obj.layers;
 
                     // Get pattern and modifier object
-                    var patternObject = _.find(ub.data.patterns.items, {name: pattern_name});
+                    var _patternObject = _.find(ub.data.patterns.items, {id: patternObject.pattern_obj.pattern_id});
+                    var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
                     // Get Material Option
                     var materialOption = _this.getMaterialOptions(modifierObject.index);
@@ -173,9 +174,9 @@ PropertiesPanel.prototype = {
                         _this.panels.patterns.setPatternColor(modifierObject.fullname, parseInt(index.layer_no), colorObject, pattern, materialOption)
                     });
 
-                    _this.panels.patterns.setPreviousPattern(modifierObject.fullname, parseInt(patternObject.id));
+                    _this.panels.patterns.setPreviousPattern(modifierObject.fullname, parseInt(_patternObject.id));
 
-                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ patternObject.id +"']");
+                    var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ _patternObject.id +"']");
                     if (pattern_container.length > 0) {
                         $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
@@ -215,7 +216,7 @@ PropertiesPanel.prototype = {
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if (_match.includes("insert"))
+                if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
                 {
                     if ($("#primary_options_container #parts-with-insert-container").length === 0) {
                         $('#property-modifiers-menu .menu-item-inserts').trigger('click');
