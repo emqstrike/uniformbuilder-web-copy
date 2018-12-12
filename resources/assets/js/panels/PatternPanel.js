@@ -157,7 +157,7 @@ PatternPanel.prototype = {
 
     onOpenModalPatternModifier: function() {
         let _this = this;
-        $(".modifier_main_container .pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
+        $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-pattern-modal-button', function(event) {
             event.preventDefault();
             // Get the current modifier index
             var _modifier_index = $(this).data('modifier-index');
@@ -211,12 +211,15 @@ PatternPanel.prototype = {
             // Append Pattern Name
             $(".modal-pattern-name").text(selected_pattern.data("pattern-name"));
 
+            // Color Palette Configuration
+            var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
+
             // Render Mustache
             var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
             var render_pattern_colors = Mustache.render(
                 pattern_colors_element.innerHTML,
                 {
-                    colors: ub.current_material.settings.team_colors,
+                    colors: color_palette,
                     modifier_category: _modifier_category
                 }
             );
@@ -266,6 +269,7 @@ PatternPanel.prototype = {
             }
 
             $('#pattern-change-color').modal('show');
+            console.log("sadhasldskajdh")
         });
     },
 

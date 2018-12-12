@@ -122,12 +122,12 @@ PropertiesPanel.prototype = {
         this.panels.patterns.onSelect();
         this.panels.patterns.onChangeColorPaternCategory();
         this.panels.patterns.onSelectColorPerCategory();
-        this.panels.patterns.onOpenModalPatternModifier();
-        this.panels.patterns.onClosePatternModal();
         this.panels.patterns.onApplyChanges();
+        this.panels.patterns.onClosePatternModal();
 
         if (PropertiesPanel.is_bind_events_called === 0) {
             this.panelTracker();
+            this.panels.patterns.onOpenModalPatternModifier();
             PropertiesPanel.is_bind_events_called = 1;
         }
     },

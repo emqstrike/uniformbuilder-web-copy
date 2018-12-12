@@ -15,7 +15,7 @@
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
                         <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
-                            @{{ #colors }}
+                            @{{ #color_palette }}
                                 <div class="color_element sublimated color-container-button">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box color-selector-button"
@@ -29,7 +29,7 @@
                                     </button>
                                     <span class="label">@{{ name }}</span>
                                 </div>
-                            @{{ /colors }}
+                            @{{ /color_palette }}
                         </div>
                     </div>
                 </div>
@@ -98,5 +98,128 @@
             </div>
         @{{/inserts}}
     </ul>
+</div>
+<div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <a type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                </div>
+                <div>
+                    <h4 class="modal-title cp-fc-black" id="myModalLabel">Pattern Color</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 cp-padding-left-xlarge">
+                        <div id="patternPreviewUI">
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name"></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cp-padding-top-medium">
+                            <ul class="nav nav-tabs pattern-color-categories" role="tablist">
+                                <li role="presentation" class="active cp-float-none">
+                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                        <a href="#pattern-color-category-1"
+                                                aria-controls="pattern-category-1"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-1"
+                                        >
+                                            Color 1
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <li role="presentation" class="cp-float-none">
+                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                        <a href="#pattern-color-category-2"
+                                                aria-controls="pattern-category-2"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-2"
+                                        >
+                                            Color 2
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <li role="presentation" class="cp-float-none">
+                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                        <a href="#pattern-color-category-3"
+                                                aria-controls="pattern-category-3"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-3"
+                                        >
+                                            Color 3
+                                        </a>
+                                    </div>
+                                </li>
+
+                                <li role="presentation" class="cp-float-none">
+                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
+                                        <a href="#pattern-color-category-4"
+                                                aria-controls="pattern-category-4"
+                                                role="tab" data-toggle="tab"
+                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-4"
+                                        >
+                                            Color 4
+                                        </a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="col-md-12 cp-padding-top-xs">
+                            <div id="pattern-color-tab-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
+                                        <div class="pattern-color-main-container-1">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
+                                        <div class="pattern-color-main-container-2">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
+                                        <div class="pattern-color-main-container-3">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
+                                        <div class="pattern-color-main-container-4">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button type="button" class="btn btn-default cp-button-medium close-pattern-color-modal">Close</button>
+                    <button type="button" class="btn btn-default cp-button-medium apply-pattern-color">Apply Pattern</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </script>
