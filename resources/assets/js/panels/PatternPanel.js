@@ -165,7 +165,7 @@ PatternPanel.prototype = {
 
     onOpenModalPatternModifier: function() {
         let _this = this;
-        $(".pattern-modal-selector-container").on('click', '.edit-pattern-modal-button', function(event) {
+        $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-pattern-modal-button', function(event) {
             event.preventDefault();
             // Get the current modifier index
             var _modifier_index = $(this).data('modifier-index');
@@ -277,6 +277,7 @@ PatternPanel.prototype = {
             }
 
             $('#pattern-change-color').modal('show');
+            console.log("sadhasldskajdh")
         });
     },
 

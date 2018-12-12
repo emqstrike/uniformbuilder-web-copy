@@ -29,23 +29,52 @@ ColorPalette.funcs = {
     },
 
     getConfigurationPerTab: function(name) {
-        var colorPalette = undefined;
+        var colors = undefined;
+        var blockPattern = undefined;
 
-        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type, ub.config.option);
-        var config = configuration.colors[name];
-
-        switch (config) {
-            case "Palette 1":
-                colorPalette = ub.data.firstColorPalette;
-                break;
-            case "Palette 2":
-                colorPalette = ub.data.secondaryColorPalette;
-                break;
-            case "Palette 3":
-                colorPalette = ub.data.tertiaryColorPalette;
-                break;
+        if (ub.config.blockPattern.includes("PTS Signature")) {
+            blockPattern = "PTS Signature";
+        } else if (ub.config.blockPattern.includes("PTS Pro Select")) {
+            blockPattern = "PTS Pro Select";
+        } else if (ub.config.blockPattern.includes("PTS Select")) {
+            blockPattern = "PTS Select";
         }
 
-        return colorPalette;
+        if (ub.config.brand === "prolook") {
+            // Set team color if prolook brand
+            colors = ub.current_material.settings.team_colors
+
+        } else if (ub.config.brand === "richardson" || ub.config.brand === "Richardson") {
+            // Get Color Palette configuration
+            var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+
+            // Check which color palette to be used
+            if (typeof configuration !== "undefined") {
+                var config = configuration.colors[name];
+
+                switch (config) {
+                    case "Palette 1":
+                        colors = ub.data.firstColorPalette;
+                        break;
+                    case "Palette 2":
+                        colors = ub.data.secondaryColorPalette;
+                        break;
+                    case "Palette 3":
+                        colors = ub.data.tertiaryColorPalette;
+                        break;
+                    default:
+                        colors = ub.funcs.isSublimated() ? ub.data.secondaryColorPalette : ub.data.firstColorPalette;
+                        break;
+                }
+            } else {
+                if (ub.config.uniform_application_type === "sublimated") {
+                    colors = ub.data.secondaryColorPalette;
+                } else {
+                    colors = ub.data.firstColorPalette;
+                }
+            }
+        }
+
+        return colors;
     }
 }
