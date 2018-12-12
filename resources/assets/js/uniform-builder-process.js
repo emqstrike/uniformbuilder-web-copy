@@ -864,6 +864,7 @@ $(document).ready(function() {
         var _sleeveCut              = '';
         var _lastnameApplication    = '';
         var _itemID                 = parseInt(ub.current_material.material.item_id);
+        var _blockPatternID         = parseInt(ub.current_material.material.block_pattern_id);
         var _uniformName            = ub.current_material.material.name;
 
         var _clientOrgName          = $('input[name="client-organization"]').val();
@@ -998,6 +999,7 @@ $(document).ready(function() {
 
                     brand: ub.current_material.material.brand,
                     item_id: _itemID,
+                    block_pattern_id: _blockPatternID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
                     builder_customizations: JSON.stringify(ub.current_material.settings),
