@@ -12400,4 +12400,67 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.palleteConfiguration = {
+        configurations: [
+            {
+                blockPattern: "PTS Pro Select Raglan",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "upper",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2",
+                    lettering: "Palette 2",
+                    mascots: "Palette 2"
+                }
+            },
+            {
+                blockPattern: "PTS Pro Select Pant",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "lower",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2",
+                    mascots: "Palette 2"
+                }
+            },
+            {
+                blockPattern: "PTS Pro Select Raglan",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "upper",
+                colors: {
+                    base: "Palete 1",
+                    tackle_twill: "Palete 1",
+                    piping: "Palete 1",
+                    pattern: "Palette 2",
+                    mascots: "Palette 2"
+                }
+            },
+            {
+                blockPattern: "PTS Pro Select Pant",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "lower",
+                colors: {
+                    base: "Palete 1",
+                    piping: "Palete 1",
+                    pattern: "Palette 2",
+                    mascots: "Palette 2"
+                }
+            },
+        ],
+
+        getColorPaletteConfiguration: function(blockPattern, brand, application_type, type) {
+            var _result = undefined;
+
+            _result = _.find(this.configurations, {blockPattern: blockPattern, brand: brand, application_type, application_type, type: type});
+
+            return _result;
+        }
+    }
+
 });

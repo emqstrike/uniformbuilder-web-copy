@@ -20,10 +20,18 @@ function PartPanel(element, parts) {
         parts: this.parts,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
+
+    this.initColorPalette();
 }
 
 PartPanel.prototype = {
     constructor: PartPanel,
+
+    initColorPalette: function () {
+        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
+
+        console.log("Palette configuration", configuration.colors.base);
+    },
 
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);
