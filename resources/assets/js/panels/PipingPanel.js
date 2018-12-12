@@ -271,13 +271,16 @@ PipingPanel.events = {
                 break;
         }
 
+        //
+        var colors = ColorPalette.funcs.getConfigurationPerTab("piping");
+
         // Render Mustache
         var pipping_colors_element = document.getElementById("m-tab-piping-colors");
         var render_piping_colors = Mustache.render(
             pipping_colors_element.innerHTML,
             {
                 modifier: modifier,
-                colors: ub.current_material.settings.team_colors,
+                colors: colors,
             }
         );
 

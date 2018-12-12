@@ -28,9 +28,7 @@ PartPanel.prototype = {
     constructor: PartPanel,
 
     initColorPalette: function () {
-        var configuration = ub.data.palleteConfiguration.getColorPaletteConfiguration(ub.config.blockPattern, ub.config.brand, ub.config.uniform_application_type, ub.config.type);
-
-        console.log("Palette configuration", configuration.colors.base);
+        this.items.color_palette = ColorPalette.funcs.getConfigurationPerTab("base");
     },
 
     getPanel: function() {

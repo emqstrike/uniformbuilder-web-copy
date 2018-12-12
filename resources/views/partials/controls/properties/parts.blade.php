@@ -15,7 +15,7 @@
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
                         <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
-                            @{{ #colors }}
+                            @{{ #color_palette }}
                                 <div class="color_element color-container-button">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box color-selector-button"
@@ -29,7 +29,7 @@
                                     </button>
                                     <span class="label">@{{ name }}</span>
                                 </div>
-                            @{{ /colors }}
+                            @{{ /color_palette }}
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,6 @@
         @{{ /parts }}
     </ul>
 </div>
-
 <div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">

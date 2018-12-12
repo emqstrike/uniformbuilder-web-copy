@@ -17,10 +17,16 @@ function InsertPanel(element, inserts) {
         inserts: this.inserts,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
+
+    this.initColorPalette();
 }
 
 InsertPanel.prototype = {
     constructor: InsertPanel,
+
+    initColorPalette: function () {
+        this.items.color_palette = ColorPalette.funcs.getConfigurationPerTab("insert");
+    },
 
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);

@@ -634,7 +634,14 @@ $(function() {
     ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
-        var _teamColors = ub.current_material.settings.team_colors;
+        // var _teamColors = ub.current_material.settings.team_colors;
+        var _teamColors = undefined;
+
+        if (ub.funcs.isTackleTwill()) {
+            _teamColors = objectType === "mascots" ? ub.data.secondaryColorPalette: ub.data.firstColorPalette;
+        } else {
+            _teamColors = ub.data.secondaryColorPalette;
+        }
 
         var _objectType = objectType;
 
