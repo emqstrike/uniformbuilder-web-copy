@@ -6242,6 +6242,8 @@ $(document).ready(function() {
         // Custom sizes should be only available on mascot and embellishments
         var customSizeValidApplications = ['mascot', 'embellishments'];
 
+        var isActiveOnSize = false;
+
         // Get the first 2 sizes array value
         if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) { var sizes = sizes.slice(0,2); }
 
@@ -6249,6 +6251,7 @@ $(document).ready(function() {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
                 _additionalClass = 'active';
+                isActiveOnSize = true;
 
             } else {
                 _additionalClass = '';
@@ -6286,6 +6289,12 @@ $(document).ready(function() {
                         (_.isEqual(settingsObject.custom_obj.active, true)) ? selected='' : selected='selected';
                     }
 
+                }
+
+                // do not activate the size on the custom size select option
+                // if it is already activated on the application sizes
+                if (isActiveOnSize) {
+                    selected = '';
                 }
 
                 _htmlBuilder += "<option value='"+cSize+"' "+selected+">" + cSize + "\"</option>";
@@ -7375,6 +7384,8 @@ $(document).ready(function() {
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
 
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
         // Disable bestfit option
         $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
@@ -7768,6 +7779,8 @@ $(document).ready(function() {
         // TODO: create a cleaup funcs
         delete settingsObject.custom_obj;
         delete settingsObject.scale_type;
+        delete settingsObject.custom_size_type;
+        delete settingsObject.application.views[0].application.scale;
 
         var _settingsObject = settingsObject;
         var _type           = type;
@@ -9596,6 +9609,8 @@ $(document).ready(function() {
         /// End Initialize
 
         ub.funcs.afterActivateApplication(application_id);
+
+        ub.funcs.activateCustomSizeType(_settingsObject);
 
         // Disable bestfit option
         $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);

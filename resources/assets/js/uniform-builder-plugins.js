@@ -1357,7 +1357,7 @@
     /// Create Embelishment
 
         $.ub.create_embellishment = function (input_object) {
-
+            
             var sprite;
             var application = input_object.application;
             var embellishment = input_object.embellishment;

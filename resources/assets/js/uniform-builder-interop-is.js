@@ -1489,6 +1489,8 @@ $(document).ready(function() {
         // Is this needed ??? 
         // ub.funcs.afterActivateMascots(_id);
 
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
         // Automatically select bestfit option if scale is custom scale for Tackle twill uniform
         if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
             $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
@@ -1497,12 +1499,25 @@ $(document).ready(function() {
 
     }
 
-    // activate bastfit radio button
+    // activate bestfit radio button
     ub.funcs.activateBestFitOption = function () {
         $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
         $('input.custom-size-type').attr('disabled', true);
         $('select.customSize option:first').prop('selected', true);
         $('span.font_size').removeClass('active');
+    }
+
+    // activate the appropiate custom size option
+    ub.funcs.activateCustomSizeType = function (_settingsObject) {
+        if (_settingsObject.custom_size_type === 'bestfit') {
+            ub.funcs.activateBestFitOption();
+        } else if (_settingsObject.custom_size_type === 'wide') {
+            $('input.custom-size-type[data-type="wide"]').prop('checked', true);
+        } else if (_settingsObject.custom_size_type === 'tall') {
+            $('input.custom-size-type[data-type="tall"]').prop('checked', true);
+        } else {
+            $('input.custom-size-type').prop('checked', false);
+        }
     }
 
     // ub.status.embellishmentPopupVisible = false;
