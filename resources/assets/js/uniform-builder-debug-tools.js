@@ -23,7 +23,7 @@ $(document).ready(function () {
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
-        $('div#right-main-window').css('height','530px');
+        $('div#right-main-window').css('height','570px');
         $('div#right-main-window').css('display','block');
         $('div#right-main-window').css('width','550px');
         $('div#right-main-window.team-color-pane').addClass('team_color_pane');
