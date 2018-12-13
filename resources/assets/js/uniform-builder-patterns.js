@@ -986,7 +986,6 @@ $(document).ready(function () {
                 max: 1000,
                 from: _from,
                 onChange: function (data) {
-
                     ub.funcs.changePartPatternPosition(materialOption.name, data.from);
 
                 },
@@ -1039,21 +1038,58 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.changeMatchingPartPatternPosition = function(code, from, dontSetDirtyFlag, _calibration) {
+        // If part pattern has matching part
+        var _matchingViewObjects = undefined;
+        var _matchingSettingsObject = undefined;
+        var matchcode = undefined;
+        var hasMatchingPart = false;
+
+        // Check if has matching parts
+        if (code.includes("Left")) {
+            matchcode = code.replace("Left ", "Right ");
+            hasMatchingPart = true;
+        } else if (code.includes("Right")) {
+            matchcode = code.replace("Right ", "Left ");
+            hasMatchingPart = true;
+        }
+
+        // If has matching part get Material option setting object & material option pattern view object
+        if (hasMatchingPart) {
+            _matchingViewObjects = ub.funcs.getMaterialOptionPatternViewObjects(matchcode);
+            _matchingSettingsObject = ub.funcs.getMaterialOptionSettingsObject(matchcode.toTitleCase());
+        } else {
+            return;
+        }
+
+        // If has matching part loop the matching view Object
+        if (typeof _matchingViewObjects !== "undefined" && typeof _matchingSettingsObject !== "undefined") {
+            _.each(_matchingViewObjects, function(viewObject) {
+                var _patternObject = viewObject;
+                var _positionY = (0 + parseInt(from));
+
+                _patternObject.position.y = (0 + parseInt(from) + _calibration);
+                _matchingSettingsObject.pattern.position = {x: _matchingSettingsObject.pattern.position.x, y: _positionY};
+                if(typeof dontSetDirtyFlag !== "undefined") { _matchingSettingsObject.pattern.dirty = true; }
+            });
+        } else {
+            return;
+        }
+    }
+
 
     ub.funcs.changePartPatternPosition = function (code, from, dontSetDirtyFlag) {
 
         var _value = parseInt(from);
-
         var _perspectiveStr = '';
         var _viewObjects = ub.funcs.getMaterialOptionPatternViewObjects(code);
         var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(code.toTitleCase());
+
         var _calibration = 0;
 
-        // if (_.contains(ub.uiData.patternSliderRange.forCalibration, _settingsObject.pattern.name)) {
-
-        //     _calibration = ub.uiData.patternSliderRange.adjustedStart;
-
-        // }
+        if (code.includes("Left") || code.includes("Right")) {
+            ub.funcs.changeMatchingPartPatternPosition(code, from, dontSetDirtyFlag, _calibration);
+        }
 
         _.each(_viewObjects, function (viewObject) {
 
@@ -1062,9 +1098,7 @@ $(document).ready(function () {
 
             _patternObject.position.y = (0 + parseInt(from) + _calibration);
             _settingsObject.pattern.position = {x: _settingsObject.pattern.position.x, y: _positionY};
-            
             if(typeof dontSetDirtyFlag !== "undefined") { _settingsObject.pattern.dirty = true; }
-            
         });
 
     };
