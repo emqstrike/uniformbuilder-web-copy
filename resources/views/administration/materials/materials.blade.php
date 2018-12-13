@@ -76,6 +76,8 @@
                     <select class="active-sport">
                         <option value="{{ $active_sport }}">{{ $active_sport }}</option>
                     </select>
+                    <a href="#" class="btn btn-danger btn-xs btn-flat reset-filter">Reset Filters</a>
+
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered table-hover materials display'>
