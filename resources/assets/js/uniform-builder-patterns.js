@@ -10,13 +10,23 @@ $(document).ready(function () {
                     patternCode: 'line_fade_body',
                     partCodes: ['pocket'],
                     blockPatterns: ['Hoodie'],
-                    
                     offSet: 1000,
+                },
+                {
+                    patternCode: 'line_fade_body',
+                    partCodes: ['pocket_insert'],
+                    blockPatterns: ['Hoodie'],
+                    offSet: 1000,
+                },
+                {
+                    patternCode: 'line_fade_body',
+                    partCodes: ['hood_panel'],
+                    blockPatterns: ['Hoodie'],
+                    offSet: 340,
                 },
             ],
 
             getOffset: function (patternCode, blockPattern, part) {
-                
                 var a = _.find(this.items, function (item) {
                     return item.patternCode === patternCode && 
                         _.contains(item.blockPatterns, blockPattern) && 
@@ -937,7 +947,9 @@ $(document).ready(function () {
 
         var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
 
-        if (inputPattern.name === "Blank") {
+        console.log("inputPattern", inputPattern)
+
+        if (inputPattern.pattern_id === "blank") {
 
             $('input#part-pattern-slider').hide();
 
@@ -945,10 +957,10 @@ $(document).ready(function () {
 
             var _from = ub.uiData.patternSliderRange.starts;
             var _calibration = ub.uiData.patternSliderRange.adjustedStart;
-            var _patternIsForCalibration = false; 
+            var _patternIsForCalibration = false;
 
             var _offset = ub.patterns.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
- 
+
             _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, inputPattern.name);
 
             if (typeof _partSettingsObject.pattern !== "undefined" && _partSettingsObject.pattern.length > 0) {
@@ -979,11 +991,20 @@ $(document).ready(function () {
                 ub.funcs.changePartPatternPosition(materialOption.name, _from, true);
 
             }
-            
+
+            // Setup min and max for certain parts
+            var min = undefined;
+            var max = undefined;
+
+            if (!materialOption.name.includes("Pocket") || !materialOption.name.includes("End")) {
+                min = 340;
+                max = 760;
+            }
+
             $("#part-pattern-slider").ionRangeSlider({
 
-                min: ub.uiData.patternSliderRange.min,
-                max: 1000,
+                min: typeof min !== "undefined" ? min : ub.uiData.patternSliderRange.min,
+                max: typeof max !== "undefined" ? max : 1200,
                 from: _from,
                 onChange: function (data) {
                     ub.funcs.changePartPatternPosition(materialOption.name, data.from);
