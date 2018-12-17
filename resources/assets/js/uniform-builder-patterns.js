@@ -1011,15 +1011,15 @@ $(document).ready(function () {
                 min: typeof offsetMin !== "undefined" ? offsetMin : minimumDiff,
                 max: typeof offsetMax !== "undefined" ? offsetMax : maximumDiff,
                 from: _from,
+                force_edges: true,     // force UI in the box
+                hide_min_max: true,    // show/hide MIN and MAX labels
+                hide_from_to: true,
                 onChange: function (data) {
                     ub.funcs.changePartPatternPosition(materialOption.name, data.from);
-
                 },
-
             });
 
-            $('div#patternUI > span.irs').css('margin-left', '5%');
-
+            $("div#patternUI span.irs").append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
         }
 
     };
