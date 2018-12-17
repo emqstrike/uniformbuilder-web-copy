@@ -884,7 +884,6 @@ $(document).ready(function () {
         
         _htmlBuilder     += "</div>";
 
-        $('div#randomFeedsUI').hide();
         $('.modifier_main_container').append(_htmlBuilder);
 
         ub.funcs.setupPartPatternSlider(inputPattern, materialOption);
