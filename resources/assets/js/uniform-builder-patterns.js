@@ -11,19 +11,25 @@ $(document).ready(function () {
                     partCodes: ['pocket'],
                     blockPatterns: ['Hoodie'],
                     offSet: 1000,
+                    max: 1200,
+                    min: 830
                 },
                 {
                     patternCode: 'line_fade_body',
                     partCodes: ['pocket_insert'],
                     blockPatterns: ['Hoodie'],
                     offSet: 1000,
+                    max: 1200,
+                    min: 830
                 },
                 {
                     patternCode: 'line_fade_body',
                     partCodes: ['hood_panel'],
                     blockPatterns: ['Hoodie'],
-                    offSet: 340,
-                },
+                    offSet: 325,
+                    max: 485,
+                    min: 250
+                }
             ],
 
             getOffset: function (patternCode, blockPattern, part) {
@@ -33,7 +39,7 @@ $(document).ready(function () {
                         _.contains(item.partCodes, part);
                 });
 
-                return typeof a !== "undefined" ? a.offSet : undefined;
+                return typeof a !== "undefined" ? a : undefined;
 
             },
 
@@ -41,17 +47,17 @@ $(document).ready(function () {
 
         // Todo: place also the UBUI Data contents here, and assume similar form on other types
 
-    // End Pattern Data 
+    // End Pattern Data
 
     ub.funcs.getPatternList = function () {
 
         var _sport = ub.current_material.material.uniform_category;
-        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
+        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID');
 
         // _patternList = _.filter(_patternList, function (pattern) {
 
         //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
-        //         pattern.blockPatternOptions === null || 
+        //         pattern.blockPatternOptions === null ||
         //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
 
         //     return _expression;
@@ -80,10 +86,10 @@ $(document).ready(function () {
         var _materialOption     = materialOption;
         var _colorOBJ           = colorOBJ;
         var _layerID            = layerID;
-        var _patternObj         = patternObj;      
+        var _patternObj         = patternObj;
         var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
         var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
-        
+
         var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
         var _names              = ub.funcs.ui.getAllNames(_modifier.name);
 
@@ -104,17 +110,17 @@ $(document).ready(function () {
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
-        setTimeout(function() {             
+        setTimeout(function() {
             var _dUrl = canvas.toDataURL();
 
             _.each(_patternObj.layers, function (l) {
 
                 $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
-                
-            });    
+
+            });
 
         }, 50);
-        
+
         _.each(_names, function (_name) {
 
             var titleNameFirstMaterial      = _name.toTitleCase();
@@ -123,7 +129,7 @@ $(document).ready(function () {
 
             layer.color = _tintColor;
             layer.color_code = colorOBJ.color_code;
-            
+
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
             _.each(_materialOptions, function (_materialOption) {
@@ -131,7 +137,7 @@ $(document).ready(function () {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
+                var views                   = ['front', 'back', 'left', 'right'];
                 var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
                 _.each(views, function (v) {
@@ -141,7 +147,6 @@ $(document).ready(function () {
             });
 
         })
-        
     };
 
 
@@ -947,8 +952,6 @@ $(document).ready(function () {
 
         var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
 
-        console.log("inputPattern", inputPattern)
-
         if (inputPattern.pattern_id === "blank") {
 
             $('input#part-pattern-slider').hide();
@@ -958,6 +961,9 @@ $(document).ready(function () {
             var _from = ub.uiData.patternSliderRange.starts;
             var _calibration = ub.uiData.patternSliderRange.adjustedStart;
             var _patternIsForCalibration = false;
+
+            var offsetMin = undefined;
+            var offsetMax = undefined;
 
             var _offset = ub.patterns.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
 
@@ -973,6 +979,8 @@ $(document).ready(function () {
 
                 }
 
+
+
             } else {
 
                 _from = _partSettingsObject.pattern.position.y;
@@ -987,24 +995,21 @@ $(document).ready(function () {
 
             if (typeof _offset !== "undefined" && typeof _partSettingsObject.pattern.dirty === "undefined") {
 
-                _from = _offset;
+                _from = _offset.offSet;
                 ub.funcs.changePartPatternPosition(materialOption.name, _from, true);
 
+                offsetMax = _offset.max;
+                offsetMin = _offset.min;
             }
 
-            // Setup min and max for certain parts
-            var min = undefined;
-            var max = undefined;
-
-            if (!materialOption.name.includes("Pocket") || !materialOption.name.includes("End")) {
-                min = 340;
-                max = 760;
-            }
+            var boundaries = ub.funcs.getBoundariesCurrentView(materialOption.name);
+            var minimumDiff = 325;
+            var maximumDiff = 760;
 
             $("#part-pattern-slider").ionRangeSlider({
 
-                min: typeof min !== "undefined" ? min : ub.uiData.patternSliderRange.min,
-                max: typeof max !== "undefined" ? max : 1200,
+                min: typeof offsetMin !== "undefined" ? offsetMin : minimumDiff,
+                max: typeof offsetMax !== "undefined" ? offsetMax : maximumDiff,
                 from: _from,
                 onChange: function (data) {
                     ub.funcs.changePartPatternPosition(materialOption.name, data.from);
