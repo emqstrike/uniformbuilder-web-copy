@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Menus;
 
@@ -110,7 +110,7 @@ class V1Menu
                     ];
 
                     if (isset($menu->subMenu)) {
-                        if (count($menu->subMenu) > 0) {
+                        if ( count( (array) $menu->subMenu) > 0) {
                             $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
                         }
                     }
