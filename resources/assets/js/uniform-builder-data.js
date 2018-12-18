@@ -10717,6 +10717,10 @@ ub.funcs.fontOffSets = [
                 qty: 30,
             },
             {
+                sport: 'Socks (Apparel)',
+                qty: 30,
+            },
+            {
                 sport: 'Default',
                 qty: 1,
             },
