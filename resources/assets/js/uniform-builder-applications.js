@@ -11474,7 +11474,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-        _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+        _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=      '</div>';
