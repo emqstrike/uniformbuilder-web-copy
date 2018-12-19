@@ -10722,7 +10722,7 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Default',
-                qty: 1,
+                qty: 6,
             },
         ],
 
