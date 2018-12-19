@@ -133,7 +133,7 @@
                                             @if ($category->active)
                                                 <option value='{{ $category->id }}'>{{ $category->name }}</option>
                                             @endif
-                                        @endforeach 
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -476,11 +476,10 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/js/administration/common.js"></script>
-    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/underscore/underscore.js"></script>
+
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script type="text/javascript">
+
+<script type="text/javascript">
         $(document).ready(function() {
            $('#block_patterns_data').hide();
             var block_patterns_array = $('#block_patterns_data').text();
