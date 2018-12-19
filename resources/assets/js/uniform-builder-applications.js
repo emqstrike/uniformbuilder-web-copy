@@ -6239,13 +6239,10 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
-        // Custom sizes should be only available on mascot and embellishments
-        var customSizeValidApplications = ['mascot', 'embellishments'];
-
         var isActiveOnSize = false;
 
         // Get the first 2 sizes array value
-        if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) { var sizes = sizes.slice(0,2); }
+        if (!ub.funcs.isFreeFormToolEnabled(_id)) { var sizes = sizes.slice(0,2); }
 
         _.each(sizes, function (size) {
 
@@ -6268,7 +6265,7 @@ $(document).ready(function() {
         });
 
         // Custom size select option
-        if (!ub.funcs.isFreeFormToolEnabled(_id) && _.contains(customSizeValidApplications, applicationType)) {
+        if (!ub.funcs.isFreeFormToolEnabled(_id)) {
 
             var sizeCount = _.size(sizes);
             var width = (sizeCount > 1) ? 155 : 205;
@@ -7146,8 +7143,6 @@ $(document).ready(function() {
             }
 
             $('span.font_size').on('click', function () {
-
-                //if (_id === '4') { return; }
 
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
@@ -8625,7 +8620,7 @@ $(document).ready(function() {
         }
 
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
-
+        
         _htmlBuilder        +=          '</div>';
 
         if (!_isFreeFormEnabled) {
@@ -9144,8 +9139,37 @@ $(document).ready(function() {
                 $('select.customSize option:first').prop('selected', true);
 
                 $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
                 $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
                 
+            });
+
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeSize(selectedSize, _matchingSettingsObject);
+
+                }
+                
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
             });
 
             $('input.custom-size-type').on('click', function () {
@@ -9520,6 +9544,11 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
+
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
