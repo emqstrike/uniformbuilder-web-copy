@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid main-content">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">  
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-info">
                     @section('page-title', 'Edit Material')
                     <div class="panel-heading">Edit Material</div>
@@ -74,7 +74,7 @@
                                     <input type="number" class="form-control" step="any" name="one_inch_in_px" value="{{ $material->one_inch_in_px }}">
                                 </div>
                             </div>
-                            
+
                             <hr>
 
                             <div class="form-group">
@@ -712,9 +712,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/js/libs/autosize.js"></script>
-    <script type="text/javascript" src="/js/administration/common.js"></script>
-    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script>
         $( document ).ready(function() {
