@@ -477,7 +477,8 @@
 
 @section('scripts')
 
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <script type="text/javascript">
         $(document).ready(function() {

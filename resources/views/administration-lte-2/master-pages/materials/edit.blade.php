@@ -713,7 +713,9 @@
 
 @section('scripts')
 
+    <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
     <script>
         $( document ).ready(function() {
             $('.autosized').autosize({append: "\n"});
