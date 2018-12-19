@@ -366,6 +366,9 @@ $(document).ready(function () {
                 min: ub.uiData.patternSliderRange.min,
                 max: ub.uiData.patternSliderRange.max,
                 from: _from,
+                force_edges: true,     // force UI in the box
+                hide_min_max: true,    // show/hide MIN and MAX labels
+                hide_from_to: true,
                 onChange: function (data) {
 
                     ub.funcs.changePatternPosition(settingsObj.code, data.from);
@@ -373,6 +376,8 @@ $(document).ready(function () {
                 },
 
             });
+
+            $("div#applicationUI span.irs").append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
 
         }
         
