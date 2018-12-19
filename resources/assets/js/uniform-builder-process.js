@@ -952,6 +952,7 @@ $(document).ready(function() {
 
             order: {
 
+                brand: ub.current_material.material.brand,
                 client: _clientName,  
                 submitted: _submitted,
                 user_id: _user_id,
@@ -998,7 +999,6 @@ $(document).ready(function() {
             order_items: [
                 {
 
-                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     block_pattern_id: _blockPatternID,
                     neck_option: _neckOption,
