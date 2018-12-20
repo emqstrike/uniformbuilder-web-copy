@@ -4644,8 +4644,9 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id         = settingsObj.id;
+        var _id         = settingsObj.code;
         var _length     = 'short';
 
         ub.funcs.removeApplicationByID(_id);
@@ -7546,8 +7547,11 @@ $(document).ready(function() {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
+                if (! (_settingsObj.application_type === "mascot" || _settingsObj.application_type === "embellishments")) {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj)
+                }
+                ub.updateLayersOrder(ub[_view]);
                 
             } else {
 
@@ -7845,7 +7849,7 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1 || _settingsObject.application.layer.indexOf('Cowl') !== -1;
                 var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
 
                 if (_inShoulder) { _applicationType = "shoulder_number"; }
@@ -10752,7 +10756,7 @@ $(document).ready(function() {
                             $('div.part-container span').each(function() {
                                 
                                 var part = $(this).text();
-
+                                
                                 if (part.indexOf(_partToMakeActive) !== -1) {
                                     _partToMakeActive = part;
                                 }
@@ -10969,11 +10973,14 @@ $(document).ready(function() {
 
                         var _partToMakeActive =  $perspective.text().toTitleCase();
 
+                        var partCount = 0; 
+
                         $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
+                            if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                partCount++;
                                 _partToMakeActive = part;
                             }
 
@@ -11469,7 +11476,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-        _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+        _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=      '</div>';

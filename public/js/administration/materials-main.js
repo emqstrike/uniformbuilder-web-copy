@@ -32,6 +32,19 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '.reset-filter', function(e) {
+        e.preventDefault();
+        console.log('Clear Filter');
+        resetColumnFilter();
+    });
+
+    function  resetColumnFilter()
+    {
+        var table = $('.data-table').DataTable();
+            table.search( '' ).columns().search( '' ).draw();
+    }
+
+
     function toTitleCase(str)
     {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});

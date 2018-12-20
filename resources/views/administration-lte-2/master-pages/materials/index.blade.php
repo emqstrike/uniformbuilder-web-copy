@@ -32,18 +32,19 @@
                             <i class="fa fa-bookmark"></i>
                             Materials
                             <small>
-                                <a href="{{ route('v1_material_add') }}" class='btn btn-md btn-default materials-add'>
+                                <a href="{{ route('v1_material_add') }}" class='btn btn-md btn-default btn-flat materials-add'>
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </a>
                             </small>
                         </h1>
 
-                        <a href="#" class="btn btn-xs btn-primary log-ids">Log ids</a>
+                        <a href="#" class="btn btn-xs btn-primary btn-flat log-ids">Log ids</a>
                         <hr>
                         Sport:
                         <select class="active-sport">
                             <option value="{{ $active_sport }}">{{ $active_sport }}</option>
                         </select>
+                        <a href="#" class="btn btn-danger btn-xs btn-flat reset-filter">Reset Filters</a>
                     </div>
 
                     <div class="box-body">
@@ -167,6 +168,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -178,9 +181,5 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/js/administration/common.js"></script>
-    <script type="text/javascript" src="/js/administration/datatables.min.js"></script>
-    <script type="text/javascript" src="/js/bootbox.min.js"></script>
-    <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script type="text/javascript" src="/js/administration/materials-main.js"></script>
 @endsection
