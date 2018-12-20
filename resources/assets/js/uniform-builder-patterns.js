@@ -377,7 +377,7 @@ $(document).ready(function () {
 
             });
 
-            $("div#applicationUI span.irs").append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
+            $("div#applicationUI span.irs").first().append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
 
         }
         
@@ -1025,7 +1025,7 @@ $(document).ready(function () {
                 },
             });
 
-            $("div#patternUI span.irs").append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
+            $("div#patternUI span.irs").first().append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
         }
 
     };
