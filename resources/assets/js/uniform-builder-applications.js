@@ -10999,7 +10999,19 @@ $(document).ready(function() {
                 } else {
 
                     $('span.part').first().addClass('active');
+                    var side = $('span.side.active').data('id');
+                    var _partToMakeActive = $perspective.text().toTitleCase();
 
+                    $('div.part-container span').each(function() {
+                        var part = $(this).text();
+                        var makeActive = '';
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            makeActive = part;
+                            $("span.part").removeClass('active');
+                            $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                        }
+                    });
                 }
 
             }
