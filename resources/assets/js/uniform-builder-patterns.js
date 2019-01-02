@@ -1,51 +1,110 @@
 $(document).ready(function () {
-
     // Pattern Data
-
-        ub.patterns = {};
-        ub.patterns.patternOffset = {
-
-            items: [
-                {
-                    patternCode: 'line_fade_body',
-                    partCodes: ['pocket'],
-                    blockPatterns: ['Hoodie'],
-                    offSet: 1000,
-                    max: 1200,
-                    min: 830
-                },
-                {
-                    patternCode: 'line_fade_body',
-                    partCodes: ['pocket_insert'],
-                    blockPatterns: ['Hoodie'],
-                    offSet: 1000,
-                    max: 1200,
-                    min: 830
-                },
-                {
-                    patternCode: 'line_fade_body',
-                    partCodes: ['hood_panel'],
-                    blockPatterns: ['Hoodie'],
-                    offSet: 325,
-                    max: 485,
-                    min: 250
-                }
-            ],
-
-            getOffset: function (patternCode, blockPattern, part) {
-                var a = _.find(this.items, function (item) {
-                    return item.patternCode === patternCode && 
-                        _.contains(item.blockPatterns, blockPattern) && 
-                        _.contains(item.partCodes, part);
-                });
-
-                return typeof a !== "undefined" ? a : undefined;
-
+    ub.patterns = {};
+    ub.patterns.patternOffset = {
+        items: [
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1100,
+                min: 890
             },
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1000,
+                min: 850
+            },
+            {
+                patternCode: "line_fade_sleeve",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 900,
+                max: 1000,
+                min: 800
+            },
+            {
+                patternCode: "line_fade_sleeve",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1100,
+                min: 850
+            },
+            {
+                patternCode: "halftone_fade_chest",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1200,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_chest",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1300,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_sleeve",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1200,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_sleeve",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1300,
+                min: 1000
+            },
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['hood_panel'],
+                blockPatterns: ['Hoodie'],
+                offSet: 325,
+                max: 485,
+                min: 250
+            },
+            {
+                patternCode: "nk_stripe",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1250,
+                min: 1000
+            },
+            {
+                patternCode: "nk_stripe",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1250,
+                min: 1000
+            }
+        ],
 
-        };
+        getOffset: function (patternCode, blockPattern, part) {
+            var a = _.find(this.items, function (item) {
+                return item.patternCode === patternCode && 
+                    _.contains(item.blockPatterns, blockPattern) && 
+                    _.contains(item.partCodes, part);
+            });
 
-        // Todo: place also the UBUI Data contents here, and assume similar form on other types
+            return typeof a !== "undefined" ? a : undefined;
+        },
+    };
+
+    // Todo: place also the UBUI Data contents here, and assume similar form on other types
 
     // End Pattern Data
 
@@ -971,7 +1030,7 @@ $(document).ready(function () {
             var offsetMin = undefined;
             var offsetMax = undefined;
 
-            var _offset = ub.patterns.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
+            var _offset = ub.uiData.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
 
             _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, inputPattern.name);
 
@@ -1017,7 +1076,7 @@ $(document).ready(function () {
                 min: typeof offsetMin !== "undefined" ? offsetMin : minimumDiff,
                 max: typeof offsetMax !== "undefined" ? offsetMax : maximumDiff,
                 from: _from,
-                force_edges: true,     // force UI in the box
+                force_edges: false,     // force UI in the box
                 hide_min_max: true,    // show/hide MIN and MAX labels
                 hide_from_to: true,
                 onChange: function (data) {
