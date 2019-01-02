@@ -10374,8 +10374,20 @@ $(document).ready(function() {
             }
 
         }
-        
-        return _list;
+
+        _.each(_list, function(item) {
+            if (item.name.includes("Body Left")) {
+                item.position = 1;
+            }
+
+            if (item.name.includes("Body Right")) {
+                item.position = 2;
+            }
+        });
+
+        console.log(_list)
+
+        return _.sortBy(_list, 'position');
 
     }
 
