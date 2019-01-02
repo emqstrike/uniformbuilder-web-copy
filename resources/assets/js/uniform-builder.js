@@ -7087,7 +7087,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_blank === "1";
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_blank === "1";
 
                             });
 
@@ -7097,7 +7097,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_favorite === true;
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_favorite === true;
 
                             });
 
