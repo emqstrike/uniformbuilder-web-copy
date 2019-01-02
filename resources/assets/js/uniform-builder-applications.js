@@ -10385,8 +10385,6 @@ $(document).ready(function() {
             }
         });
 
-        console.log(_list)
-
         return _.sortBy(_list, 'position');
 
     }
