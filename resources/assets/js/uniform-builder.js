@@ -6928,8 +6928,8 @@ $(document).ready(function () {
             var bOptions = _.find(parsedBlockPatternOptions, {name: item.neck_option});
 
             item.neck_option_alias = (typeof bOptions.alias !== 'undefined' 
-                                        || bOptions.alias !== 'undefined' 
-                                        || bOptions.alias !== '') 
+                                        && bOptions.alias !== 'undefined' 
+                                        && bOptions.alias !== '') 
                                      ? bOptions.alias 
                                      : item.neck_option;
 
