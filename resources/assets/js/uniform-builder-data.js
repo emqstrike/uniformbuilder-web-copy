@@ -12219,6 +12219,8 @@ ub.funcs.fontOffSets = [
             'Yoga Pant (Apparel)',
             'Basketball',
             'Volleyball',
+            'Football 2017',
+            'Football'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
