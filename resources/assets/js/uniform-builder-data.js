@@ -10717,8 +10717,12 @@ ub.funcs.fontOffSets = [
                 qty: 30,
             },
             {
+                sport: 'Socks (Apparel)',
+                qty: 30,
+            },
+            {
                 sport: 'Default',
-                qty: 1,
+                qty: 6,
             },
         ],
 
@@ -12217,7 +12221,10 @@ ub.funcs.fontOffSets = [
         
         items: [
             'Yoga Pant (Apparel)',
-            'Basketball'
+            'Basketball',
+            'Volleyball',
+            'Football 2017',
+            'Football'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 

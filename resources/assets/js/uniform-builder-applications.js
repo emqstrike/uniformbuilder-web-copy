@@ -10509,8 +10509,18 @@ $(document).ready(function() {
             }
 
         }
-        
-        return _list;
+
+        _.each(_list, function(item) {
+            if (item.name.includes("Body Left")) {
+                item.position = 1;
+            }
+
+            if (item.name.includes("Body Right")) {
+                item.position = 2;
+            }
+        });
+
+        return _.sortBy(_list, 'position');
 
     }
 
@@ -10867,7 +10877,7 @@ $(document).ready(function() {
 
                 $('div.perspective-container > span.perspective').removeClass('active');
                 $(this).addClass('active');
-                
+
                 ub.funcs.setActiveView(_perspective);
 
                 if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
@@ -10879,7 +10889,7 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
-                            
+
                             $('span.part').first().addClass('active');
 
                         } else {
@@ -10887,17 +10897,15 @@ $(document).ready(function() {
                             _partToMakeActive =  _perspective.toTitleCase();
 
                             $('div.part-container span').each(function() {
-                                
                                 var part = $(this).text();
-                                
+
                                 if (part.indexOf(_partToMakeActive) !== -1) {
                                     _partToMakeActive = part;
+                                    $('span.part').removeClass('active');
+                                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
                                 }
 
                             });
-
-                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
-
                         }
 
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
@@ -10905,11 +10913,21 @@ $(document).ready(function() {
                         $('span.side').removeClass('active');
 
                     } else {
-
                         // If perspective is not Front or Back, just select the first part
                         $('span.part').first().addClass('active');
-
                         var side = $('span.side.active').data('id');
+                        var _partToMakeActive = _perspective.toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            var part = $(this).text();
+                            var makeActive = '';
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                makeActive = part;
+                                $("span.part").removeClass('active');
+                                $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                            }
+                        });
 
                         if ($('span.side').hasClass('active')) {
 
@@ -10931,10 +10949,10 @@ $(document).ready(function() {
 
                     }
 
-                    if(ub.funcs.isSocks()) { 
+                    if(ub.funcs.isSocks()) {
 
-                        _part = "Sublimated"; 
-                        
+                        _part = "Sublimated";
+
                         if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
                             _part = "Body";
                         }
@@ -11126,7 +11144,19 @@ $(document).ready(function() {
                 } else {
 
                     $('span.part').first().addClass('active');
+                    var side = $('span.side.active').data('id');
+                    var _partToMakeActive = $perspective.text().toTitleCase();
 
+                    $('div.part-container span').each(function() {
+                        var part = $(this).text();
+                        var makeActive = '';
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            makeActive = part;
+                            $("span.part").removeClass('active');
+                            $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                        }
+                    });
                 }
 
             }
