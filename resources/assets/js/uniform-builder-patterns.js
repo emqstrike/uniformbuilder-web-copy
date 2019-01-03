@@ -95,8 +95,8 @@ $(document).ready(function () {
 
         getOffset: function (patternCode, blockPattern, part) {
             var a = _.find(this.items, function (item) {
-                return item.patternCode === patternCode && 
-                    _.contains(item.blockPatterns, blockPattern) && 
+                return item.patternCode === patternCode &&
+                    _.contains(item.blockPatterns, blockPattern) &&
                     _.contains(item.partCodes, part);
             });
 
