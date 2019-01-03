@@ -1,8 +1,8 @@
 <!-- Maintenance Message -->
     <script type="text/mustache" id="m-maintenance-message">
-        
+
         Prolook Customizer will have a scheduled system maintenance and will be offline temporarily on Sunday, August 5th from 8:00 PM EST - 5:00 AM EST. <br />The customizer will be under testing for the rest of the week, please report via the [Feedback] function any issue you might discover. This will help us a lot in improving the custommizer for everyone. Thank you! <br /><br /> #LiveYourGame
-        
+
     </script>
 
 
@@ -10,17 +10,17 @@
 
     <!-- Mascot Dropdown -->
     <script type="text/mustache" id="mascot-dropdown">
-        
+
         <hr />
 
         <div class='mascot_drop btn' data-id='@{{application_id}}'>
             Choose a Mascot: <i class='fa fa-caret-down'></i>
         </div>
-        
+
         <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
 
         <hr />
-        
+
     </script>
 
     <!-- Mascot Upload Dialog -->
@@ -37,11 +37,11 @@
             @{{#mascot_set}}
 
                 <div class='col-md-4'>
-            
+
                     <a class='thumbnail mascot_picker' data-application-id='@{{element_id}}' data-id='@{{id}}'>
 
                         <img class='mascot_picker' src='@{{icon}}' data-application-id='@{{element_id}}' data-id='@{{id}}'>
-                    
+
                     </a>
 
                 </div>
@@ -57,7 +57,7 @@
         </div>
 
         <br />
-    
+
         <div class='mascot_sliders' data-id='@{{application_id}}'>
 
             Size:
@@ -91,14 +91,14 @@
 
 
 
-            <!--  
+            <!--
 
             Rotation:
             <div class='mascot_slider rotation_slider' data-id='@{{application_id}}'></div>
             <br />
-            
+
             Opacity:
-            <span data-target='mascot' data-label='opacity' data-id='@{{application_id}}'>100</span>% 
+            <span data-target='mascot' data-label='opacity' data-id='@{{application_id}}'>100</span>%
             <div class='mascot_slider opacity_slider' data-id='@{{application_id}}'></div>
             <br />
 
@@ -106,7 +106,7 @@
             <span data-target='mascot' data-label='scale' data-id='@{{application_id}}'>100</span>%
             <div class='mascot_slider scale_slider' data-id='@{{application_id}}'></div>
             <br />
-            
+
             X Position:
             <span></span>
             <div class='x_slider mascot_slider' data-id='@{{application_id}}'></div>
@@ -119,7 +119,7 @@
 
         </div>
         <br />
-        
+
         <div class='flip-container'>
             <input type='checkbox' id='flip_mascot_@{{application_id}}' value data-target='mascot' data-label='flip' data-id='@{{application_id}}'> Flip Mascot
             <br />
@@ -140,7 +140,7 @@
             <div class='logo_drop btn' data-id='@{{application_id}}'>
                 Choose a Logo / Image: <i class='fa fa-caret-down'></i>
             </div>
-            
+
             <div class='logo-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
 
         <hr />
@@ -171,11 +171,11 @@
             @{{#logo_set}}
 
                 <div class='col-md-4'>
-            
+
                     <a class='thumbnail logo_picker' data-application-id='@{{element_id}}' data-id='@{{id}}'>
 
                         <img class='logo_picker' src='@{{dataUrl}}' data-application-id='@{{element_id}}' data-id='@{{id}}'>
-                    
+
                     </a>
 
                 </div>
@@ -186,19 +186,19 @@
 
     <!-- Logo Adjustments Panel -->
     <script  type="text/mustache" id="logo-controls">
-        
+
         <div class='row'>
 
         </div>
 
         <div class='logo_sliders' data-id='@{{application_id}}'>
-        
+
             Rotation:
             <div class='logo_slider rotation_slider' data-id='@{{application_id}}'></div>
             <br />
-            
+
             Opacity:
-            <span data-target='logo' data-label='opacity' data-id='@{{application_id}}'>100</span>% 
+            <span data-target='logo' data-label='opacity' data-id='@{{application_id}}'>100</span>%
             <div class='logo_slider opacity_slider' data-id='@{{application_id}}'></div>
             <br />
 
@@ -206,7 +206,7 @@
             <span data-target='logo' data-label='scale' data-id='@{{application_id}}'>100</span>%
             <div class='logo_slider scale_slider' data-id='@{{application_id}}'></div>
             <br />
-            
+
             X Position:
             <span></span>
             <div class='x_slider logo_slider' data-id='@{{application_id}}'></div>
@@ -218,7 +218,7 @@
 
         </div>
         <br />
-        
+
         <div class='flip-container'>
             <input type='checkbox' id='flip_logo_@{{application_id}}' value data-target='logo' data-label='flip' data-id='@{{application_id}}'> Flip Logo
             <br />
@@ -234,7 +234,7 @@
 <!-- Start Typography UI's -->
 
     <script  type="text/mustache" id="text-ui">
-       
+
         <hr />
 
         <div class='ub_label'>Preview Text</div>
@@ -256,7 +256,7 @@
             <div class='btn ub active' data-id='@{{application_id}}' data-option='colors'>
                 Colors
             </div>
-            
+
             <div class='btn ub' data-option='gradients' data-id='@{{application_id}}'>
                 Gradients
             </div>
@@ -267,7 +267,7 @@
 
 
             <div class='colors_container colors' data-id='@{{application_id}}' data-option='colors'>
-                
+
                 <div class='ub_label'>Base Color</div><div class='color_drop' data-id='@{{application_id}}'>
                     Choose a Color...<i class='fa fa-caret-down'></i>
                 </div>
@@ -287,7 +287,7 @@
 
         <div class='row'>
         </div>
-        
+
         <div class='logo_sliders' data-id='@{{application_id}}'>
 
             Font Size:
@@ -300,18 +300,18 @@
             <div class='radio_sizes'>
 
                 @{{#sizes}}
-                
+
                     <div class="radio">
-                
+
                       <label>
-                
+
                         <input type="radio" name="text_sizes" id="optionsRadios@{{size}}" value="@{{size}}" data-id='@{{application_id}}' checked>
                         @{{size}}
-                
+
                       </label>
-                
+
                     </div>
-                
+
                 @{{/sizes}}
 
             </div>
@@ -319,8 +319,8 @@
             Rotation:
             <div class='logo_slider rotation_slider' data-id='@{{application_id}}'></div>
             <br />
-            
-            Opacity: 
+
+            Opacity:
             <span data-target='logo' data-label='opacity' data-id='@{{application_id}}'>100</span>%
             <div class='logo_slider opacity_slider' data-id='@{{application_id}}'></div>
             <br />
@@ -329,7 +329,7 @@
             <span data-target='logo' data-label='scale_x' data-id='@{{application_id}}'>100</span>%
             <div class='logo_slider scale_slider_x' data-id='@{{application_id}}'></div>
             <br />
-            
+
             Scale Height:
             <span data-target='logo' data-label='scale_y' data-id='@{{application_id}}'>100</span>%
             <div class='logo_slider scale_slider_y' data-id='@{{application_id}}'></div>
@@ -353,14 +353,14 @@
 
 <!-- End Typography UI's -->
 
-    
+
 
 <!-- UI V1 -->
 
     <script type="text/mustache" id="team-color-main-picker">
-    
+
         <div class="team-color-main-picker-container">
-            
+
             <em>
 
                 Here...
@@ -376,7 +376,7 @@
     <script type="text/mustache" id="m-color-picker-buttons">
 
         @{{#colors}}
-            
+
             <div class='color_item_group'>
                 <button class="grow color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
                     @{{color_code}}
@@ -396,7 +396,7 @@
     <script type="text/mustache" id="m-picker-items">
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="gender" data-item="@{{name}}">
 
                 <img src="/images/main-ui/pickers/@{{code}}.png?v={{$asset_version}}">
@@ -422,7 +422,7 @@
     <script type="text/mustache" id="m-picker-items-sport">
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
@@ -488,13 +488,13 @@
         @{{/esports}}
 
         @{{#apparel}}
-            
+
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                
+
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}">
                 @{{/is_men}}
@@ -529,13 +529,13 @@
     <script type="text/mustache" id="m-picker-items-uniforms">
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
 
                 <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
-                <span class="main-picker-item-caption"> 
+                <span class="main-picker-item-caption">
                     <span class="type"></span>
                     <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="callForTeamPricing">Call for Team Pricing</span>
@@ -546,7 +546,7 @@
                     <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
                         Youth now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
-                    
+
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
                         <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
                     </span>
@@ -561,7 +561,7 @@
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
                     <div class="material_id">@{{id}}</div>
 
-                </span> 
+                </span>
 
             </div>
 
@@ -576,13 +576,13 @@
     <script type="text/mustache" id="m-picker-items-search-results">
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items grow" data-picker-type="uniforms" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
                 <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
-                <span class="main-picker-item-caption"> 
+                <span class="main-picker-item-caption">
                     <span class="type"></span>
                     <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="callForTeamPricing">Call for Team Pricing</span>
@@ -593,7 +593,7 @@
                     <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
                         Youth now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
-                    
+
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
                         <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
                     </span>
@@ -608,7 +608,7 @@
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
                     <div class="material_id">@{{id}}</div>
 
-                </span> 
+                </span>
 
             </div>
 
@@ -623,7 +623,7 @@
     <script type="text/mustache" id="m-picker-items-favorites">
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
@@ -656,7 +656,7 @@
 <!-- End Favorites Pickers -->
 
 <!-- Pattern Picker -->
-    
+
     <script type="text/mustache" id="m-pattern-popup">
 
         <div id="primaryPatternPopup" data-status="hidden">
@@ -666,15 +666,15 @@
                 PATTERNS
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="patternPopupResults">
 
                     @{{#patterns}}
@@ -690,8 +690,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -703,7 +703,7 @@
 <!-- End Pattern Picker -->
 
 <!-- Pattern Picker -->
-    
+
     <script type="text/mustache" id="m-font-popup">
 
         <div id="primaryFontPopup" data-status="hidden">
@@ -713,15 +713,15 @@
                 Font ( <strong>@{{applicationType}}</strong> )
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="fontPopupResults">
 
                     @{{#fonts}}
@@ -738,8 +738,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -751,7 +751,7 @@
 <!-- End Pattern Picker -->
 
 <!-- Quick Registration Popup -->
-    
+
     <script type="text/mustache" id="m-quick-registration-popup">
 
         <div id="primaryQuickRegistrationPopup" data-status="hidden">
@@ -761,13 +761,13 @@
                 <span class="text">Quick Registration</span>
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
 
                 <br />
@@ -790,7 +790,7 @@
                 <em class="message"></em>
 
                 <br /><br /><br /><br />
-                
+
 
             </div>
 
@@ -808,7 +808,7 @@
 <!-- End Quick Registration Popup -->
 
 <!-- Pattern Picker -->
-    
+
     <script type="text/mustache" id="m-accent-popup">
 
         <div id="primaryAccentPopup" data-status="hidden">
@@ -818,15 +818,15 @@
                 ACCENTS
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="accentPopupResults">
 
                     @{{#accents}}
@@ -842,8 +842,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -854,7 +854,7 @@
 <!-- End Pattern Picker -->
 
 <!-- Mascot Picker -->
-    
+
     <script type="text/mustache" id="m-mascot-popup">
 
          <div id="primaryPatternPopup" data-status="hidden">
@@ -874,13 +874,13 @@
                 </div>
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
 
                 <div class="categories">
@@ -891,7 +891,7 @@
                     @{{/categories}}
 
                 </div>
-                
+
                 <div class="patternPopupResults">
 
                     @{{#mascots}}
@@ -907,8 +907,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -928,7 +928,7 @@
             <span class="category_item" data-category-name="@{{name}}" data-category="@{{id}}">@{{name}}</span>
         @{{/categories}}
 
-    </script>            
+    </script>
 
     <script type="text/mustache" id="m-new-mascot-items">
 
@@ -941,7 +941,7 @@
         @{{/mascots}}
 
     </script>
-    
+
     <script type="text/mustache" id="m-new-mascot-popup">
 
          <div id="primaryMascotPopup" data-status="hidden">
@@ -969,22 +969,22 @@
                         <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
 
                     </div>
-                    
+
                 </dib>
 
-             
+
             </div>
-            
+
             <div class="main-content">
 
                 <div class="upload">
-                    
+
                     <h4>UPLOAD CUSTOM LOGO / ARTWORK REQUEST</h4>
 
                     <div class="row">
-                        
+
                         <div class="col-md-6 col1">
-                    
+
                             <img id ="preview" src="/images/uiV1/upload1.png" /> <br />
 
                             <span class="file-input">
@@ -998,7 +998,7 @@
                         </div>
 
                         <div class="col-md-6 col2">
-                        
+
                             <ol>
                                 <li>Upload logo using the form on the left, at least (512px x 512px)</li>
                                 <li>A temporary placeholder (PL Logo), will be used in the uniform while our Graphic Artists prepare your logo.</li>
@@ -1010,15 +1010,15 @@
 
                                 <label for="state">Notes:<br />( If you have any additional notes on how we should prepare the mascot, please type them below. Thank you! )</label>
                                 <br /><br />
-                                <textarea rows="7" name="custom-artwork-additional-notes" class="form-control" type="text" placeholder="Additional Notes" required></textarea>                               
+                                <textarea rows="7" name="custom-artwork-additional-notes" class="form-control" type="text" placeholder="Additional Notes" required></textarea>
 
                             </div>
 
                             <div class="button_footer">
-                                <span class="ok_btn" data-status="processing">Processing...  <img src="/images/loading.gif" /></span> <span class="cancel_btn close-popup">Cancel</span>    
+                                <span class="ok_btn" data-status="processing">Processing...  <img src="/images/loading.gif" /></span> <span class="cancel_btn close-popup">Cancel</span>
                             </div>
-                            
-                             
+
+
                         </div>
 
                     </div>
@@ -1027,7 +1027,7 @@
 
 
                 <div class="groups_categories">
-                    
+
                     <!-- <span class="groups_category_item all" data-category="all">All</span> -->
 
                     @{{#groups_categories}}
@@ -1044,7 +1044,7 @@
                     @{{/categories}}
 
                 </div>
-                
+
                 <div class="patternPopupResults">
 
                     @{{#mascots}}
@@ -1061,57 +1061,447 @@
             </div>
 
             <div class="footer">
-                
+
             </div>
 
         </div>
 
     </script>
 
-
 <!-- End New Mascot Picker -->
+
+<!-- Application UI Block - LETTERS -->
+
+    <script type="text/mustache" id="add-new-application-letters">
+        <div class="application-letters-container cp-padding-medium cp-padding-remove-vertical">
+            <h4 class="app-letters-title">@{{ title }}</h4>
+            @{{^isTwill}}
+            <div class="addApplicationsOpts hide">
+
+                @{{#designType}}
+                    <div class="posContainer clearfix app-letters-wrapper @{{ showTypes }}">
+                        <h5>CHOOSE A DESIGN TYPE</h5>
+                        @{{#designTypeData}}
+                            <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
+                        @{{/designTypeData}}
+                    </div>
+                @{{/designType}}
+
+                @{{#perspective}}
+                    <div class="posContainer clearfix app-letters-wrapper">
+                        <h5>CHOOSE PERSPECTIVE</h5>
+                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
+                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
+                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
+                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right</button>
+                    </div>
+                @{{/perspective}}
+
+                @{{#part}}
+                    <div class="posContainer clearfix app-letters-wrapper">
+                        <h5>CHOOSE PART</h5>
+                        @{{#partsData}}
+                        <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
+                        @{{/partsData}}
+                    </div>
+                @{{/part}}
+
+                @{{#side}}
+                    <div class="posContainer clearfix sideOptions hide app-letters-wrapper">
+                        <h5>CHOOSE SIDE</h5>
+                        <button class="side" data-id="na" style="display: none;">N/A</button>
+                        <button class="app-btn w-45 side" data-id="right">Right</button>
+                        <button class="app-btn w-45 side" data-id="left">Left</button>
+                    </div>
+                @{{/side}}
+            </div>
+            @{{/isTwill}}
+
+            <div class="add-new-application-letters">
+                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
+                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </script>
+
+    <script type="text/mustache" id="m-application-ui-block-letters">
+        @{{#newApplication}}
+            @{{{ newApplicationContainer }}}
+        @{{/newApplication}}
+
+        @{{#applications}}
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+                <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
+
+                <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-letters-opt app-letters-button">Hide</button>
+                </div>
+
+                <div class="app-letters-wrapper">
+                    <h5 class="app-letters-subtitle">INPUT @{{ type }}</h5>
+                    <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
+                </div>
+
+                <div class="lettersOptsContainer app-letters-wrapper">
+                    @{{#fonts}}
+                        @{{{ fontsData }}}
+                    @{{/fonts}}
+
+                    @{{#slider}}
+                        @{{{ sliderContainer }}}
+                    @{{/slider}}
+                    
+                    @{{#accents}}
+                        @{{{ accentsData }}}
+                    @{{/accents}}
+
+                    @{{#colorPicker}}
+                        @{{{ colorsSelection }}}
+                    @{{/colorPicker}}
+
+                    <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
+                        <h5 class="app-letters-subtitle">CHOOSE LAYOUT</h5>
+                    </div>
+                </div>
+            </div>
+        @{{/applications}}
+    </script>
+
+<!-- End Application UI Block - LETTERS -->
+
+<!-- Font Styles -->
+    <script type="text/mustache" id="m-font-styles-container">
+        <div class="clearfix">
+            <h5 class="app-letters-subtitle">@{{ type }} FONT</h5>
+            <div class="posContainer input-group" align="center" style="color: black">
+                <span class="input-group-addon fontStyleLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+                <span class="input-group-addon fontStyleRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+            </div>
+        </div>
+    </script>
+<!-- End of Font Styles -->
+ 
+<!-- Font Accents -->
+    <script type="text/mustache" id="m-font-accents-container">
+        <div class="clearfix">
+            <h5 class="app-letters-subtitle">@{{ title }}</h5>
+
+            @{{#accentsData}}
+            <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
+                <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
+                @{{{ activeCheck }}}
+            </div>           
+            @{{/accentsData}}   
+        </div>
+    </script>
+<!-- End of Font Accents -->
+
+<!-- Free Applications Block -->
+    <script type="text/mustache" id="free-applications-container">
+        @{{#applications}}
+            @{{#isVisible}}
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                @{{#appTypes}}
+                <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                @{{/appTypes}}
+            </div>
+            @{{/isVisible}}
+    @{{/applications}}
+    </script>
+<!-- End Free Applications Block -->
+
+<!-- Application UI Block -->
+
+    <script type="text/mustache" id="m-application-ui-block">
+
+        @{{#newApplication}}
+            @{{{ newApplicationContainer }}}
+        @{{/newApplication}}
+
+        <div class="clearfix"></div>
+
+        @{{#applications}}
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+
+                <div class="thumb-container">
+                    <span>
+                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                    </span>
+
+                    <div class="thumb-links pull-left">
+                        <h5>@{{ type }}</h5>
+                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <span class="thumb-name">@{{ name }}</span>
+
+                    <span class="flip">
+                        <button type="button" class="app-btn w-45 flipBtn" data-id="@{{ code }}">Flip</button>
+                    </span>
+                </div>
+
+                <div class="toggleApplications posContainer clearfix" data-status="on">
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-left view-sliders active">View</button>
+                    <button type="button" class="toggleAppOpt app-btn w-45 pull-right hide-sliders">Hide</button>
+                </div>
+
+                @{{#slider}}
+                    @{{{ sliderContainer }}}
+                @{{/slider}}
+
+                @{{#colorPicker}}
+                    @{{{ colorsSelection }}}
+                @{{/colorPicker}}
+
+           </div>
+        @{{/applications}}
+
+    </script>
+
+<!-- End Application UI Block -->
+
+<!-- Start Slider Container -->
+
+    <script type="text/mustache" id="m-slider-container">
+        <div class="slidersContainer">
+            <div class="manipulator-type-container scale" data-type="scale">
+                <h5>LOGO SIZE</h5>
+                <div class="sc scale">
+                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container move" data-type="move" style="margin: 0px">
+                <h5>POSITION</h5>
+                <div class="sc move">
+                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+
+            <div class="manipulator-type-container rotate" data-type="rotate">
+                <h5>ROTATE</h5>
+                <div class="sc rotate">
+                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+<!-- End Slider Container  -->
+
+<!-- New Application UI -->
+
+    <script type="text/mustache" id="m-application-ui">
+
+        <div id="applicationUI" data-application-id="@{{id}}"
+            <div class="header">
+
+                <div class="toggle defaultShadow" data-status="@{{ status }}">
+                    <div class="valueContainer">
+                        <div class="toggleOption on">ON</div>
+                        <div class="toggleOption off">OFF</div>
+                    </div>
+                </div>
+
+                <div class="applicationType">[@{{ id }}] @{{ appType  }}
+                    <span class="changeApplicationType" data-type="@{{ applicationType }}">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <span class="cog @{{ cogVisibility }}"><i class="fa fa-cog" aria-hidden="true"></i></span>
+
+            </div>
+
+            <div class="body">
+
+                <div class="cover"></div>
+
+                <div class="ui-row @{{ sampleTextContainerVisibility }}">
+                    <label class="applicationLabels font_name">Sample Text</label>
+                    <input type="text" name="sampleText" class="sampleText" value="@{{ sampleText }}" maxlength="@{{ maxLength }}">
+                </div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_name">@{{ appLabel }}</label>
+                    <span class="fontLeft" data-direction="previous" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                    <span class="font_name" style="font-size: 1.2em; font-family: @{{  mascotFontName }};">@{{  mascotFontCaption }}</span>
+                    <span class="fontRight" data-direction="next" style="opacity: @{{ mascotFontArrowOpacity }};"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ui-row">
+                    <label class="applicationLabels font_size @{{class}}"> @{{ label }} </label>
+                    @{{{ generateSizes }}}
+                </div>
+
+                @{{#isApplication}}
+                    <div class="ui-row angleItems">
+                        <label class="applicationLabels font_size">Angle</label>
+                        <span class="angleItem" data-angle="straight">Straight</span>
+                        <span class="angleItem" data-angle="rotated">Rotated</span>
+                    </div>
+                @{{/isApplication}}
+
+                <div class="clearfix"></div>
+
+                <div class="color-pattern-tabs">
+                    <span class="tab active @{{ colorTabVisibility }}" data-item="colors">Colors</span>
+                    <span class="tab @{{ patternsTabVisibility }}" data-item="patterns">Patterns</span>
+                    <span class="tab" data-item="manipulators"></span>
+                    @{{#isBaseballFastpitch}}
+                        <span class="tab @{{ tailSweepsTabVisibility }}" data-item="tailsweeps">Tail Sweeps</span>
+                    @{{/isBaseballFastpitch}}
+                </div>
+
+                <div class="ui-row">
+
+                    <div class="column1 applications colors">
+
+                        <div class="sub1">
+                            <br />
+                            <span class="accentThumb"><img class="@{{ inksoftThumb }}" src="@{{ thumbIcon }}"/></span>
+                            <span class="accent">@{{ accentName }}</span>
+                            <br />
+
+                            @{{#isCustomLogo}}
+                                <a class="view-file" data-file="@{{ customFilename }}" target="_new">View File</a>
+                                <br /><br />
+                            @{{/isCustomLogo}}
+
+                            <span class="flipButton">@{{ flipLabel }}</span>
+                        </div>
+
+                        <div class="colorContainer">
+                            @{{{ colorPickers }}}
+
+                            @{{#isEmbellishment}}
+                                <br />
+                                <a class="filePreview" target="_new" href="@{{ viewArtDetails }}">View Art Details</a><br />
+                                <a class="filePreview" target="_new" href="@{{ viewPrint }}">View Print Ready File</a><br />
+                            @{{/isEmbellishment}}
+
+                            @{{#isSublimated}}
+                                <br/>
+                                <span class="watermark-intensity">Watermark Intensity:</span>
+                                <input type="text" id="opacity-slider" value="" />
+                            @{{/isSublimated}}
+                        </div>
+
+                    </div>
+
+                    @{{#isEmbellishment}}
+                        @{{{ embellishmentSidebar }}}
+                    @{{/isEmbellishment}}
+
+                    @{{#isBaseballFastpitch}}
+                        @{{{ tailSweepPanel }}}
+                    @{{/isBaseballFastpitch}}
+
+                    @{{#isApplication}}
+                        <div class="column1 applications patterns">
+                            @{{{ patternsPanel }}}
+                        </div>
+                    @{{/isApplication}}
+
+                    <div class="column1 applications manipulators">
+                        @{{{ templateStrManipulators }}}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Application UI -->
+
+
+<!-- New Application UI Choices -->
+    
+    <script type="text/mustache" id="m-application-ui-choices"> 
+
+        <div id="changeApplicationUI" data-status="hidden" data-application-id="@{{id}}">
+
+            <div class="header">
+                
+                <div class="">Select Application Type for Location <strong>#@{{ id }}</strong></div>
+                <div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>
+
+                <div class="body">
+
+                    @{{#application_types}}
+                        <div data-type="@{{ types.dataType }}" class="optionButton @{{ types.deactivated }} @{{ types.currentlySelectedType }}">
+                            <div class="icon">
+                                <img src="@{{ types.icon }}">
+                            </div>
+                            <div class="caption">@{{ types.label }} @{{ types.selected }}</div>
+                        </div>
+                    @{{/application_types}}
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End New Application UI Choices -->
 
 
 <!-- New Inksoft De Picker -->
 
-    <script type="text/mustache" id="m-inksoft-designs-preview"> 
+    <script type="text/mustache" id="m-inksoft-designs-preview">
 
        <div id="primaryInksoftDesignStudioPreview" data-status="hidden">
        </div>
 
-    </script>            
+    </script>
 
     <script type="text/mustache" id="m-inksoft-designs-selection">
 
         <div id="primaryInksoftDesignStudioSelection" data-status="hidden">
         </div>
-       
+
     </script>
-    
+
     <script type="text/mustache" id="m-inksoft-design-studio-container">
 
          <div id="primaryInksoftDesignStudio" data-status="hidden">
 
             <div class="header">
 
-                
-              
+
+
             </div>
-            
+
             <div class="main-content">
 
-                
+
 
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
         </div>
-        
+
     </script>
 
 
@@ -1119,7 +1509,7 @@
 
 
 <!-- Tail Sweep Picker -->
-    
+
     <script type="text/mustache" id="m-tailsweep-popup">
 
         <div id="primaryTailSweepPopup" data-status="hidden">
@@ -1129,15 +1519,15 @@
                 Tailsweeps
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="tailSweepPopupResults">
 
                     @{{#tailsweeps}}
@@ -1153,8 +1543,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -1165,7 +1555,7 @@
 <!-- End Tail Sweep Picker -->
 
 <!-- Tail Sweep Picker w/ Preview -->
-    
+
     <script type="text/mustache" id="m-tailsweep-popup-with-preview">
 
         <div id="primaryTailSweepPopup" data-status="hidden">
@@ -1175,7 +1565,7 @@
                 Tailsweeps
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
@@ -1184,12 +1574,12 @@
 
                     <span class="container-label">Select Tailsweep Size: </span>
 
-<!--                         
+<!--
                     <span class="sizeButton" data-size="short">Short</span>
                     <span class="sizeButton active defaultShadow" data-size="medium">Medium</span>
                     <span class="sizeButton" data-size="long">Long</span>
 -->
-                    
+
                     <span class="sizeButton" data-size="1">1</span>
                     <span class="sizeButton" data-size="2">2</span>
                     <span class="sizeButton" data-size="3">3</span>
@@ -1204,13 +1594,13 @@
                     <span class="sizeButton" data-size="12">12</span>
 
                 </div>
-             
+
             </div>
 
             <div class="main-content">
 
-                
-                
+
+
                 <div class="tailSweepPopupResults">
 
                     @{{#tailsweeps}}
@@ -1220,7 +1610,7 @@
                             <div class="text-preview" data-short="@{{short}}" data-medium="@{{medium}}" data-long="@{{long}}" data-tailsweep-code="@{{code}}" data-sample-text="@{{sampleText}}">@{{sampleText}}@{{medium}}</div>
 
                             <div class="name" style="">@{{title}}</div>
-                            
+
                         </div>
 
                     @{{/tailsweeps}}
@@ -1230,8 +1620,8 @@
             </div>
 
             <div class="footer">
-                
-              
+
+
 
             </div>
 
@@ -1246,7 +1636,7 @@
     <script type="text/mustache" id="m-circle-sizes">
 
         <span class="adult-sizes">ADULT SIZES:</span>
-        
+
         @{{#adult}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
         @{{/adult}}
@@ -1268,7 +1658,7 @@
     <script type="text/mustache" id="m-tabButtons-sizes">
 
         <span class='adult-header'>Adult Sizes: </span>
-        
+
         @{{#adult}}
             <span class="tabButton" data-category="adult" data-size="@{{.}}">@{{.}}</span>
         @{{/adult}}
@@ -1284,16 +1674,16 @@
 <!-- End Tab Buttons Container -->
 
 <!-- Roster Table -->
-    
+
     <script type="text/mustache" id="m-roster-table">
 
         @{{#tabs}}
         <div class="tab" data-size="@{{.}}">
 
             <table class="roster-table" align="center" data-size="@{{.}}">
-                            
+
                 <tr class="thead">
-                    
+
                     <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
                 </tr>
@@ -1320,11 +1710,11 @@
 
                 <tr class="roster-row" data-size="@{{size}}" data-index="@{{index}}">
                     <td>@{{index}}</td>
-                    
+
                     <td>
                         <input type="text" name="size" value="@{{size}}" class="size" disabled />
                     </td>
-                    
+
                     <td class="PlayerLastNameInput">
                         <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
@@ -1334,7 +1724,7 @@
                     </td>
 
                     <td>
-                       <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />  
+                       <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />
                     </td>
 
                     <td class="sleevetype">
@@ -1360,7 +1750,7 @@
                     </td>
 
                 </tr>
-    </script>   
+    </script>
 
 <!-- End Roster Table Field -->
 
@@ -1383,14 +1773,14 @@
                     <td>Submitted</td>
                     <td>&nbsp;</td>
 
-                </tr> 
+                </tr>
 
            </thead>
-            
+
            <tbody>
                 @{{#orders}}
 
-                    <tr class="saved-order-row" data-id="@{{id}}"> 
+                    <tr class="saved-order-row" data-id="@{{id}}">
                         <td>@{{created_at}}</td>
                         <td>@{{created_at_time}}</td>
                         <td>
@@ -1401,7 +1791,7 @@
                             @{{#items}}
 
                                 <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
-                                
+
                                 <img class="thumbs grow" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
                                 <img class="thumbs grow" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
                                 <img class="thumbs grow" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
@@ -1415,7 +1805,7 @@
                         <td>@{{client}}</td>
                         <td>@{{status}}</td>
                         <td>@{{submitted}}</td>
-                        
+
                         <td class="action">
 
                             <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
@@ -1426,12 +1816,12 @@
 
                     </tr>
 
-                @{{/orders}} 
+                @{{/orders}}
 
            </tbody>
-           <tfoot>                
+           <tfoot>
                 <td></td>
-                <td class="data-table-filter-hide"></td>               
+                <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td></td>
@@ -1440,11 +1830,11 @@
                 <td class="data-table-filter-hide"></td>
 
            </tfoot>
-            
+
 
         </table>
 
-    </script>   
+    </script>
 
 <!-- End Orders Table -->
 
@@ -1459,15 +1849,15 @@
                 Message (@{{type}})
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
-            
+
             <div class="main-content">
-                
+
                 <div class="label">From: </div>
                 <div class="value">@{{sender_name}}</div>
                 <div class="label">Subject: </div>
@@ -1476,16 +1866,16 @@
                 <div class="value">@{{content}}</div>
 
                 <div class="reply-box">
-                    
+
                     <div class="label">Reply: </div>
                     <div class="inputbox">
-                        
+
                         <textarea name="reply" rows="10" cols="100" maxlength="500"></textarea>
 
                     </div>
 
                     <div class="command-bar">
-                        
+
                         <span class="submit-reply" data-message-id="@{{id}}">Submit</span>
 
                     </div>
@@ -1495,8 +1885,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -1530,7 +1920,7 @@
 
             @{{#messages}}
 
-                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
+                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">
                     <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
                     <td class="type">@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
@@ -1538,7 +1928,7 @@
                     <td class="from"><strong>@{{recepient_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{contentPreview}}</td>
-                    <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+                    <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td>
 
                 </tr>
 
@@ -1548,7 +1938,7 @@
 
         <span class="message-count">Messages: n</span>
 
-    </script>   
+    </script>
 
 <!-- End Messages Table -->
 
@@ -1559,7 +1949,7 @@
         <br />
 
         <table>
-           
+
             <tr class="header">
                 <td>Type</td>
                 <td>Date</td>
@@ -1577,14 +1967,14 @@
                     <td><strong> @{{order_code}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{content}}</td>
-                    <td>@{{read}}</td> 
+                    <td>@{{read}}</td>
                 </tr>
 
             @{{/messages}}
 
         </table>
 
-    </script>   
+    </script>
 
 <!-- End Right Pane Messages Table -->
 
@@ -1599,7 +1989,7 @@
             <span class="message">@{{message}}</span>
 
             <div class="row">
-                
+
                 <div class="col-md-3">
                     <img src="@{{imgFront}}" />
                 </div>
@@ -1619,9 +2009,9 @@
             </div>
 
             <div class="row">
-                
+
                 <div class="col-md-12">
-                    
+
                     <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
@@ -1630,18 +2020,18 @@
             </div>
 
             <div class="row">
-                
+
                 <div class="col-md-12 ok-footer">
-                    
+
                     <span class="ok-btn">OK</span>
 
                 </div>
-                
+
             </div>
-            
+
         </div>
 
-    </script>   
+    </script>
 
 <!-- End Order Submitted -->
 
@@ -1652,9 +2042,9 @@
             <h3><i class="fa fa-comment" aria-hidden="true"></i> FEEDBACK</h3>
 
             <div class="row">
-                
+
                 <div class="col-md-12">
-                    
+
                     <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
@@ -1663,27 +2053,27 @@
             </div>
 
             <div class="row">
-                
+
                 <div class="col-md-12 ok-footer">
-                    
+
                      <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
 
                 </div>
-                
+
             </div>
-            
+
         </div>
 
-    </script>   
+    </script>
 
 <!-- End Order Submitted -->
 
 <!-- My Saved Designs Table -->
 
     <script type="text/mustache" id="m-saved-designs-table">
-        
+
         <br />
-      
+
         <table class="data-table">
             <thead>
                 <tr class="header">
@@ -1699,7 +2089,7 @@
                 @{{#savedDesigns}}
                     <tr class="saved-design-row" data-id="@{{id}}">
                         <td class="created-at">@{{created_at}}</td>
-                        <td>@{{created_at_time}}</td>                       
+                        <td>@{{created_at_time}}</td>
                         <td>@{{sport}}</td>
                         <td>
                             <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
@@ -1715,14 +2105,14 @@
                             @{{ #store_code }}
                                 Store Code: <strong>@{{ store_code }}</strong>
                             @{{ /store_code}}
-                        </td>                        
+                        </td>
                         <td>
-                        
+
                             <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
                             <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
                             <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
-                            <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />                       
-                        </td>                        
+                            <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />
+                        </td>
                         <td class="action">
 
                             <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design</span>
@@ -1734,7 +2124,7 @@
                 @{{/savedDesigns}}
             </tbody>
 
-            <tfoot>               
+            <tfoot>
                 <td></td>
                 <td class="data-table-filter-hide"></td>
                 <td></td>
@@ -1744,7 +2134,7 @@
             </tfoot>
         </table>
 
-    </script>   
+    </script>
 
 <!-- End Saved Designs Table -->
 
@@ -1776,7 +2166,7 @@
             <div class="col-md-12">
 
                 <div class="row">
-                    
+
                     <div class="col-md-3"></div>
 
                     <div class="col-md-6">
@@ -1793,11 +2183,11 @@
                     <div class="col-md-3"></div>
 
                     <div class="col-md-2">
-                        
+
                         <p>
                             <em>
 
-                                We have representatives to help you make the most of this site, just enter your zip code and click the <strong>[Find Rep]</strong> button, and select anyone that will appear on the dropdown. 
+                                We have representatives to help you make the most of this site, just enter your zip code and click the <strong>[Find Rep]</strong> button, and select anyone that will appear on the dropdown.
                                 <br /><br />
 
                                 Note:
@@ -1818,7 +2208,7 @@
                         <div class="col-md-12">
 
                             <label for="state">State</label>
-                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" required>                                
+                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" required>
 
                         </div>
 
@@ -1826,18 +2216,18 @@
 
                             <br />
                             <label for="zip">Zip</label>
-                            <input name="zip" class="form-control" type="text" placeholder="Zip Code" value="@{{zip}}" required>                                
+                            <input name="zip" class="form-control" type="text" placeholder="Zip Code" value="@{{zip}}" required>
 
                         </div>
 
                          <div class="col-md-12">
 
                             <br />
-                            <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" required>                                
+                            <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" required>
                             <br /><br />
                             <span class="message-rep"></span>
 
-                        </div>                                            
+                        </div>
 
                         <div class="col-md-12">
 
@@ -1845,7 +2235,7 @@
                             <label for="rep">Rep</label>
                             <select class="form-control" name="rep" disabled="">
                             </select>
-                            
+
                         </div>
 
                     </div>
@@ -1853,7 +2243,7 @@
                 </div>
 
                 <div class="row">
-                    
+
                     <div class="col-md-3"></div>
 
                     <div class="col-md-6">
@@ -1872,7 +2262,7 @@
             <span class="btn update-profile">Update</span>
         </div>
 
-    </script>   
+    </script>
 
 <!-- End Profile -->
 
@@ -1882,7 +2272,7 @@
 
 
 
-    </script>   
+    </script>
 
 <!-- End Sigunup -->
 
@@ -1892,7 +2282,7 @@
 
 
 
-    </script>   
+    </script>
 
 <!-- End Sigunup -->
 
@@ -1908,7 +2298,7 @@
 
     @{{/block_patterns}}
 
-    </script>   
+    </script>
 
 <!-- End Tertiary links -->
 
@@ -1924,7 +2314,7 @@
 
     @{{/block_patterns}}
 
-    </script>   
+    </script>
 
 <!-- End Quarternary links -->
 
@@ -1945,45 +2335,45 @@
 
                     <strong>NOTES</strong><br />
                     <textarea id="design-notes" placeholder="notes..."></textarea>
-                    
+
                 </div>
 
             </div>
 
             <div class="row please-wait">
-                
+
                 <div class="col-md">
 
                     <em class="uploading">
                         Uploading thumbnails, please wait ...<img class="views" src="/images/loading.gif" />
                     </em>
-                    
+
                 </div>
-                
+
             </div>
 
             <div class="row">
-                
+
                 <div class="col-md-3">
 
                     <img class="views front_view" />
 
                 </div>
-                
+
                 <div class="col-md-3">
 
                     <img class="views left_view"/>
-                    
+
                 </div>
-                
+
                 <div class="col-md-3">
 
                     <img class="views right_view"/>
-                    
+
                 </div>
 
                 <div class="col-md-3">
-                
+
                     <img class="views back_view"/>
 
                 </div>
@@ -2004,30 +2394,30 @@
             @endif
 
             <div class="row save-design-footer">
-                
+
                 <div class="col-md-12 ok-footer">
-                    
+
                     <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
 
                 </div>
-                
+
             </div>
 
              <div class="row saving-please-wait">
-                
+
                 <div class="col-md-12">
 
                     <em class="saving">
                         Saving design, please wait ...<img class="views" src="/images/loading.gif" />
                     </em>
-                    
+
                 </div>
-                
+
             </div>
-            
+
         </div>
 
-    </script>   
+    </script>
 
 <!-- End Save Design -->
 
@@ -2063,7 +2453,7 @@
             </button>
 
             <ul class = "dropdown-menu" role="menu">
-                
+
                 <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
                 <li class="divider"></li>
 
@@ -2092,7 +2482,7 @@
 
             <span class="piping-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
                 @{{size}}
-            </span> 
+            </span>
 
         @{{/items}}
 
@@ -2104,7 +2494,7 @@
 
     <script type="text/mustache" id="m-piping-colors">
 
-        <label class="applicationLabels colors"># of Colors</label> 
+        <label class="applicationLabels colors"># of Colors</label>
 
         @{{#items}}
 
@@ -2130,7 +2520,7 @@
               <div class="ui-row">
 
                   <label class="applicationLabels">Type</label>
-                  <span class="piping-type">@{{type}}</span>                       
+                  <span class="piping-type">@{{type}}</span>
 
               </div>
 
@@ -2139,7 +2529,7 @@
               </div>
 
               <div class="ui-row colors-row">
-                  
+
               </div>
 
               <div class="clearfix"></div>
@@ -2152,7 +2542,7 @@
               </div>
           </div>
         </div>
-        
+
     </script>
 
 <!-- End Main Piping Sidebar -->
@@ -2168,7 +2558,7 @@
 
             <span class="randomFeed-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
                 @{{size}}
-            </span> 
+            </span>
 
         @{{/items}}
 
@@ -2180,7 +2570,7 @@
 
     <script type="text/mustache" id="m-randomFeed-colors">
 
-        <label class="applicationLabels colors"># of Colors</label> 
+        <label class="applicationLabels colors"># of Colors</label>
 
         @{{#items}}
 
@@ -2208,7 +2598,7 @@
               <div class="ui-row">
 
                   <label class="applicationLabels">Location</label>
-                  <span class="randomFeed-type">@{{type}}</span>                       
+                  <span class="randomFeed-type">@{{type}}</span>
 
               </div>
 
@@ -2217,7 +2607,7 @@
               </div>
 
               <div class="ui-row colors-row">
-                  
+
               </div>
 
               <div class="clearfix"></div>
@@ -2230,7 +2620,7 @@
               </div>
           </div>
         </div>
-        
+
     </script>
 
 <!-- End Main Random Feed Sidebar -->
@@ -2248,8 +2638,8 @@
                 <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player #</div></span>
                 <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
                 <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
-                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Stock Mascot</div></span>                            
-                <span class="optionButton" data-type="embellishments"><div class="icon"><img src="/images/main-ui/icon-embellishments-large.png"></div><div class="caption">Custom Mascot</div></span>                            
+                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Stock Mascot</div></span>
+                <span class="optionButton" data-type="embellishments"><div class="icon"><img src="/images/main-ui/icon-embellishments-large.png"></div><div class="caption">Custom Mascot</div></span>
 
             </div>
 
@@ -2262,7 +2652,7 @@
                 <span class="perspective" data-id="back">Back</span>
                 <span class="perspective" data-id="left">Left</span>
                 <span class="perspective" data-id="right">Right</span>
-                
+
             </div>
 
             <br />
@@ -2275,7 +2665,7 @@
                     <span class="part" data-id="@{{name}}">@{{name}}</span>
 
                 @{{/parts}}
-                
+
             </div>
 
             <br />
@@ -2286,7 +2676,7 @@
                 <span class="side" data-id="na">N/A</span>
                 <span class="side" data-id="left">Left</span>
                 <span class="side" data-id="right">Right</span>
-                
+
             </div>
 
             <hr />
@@ -2296,37 +2686,37 @@
                 <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
 
             </div>
-            
+
         </div>
-        
+
     </script>
 
 <!-- End Add New Free-Form Location -->
 
 <script type="text/mustache" id="m-save-design-ok">
-    
+
     <div class="save-design-post-dialog">
 
         <p class='left'>
-            Your design '<strong>@{{designName}}</strong>' was saved successfully! You can stay and continue working with this style, or go to other sections using one of the options below. Thank you! 
+            Your design '<strong>@{{designName}}</strong>' was saved successfully! You can stay and continue working with this style, or go to other sections using one of the options below. Thank you!
         </p>
 
         <p>
-            <button class="btn save-dialog stay">Stay and Continue working on this style.</button>   
+            <button class="btn save-dialog stay">Stay and Continue working on this style.</button>
         </p>
-        
+
         <br />
         <p>
             Or do any of the following: <br />
             <button class="btn save-dialog select-another-uniform">Select a New Style to work on</button> <br />
-            <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button> 
+            <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button>
         </p>
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-save-design-guest">
-    
+
     <div class="save-design-post-dialog">
 
         <p class='left'>
@@ -2338,29 +2728,29 @@
         </p>
 
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-loading-screen">
-    
+
     <div class="loading-screen">
 
         <div class="logo-container">
-            
+
             <img src="@{{logo}}" class="logo-white" /> <br />
-          
+
             <div class="qoute">
                 <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
                 <span class='qoute-text'>One thing that can never be sacrificed is your preparation and your work ethic.</span>
                 <br />
                 <div class="author-container">
-                    -<span class="author"> Peyton Manning</span>    
+                    -<span class="author"> Peyton Manning</span>
                 </div>
             </div>
-           
+
         </div>
 
-        
+
         <div class="loading-messages">
             <!-- <strong>@{{startTime}}</strong><br /> -->
 
@@ -2369,52 +2759,52 @@
         </div>
 
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-preview-panel-content">
-    
+
     <div class="rotation-container">
 
         <label>Code:</label><strong class="number">@{{applicationCode}}</strong>
         <br /><br />
 
-        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong> 
-        <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong> 
+        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong>
+        <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong>
         <br />
-        <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
-        <br /> 
+        <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong>
+        <br />
 
-        <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong> 
+        <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong>
         <br />
 
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-no-favorite">
-    
+
     <div class="no-favorite-styles">
 
         You have no favorite styles.
 
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-picker-message">
-    
+
     <div class="generic-message">
 
        @{{message}} <br />
        @{{didYouMean}} <br /><br />
-       
+
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-did-you-mean-link-templates">
-    
+
     <div class="did-you-mean-links">
 
        @{{#gender}}
@@ -2429,7 +2819,7 @@
        @{{/gender}}
 
     </div>
-    
+
 </script>
 
 <script type="text/mustache" id="m-sales-reps-options">
@@ -2437,13 +2827,13 @@
     @{{#rep}}
 
         <option value="@{{id}}" data-sort='3' data-dealer="@{{dealer}}" data-name="@{{last_name}}, @{{first_name}}"> @{{last_name}}, @{{first_name}} - (@{{dealer}})</option>
-        
+
     @{{/rep}}
 
 </script>
 
 <script type="text/mustache" id="m-order-info-messages">
-    
+
     <table>
 
         <tr class="header">
@@ -2466,7 +2856,7 @@
                 <td class="from"><strong>@{{sender_name}}</strong></td>
                 <td class="subject">@{{subject}}</td>
                 <td class="message-info">@{{content}}</td>
-                <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+                <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td>
 
             </tr>
 
@@ -2475,11 +2865,11 @@
     </table>
 
     <span class="message-count">Messages: n</span>
-    
+
 </script>
 
 <script type="text/mustache" id="m-car-notification-thread-container">
-    
+
     @{{#messages}}
 
         <div class='msg'>
@@ -2493,11 +2883,11 @@
             <span class='content'>
                 @{{content}}
             </span>
-            
+
         </div>
 
         <hr class='thread-container'>
-        
+
     @{{/messages}}
 
 </script>
@@ -2505,7 +2895,7 @@
 
 
 <script type="text/mustache" id="m-loading">
-    
+
     <div class="text-center">Loading @{{type}} ... <img width="50" src="/images/loading.gif" /></div>
 
 </script>
@@ -2521,16 +2911,16 @@
             @{{#entries}}
 
             <td>
-            
+
                 <table border="1" cellpadding="3">
-                    
+
                     <tr>
                         <td colspan="3" align="center">SLEEVES: @{{sleeveType}}</td>
                     </tr>
 
                     <tr>
                         <td align="center" width="20%">SIZE</td>
-                        <td align="center" width="60%">NUMBERS</td> 
+                        <td align="center" width="60%">NUMBERS</td>
                         <td align="right" width="20%">COUNT</td>
                     </tr>
 
@@ -2564,23 +2954,23 @@
     <div class="svg-dialog-container">
 
         <div class="row">
-            
+
             <div class="col-md-8">
-                
+
                 <div id="namedrop-container" class="svg-container">
-                    
+
                 </div>
 
             </div>
 
             <div class="col-md-4">
-                
+
                 Sidebar
 
             </div>
 
         </div>
-        
+
     </div>
 
 </script>
@@ -2610,36 +3000,36 @@
      <div class="column1 applications tailsweeps">
 
         <div class="sub1 tailSweepThumb"><br />
-            <span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/@{{thumbnail}}"/></span><br />                                                             
+            <span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/@{{thumbnail}}"/></span><br />
             <span class="tailsweep">@{{code}}</span>
-            <span class="flipButton">Vertical</span>        
+            <span class="flipButton">Vertical</span>
         </div>
 
         <div class="sizeContainer">
 
             <span class="sizeLabel">LENGTH</span>
-            <span class="sizeItem" data-size="short">Short</span>        
-            <span class="sizeItem" data-size="medium">Medium</span>        
-            <span class="sizeItem" data-size="long">Long</span>        
+            <span class="sizeItem" data-size="short">Short</span>
+            <span class="sizeItem" data-size="medium">Medium</span>
+            <span class="sizeItem" data-size="long">Long</span>
 
             <span class="sizeLabel">LENGTH 2</span>
-            <span class="sizeItem sizeItem2" data-size="1">1</span>        
-            <span class="sizeItem sizeItem2" data-size="2">2</span>        
-            <span class="sizeItem sizeItem2" data-size="3">3</span>        
-            <span class="sizeItem sizeItem2" data-size="4">4</span>        
-            <span class="sizeItem sizeItem2" data-size="5">5</span>        
-            <span class="sizeItem sizeItem2" data-size="6">6</span>        
-            <br />        
-            <span class="sizeItem sizeItem2" data-size="7">7</span>        
-            <span class="sizeItem sizeItem2" data-size="8">8</span>        
-            <span class="sizeItem sizeItem2" data-size="9">9</span>        
-            <span class="sizeItem sizeItem2" data-size="10">10</span>        
-            <span class="sizeItem sizeItem2" data-size="11">11</span>        
-            <span class="sizeItem sizeItem2" data-size="12">12</span>        
+            <span class="sizeItem sizeItem2" data-size="1">1</span>
+            <span class="sizeItem sizeItem2" data-size="2">2</span>
+            <span class="sizeItem sizeItem2" data-size="3">3</span>
+            <span class="sizeItem sizeItem2" data-size="4">4</span>
+            <span class="sizeItem sizeItem2" data-size="5">5</span>
+            <span class="sizeItem sizeItem2" data-size="6">6</span>
+            <br />
+            <span class="sizeItem sizeItem2" data-size="7">7</span>
+            <span class="sizeItem sizeItem2" data-size="8">8</span>
+            <span class="sizeItem sizeItem2" data-size="9">9</span>
+            <span class="sizeItem sizeItem2" data-size="10">10</span>
+            <span class="sizeItem sizeItem2" data-size="11">11</span>
+            <span class="sizeItem sizeItem2" data-size="12">12</span>
 
             <label class="applicationLabels">Rotated</label>
-            <span class="angleItem" data-angle="straight">Straight</span>        
-            <span class="angleItem" data-angle="rotated">Rotated</span>        
+            <span class="angleItem" data-angle="straight">Straight</span>
+            <span class="angleItem" data-angle="rotated">Rotated</span>
 
         </div>
 
@@ -2648,7 +3038,7 @@
 </script>
 
 
-<!-- Custom Artwork Requests --> 
+<!-- Custom Artwork Requests -->
 
     <script type="text/mustache" id="m-custom-artwork-requests">
 
@@ -2668,26 +3058,26 @@
                     <td>Preview</td>
                     <td>Review</td>
 
-                </tr> 
+                </tr>
 
            </thead>
-            
+
            <tbody>
 
                 @{{#car}}
 
-                    <tr class="custom-artwork-request-row" data-id="@{{id}}"> 
-                        
+                    <tr class="custom-artwork-request-row" data-id="@{{id}}">
+
                         <td>@{{created_at}}</td>
-                        
+
                         <td>
-                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}})."> 
-                                
+                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}}).">
+
                                 @{{reference_id}} <br />
 
                             </span>
 
-                            <span class="name"> 
+                            <span class="name">
                                 @{{saved_design_name}}
                                 @{{client_name}}
                             </span>
@@ -2698,7 +3088,7 @@
                         <td>@{{#titleCase}}@{{status}}@{{/titleCase}}</td>
 
                         <td>
-                            
+
                             @{{#parsedProperties}}
 
                                 <img src="@{{file}}" />
@@ -2716,7 +3106,7 @@
                                 </span>
 
                                 <br />
-                                
+
                                 <span class="btn" data-code="@{{code}}" data-btn-type="preview" data-action="preview-prepared-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted after its been processed by the our Graphic Artists">
                                     Preview Processed Mascot
                                 </span>
@@ -2724,7 +3114,7 @@
                             @{{/parsedProperties}}
 
                         </td>
-                        
+
                         <td class="action">
 
                             <span class="btn" target="_blank" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created.">
@@ -2739,16 +3129,16 @@
 
                     </tr>
 
-                @{{/car}} 
+                @{{/car}}
 
            </tbody>
 
-    {{--    
+    {{--
 
-            <tfoot>       
+            <tfoot>
 
                 <td></td>
-                <td class="data-table-filter-hide"></td>               
+                <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td></td>
@@ -2762,12 +3152,12 @@
 
         </table>
 
-    </script>   
+    </script>
 
     <script type="text/mustache" id="m-custom-artwork-requests-mascot-preview">
 
         <div id="mascotRealTimePreview">
-            
+
             <div class="preview-header">
                 <h3>@{{mascot.id}} / @{{mascot.name}}</h3>
             </div>
@@ -2775,11 +3165,11 @@
             <div id="preview-canvas"></div>
 
             <div class="color-pickers">
-                
+
             </div>
 
             <div class="notes">
-                
+
                 <em>Use this screen to preview the mascots prepared for the artwork you submitted, you can change the color of the inidividual layers.</em>
 
             </div>
@@ -2792,22 +3182,22 @@
 
         </div>
 
-</script>   
+</script>
 
 <script type="text/mustache" id="m-car-approve-dialog">
-    
+
     <div class="approve-dialog">
-        
+
         <p class="notice">
             <em>
                 @{{note}}
             </em>
         </p>
-        
+
         <table class="approve-reject-table">
-     
+
             <tr class="header-row">
-                    
+
                 <td>Location #</td>
                 <td>Mascot ID</td>
                 <td>Thumbnail</td>
@@ -2816,7 +3206,7 @@
                 <td>Notes</td>
 
             </tr>
-            
+
             @{{#artworks}}
 
             <tr class="content-row">
@@ -2826,19 +3216,19 @@
                 <td class="thumb">Thumbnail</td>
                 <td class="link-to-pdf"><a href=""></a></td>
                 <td class="approve-reject">
-                        
+
                     <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
                     <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
 
                 </td>
                 <td class="notes">
-                    
+
                     <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
 
                 </td>
-                
+
             </tr>
-                
+
             @{{/artworks}}
 
         </table>
@@ -2849,15 +3239,15 @@
 
             <span class="btn cancel">Cancel</span>
             <span class="btn submit">Submit</span>
-            
+
         </div>
 
     </div>
-            
+
 </script>
 
 <!-- Embellishment Popup -->
-    
+
     <script type="text/mustache" id="m-embellishment-popup">
 
         <div id="primaryEmbellishmentPopup" data-status="hidden">
@@ -2867,15 +3257,15 @@
                 Custom Mascots
 
                 <div class="close-popup">
-                        
+
                     <i class="fa fa-times" aria-hidden="true"></i>
 
                 </div>
-             
+
             </div>
 
             <div class="navbar-main">
-                
+
                 <ul class="embellishment-tabs">
                     <li class="active" data-type="existing">Option #1: Select From Existing Designs</li>
                     <li data-type="upload">Option #3: Upload A File</li>
@@ -2885,7 +3275,7 @@
             </div>
 
             <div class="navbar-top">
-                
+
                 <span class="active-archive-tab active" title="View Active Designs" data-type="active" data-tipped-options="position: 'topright'" >
                     <i class="fa fa-list" aria-hidden="true"></i><span class="text">Active</span>
                 </span>
@@ -2898,17 +3288,17 @@
             </div>
 
             <div class="clearfix"></div>
-            
+
             <div class="main-content">
-                
+
                 <div class="embellishmentPopupResults">
 
                     @{{#myEmbellishments}}
 
                         <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
-                            
+
                             <div class="name" style="">@{{design_name}}</div>
-                            
+
                             <div class="archive" data-type="archive"  style="" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Archive this design">
                                 <i class="fa fa-archive" aria-hidden="true"></i>
                             </div>
@@ -2926,7 +3316,7 @@
                 <span class="name"></span> / <a class="previewLink" target="_new" href=''>Fullsize Preview</a> <br />
 
                 <img class="preview" /> <br /><br />
-                
+
 
                 <br />
 
@@ -2935,8 +3325,8 @@
             </div>
 
             <div class="footer">
-                
-                
+
+
 
             </div>
 
@@ -2944,10 +3334,10 @@
 
     </script>
 
-    <!-- For Updating Embellishments at runtime --> 
+    <!-- For Updating Embellishments at runtime -->
 
-        <script type="text/mustache" id="m-loading-animation">    
-            
+        <script type="text/mustache" id="m-loading-animation">
+
             <span class="loading-container">
                 <img src="/images/loading-animation.gif" class="loading-gif"/>
             </span>
@@ -2959,9 +3349,9 @@
             @{{#myEmbellishments}}
 
                 <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
-                    
+
                     <div class="name" style="">@{{design_name}}</div>
-                    
+
                     <div class="archive" data-type="archive" style="" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Archive this design">
                         <i class="fa fa-archive" aria-hidden="true"></i>
                     </div>
@@ -2977,9 +3367,9 @@
             @{{#myEmbellishments}}
 
                 <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
-                    
+
                     <div class="name" style="">@{{design_name}}</div>
-                    
+
                     <div class="restore" style="" data-type="restore" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Restore this design">
                         <i class="fa fa-undo" aria-hidden="true"></i>
                     </div>
@@ -2996,15 +3386,15 @@
 <!-- End Embellishment Popup -->
 
 <!-- Embellishment Sidebar -->
-    
+
     <script type="text/mustache" id="m-embellishment-sidebar">
-        
+
         <div class="ui-row">
             <div class="colorContainer embellishment-buttons-container">
 
                 <span class="btn edit-embellishment">Edit Current</span>
 
-                <!-- 
+                <!--
                 <span class="btn select-embellishment">Upload File (.ai, etc)</span>
                 <span class="btn new-embellishment">Create New</span>
                 -->
@@ -3021,7 +3411,7 @@
                     </li>
 
                     <li role="separator" class="divider"></li>
-                    
+
                     <li>
                         <a href="#" class="create-new"><i class="fa fa-plus" aria-hidden="true"></i> Create New</a>
                     </li>
@@ -3043,16 +3433,16 @@
 <!-- Debug Panel -->
 
 <script type="text/mustache" id="m-debug-panel-contents">
-    
+
     <div class="header">
-        @{{{materialName}}} 
+        @{{{materialName}}}
     </div>
 
     <div class="contents">
         @{{{content}}} <br />
         @{{{title}}}
     </div>
-    
+
 </script>
 
 <!-- End Debug Panel -->
@@ -3060,18 +3450,18 @@
 <!-- Embellishment Sidebar -->
 
     <script type="text/mustache" id="m-embellishment-preview-vector">
-    
+
         <div class="vectorInfoPreview">
 
-            <div class="header"> 
+            <div class="header">
                VECTOR LAYER
             </div>
 
-            <div class="form-group"> 
-               @{{{name}}} 
+            <div class="form-group">
+               @{{{name}}}
            </div>
 
-           <div class="form-group"> 
+           <div class="form-group">
                <img class= "vector-thumb" src = "@{{{baseVectorPath}}} " />
                <br />
                <label>Source Image</label><br />
@@ -3082,66 +3472,66 @@
 
            @{{#colors}}
 
-                <div class="form-group"> 
+                <div class="form-group">
                    <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
                        @{{hexCode}} (@{{colorCode}})
                    </span><br />
-               </div>            
+               </div>
 
            @{{/colors}}
 
         </div>
 
     </script>
-    
+
     <script type="text/mustache" id="m-embellishment-preview-font">
 
         <style type="text/css">
-            
+
             @font-face {
                 font-family: @{{{name}}};
                 src: url(@{{{fontPath}}});
             }
 
         </style>
-    
+
         <div class="fontInfoPreview">
-  
-            <div class="header"> 
+
+            <div class="header">
                FONT LAYER
             </div>
 
-            <div class="form-group input-text" style="color: @{{fillcolor}}; font-family: @{{{name}}}"> 
-               @{{{text}}} 
+            <div class="form-group input-text" style="color: @{{fillcolor}}; font-family: @{{{name}}}">
+               @{{{text}}}
             </div>
 
-            <div class="form-group"> 
+            <div class="form-group">
                <label>Font:</label><br />
-               @{{{style}}} / @{{{name}}} 
+               @{{{style}}} / @{{{name}}}
             </div>
 
-            <div class="form-group"> 
+            <div class="form-group">
                <label>Font File</label><br />
                <a href="@{{{fontPath}}}">Download Font</a>
             </div>
 
             <h5 style="display: @{{displayStroke}}">Stroke Color: </h5>
             @{{#strokeColor}}
-                <div class="form-group" style="display: @{{displayStroke}}"> 
+                <div class="form-group" style="display: @{{displayStroke}}">
                    <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
                        @{{hexCode}} (@{{colorCode}})
                    </span><br />
-                </div>            
+                </div>
             @{{/strokeColor}}
 
            <h5>Fill Color: </h5>
 
            @{{#fillColor}}
-                <div class="form-group"> 
+                <div class="form-group">
                    <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
                        @{{hexCode}} (@{{colorCode}})
                    </span><br />
-               </div>            
+               </div>
            @{{/fillColor}}
 
 
@@ -3170,10 +3560,10 @@
                     <i class="fa fa-times-circle-o" aria-hidden="true"></i>
                 </li>
             </ul>
-            
+
             <div class="containers">
-                
-                <div class="manipulator-type-container move" data-type="move"> 
+
+                <div class="manipulator-type-container move" data-type="move">
                     <div class="sc move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>
                 </div>
 
@@ -3186,7 +3576,7 @@
                 </div>
 
             </div>
-            
+
         </div>
 
     </script>
@@ -3194,7 +3584,7 @@
 <!-- End Manipulator Panels -->
 
 <!-- States -->
-    
+
     <script type="text/mustache" id="m-us-states">
 
         <option value="0">Select your state</option>
@@ -3207,6 +3597,7 @@
 
 
 <!-- End States -->
+
 
 <!-- ORDER FORM Error list -->
     
@@ -3223,5 +3614,13 @@
         
     </script>
 <!-- End ORDER FORM Error list -->
+
+@include('partials.controls.properties.parts')
+@include('partials.controls.properties.pipings')
+@include('partials.controls.properties.random-feeds')
+@include('partials.controls.properties.inserts')
+@include('partials.controls.properties.numbers')
+@include('partials.controls.properties.logo')
+@include('partials.controls.properties.fabrics')
 
 @include('partials.controls.team-store-products-picker')

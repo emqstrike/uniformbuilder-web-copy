@@ -52,6 +52,7 @@ $(document).ready(function () {
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
+                ub.current_material.fabrics = ub.config.api_host + '/api/fabrics/';
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -62,6 +63,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
+                ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -648,7 +650,24 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+            if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
+
+            ub.funcs.changeControls();
+
+            // executeAfterLoadFunctionList()
+
             ub.funcs.executeAfterLoadFunctionList();
+        };
+
+        // afterLoad function container
+        ub.funcs.afterLoadFunctionList = [];
+
+        // create desc here
+        ub.funcs.executeAfterLoadFunctionList = function () {
+  
+             _.each(ub.funcs.afterLoadFunctionList, function (func){
+                 func();
+            });
 
         };
 
@@ -1082,6 +1101,7 @@ $(document).ready(function () {
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
+                     typeof(ub.current_material.fabrics) !== 'undefined' &&
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined' &&
                      typeof(ub.data.fonts) !== 'undefined' && 
@@ -1114,31 +1134,41 @@ $(document).ready(function () {
         };
 
         ub.loader = function (url, object_name, cb) {
-          
-            $.ajax({
-            
-                url: url,
-                type: "GET", 
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
 
-                    if (object_name === "tailSweeps") {
-
-                        cb(response['tailsweeps'], object_name);
-
-                    } else {
-
-                        cb(response[object_name], object_name);
-
-                    }
-
+            if (window.Worker) {
+                data = {
+                    url: url
                 }
-            
-            });
+                var worker = new Worker('/workers/json-loader-worker.js');
+
+                worker.onmessage = function(e) {
+                    if (e.data.response) {
+                        key = object_name;
+                        if (object_name === "tailSweeps") {
+                            key = 'tailsweeps';
+                        }
+                        cb(e.data.response[key], object_name);
+                    }
+                }
+                worker.postMessage(JSON.parse(JSON.stringify(data)));
+            } else {
+                $.ajax({
+                    url: url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response) {
+                        if (object_name === "tailSweeps") {
+                            cb(response['tailsweeps'], object_name);
+                        } else {
+                            cb(response[object_name], object_name);
+                        }
+                    }
+                });
+            }
 
         };
 
@@ -2814,6 +2844,25 @@ $(document).ready(function () {
             }
 
         }
+
+        // Init Richardson Palette
+        ColorPalette.funcs.prepareRichardsonPalette();
+
+        // Process Prolook Logo Here
+        LogoPanel.init();
+        // if (ub.current_material.material.logo_position !== null) {
+
+        //     LogoPanel.process.initLogoData(ub.current_material.material.logo_position);
+
+        //     ub.funcs.afterLoadFunctionList.push(function() {
+        //         LogoPanel.process.processLogo();
+        //     });
+
+        //     if (_.size(ub.current_material.settings.logos) > 0) {
+
+        //         LogoPanel.process.processSavedLogo();
+        //     }
+        // }
 
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
@@ -5836,11 +5885,15 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') { 
+                if (view === 'colors') {
 
-                    ub.funcs.activateColorPickers();
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateColorPickers();
+                    } else {
+                        ub.modifierController.activateColorAndPatternPanel();
+                    }
+
                     ub.funcs.activeStyle('colors');
-                    
                     return;
                     
                 }
@@ -5940,6 +5993,11 @@ $(document).ready(function () {
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
+
+                    if (ub.data.useScrollingUI) {
+                        $("#parts-with-insert-container").hide();
+                        $(".parts-container").hide();
+                    }
                     
                     return;
 

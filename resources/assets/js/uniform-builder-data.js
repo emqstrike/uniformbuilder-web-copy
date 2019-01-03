@@ -168,6 +168,7 @@ $(document).ready(function() {
     ub.current_material.settings.size_breakdown = {};
     ub.current_material.settings.pipings        = {};
     ub.current_material.settings.randomFeeds    = {};
+    ub.current_material.settings.logos          = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -202,6 +203,7 @@ $(document).ready(function() {
     ub.data.maxLengthSublimated     = 32;
 
     ub.data.hasProcessedArtworks    = false;
+    ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
 
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
@@ -12349,6 +12351,286 @@ ub.funcs.fontOffSets = [
 
             }
 
+        }
+    }
+
+    // Apply rubber patch with the following block pattern
+    ub.data.rubberPatch = {
+        items: [
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Singature Dyed Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Singature Dyed Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Dyed Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Dyed Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Signature Sublimated Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Signature Sublimated Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Sublimated Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Pro Select Sublimated Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Pants",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "Cage Jacket",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Set-In",
+                option: ""
+            },
+        ],
+
+        hasRubberPatchLogo: function(brand, blockPattern) {
+            var _result = undefined;
+
+            _result = _.find(this.items, {brand: brand, blockPattern: blockPattern});
+
+            if (_.size(_result) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    // Apply rubber patch with the following block pattern
+    ub.data.sublimatedLogo = {
+        items: [
+            {
+                brand: "Richardson",
+                blockPattern: "PTS Select Jersey",
+                option: ""
+            },
+            {
+                brand: "Richardson",
+                blockPattern: "Hoodie",
+                option: ""
+            }
+        ],
+
+        hasSublimatedLogo: function(brand, blockPattern) {
+            var _result = undefined;
+
+            _result = _.find(this.items, {brand: brand, blockPattern: blockPattern});
+
+            if (_.size(_result) > 0) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    ub.data.palleteConfiguration = {
+        configurations: [
+            // PTS Signature Tackle Twill
+            {
+                blockPattern: "PTS Signature",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 1",
+                    insert: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 1"
+                }
+            },
+            // PTS Signature Sublimated
+            {
+                blockPattern: "PTS Signature",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    insert: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS SIGNATURE PANTS TACKLE TWILL
+            {
+                blockPattern: "PTS Signature",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "lower",
+                option: "",
+                colors: {
+                    base: "Palette 1",
+                    insert: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 1"
+                }
+            },
+            // PTS SIGNATURE PANTS Sublimated
+            {
+                blockPattern: "PTS Signature",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "lower",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    insert: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS Pro Select Jersey Sublimated
+            {
+                blockPattern: "PTS Pro Select",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS Pro Select Jersey Tackle Twill
+            {
+                blockPattern: "PTS Pro Select",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 1",
+                    pattern: "Palette 2",
+                    piping: "Palette 1"
+                }
+            },
+            // PTS Pro Select Pant Tackle Twill
+            {
+                blockPattern: "PTS Pro Select",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "lower",
+                option: "",
+                colors: {
+                    base: "Palette 1",
+                    pattern: "Palette 2",
+                    piping: "Palette 1"
+                }
+            },
+            // PTS Pro Select Pant Sublimated
+            {
+                blockPattern: "PTS Pro Select",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "lower",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS Select Jersey Tackle Twill
+            {
+                blockPattern: "PTS Select",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS Select Jersey Sublimated
+            {
+                blockPattern: "PTS Select",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "upper",
+                option: "",
+                colors: {
+                    base: "Palette 2",
+                    pattern: "Palette 2",
+                    piping: "Palette 2"
+                }
+            },
+            // PTS Select Pants Tackle Twill
+            {
+                blockPattern: "PTS Select",
+                brand: "richardson",
+                application_type: "tackle_twill",
+                type: "lower",
+                option: "2 Button",
+                colors: {
+                    base: "Palette 3",
+                    // pattern: "Palette 3",
+                    // piping: "Palette 3"
+                }
+            },
+            // PTS Select Pants Sublimated
+            {
+                blockPattern: "PTS Select",
+                brand: "richardson",
+                application_type: "sublimated",
+                type: "lower",
+                option: "2 Button",
+                colors: {
+                    base: "Palette 3",
+                    // pattern: "Palette 3",
+                    // piping: "Palette 3"
+                }
+            },
+
+        ],
+
+        getColorPaletteConfiguration: function(blockPattern, brand, application_type, type) {
+            var _result = undefined;
+
+            _result = _.find(this.configurations, {
+                            blockPattern: blockPattern,
+                            brand: brand,
+                            application_type: application_type,
+                            type: type
+                        });
+
+            return _result;
         }
     }
 

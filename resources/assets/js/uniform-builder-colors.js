@@ -389,7 +389,6 @@ $(document).ready(function() {
             });
 
         });
-
         return colors;
 
     }
@@ -405,5 +404,4 @@ $(document).ready(function() {
         return ub.data.threadColors;
 
     }
-
 });

@@ -121,7 +121,7 @@ $(document).ready(function () {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
+                var views                   = ['front', 'back', 'left', 'right'];
                 var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
                 _.each(views, function (v) {
@@ -426,6 +426,49 @@ $(document).ready(function () {
             }
 
         });
+
+    }
+
+    ub.funcs.tailSweepPanel = function (_tailSweepThumb, _tailSweepCode) {
+
+        var _htmlBuilder    = "";
+        _htmlBuilder += '<div class="column1 applications tailsweeps">';
+        _htmlBuilder += '<div class="sub1 tailSweepThumb"><br />';
+        _htmlBuilder += '<span class="tailSweepThumb"><img src="' + _tailSweepThumb + '"/></span><br />';
+        _htmlBuilder += '<span class="tailsweep">' + _tailSweepCode + '</span>';
+        _htmlBuilder += '<span class="flipButton">Vertical</span>';
+        _htmlBuilder += '</div>';
+        _htmlBuilder += '<div class="sizeContainer">';
+
+        // Tailsweep, is off for now
+        // _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+        // _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';
+        // _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';
+        // _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';
+
+        _htmlBuilder += '<span class="sizeLabel">LENGTH 2</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="1">1</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="2">2</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="3">3</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="4">4</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="5">5</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="6">6</span>';
+        _htmlBuilder += '<br />';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="7">7</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="8">8</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="9">9</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="10">10</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="11">11</span>';
+        _htmlBuilder += '<span class="sizeItem sizeItem2" data-size="12">12</span>';
+
+        _htmlBuilder += '<label class="applicationLabels">Rotated</label>';
+        _htmlBuilder += '<span class="angleItem" data-angle="straight">Straight</span>';
+        _htmlBuilder += '<span class="angleItem" data-angle="rotated">Rotated</span>';
+
+        _htmlBuilder += '</div>';
+        _htmlBuilder += '</div>';
+
+        return _htmlBuilder;
 
     }
 
@@ -1150,6 +1193,11 @@ $(document).ready(function () {
           top: 200,
         });
 
+        var group   = new fabric.Group([bg], {
+          left: 28,
+          top: 254,
+        });
+
         group.selectable    = true;
         group.hasControls   = false;
         group.lockMovementX = true;
@@ -1166,7 +1214,7 @@ $(document).ready(function () {
         text.bringToFront();
         ub.data.patternToolTip = group;
         canvas.add(ub.data.patternToolTip);
-        //ub.data.patternToolTip.selectable = false;
+        // ub.data.patternToolTip.selectable = false;
         ub.data.patternToolTip.bringToFront();
 
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview

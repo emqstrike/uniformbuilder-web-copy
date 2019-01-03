@@ -3730,6 +3730,9 @@ div.header-container.main {
         padding: 30px;
         display: none;
         overflow: hidden;
+        max-height: 450px;
+        margin-top: 15px;
+        background-color: gray !important;
 
         div.patternName {
 
@@ -4720,14 +4723,17 @@ div.header-container.main {
         div#changeApplicationUI {
 
             position: absolute;
-            margin-top: -400px;
+            top: 50%;
+            left: 25px;
+            transform: translateY(-50%);
+            margin: 0px;
             background-color: #808080;
             width: 500px;
             height: 390px;
-            margin-left: 25px;
             box-shadow: 15px 15px 33px -28px rgba(0, 0, 0, 0.7);
             padding: 30px;
             padding-left: 50px;
+            z-index: 1000;
     
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -5018,7 +5024,7 @@ div.header-container.main {
 
                     .column1, .column2 {
 
-                        border-top: solid 1px #3d3d3d;
+                        /*border-top: solid 1px #3d3d3d;*/
 
                         div.sub1 {
 
@@ -6114,7 +6120,7 @@ div.header-container.main {
 
                 span.fontLeft, span.fontRight {
 
-                    width: 7%;
+                    width: 5%;
                     display: inline-block;
                     text-align: center;
                     cursor: pointer;
@@ -6123,7 +6129,6 @@ div.header-container.main {
                 span.fontLeft:hover, span.fontRight:hover {
 
                     color: white;
-                    ;
 
                 }
 
@@ -6541,13 +6546,13 @@ div.header-container.main {
 
                 label.font_size {
 
-                    width: 32%;
+                    width: 31%;
 
                 }
 
                 label.font_size.custom {
 
-                    width: 26.7%;
+                    width: 25.7%;
 
                 }
 
@@ -6555,8 +6560,10 @@ div.header-container.main {
 
                     text-align: center;
                     width: 290px;
-                    margin-left: 32px;
+                    margin-left: 28px;
                     text-transform: uppercase;
+                    border: none;
+                    padding: 5px;
 
                 }
 
@@ -11520,4 +11527,10 @@ span.load-line.awesomeness {
     @import "interop-is.less";
 
 /* End IS Integration */
+
+/* Pattern and Colors */
+
+    @import "colors-patterns-panel.less";
+
+/* End Pattern and Colors */
 

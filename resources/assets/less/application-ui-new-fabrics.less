@@ -1,0 +1,56 @@
+.fabric-container {
+    padding: 30px;
+
+    .fabric-layers {
+        .fabric-layer {
+            margin-bottom: 20px;
+
+            .image-wrapper,
+            .fabric-description {
+                display: inline-block;
+            }
+
+            .image-wrapper {
+                vertical-align: top;
+                width: 25%;
+
+                img {
+                    cursor: pointer;
+
+                    &.active {
+                        border: 1px solid #FFF;
+                    }
+                }
+            }
+
+            .fabric-description {
+                width: 70%;
+                margin-top: 0;
+                margin-left: 10px;
+
+                .fabric-layer-title {
+                    margin-top: 0;
+                }
+
+                .description-list {
+                    list-style: none;
+                    padding: 0;
+
+                    li {
+                        position: relative;
+
+                        p {
+                            margin-left: 10px;
+                        }
+
+                        &:before {
+                            position: absolute;
+                            content: "-";
+                            top: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
