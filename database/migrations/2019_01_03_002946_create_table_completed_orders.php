@@ -13,15 +13,20 @@ class CreateTableCompletedOrders extends Migration
     public function up()
     {
         Schema::create('completed_orders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('user_id')->nullable()->default(null);
+            $table->bigIncrements('id');
             $table->bigInteger('cart_id')->nullable()->default(null);
-            $table->bigInteger('invoice_id')->nullable()->default(null);
+            $table->string('order_hash_id')->nullable()->default(null);
             $table->double('total_amount')->nullable()->default(null);
             $table->double('total_profit_amount')->nullable()->default(null);
             $table->bigInteger('billing_id')->nullable()->default(null);
             $table->bigInteger('shipping_id')->nullable()->default(null);
             $table->timestamps();
+        });
+
+        Schema::table('completed_orders', function(Blueprint $table) {
+            $table->bigInteger('cart_id')->unsigned()->change();
+
+            $table->foreign('cart_id')->references('id')->on('carts');
         });
     }
 

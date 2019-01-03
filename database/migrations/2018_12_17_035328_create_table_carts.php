@@ -13,7 +13,7 @@ class CreateTableCarts extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->bigInteger('user_id')->nullable()->default(null);
             $table->string('session_id')->nullable()->default(null);
             $table->boolean('is_active')->default(false);
@@ -22,6 +22,12 @@ class CreateTableCarts extends Migration
             $table->boolean('is_completed')->default(false);
             $table->boolean('is_abandoned')->default(false);
             $table->timestamps();
+        });
+
+        Schema::table('carts', function(Blueprint $table) {
+            $table->bigInteger('user_id')->unsigned()->change();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

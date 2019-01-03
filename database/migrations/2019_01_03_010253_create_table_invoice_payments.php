@@ -13,7 +13,7 @@ class CreateTableInvoicePayments extends Migration
     public function up()
     {
         Schema::create('invoice_payments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->bigInteger('invoice_id')->nullable()->default(null);
             $table->string('reference_number', 40)->nullable()->default(null);
             $table->double('amount_paid')->nullable()->default(null);
@@ -24,6 +24,12 @@ class CreateTableInvoicePayments extends Migration
             $table->boolean('is_captured')->default(0);
             $table->boolean('is_voide')->default(0);
             $table->timestamps();
+        });
+
+        Schema::table('invoice_payments', function(Blueprint $table) {
+            $table->bigInteger('invoice_id')->unsigned()->change();
+
+            $table->foreign('invoice_id')->references('id')->on('invoices');
         });
     }
 

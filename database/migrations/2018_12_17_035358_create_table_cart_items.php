@@ -13,17 +13,35 @@ class CreateTableCartItems extends Migration
     public function up()
     {
         Schema::create('cart_items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('cart_id');
-            $table->bigInteger('product_id');
+            $table->bigIncrements('id');
+            $table->bigInteger('cart_id')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
-            $table->enum('type', ['upper', 'lower'])->default(null);
-            $table->double('price')->nullable()->default(null);
             $table->double('total_price')->nullable()->default(null);
             $table->double('profit_amount')->nullable()->default(null);
             $table->double('total_profit_amount')->nullable()->default(null);
-            $table->json('params')->nullable()->default(null);
+
+            $table->string('brand', 20)->nullable()->default(null);
+            $table->bigInteger('item_id')->nullable()->default(null);
+            $table->string('description')->nullable()->default(null);
+            $table->string('type', 10)->nullable()->default(null);
+            $table->json('builder_customizations')->nullable()->default(null);
+            $table->integer('set_group_id')->nullable()->default(null);
+            $table->integer('factory_order_id')->nullable()->default(null);
+            $table->string('design_sheet')->nullable()->default(null);
+            $table->json('roster')->nullable()->default(null);
+            $table->double('price')->nullable()->default(null);
+            $table->string('applicationType')->nullable()->default(null);
+            $table->string('additional_attachments')->nullable()->default(null);
+            $table->string('noted')->nullable()->default(null);
+            $table->json('attached_files')->nullable()->default(null);
+
             $table->timestamps();
+        });
+
+        Schema::table('cart_items', function(Blueprint $table) {
+            $table->bigInteger('cart_id')->unsigned()->change();
+
+            $table->foreign('cart_id')->references('id')->on('carts');
         });
     }
 
