@@ -12321,6 +12321,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Socks (Apparel)',
                 blockPattern: 'Hockey Sock',
+            },
+            {
+                sport: 'Hockey',
+                blockPattern: 'Hockey Twill Set-in',
             }
         ],
         isExempted: function (sport, blockPattern) {
