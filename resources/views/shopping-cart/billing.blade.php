@@ -57,6 +57,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-primary">Proceed To Shipping</a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

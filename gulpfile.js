@@ -138,4 +138,5 @@ elixir(function(mix) {
         'public/uniform-builder/css/uniform-builder.css'
     );
     
+    mix.sass('shopping-cart.scss', 'public/css/shopping-cart.css');
 });

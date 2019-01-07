@@ -1,0 +1,17 @@
+.orders-list {
+    .item {
+        img {
+            width: 25%;
+            display: inline-block;
+        }
+
+        .order-details {
+            display: inline-block;
+            vertical-align: top;
+
+            .order-title {
+                margin-top: 0;
+            }
+        }
+    }
+}
