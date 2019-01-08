@@ -154,21 +154,19 @@
 
                     $(this).first().data('status','unselected');
                     $(this).first().html('');
-
                     ub.funcs.removeColorFromTeamColors(_colorObj);
-                    var s = undefined;
+                    var text = undefined;
 
                     colors_btn.each( function() {
                         if ($(this).data('status') === 'selected') {
-
                             var _colorID = $(this).data('color-id');
-                            s = ub.funcs.getTeamColorIndexByColorID(_colorID);
-                            s = parseInt(s) + 1;
+                            var color_index = ub.funcs.getTeamColorIndexByColorID(_colorID);
 
-                            if (isNaN(s)) {
-                                $(this).first().html(1);
+                            if (typeof color_index !== "undefined") {
+                                text = color_index + 1;
+                                $(this).first().html(text);
                             } else {
-                                $(this).first().html(s);
+                                console.warn("Cannot find color_index");
                             }
                         }
                     });
