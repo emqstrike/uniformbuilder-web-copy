@@ -2590,7 +2590,7 @@ $(document).ready(function() {
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    if (!_settingsObject.dirty)
+                    if (!_settingsObject.dirty && ub.funcs.isTackleTwill())
                     {
                         point.position.x += _xOffset;
                         point.position.y += _yOffset;
