@@ -64,7 +64,8 @@
                         </table>
                     </div>
 
-                    <button class="btn btn-primary">Confirm Order And Pay</button>
+                    <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+                    <button class="btn btn-primary">Confirm Order And Pay <span class="glyphicon glyphicon-shopping-cart"></span></button>
                 </div>
             </div>
         </div>

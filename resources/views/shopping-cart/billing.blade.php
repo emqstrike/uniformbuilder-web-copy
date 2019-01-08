@@ -60,7 +60,8 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-primary">Proceed To Shipping</a>
+                        <a href="{{ route('shopping-cart') }}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+                        <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-primary">Proceed To Shipping <span class="glyphicon glyphicon-arrow-right"></span></a>
                     </div>
                 </div>
             </form>

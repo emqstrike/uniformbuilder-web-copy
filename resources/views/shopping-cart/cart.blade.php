@@ -143,9 +143,9 @@
                                 </ul>
 
                                 <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane fade in active" id="size-24">
-                                        <table class="table table-hover">
+                                <div class="tab-content" id="tab-sizes-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="size-24" data-size="24">
+                                        <table class="table table-hover table-bordered player-list">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -155,29 +155,15 @@
                                                     <th>Ok/Delete</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody></tbody>
+                                            <tfoot>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>
-                                                        <input type="text" name="last_name" class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="number" class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="quantity" class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group" role="group">
-                                                            <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok-sign"></span></button>
-                                                            <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button>
-                                                        </div>
+                                                    <td colspan="5">
+                                                        <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign"></span> Add Player</button>
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </tfoot>
                                         </table>
-
-                                        <button class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Add Player</button>
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="size-26">world</div>
                                 </div>
@@ -189,7 +175,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ route('shopping-cart.billing') }}" class="btn btn-primary">Checkout</a>
+                    <a href="{{ route('shopping-cart.billing') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
                 </div>
             </div>
         </div>
@@ -198,12 +184,53 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+
+<script type="text/template" id="player-row-tmpl">
+    <tr>
+        <td><%= index %></td>
+        <td>
+            <input type="text" name="last_name" class="form-control" />
+        </td>
+        <td>
+            <input type="text" name="number" class="form-control" />
+        </td>
+        <td>
+            <input type="text" name="quantity" class="form-control" />
+        </td>
+        <td>
+            <div class="btn-group" role="group">
+                <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok-sign"></span></button>
+                <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button>
+            </div>
+        </td>
+    </tr>
+</script>
+
 <script type="text/javascript">
-$(document).ready(function() {
-    $(':input[name="size"]').change(function(event) {
+var Cart = {
+    init: function() {
+        $(':input[name="size"]').change(Cart.onSelectSize);
+        $('#tab-sizes-content .tab-pane .add-player').click(Cart.onAddPlayer);
+    },
+
+    onSelectSize: function() {
         var size = $(this).val();
         $('#tab-sizes li a[href="#size-'+size+'"]').tab('show');
-    });
-});
+    },
+
+    onAddPlayer: function() {
+        var size = $(this).closest('.tab-pane').data('size');
+        console.log(size);
+
+        var player_list_container = $(this).closest('.tab-pane').find('table tbody');
+        var player_row_tmpl = _.template($('#player-row-tmpl').html());
+
+        player_list_container.append(player_row_tmpl({index: 1}));
+    }
+};
+
+$(document).ready(Cart.init);
 </script>
 @endsection
