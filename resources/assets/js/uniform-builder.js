@@ -2517,8 +2517,6 @@ $(document).ready(function () {
 
             if (typeof e.code === "undefined") { return; }
 
-            console.log(e.code);
-
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {

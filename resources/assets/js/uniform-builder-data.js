@@ -11398,7 +11398,7 @@ ub.funcs.fontOffSets = [
 
             if (code === "body" || code === "extra") { console.log(code); }
 
-            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Sock") { _result = undefined; }
+            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Socks") { _result = undefined; }
 
             
             return (typeof _result !== "undefined") || 
