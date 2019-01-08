@@ -85,96 +85,18 @@
                                         <th>Last Name</th>
                                         <th>Number</th>
                                         <th>Quantity</th>
-                                        <th>Ok/Delete</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="5">
-                                            <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign"></span> Add Player</button>
+                                            <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign add-player"></span> Add Player</button>
                                         </td>
                                     </tr>
                                 </tfoot>
                             </table>
-
-                            {{-- <div role="tabpanel">
-                                <ul class="nav hidden" role="tablist" id="tab-sizes">
-                                    <li role="presentation" class="active">
-                                        <a href="#size-24" aria-controls="tab" role="tab" data-toggle="tab">24</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-26" aria-controls="tab" role="tab" data-toggle="tab">26 (YS)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-28" aria-controls="tab" role="tab" data-toggle="tab">28 (YM)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">30</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-32" aria-controls="tab" role="tab" data-toggle="tab">32 (YL)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-34" aria-controls="tab" role="tab" data-toggle="tab">34 (YXL)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-36" aria-controls="tab" role="tab" data-toggle="tab">36 (S)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-38" aria-controls="tab" role="tab" data-toggle="tab">38 (M)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-40" aria-controls="tab" role="tab" data-toggle="tab">40</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-42" aria-controls="tab" role="tab" data-toggle="tab">42 (L)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-44" aria-controls="tab" role="tab" data-toggle="tab">44</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-46" aria-controls="tab" role="tab" data-toggle="tab">46 (XL)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-48" aria-controls="tab" role="tab" data-toggle="tab">48</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">50 (2XL)</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">52</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">54 (3XL)</a>
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content" id="tab-sizes-content">
-                                    <div role="tabpanel" class="tab-pane fade in active" id="size-24" data-size="24">
-                                        <table class="table table-hover table-bordered player-list">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Last Name</th>
-                                                    <th>Number</th>
-                                                    <th>Quantity</th>
-                                                    <th>Ok/Delete</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign"></span> Add Player</button>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="size-26">world</div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -194,24 +116,24 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
-<script type="text/template" id="player-row-tmpl">
+<script type="text/template" id="player-rows-tmpl">
     <% if (!_.isEmpty(players)) { %>
         <% _.each(players, function(player, index) { %>
             <tr>
                 <td><%= index+1 %></td>
                 <td>
-                    <input type="text" name="last_name" value="<%= player.last_name %>" class="form-control" />
+                    <p class="last_name"><%= player.last_name %></p>
                 </td>
                 <td>
-                    <input type="text" name="number" value="<%= player.number %>" class="form-control" />
+                    <p class="number"><%= player.number %></p>
                 </td>
                 <td>
-                    <input type="text" name="quantity" value="<%= player.quantity %>" class="form-control" />
+                    <p class="quantity"><%= player.quantity %></p>
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok-sign"></span></button>
-                        <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                        <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
                     </div>
                 </td>
             </tr>
@@ -221,6 +143,27 @@
             <td colspan="5">No players added</td>
         </tr>
     <% } %>
+</script>
+
+<script type="text/template" id="player-row-tmpl">
+    <tr>
+        <td><%= index %></td>
+        <td>
+            <p class="last_name"><%= last_name %></p>
+        </td>
+        <td>
+            <p class="number"><%= number %></p>
+        </td>
+        <td>
+            <p class="quantity"><%= quantity %></p>
+        </td>
+        <td>
+            <div class="btn-group" role="group">
+                <button class="btn btn-success btn-xs edit-player" data-id="<%= id %>"><span class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-danger btn-xs delete-player" data-id="<%= id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+            </div>
+        </td>
+    </tr>
 </script>
 
 <script type="text/template" id="selected-sizes-tmpl">
@@ -268,6 +211,25 @@
     <% } %>
 </script>
 
+<script type="text/template" id="form-tmpl">
+    <form role="form">
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" value="<%= typeof(last_name) !== "undefined" ? last_name : '' %>" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="number">Number</label>
+            <input type="text" name="number" value="<%= typeof(number) !== "undefined" ? number : '' %>" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" name="quantity" value="<%= typeof(quantity) !== "undefined" ? quantity : '' %>" class="form-control" />
+        </div>
+    </form>
+</script>
+
 <script type="text/javascript">
 var sizes = {
     24: "24",
@@ -289,36 +251,52 @@ var sizes = {
 };
 
 var Cart = {
-    dummy_data: {
-        24: [{
-            last_name: "Galura",
-            number: 10,
-            quantity: 1,
-        },
-        {
-            last_name: "Doe",
-            number: 1,
-            quantity: 2,
-        }],
+    id_auto_increment: 5,
 
-        26: [{
-            last_name: "Sakuragi",
-            number: 10,
-            quantity: 1,
-        },
-        {
-            last_name: "Bar",
-            number: 3,
-            quantity: 3,
-        }]
+    dummy_data: {
+        24: [
+            {
+                id: 1,
+                last_name: "Galura",
+                number: 10,
+                quantity: 1,
+            },
+            {
+                id: 2,
+                last_name: "Doe",
+                number: 1,
+                quantity: 2,
+            }
+        ],
+
+        26: [
+            {
+                id: 3,
+                last_name: "Sakuragi",
+                number: 10,
+                quantity: 1,
+            },
+            {
+                id: 4,
+                last_name: "Bar",
+                number: 3,
+                quantity: 3,
+            }
+        ]
     },
 
     init: function() {
         Cart.initSizeField();
 
+        var default_selected_size = $(':input[name="size"]').val();
+        Cart.loadPlayers(default_selected_size);
+
         $(':input[name="size"]').change(Cart.onSizeChange);
-        $('#tab-sizes-content .tab-pane .add-player').click(Cart.onAddPlayer);
+        $('#player-list .add-player').click(Cart.onAddPlayer);
         $('#view-selected-sizes').click(Cart.onViewAllSelectedSizes);
+
+        $('#player-list tbody').on('click', 'tr td .edit-player', Cart.onEditPlayer);
+        $('#player-list tbody').on('click', 'tr td .delete-player', Cart.onDeletePlayer);
     },
 
     initSizeField: function() {
@@ -331,13 +309,17 @@ var Cart = {
         $(':input[name="size"]').html(options);
     },
 
-    onSizeChange: function() {
-        var size = $(this).val();
-        var player_row_tmpl = _.template($('#player-row-tmpl').html());
+    loadPlayers: function(size) {
+        var player_rows_tmpl = _.template($('#player-rows-tmpl').html());
 
-        $('#player-list tbody').html(player_row_tmpl({
+        $('#player-list tbody').html(player_rows_tmpl({
             players: Cart.dummy_data[size]
         }));
+    },
+
+    onSizeChange: function() {
+        var size = $(this).val();
+        Cart.loadPlayers(size);
     },
 
     onViewAllSelectedSizes: function() {
@@ -354,13 +336,143 @@ var Cart = {
     },
 
     onAddPlayer: function() {
-        var size = $(this).closest('.tab-pane').data('size');
-        console.log(size);
-
-        var player_list_container = $(this).closest('.tab-pane').find('table tbody');
+        var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
+        var selected_size = $(':input[name="size"]').val();
+        var player_list = $('#player-list tbody');
 
-        player_list_container.append(player_row_tmpl({index: 1}));
+        bootbox.dialog({
+            title: "Add Player",
+            message: form_tmpl(),
+            closeButton: false,
+
+            buttons: {
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default"
+                },
+
+                ok: {
+                    label: '<span class="glyphicon glyphicon-saved"></span> Add Player',
+                    className: "btn-primary",
+                    callback: function() {
+                        var el = $(this);
+
+                        var last_name = $(':input[name="last_name"]', el).val(),
+                            number = $(':input[name="number"]', el).val(),
+                            quantity = $(':input[name="quantity"]', el).val();
+
+                        if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
+
+                            if (_.isUndefined(Cart.dummy_data[selected_size])) {
+                                Cart.dummy_data[selected_size] = [];
+                                player_list.html("");
+                            }
+
+                            var data_num = Cart.dummy_data[selected_size].length;
+
+                            var data = {
+                                id: Cart.id_auto_increment++,
+                                last_name: last_name,
+                                number: number,
+                                quantity: quantity
+                            };
+
+                            Cart.dummy_data[selected_size].push(data);
+
+                            if (Cart.dummy_data[selected_size].length > data_num) {
+                                console.log("saved!");
+                                var tr_num = $('tr', player_list).length;
+
+                                player_list.append(player_row_tmpl(_.extend({index: tr_num + 1}, data)));
+                            } else {
+                                console.log("not save!");
+                            }
+                        } else {
+                            console.log("invalid input");
+                            return false;
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    onEditPlayer: function() {
+        var _this = $(this);
+        var id = $(this).data('id');
+        var form_tmpl = _.template($('#form-tmpl').html());
+        var selected_size = $(':input[name="size"]').val();
+
+        var player = _.find(Cart.dummy_data[selected_size], {id: parseInt(id)});
+
+        bootbox.dialog({
+            title: "Edit Player",
+            message: form_tmpl({
+                last_name: player.last_name,
+                number: player.number,
+                quantity: player.quantity
+            }),
+            closeButton: false,
+
+            buttons: {
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default"
+                },
+
+                ok: {
+                    label: '<span class="glyphicon glyphicon-saved"></span> Update Player',
+                    className: "btn-success",
+                    callback: function() {
+                        var el = $(this);
+
+                        var last_name = $(':input[name="last_name"]', el).val(),
+                            number = $(':input[name="number"]', el).val(),
+                            quantity = $(':input[name="quantity"]', el).val();
+
+                        if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
+                            player.last_name = last_name;
+                            player.number = number;
+                            player.quantity = quantity;
+
+                            player_data = _.find(Cart.dummy_data[selected_size], {id: parseInt(id)});
+
+                            if (player === player_data) {
+                                console.log("saved!");
+
+                                var tr = _this.closest('tr');
+                                $('.last_name', tr).text(last_name);
+                                $('.number', tr).text(number);
+                                $('.quantity', tr).text(quantity);
+                            } else {
+                                console.log("not save!");
+                            }
+                        } else {
+                            console.log("invalid input");
+                            return false;
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    onDeletePlayer: function() {
+        var id = $(this).data('id');
+        var selected_size = $(':input[name="size"]').val();
+
+        var players = Cart.dummy_data[selected_size];
+
+        Cart.dummy_data[selected_size] = _.reject(players, {id: parseInt(id)});
+
+        if (Cart.dummy_data[selected_size].length < players.length) {
+            console.log("removed!");
+
+            $(this).closest('tr').fadeOut();
+        } else {
+            console.log("not remove!");
+        }
     }
 };
 
