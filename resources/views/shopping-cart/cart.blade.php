@@ -86,11 +86,34 @@
                                             <option value="54">54 (3XL)</option>
                                         </select>
                                     </div>
+
+                                    <div class="pull-right">
+                                        <button class="btn btn-link" id="view-selected-sizes">View all selected sizes</button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div role="tabpanel">
-                                <!-- Nav pills -->
+                            <table class="table table-hover table-bordered" id="player-list">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Last Name</th>
+                                        <th>Number</th>
+                                        <th>Quantity</th>
+                                        <th>Ok/Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign"></span> Add Player</button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            {{-- <div role="tabpanel">
                                 <ul class="nav hidden" role="tablist" id="tab-sizes">
                                     <li role="presentation" class="active">
                                         <a href="#size-24" aria-controls="tab" role="tab" data-toggle="tab">24</a>
@@ -142,7 +165,6 @@
                                     </li>
                                 </ul>
 
-                                <!-- Tab panes -->
                                 <div class="tab-content" id="tab-sizes-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="size-24" data-size="24">
                                         <table class="table table-hover table-bordered player-list">
@@ -167,7 +189,7 @@
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="size-26">world</div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -188,36 +210,159 @@
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
 <script type="text/template" id="player-row-tmpl">
-    <tr>
-        <td><%= index %></td>
-        <td>
-            <input type="text" name="last_name" class="form-control" />
-        </td>
-        <td>
-            <input type="text" name="number" class="form-control" />
-        </td>
-        <td>
-            <input type="text" name="quantity" class="form-control" />
-        </td>
-        <td>
-            <div class="btn-group" role="group">
-                <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok-sign"></span></button>
-                <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button>
+    <% if (!_.isEmpty(players)) { %>
+        <% _.each(players, function(player, index) { %>
+            <tr>
+                <td><%= index+1 %></td>
+                <td>
+                    <input type="text" name="last_name" value="<%= player.last_name %>" class="form-control" />
+                </td>
+                <td>
+                    <input type="text" name="number" value="<%= player.number %>" class="form-control" />
+                </td>
+                <td>
+                    <input type="text" name="quantity" value="<%= player.quantity %>" class="form-control" />
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok-sign"></span></button>
+                        <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                    </div>
+                </td>
+            </tr>
+        <% }); %>
+    <% } else { %>
+        <tr>
+            <td colspan="5">No players added</td>
+        </tr>
+    <% } %>
+</script>
+
+<script type="text/template" id="selected-sizes-tmpl">
+    <div role="tabpanel">
+        <!-- Nav pills -->
+        <ul class="nav" role="tablist" id="tab-sizes-with-players">
+            <li role="presentation" class="active">
+                <a href="#size-24" aria-controls="tab" role="tab" data-toggle="tab">24</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-26" aria-controls="tab" role="tab" data-toggle="tab">26 (YS)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-28" aria-controls="tab" role="tab" data-toggle="tab">28 (YM)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">30</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-32" aria-controls="tab" role="tab" data-toggle="tab">32 (YL)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-34" aria-controls="tab" role="tab" data-toggle="tab">34 (YXL)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-36" aria-controls="tab" role="tab" data-toggle="tab">36 (S)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-38" aria-controls="tab" role="tab" data-toggle="tab">38 (M)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-40" aria-controls="tab" role="tab" data-toggle="tab">40</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-42" aria-controls="tab" role="tab" data-toggle="tab">42 (L)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-44" aria-controls="tab" role="tab" data-toggle="tab">44</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-46" aria-controls="tab" role="tab" data-toggle="tab">46 (XL)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-48" aria-controls="tab" role="tab" data-toggle="tab">48</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">50 (2XL)</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">52</a>
+            </li>
+            <li role="presentation">
+                <a href="#size-30" aria-controls="tab" role="tab" data-toggle="tab">54 (3XL)</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content" id="tab-sizes-with-players-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="size-24">
+                <table class="table table-hover table-bordered player-list">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Last Name</th>
+                            <th>Number</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <p>Doe</p>
+                            </td>
+                            <td>
+                                <p>10</p>
+                            </td>
+                            <td>
+                                <p>1</p>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-        </td>
-    </tr>
+            <div role="tabpanel" class="tab-pane fade" id="size-26">world</div>
+        </div>
+    </div>
 </script>
 
 <script type="text/javascript">
 var Cart = {
+    dummy_data: {
+        24: [{
+            last_name: "a",
+            number: 1,
+            quantity: 1,
+        },
+        {
+            last_name: "b",
+            number: 1,
+            quantity: 1,
+        }]
+    },
+
     init: function() {
         $(':input[name="size"]').change(Cart.onSelectSize);
         $('#tab-sizes-content .tab-pane .add-player').click(Cart.onAddPlayer);
+        $('#view-selected-sizes').click(Cart.onViewAllSelectedSizes);
     },
 
     onSelectSize: function() {
         var size = $(this).val();
-        $('#tab-sizes li a[href="#size-'+size+'"]').tab('show');
+
+        var player_row_tmpl = _.template($('#player-row-tmpl').html());
+
+        $('#player-list tbody').html(player_row_tmpl({
+            players: Cart.dummy_data[size]
+        }));
+    },
+
+    onViewAllSelectedSizes: function() {
+        bootbox.dialog({
+            title: "Selected Sizes",
+            message: "fdsa",
+            size: "large"
+        });
     },
 
     onAddPlayer: function() {
