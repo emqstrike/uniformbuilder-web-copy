@@ -137,8 +137,6 @@
 
                     var _index = ub.current_material.settings.team_colors.length;
 
-                    console.log(_index)
-
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
                     $(this).first().html(_index + 1);
@@ -167,19 +165,13 @@
                             s = ub.funcs.getTeamColorIndexByColorID(_colorID);
                             s = parseInt(s) + 1;
 
-                            console.log(s);
-
                             if (isNaN(s)) {
                                 $(this).first().html(1);
-                                console.log("Nan is true")
                             } else {
                                 $(this).first().html(s);
-                                console.log("Nan is false")
                             }
                         }
-
                     });
-
                 }
 
                 return;
