@@ -130,23 +130,22 @@
                 if (colorStatus === 'unselected') {
 
                     if (ub.current_material.settings.team_colors.length + 1 >= 9) {
-                        
                         //ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
                     }
 
-                    var _index = ub.current_material.settings.team_colors.length + 1;
+                    var _index = ub.current_material.settings.team_colors.length;
+
+                    console.log(_index)
 
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
-                    $(this).first().html(_index);
-     
+                    $(this).first().html(_index + 1);
+
                     if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
-                        
                         $(this).first().css('color', '#3d3d3d');
                         $(this).first().css('text-shadow', '1px 1px #d7d7d7');
-
                     }
 
                     ub.funcs.addColorToTeamColors(_colorObj);
@@ -160,17 +159,23 @@
 
                     ub.funcs.removeColorFromTeamColors(_colorObj);
                     var s = undefined;
-                    
+
                     colors_btn.each( function() {
-                        
                         if ($(this).data('status') === 'selected') {
 
                             var _colorID = $(this).data('color-id');
                             s = ub.funcs.getTeamColorIndexByColorID(_colorID);
                             s = parseInt(s) + 1;
 
-                            $(this).first().html(s);
+                            console.log(s);
 
+                            if (isNaN(s)) {
+                                $(this).first().html(1);
+                                console.log("Nan is true")
+                            } else {
+                                $(this).first().html(s);
+                                console.log("Nan is false")
+                            }
                         }
 
                     });
@@ -178,7 +183,6 @@
                 }
 
                 return;
-                
             });
 
             var preamble = 'div.options_panel_section.ubColorPicker';
