@@ -135,11 +135,11 @@
 
                     }
 
-                    var _index = ub.current_material.settings.team_colors.length;
+                    var _index = ub.current_material.settings.team_colors.length + 1;
 
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
-                    $(this).first().html(_index + 1);
+                    $(this).first().html(_index);
 
                     if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
                         $(this).first().css('color', '#3d3d3d');
@@ -166,7 +166,7 @@
                                 text = color_index + 1;
                                 $(this).first().html(text);
                             } else {
-                                console.warn("Cannot find color_index");
+                                console.warn("Cannot find color id " + _colorID + "  in team color");
                             }
                         }
                     });
