@@ -21,8 +21,9 @@ class CreateTableShippingInformations extends Migration
             $table->string('phone_number', 10)->nullable()->default(null);
             $table->string('fax')->nullable()->default(null);
 
-            $table->string('city')->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
             $table->string('state', 20)->nullable()->default(null);
+            $table->string('city')->nullable()->default(null);
             $table->string('zip', 10)->nullable()->default(null);
             $table->bigInteger('user_id')->nullable()->default(null);
             $table->timestamps();

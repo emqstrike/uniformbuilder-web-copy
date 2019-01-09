@@ -11,41 +11,45 @@
             <form role="form" method="POST" action="{{ route('shopping-cart.client-info') }}">
                 {{ csrf_field() }}
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="full_name">Full Name</label>
-                            <input type="text" name="full_name" class="form-control" />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="full_name">Full Name</label>
+                                    <input type="text" name="full_name" class="form-control" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="athletic_director">Athletic Director</label>
-                            <input type="text" name="athletic_director" class="form-control" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="athletic_director">Athletic Director</label>
+                                    <input type="text" name="athletic_director" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" class="form-control" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" class="form-control" />
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="phone_number">Phone Number</label>
-                            <input type="text" name="phone_number" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="fax">Fax</label>
-                            <input type="text" name="fax" class="form-control" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone_number">Phone Number</label>
+                                    <input type="text" name="phone_number" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fax">Fax</label>
+                                    <input type="text" name="fax" class="form-control" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

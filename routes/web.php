@@ -12,6 +12,10 @@ Route::group([
     Route::post('client-info', "ClientInfoController@store");
 
     Route::get('billing', "BillingController@index")->name('shopping-cart.billing');
+    Route::post('billing', "BillingController@store");
+
     Route::get('shipping', "ShippingController@index")->name('shopping-cart.shipping');
+    Route::post('shipping', "ShippingController@store");
+
     Route::get('confirm-order', "ConfirmOrderController@index")->name('shopping-cart.confirm-order');
 });
