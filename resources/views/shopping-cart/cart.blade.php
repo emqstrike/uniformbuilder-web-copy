@@ -7,51 +7,6 @@
             <h1 class="page-header">My Cart</h1>
 
             <div class="row">
-                {{-- <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                            <h1 class="panel-title">Item 1</h1>
-                        </div>
-                        <div class="panel-body">
-                            <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                            <h1 class="panel-title">Item 1</h1>
-                        </div>
-                        <div class="panel-body">
-                            <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                            <h1 class="panel-title">Item 1</h1>
-                        </div>
-                        <div class="panel-body">
-                            <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                            <h1 class="panel-title">Item 1</h1>
-                        </div>
-                        <div class="panel-body">
-                            <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                        </div>
-                    </div>
-                </div> --}}
-
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -367,6 +322,8 @@ var Cart = {
                             if (_.isUndefined(Cart.dummy_data[selected_size])) {
                                 Cart.dummy_data[selected_size] = [];
                                 player_list.html("");
+                            } else if (Cart.dummy_data[selected_size].length == 0) {
+                                player_list.html("");
                             }
 
                             var data_num = Cart.dummy_data[selected_size].length;
@@ -470,6 +427,10 @@ var Cart = {
             console.log("removed!");
 
             $(this).closest('tr').fadeOut();
+
+            if (Cart.dummy_data[selected_size].length == 0) {
+                $('#player-list tbody').html('<tr><td colspan="5">No players added</td></tr>');
+            }
         } else {
             console.log("not remove!");
         }
