@@ -59,7 +59,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ route('shopping-cart.billing') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+                    <a href="{{ route('shopping-cart.client-info') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
                 </div>
             </div>
         </div>
