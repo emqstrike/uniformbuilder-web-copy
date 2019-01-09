@@ -18,8 +18,6 @@ class CreateTableCompletedOrders extends Migration
             $table->string('order_hash_id')->nullable()->default(null);
             $table->double('total_amount')->nullable()->default(null);
             $table->double('total_profit_amount')->nullable()->default(null);
-            $table->bigInteger('billing_id')->nullable()->default(null);
-            $table->bigInteger('shipping_id')->nullable()->default(null);
             $table->timestamps();
         });
 
