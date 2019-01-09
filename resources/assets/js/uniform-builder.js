@@ -2513,6 +2513,9 @@ $(document).ready(function () {
         var _hasFrontBody                       = false;
         var _hasBody                            = false;
 
+        // Init Richardson Palette
+        ColorPalette.funcs.prepareRichardsonPalette();
+
         ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
         
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
@@ -2841,9 +2844,6 @@ $(document).ready(function () {
             }
 
         }
-
-        // Init Richardson Palette
-        ColorPalette.funcs.prepareRichardsonPalette();
 
         // Process Prolook Logo Here
         LogoPanel.init();
