@@ -5286,7 +5286,7 @@ $(document).ready(function() {
         settingsObj.size = parseFloat(size);
         settingsObj.font_size = parseFloat(size);
 
-
+        settingsObj.dirty = true;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
