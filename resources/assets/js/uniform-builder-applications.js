@@ -7719,31 +7719,31 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5; }
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5; }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;  }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                              { _size =  5; }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")                 { _size =  5; }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                                      { _size = 4;  }
 
-            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                   { _size = 1; }
+            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                               { _size = 1; }
 
-            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                                 { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                                   { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                                { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                                  { _size = 2;    }
 
-            if (ub.funcs.isSocks())                                                                                     { _size = 2.5;  }
+            if (ub.funcs.isSocks())                                                                                                 { _size = 2.5;  }
 
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                                  { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                                  { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                             { _size = 1;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                             { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport("Hockey") && _.contains([2,5], _id) )                                           { _size = 6;    }
+            if (ub.funcs.isCurrentSport("Hockey") && !_.isEqual(ub.config.blockPattern, 'Hockey Socks') && _.contains([2,5], _id) ) { _size = 6;    }
 
-            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
-            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
+            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                                  { _size = 4;    }
+            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                                       { _size = 4;    }
 
             if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
@@ -7795,6 +7795,8 @@ $(document).ready(function() {
 
             ub.funcs.activateMascots(_settingsObject.code);
 
+            if (ub.funcs.isCurrentSport("Hockey") && _.isEqual(ub.config.blockPattern, 'Hockey Socks')) { _settingsObject.dirty = true; }
+
         }
 
         if (_type === 'player_name') {
@@ -7828,7 +7830,9 @@ $(document).ready(function() {
 
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
-            ub.current_material.settings.applications[_id] = _settingsObject;  
+            ub.current_material.settings.applications[_id] = _settingsObject;
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -7915,6 +7919,8 @@ $(document).ready(function() {
             ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
+
         }
 
         if (_type === 'team_name') {
@@ -7948,6 +7954,8 @@ $(document).ready(function() {
             ub.current_material.settings.applications[_id] = _settingsObject;  
 
             ub.funcs.LSRSBSFS(parseInt(_id));
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
