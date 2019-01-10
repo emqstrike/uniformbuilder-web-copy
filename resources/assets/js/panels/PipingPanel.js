@@ -74,6 +74,9 @@ PipingPanel.events = {
         var status = toggle_el.data('status');
 
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
+
+        var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+ piping_type +'"]');
 
         if (typeof ub.data.logos !== "undefined") {
             LogoPanel.utilities.reInitiateLogo();
@@ -95,7 +98,11 @@ PipingPanel.events = {
             $('.valueContainer', toggle_el).css('margin-left', '0');
             toggle_el.addClass('defaultShadow');
 
-            $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
+            if (pipingSettingsObject.size !== "") {
+                $('span.piping-sizes-buttons[data-size="' + pipingSettingsObject.size + '"]', piping_item_el).click();
+            } else {
+                $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
+            }
 
             $('.content-wrapper', piping_item_el).slideDown("fast");
             toggle_el.data('status', PipingPanel.STATUS_ON);
@@ -118,7 +125,6 @@ PipingPanel.events = {
         var pipingObject = _.find(ub.data.pipings, {name: type});
         var colorsMarkup =  ub.funcs.getPipingColorsNew(pipingObject);
         var firstColor = _.first(ub.funcs.getPipingColorArray(pipingObject));
-
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
         var matchingPipingObject;
         var matchingPipingSettingsObject;
@@ -157,7 +163,7 @@ PipingPanel.events = {
 
         // Force one color when going to 1/2
         if (type === "Neck Piping 1/2") {
-            $('.piping-colors-buttons[data-value="1"]', piping_el).click(PipingPanel.events.onPipingColorButtonClick);
+            $('.piping-colors-buttons[data-value="1"]', piping_el).trigger('click');
         }
 
         if (typeof ub.data.logos !== "undefined") {
@@ -418,11 +424,10 @@ PipingPanel.setInitialState = function() {
     var piping_types = PipingPanel.getPipingTypes();
 
     _.map(piping_types, function(piping_type) {
-        var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
         var status = PipingPanel.getPipingPanelStatus(piping_type);
-        var pipping_settings_object = ub.funcs.getPipingSettingsObject(active_piping_set.set);
+        var pipping_settings_object = ub.funcs.getPipingSettingsObject(piping_type);
 
-        var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+piping_type+'"]');
+        var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+ piping_type +'"]');
 
         if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
             $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).click();
