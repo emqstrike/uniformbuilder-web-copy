@@ -2671,6 +2671,8 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
+            if (typeof application_obj.originalSize === 'undefined') { application_obj.originalSize = application_obj.font_size; }
+
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
                 if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
