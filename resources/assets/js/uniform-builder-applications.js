@@ -7795,8 +7795,6 @@ $(document).ready(function() {
 
             ub.funcs.activateMascots(_settingsObject.code);
 
-            if (ub.funcs.isCurrentSport("Hockey") && _.isEqual(ub.config.blockPattern, 'Hockey Socks')) { _settingsObject.dirty = true; }
-
         }
 
         if (_type === 'player_name') {
