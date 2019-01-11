@@ -70,12 +70,9 @@ PipingPanel.events = {
         var toggle_el = $(this).closest('.toggle');
         var piping_item_el = $(this).closest('.piping-item');
         var piping_type = piping_item_el.data('piping-type');
-
         var status = toggle_el.data('status');
-
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
-
         var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+ piping_type +'"]');
 
         if (typeof ub.data.logos !== "undefined") {
@@ -86,10 +83,10 @@ PipingPanel.events = {
             $('.valueContainer', toggle_el).css('margin-left', '-100px');
             toggle_el.removeClass('defaultShadow');
 
-            ub.funcs.removePiping(piping_type);
+            PipingPanel.removePiping(piping_type);
             if (piping_type.indexOf('Left') === 0) {
                 var matching_side = ub.funcs.getMatchingSide(piping_type);
-                ub.funcs.removePiping(matching_side);
+                PipingPanel.removePiping(matching_side);
             }
 
             $('.content-wrapper', piping_item_el).slideUp("fast");
@@ -407,7 +404,7 @@ PipingPanel.events = {
         var piping_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
 
         var pipingObject = _.find(ub.data.pipings, {name: piping_type});
-        ub.funcs.removePiping(pipingObject.set);
+        PipingPanel.removePiping(pipingObject.set);
 
         var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
 
@@ -480,3 +477,25 @@ PipingPanel.isValidToProcessPipings = function() {
 PipingPanel.getPipingTypes = function() {
     return ub.funcs.getPipingSets();
 };
+
+
+PipingPanel.removePiping = function(pipingSet) {
+
+    _.each(ub.views, function (view) {
+
+        var _viewStr = view + '_view';
+
+        if (typeof ub.objects[_viewStr][pipingSet] !== 'undefined'){
+
+            ub[_viewStr].removeChild(ub.objects[_viewStr][pipingSet]);
+
+        }
+
+        delete ub.objects[_viewStr][pipingSet];
+
+    });
+
+    if (typeof(ub.current_material.settings.pipings[pipingSet]) !== "undefined") {
+        ub.current_material.settings.pipings[pipingSet].enabled = 0;
+    }
+}
