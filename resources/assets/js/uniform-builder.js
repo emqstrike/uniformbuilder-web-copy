@@ -2140,7 +2140,6 @@ $(document).ready(function () {
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
                     var _mascotID = view.application.defaultMascot;
-                    console.log('_mascotID: ', _mascotID);
                     var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
