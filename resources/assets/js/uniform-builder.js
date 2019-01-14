@@ -2478,8 +2478,8 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
         // Riddell UI
-        if (ub.current_material.material.id === 4834) {
-            // ub.funcs.addFunctionToAfterloadList();
+        if (ub.current_material.material.id === 4834 || ub.current_material.material.id === 4837) {
+            // ub.funcs.addFunctionToAfterloadList()
             RiddellUIControls.funcs.loadUI();
         }
 
