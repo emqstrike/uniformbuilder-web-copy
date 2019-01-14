@@ -10881,24 +10881,14 @@ $(document).ready(function() {
 
                 } else {
 
-                    // if (_part === "Back Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="back"]').addClass('active'); 
-                    // }
-
-                    // if (_part === "Front Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="front"]').addClass('active'); 
-                    // }
-
-                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+                    /*var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
                     if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
 
-                    }
+                    }*/
 
                     $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
