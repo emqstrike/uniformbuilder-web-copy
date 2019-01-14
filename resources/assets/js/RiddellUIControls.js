@@ -19,7 +19,7 @@ RiddellUIControls.funcs =  {
         $("div#navbar-header").html("");
 
         // Load Riddell Logo
-        $("#header_text").html("<img src='https://www.riddell.com/skin/frontend/enterprise/riddell_2016/img/riddell-res-logo.svg' alt='Riddell Logo' height='50' width='150'>")
+        $("#header_text").html("<img src='/images/riddell/logo-black.png' alt='Riddell Logo' height='50' width='190'>")
 
         // Load Riddell CSS
         $('head').append('<link rel="stylesheet" type="text/css" href="/riddell/css/riddell.css">');
