@@ -6,6 +6,10 @@
         <div class="col-md-12">
             <h1 class="page-header">My Cart</h1>
 
+            <p>
+                Cart Session: {{ \Session::get('cart_session') }}
+            </p>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">

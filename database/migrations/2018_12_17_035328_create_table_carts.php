@@ -15,7 +15,7 @@ class CreateTableCarts extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->nullable()->default(null);
-            $table->string('session_id')->nullable()->default(null);
+            $table->string('session')->nullable()->default(null);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_cancelled')->default(false);
             $table->boolean('is_checkout')->default(false);

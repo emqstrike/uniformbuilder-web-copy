@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\ShoppingCart\Cart;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {

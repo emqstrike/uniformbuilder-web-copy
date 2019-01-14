@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ShoppingCart\CartMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -32,5 +33,7 @@ class Kernel extends HttpKernel
         'adminAccess' => \App\Http\Middleware\VerifyAdministrationAccess::class,
         'restrictedUserAccess' => \App\Http\Middleware\RedirectRestrictedUser::class,
         'disablePreventBack' => \App\Http\Middleware\DisablePreventBack::class,
+
+        'cart_middleware' => CartMiddleware::class
     ];
 }

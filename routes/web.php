@@ -4,7 +4,8 @@ Route::get('remote-login/{token?}', 'AuthenticationController@remoteLogin');
 
 Route::group([
     'prefix' => "shopping-cart",
-    'namespace' => "ShoppingCart"
+    'namespace' => "ShoppingCart",
+    'middleware' => "cart_middleware",
 ], function() {
     Route::get('/', "CartController@index")->name('shopping-cart');
 
