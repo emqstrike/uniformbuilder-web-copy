@@ -2477,6 +2477,11 @@ $(document).ready(function () {
     }
 
     ub.loadSettings = function (settings) {
+        // Riddell UI
+        if (ub.current_material.material.id === 4834) {
+            // ub.funcs.addFunctionToAfterloadList();
+            RiddellUIControls.funcs.loadUI();
+        }
 
         ub.current_material.settings            = settings;
         var uniform_type                        = ub.current_material.material.type;
@@ -2819,7 +2824,6 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
-
         // use all color if config value is set
 
     };

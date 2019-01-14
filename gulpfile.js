@@ -87,6 +87,7 @@ elixir(function(mix) {
             'uniform-builder-generators.js',
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
+            'RiddellUIControls.js'
 
         ], 
         // Result
@@ -95,17 +96,23 @@ elixir(function(mix) {
 
     mix.less(
         [
-            
             // Third-party
-            'third-party/tipped/tipped.less',   
-            'third-party/select2/select2.less', 
-            
-            // Source 
+            'third-party/tipped/tipped.less',
+            'third-party/select2/select2.less',
+
+            // Source
             'uniform-builder.less',
 
         ],
-        
+
         // Result
         'public/uniform-builder/css/uniform-builder.css');
-    
+
+    mix.less([
+
+        // Source
+        'riddell-builder.less'
+    ],
+
+    'public/riddell/css/riddell.css');
 });

@@ -1,0 +1,79 @@
+#header_text {
+  font-size: 1.2em !important;
+}
+nav.navbar-default {
+  border-bottom: 2px solid #b71f20 !important;
+}
+div#uniform_name span.type {
+  background-color: #b71f20 !important;
+  color: #ffffff !important;
+}
+div#saved_design_name span.type {
+  background-color: #b71f20 !important;
+  color: #ffffff !important;
+}
+div#uniform_name {
+  color: #b71f20 !important;
+}
+div#saved_design_name {
+  color: #b71f20 !important;
+}
+div#right-main-window {
+  background-color: #f7f7f7 !important;
+}
+div.color_element span.label {
+  color: #0e0e0e !important;
+}
+label.smallColorPickerLabel {
+  color: #0e0e0e !important;
+}
+label.applicationLabels {
+  color: #0e0e0e !important;
+}
+div#color-wheel-container {
+  color: #f7f7f7 !important;
+}
+div#patternUI span.irs-min {
+  color: #0e0e0e !important;
+}
+div#patternUI span.irs-max {
+  color: #0e0e0e !important;
+}
+div#color-wheel-container div.color-wheel {
+  background-color: #f7f7f7 !important;
+}
+div#patternUI div.patternName {
+  color: #0e0e0e !important;
+}
+div#patternUI div.patternColorNavigator div.label {
+  color: #0e0e0e !important;
+}
+div#layers-order div.tools span.show-locations {
+  background-color: #f7f7f7 !important;
+}
+div#layers-order div.tools span.add-application {
+  border: 0 !important;
+}
+div#layers-order div.tools span.show-locations {
+  border: 0 !important;
+}
+div#layers-order {
+  background-color: #f7f7f7 !important;
+}
+div#parts_dropdown {
+  background-color: #f7f7f7 !important;
+}
+div.pd-dropdown-links {
+  color: #0e0e0e !important;
+}
+div.pd-dropdown-links i {
+  color: #0e0e0e !important;
+}
+.footer_buttons_container {
+  background-color: #f7f7f7 !important;
+}
+.generic-canvas {
+  background-color: #e6e6e6 !important;
+}
+
+/*# sourceMappingURL=riddell.css.map */
