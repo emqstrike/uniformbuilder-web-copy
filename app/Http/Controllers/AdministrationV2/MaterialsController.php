@@ -300,9 +300,10 @@ class MaterialsController extends Controller
             'brand' => $brand,
             'reversible_group' => $reversible_group,
             'reversible_pair_id' => $reversible_pair_id,
-            'reversible_type' => $reversible_type
-
+            'reversible_type' => $reversible_type,
+            'model_number' => $request->input('model_number')
         ];
+
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');

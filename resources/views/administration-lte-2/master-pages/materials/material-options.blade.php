@@ -209,6 +209,8 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                                        data-default-fabric="{{ $option->fabric_id }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -297,6 +299,8 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                                        data-default-fabric="{{ $option->fabric_id }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -385,6 +389,8 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                                        data-default-fabric="{{ $option->fabric_id }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -473,6 +479,8 @@
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
                                                         data-build-type="{{ $option->build_type }}"
+                                                        data-pattern-opacity="{{ $option->pattern_opacity }}"
+                                                        data-default-fabric="{{ $option->fabric_id }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
