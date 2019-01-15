@@ -14,9 +14,10 @@ class CreateTableInvoices extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('completed_order_id')->nullable()->default(null);
             $table->string('invoice_code', 30)->nullable()->default(null);
             $table->string('invoice_url')->nullable()->default(null);
+
+            $table->bigInteger('completed_order_id')->nullable()->default(null);
             $table->timestamps();
         });
 

@@ -14,7 +14,6 @@ class CreateTableShippingInformations extends Migration
     {
         Schema::create('shipping_informations', function (Blueprint $table) {
             $table->increments('id');
-            
             $table->string('full_name')->nullable()->default(null);
             $table->string('athletic_director')->nullable()->default(null);
             $table->string('email')->nullable()->default(null);
@@ -25,6 +24,7 @@ class CreateTableShippingInformations extends Migration
             $table->string('state', 20)->nullable()->default(null);
             $table->string('city')->nullable()->default(null);
             $table->string('zip', 10)->nullable()->default(null);
+
             $table->bigInteger('user_id')->nullable()->default(null);
             $table->timestamps();
         });

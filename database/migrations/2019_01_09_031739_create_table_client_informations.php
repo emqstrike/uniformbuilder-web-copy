@@ -14,12 +14,12 @@ class CreateTableClientInformations extends Migration
     {
         Schema::create('client_informations', function (Blueprint $table) {
             $table->increments('id');
-
             $table->string('full_name')->nullable()->default(null);
             $table->string('athletic_director')->nullable()->default(null);
             $table->string('email')->nullable()->default(null);
             $table->string('phone_number', 10)->nullable()->default(null);
             $table->string('fax')->nullable()->default(null);
+
             $table->bigInteger('user_id')->nullable()->default(null);
             $table->timestamps();
         });

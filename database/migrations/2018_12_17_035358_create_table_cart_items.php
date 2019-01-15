@@ -14,12 +14,10 @@ class CreateTableCartItems extends Migration
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('cart_id')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
             $table->double('total_price')->nullable()->default(null);
             $table->double('profit_amount')->nullable()->default(null);
             $table->double('total_profit_amount')->nullable()->default(null);
-
             $table->string('brand', 20)->nullable()->default(null);
             $table->bigInteger('item_id')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
@@ -35,6 +33,7 @@ class CreateTableCartItems extends Migration
             $table->string('noted')->nullable()->default(null);
             $table->json('attached_files')->nullable()->default(null);
 
+            $table->bigInteger('cart_id')->nullable()->default(null);
             $table->timestamps();
         });
 

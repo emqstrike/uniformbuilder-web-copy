@@ -14,10 +14,11 @@ class CreateTableCompletedOrders extends Migration
     {
         Schema::create('completed_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('cart_id')->nullable()->default(null);
             $table->string('order_hash_id')->nullable()->default(null);
             $table->double('total_amount')->nullable()->default(null);
             $table->double('total_profit_amount')->nullable()->default(null);
+
+            $table->bigInteger('cart_id')->nullable()->default(null);
             $table->timestamps();
         });
 
