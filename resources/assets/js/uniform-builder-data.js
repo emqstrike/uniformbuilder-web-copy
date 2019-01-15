@@ -11398,7 +11398,7 @@ ub.funcs.fontOffSets = [
 
             if (code === "body" || code === "extra") { console.log(code); }
 
-            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Sock") { _result = undefined; }
+            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Socks") { _result = undefined; }
 
             
             return (typeof _result !== "undefined") || 
@@ -12221,7 +12221,11 @@ ub.funcs.fontOffSets = [
         
         items: [
             'Yoga Pant (Apparel)',
-            'Basketball'
+            'Basketball',
+            'Volleyball',
+            'Football 2017',
+            'Football',
+            'Hockey'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12318,6 +12322,14 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Socks (Apparel)',
                 blockPattern: 'Hockey Sock',
+            },
+            {
+                sport: 'Hockey',
+                blockPattern: 'Hockey Twill Set-in',
+            },
+            {
+                sport: 'Hockey',
+                blockPattern: 'Hockey Socks',
             }
         ],
         isExempted: function (sport, blockPattern) {

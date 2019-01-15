@@ -2574,7 +2574,7 @@ $(document).ready(function() {
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    if (!_settingsObject.dirty)
+                    if (!_settingsObject.dirty && ub.funcs.isTackleTwill())
                     {
                         point.position.x += _xOffset;
                         point.position.y += _yOffset;
@@ -2714,6 +2714,9 @@ $(document).ready(function() {
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
+                // block pattern lists that ignore the increment or decrement in point.position
+                var blockPatternBlackLists = ['Hockey Socks'];
+
                 var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
                 
                 if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)   { point.position.y  -= 5;  }
@@ -2729,7 +2732,7 @@ $(document).ready(function() {
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)    { point.position.y   += 30;  }
 
                 // if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
-                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3) { point.position.y   += 11; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3 && !_.contains(blockPatternBlackLists, ub.config.blockPattern)) { point.position.y   += 11; }
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 2) { point.position.y   += 13; }
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
@@ -5288,7 +5291,7 @@ $(document).ready(function() {
         settingsObj.size = parseFloat(size);
         settingsObj.font_size = parseFloat(size);
 
-
+        settingsObj.dirty = true;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
@@ -7721,31 +7724,31 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5; }
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5; }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;  }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                              { _size =  5; }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")                 { _size =  5; }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                                      { _size = 4;  }
 
-            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                   { _size = 1; }
+            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                               { _size = 1; }
 
-            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                                 { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                                   { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                                { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                                  { _size = 2;    }
 
-            if (ub.funcs.isSocks())                                                                                     { _size = 2.5;  }
+            if (ub.funcs.isSocks())                                                                                                 { _size = 2.5;  }
 
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                                  { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                                  { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                             { _size = 1;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                             { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport("Hockey") && _.contains([2,5], _id) )                                           { _size = 6;    }
+            if (ub.funcs.isCurrentSport("Hockey") && !_.isEqual(ub.config.blockPattern, 'Hockey Socks') && _.contains([2,5], _id) ) { _size = 6;    }
 
-            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
-            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
+            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                                  { _size = 4;    }
+            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                                       { _size = 4;    }
 
             if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
@@ -7830,7 +7833,9 @@ $(document).ready(function() {
 
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
-            ub.current_material.settings.applications[_id] = _settingsObject;  
+            ub.current_material.settings.applications[_id] = _settingsObject;
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -7917,6 +7922,8 @@ $(document).ready(function() {
             ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
+
         }
 
         if (_type === 'team_name') {
@@ -7950,6 +7957,8 @@ $(document).ready(function() {
             ub.current_material.settings.applications[_id] = _settingsObject;  
 
             ub.funcs.LSRSBSFS(parseInt(_id));
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -10376,8 +10385,18 @@ $(document).ready(function() {
             }
 
         }
-        
-        return _list;
+
+        _.each(_list, function(item) {
+            if (item.name.includes("Body Left")) {
+                item.position = 1;
+            }
+
+            if (item.name.includes("Body Right")) {
+                item.position = 2;
+            }
+        });
+
+        return _.sortBy(_list, 'position');
 
     }
 
@@ -10734,7 +10753,7 @@ $(document).ready(function() {
 
                 $('div.perspective-container > span.perspective').removeClass('active');
                 $(this).addClass('active');
-                
+
                 ub.funcs.setActiveView(_perspective);
 
                 if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
@@ -10746,7 +10765,7 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
-                            
+
                             $('span.part').first().addClass('active');
 
                         } else {
@@ -10754,17 +10773,15 @@ $(document).ready(function() {
                             _partToMakeActive =  _perspective.toTitleCase();
 
                             $('div.part-container span').each(function() {
-                                
                                 var part = $(this).text();
-                                
+
                                 if (part.indexOf(_partToMakeActive) !== -1) {
                                     _partToMakeActive = part;
+                                    $('span.part').removeClass('active');
+                                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
                                 }
 
                             });
-
-                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
-
                         }
 
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
@@ -10772,11 +10789,21 @@ $(document).ready(function() {
                         $('span.side').removeClass('active');
 
                     } else {
-
                         // If perspective is not Front or Back, just select the first part
                         $('span.part').first().addClass('active');
-
                         var side = $('span.side.active').data('id');
+                        var _partToMakeActive = _perspective.toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            var part = $(this).text();
+                            var makeActive = '';
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                makeActive = part;
+                                $("span.part").removeClass('active');
+                                $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                            }
+                        });
 
                         if ($('span.side').hasClass('active')) {
 
@@ -10798,10 +10825,10 @@ $(document).ready(function() {
 
                     }
 
-                    if(ub.funcs.isSocks()) { 
+                    if(ub.funcs.isSocks()) {
 
-                        _part = "Sublimated"; 
-                        
+                        _part = "Sublimated";
+
                         if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
                             _part = "Body";
                         }
@@ -10856,24 +10883,14 @@ $(document).ready(function() {
 
                 } else {
 
-                    // if (_part === "Back Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="back"]').addClass('active'); 
-                    // }
-
-                    // if (_part === "Front Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="front"]').addClass('active'); 
-                    // }
-
-                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+                    /*var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
                     if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
 
-                    }
+                    }*/
 
                     $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
@@ -10993,7 +11010,19 @@ $(document).ready(function() {
                 } else {
 
                     $('span.part').first().addClass('active');
+                    var side = $('span.side.active').data('id');
+                    var _partToMakeActive = $perspective.text().toTitleCase();
 
+                    $('div.part-container span').each(function() {
+                        var part = $(this).text();
+                        var makeActive = '';
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            makeActive = part;
+                            $("span.part").removeClass('active');
+                            $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                        }
+                    });
                 }
 
             }

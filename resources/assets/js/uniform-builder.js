@@ -2517,8 +2517,6 @@ $(document).ready(function () {
 
             if (typeof e.code === "undefined") { return; }
 
-            console.log(e.code);
-
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {
@@ -6891,6 +6889,68 @@ $(document).ready(function () {
 
     }
 
+    // Get all set block pattern's aliases
+    // @param Array ub.tempItems
+    ub.funcs.getBlockPatternsAlias = function (items) {
+
+        var blockPatterns = [];
+
+        _.uniq(_.map(items, function(item) {
+
+             if (item.block_pattern_alias !== '' && typeof item.block_pattern_alias !== 'undefined') {
+
+                    blockPatterns.push(item.block_pattern_alias);
+
+             } else {
+
+                    blockPatterns.push(item.block_pattern);
+
+             }
+
+        }));
+
+        return _.uniq(blockPatterns);
+
+    }
+
+    // Get all set neck option's aliases
+    // @param Array ub.tempItems
+    ub.funcs.getNeckOptionsAlias = function (items) {
+
+        var neckOptions = [];
+
+        _.each(items, function(item) {
+
+            var parsedBlockPatternOptions = JSON.parse(item.block_pattern_options);
+            
+            var bOptions = _.find(parsedBlockPatternOptions, {name: item.neck_option});
+
+            item.neck_option_alias = (typeof bOptions.alias !== 'undefined' 
+                                        && bOptions.alias !== 'undefined' 
+                                        && bOptions.alias !== '') 
+                                     ? bOptions.alias 
+                                     : item.neck_option;
+
+        });
+
+        _.uniq(_.map(items, function(item) {
+
+             if (item.neck_option_alias !== '' && typeof item.neck_option_alias !== 'undefined') {
+
+                    neckOptions.push(item.neck_option_alias);
+
+             } else {
+
+                    neckOptions.push(item.neck_option);
+
+             }
+
+        }));
+
+        return _.uniq(neckOptions);
+
+    }
+
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
@@ -6925,7 +6985,7 @@ $(document).ready(function () {
 
                     _newSet = _.filter(window.origItems, function (item) {
 
-                        return item.block_pattern === _dataItem;
+                        return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
 
                     });
 
@@ -7009,7 +7069,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.neck_option === _dataItem;
+                            return item.neck_option === _dataItem || item.neck_option_alias === _dataItem;
 
                         });
 
@@ -7017,7 +7077,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.block_pattern === _activeBlockPattern && item.neck_option === _dataItem;
+                            return item.block_pattern === _activeBlockPattern && item.neck_option === _dataItem || item.neck_option_alias === _dataItem;
 
                         });
 
@@ -7025,7 +7085,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_blank === "1";
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_blank === "1";
 
                             });
 
@@ -7035,7 +7095,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_favorite === true;
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_favorite === true;
 
                             });
 
@@ -7334,12 +7394,12 @@ $(document).ready(function () {
             if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
-                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
 
             } else {
 
-                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
-                _options = _.uniq(_.pluck(itemsWOUpper,'neck_option'));  
+                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+                _options = ub.funcs.getNeckOptionsAlias(itemsWOUpper);
 
             }
 
@@ -9556,7 +9616,7 @@ $(document).ready(function () {
 
                     if (response.success) {
                         $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
-                        window.location.href = window.ub.config.host;
+                        window.location.href = '/logout';
                     } else {
 
                         $.smkAlert({text: response.message, type:'error', permanent: false, time: 5, marginTop: '90px'});
