@@ -1,15 +1,123 @@
 $(document).ready(function () {
 
+    // Pattern Data
+    ub.patterns = {};
+    ub.patterns.patternOffset = {
+        items: [
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1100,
+                min: 890
+            },
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1000,
+                min: 850
+            },
+            {
+                patternCode: "line_fade_sleeve",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 900,
+                max: 1000,
+                min: 800
+            },
+            {
+                patternCode: "line_fade_sleeve",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1000,
+                max: 1100,
+                min: 850
+            },
+            {
+                patternCode: "halftone_fade_chest",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1200,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_chest",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1300,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_sleeve",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1200,
+                min: 1000
+            },
+            {
+                patternCode: "halftone_fade_sleeve",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1300,
+                min: 1000
+            },
+            {
+                patternCode: 'line_fade_body',
+                partCodes: ['hood_panel'],
+                blockPatterns: ['Hoodie'],
+                offSet: 325,
+                max: 485,
+                min: 250
+            },
+            {
+                patternCode: "nk_stripe",
+                partCodes: ['pocket_insert'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1250,
+                min: 1000
+            },
+            {
+                patternCode: "nk_stripe",
+                partCodes: ['pocket'],
+                blockPatterns: ['Hoodie'],
+                offSet: 1100,
+                max: 1250,
+                min: 1000
+            }
+        ],
+
+        getOffset: function (patternCode, blockPattern, part) {
+            var a = _.find(this.items, function (item) {
+                return item.patternCode === patternCode &&
+                    _.contains(item.blockPatterns, blockPattern) &&
+                    _.contains(item.partCodes, part);
+            });
+
+            return typeof a !== "undefined" ? a : undefined;
+        },
+    };
+
+    // Todo: place also the UBUI Data contents here, and assume similar form on other types
+
+    // End Pattern Data
 
     ub.funcs.getPatternList = function () {
 
         var _sport = ub.current_material.material.uniform_category;
-        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
+        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID');
 
         // _patternList = _.filter(_patternList, function (pattern) {
 
         //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
-        //         pattern.blockPatternOptions === null || 
+        //         pattern.blockPatternOptions === null ||
         //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
 
         //     return _expression;
@@ -38,10 +146,10 @@ $(document).ready(function () {
         var _materialOption     = materialOption;
         var _colorOBJ           = colorOBJ;
         var _layerID            = layerID;
-        var _patternObj         = patternObj;      
+        var _patternObj         = patternObj;
         var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
         var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
-        
+
         var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
         var _names              = ub.funcs.ui.getAllNames(_modifier.name);
 
@@ -62,17 +170,17 @@ $(document).ready(function () {
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
-        setTimeout(function() {             
+        setTimeout(function() {
             var _dUrl = canvas.toDataURL();
 
             _.each(_patternObj.layers, function (l) {
 
                 $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
-                
-            });    
+
+            });
 
         }, 50);
-        
+
         _.each(_names, function (_name) {
 
             var titleNameFirstMaterial      = _name.toTitleCase();
@@ -81,7 +189,7 @@ $(document).ready(function () {
 
             layer.color = _tintColor;
             layer.color_code = colorOBJ.color_code;
-            
+
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
             _.each(_materialOptions, function (_materialOption) {
@@ -99,7 +207,6 @@ $(document).ready(function () {
             });
 
         })
-        
     };
 
 
@@ -313,6 +420,9 @@ $(document).ready(function () {
                 min: ub.uiData.patternSliderRange.min,
                 max: ub.uiData.patternSliderRange.max,
                 from: _from,
+                force_edges: true,     // force UI in the box
+                hide_min_max: true,    // show/hide MIN and MAX labels
+                hide_from_to: true,
                 onChange: function (data) {
 
                     ub.funcs.changePatternPosition(settingsObj.code, data.from);
@@ -320,6 +430,8 @@ $(document).ready(function () {
                 },
 
             });
+
+            $("div#applicationUI span.irs").first().append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
 
         }
         
@@ -859,7 +971,7 @@ $(document).ready(function () {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
+            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="350" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
@@ -883,6 +995,7 @@ $(document).ready(function () {
         
         _htmlBuilder     += "</div>";
 
+        $('div#randomFeedsUI').hide();
         $('.modifier_main_container').append(_htmlBuilder);
 
         _.each(_patternObj.layers, function (layer) {
@@ -929,10 +1042,185 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.setupPartPatternSlider = function (inputPattern, materialOption) {
 
+        var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
+
+        if (inputPattern.pattern_id === "blank") {
+
+            $('input#part-pattern-slider').hide();
+
+        } else {
+
+            var _from = ub.uiData.patternSliderRange.starts;
+            var _calibration = ub.uiData.patternSliderRange.adjustedStart;
+            var _patternIsForCalibration = false;
+
+            var offsetMin = undefined;
+            var offsetMax = undefined;
+
+            var _offset = ub.uiData.patternOffset.getOffset(inputPattern.pattern_id, ub.config.blockPattern, _partSettingsObject.code);
+
+            _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, inputPattern.name);
+
+            if (typeof _partSettingsObject.pattern !== "undefined" && _partSettingsObject.pattern.length > 0) {
+
+                _from = _partSettingsObject.pattern.position.y;
+
+                if (_patternIsForCalibration) {
+
+                    _from -= _patternIsForCalibration;
+
+                }
+
+
+
+            } else {
+
+                _from = _partSettingsObject.pattern.position.y;
+
+            }
+
+            $('input#part-pattern-slider').show();
+
+            if (typeof $("#part-pattern-slider").destroy === "function") { 
+                $("#part-pattern-slider").destroy(); 
+            }
+
+            if (typeof _offset !== "undefined" && typeof _partSettingsObject.pattern.dirty === "undefined") {
+
+                _from = _offset.offSet;
+                ub.funcs.changePartPatternPosition(materialOption.name, _from, true);
+
+                offsetMax = _offset.max;
+                offsetMin = _offset.min;
+            }
+
+            var boundaries = ub.funcs.getBoundariesCurrentView(materialOption.name);
+            var minimumDiff = 325;
+            var maximumDiff = 760;
+
+            $("#part-pattern-slider").ionRangeSlider({
+
+                min: typeof offsetMin !== "undefined" ? offsetMin : minimumDiff,
+                max: typeof offsetMax !== "undefined" ? offsetMax : maximumDiff,
+                from: _from,
+                force_edges: false,     // force UI in the box
+                hide_min_max: true,    // show/hide MIN and MAX labels
+                hide_from_to: true,
+                onChange: function (data) {
+                    ub.funcs.changePartPatternPosition(materialOption.name, data.from);
+                },
+            });
+
+            $("div#patternUI span.irs").first().append('<span class="irs-min">Up</span><span class="irs-max">Down</span>');
+        }
+
+    };
     ub.data.previewContainer    = {};
     ub.data.previewCanvas       = {};
     ub.data.patternToolTip      = {};
+
+    ub.funcs.getMaterialOptionPatternViewObjects = function (materialOptionName) {
+
+        var _viewObjects = [];
+
+        _.each (ub.views, function (view) {
+
+            var _obj = ub.objects[view + '_view']['pattern_' + materialOptionName.toCodeCase()];
+
+            if (typeof _obj !== "undefined") {
+                _viewObjects.push(_obj);
+            }
+
+        })
+
+        return _viewObjects;
+
+    }
+
+     ub.funcs.getMaterialOptionViewObjects = function (materialOptionName) {
+
+        var _viewObjects = [];
+
+        _.each (ub.views, function (view) {
+
+            var _obj = ub.objects[view + '_view'][materialOptionName];
+
+            if (typeof _obj !== "undefined") {
+                _viewObjects.push(_obj);
+            }
+
+        })
+
+        return _viewObjects;
+
+    }
+
+    ub.funcs.changeMatchingPartPatternPosition = function(code, from, dontSetDirtyFlag, _calibration) {
+        // If part pattern has matching part
+        var _matchingViewObjects = undefined;
+        var _matchingSettingsObject = undefined;
+        var matchcode = undefined;
+        var hasMatchingPart = false;
+
+        // Check if has matching parts
+        if (code.includes("Left")) {
+            matchcode = code.replace("Left ", "Right ");
+            hasMatchingPart = true;
+        } else if (code.includes("Right")) {
+            matchcode = code.replace("Right ", "Left ");
+            hasMatchingPart = true;
+        }
+
+        // If has matching part get Material option setting object & material option pattern view object
+        if (hasMatchingPart) {
+            _matchingViewObjects = ub.funcs.getMaterialOptionPatternViewObjects(matchcode);
+            _matchingSettingsObject = ub.funcs.getMaterialOptionSettingsObject(matchcode.toTitleCase());
+        } else {
+            return;
+        }
+
+        // If has matching part loop the matching view Object
+        if (typeof _matchingViewObjects !== "undefined" && typeof _matchingSettingsObject !== "undefined") {
+            _.each(_matchingViewObjects, function(viewObject) {
+                var _patternObject = viewObject;
+                var _positionY = (0 + parseInt(from));
+
+                _patternObject.position.y = (0 + parseInt(from) + _calibration);
+                _matchingSettingsObject.pattern.position = {x: _matchingSettingsObject.pattern.position.x, y: _positionY};
+                if(typeof dontSetDirtyFlag !== "undefined") { _matchingSettingsObject.pattern.dirty = true; }
+            });
+        } else {
+            return;
+        }
+    }
+
+
+    ub.funcs.changePartPatternPosition = function (code, from, dontSetDirtyFlag) {
+
+        var _value = parseInt(from);
+        var _perspectiveStr = '';
+        var _viewObjects = ub.funcs.getMaterialOptionPatternViewObjects(code);
+        var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(code.toTitleCase());
+
+        var _calibration = 0;
+
+        if (code.includes("Left") || code.includes("Right")) {
+            ub.funcs.changeMatchingPartPatternPosition(code, from, dontSetDirtyFlag, _calibration);
+        }
+
+        _.each(_viewObjects, function (viewObject) {
+
+            var _patternObject = viewObject;
+            var _positionY = (0 + parseInt(from));
+
+            _patternObject.position.y = (0 + parseInt(from) + _calibration);
+            _settingsObject.pattern.position = {x: _settingsObject.pattern.position.x, y: _positionY};
+            if(typeof dontSetDirtyFlag !== "undefined") { _settingsObject.pattern.dirty = true; }
+        });
+
+    };
 
     ub.funcs.createPatternPreview = function (inputPattern) {
 
