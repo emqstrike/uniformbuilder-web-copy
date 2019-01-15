@@ -28,7 +28,7 @@ $(document).ready(function() {
         } else {
 
             ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
-                if (mascot.brand === ub.current_material.material.brand) { return mascot; }
+                if (mascot.brand ===ub.current_material.material.brand) { return mascot; }
             });
 
         }

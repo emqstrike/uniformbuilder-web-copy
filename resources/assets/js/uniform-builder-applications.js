@@ -2899,8 +2899,13 @@ $(document).ready(function () {
                     point.scale = {x: _scaleX, y: _scaleY};
                 }
 
-                //// Process End Override ScaleX and ScaleY from GA Font Tool
+                // block pattern lists that ignore the increment or decrement in point.position
+                var blockPatternBlackLists = ['Hockey Socks'];
 
+                var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
+                
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)   { point.position.y  -= 5;  }
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y  -= 5;  }
             }
 
             ub.funcs.createClickable(point, view.application, view, 'application');
@@ -2908,12 +2913,11 @@ $(document).ready(function () {
 
             var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
 
-            if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8) {
-                point.position.y -= 5;
-            }
-            if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 10) {
-                point.position.y -= 5;
-            }
+                // if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3 && !_.contains(blockPatternBlackLists, ub.config.blockPattern)) { point.position.y   += 11; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 2) { point.position.y   += 13; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
+                if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
             if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10) {
                 point.position.y -= 30;
@@ -5608,6 +5612,7 @@ $(document).ready(function () {
         settingsObj.size = parseFloat(size);
         settingsObj.font_size = parseFloat(size);
 
+        settingsObj.dirty = true;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
@@ -8710,9 +8715,12 @@ $(document).ready(function () {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
-
+                if (! (_settingsObj.application_type === "mascot" || _settingsObj.application_type === "embellishments")) {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj)
+                }
+                ub.updateLayersOrder(ub[_view]);
+                
             } else {
 
                 _obj.oldZIndex = _obj.zIndex;
@@ -8855,8 +8863,10 @@ $(document).ready(function () {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _randomIndex = Math.round(ub.data.mascots.length * Math.random(ub.data.mascots.length));
-            var _mascotID = ub.data.mascots[_randomIndex].id;
+            var _mascotID = '181'; 
+
+            if (ub.current_material.material.brand === "richardson") { _mascotID = '1584'; }   
+
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -9058,6 +9068,7 @@ $(document).ready(function () {
             }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
         }
 
         if (_type === 'player_number') {
@@ -9075,7 +9086,7 @@ $(document).ready(function () {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1 || _settingsObject.application.layer.indexOf('Cowl') !== -1;
                 var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
 
                 if (_inShoulder) {
@@ -9157,6 +9168,8 @@ $(document).ready(function () {
             }
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
+
         }
 
         if (_type === 'team_name') {
@@ -9196,6 +9209,8 @@ $(document).ready(function () {
             ub.current_material.settings.applications[_id] = _settingsObject;
 
             ub.funcs.LSRSBSFS(parseInt(_id));
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -11793,8 +11808,17 @@ $(document).ready(function () {
 
         }
 
-        return _list;
+        _.each(_list, function(item) {
+            if (item.name.includes("Body Left")) {
+                item.position = 1;
+            }
 
+            if (item.name.includes("Body Right")) {
+                item.position = 2;
+            }
+        });
+
+        return _.sortBy(_list, 'position');
     }
 
     ub.funcs.getCentoid = function (perspective, part) {
@@ -12201,7 +12225,7 @@ $(document).ready(function () {
                     if (_perspective === "back" || _perspective === "front") {
 
                         if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
-                            
+
                             $('span.part').first().addClass('active');
 
                         } else {
@@ -12209,17 +12233,15 @@ $(document).ready(function () {
                             _partToMakeActive =  _perspective.toTitleCase();
 
                             $('div.part-container span').each(function() {
-                                
                                 var part = $(this).text();
 
                                 if (part.indexOf(_partToMakeActive) !== -1) {
                                     _partToMakeActive = part;
+                                    $('span.part').removeClass('active');
+                                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
                                 }
 
                             });
-
-                            $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
-
                         }
 
                         // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
@@ -12227,11 +12249,21 @@ $(document).ready(function () {
                         $('span.side').removeClass('active');
 
                     } else {
-
                         // If perspective is not Front or Back, just select the first part
                         $('span.part').first().addClass('active');
-
                         var side = $('span.side.active').data('id');
+                        var _partToMakeActive = _perspective.toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            var part = $(this).text();
+                            var makeActive = '';
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                makeActive = part;
+                                $("span.part").removeClass('active');
+                                $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                            }
+                        });
 
                         if ($('span.side').hasClass('active')) {
 
@@ -12257,7 +12289,6 @@ $(document).ready(function () {
                     }
 
                     if (ub.funcs.isSocks()) {
-
                         _part = "Sublimated";
 
                         if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
@@ -12314,24 +12345,14 @@ $(document).ready(function () {
 
                 } else {
 
-                    // if (_part === "Back Body") {
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="back"]').addClass('active');
-                    // }
-
-                    // if (_part === "Front Body") {
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="front"]').addClass('active');
-                    // }
-
-                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+                    /*var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
                     if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) {
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active');
 
-                    }
+                    }*/
 
                     $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
@@ -12437,11 +12458,14 @@ $(document).ready(function () {
 
                         var _partToMakeActive =  $perspective.text().toTitleCase();
 
+                        var partCount = 0; 
+
                         $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
+                            if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                partCount++;
                                 _partToMakeActive = part;
                             }
 
@@ -12454,7 +12478,19 @@ $(document).ready(function () {
                 } else {
 
                     $('span.part').first().addClass('active');
+                    var side = $('span.side.active').data('id');
+                    var _partToMakeActive = $perspective.text().toTitleCase();
 
+                    $('div.part-container span').each(function() {
+                        var part = $(this).text();
+                        var makeActive = '';
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            makeActive = part;
+                            $("span.part").removeClass('active');
+                            $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                        }
+                    });
                 }
 
             }
@@ -12961,10 +12997,10 @@ $(document).ready(function () {
             }
         }
 
-        _htmlBuilder += '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
-        _htmlBuilder += '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-        _htmlBuilder += '<div class="caption">Embellishments</div>';
-        _htmlBuilder += '</div>';
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
+        _htmlBuilder        +=           '</div>';
 
         _htmlBuilder += '</div>';
         _htmlBuilder += "</div>";
