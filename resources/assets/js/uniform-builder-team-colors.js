@@ -410,14 +410,17 @@ $(document).ready(function () {
         var _teamColorObj       = ub.current_material.settings.team_colors;
         var _indexOfColorObj    = undefined;
 
-        _indexOfColorObj        = _teamColorObj.indexOf(colorObj);
-        _teamColorObj.splice(_indexOfColorObj, 1);
+        var color = _.find(ub.current_material.settings.team_colors, {color_code: colorObj.color_code});
+        var _indexOfColorObj = _.indexOf(_teamColorObj, color);
+
+        if (_indexOfColorObj !== -1) {
+            _teamColorObj.splice(_indexOfColorObj, 1);
+        }
 
         ub.funcs.drawColorPickers();
 
         // Selective execution here ... Update pattern only if the color being removed is currently in used by the pattern
         if (ub.funcs.ifColorIsUsedOnPatterns(colorObj)){ ub.funcs.updatePatterns(); }
-        
     };
 
     ub.funcs.drawColorPickers = function () {
