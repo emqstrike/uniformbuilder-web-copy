@@ -13,9 +13,21 @@ class Cart extends Model
 
     protected $fillable = ["user_id", "session", "is_active", "is_cancelled", "is_checkout", "is_completed", "is_abandoned"];
 
-    public function exceedInLifeSpan()
+    public function cart_items()
     {
-        return Carbon::now() > Carbon::parse($this->created_at)->addSeconds(static::LIFE_SPAN);
+        return $this->hasMany("App\ShoppingCart\CartItems");
+    }
+
+    public function exceedInLifeSpan($timeout)
+    {
+        $duration = time() - (int) $timeout;
+        return $duration >= static::LIFE_SPAN;
+    }
+
+    public function markAsAbandoned()
+    {
+        $this->is_abandoned = 1;
+        return $this->save();
     }
 
     public static function findBySession($session)
@@ -51,7 +63,7 @@ class Cart extends Model
 
             do {
                 $unique_session = uniqid(static::CART_SESSION_PREFIX);
-            } while (in_array($unique_session, $cart_sessions));
+            } while (in_array($unique_session, $cart_sessions->toArray()));
 
             return $unique_session;
         }

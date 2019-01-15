@@ -10,55 +10,8 @@
                 Cart Session: {{ \Session::get('cart_session') }}
             </p>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                            <h1 class="panel-title">Gator 11</h1>
-                        </div>
-                        <div class="panel-body">
-                            {{-- <img src="https://via.placeholder.com/150" class="img-responsive" alt="" />
-                            <hr> --}}
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label for="size">Select Size</label>
-
-                                        <select name="size" class="form-control">
-                                            {{-- js initialize the options --}}
-                                        </select>
-                                    </div>
-
-                                    <div class="pull-right">
-                                        <button class="btn btn-link" id="view-selected-sizes">View all selected sizes</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <table class="table table-hover table-bordered" id="player-list">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Last Name</th>
-                                        <th>Number</th>
-                                        <th>Quantity</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5">
-                                            <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign add-player"></span> Add Player</button>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id="cart-items-el">
+                
             </div>
 
             <div class="row">
@@ -74,6 +27,88 @@
 @section('scripts')
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+
+<script type="text/template" id="cart-items-tmpl">
+<% _.each(cart_items, function(item) { %>
+    <div class="col-md-6 cart-item" data-cart-item-id="<%= item.id %>">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
+                <h1 class="panel-title">Gator 11</h1>
+            </div>
+            <div class="panel-body">
+                <img src="https://via.placeholder.com/150" class="img-responsive" alt="" />
+                <hr>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="size">Select Size</label>
+
+                            <select name="size" class="form-control">
+                                <% _.each(sizes, function(size_text, size){ %>
+                                    <option value="<%= size %>"><%= size_text %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+
+                        <div class="pull-right">
+                            <button class="btn btn-link view-selected-sizes">View all selected sizes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-hover table-bordered player-list">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Last Name</th>
+                            <th>Number</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (!_.isEmpty(item.players)) { %>
+                            <% _.each(item.players, function(player, index) { %>
+                                <tr>
+                                    <td><%= index+1 %></td>
+                                    <td>
+                                        <p class="last_name"><%= player.last_name %></p>
+                                    </td>
+                                    <td>
+                                        <p class="number"><%= player.number %></p>
+                                    </td>
+                                    <td>
+                                        <p class="quantity"><%= player.quantity %></p>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
+                                            <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5">No players added</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign add-player"></span> Add Player</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+<% }); %>
+</script>
 
 <script type="text/template" id="player-rows-tmpl">
     <% if (!_.isEmpty(players)) { %>
@@ -130,7 +165,7 @@
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
                 <% _.each(data, function(players, size) { %>
-                    <li role="presentation" class="<%= Object.keys(data)[0] == size ? 'active' : '' %>">
+                    <li role="presentation" class="<%= Object.keys(data)[0].id == size ? 'active' : '' %>">
                         <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= sizes[size] %></a>
                     </li>
                 <% }); %>
@@ -190,24 +225,7 @@
 </script>
 
 <script type="text/javascript">
-var sizes = {
-    24: "24",
-    26: "26 (YS)",
-    28: "28 (YM)",
-    30: "30 (YS)",
-    32: "32 (YL)",
-    34: "34 (YXL)",
-    36: "36 (S)",
-    38: "38 (M)",
-    40: "40",
-    42: "42 (L)",
-    44: "44",
-    46: "46 (XL)",
-    48: "48",
-    50: "50 (2XL)",
-    52: "52",
-    54: "54 (3XL)",
-};
+var sizes = <?php echo json_encode($sizes) ?>;
 
 var Cart = {
     id_auto_increment: 5,
@@ -244,50 +262,102 @@ var Cart = {
         ]
     },
 
-    init: function() {
-        Cart.initSizeField();
-
-        var default_selected_size = $(':input[name="size"]').val();
-        Cart.loadPlayers(default_selected_size);
-
-        $(':input[name="size"]').change(Cart.onSizeChange);
-        $('#player-list .add-player').click(Cart.onAddPlayer);
-        $('#view-selected-sizes').click(Cart.onViewAllSelectedSizes);
-
-        $('#player-list tbody').on('click', 'tr td .edit-player', Cart.onEditPlayer);
-        $('#player-list tbody').on('click', 'tr td .delete-player', Cart.onDeletePlayer);
-    },
-
-    initSizeField: function() {
-        var options = "";
-
-        for (var i in sizes) {
-            options += '<option value="'+i+'">'+sizes[i]+'</option>';
+    cart_items: [
+        {
+            id: 1,
+            players: [
+                {
+                    id: 24,
+                    size: 24,
+                    last_name: "Foo",
+                    number: "01",
+                    quantity: 1
+                },
+                {
+                    id: 25,
+                    size: 26,
+                    last_name: "Bar",
+                    number: "02",
+                    quantity: 1
+                }
+            ]
+        },
+        {
+            id: 2,
+            players: [
+                {
+                    id: 24,
+                    size: 28,
+                    last_name: "Baz",
+                    number: "03",
+                    quantity: 1
+                },
+                {
+                    id: 25,
+                    size: 26,
+                    last_name: "Doe",
+                    number: "04",
+                    quantity: 1
+                }
+            ]
         }
+    ],
 
-        $(':input[name="size"]').html(options);
+    init: function() {
+        var el = $('#cart-items-el');
+        var tmpl = _.template($('#cart-items-tmpl').html());
+
+        el.append(tmpl({
+            sizes: sizes,
+            cart_items: Cart.cart_items
+        }));
+
+        var cart_item_ids = _.pluck(Cart.cart_items, 'id');
+        _.map(cart_item_ids, function(cart_item_id) {
+            var default_size = $(':input[name="size"]', el).val();
+            return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+        });
+
+        $(':input[name="size"]', el).change(Cart.onSizeChange);
+        $('.player-list .add-player', el).click(Cart.onAddPlayer);
+        // $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+
+        // $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+        // $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
     },
 
-    loadPlayers: function(size) {
+    loadPlayers: function(cart_item_id, size) {
+        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+
         var player_rows_tmpl = _.template($('#player-rows-tmpl').html());
 
-        $('#player-list tbody').html(player_rows_tmpl({
-            players: Cart.dummy_data[size]
+        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var players = _.filter(cart_item.players, {size: size});
+
+        $('.player-list tbody', cart_item_el).html(player_rows_tmpl({
+            players: players
         }));
     },
 
     onSizeChange: function() {
+        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var size = $(this).val();
-        Cart.loadPlayers(size);
+
+        Cart.loadPlayers(cart_item_id, parseInt(size));
     },
 
     onViewAllSelectedSizes: function() {
+        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var tmpl = _.template($('#selected-sizes-tmpl').html());
+
+        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+
+        console.log(cart_item.players);
 
         bootbox.dialog({
             title: "Selected Sizes",
             message: tmpl({
-                data: Cart.dummy_data,
+                data: cart_item.players,
                 sizes: sizes
             }),
             size: "large"
@@ -295,10 +365,16 @@ var Cart = {
     },
 
     onAddPlayer: function() {
+        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
+        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
-        var selected_size = $(':input[name="size"]').val();
-        var player_list = $('#player-list tbody');
+        var selected_size = $(':input[name="size"]', cart_item_el).val();
+        var player_list_el = $('.player-list tbody', cart_item_el);
+
+        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var players = _.filter(cart_item.players, {size: size});
 
         bootbox.dialog({
             title: "Add Player",
@@ -323,12 +399,12 @@ var Cart = {
 
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
 
-                            if (_.isUndefined(Cart.dummy_data[selected_size])) {
-                                Cart.dummy_data[selected_size] = [];
-                                player_list.html("");
-                            } else if (Cart.dummy_data[selected_size].length == 0) {
-                                player_list.html("");
-                            }
+                            // if (_.isUndefined(Cart.dummy_data[selected_size])) {
+                            //     Cart.dummy_data[selected_size] = [];
+                            //     player_list.html("");
+                            // } else if (Cart.dummy_data[selected_size].length == 0) {
+                            //     player_list.html("");
+                            // }
 
                             var data_num = Cart.dummy_data[selected_size].length;
 
@@ -343,9 +419,9 @@ var Cart = {
 
                             if (Cart.dummy_data[selected_size].length > data_num) {
                                 console.log("saved!");
-                                var tr_num = $('tr', player_list).length;
+                                var tr_num = $('tr', player_list_el).length;
 
-                                player_list.append(player_row_tmpl(_.extend({index: tr_num + 1}, data)));
+                                player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, data)));
                             } else {
                                 console.log("not save!");
                             }
@@ -360,12 +436,17 @@ var Cart = {
     },
 
     onEditPlayer: function() {
+        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
+        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+
         var _this = $(this);
         var id = $(this).data('id');
         var form_tmpl = _.template($('#form-tmpl').html());
-        var selected_size = $(':input[name="size"]').val();
+        var selected_size = $(':input[name="size"]', cart_item_el).val();
 
-        var player = _.find(Cart.dummy_data[selected_size], {id: parseInt(id)});
+        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+
+        var player = _.find(cart_item.players, {id: parseInt(id)});
 
         bootbox.dialog({
             title: "Edit Player",
@@ -397,7 +478,7 @@ var Cart = {
                             player.number = number;
                             player.quantity = quantity;
 
-                            player_data = _.find(Cart.dummy_data[selected_size], {id: parseInt(id)});
+                            player_data = _.find(cart_item.players, {id: parseInt(id)});
 
                             if (player === player_data) {
                                 console.log("saved!");
@@ -420,19 +501,22 @@ var Cart = {
     },
 
     onDeletePlayer: function() {
+        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
+
         var id = $(this).data('id');
         var selected_size = $(':input[name="size"]').val();
 
-        var players = Cart.dummy_data[selected_size];
+        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var players = cart_item.players;
 
-        Cart.dummy_data[selected_size] = _.reject(players, {id: parseInt(id)});
+        cart_item.players = _.reject(players, {id: parseInt(id)});
 
-        if (Cart.dummy_data[selected_size].length < players.length) {
+        if (cart_item.players.length < players.length) {
             console.log("removed!");
 
             $(this).closest('tr').fadeOut();
 
-            if (Cart.dummy_data[selected_size].length == 0) {
+            if (cart_item.players.length == 0) {
                 $('#player-list tbody').html('<tr><td colspan="5">No players added</td></tr>');
             }
         } else {

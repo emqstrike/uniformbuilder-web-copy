@@ -34,12 +34,17 @@ class CartMiddleware
 
             if (!is_null($cart))
             {
-                if (!$cart->exceedInLifeSpan())
+                if (!$cart->exceedInLifeSpan(\Session::get('cart_timeout')))
                 {
+                    // reset cart timeout
+                    \Session::set('cart_timeout', time());
+
                     return $next($request);
                 }
                 else
                 {
+                    $cart->markAsAbandoned();
+
                     // todo: show message to user that the cart is already exceed on cart life span
                     \Log::info("Info: Cart already exceed on cart life span");
                 }
@@ -54,6 +59,8 @@ class CartMiddleware
         if (!is_null($cart))
         {
             \Session::set('cart_session', $cart->session);
+            \Session::set('cart_timeout', time());
+
             \Log::info("Info: Cart session " . $cart->session . " took of " . (is_null($user) ? "guest" : $user->getFullName()));
 
             return $next($request);

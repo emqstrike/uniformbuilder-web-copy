@@ -11,6 +11,13 @@ class CartController extends Controller
 {
     public function index()
     {
-        return view('shopping-cart.cart');
+        $sizes = config('customizer.sizes');
+
+        $cart_session = \Session::get('cart_session');
+        $cart = Cart::findBySession($cart_session);
+
+        // dd($cart->cart_items->first()->toObject());
+
+        return view('shopping-cart.cart', compact('sizes', 'sizes_json', 'cart'));
     }
 }
