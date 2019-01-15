@@ -42,7 +42,7 @@ function PropertiesPanel(
 PropertiesPanel.prototype = {
     constructor: PropertiesPanel,
 
-    initModifiers: function() {
+    initModifiers: function(palette_category) {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         _.map(this.modifiers, function(modifier) {
             var _modifier = ub.funcs.getModifierByIndex(modifier.index);
@@ -54,6 +54,7 @@ PropertiesPanel.prototype = {
 
             // Check if the part has limited color set
             var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modifier.name);
+
             if (typeof _limitedColorSet !== "undefined") {
                 var _alternateColorSet = [];
 
@@ -62,13 +63,12 @@ PropertiesPanel.prototype = {
                     // Assign alternate color in colors
                     modifier.colors = _alternateColorSet;
                 });
-
-                ub.utilities.info ('Limited Color Set detected for ' + modifier.name);
             }
 
             if (typeof _limitedColorSet === "undefined") {
                 // if dont have limited color set the team colors
-                modifier.colors = ub.current_material.settings.team_colors;
+                var color_pallete = color_palette = ColorPalette.funcs.getConfigurationPerTab(palette_category);
+                modifier.colors = color_pallete;
             }
         });
     },
@@ -79,6 +79,7 @@ PropertiesPanel.prototype = {
                 modifier.name.includes("Piping") ||
                 modifier.name.includes("Insert")
         });
+
         this.parts = _.difference(this.modifiers, this.inserts);
     },
 
