@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid main-content">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">  
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-info">
                     @section('page-title', 'Edit Material')
                     <div class="panel-heading">Edit Material</div>
@@ -74,7 +74,7 @@
                                     <input type="number" class="form-control" step="any" name="one_inch_in_px" value="{{ $material->one_inch_in_px }}">
                                 </div>
                             </div>
-                            
+
                             <hr>
 
                             <div class="form-group">
@@ -653,6 +653,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Group</label>
                             <div class="col-md-6">
@@ -664,6 +665,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Pair ID</label>
                             <div class="col-md-6">
@@ -679,6 +681,14 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Model Number</label>
+                            <div class="col-md-6">
+                                <input type="text" name="model_number" class="form-control" value="{{ $material->model_number }}">
+                            </div>
+                        </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-flat btn-primary edit-material">
@@ -702,10 +712,10 @@
 @endsection
 
 @section('scripts')
+
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
-    <script type="text/javascript" src="/js/administration/common.js"></script>
-    <script type="text/javascript" src="/js/bootbox.min.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
     <script>
         $( document ).ready(function() {
             $('.autosized').autosize({append: "\n"});

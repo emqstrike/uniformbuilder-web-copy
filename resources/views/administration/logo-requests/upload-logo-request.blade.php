@@ -102,6 +102,17 @@ select:hover {
                         </div> -->
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control" required="true">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layers
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>

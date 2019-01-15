@@ -533,8 +533,8 @@ class MaterialsController extends Controller
             'brand' => $brand,
             'reversible_group' => $reversible_group,
             'reversible_pair_id' => $reversible_pair_id,
-            'reversible_type' => $reversible_type
-
+            'reversible_type' => $reversible_type,
+            'model_number' => $request->input('model_number')
         ];
         try {
             // Thumbnail Files
@@ -868,7 +868,65 @@ class MaterialsController extends Controller
 
     public function singlePage()
     {
-
         return view('administration.materials.materials-single-page');
     }
+
+    public function logoPosition($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-logo-position', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateLogoPosition(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $logo_position = $request->input('logo_position');
+
+        $data = [
+            'id' => $material_id,
+            'logo_position' => $logo_position
+        ];
+
+        $response = $this->client->updateLogoPosition($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')->with('message', $response->message);
+        }
+    }
+
+    public function gradient($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-gradient', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateGradient(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $gradient = $request->input('gradient');
+
+        $data = [
+            'id' => $material_id,
+            'gradient' => $gradient
+        ];
+
+        $response = $this->client->updateGradient($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')->with('message', $response->message);
+        }
+    }
+
 }

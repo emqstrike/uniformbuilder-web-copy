@@ -28,8 +28,8 @@ Route::get('forgotPassword', 'AuthenticationController@forgotPasswordForm');
 Route::get('resetPassword/{hash}', 'AuthenticationController@resetPasswordForm');
 Route::post('saveNewPassword', 'AuthenticationController@saveNewPassword');
 Route::post('recoverPassword', 'AuthenticationController@recoverPassword');
-Route::get('changePassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@changePasswordForm']);
-Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@saveChangedPassword']);
+Route::get('changePassword', 'AuthenticationController@changePasswordForm');
+Route::post('saveChangedPassword', 'AuthenticationController@saveChangedPassword');
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
@@ -239,7 +239,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
 
             // Page Rules
-            Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules'); 
+            Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules');
         });
     });
 
@@ -348,6 +348,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
     Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDesignSheet']);
     Route::get('material/single_page', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@singlePage'])->name('material_single_page');
+    Route::get('material/{id}/logo_position', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@logoPosition'])->name('logo_position');
+    Route::post('material/updateLogoPosition', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateLogoPosition'])->name('update_logo_position');
+    Route::get('material/{id}/gradient', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@gradient'])->name('gradient');
+    Route::post('material/updateGradient', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateGradient'])->name('update_gradient');
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);

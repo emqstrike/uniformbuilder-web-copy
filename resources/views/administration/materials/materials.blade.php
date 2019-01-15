@@ -76,6 +76,8 @@
                     <select class="active-sport">
                         <option value="{{ $active_sport }}">{{ $active_sport }}</option>
                     </select>
+                    <a href="#" class="btn btn-danger btn-xs btn-flat reset-filter">Reset Filters</a>
+
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered table-hover materials display'>
@@ -175,6 +177,12 @@
                     <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
                         <i class="fa fa-random" aria-hidden="true"></i>
                     </a>
+                    <a href="/administration/material/{{ $material->id }}/logo_position" class="btn btn-xs btn-flat btn-warning">
+                        <i class="fa fa-github-alt" aria-hidden="true"></i>
+                    </a>
+                    <a href="/administration/material/{{ $material->id }}/gradient") }}" class="btn btn-xs btn-flat btn-warning">
+                        <i class="fa fa-square" aria-hidden="true"></i>
+                    </a>
                     <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
                         <i class="fa fa-upload" aria-hidden="true"></i>
                     </a>
@@ -201,10 +209,11 @@
             <tr>
                 <td></td>
                 <td></td>
-                <!-- <td id="sports-filter"></td> -->
                 <td></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
