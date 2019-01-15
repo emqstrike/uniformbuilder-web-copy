@@ -164,8 +164,18 @@ $(document).ready(function() {
 
             ub.utilities.info(ub.data.fonts.length + " fonts loaded for " + ub.config.brand.toTitleCase());
             ub.utilities.info(ub.config.gender.toTitleCase() + ' / ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option);
-            console.log(ub.data.fonts);
-            console.log(' ');
+            
+            // filter for Hockey Socks block pattern fonts
+            // get all fonts dedicated for `Hockey Socks` block pattern only
+            var material = ub.current_material.material;
+            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Socks") { 
+                ub.data.fonts = _.filter(ub.data.fonts, function(font) {
+                    var parsedBlockPatterns = JSON.parse(font.block_patterns);
+                    if(_.isEqual(parsedBlockPatterns, 'Hockey Socks')) {
+                        return font;
+                    }
+                });
+            }
 
             ub.displayDoneAt( ub.data.fonts[0].name + ' preloaded.');
 
