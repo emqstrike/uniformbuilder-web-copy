@@ -10413,7 +10413,7 @@ $(document).ready(function() {
     ub.funcs.newApplication = function (perspective, part, type, side) {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
-        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _phaSettings    = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
         var _blockPattern   = ub.current_material.material.block_pattern;
