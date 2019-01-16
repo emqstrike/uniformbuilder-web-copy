@@ -10385,11 +10385,11 @@ $(document).ready(function() {
         }
 
         _.each(_list, function(item) {
-            if (item.name.includes("Body Left")) {
+            if (item.name.includes("Body Left") || item.name.includes("Front Body")) {
                 item.position = 1;
             }
 
-            if (item.name.includes("Body Right")) {
+            if (item.name.includes("Body Right") || item.name.includes("Back Body")) {
                 item.position = 2;
             }
         });
