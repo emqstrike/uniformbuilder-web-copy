@@ -9616,7 +9616,7 @@ $(document).ready(function () {
 
                     if (response.success) {
                         $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
-                        window.location.href = window.ub.config.host;
+                        window.location.href = '/logout';
                     } else {
 
                         $.smkAlert({text: response.message, type:'error', permanent: false, time: 5, marginTop: '90px'});
