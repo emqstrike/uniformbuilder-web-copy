@@ -11,11 +11,18 @@ class Cart extends Model
     const LIFE_SPAN = 60 * 60; // 1 hour
     const CART_SESSION_PREFIX = "cart_session_";
 
-    protected $fillable = ["user_id", "session", "is_active", "is_cancelled", "is_checkout", "is_completed", "is_abandoned"];
+    protected $fillable = ["session", "is_active", "is_cancelled", "is_checkout", "is_completed", "is_abandoned", "user_id"];
 
     public function cart_items()
     {
         return $this->hasMany("App\ShoppingCart\CartItems");
+    }
+
+    public function scopeValidToUse($query)
+    {
+        return $query->where('is_active', 1)
+                    ->where('is_completed', 0)
+                    ->where('is_abandoned', 0);
     }
 
     public function exceedInLifeSpan($timeout)
@@ -28,6 +35,11 @@ class Cart extends Model
     {
         $this->is_abandoned = 1;
         return $this->save();
+    }
+
+    public function isCompleted()
+    {
+        return $this->is_completed == 1;
     }
 
     public static function findBySession($session)

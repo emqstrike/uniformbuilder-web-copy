@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password', 60);
+            $table->string('logged_in_token', 13)->nullable()->default(null);
             $table->rememberToken();
             $table->bigInteger('billing_id')->nullable()->default(null);
             $table->bigInteger('shipping_id')->nullable()->default(null);

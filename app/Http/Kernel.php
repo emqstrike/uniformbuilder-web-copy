@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ShoppingCart\CartApiMiddleware;
+use App\Http\Middleware\ShoppingCart\CartItemApiMiddleware;
 use App\Http\Middleware\ShoppingCart\CartMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -34,6 +36,8 @@ class Kernel extends HttpKernel
         'restrictedUserAccess' => \App\Http\Middleware\RedirectRestrictedUser::class,
         'disablePreventBack' => \App\Http\Middleware\DisablePreventBack::class,
 
-        'cart_middleware' => CartMiddleware::class
+        'cart_middleware' => CartMiddleware::class,
+        'cart_api_middleware' => CartApiMiddleware::class,
+        'cart_item_api_middleware' => CartItemApiMiddleware::class
     ];
 }

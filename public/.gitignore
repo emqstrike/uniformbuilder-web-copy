@@ -1,4 +1,6 @@
 /bower_components/
 /css/shopping-cart.css
 /css/shopping-cart.css.map
+/js/shopping-cart/**/*.js
+/js/shopping-cart/**/*.map
 gitignore

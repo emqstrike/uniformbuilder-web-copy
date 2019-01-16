@@ -119,6 +119,9 @@ elixir(function(mix) {
         'public/uniform-builder/js/ub.js'
     );
 
+    mix.scripts("shopping-cart/Cart.js", "public/js/shopping-cart/cart.js");
+    mix.scripts("shopping-cart/api/CartItemPlayerApi.js", "public/js/shopping-cart/api/cart-item-player-api.js");
+
     mix.less(
         [
             // Third-party
