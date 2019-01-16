@@ -34,6 +34,10 @@ $(document).ready(function() {
         ub.left_view.visible = true;
         ub.right_view.visible = true;
 
+        if (ub.zoom) {
+            ub.zoom_off();
+        }
+
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
         ub.funcs.deactivateMoveTool();
