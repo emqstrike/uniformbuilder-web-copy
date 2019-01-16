@@ -29,85 +29,85 @@
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
 <script type="text/template" id="cart-items-tmpl">
-<% _.each(cart_items, function(item) { %>
-    <div class="col-md-6 cart-item" data-cart-item-id="<%= item.id %>">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                <h1 class="panel-title">Gator 11</h1>
-            </div>
-            <div class="panel-body">
-                <img src="https://via.placeholder.com/150" class="img-responsive" alt="" />
-                <hr>
+    <% _.each(cart_items, function(item) { %>
+        <div class="col-md-6 cart-item" data-cart-item-id="<%= item.id %>">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
+                    <h1 class="panel-title">Gator 11</h1>
+                </div>
+                <div class="panel-body">
+                    <img src="https://via.placeholder.com/150" class="img-responsive" alt="" />
+                    <hr>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="size">Select Size</label>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="size">Select Size</label>
 
-                            <select name="size" class="form-control">
-                                <% _.each(sizes, function(size_text, size){ %>
-                                    <option value="<%= size %>"><%= size_text %></option>
-                                <% }); %>
-                            </select>
-                        </div>
+                                <select name="size" class="form-control">
+                                    <% _.each(sizes, function(size_text, size){ %>
+                                        <option value="<%= size %>"><%= size_text %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
 
-                        <div class="pull-right">
-                            <button class="btn btn-link view-selected-sizes">View all selected sizes</button>
+                            <div class="pull-right">
+                                <button class="btn btn-link view-selected-sizes">View all selected sizes</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <table class="table table-hover table-bordered player-list">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Last Name</th>
-                            <th>Number</th>
-                            <th>Quantity</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (!_.isEmpty(item.players)) { %>
-                            <% _.each(item.players, function(player, index) { %>
-                                <tr>
-                                    <td><%= index+1 %></td>
-                                    <td>
-                                        <p class="last_name"><%= player.last_name %></p>
-                                    </td>
-                                    <td>
-                                        <p class="number"><%= player.number %></p>
-                                    </td>
-                                    <td>
-                                        <p class="quantity"><%= player.quantity %></p>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
-                                            <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                        <% } else { %>
+                    <table class="table table-hover table-bordered player-list">
+                        <thead>
                             <tr>
-                                <td colspan="5">No players added</td>
+                                <th>#</th>
+                                <th>Last Name</th>
+                                <th>Number</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
                             </tr>
-                        <% } %>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5">
-                                <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign add-player"></span> Add Player</button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                            <% if (!_.isEmpty(item.players)) { %>
+                                <% _.each(item.players, function(player, index) { %>
+                                    <tr>
+                                        <td><%= index+1 %></td>
+                                        <td>
+                                            <p class="last_name"><%= player.last_name %></p>
+                                        </td>
+                                        <td>
+                                            <p class="number"><%= player.number %></p>
+                                        </td>
+                                        <td>
+                                            <p class="quantity"><%= player.quantity %></p>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
+                                                <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5">No players added</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <button class="btn btn-primary btn-sm add-player"><span class="glyphicon glyphicon-plus-sign add-player"></span> Add Player</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-<% }); %>
+    <% }); %>
 </script>
 
 <script type="text/template" id="player-rows-tmpl">
@@ -161,11 +161,11 @@
 </script>
 
 <script type="text/template" id="selected-sizes-tmpl">
-    <% if (!_.isEmpty(data)) { %>
+    <% if (!_.isEmpty(selected_sizes)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-                <% _.each(data, function(players, size) { %>
-                    <li role="presentation" class="<%= Object.keys(data)[0].id == size ? 'active' : '' %>">
+                <% _.each(selected_sizes, function(size) { %>
+                    <li role="presentation" class="<%= selected_sizes[0] == size ? 'active' : '' %>">
                         <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= sizes[size] %></a>
                     </li>
                 <% }); %>
@@ -174,8 +174,8 @@
             <br />
 
             <div class="tab-content">
-                <% _.each(data, function(players, size) { %>
-                    <div role="tabpanel" class="tab-pane fade <%= Object.keys(data)[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
+                <% _.each(selected_sizes, function(size) { %>
+                    <div role="tabpanel" class="tab-pane fade <%= selected_sizes[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
                         <table class="table table-hover table-bordered player-list">
                             <thead>
                                 <tr>
@@ -186,7 +186,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% _.each(players, function(player, n) { %>
+                                <% var selected_players = _.filter(players, {size: size}) %>
+                                <% _.each(selected_players, function(player, n) { %>
                                     <tr>
                                         <td><%= n+1 %></td>
                                         <td><%= player.last_name %></td>
@@ -320,7 +321,7 @@ var Cart = {
 
         $(':input[name="size"]', el).change(Cart.onSizeChange);
         $('.player-list .add-player', el).click(Cart.onAddPlayer);
-        // $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+        $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
 
         // $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
         // $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
@@ -352,12 +353,13 @@ var Cart = {
 
         var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
 
-        console.log(cart_item.players);
+        var selected_sizes = _.sortBy(_.pluck(cart_item.players, 'size'));
 
         bootbox.dialog({
             title: "Selected Sizes",
             message: tmpl({
-                data: cart_item.players,
+                players: cart_item.players,
+                selected_sizes: selected_sizes,
                 sizes: sizes
             }),
             size: "large"
