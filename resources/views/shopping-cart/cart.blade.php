@@ -323,8 +323,8 @@ var Cart = {
         $('.player-list .add-player', el).click(Cart.onAddPlayer);
         $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
 
-        // $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
-        // $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+        $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+        $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
     },
 
     loadPlayers: function(cart_item_id, size) {
@@ -400,7 +400,7 @@ var Cart = {
 
                         var last_name = $(':input[name="last_name"]', el).val(),
                             number = $(':input[name="number"]', el).val(),
-                            quantity = $(':input[name="quantity"]', el).val();
+                            quantity = parseInt($(':input[name="quantity"]', el).val());
 
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
                             if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
@@ -473,7 +473,7 @@ var Cart = {
 
                         var last_name = $(':input[name="last_name"]', el).val(),
                             number = $(':input[name="number"]', el).val(),
-                            quantity = $(':input[name="quantity"]', el).val();
+                            quantity = parseInt($(':input[name="quantity"]', el).val());
 
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
                             player.last_name = last_name;
@@ -504,6 +504,7 @@ var Cart = {
 
     onDeletePlayer: function() {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
+        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
         var id = $(this).data('id');
         var selected_size = $(':input[name="size"]').val();
@@ -518,8 +519,8 @@ var Cart = {
 
             $(this).closest('tr').fadeOut();
 
-            if (cart_item.players.length == 0) {
-                $('#player-list tbody').html('<tr><td colspan="5">No players added</td></tr>');
+            if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
+                $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
             }
         } else {
             console.log("not remove!");
