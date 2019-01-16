@@ -370,15 +370,18 @@ var Cart = {
 
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
-        var selected_size = $(':input[name="size"]', cart_item_el).val();
+        var selected_size = parseInt($(':input[name="size"]', cart_item_el).val());
         var player_list_el = $('.player-list tbody', cart_item_el);
 
         var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
-        var players = _.filter(cart_item.players, {size: size});
 
         bootbox.dialog({
             title: "Add Player",
-            message: form_tmpl(),
+            message: form_tmpl({
+                last_name: "Rod",
+                number: "10",
+                quantity: 1,
+            }),
             closeButton: false,
 
             buttons: {
@@ -398,26 +401,23 @@ var Cart = {
                             quantity = $(':input[name="quantity"]', el).val();
 
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
+                            if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
+                                player_list_el.html("");
+                            }
 
-                            // if (_.isUndefined(Cart.dummy_data[selected_size])) {
-                            //     Cart.dummy_data[selected_size] = [];
-                            //     player_list.html("");
-                            // } else if (Cart.dummy_data[selected_size].length == 0) {
-                            //     player_list.html("");
-                            // }
-
-                            var data_num = Cart.dummy_data[selected_size].length;
+                            var data_num = cart_item.players.length;
 
                             var data = {
                                 id: Cart.id_auto_increment++,
+                                size: selected_size,
                                 last_name: last_name,
                                 number: number,
                                 quantity: quantity
                             };
 
-                            Cart.dummy_data[selected_size].push(data);
+                            cart_item.players.push(data);
 
-                            if (Cart.dummy_data[selected_size].length > data_num) {
+                            if (cart_item.players.length > data_num) {
                                 console.log("saved!");
                                 var tr_num = $('tr', player_list_el).length;
 
