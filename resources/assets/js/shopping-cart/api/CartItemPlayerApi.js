@@ -36,7 +36,29 @@ CartItemPlayerApi.prototype = {
             data
         );
 
-        $.post("/api/shopping-cart/cart-item/"+cart_item_id+"/add-player", params, callback);
+        $.post("/api/shopping-cart/cart-item-players/add", params, callback);
+    },
+
+    /**
+     * @param {int} cart_item_id
+     * @param {int} player_id
+     * @param {json} data {
+     *     size: [int],
+     *     last_name: [string],
+     *     number: [string],
+     *     quantity: [int],
+     * }
+     * @param {function} callback
+     * @return {void}
+     */
+    updatePlayer: function(cart_item_id, player_id, data, callback) {
+        var params = $.extend(
+            this.cartPermit,
+            {cart_item_id: cart_item_id},
+            data
+        );
+
+        $.post("/api/shopping-cart/cart-item-players/"+player_id+"/update", params, callback);
     },
 
     /**
@@ -51,7 +73,7 @@ CartItemPlayerApi.prototype = {
             {cart_item_id: cart_item_id}
         );
 
-        $.post("/api/shopping-cart/cart-item/"+cart_item_id+"/delete-player/"+player_id, params, callback);
+        $.post("/api/shopping-cart/cart-item-players/"+player_id+"/delete", params, callback);
     },
 
     /**
@@ -59,6 +81,6 @@ CartItemPlayerApi.prototype = {
      * @return {void}
      */
     getPlayersPerCartItem: function(callback) {
-        $.get("/api/shopping-cart/get-players-per-cart-item", this.cartPermit, callback);
+        $.get("/api/shopping-cart/cart-item-players", this.cartPermit, callback);
     }
 };

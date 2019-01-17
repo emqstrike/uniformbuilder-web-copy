@@ -21,14 +21,14 @@ class CartItemPlayerController extends Controller
      * - number
      * - quantity
      */
-    public function addPlayer(Request $request, $cart_item_id)
+    public function add(Request $request)
     {
         $cart_item_player = CartItemPlayer::create([
             'size' => $request->get('size'),
             'last_name' => $request->get('last_name'),
             'number' => $request->get('number'),
             'quantity' => $request->get('quantity'),
-            'cart_item_id' => $cart_item_id
+            'cart_item_id' => $request->get('cart_item_id')
         ]);
 
         return response()->json(
@@ -48,8 +48,39 @@ class CartItemPlayerController extends Controller
      * Data available
      * - logged_in_token
      * - cart_session
+     * - size
+     * - last_name
+     * - number
+     * - quantity
      */
-    public function deletePlayer(Request $request, $cart_item_id, CartItemPlayer $cartItemPlayer)
+    public function update(Request $request, CartItemPlayer $cartItemPlayer)
+    {
+        $cartItemPlayer->size = $request->get('size');
+        $cartItemPlayer->last_name = $request->get('last_name');
+        $cartItemPlayer->number = $request->get('number');
+        $cartItemPlayer->quantity = $request->get('quantity');
+
+        $is_updated = $cartItemPlayer->save();
+
+        return response()->json(
+            $is_updated ?
+            [
+                'success' => true,
+                'message' => "Successfully update player in cart item"
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot update player in cart item this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_session
+     */
+    public function delete(Request $request, CartItemPlayer $cartItemPlayer)
     {
         $is_deleted = $cartItemPlayer->delete();
 

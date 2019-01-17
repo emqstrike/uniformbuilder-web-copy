@@ -5,8 +5,9 @@ Route::group([
     'namespace' => "ShoppingCart",
     'middleware' => "cart_api_middleware"
 ], function() {
-    Route::post('cart-item/{cart_item_id}/add-player', "Api\CartItemPlayerController@addPlayer")->middleware("cart_item_api_middleware");
-    Route::post('cart-item/{cart_item_id}/delete-player/{cartItemPlayer}', "Api\CartItemPlayerController@deletePlayer");
+    Route::post('cart-item-players/add', "Api\CartItemPlayerController@add")->middleware("cart_item_api_middleware");
+    Route::post('cart-item-players/{cartItemPlayer}/update', "Api\CartItemPlayerController@update")->middleware("cart_item_api_middleware");
+    Route::post('cart-item-players/{cartItemPlayer}/delete', "Api\CartItemPlayerController@delete")->middleware('cart_item_api_middleware');
 
-    Route::get('get-players-per-cart-item', "Api\CartItemPlayerController@getPlayersPerCartItem");
+    Route::get('cart-item-players', "Api\CartItemPlayerController@getPlayersPerCartItem");
 });

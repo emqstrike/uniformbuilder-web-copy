@@ -47,9 +47,12 @@ var Cart = {
      * @return void
      */
     initCartItems: function(callback) {
+        $('#cart-items-el').html('<div class="col-md-12">Loading cart items ...</div>');
+
         CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
             Cart.cart_items = response.data;
 
+            $('#cart-items-el').html("");
             callback();
         });
     },
@@ -189,15 +192,15 @@ var Cart = {
         var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
         var _this = $(this);
-        var id = $(this).data('id');
+        var player_id = $(this).data('id');
         var form_tmpl = _.template($('#form-tmpl').html());
         var selected_size = $(':input[name="size"]', cart_item_el).val();
 
         var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
 
-        var player = _.find(cart_item.players, {id: parseInt(id)});
+        var player = _.find(cart_item.players, {id: parseInt(player_id)});
 
-        bootbox.dialog({
+        var editPlayerBootbox = bootbox.dialog({
             title: "Edit Player",
             message: form_tmpl({
                 last_name: player.last_name,
@@ -220,25 +223,40 @@ var Cart = {
 
                         var last_name = $(':input[name="last_name"]', el).val(),
                             number = $(':input[name="number"]', el).val(),
-                            quantity = parseInt($(':input[name="quantity"]', el).val());
+                            quantity = $(':input[name="quantity"]', el).val();
 
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
-                            player.last_name = last_name;
-                            player.number = number;
-                            player.quantity = quantity;
+                            editPlayerBootbox.modal('hide');
 
-                            player_data = _.find(cart_item.players, {id: parseInt(id)});
+                            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            if (player === player_data) {
-                                console.log("saved!");
+                            CartItemPlayerApi.updatePlayer(cart_item_id, player_id, {
+                                size: selected_size,
+                                last_name: last_name,
+                                number: number,
+                                quantity: parseInt(quantity)
+                            }, function(response, textStatus, xhr) {
+                                if (response.success) {
+                                    player.last_name = last_name;
+                                    player.number = number;
+                                    player.quantity = parseInt(quantity);
 
-                                var tr = _this.closest('tr');
-                                $('.last_name', tr).text(last_name);
-                                $('.number', tr).text(number);
-                                $('.quantity', tr).text(quantity);
-                            } else {
-                                console.log("not save!");
-                            }
+                                    player_data = _.find(cart_item.players, {id: parseInt(player_id)});
+
+                                    if (player === player_data) {
+                                        console.log("saved!");
+
+                                        var tr = _this.closest('tr');
+                                        $('.last_name', tr).text(last_name);
+                                        $('.number', tr).text(number);
+                                        $('.quantity', tr).text(quantity);
+                                    } else {
+                                        console.log("not save!");
+                                    }
+                                }
+
+                                bootbox.hideAll();
+                            });
                         } else {
                             console.log("invalid input");
                             return false;
