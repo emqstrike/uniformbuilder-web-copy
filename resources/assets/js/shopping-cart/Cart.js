@@ -113,11 +113,7 @@ var Cart = {
 
         var addPlayerBootbox = bootbox.dialog({
             title: "Add Player",
-            message: form_tmpl({
-                last_name: "Rod",
-                number: "10",
-                quantity: 1,
-            }),
+            message: form_tmpl(),
             closeButton: false,
 
             buttons: {
@@ -269,30 +265,35 @@ var Cart = {
 
     onDeletePlayer: function() {
         var _this = $(this);
-        $(this).button('loading');
 
-        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
-        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+        bootbox.confirm("Delete the player?", function(yes) {
+            if (yes) {
+                _this.button('loading');
 
-        var player_id = $(this).data('id');
-        var selected_size = $(':input[name="size"]').val();
+                var cart_item_id = _this.closest('.cart-item').data('cart-item-id');
+                var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
-        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
-        var players = cart_item.players;
+                var player_id = _this.data('id');
+                var selected_size = $(':input[name="size"]').val();
 
-        CartItemPlayerApi.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
-            cart_item.players = _.reject(players, {id: parseInt(player_id)});
+                var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+                var players = cart_item.players;
 
-            if (cart_item.players.length < players.length) {
-                console.log("removed!");
+                CartItemPlayerApi.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
+                    cart_item.players = _.reject(players, {id: parseInt(player_id)});
 
-                _this.closest('tr').fadeOut();
+                    if (cart_item.players.length < players.length) {
+                        console.log("removed!");
 
-                if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
-                    $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
-                }
-            } else {
-                console.log("not remove!");
+                        _this.closest('tr').fadeOut();
+
+                        if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
+                            $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
+                        }
+                    } else {
+                        console.log("not remove!");
+                    }
+                });
             }
         });
     }
