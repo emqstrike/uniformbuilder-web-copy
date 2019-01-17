@@ -10,6 +10,8 @@
         <div class="col-md-12">
             <h1 class="page-header">My Cart</h1>
 
+            @include('templates.flash')
+
             <p>
                 Cart Session: {{ \Session::get('cart_session') }}
             </p>

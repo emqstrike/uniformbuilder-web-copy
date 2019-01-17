@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
+    protected $fillable = ["first_name", "last_name", "email", "password", "logged_in_token", "remember_token", "billing_id", "shipping_id"];
+
     public function carts()
     {
         return $this->hasMany("App\ShoppingCart\Cart");

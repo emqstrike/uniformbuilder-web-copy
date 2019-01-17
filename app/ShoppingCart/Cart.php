@@ -37,9 +37,20 @@ class Cart extends Model
         return $this->save();
     }
 
+    public function assignToUser($user_id)
+    {
+        $this->user_id = $user_id;
+        return $this->save();
+    }
+
     public function isCompleted()
     {
         return $this->is_completed == 1;
+    }
+
+    public function hasNoUser()
+    {
+        return is_null($this->user_id);
     }
 
     public static function findBySession($session)

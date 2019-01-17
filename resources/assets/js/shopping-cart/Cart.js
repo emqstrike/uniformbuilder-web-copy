@@ -52,7 +52,9 @@ var Cart = {
         CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
             Cart.cart_items = response.data;
 
+            $('#cart-item-number').text(Cart.cart_items.length);
             $('#cart-items-el').html("");
+
             callback();
         });
     },

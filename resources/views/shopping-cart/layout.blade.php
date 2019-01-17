@@ -26,7 +26,8 @@
     
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ route('shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart"></span> My cart <span class="badge">3</span></a></li>
+                    <li><a href="javascript:void(0)" style="cursor: default;">{{ \Auth::check() ? "user" : "guest" }}</a></li>
+                    <li><a href="{{ route('shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge" id="cart-item-number">3</span></a></li>
                 </ul>
             </div>
         </div>

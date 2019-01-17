@@ -39,20 +39,30 @@ class CartMiddleware
                     // reset cart timeout
                     \Session::set('cart_timeout', time());
 
+                    // assign cart to authenticated user
+                    if ($cart->hasNoUser() && \Auth::check())
+                    {
+                        $cart->assignToUser(\Auth::user()->id);
+                    }
+
                     return $next($request);
                 }
                 else
                 {
                     $cart->markAsAbandoned();
+                    \Session::remove('cart_session');
+                    \Session::remove('cart_timeout');
 
                     // todo: show message to user that the cart is already exceed on cart life span
                     \Log::info("Info: Cart already exceed on cart life span");
+
+                    return redirect($request->url());
                 }
             }
         }
 
-        // $user = Auth::user(); uncomment this after
-        $user = User::find(1); // remove this after
+        // $user = \Auth::check() ? \Auth::user() : null;
+        $user = User::find(1);
 
         $cart = Cart::takeCart($user);
 
