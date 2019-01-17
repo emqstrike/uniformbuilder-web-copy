@@ -6786,8 +6786,8 @@ $(document).ready(function() {
 
         // Enable Watermark Sliders only on Tackle Twill Applications
         if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=              '<div class="watermark-intensity-form" style="width: 50%; margin: 0; padding-left: 100p; padding-top: 10px; margin-left: 85px;">'
-            _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting" style="border: 0; border-radius: 0; text-align: center; background-color: #acacac; color: #ffffff;">'
+            _htmlBuilder        +=              '<div class="watermark-intensity-form">'
+            _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting">'
             _htmlBuilder        +=                      '<option value="sublimated">Sublimated</option>'
             _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
             _htmlBuilder        +=                  '</select>'
@@ -6900,14 +6900,26 @@ $(document).ready(function() {
                 event.preventDefault();
                 /* Act on the event */
                 var setting = $("#onChangeWatermarkSetting").val();
+                var slider = $("#opacity-slider");
+                var sliderInstance = slider.data("ionRangeSlider");
+                var settings = {
+                    min: 0,
+                    max: 100,
+                    from: 100
+                }
 
                 if (setting === "embroid") {
                     // Disable slider
+                    settings.block = true;
+                    ub.funcs.changeMascotOpacity(_settingsObject.code, 100);
                 }
 
                 if (setting === "sublimated") {
                     // Activate slider
+                    settings.block = false;
                 }
+
+                sliderInstance.update(settings);
             });
 
             /// End Water Intensity

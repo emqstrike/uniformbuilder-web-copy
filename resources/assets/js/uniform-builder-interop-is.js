@@ -879,8 +879,13 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
         
         if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-            _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+            _htmlBuilder        +=              '<div class="watermark-intensity-form" style="padding-top: 25px !important">'
+            _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting">'
+            _htmlBuilder        +=                      '<option value="sublimated">Sublimated</option>'
+            _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
+            _htmlBuilder        +=                  '</select>'
+            _htmlBuilder        +=               '</div>'
+            _htmlBuilder        +=               '<input type="text" id="opacity-slider" value="" />';
         }
         
         _htmlBuilder        +=              '</div>';
@@ -924,6 +929,35 @@ $(document).ready(function() {
             });
 
         // End Opacity Slider
+
+        /// Water Intensity
+        $("div.watermark-intensity-form").on('change', '#onChangeWatermarkSetting', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var setting = $("#onChangeWatermarkSetting").val();
+            var slider = $("#opacity-slider");
+            var sliderInstance = slider.data("ionRangeSlider");
+            var settings = {
+                min: 0,
+                max: 100,
+                from: 100
+            }
+
+            if (setting === "embroid") {
+                // Disable slider
+                settings.block = true;
+                ub.funcs.changeMascotOpacity(_settingsObject.code, 100);
+            }
+
+            if (setting === "sublimated") {
+                // Activate slider
+                settings.block = false;
+            }
+
+            sliderInstance.update(settings);
+        });
+
+        /// End Water Intensity
 
 
         $('a.view-file').unbind('click');
