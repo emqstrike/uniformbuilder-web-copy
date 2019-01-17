@@ -4136,6 +4136,8 @@ $(document).ready(function() {
 
         _.each(_sortedModifierLabels, function (label){
 
+            console.log('TEST LABEL=====>', label);
+
             label.index = _ctr;
 
             var _groupTemp = ''; 
