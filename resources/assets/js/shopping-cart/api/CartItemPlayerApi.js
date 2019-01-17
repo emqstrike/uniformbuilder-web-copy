@@ -19,15 +19,15 @@ function CartItemPlayerApi(logged_in_token, cart_session) {
 
 CartItemPlayerApi.prototype = {
     /**
-     * @param int cart_item_id
-     * @param json data {
+     * @param {int} cart_item_id
+     * @param {json} data {
      *     size: [int],
      *     last_name: [string],
      *     number: [string],
      *     quantity: [int],
      * }
-     * @param function callback
-     * @return void
+     * @param {function} callback
+     * @return {void}
      */
     addPlayer: function(cart_item_id, data, callback) {
         var params = $.extend(
@@ -39,6 +39,12 @@ CartItemPlayerApi.prototype = {
         $.post("/api/shopping-cart/cart-item/"+cart_item_id+"/add-player", params, callback);
     },
 
+    /**
+     * @param  {int}   cart_item_id
+     * @param  {int}   player_id
+     * @param  {function} callback
+     * @return void
+     */
     deletePlayer: function(cart_item_id, player_id, callback) {
         var params = $.extend(
             this.cartPermit,
@@ -49,8 +55,8 @@ CartItemPlayerApi.prototype = {
     },
 
     /**
-     * @param function callback
-     * @return void
+     * @param {function} callback
+     * @return {void}
      */
     getPlayersPerCartItem: function(callback) {
         $.get("/api/shopping-cart/get-players-per-cart-item", this.cartPermit, callback);

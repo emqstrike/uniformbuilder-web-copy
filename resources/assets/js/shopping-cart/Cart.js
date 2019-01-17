@@ -16,12 +16,6 @@ var Cart = {
     cart_items: [],
 
     init: function() {
-        // CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
-        //     Cart.cart_items = response.data;
-
-        //     callback();
-        // });
-
         Cart.initCartItems(function() {
             var el = $('#cart-items-el');
             var tmpl = _.template($('#cart-items-tmpl').html());
@@ -256,28 +250,33 @@ var Cart = {
     },
 
     onDeletePlayer: function() {
+        var _this = $(this);
+        $(this).button('loading');
+
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
-        var id = $(this).data('id');
+        var player_id = $(this).data('id');
         var selected_size = $(':input[name="size"]').val();
 
         var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
         var players = cart_item.players;
 
-        cart_item.players = _.reject(players, {id: parseInt(id)});
+        CartItemPlayerApi.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
+            cart_item.players = _.reject(players, {id: parseInt(player_id)});
 
-        if (cart_item.players.length < players.length) {
-            console.log("removed!");
+            if (cart_item.players.length < players.length) {
+                console.log("removed!");
 
-            $(this).closest('tr').fadeOut();
+                _this.closest('tr').fadeOut();
 
-            if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
-                $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
+                if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
+                    $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
+                }
+            } else {
+                console.log("not remove!");
             }
-        } else {
-            console.log("not remove!");
-        }
+        });
     }
 };
 

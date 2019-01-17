@@ -49,11 +49,21 @@ class CartItemPlayerController extends Controller
      * - logged_in_token
      * - cart_session
      */
-    public function deletePlayer(Request $request, CartItemPlayer $cart_item_player, $player_id)
+    public function deletePlayer(Request $request, $cart_item_id, CartItemPlayer $cartItemPlayer)
     {
-        $a = $cart_item_player->delete();
+        $is_deleted = $cartItemPlayer->delete();
 
-        var_dump($a);
+        return response()->json(
+            $is_deleted ?
+            [
+                'success' => true,
+                'message' => "Successfully delete player in cart item"
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot delete player in cart item this time. Please try again later."
+            ]
+        );
     }
 
     /**

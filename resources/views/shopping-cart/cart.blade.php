@@ -130,8 +130,12 @@
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                        <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>" data-loading-text="<span class='glyphicon glyphicon-repeat gly-spin'></span>">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>" data-loading-text="<span class='glyphicon glyphicon-repeat gly-spin'></span>">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -157,8 +161,12 @@
         </td>
         <td>
             <div class="btn-group" role="group">
-                <button class="btn btn-success btn-xs edit-player" data-id="<%= id %>"><span class="glyphicon glyphicon-pencil"></span></button>
-                <button class="btn btn-danger btn-xs delete-player" data-id="<%= id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                <button class="btn btn-success btn-xs edit-player" data-loading-text="<span class='glyphicon glyphicon-repeat gly-spin'></span>">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button class="btn btn-danger btn-xs delete-player" data-loading-text="<span class='glyphicon glyphicon-repeat gly-spin'></span>">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </button>
             </div>
         </td>
     </tr>
