@@ -13,100 +13,51 @@ var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, sho
 var Cart = {
     id_auto_increment: 5,
 
-    dummy_data: {
-        24: [
-            {
-                id: 1,
-                last_name: "Galura",
-                number: 10,
-                quantity: 1,
-            },
-            {
-                id: 2,
-                last_name: "Doe",
-                number: 1,
-                quantity: 2,
-            }
-        ],
-
-        26: [
-            {
-                id: 3,
-                last_name: "Sakuragi",
-                number: 10,
-                quantity: 1,
-            },
-            {
-                id: 4,
-                last_name: "Bar",
-                number: 3,
-                quantity: 3,
-            }
-        ]
-    },
-
-    cart_items: [
-        {
-            id: 1,
-            players: [
-                {
-                    id: 24,
-                    size: 24,
-                    last_name: "Foo",
-                    number: "01",
-                    quantity: 1
-                },
-                {
-                    id: 25,
-                    size: 26,
-                    last_name: "Bar",
-                    number: "02",
-                    quantity: 1
-                }
-            ]
-        },
-        {
-            id: 2,
-            players: [
-                {
-                    id: 24,
-                    size: 28,
-                    last_name: "Baz",
-                    number: "03",
-                    quantity: 1
-                },
-                {
-                    id: 25,
-                    size: 26,
-                    last_name: "Doe",
-                    number: "04",
-                    quantity: 1
-                }
-            ]
-        }
-    ],
+    cart_items: [],
 
     init: function() {
-        var el = $('#cart-items-el');
-        var tmpl = _.template($('#cart-items-tmpl').html());
+        // CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
+        //     Cart.cart_items = response.data;
 
-        el.append(tmpl({
-            sizes: shopping_cart.sizes,
-            cart_items: Cart.cart_items
-        }));
+        //     callback();
+        // });
 
-        var cart_item_ids = _.pluck(Cart.cart_items, 'id');
-        _.map(cart_item_ids, function(cart_item_id) {
-            var default_size = $(':input[name="size"]', el).val();
-            return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+        Cart.initCartItems(function() {
+            var el = $('#cart-items-el');
+            var tmpl = _.template($('#cart-items-tmpl').html());
+
+            el.append(tmpl({
+                sizes: shopping_cart.sizes,
+                cart_items: Cart.cart_items
+            }));
+
+            var cart_item_ids = _.pluck(Cart.cart_items, 'id');
+            _.map(cart_item_ids, function(cart_item_id) {
+                var default_size = $(':input[name="size"]', el).val();
+                return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+            });
+
+            $(':input[name="size"]', el).change(Cart.onSizeChange);
+            $('.player-list .add-player', el).click(Cart.onAddPlayer);
+            $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+
+            $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+            $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
         });
+    },
 
-        $(':input[name="size"]', el).change(Cart.onSizeChange);
-        $('.player-list .add-player', el).click(Cart.onAddPlayer);
-        $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+    /**
+     * Initialize the cart items first before the application start
+     * 
+     * @param  function callback
+     * @return void
+     */
+    initCartItems: function(callback) {
+        CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
+            Cart.cart_items = response.data;
 
-        $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
-        $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+            callback();
+        });
     },
 
     resetCart: function() {
@@ -139,7 +90,7 @@ var Cart = {
 
         var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
 
-        var selected_sizes = _.sortBy(_.pluck(cart_item.players, 'size'));
+        var selected_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
             title: "Selected Sizes",
@@ -188,17 +139,12 @@ var Cart = {
                             number = $(':input[name="number"]', el).val(),
                             quantity = $(':input[name="quantity"]', el).val();
 
-                        console.log(last_name, number, quantity);
-                        console.log(!_.isEmpty(last_name));
-                        console.log(!_.isEmpty(number));
-                        console.log(!_.isEmpty(quantity));
-
                         if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
                             addPlayerBootbox.modal('hide');
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            CartItemPlayerApi.addPlayerToCartItem(1, {
+                            CartItemPlayerApi.addPlayer(1, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -326,7 +272,7 @@ var Cart = {
 
             $(this).closest('tr').fadeOut();
 
-            if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
+            if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
                 $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
             }
         } else {

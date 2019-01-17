@@ -152,6 +152,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
 
+        Spatie\Fractal\FractalServiceProvider::class
     ],
 
     /*
@@ -200,9 +201,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Slack' => Maknz\Slack\Laravel\Facade::class,
-        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
         
-
+        'Fractal' => Spatie\Fractal\FractalFacade::class
     ],
 
 ];

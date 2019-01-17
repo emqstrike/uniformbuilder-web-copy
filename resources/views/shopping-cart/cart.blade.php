@@ -15,7 +15,7 @@
             </p>
 
             <div class="row" id="cart-items-el">
-                
+                {{-- content would be loaded here --}}
             </div>
 
             <div class="row">
@@ -206,7 +206,7 @@
             </div>
         </div>
     <% } else { %>
-        <p>No selected size</p>
+        <p>No players available</p>
     <% } %>
 </script>
 

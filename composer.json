@@ -20,7 +20,8 @@
         "bjeavons/zxcvbn-php": "^0.3",
         "jasongrimes/paginator": "~1.0",
         "tinify/tinify": "^1.5",
-        "doctrine/dbal": "^2.9"
+        "doctrine/dbal": "^2.9",
+        "spatie/laravel-fractal": "^4.5.0"
 
     },
     "require-dev": {

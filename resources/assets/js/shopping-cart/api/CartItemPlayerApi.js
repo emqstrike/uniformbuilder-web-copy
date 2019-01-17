@@ -8,7 +8,7 @@ function CartItemPlayerApi(logged_in_token, cart_session) {
     this.logged_in_token = logged_in_token;
     this.cart_session = cart_session;
 
-    this.cartItemPlayerPermit = {
+    this.cartPermit = {
         logged_in_token: this.logged_in_token,
         cart_session: this.cart_session,
 
@@ -26,14 +26,33 @@ CartItemPlayerApi.prototype = {
      *     number: [string],
      *     quantity: [int],
      * }
+     * @param function callback
+     * @return void
      */
-    addPlayerToCartItem: function(cart_item_id, data, cb) {
+    addPlayer: function(cart_item_id, data, callback) {
         var params = $.extend(
+            this.cartPermit,
             {cart_item_id: cart_item_id},
-            this.cartItemPlayerPermit,
             data
         );
 
-        $.post("/api/shopping-cart/add-player-to-cart-item", params, cb);
+        $.post("/api/shopping-cart/cart-item/"+cart_item_id+"/add-player", params, callback);
+    },
+
+    deletePlayer: function(cart_item_id, player_id, callback) {
+        var params = $.extend(
+            this.cartPermit,
+            {cart_item_id: cart_item_id}
+        );
+
+        $.post("/api/shopping-cart/cart-item/"+cart_item_id+"/delete-player/"+player_id, params, callback);
+    },
+
+    /**
+     * @param function callback
+     * @return void
+     */
+    getPlayersPerCartItem: function(callback) {
+        $.get("/api/shopping-cart/get-players-per-cart-item", this.cartPermit, callback);
     }
 };

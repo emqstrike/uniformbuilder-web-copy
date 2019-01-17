@@ -10,4 +10,9 @@ class CartItem extends Model
     {
         return $this->belongsTo('App\ShoppingCart\Cart');
     }
+
+    public function cartItemPlayers()
+    {
+        return $this->hasMany('App\ShoppingCart\CartItemPlayer');
+    }
 }
