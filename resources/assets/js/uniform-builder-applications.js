@@ -6786,7 +6786,12 @@ $(document).ready(function() {
 
         // Enable Watermark Sliders only on Tackle Twill Applications
         if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+            _htmlBuilder        +=              '<div class="watermark-intensity-form" style="width: 50%; margin: 0; padding-left: 100p; padding-top: 10px; margin-left: 85px;">'
+            _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting" style="border: 0; border-radius: 0; text-align: center; background-color: #acacac; color: #ffffff;">'
+            _htmlBuilder        +=                      '<option value="sublimated">Sublimated</option>'
+            _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
+            _htmlBuilder        +=                  '</select>'
+            _htmlBuilder        +=               '</div>'
             _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
         }
 
@@ -6890,23 +6895,40 @@ $(document).ready(function() {
 
             /// End Application Manipulator Events
 
+            /// Water Intensity
+            $("div.watermark-intensity-form").on('change', '#onChangeWatermarkSetting', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                var setting = $("#onChangeWatermarkSetting").val();
+
+                if (setting === "embroid") {
+                    // Disable slider
+                }
+
+                if (setting === "sublimated") {
+                    // Activate slider
+                }
+            });
+
+            /// End Water Intensity
+
             /// Tabs
 
-                $('div.color-pattern-tabs > span.tab').unbind('click');
-                $('div.color-pattern-tabs > span.tab').on('click', function () {
+            $('div.color-pattern-tabs > span.tab').unbind('click');
+            $('div.color-pattern-tabs > span.tab').on('click', function () {
 
-                    var _item = $(this).data('item');
+                var _item = $(this).data('item');
 
-                    $('div.color-pattern-tabs > span.tab').removeClass('active');
-                    $(this).addClass('active');
-                    $('div.column1').hide();
-                    $('div.column1.' + _item).fadeIn();
+                $('div.color-pattern-tabs > span.tab').removeClass('active');
+                $(this).addClass('active');
+                $('div.column1').hide();
+                $('div.column1.' + _item).fadeIn();
 
-                    if (_item === "manipulators") {
-                        $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
-                    }
+                if (_item === "manipulators") {
+                    $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
+                }
 
-                });
+            });
 
             /// End Tabs
 
