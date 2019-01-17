@@ -1068,6 +1068,12 @@ $(document).ready(function() {
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     
+                    // activate bestfit option application panel
+                    ub.funcs.activateBestFitOption();
+
+                    // add `custom_size_type` flag on application setting instance
+                    _application.custom_size_type = "bestfit";
+
                 }
 
             });
@@ -1193,11 +1199,11 @@ $(document).ready(function() {
 
                     if(sprite.ubName === "Move Tool") {
 
-                        rotation_point.alpha = 0;
+                        rotation_point.alpha    = 0;
+                        scale_point.alpha       = 0;
                         
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
-                            scale_point.alpha   = 0;
-                            delete_point.alpha  = 0;
+                            delete_point.alpha = 0;
                         }
                         
                         reset_point.alpha = 0;
@@ -1247,13 +1253,13 @@ $(document).ready(function() {
                     if(sprite.ubName === "Rotate Tool") {
 
                         move_point.alpha        = 0;
+                        scale_point.alpha       = 0;
 
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
-                            scale_point.alpha   = 0;
-                            delete_point.alpha  = 0;
+                            delete_point.alpha = 0;
                         }
 
-                        reset_point.alpha       = 0;
+                        reset_point.alpha = 0;
                         
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.objectFocusRotation(application_obj);
@@ -1285,7 +1291,11 @@ $(document).ready(function() {
                         rotation_point.alpha    = 0;
                         move_point.alpha        = 0;
                         reset_point.alpha       = 0;
-                        delete_point.alpha      = 0;
+                        // delete_point.alpha      = 0;
+
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+                            delete_point.alpha = 0;
+                        }
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -1337,6 +1347,12 @@ $(document).ready(function() {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
+
+                        // activate bestfit option application panel
+                        ub.funcs.activateBestFitOption();
+
+                        // add `custom_size_type` flag on application setting instance
+                        _application.custom_size_type = "bestfit";
 
                     }
 
@@ -6231,14 +6247,16 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var isActiveOnSize = false;
+
+        // Get the first 2 sizes array value
+        if (!ub.funcs.isFreeFormToolEnabled(_id)) { var sizes = sizes.slice(0,2); }
+
         _.each(sizes, function (size) {
 
             if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
                 _additionalClass = 'active';
-
-                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
-                    (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
-                }
+                isActiveOnSize = true;
 
             } else {
                 _additionalClass = '';
@@ -6254,19 +6272,44 @@ $(document).ready(function() {
 
         });
 
-        // show BESTFIT option on embellishment's application sizes
-        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+        // Custom size select option
+        if (!ub.funcs.isFreeFormToolEnabled(_id)) {
 
-            (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
+            var sizeCount = _.size(sizes);
+            var width = (sizeCount > 1) ? 155 : 205;
 
-            var customSize  = settingsObject.custom_obj.fontSize;
-            var customScale = settingsObject.custom_obj.scale.x;
-            var type        = 'custom';
+            _htmlBuilder += '<span style="color:white;">OR</span> &nbsp';
+            _htmlBuilder += '<select class="customSize" style="width: '+width+'px">';
+            _htmlBuilder += '<option value="0">CUSTOM SIZE</option>';
 
-            // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
-            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+            _.each(ub.data.customSizes, function(cSize) {
+                
+                var selected = '';
+                
+                if (cSize === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+                    
+                    selected = 'selected';
+
+                    if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+                        (_.isEqual(settingsObject.custom_obj.active, true)) ? selected='' : selected='selected';
+                    }
+
+                }
+
+                // do not activate the size on the custom size select option
+                // if it is already activated on the application sizes
+                if (isActiveOnSize) {
+                    selected = '';
+                }
+
+                _htmlBuilder += "<option value='"+cSize+"' "+selected+">" + cSize + "\"</option>";
+
+            });
+
+            _htmlBuilder += '</select>';
 
         }
+        // end Custom size select option
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
@@ -6703,6 +6746,18 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end custom size options
+        }
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
@@ -7097,8 +7152,6 @@ $(document).ready(function() {
 
             $('span.font_size').on('click', function () {
 
-                //if (_id === '4') { return; }
-
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
@@ -7152,6 +7205,12 @@ $(document).ready(function() {
                     ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
 
                 }
+
+                $('select.customSize option:first').prop('selected', true);
+
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
             });
 
@@ -7234,6 +7293,41 @@ $(document).ready(function() {
    
             });
 
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeMascotSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeMascotSize(selectedSize, _matchingSettingsObject);
+
+                }
+                
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
+            });
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
+            });
+
         // End Small Color Pickers
 
         // End Events
@@ -7292,6 +7386,11 @@ $(document).ready(function() {
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
+
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
     }
 
@@ -7686,6 +7785,8 @@ $(document).ready(function() {
         // TODO: create a cleaup funcs
         delete settingsObject.custom_obj;
         delete settingsObject.scale_type;
+        delete settingsObject.custom_size_type;
+        delete settingsObject.application.views[0].application.scale;
 
         var _settingsObject = settingsObject;
         var _type           = type;
@@ -8348,7 +8449,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.activateApplications = function (application_id) {
-
+        
         ub.funcs.beforeActivateApplication();
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
@@ -8501,7 +8602,7 @@ $(document).ready(function() {
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '-Here"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + " [" +  _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
@@ -8539,8 +8640,20 @@ $(document).ready(function() {
         }
 
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
-
+        
         _htmlBuilder        +=          '</div>';
+
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end custom size options
+        }
 
         // Rotate Team Name in Baseball and Fastpitch
         _htmlBuilder        += '<div class="ui-row angleItems">';
@@ -9039,10 +9152,51 @@ $(document).ready(function() {
                 if (typeof _matchingID !== "undefined") {
 
                     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                $('select.customSize option:first').prop('selected', true);
+
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+                
+            });
+
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeSize(selectedSize, _matchingSettingsObject);
 
                 }
                 
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
+            });
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
             });
 
             $('span.font_name').on('click', function () {
@@ -9411,6 +9565,11 @@ $(document).ready(function() {
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
 
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
 
@@ -9499,6 +9658,11 @@ $(document).ready(function() {
         /// End Initialize
 
         ub.funcs.afterActivateApplication(application_id);
+
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Disable bestfit option
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
     }
 
@@ -9694,28 +9858,28 @@ $(document).ready(function() {
         // --- Scale --- ///
 
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+        // if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || ub.config.uniform_application_type === "tackle_twill") {
 
-            var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-            var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-            ub.objects[_perspective].scale_tool = _spriteScale;
-            ub[_perspective].addChild(_spriteScale);
+        ub.objects[_perspective].scale_tool = _spriteScale;
+        ub[_perspective].addChild(_spriteScale);
 
-            var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-            _spriteScale.position.x  = _view.application.center.x;
-            _spriteScale.position.y  = _view.application.center.y;
-            _spriteScale.ubName = 'Scale Tool';
+        _spriteScale.position.x  = _view.application.center.x;
+        _spriteScale.position.y  = _view.application.center.y;
+        _spriteScale.ubName = 'Scale Tool';
 
-            var _x = _xAnchor;
+        var _x = _xAnchor;
 
-            _spriteScale.anchor.set(_x, -2);
-            _spriteScale.zIndex = -1000;
+        _spriteScale.anchor.set(_x, -2);
+        _spriteScale.zIndex = -1000;
 
-            ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
-        }
+        // }
 
         // --- Reset --- ///
 

@@ -694,7 +694,7 @@ $(document).ready(function() {
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _sizes              = ub.funcs.getApplicationSizes('mascot', _alias.alias);  // Force Mascot
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
-
+        
         // Change This for Embellishment Specific Size Settings   
 
             if (ub.current_material.material.uniform_category === "Football") {
@@ -845,10 +845,22 @@ $(document).ready(function() {
             }
 
         }
-
+        
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
+
+        if (!_isFreeFormEnabled) {
+        // Custom size options
+        // Tall, Wide, Best Fit
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end custom size options
+        }
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
@@ -1279,11 +1291,6 @@ $(document).ready(function() {
 
                 }
 
-                // add scale_type flag on application settings
-                // this is to know if the application is using custom scale or not (embellishment application only)
-                var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
-                _settingsObject.scale_type = _scaleType;
-
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
 
@@ -1298,6 +1305,12 @@ $(document).ready(function() {
                     ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
 
                 }
+
+                $('select.customSize option:first').prop('selected', true);
+                
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
 
             });
 
@@ -1380,6 +1393,41 @@ $(document).ready(function() {
    
             });
 
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeCustomMascotSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeMascotSize(selectedSize, _matchingSettingsObject);
+
+                }
+
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
+            });
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
+            });
+
         // End Small Color Pickers
 
         // End Events
@@ -1441,6 +1489,35 @@ $(document).ready(function() {
         // Is this needed ??? 
         // ub.funcs.afterActivateMascots(_id);
 
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Automatically select bestfit option if scale is custom scale for Tackle twill uniform
+        if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
+            $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+            $('input.custom-size-type').attr('disabled', true);
+        }
+
+    }
+
+    // activate bestfit radio button
+    ub.funcs.activateBestFitOption = function () {
+        $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+        $('input.custom-size-type').attr('disabled', true);
+        $('select.customSize option:first').prop('selected', true);
+        $('span.font_size').removeClass('active');
+    }
+
+    // activate the appropiate custom size option
+    ub.funcs.activateCustomSizeType = function (_settingsObject) {
+        if (_settingsObject.custom_size_type === 'bestfit') {
+            ub.funcs.activateBestFitOption();
+        } else if (_settingsObject.custom_size_type === 'wide') {
+            $('input.custom-size-type[data-type="wide"]').prop('checked', true);
+        } else if (_settingsObject.custom_size_type === 'tall') {
+            $('input.custom-size-type[data-type="tall"]').prop('checked', true);
+        } else {
+            $('input.custom-size-type').prop('checked', false);
+        }
     }
 
     // ub.status.embellishmentPopupVisible = false;
