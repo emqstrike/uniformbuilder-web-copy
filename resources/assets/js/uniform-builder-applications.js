@@ -10424,7 +10424,7 @@ $(document).ready(function() {
     ub.funcs.newApplication = function (perspective, part, type, side) {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
-        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _phaSettings    = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
         var _blockPattern   = ub.current_material.material.block_pattern;
@@ -10791,6 +10791,7 @@ $(document).ready(function() {
                     } else {
                         // If perspective is not Front or Back, just select the first part
                         $('span.part').first().addClass('active');
+                        $('span.part').first().trigger('click');
                         var side = $('span.side.active').data('id');
                         var _partToMakeActive = _perspective.toTitleCase();
 
@@ -10912,15 +10913,6 @@ $(document).ready(function() {
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
-
-                if (_side === "left" || _side === "right") {
-
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');    
-                    
-                    // Restore Previous Part
-                    if (typeof _previousPart !== "undefined") { $('span.part[data-id="' + _previousPart + '"]').addClass('active'); }
-
-                }
 
             });
 
@@ -11079,6 +11071,8 @@ $(document).ready(function() {
             }
 
         // End Art Only 
+
+        $('div.perspective-container > span.perspective.active').trigger('click');
 
         });
 
