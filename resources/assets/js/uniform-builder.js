@@ -5542,14 +5542,11 @@ $(document).ready(function () {
             event.preventDefault();
             // Unbind drag
             $("div#primaryQuickRegistrationPopup").unbind('mousedown', ub.funcs.handle_mousedown);
-
-            console.log("Focussss")
         });
 
         $('input.quickRegistrationEmail').on('blur', function(event) {
             event.preventDefault();
-            // Unbind drag
-            console.log("Blurrrr")
+            // bind drag
             $("div#primaryQuickRegistrationPopup").bind('mousedown', ub.funcs.handle_mousedown);
         });
 
