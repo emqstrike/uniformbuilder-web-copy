@@ -5538,13 +5538,25 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
-        // Unbind drag
-        $("div#primaryQuickRegistrationPopup").unbind('mousedown', ub.funcs.handle_mousedown);
+        $('input.quickRegistrationEmail').on('focus', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            $("div#primaryQuickRegistrationPopup").unbind('mousedown', ub.funcs.handle_mousedown);
+
+            console.log("Focussss")
+        });
+
+        $('input.quickRegistrationEmail').on('blur', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            console.log("Blurrrr")
+            $("div#primaryQuickRegistrationPopup").bind('mousedown', ub.funcs.handle_mousedown);
+        });
 
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
+
             var code = (e.keyCode ? e.keyCode : e.which);
-            
             if (code == 13) { 
 
                 if (!$('input.quickRegistrationPassword').is(':visible')){
