@@ -5529,7 +5529,7 @@ $(document).ready(function () {
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
-        
+
         $popup = $('div#primaryQuickRegistrationPopup');
 
         $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
