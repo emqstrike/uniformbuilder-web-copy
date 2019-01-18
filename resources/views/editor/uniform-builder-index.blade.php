@@ -57,7 +57,13 @@
             </div>
 
             <div class="canvas-views" id="main_view">
+                <div class="verbiage-container">
+                    <p class="verbiage-text">
+                        &quot;The finished product color may vary slightly from image shown on your monitor. This may be caused by brightness, contrast or other monitor settings.&quot;
+                    </p>
+                </div>
             </div>
+
 
         </div>
 
