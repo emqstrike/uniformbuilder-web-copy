@@ -879,13 +879,15 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
         
         if (ub.config.uniform_application_type === "sublimated") {
-            _htmlBuilder        +=              '<div class="watermark-intensity-form" style="padding-top: 25px !important">'
-            _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting">'
-            _htmlBuilder        +=                      '<option value="sublimated">Sublimated</option>'
-            _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
-            _htmlBuilder        +=                  '</select>'
-            _htmlBuilder        +=               '</div>'
-            _htmlBuilder        +=               '<input type="text" id="opacity-slider" value="" />';
+            _htmlBuilder        +=                  '<div class="watermark-intensity-form" style="padding-top: 25px !important">'
+            _htmlBuilder        +=                     '<select class="form-control" id="onChangeWatermarkSetting">'
+            _htmlBuilder        +=                         '<option value="sublimated">Sublimated</option>'
+            _htmlBuilder        +=                         '<option value="embroid">Embroid</option>'
+            _htmlBuilder        +=                     '</select>'
+            _htmlBuilder        +=                  '</div>'
+            _htmlBuilder        +=                  '<div class="opacity-slider-container">'
+            _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
+            _htmlBuilder        +=                   '</div>'
         }
         
         _htmlBuilder        +=              '</div>';

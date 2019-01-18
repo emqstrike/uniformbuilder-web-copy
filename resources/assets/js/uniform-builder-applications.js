@@ -6792,7 +6792,9 @@ $(document).ready(function() {
             _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
             _htmlBuilder        +=                  '</select>'
             _htmlBuilder        +=               '</div>'
-            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+            _htmlBuilder        +=                '<div class="opacity-slider-container">'
+            _htmlBuilder        +=                   '<input type="text" id="opacity-slider" value="" />';
+            _htmlBuilder        +=                '</div>'
         }
 
         _htmlBuilder        +=                  '</div>';
