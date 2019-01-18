@@ -5538,6 +5538,9 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
+        // Unbind drag
+        $("div#primaryQuickRegistrationPopup").unbind('mousedown', ub.funcs.handle_mousedown);
+
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
