@@ -6790,8 +6790,13 @@ $(document).ready(function() {
         if (ub.config.uniform_application_type === "sublimated") {
             _htmlBuilder        +=              '<div class="watermark-intensity-form">'
             _htmlBuilder        +=                  '<select class="form-control" id="onChangeWatermarkSetting">'
-            _htmlBuilder        +=                      '<option value="sublimated">Sublimated</option>'
-            _htmlBuilder        +=                      '<option value="embroid">Embroid</option>'
+            if (typeof _settingsObject.watermark_settings === "undefined" || _settingsObject.watermark_settings === "sublimated") {
+                _htmlBuilder        +=                         '<option value="sublimated" selected>Sublimated</option>'
+                _htmlBuilder        +=                         '<option value="embroidered">Embroid</option>'
+            } else if (_settingsObject.watermark_settings === "embroidered")  {
+                _htmlBuilder        +=                         '<option value="sublimated">Sublimated</option>'
+                _htmlBuilder        +=                         '<option value="embroidered" selected>Embroid</option>'
+            }
             _htmlBuilder        +=                  '</select>'
             _htmlBuilder        +=               '</div>'
             _htmlBuilder        +=                '<div class="opacity-slider-container">'
@@ -6858,11 +6863,10 @@ $(document).ready(function() {
                 $("#opacity-slider").ionRangeSlider({
                     min: 0,
                     max: 100,
+                    block: _settingsObject.watermark_settings === "embroidered" ? true : false,
                     from: typeof _settingsObject.alpha === "number" ? _settingsObject.alpha * 100 : 100,
                     onChange: function (data) {
-
                         ub.funcs.changeMascotOpacity(_settingsObject.code, data.from);
-
                     },
                 });
 
@@ -6912,7 +6916,9 @@ $(document).ready(function() {
                     from: 100
                 }
 
-                if (setting === "embroid") {
+                _settingsObject.watermark_settings = setting;
+
+                if (setting === "embroidered") {
                     // Disable slider
                     settings.block = true;
                     ub.funcs.changeMascotOpacity(_settingsObject.code, 100);

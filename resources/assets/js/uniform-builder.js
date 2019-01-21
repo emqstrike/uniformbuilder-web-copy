@@ -2178,6 +2178,7 @@ $(document).ready(function () {
                         object_type: "mascot",
                         type: _application.type,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
+                        watermark_settings: "sublimated"
 
                     };
 
