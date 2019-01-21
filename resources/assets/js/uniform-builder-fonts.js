@@ -547,6 +547,17 @@ $(document).ready(function() {
 
     }
 
+    //set the configuration flag if the material's saved design settings should be retained.
+    ub.funcs.setupRetain = function () {
+
+        var retain = ub.current_material.material.retain_settings_from_saved_design;
+
+        if (retain === 1 || retain === '1') {
+            ub.config.retain = true;
+        }
+
+    }
+
     ub.data.getPixelFontSize = function (fontID, fontSize, perspective, application) {
 
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
@@ -578,6 +589,14 @@ $(document).ready(function() {
                 yScale: parseFloat(_fontSizeTable.y_scale),
 
             };
+
+            // if retain is true, ignore fontOffsets
+            if (ub.config.retain) {
+                _fontSizeData.xOffset = 0;
+                _fontSizeData.yOffset = 0;
+                _fontSizeData.xScale = 1;
+                _fontSizeData.yScale = 1;
+            }
 
         } else {
 
