@@ -237,6 +237,9 @@ $(document).ready(function () {
 		});
 
 		ub.shortcut.add("Alt+2", function () {
+			$("div.verbiage-container").addClass('preview-verbiage-container');
+			$("p.verbiage-text").addClass('preview-verbiage-text');
+			$("div#main_view").css('background-color', '#61605e');
 			ub.toggleFullView(); 
 		});
 
