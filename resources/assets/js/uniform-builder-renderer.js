@@ -363,10 +363,16 @@ $(document).ready(function() {
         // Setup Events
 
         $('button#button-return-to-customizer').on('click', function () {
+            $("div.verbiage-container").removeClass('preview-verbiage-container');
+            $("p.verbiage-text").removeClass('preview-verbiage-text');
+            $("div#main_view").css('background-color', '');
             ub.funcs.restoreUI();
         });
 
         $('span.fullscreen-btn').on('click', function (e) {
+            $("div.verbiage-container").addClass('preview-verbiage-container');
+            $("p.verbiage-text").addClass('preview-verbiage-text');
+            $("div#main_view").css('background-color', '#61605e');
             ub.funcs.removeUI();
         });
 
