@@ -594,8 +594,6 @@ $(document).ready(function() {
             if (ub.config.retain) {
                 _fontSizeData.xOffset = 0;
                 _fontSizeData.yOffset = 0;
-                _fontSizeData.xScale = 1;
-                _fontSizeData.yScale = 1;
             }
 
         } else {
