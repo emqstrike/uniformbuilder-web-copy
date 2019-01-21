@@ -260,14 +260,14 @@ $(document).ready(function () {
 
 		// Main UI 
 
-		ub.shortcut.add("Esc", function () {
-			if (ub.status.fullView.getStatus()) {
-				$("div.verbiage-container").removeClass('preview-verbiage-container');
-            	$("p.verbiage-text").removeClass('preview-verbiage-text');
-            	$("div#main_view").css('background-color', '');
-				ub.funcs.restoreUI();
-			}
-		});
+        ub.shortcut.add("Esc", function () {
+            if (ub.status.fullView.getStatus()) {
+                $("div.verbiage-container").removeClass('preview-verbiage-container');
+                $("p.verbiage-text").removeClass('preview-verbiage-text');
+                $("div#main_view").css('background-color', '');
+                ub.funcs.restoreUI();
+            }
+        });
 
 	/// End Shortcut definitions 
 
