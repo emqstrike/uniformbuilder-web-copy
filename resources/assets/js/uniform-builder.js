@@ -648,6 +648,15 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+
+            if (ub.page === "saved-design" && window.location.pathname.includes("render")) {
+                ub.funcs.addFunctionToAfterloadList(function() {
+                    $("div.verbiage-container").addClass('preview-verbiage-container');
+                    $("p.verbiage-text").addClass('preview-verbiage-text');
+                    $("div#main_view").css('background-color', '#61605e');
+                });
+            }
+
             ub.funcs.executeAfterLoadFunctionList();
 
         };
@@ -2823,7 +2832,6 @@ $(document).ready(function () {
         }
 
         // use all color if config value is set
-
     };
 
     ub.funcs.processMascots = function (application_obj) {
