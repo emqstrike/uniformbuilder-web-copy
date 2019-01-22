@@ -72,26 +72,12 @@ class Cart extends Model
     }
 
     /**
-     * Two possible things to be happen:
-     * - Create new cart if the user has no cart already
-     * - Or use the valid cart of user and assign on him again
-     *
      * @param  User|null $user
      * @return Cart
      */
-    public static function takeCart($user=null)
+    public static function takeCart()
     {
-        if (!is_null($user))
-        {
-            $user_last_cart = $user->carts()->validToUse()->get()->last();
-
-            if (!is_null($user_last_cart))
-            {
-                return $user_last_cart;
-            }
-        }
-
-        $unique_token = static::generateUniqueSession();
+        $unique_token = static::generateUniqueToken();
 
         $cart = static::create([
             'user_id' => null,
@@ -108,7 +94,7 @@ class Cart extends Model
         return $duration >= static::LIFE_SPAN;
     }
 
-    public static function generateUniqueSession()
+    public static function generateUniqueToken()
     {
         if (!static::all()->isEmpty())
         {
