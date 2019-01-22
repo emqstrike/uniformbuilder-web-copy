@@ -4,13 +4,13 @@
  * - X-CSRF-TOKEN - to avoid token mismatch
  */
 
-function CartItemPlayerApi(logged_in_token, cart_session) {
+function CartItemPlayerApi(logged_in_token, cart_token) {
     this.logged_in_token = logged_in_token;
-    this.cart_session = cart_session;
+    this.cart_token = cart_token;
 
     this.cartPermit = {
         logged_in_token: this.logged_in_token,
-        cart_session: this.cart_session,
+        cart_token: this.cart_token,
 
         // laravel token
         _token: $('meta[name="X-CSRF-TOKEN"]').attr('content')

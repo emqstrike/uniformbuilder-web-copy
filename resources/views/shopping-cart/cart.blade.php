@@ -13,7 +13,7 @@
             @include('templates.flash')
 
             <p>
-                Cart Session: {{ \Session::get('cart_session') }}
+                Cart Session: {{ \Session::get('cart_token') }}
             </p>
 
             <div class="row" id="cart-items-el">
@@ -243,7 +243,7 @@
 window.shopping_cart = {
     // logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
     logged_in_token: "abcde",
-    cart_session: "{{ \Session::get('cart_session') }}",
+    cart_token: "{{ \Session::get('cart_token') }}",
     sizes: <?php echo json_encode($sizes) ?>
 }
 </script>

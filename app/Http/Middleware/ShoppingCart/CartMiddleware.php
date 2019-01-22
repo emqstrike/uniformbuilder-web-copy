@@ -18,65 +18,110 @@ class CartMiddleware
     public function handle($request, Closure $next)
     {
         /*
-            if has session for cart
-                if session exceed
-                    mark cart as abandon
-                else
-                    restart session time
-            else
-                set session for cart
+            Cart Lifespan Flow
          */
+        $this->cartLifespan();
 
-        if (\Session::has('cart_session'))
+        /*
+            Cart Token Flow
+         */
+        return $this->cartToken($request, $next);
+    }
+
+    private function cartLifespan()
+    {
+        if (\Session::has('cart_timeout'))
         {
-            $cart_session = \Session::get('cart_session');
-            $cart = Cart::findBySession($cart_session);
+            if (!Cart::exceedInLifeSpan(\Session::get('cart_timeout')))
+            {
+                // reset cart timeout session
+                \Session::put('cart_timeout', time());
+                \Session::save();
+            }
+            else
+            {
+                // abandon the cart
+                if (\Session::has('cart_token'))
+                {
+                    Cart::abandon(\Session::get('cart_token'));
+                }
 
+                \Session::remove('cart_timeout');
+                \Session::save();
+
+                \Log::warning("Warning: cart timeout session already exceed in cart lifespan");
+                die;
+            }
+        }
+        else
+        {
+            // define cart timeout session
+            \Session::put('cart_timeout', time());
+            \Session::save();
+        }
+    }
+
+    private function cartToken($request, Closure $next)
+    {
+        // is cart token defined
+        if (\Session::has('cart_token'))
+        {
+            $cart = Cart::findByToken(\Session::get('cart_token'));
+
+            // is cart token valid
             if (!is_null($cart))
             {
-                if (!$cart->exceedInLifeSpan(\Session::get('cart_timeout')))
+                // is user authenticated
+                if (\Auth::check())
                 {
-                    // reset cart timeout
-                    \Session::set('cart_timeout', time());
-
-                    // assign cart to authenticated user
-                    if ($cart->hasNoUser() && \Auth::check())
+                    // has current cart owner
+                    if ($cart->hasOwner())
                     {
+                        // is user the owner of current cart
+                        if ($cart->user->id !== \Auth::user()->id)
+                        {
+                            die("Error: You are unauthorized to access the cart " . $cart->id);
+                        }
+                    }
+                    else
+                    {
+                        // assign current cart to authenticated user
                         $cart->assignToUser(\Auth::user()->id);
                     }
 
+                    $user = \Auth::user();
+                    if ($user->hasMultipleCarts())
+                    {
+                        $user->mergeMyCarts($cart);
+                    }
+
+                    \Log::debug('lagusan 2');
                     return $next($request);
                 }
-                else
+                elseif ($cart->hasOwner())
                 {
-                    $cart->markAsAbandoned();
-                    \Session::remove('cart_session');
-                    \Session::remove('cart_timeout');
-
-                    // todo: show message to user that the cart is already exceed on cart life span
-                    \Log::info("Info: Cart already exceed on cart life span");
-
-                    return redirect($request->url());
+                    die("Error: Cart " . $cart->id . " has already owner.");
                 }
+
+                \Log::debug('lagusan 3');
+                return $next($request);
             }
         }
 
-        // $user = \Auth::check() ? \Auth::user() : null;
-        $user = User::find(1);
+        $cart = Cart::takeCart();
+        \Session::put('cart_token', $cart->token);
+        \Session::save();
 
-        $cart = Cart::takeCart($user);
-
-        if (!is_null($cart))
+        if (\Auth::check())
         {
-            \Session::set('cart_session', $cart->session);
-            \Session::set('cart_timeout', time());
+            $user = \Auth::user();
 
-            \Log::info("Info: Cart session " . $cart->session . " took of " . (is_null($user) ? "guest" : $user->getFullName()));
+            $cart->assignToUser($user->id);
 
-            return $next($request);
+            $user->mergeMyCarts($cart);
         }
 
-        \Log::error("Error: Cart::takeCart return null.");
-        die('Error: Cart::takeCart return null.');
+        \Log::debug('lagusan 4');
+        return $next($request);
     }
 }

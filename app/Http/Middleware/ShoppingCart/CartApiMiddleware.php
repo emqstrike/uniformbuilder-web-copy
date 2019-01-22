@@ -19,9 +19,9 @@ class CartApiMiddleware
     public function handle($request, Closure $next)
     {
         $logged_in_token = $request->get('logged_in_token');
-        $cart_session = $request->get('cart_session');
+        $cart_token = $request->get('cart_token');
         
-        if (!is_null($logged_in_token) && !is_null($cart_session))
+        if (!is_null($logged_in_token) && !is_null($cart_token))
         {
             $user = User::findByLoggedInToken($logged_in_token);
 
@@ -33,7 +33,7 @@ class CartApiMiddleware
                 {
                     $user_carts = $user->carts()->validToUse()->get();
 
-                    $cart = Cart::findBySession($cart_session);
+                    $cart = Cart::findByToken($cart_token);
 
                     if (!is_null($cart))
                     {

@@ -2,10 +2,15 @@
 
 namespace App\ShoppingCart;
 
+use App\ShoppingCart\Cart;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
+
     protected $fillable = ["first_name", "last_name", "email", "password", "logged_in_token", "remember_token", "billing_id", "shipping_id"];
 
     public function carts()
@@ -21,6 +26,31 @@ class User extends Model
     public function getFullName()
     {
         return $this->first_name . " " . $this->last_name;
+    }
+
+    public function getValidCarts()
+    {
+        return $this->carts()->validToUse()->get();
+    }
+
+    public function hasMultipleCarts()
+    {
+        $valid_carts = $this->getValidCarts();
+
+        if (!$valid_carts->isEmpty())
+        {
+            return $valid_carts->count() > 1;
+        }
+
+        return false;
+    }
+
+    public function mergeMyCarts(Cart $cart)
+    {
+        if ($this->hasMultipleCarts())
+        {
+            $cart->mergeFromValidCarts($this->getValidCarts());
+        }
     }
 
     public static function findByLoggedInToken($logged_in_token)

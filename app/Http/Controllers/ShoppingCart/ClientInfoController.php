@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ClientInfoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('shopping-cart.client-info');
     }
@@ -25,7 +25,7 @@ class ClientInfoController extends Controller
             'email' => $data['email'],
             'phone_number' => $data['phone_number'],
             'fax' => $data['fax'],
-            'user_id' => 1 // assumed
+            'user_id' => Auth::user()->id
         ]);
 
         if ($client_info instanceof ClientInformation)

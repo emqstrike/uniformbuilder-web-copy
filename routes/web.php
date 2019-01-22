@@ -33,9 +33,12 @@ Route::group([
 });
 
 Route::get('login-user', function() {
-    Auth::login(App\ShoppingCart\User::find(1));
+    \Auth::loginUsingId(1);
 });
 
 Route::get('logout-user', function() {
-    Auth::logout();
+    \Session::remove('cart_token');
+    \Session::remove('cart_timeout');
+    \Session::save();
+    \Auth::logout();
 });

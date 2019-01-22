@@ -16,8 +16,8 @@ class CartController extends Controller
     {
         $sizes = config('customizer.sizes');
 
-        $cart_session = \Session::get('cart_session');
-        $cart = Cart::findBySession($cart_session);
+        $cart_token = \Session::get('cart_token');
+        $cart = Cart::findByToken($cart_token);
 
         return view('shopping-cart.cart', compact('sizes', 'sizes_json', 'cart'));
     }
@@ -40,8 +40,8 @@ class CartController extends Controller
         {
             // login the user
             // assign cart into new user
-            $cart_session = \Session::get('cart_session');
-            $cart = Cart::findBySession($cart_session);
+            $cart_token = \Session::get('cart_token');
+            $cart = Cart::findByToken($cart_token);
 
             \Auth::loginUsingId($user->id);
 

@@ -3,12 +3,12 @@
  * - shopping_cart
  *     - sizes
  *     - logged_in_token
- *     - cart_session
+ *     - cart_token
  *
  * File dependencies
  * - public/js/shopping-cart/cart-item-player-api.js
  */
-var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_session);
+var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
 
 var Cart = {
     id_auto_increment: 5,

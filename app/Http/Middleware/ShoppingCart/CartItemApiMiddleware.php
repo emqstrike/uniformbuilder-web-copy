@@ -18,8 +18,8 @@ class CartItemApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $cart_session = $request->get('cart_session');
-        $cart = Cart::findBySession($cart_session);
+        $cart_token = $request->get('cart_token');
+        $cart = Cart::findByToken($cart_token);
 
         $cart_item_id = $request->get('cart_item_id');
 
