@@ -32,33 +32,20 @@ class CartMiddleware
     {
         if (\Session::has('cart_timeout'))
         {
-            if (!Cart::exceedInLifeSpan(\Session::get('cart_timeout')))
-            {
-                // reset cart timeout session
-                \Session::put('cart_timeout', time());
-                \Session::save();
-            }
-            else
+            if (Cart::exceedInLifeSpan(\Session::get('cart_timeout')))
             {
                 // abandon the cart
                 if (\Session::has('cart_token'))
                 {
                     Cart::abandon(\Session::get('cart_token'));
+
+                    // js already show message indicate cart was expired
                 }
+            } // else reset cart timeout
+        } // else define cart timeout
 
-                \Session::remove('cart_timeout');
-                \Session::save();
-
-                \Log::warning("Warning: cart timeout session already exceed in cart lifespan");
-                die;
-            }
-        }
-        else
-        {
-            // define cart timeout session
-            \Session::put('cart_timeout', time());
-            \Session::save();
-        }
+        \Session::put('cart_timeout', time());
+        \Session::save();
     }
 
     private function cartToken($request, Closure $next)

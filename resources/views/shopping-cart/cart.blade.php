@@ -13,7 +13,9 @@
             @include('templates.flash')
 
             <p>
-                Cart Session: {{ \Session::get('cart_token') }}
+                Cart Session: {{ \Session::get('cart_token') }} <br>
+                Cart Timer: <span id="cart-timer">0</span> <br>
+                Cart Lifespan: {{ App\ShoppingCart\Cart::LIFE_SPAN }}
             </p>
 
             <div class="row" id="cart-items-el">
@@ -244,6 +246,7 @@ window.shopping_cart = {
     // logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
     logged_in_token: "abcde",
     cart_token: "{{ \Session::get('cart_token') }}",
+    cart_lifespan: "{{ App\ShoppingCart\Cart::LIFE_SPAN }}",
     sizes: <?php echo json_encode($sizes) ?>
 }
 </script>

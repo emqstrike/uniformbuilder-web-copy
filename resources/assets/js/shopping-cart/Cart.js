@@ -4,6 +4,7 @@
  *     - sizes
  *     - logged_in_token
  *     - cart_token
+ *     - cart_lifespan
  *
  * File dependencies
  * - public/js/shopping-cart/cart-item-player-api.js
@@ -16,6 +17,8 @@ var Cart = {
     cart_items: [],
 
     init: function() {
+        Cart.initCartTimer();
+
         Cart.initCartItems(function() {
             var el = $('#cart-items-el');
             var tmpl = _.template($('#cart-items-tmpl').html());
@@ -40,6 +43,36 @@ var Cart = {
         });
     },
 
+    initCartTimer: function() {
+        var time_counter = 0;
+
+        var timer = setInterval(function() {
+            $('#cart-timer').text(++time_counter);
+
+            if (time_counter >= shopping_cart.cart_lifespan) {
+                $('#cart-timer').text("Timeout!");
+
+                bootbox.dialog({
+                    message: '<div class="alert alert-warning">Cart is already expired</div>',
+                    closeButton: false,
+
+                    buttons: {
+                        ok: {
+                            label: '<span class="glyphicon glyphicon-refresh"></span> Reload The Page',
+                            className: "btn-primary",
+                            callback: function() {
+                                location.reload();
+                            }
+                        }
+                    }
+                });
+
+                clearInterval(timer);
+            }
+
+        }, 1000); // 1 sec
+    },
+
     /**
      * Initialize the cart items first before the application start
      * 
@@ -50,17 +83,17 @@ var Cart = {
         $('#cart-items-el').html('<div class="col-md-12">Loading cart items ...</div>');
 
         CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
-            Cart.cart_items = response.data;
+            if (response.success) {
+                Cart.cart_items = response.data;
 
-            $('#cart-item-number').text(Cart.cart_items.length);
-            $('#cart-items-el').html("");
+                $('#cart-item-number').text(Cart.cart_items.length);
+                $('#cart-items-el').html("");
 
-            callback();
+                callback();
+            } else {
+                $('#cart-items-el').html('<div class="col-md-12">Failed to fetch cart items.</div>');
+            }
         });
-    },
-
-    resetCart: function() {
-
     },
 
     loadPlayers: function(cart_item_id, size) {
