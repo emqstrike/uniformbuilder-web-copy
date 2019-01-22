@@ -105,19 +105,16 @@ $(document).ready(function () {
 
             // Remove 'Left' from caption
             $('span.randomFeed > span.caption').each(function (index) {
-                var text= $(this).context.innerHTML;
+                var text= $(this).text();
 
                 if (text.indexOf('Left') > -1) {
-
                     $('span.randomFeed[data-randomFeed-name="' + text + '"]').find('span.caption').html(text.replace('Left ', ''));
-
                 }
-                
             });
 
         }
 
-    /// End GUI 
+    /// End GUI
 
     ub.funcs.getRandomFeedSettingsObject = function (set) {
 
