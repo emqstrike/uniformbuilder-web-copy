@@ -12156,4 +12156,10 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.removeSelectApplicationType = function() {
+        if ($("div#changeApplicationUI")) {
+            $("div#changeApplicationUI").remove();
+        }
+    }
+
 });
