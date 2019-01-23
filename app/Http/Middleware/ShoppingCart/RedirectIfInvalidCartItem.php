@@ -34,13 +34,15 @@ class RedirectIfInvalidCartItem
 
             if (! $is_valid)
             {
-                \Session::flash('danger', 'Please add player on empty cart item!');
+                \Session::put('danger', 'Please add player on empty cart item!');
+                \Session::save();
                 return redirect()->route("shopping-cart");
             }
         }
         else
         {
-            \Session::flash('danger', 'Your cart is empty!');
+            \Session::put('danger', 'Your cart is empty!');
+            \Session::save();
             return redirect()->route("shopping-cart");
         }
 

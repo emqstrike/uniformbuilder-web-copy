@@ -6,6 +6,8 @@
         <div class="col-md-12">
             <h1 class="page-header">Confirm Order</h1>
 
+            @include('templates.flash')
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">

@@ -13,9 +13,9 @@
             @include('templates.flash')
 
             <p>
-                Cart Session: {{ \Session::get('cart_token') }} <br>
-                Cart Timer: <span id="cart-timer">0</span> <br>
-                Cart Lifespan: {{ App\ShoppingCart\Cart::LIFE_SPAN }}
+                Cart Token: <span class="label label-info">{{ \Session::get('cart_token') }}</span> <br>
+                Cart Lifespan: <span class="label label-info">{{ App\ShoppingCart\Cart::LIFE_SPAN }} seconds</span> <br>
+                Cart Timer: <span class="glyphicon glyphicon-time"></span> <span id="cart-timer">0</span> <br>
             </p>
 
             <div class="row" id="cart-items-el">

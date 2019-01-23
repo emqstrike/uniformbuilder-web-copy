@@ -12,33 +12,75 @@ class ShippingController extends Controller
 {
     public function index()
     {
-        return view('shopping-cart.shipping');
+        $shipping_information = \Auth::user()->shipping_information;
+        return view('shopping-cart.shipping', compact('shipping_information'));
     }
 
     public function store(SaveShippingInfo $request)
     {
         $data = $request->all();
+        $shipping_information = \Auth::user()->shipping_information;
 
-        $billing_info = ShippingInformation::create([
-            'full_name' => $data['full_name'],
-            'athletic_director' => $data['athletic_director'],
-            'email' => $data['email'],
-            'phone_number' => $data['phone_number'],
-            'fax' => $data['fax'],
-
-            'address' => $data['address'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'zip' => $data['zip_code'],
-
-            'user_id' => 1 // assumed
-        ]);
-
-        if ($billing_info instanceof ShippingInformation)
+        if (is_null($shipping_information))
         {
-            die('success');
+            $shipping_information = ShippingInformation::create([
+                'full_name' => $data['full_name'],
+                'athletic_director' => $data['athletic_director'],
+                'email' => $data['email'],
+                'phone_number' => $data['phone_number'],
+                'fax' => $data['fax'],
+
+                'address' => $data['address'],
+                'state' => $data['state'],
+                'city' => $data['city'],
+                'zip' => $data['zip_code'],
+
+                'user_id' => \Auth::user()->id
+            ]);
+
+            if ($shipping_information instanceof ShippingInformation)
+            {
+                \Session::put('success', "Shipping info successfully saved!");
+                \Session::save();
+                return redirect()->route("shopping-cart.confirm-order");
+            }
+
+            return back();
         }
 
-        die('fail');
+        return $this->update($request, $shipping_information->id);
+    }
+
+    public function update(SaveShippingInfo $request, $id)
+    {
+        $data = $request->all();
+        $shipping_information = ShippingInformation::find($id);
+
+        if (!is_null($shipping_information))
+        {
+            $shipping_information->full_name = $data['full_name'];
+            $shipping_information->athletic_director = $data['athletic_director'];
+            $shipping_information->email = $data['email'];
+            $shipping_information->phone_number = $data['phone_number'];
+            $shipping_information->fax = $data['fax'];
+            $shipping_information->address = $data['address'];
+            $shipping_information->state = $data['state'];
+            $shipping_information->city = $data['city'];
+            $shipping_information->zip = $data['zip_code'];
+            $shipping_information->user_id = \Auth::user()->id;
+
+            if (!empty($shipping_information->getDirty()))
+            {
+                if ($shipping_information->save())
+                {
+                    \Session::put('success', "Shipping info successfully saved!");
+                    \Session::save();
+                }
+            }
+
+            return redirect()->route("shopping-cart.confirm-order");
+        }
+
+        return redirect()->route("shopping-cart");
     }
 }

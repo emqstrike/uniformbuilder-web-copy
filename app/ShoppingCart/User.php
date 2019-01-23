@@ -18,6 +18,21 @@ class User extends Model implements AuthenticatableContract
         return $this->hasMany("App\ShoppingCart\Cart");
     }
 
+    public function client_information()
+    {
+        return $this->hasOne("App\ShoppingCart\ClientInformation");
+    }
+
+    public function billing_information()
+    {
+        return $this->hasOne("App\ShoppingCart\BillingInformation");
+    }
+
+    public function shipping_information()
+    {
+        return $this->hasOne("App\ShoppingCart\ShippingInformation");
+    }
+
     public function getId()
     {
         return $this->id;
