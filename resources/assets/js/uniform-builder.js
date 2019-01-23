@@ -5816,7 +5816,7 @@ $(document).ready(function () {
             });
 
             //$('#select_part').hide();
-            
+
             // Toolbar Event Handler
             $('a.change-view').on('click', function (e) {
 
@@ -5833,16 +5833,14 @@ $(document).ready(function () {
 
                     window.location.reload();
                     return;
-                    
                 }
 
-                if (view === 'colors') { 
-
+                if (view === 'colors') {
+                    ub.funcs.removeSelectApplicationType();
                     ub.funcs.activateColorPickers();
                     ub.funcs.activeStyle('colors');
-                    
+
                     return;
-                    
                 }
 
                 if (view === 'patterns') {
@@ -5850,27 +5848,25 @@ $(document).ready(function () {
                     if (_.size(ub.current_material.settings.team_colors) <= 1) { return; }
                     if (ub.current_part === 0) {  $('div.pd-dropdown-links[data-ctr="1"]').trigger('click'); } // Trigger First Part
 
+                    ub.funcs.removeSelectApplicationType();
                     ub.funcs.hideOtherPanels();
                     ub.funcs.activatePatterns();
 
                     return;
-                    
                 }
 
                 if (view === 'pipings') {
 
                     if($(this).hasClass('disabled')) {
-
                         return;
-
                     }
 
+                    ub.funcs.removeSelectApplicationType();
                     ub.funcs.removeApplicationsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showPipingsPanel();
 
                     return;
-
                 }
 
                 if (view === 'randomFeed') {
@@ -5881,6 +5877,7 @@ $(document).ready(function () {
 
                     }
 
+                    ub.funcs.removeSelectApplicationType();
                     ub.funcs.removeApplicationsPanel();
                     ub.funcs.showRandomFeedPanel();
 
