@@ -1014,7 +1014,6 @@ $(document).ready(function() {
                     application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
-
                 },
             ]
         };

@@ -20,6 +20,8 @@ class CreateTableCartItems extends Migration
             $table->double('total_profit_amount')->nullable()->default(null);
             $table->string('brand', 20)->nullable()->default(null);
             $table->bigInteger('item_id')->nullable()->default(null);
+            $table->bigInteger('block_pattern_id')->nullable()->default(null);
+            $table->string('neck_option')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
             $table->string('type', 10)->nullable()->default(null);
             $table->json('builder_customizations')->nullable()->default(null);
@@ -30,8 +32,7 @@ class CreateTableCartItems extends Migration
             $table->double('price')->nullable()->default(null);
             $table->string('applicationType')->nullable()->default(null);
             $table->string('additional_attachments')->nullable()->default(null);
-            $table->string('noted')->nullable()->default(null);
-            $table->json('attached_files')->nullable()->default(null);
+            $table->string('notes')->nullable()->default(null);
 
             $table->bigInteger('cart_id')->nullable()->default(null);
             $table->timestamps();

@@ -55,10 +55,10 @@ class Cart extends Model
                 if (!$cart->cart_items->isEmpty())
                 {
                     $cart->cart_items()->update(['cart_id' => $this->id]);
-
-                    // delete old cart
-                    $cart->delete();
                 }
+
+                // delete old cart
+                $cart->delete();
             }
         }
     }

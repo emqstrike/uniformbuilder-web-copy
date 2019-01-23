@@ -67,7 +67,7 @@
                     </div>
 
                     <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
-                    <button class="btn btn-primary">Confirm Order And Pay <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                    <a href="{{ route('shopping-cart.confirm-order') }}" class="btn btn-primary">Confirm Order And Pay <span class="glyphicon glyphicon-shopping-cart"></span></a>
                 </div>
             </div>
         </div>
