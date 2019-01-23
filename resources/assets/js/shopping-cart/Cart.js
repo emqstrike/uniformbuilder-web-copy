@@ -139,6 +139,8 @@ var Cart = {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
+        console.log(cart_item_id);
+
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
         var selected_size = parseInt($(':input[name="size"]', cart_item_el).val());
@@ -172,7 +174,7 @@ var Cart = {
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            CartItemPlayerApi.addPlayer(1, {
+                            CartItemPlayerApi.addPlayer(cart_item_id, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -185,21 +187,13 @@ var Cart = {
 
                                     var data_num = cart_item.players.length;
 
-                                    var data = {
-                                        id: Cart.id_auto_increment++,
-                                        size: selected_size,
-                                        last_name: last_name,
-                                        number: number,
-                                        quantity: parseInt(quantity)
-                                    };
-
-                                    cart_item.players.push(data);
+                                    cart_item.players.push(response.data);
 
                                     if (cart_item.players.length > data_num) {
                                         console.log("saved!");
                                         var tr_num = $('tr', player_list_el).length;
 
-                                        player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, data)));
+                                        player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, response.data)));
                                     } else {
                                         console.log("not save!");
                                     }

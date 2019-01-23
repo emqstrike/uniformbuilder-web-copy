@@ -36,7 +36,14 @@ class CartItemPlayerController extends Controller
             $cart_item_player instanceof CartItemPlayer ?
             [
                 'success' => true,
-                'message' => "Successfully add player in cart item"
+                'message' => "Successfully add player in cart item",
+                'data' => [
+                    'id' => $cart_item_player->id,
+                    'size' => (int) $cart_item_player->size,
+                    'last_name' => $cart_item_player->last_name,
+                    'number' => $cart_item_player->number,
+                    'quantity' => (int) $cart_item_player->quantity,
+                ]
             ] :
             [
                 'success' => false,
