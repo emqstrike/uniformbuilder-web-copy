@@ -8304,6 +8304,28 @@ div.header-container.main {
         
     }
 
+    a#my-shopping-cart {
+
+        background-color: #fcfcfc;
+        color: #3d3d3d;
+        min-width: 30px;
+        text-align: center;
+        margin-right: 10px;
+
+        font-size: 0.85em;
+        text-transform: uppercase;
+        
+    }
+
+    a#my-shopping-cart:hover {
+
+        text-decoration: none;
+        color: @ubBlack;
+
+        border-bottom: dashed 1px #acacac;
+        padding-bottom: 7px;
+    }
+
     button.btn {
 
         background: none;
@@ -9873,7 +9895,7 @@ strong.hello {
 
         div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
 
-        span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn, span.table-btn  { display: none; }
+        span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn, span.table-btn, span.cart-btn  { display: none; }
 
         span.toolbar-item {
 
@@ -11497,6 +11519,29 @@ span.load-line.awesomeness {
 
 
 /* End Fabrics */
+
+// Shopping cart dropdown
+.shopping-dropdown-menu {
+    padding: 0 !important;
+    min-width: 500px;
+    margin-top: 20px !important;
+}
+
+.checkout-button {
+    width: 100%;
+    text-transform: uppercase;
+    color: #3d3d3d;
+    background-color: #e7e7e7;
+}
+
+.checkout-button:hover {
+    color: #e7e7e7;
+    background-color: #3d3d3d;
+}
+
+.shopping-cart-item {
+    color: #3d3d3d;
+}
 
 /* Custom Artwork Requests */
 

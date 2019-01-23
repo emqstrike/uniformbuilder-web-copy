@@ -1,5 +1,11 @@
 <div id="left-side-toolbar">
 
+    {{-- add to cart button --}}
+    <span class="toolbar-item cart-btn">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="toolbar-item-label">ADD TO CART</span>
+    </span>
+
     <hr class="left-side-divider middle middle-bottom fav-top" />
 
     <span class="toolbar-item favorite-btn">
