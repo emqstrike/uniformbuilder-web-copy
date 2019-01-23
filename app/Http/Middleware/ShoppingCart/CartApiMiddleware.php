@@ -18,34 +18,47 @@ class CartApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $logged_in_token = $request->get('logged_in_token');
         $cart_token = $request->get('cart_token');
-        
-        if (!is_null($logged_in_token) && !is_null($cart_token))
+        $logged_in_token = $request->get('logged_in_token');
+
+        $user = User::findByLoggedInToken($logged_in_token);
+        $is_user_authenticated = !is_null($user);
+
+        // is cart token defined
+        if (!is_null($cart_token))
         {
-            $user = User::findByLoggedInToken($logged_in_token);
+            $cart = Cart::findByToken($cart_token);
 
-            // check if valid user using logged in token
-            if (!is_null($user))
+            // is cart token valid
+            if (!is_null($cart))
             {
-                // check if authenticated user's cart is not empty
-                if (!$user->carts()->validToUse()->get()->isEmpty())
+                // is user authenticated
+                if ($is_user_authenticated)
                 {
-                    $user_carts = $user->carts()->validToUse()->get();
-
-                    $cart = Cart::findByToken($cart_token);
-
-                    if (!is_null($cart))
+                    // has current cart owner
+                    if ($cart->hasOwner())
                     {
-                        if ($cart->id == $user_carts->last()->id)
+                        // is user not the owner of current cart
+                        if ($cart->user->id === $user->id)
                         {
+                            \Log::debug('lagusan api 1');
                             return $next($request);
                         }
                     }
+
+                    goto unauthorized;
                 }
+                elseif ($cart->hasOwner())
+                {
+                    goto unauthorized;
+                }
+
+                \Log::debug('lagusan api 2');
+                return $next($request);
             }
         }
 
+        unauthorized:
         return response()->json([
             'success' => false,
             'message' => "Unauthorized to access cart"

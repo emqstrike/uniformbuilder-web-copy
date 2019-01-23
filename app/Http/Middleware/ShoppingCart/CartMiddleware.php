@@ -64,7 +64,7 @@ class CartMiddleware
                     // has current cart owner
                     if ($cart->hasOwner())
                     {
-                        // is user the owner of current cart
+                        // is user not the owner of current cart
                         if ($cart->user->id !== \Auth::user()->id)
                         {
                             die("Error: You are unauthorized to access the cart " . $cart->id);
@@ -82,7 +82,7 @@ class CartMiddleware
                         $user->mergeMyCarts($cart);
                     }
 
-                    \Log::debug('lagusan 2');
+                    \Log::debug('lagusan 1');
                     return $next($request);
                 }
                 elseif ($cart->hasOwner())
@@ -90,7 +90,7 @@ class CartMiddleware
                     die("Error: Cart " . $cart->id . " has already owner.");
                 }
 
-                \Log::debug('lagusan 3');
+                \Log::debug('lagusan 2');
                 return $next($request);
             }
         }
@@ -108,7 +108,7 @@ class CartMiddleware
             $user->mergeMyCarts($cart);
         }
 
-        \Log::debug('lagusan 4');
+        \Log::debug('lagusan 3');
         return $next($request);
     }
 }

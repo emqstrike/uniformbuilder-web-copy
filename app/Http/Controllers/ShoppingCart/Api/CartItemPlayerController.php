@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ShoppingCart\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\ShoppingCart\Cart;
 use App\ShoppingCart\CartItem;
 use App\ShoppingCart\CartItemPlayer;
 use App\Transformers\CartItemPlayerTransformer;
@@ -104,7 +105,10 @@ class CartItemPlayerController extends Controller
      */
     public function getPlayersPerCartItem(Request $request)
     {
-        $cart_items = CartItem::all();
-        return fractal($cart_items, new CartItemPlayerTransformer)->toArray();
+        $cart_token = $request->get('cart_token');
+        $cart = Cart::findByToken($cart_token);
+
+        $data = fractal($cart->cart_items, new CartItemPlayerTransformer)->toArray();
+        return response()->json(array_merge(['success' => true], $data));
     }
 }

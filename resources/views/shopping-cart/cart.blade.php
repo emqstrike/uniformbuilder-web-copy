@@ -243,8 +243,7 @@
 
 <script type="text/javascript">
 window.shopping_cart = {
-    // logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
-    logged_in_token: "abcde",
+    logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
     cart_token: "{{ \Session::get('cart_token') }}",
     cart_lifespan: "{{ App\ShoppingCart\Cart::LIFE_SPAN }}",
     sizes: <?php echo json_encode($sizes) ?>
