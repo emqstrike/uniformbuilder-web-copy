@@ -5,12 +5,14 @@ Route::get('remote-login/{token?}', 'AuthenticationController@remoteLogin');
 Route::group([
     'prefix' => "shopping-cart",
     'namespace' => "ShoppingCart",
-    'middleware' => "cart_middleware",
+    'middleware' => ["session_flash_middleware", "cart_middleware"],
 ], function() {
     Route::get('/', "CartController@index")->name('shopping-cart');
 
     Route::group([
-        'middleware' => "auth"
+        'middleware' => [
+            "auth", "redirect_if_invalid_cart_item"
+        ]
     ], function() {
         Route::get('client-info', "ClientInfoController@index")->name('shopping-cart.client-info');
         Route::post('client-info', "ClientInfoController@store");
