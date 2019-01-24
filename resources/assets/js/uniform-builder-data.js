@@ -9946,34 +9946,40 @@ ub.funcs.fontOffSets = [
             }
             
         ], 
-        getSize: function (type, applicationNumber, sport) {
+        blockPatternsExemption: [
+            'Hockey Socks'
+        ],
+        getSize: function (type, applicationNumber, sport, blockPattern) {
 
             var _result = undefined;
             var _items = _.find(this.items, {type: type});
 
             console.log('Start output here...')
 
+            if (!_.contains(this.blockPatternsExemption, blockPattern)) {
 
-            if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
+                if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
 
-            _result = _.find(_items.types, function (type) {
+                _result = _.find(_items.types, function (type) {
 
-                return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport);
+                    return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport);
 
-            });
+                });
 
-            if (typeof _result === "undefined") {
+                if (typeof _result === "undefined") {
 
-                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default'); });
+                    _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default'); });
+
+                }
+
+                if (typeof _result === "undefined" && applicationNumber < 70) {
+
+                    ub.utilities.warn('Using catch all initial size (-1)');
+                    _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default'); });
+
+                } 
 
             }
-
-            if (typeof _result === "undefined" && applicationNumber < 70) {
-
-                ub.utilities.warn('Using catch all initial size (-1)');
-                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default'); });
-
-            } 
 
             // For Free Form Tool
             if (applicationNumber > 70) {

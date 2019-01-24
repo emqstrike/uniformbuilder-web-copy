@@ -7844,7 +7844,9 @@ $(document).ready(function() {
             var _applicationType = '';
             var _sizeObj = undefined;
 
-            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category, ub.current_material.material.block_pattern);
+
+            console.log('_sizeObj: ', _sizeObj);
 
             if (typeof _sizeObj !== "undefined") {
 
