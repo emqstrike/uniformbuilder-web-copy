@@ -2,12 +2,13 @@
 
 Route::group([
     'prefix' => "shopping-cart",
-    'namespace' => "ShoppingCart",
+    'namespace' => "ShoppingCart\Api",
     'middleware' => "cart_api_middleware"
 ], function() {
+    Route::get('cart-items', "CartItemController@getCartItems");
+
     Route::group([
-        'prefix' => "cart-item-players",
-        'namespace' => "Api"
+        'prefix' => "cart-item-players"
     ], function() {
         Route::get('/', "CartItemPlayerController@getPlayersPerCartItem");
 

@@ -98,6 +98,9 @@
         <!-- Richardson UI Controls -->
         @include('partials.controls.ui-controls-richardson')
 
+        {{-- Shopping cart template --}}
+        @include('partials.shopping-cart')
+
     <!-- End UI Controls -->
 
 

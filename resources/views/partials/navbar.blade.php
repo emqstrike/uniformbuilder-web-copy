@@ -101,10 +101,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="#" id="my-shopping-cart" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; My Cart <span class="cp-text-bold">(3)</span>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; My Cart <span class="cp-text-bold cart-item-number">0</span>
                     </a>
-                    <div class="shopping-dropdown-menu dropdown-menu" role="menu">
-                        <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
+                    <div class="shopping-dropdown-menu dropdown-menu" role="menu" id="dropdown-cart-item-list">
+                        {{-- <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
                             <div class="row cp-padding-small">
                                 <div class="col-md-3">
                                     <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/clinch_13_singlet072763a2c855/thumbnail.jpg?v=0.720" alt="" width="100" height="100">
@@ -154,10 +154,7 @@
                                 </div>
                             </div>
                             <hr class="cp-margin-remove">
-                        </a>
-                        <div>
-                            <a href="" class="btn checkout-button">Go to Checkout</a>
-                        </div>
+                        </a> --}}
                     </div>
                 </li>
 

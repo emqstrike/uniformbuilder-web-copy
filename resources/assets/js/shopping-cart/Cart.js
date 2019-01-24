@@ -11,8 +11,6 @@
 var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
 
 var Cart = {
-    id_auto_increment: 5,
-
     cart_items: [],
 
     init: function() {
@@ -42,7 +40,7 @@ var Cart = {
 
     /**
      * Initialize the cart items first before the application start
-     * 
+     *
      * @param  function callback
      * @return void
      */

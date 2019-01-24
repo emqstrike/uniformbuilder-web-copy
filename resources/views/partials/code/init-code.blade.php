@@ -1,3 +1,12 @@
+{{-- for shopping cart --}}
+<script type="text/javascript">
+    window.shopping_cart = {
+        logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
+        cart_token: "{{ \Session::get('cart_token') }}",
+        route: "{{ route('shopping-cart') }}"
+    }
+</script>
+
 <script type="text/javascript">
 
     $(document).ready( function () {
@@ -301,4 +310,18 @@
 
     });
 
+    var CartItemApi = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
+    CartItemApi.getCartItems(function(response) {
+        console.log(response);
+        if (response.success) {
+            var tmpl = _.template($('#dropdown-cart-item-tmpl').html());
+
+            $('#my-shopping-cart .cart-item-number').text(response.data.length);
+
+            $('#dropdown-cart-item-list').html(tmpl({
+                cart_items: response.data,
+                shopping_cart_route: shopping_cart.route
+            }));
+        }
+    });
 </script>

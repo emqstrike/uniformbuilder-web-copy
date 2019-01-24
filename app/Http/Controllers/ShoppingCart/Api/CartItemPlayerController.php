@@ -16,7 +16,7 @@ class CartItemPlayerController extends Controller
      * Data available
      * - cart_item_id
      * - logged_in_token
-     * - cart_session
+     * - cart_token
      * - size
      * - last_name
      * - number
@@ -55,7 +55,7 @@ class CartItemPlayerController extends Controller
     /**
      * Data available
      * - logged_in_token
-     * - cart_session
+     * - cart_token
      * - size
      * - last_name
      * - number
@@ -86,7 +86,7 @@ class CartItemPlayerController extends Controller
     /**
      * Data available
      * - logged_in_token
-     * - cart_session
+     * - cart_token
      */
     public function delete(Request $request, CartItemPlayer $cartItemPlayer)
     {
@@ -108,7 +108,7 @@ class CartItemPlayerController extends Controller
     /**
      * Data available
      * - logged_in_token
-     * - cart_session
+     * - cart_token
      */
     public function getPlayersPerCartItem(Request $request)
     {
