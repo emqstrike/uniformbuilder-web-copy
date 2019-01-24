@@ -10,6 +10,8 @@ class Cart extends Model
 {
     const LIFE_SPAN = 60 * 60; // 1 hour
     const CART_TOKEN_PREFIX = "cart_token_";
+    const SAVE_ORDER_ACTION = "save_order";
+    const SUBMITTED_FLAG = 1;
 
     protected $fillable = ["token", "is_active", "is_cancelled", "is_checkout", "is_completed", "is_abandoned", "user_id"];
 

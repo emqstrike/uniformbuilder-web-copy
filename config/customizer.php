@@ -37,5 +37,7 @@ return [
         50 => "50 (2XL)",
         52 => "52",
         54 => "54 (3XL)"
-    ]
+    ],
+
+    'test_orders' => filter_var(env('TEST_ORDERS', true), FILTER_VALIDATE_BOOLEAN)
 ];

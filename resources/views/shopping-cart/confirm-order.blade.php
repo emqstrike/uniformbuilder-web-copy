@@ -195,10 +195,14 @@
                     </div>
 
                     <a href="{{ route('shopping-cart.shipping') }}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
-                    <a href="{{ route('shopping-cart.confirm-order') }}" class="btn btn-primary">Confirm Order And Pay <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    <a href="javascript:void()" onclick="document.getElementById('confirm-order-form').submit()" class="btn btn-primary">Confirm Order And Pay <span class="glyphicon glyphicon-shopping-cart"></span></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<form method="POST" action="{{ route('shopping-cart.confirm-order') }}" id="confirm-order-form" cloak hidden>
+    {{ csrf_field() }}
+</form>
 @endsection

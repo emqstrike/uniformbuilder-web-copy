@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\ShoppingCart\Cart;
+use Illuminate\Http\Request;
 
 class ConfirmOrderController extends Controller
 {
@@ -21,76 +21,92 @@ class ConfirmOrderController extends Controller
 
     public function confirmOrder()
     {
-        // var orderInput = {
+        $cart_token = \Session::get('cart_token');
+        $cart = Cart::findByToken($cart_token);
 
-        //     action: action,
+        if ($cart->cart_items->isEmpty())
+        {
+            return redirect()->route('shopping-cart');
+        }
 
-        //     order: {
+        $user = \Auth::user();
+        $client_information = $user->client_information;
+        $billing_information = $user->billing_information;
+        $shipping_information = $user->shipping_information;
 
-        //         client: _clientName,  
-        //         submitted: _submitted,
-        //         user_id: _user_id,
-        //         user_name: ub.user.fullname,
-        //         origin: ub.config.app_env,
-        //         test_order: ub.funcs.submitAsTestOrder(),
+        $order_input = [
+            'action' => Cart::SAVE_ORDER_ACTION,
 
-        //     },
-        //     athletic_director: {
+            'order' => [
+                'client' => $client_information->full_name,
+                'submitted' => Cart::SUBMITTED_FLAG,
+                'user_id' => $user->id,
+                'user_name' => $user->getFullName(),
+                'origin' => env('APP_ENV'),
+                'test_order' => config('customizer.test_orders') ? 1 : 0
+            ],
 
-        //         organization: _clientOrgName,
-        //         contact: _athleticDirector,
-        //         email: _clientEmail,
-        //         phone: _clientPhone,
-        //         fax: _clientFax,
+            'athletic_director' => [
+                'organization' => null, // skip
+                'contact' => $client_information->athletic_director,
+                'email' => $client_information->email,
+                'phone' => $client_information->phone_number,
+                'fax' => $client_information->fax
+            ],
 
-        //     },
-        //     billing: {
+            'billing' => [
+                'organization' => $billing_information->full_name,
+                'contact' => $billing_information->athletic_director,
+                'email' => $billing_information->email,
+                'address' => $billing_information->address,
+                'city' => $billing_information->city,
+                'state' => $billing_information->state,
+                'phone' => $billing_information->phone_number,
+                'fax' => $billing_information->fax,
+                'zip' => $billing_information->zip
+            ],
 
-        //         organization: _billingOrganization,
-        //         contact: _billingContactName,
-        //         email: _billingEmail,
-        //         address: _billingAddress,
-        //         city: _billingCity,
-        //         state: _billingState,
-        //         phone: _billingPhone,
-        //         fax: _billingFax,
-        //         zip: _billingZip,
+            'shipping' => [
+                'organization' => $shipping_information->full_name,
+                'contact' => $shipping_information->athletic_director,
+                'email' => $shipping_information->email,
+                'address' => $shipping_information->address,
+                'city' => $shipping_information->city,
+                'state' => $shipping_information->state,
+                'phone' => $shipping_information->phone_number,
+                'fax' => $shipping_information->fax,
+                'zip' => $shipping_information->zip
+            ],
 
-        //     },
-        //     shipping: {
+            'order_items' => []
+        ];
 
-        //         organization: _shippingOrganization,
-        //         contact: _shippingContactName,
-        //         email: _shippingEmail,
-        //         address: _shippingAddress,
-        //         city: _shippingCity,
-        //         state: _shippingState,
-        //         phone: _shippingPhone,
-        //         fax: _shippingFax,
-        //         zip: _shippingZip,
+        if (!$cart->cart_items->isEmpty())
+        {
+            $cart_items = $cart->cart_items;
 
-        //     },
-        //     order_items: [
-        //         {
+            foreach ($cart_items as $cart_item) {
+                array_push($order_input['order_items'], [
+                    'brand' => $cart_item->brand,
+                    'item_id' => $cart_item->item_id,
+                    'block_pattern_id' => $cart_item->block_pattern_id,
+                    'neck_option' => $cart_item->neck_option,
+                    'description' => $cart_item->description,
+                    'type' => $cart_item->type,
+                    'builder_customizations' => $cart_item->builder_customizations,
+                    'set_group_id' => $cart_item->set_group_id,
+                    'factory_order_id' => $cart_item->factory_order_id,
+                    'design_sheet ' => $cart_item->design_sheet,
+                    'roster' => $cart_item->roster,
+                    'price' => $cart_item->price,
+                    'applicationType' => ucfirst($cart_item->application_type),
+                    'application_type' => $cart_item->application_type,
+                    'additional_attachments' => $cart_item->additional_attachments,
+                    'notes' => $cart_item->notes
+                ]);
+            }
+        }
 
-        //             brand: ub.current_material.material.brand,
-        //             item_id: _itemID,
-        //             block_pattern_id: _blockPatternID,
-        //             neck_option: _neckOption,
-        //             description: _uniformName,
-        //             type: ub.current_material.material.type,
-        //             builder_customizations: JSON.stringify(ub.current_material.settings),
-        //             set_group_id: 0,
-        //             factory_order_id: '',
-        //             design_sheet : ub.current_material.settings.pdfOrderForm,
-        //             roster: _transformedRoster,
-        //             price: ub.funcs.getPrice(ub.current_material.material),
-        //             applicationType: _type,
-        //             application_type: ub.config.uniform_application_type, 
-        //             additional_attachments: ub.data.orderAttachment,
-        //             notes: _notes,
-        //         },
-        //     ]
-        // };
+        return response()->json($order_input);
     }
 }
