@@ -1392,32 +1392,32 @@ $(document).ready(function() {
 
             if(_currentStatus === "on") {
                 s = 'off';
+                ub.funcs.deactivateMoveTool();
             }
             else {
                 s = 'on';
+                ub.funcs.activateMoveTool(_id);
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
+            ub.funcs.toggleApplication(_id, s);
 
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
             var _matchingSettingsObject = undefined;
-            
+
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
                 _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                
             }
-            
+
             if (typeof _matchingSettingsObject !== "undefined") {
 
                 if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-                            
                     // Toggle matching mascot if the same mascot is selected 
                     _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
 
@@ -1428,7 +1428,6 @@ $(document).ready(function() {
             if (typeof _matchingID !== "undefined") {
 
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
-                
             }
 
         });
@@ -1437,8 +1436,11 @@ $(document).ready(function() {
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
-        
-        // Is this needed ??? 
+
+        // This will check if the move tool will activated or not!!!!!!
+        ub.funcs.activateDisableMoveTool(_id)
+
+        // Is this needed ???
         // ub.funcs.afterActivateMascots(_id);
 
     }
