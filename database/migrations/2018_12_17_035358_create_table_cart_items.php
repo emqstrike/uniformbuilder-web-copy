@@ -15,6 +15,7 @@ class CreateTableCartItems extends Migration
         Schema::create('cart_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 50)->nullable()->default(null);
+            $table->string('thumbnail')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
             $table->double('total_price')->nullable()->default(null);
             $table->double('profit_amount')->nullable()->default(null);

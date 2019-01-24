@@ -1,14 +1,14 @@
 <script type="text/template" id="dropdown-cart-item-tmpl">
     <% if (cart_items.length > 0) { %>
         <% _.each(cart_items, function(cart_item) { %>
-            <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
+            <a href="/builder/0/<%= cart_item.item_id %>?customizer-uniform" class="shopping-cart-item" target="_blank">
                 <div class="row cp-padding-small">
                     <div class="col-md-3">
-                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/clinch_13_singlet072763a2c855/thumbnail.jpg?v=0.720" alt="" width="100" height="100">
+                        <img src="<%= cart_item.thumbnail %>" alt="" width="100" height="100">
                     </div>
                     <div class="col-md-9">
                         <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">
-                            Clinch
+                            <%= cart_item.name %>
                         </h4>
                         <div>
                             <span>Youth: $53</span><br>

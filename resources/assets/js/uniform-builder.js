@@ -452,7 +452,6 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
-
             if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.sport = ub.current_material.material.uniform_category;
