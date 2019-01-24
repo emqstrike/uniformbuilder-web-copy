@@ -1278,6 +1278,8 @@ class UniformBuilderController extends Controller
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
+        $sml = $bc['sorted_modifier_labels'];
+
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
@@ -1311,30 +1313,126 @@ class UniformBuilderController extends Controller
 
         $ctrParts = 0;
 
-        foreach ($parts as &$part) {
+        $newParts = [];
 
-            if (!is_array($part)) { continue; }
+        // adding group id to matching part
+        foreach ($parts as &$partX) {
 
-            if ($part['setting_type'] === 'mesh_shadows') { continue; }
-            if ($part['setting_type'] === 'mesh_highlights') { continue; }
-            if ($part['setting_type'] === 'static_layer') { continue; }
+            if (!is_array($partX)) { continue; }
 
-            if ($part['code'] === 'highlights') { continue; }
-            if ($part['code'] === 'highlight') { continue; }
-            if ($part['code'] === 'shadows') { continue; }
-            if ($part['code'] === 'shadow') { continue; }
-            if ($part['code'] === 'guide') { continue; }
-            if ($part['code'] === 'status') { continue; }
-            if ($part['code'] === 'static') { continue; }
-            if ($part['code'] === 'locker_tag') { continue; }
-            if ($part['code'] === 'elastic_belt') { continue; }
-            if ($part['code'] === 'body_inside') { continue; }
-            if ($part['code'] === 'extra') { continue; }
+            if ($partX['setting_type'] === 'mesh_shadows') { continue; }
+            if ($partX['setting_type'] === 'mesh_highlights') { continue; }
+            if ($partX['setting_type'] === 'static_layer') { continue; }
 
-            if ($hiddenBody and $part['code'] === 'body') { continue; }
+            if ($partX['code'] === 'highlights') { continue; }
+            if ($partX['code'] === 'highlight') { continue; }
+            if ($partX['code'] === 'shadows') { continue; }
+            if ($partX['code'] === 'shadow') { continue; }
+            if ($partX['code'] === 'guide') { continue; }
+            if ($partX['code'] === 'status') { continue; }
+            if ($partX['code'] === 'static') { continue; }
+            if ($partX['code'] === 'locker_tag') { continue; }
+            if ($partX['code'] === 'elastic_belt') { continue; }
+            if ($partX['code'] === 'body_inside') { continue; }
+            if ($partX['code'] === 'extra') { continue; }
+            if ($partX['code'] === 'extra_cowl') { continue; }
+
+            if ($hiddenBody and $partX['code'] === 'body') { continue; }
+
+            Log::info('PARTX===============>' . $partX['code']);
+            $prevCode = $partX['code'];
+
+            // add extra property
+            $partX = (object) array_merge( (array)$partX, array( 'code_prev' => $prevCode ) );
+
+            // pre check if part name value is contains sleeve and only one separator then set it to sleeve only
+            if (strpos($partX->code, 'sleeve') !== false && substr_count($partX->code, '_') === 1) {
+                $partX->code = 'sleeve';
+            }
+
+            // transform code to matching words
+            if (strpos($partX->code, '-') !== false ) { // if dash is detected inside a word
+                $trans_code = str_replace('-', ' ', $partX->code); // replace dash with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $upper_code = str_replace(' ', '-', $upper_code); // replace spaces back to dash
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            } else {
+                $trans_code = str_replace('_', ' ', $partX->code); // replace underscore with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            }
+
+            // words thats are exempted from trim
+            if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
+                Log::info('EXEMPTED WORDS=======>' . $upper_code);
+            } else {
+                // trim
+                if ($count_spaces >= 2) {
+                    $pos = strpos($upper_code, ' ') + 1;
+                    $upper_code = substr($upper_code, $pos);
+                }
+            }
+
+            foreach ($sml as $v) {
+                if ($upper_code === $v['name']) {
+
+                    Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
+
+                    // check if $upper_code is sleeve then check prev_code it matches
+//                    if ($upper_code === 'sleeve') {
+//                        Log::info('SLEEVE CHECK===============>' . $partX->code);
+//                    }
+
+                    // add extra property
+                    $partX = (object) array_merge( (array)$partX, array( 'group_id' => $v['group_id'] ) );
+
+                    // push to array
+                    array_push($newParts, $partX);
+                }
+
+//                if (strpos($upper_code, 'dry') !== false) {
+//                    Log::info('LOGGING PRO-DRY==========%%%%%%%%%%' . $upper_code);
+//                }
+            }
+        }
+
+        // sort new parts before using
+        usort($newParts, function($a, $b)
+        {
+            if ($a->group_id == $b->group_id) {
+                return 0;
+            }
+            return ($a->group_id < $b->group_id) ? -1 : 1;
+        });
+
+//        Log::info('NEW PARTS SORTED===============>' . json_encode($newParts));
+
+        foreach (json_decode(json_encode($newParts), true) as &$part) {
+
+//            if (!is_array($part)) { continue; }
+//
+//            if ($part['setting_type'] === 'mesh_shadows') { continue; }
+//            if ($part['setting_type'] === 'mesh_highlights') { continue; }
+//            if ($part['setting_type'] === 'static_layer') { continue; }
+//
+//            if ($part['code'] === 'highlights') { continue; }
+//            if ($part['code'] === 'highlight') { continue; }
+//            if ($part['code'] === 'shadows') { continue; }
+//            if ($part['code'] === 'shadow') { continue; }
+//            if ($part['code'] === 'guide') { continue; }
+//            if ($part['code'] === 'status') { continue; }
+//            if ($part['code'] === 'static') { continue; }
+//            if ($part['code'] === 'locker_tag') { continue; }
+//            if ($part['code'] === 'elastic_belt') { continue; }
+//            if ($part['code'] === 'body_inside') { continue; }
+//            if ($part['code'] === 'extra') { continue; }
+//
+//            if ($hiddenBody and $part['code'] === 'body') { continue; }
+
+//            Log::info('PART===============>' . $part['code']);
+//            Log::info('PART===============>' . json_encode($part));
 
             $hasPattern = false;
-
             if (array_key_exists('pattern', $part)) {
                 if ($part['pattern']['pattern_id'] != '') {
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
@@ -1343,7 +1441,17 @@ class UniformBuilderController extends Controller
                 }
             }
 
-            $code = $this->toTitleCase($part['code']);
+            if (array_key_exists('code_prev', $part)) {
+                $codeName =   $part['code_prev'];
+            } else {
+                $codeName =  $part['code'];
+            }
+
+//            if ($part['code'] === 'sleeve') {
+//                Log::info('PART TEST===============>' . json_encode($part));
+//            }
+
+            $code = $this->toTitleCase($codeName);
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1835,16 +1943,20 @@ class UniformBuilderController extends Controller
             $path = public_path('design_sheets/' . $filename . '.pdf');
         }
 
+        Log::info('PDF PATH=======>' . $path);
+
         $type = 'upper';
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+//        $sml = $builder_customizations['builder_customizations']['order_items'][0]['sorted_modifier_labels'];
+
+//        $block_pattern = $bc['cuts_links']['block_pattern'];
 
         $sport = $bc['uniform_category'];
 
         if (array_key_exists('material_id', $bc['lower'])) {
             $type = 'lower';
         }
-
 
         $uniform_category = $bc['uniform_category'];
 
@@ -1921,6 +2033,8 @@ class UniformBuilderController extends Controller
         $pdf_url_link = 'https://s3-us-west-2.amazonaws.com/uniformbuilder' . $s3_target_path;
         // $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
 
+        Log::info('PDF S3 TARGET========>' . $pdf_url_link);
+
         $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
         $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
 
@@ -1972,6 +2086,11 @@ class UniformBuilderController extends Controller
             $leftCaption = '(Inside)';
             $rightCaption = '(Outside)';
         }
+
+//        if ($block_pattern === "Hockey Sock") {
+//            $leftCaption = '(Outside)';
+//            $rightCaption = '(Inside)';
+//        }
 
         $html  = '';
         $html .=   '<div>';
