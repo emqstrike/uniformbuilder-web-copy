@@ -952,6 +952,7 @@ $(document).ready(function() {
 
             order: {
 
+                brand: ub.current_material.material.brand,
                 client: _clientName,  
                 submitted: _submitted,
                 user_id: _user_id,
@@ -998,7 +999,6 @@ $(document).ready(function() {
             order_items: [
                 {
 
-                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     block_pattern_id: _blockPatternID,
                     neck_option: _neckOption,
@@ -1044,8 +1044,7 @@ $(document).ready(function() {
 
         _result = ub.data.minimumOrder.getQty(_sport);
 
-        // Show submit order only if qty is greater or equal than required per style
-        if (_qty >= _result.qty) { $('span.submit-confirmed-order').fadeIn(); }
+        $('span.submit-confirmed-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -1058,7 +1057,10 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').on('click', function () {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
-
+            if (_qty < _result.qty) { 
+                bootbox.alert("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " items per style.");
+                return;
+            }
             // if (ub.config.orderArtworkStatus === "rejected") {
 
             //     ub.funcs.resubmitOrderForm();
@@ -1869,24 +1871,8 @@ $(document).ready(function() {
 
         }
 
-        var _result = true;
-        var _qty = ub.funcs.getOrderQty();
-        var _sport = ub.current_material.material.uniform_category;
-        _result = ub.data.minimumOrder.getQty(_sport);
+        ub.funcs.proceedToPreview(orderInfo);
 
-        if (_qty < _result.qty) {
-
-            bootbox.confirm("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " per style. You can only 'Save' and not 'Submit' this order if you proceed. To be able to Submit an Order for this item, please place at least " + _result.qty + " items.<br /><br />Press 'Cancel' to add more items.<br />Press 'OK' to save this order info and add the quantity later. <br /><br />Thank you!" , function (result) { 
-
-                if (result) { ub.funcs.proceedToPreview(orderInfo); }
-
-            });
-
-        } else {
-
-            ub.funcs.proceedToPreview(orderInfo);
-
-        }
 
     }
 

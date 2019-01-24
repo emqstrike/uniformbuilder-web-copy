@@ -17,8 +17,6 @@ function InsertPanel(element, inserts) {
         inserts: this.inserts,
         patterns: _.sortBy(ub.data.patterns.items, "sortID")
     };
-
-    this.initColorPalette();
 }
 
 InsertPanel.prototype = {
