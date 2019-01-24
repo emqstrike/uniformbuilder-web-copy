@@ -376,4 +376,11 @@ $(document).ready(function() {
             ub.funcs.removeUI();
         });
 
+        $('#left-side-toolbar').on('click', '.cart-btn', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            console.log("Click")
+            console.log("Add to cart button madafaka jones")
+        });
+
 });

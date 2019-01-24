@@ -462,6 +462,7 @@ $(document).ready(function () {
             ub.funcs.activatePartByIndex(0);
 
             $('div.left-pane-column-full').fadeIn();
+            $('span.cart-btn').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
             ub.funcs.afterLoadEmbellishments();
@@ -5837,7 +5838,7 @@ $(document).ready(function () {
                     ub.funcs.initRoster();
                 }
 
-            } 
+            }
 
         });
 

@@ -12376,7 +12376,7 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 /* cannot decide if this code is needed (Command by: Rodrigo)
-                
+
                 if (_side === "left" || _side === "right") {
 
                     $('span.perspective[data-id="' + _side + '"]').trigger('click');
