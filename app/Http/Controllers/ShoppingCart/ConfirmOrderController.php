@@ -11,7 +11,12 @@ class ConfirmOrderController extends Controller
 {
     public function index()
     {
-        return view('shopping-cart.confirm-order');
+        $user = \Auth::user();
+        $client_information = $user->client_information;
+        $billing_information = $user->billing_information;
+        $shipping_information = $user->shipping_information;
+
+        return view('shopping-cart.confirm-order', compact('client_information', 'billing_information', 'shipping_information'));
     }
 
     public function confirmOrder()

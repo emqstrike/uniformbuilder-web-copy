@@ -10,10 +10,8 @@ Route::group([
     Route::get('/', "CartController@index")->name('shopping-cart');
 
     Route::group([
-        'prefix' => "{cart_token}",
         'middleware' => [
             "auth",
-            "redirect_if_invalid_cart",
             "redirect_if_invalid_cart_item"
         ]
     ], function() {
@@ -26,8 +24,8 @@ Route::group([
         Route::get('shipping', "ShippingController@index")->name('shopping-cart.shipping');
         Route::post('shipping', "ShippingController@store");
 
-        Route::get('confirm-order', "ConfirmOrderController@index")->name('shopping-cart.confirm-order');
-        Route::post('confirm-order', "ConfirmOrderController@confirmOrder");
+        Route::get('confirm-order', "ConfirmOrderController@index")->name('shopping-cart.confirm-order')->middleware('confirm_order_middleware');
+        Route::post('confirm-order', "ConfirmOrderController@confirmOrder")->middleware('confirm_order_middleware');
     });
 
     Route::group([

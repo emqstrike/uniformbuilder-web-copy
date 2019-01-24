@@ -12,7 +12,10 @@
             <form role="form" method="POST" action="{{ route('shopping-cart.client-info') }}">
                 {{ csrf_field() }}
 
-                <div class="panel panel-default">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Client Info</h1>
+                    </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">

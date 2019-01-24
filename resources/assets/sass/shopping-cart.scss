@@ -1,5 +1,13 @@
 @import "bootstrap-glyphicon-animation";
 
+[cloak] {
+    display: none;
+}
+
+.m-b-30 {
+    margin-bottom: 30px;
+}
+
 .orders-list {
     .item {
         img {

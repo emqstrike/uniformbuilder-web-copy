@@ -11,6 +11,135 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Client Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Full name</td>
+                                    <td>{{ $client_information->full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Athletic Director</td>
+                                    <td>{{ $client_information->athletic_director }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{ $client_information->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone Number</td>
+                                    <td>{{ $client_information->phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fax</td>
+                                    <td>{{ $client_information->fax }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Billing Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Full name</td>
+                                    <td>{{ $billing_information->full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Athletic Director</td>
+                                    <td>{{ $billing_information->athletic_director }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{ $billing_information->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone Number</td>
+                                    <td>{{ $billing_information->phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fax</td>
+                                    <td>{{ $billing_information->fax }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Billing Address</td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>{{ $billing_information->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td>{{ $billing_information->state }}</td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td>{{ $billing_information->city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Zip Code</td>
+                                    <td>{{ $billing_information->zip }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Shipping Information</td>
+                                </tr>
+                                <tr>
+                                    <td>Full name</td>
+                                    <td>{{ $shipping_information->full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Athletic Director</td>
+                                    <td>{{ $shipping_information->athletic_director }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{ $shipping_information->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone Number</td>
+                                    <td>{{ $shipping_information->phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fax</td>
+                                    <td>{{ $shipping_information->fax }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Shipping Address</td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>{{ $shipping_information->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td>{{ $shipping_information->state }}</td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td>{{ $shipping_information->city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Zip Code</td>
+                                    <td>{{ $shipping_information->zip }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-info">
                         <div class="panel-heading">
                             <h1 class="panel-title">Orders</h1>
                         </div>
@@ -42,14 +171,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
+
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h1 class="panel-title">Order Summary</h1>
-                        </div>
-                        <table class="table table-hover">
+                        <table class="table table-striped">
                             <tbody>
+                                <tr>
+                                    <td colspan="2" class="bg-info text-info">Order Summary</td>
+                                </tr>
                                 <tr>
                                     <td>Total Items Fee</td>
                                     <td>$ 105.40</td>

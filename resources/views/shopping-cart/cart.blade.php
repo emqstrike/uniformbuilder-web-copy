@@ -12,19 +12,13 @@
 
             @include('templates.flash')
 
-            <p>
-                Cart Token: <span class="label label-info">{{ \Session::get('cart_token') }}</span> <br>
-                Cart Lifespan: <span class="label label-info">{{ App\ShoppingCart\Cart::LIFE_SPAN }} seconds</span> <br>
-                Cart Timer: <span class="glyphicon glyphicon-time"></span> <span id="cart-timer">0</span> <br>
-            </p>
-
             <div class="row" id="cart-items-el">
                 {{-- content would be loaded here --}}
             </div>
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ route('shopping-cart.client-info', ['cart_token' => \Session::get('cart_token')]) }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+                    <a href="{{ route('shopping-cart.client-info') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
                 </div>
             </div>
         </div>
@@ -245,7 +239,6 @@
 window.shopping_cart = {
     logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
     cart_token: "{{ \Session::get('cart_token') }}",
-    cart_lifespan: "{{ App\ShoppingCart\Cart::LIFE_SPAN }}",
     sizes: <?php echo json_encode($sizes) ?>
 }
 </script>

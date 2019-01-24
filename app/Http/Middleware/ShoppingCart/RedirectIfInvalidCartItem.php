@@ -9,7 +9,7 @@ class RedirectIfInvalidCartItem
 {
     /**
      * Middleware dependency
-     * - RedirectIfInvalidCart
+     * - CartMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

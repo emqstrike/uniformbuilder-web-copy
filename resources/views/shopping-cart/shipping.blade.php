@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header">Shipping</h1>
+            <h1 class="page-header">Shipping Info</h1>
 
             @include('templates.flash')
             @include('templates.error-list')
@@ -12,7 +12,7 @@
             <form role="form" method="POST" action="{{ route('shopping-cart.shipping') }}">
                 {{ csrf_field() }}
 
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h1 class="panel-title">Shipping Info</h1>
                     </div>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h1 class="panel-title">Shipping Address</h1>
                     </div>

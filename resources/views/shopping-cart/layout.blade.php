@@ -27,16 +27,50 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="javascript:void(0)" style="cursor: default;">{{ \Auth::check() ? \Auth::user()->getFullName() : "guest" }}</a></li>
-                    <li><a href="{{ route('shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge" id="cart-item-number">3</span></a></li>
+                    <li><a href="{{ route('shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge" cloak id="cart-item-number">3</span></a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    @yield('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                Cart Token: <span class="label label-info">{{ \Session::get('cart_token') }}</span> <br>
+                Cart Lifespan: <span class="label label-info">{{ App\ShoppingCart\Cart::LIFE_SPAN }} seconds</span> <br>
+                Cart Timer: <span class="glyphicon glyphicon-time"></span> <span id="cart-timer">0</span> <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-b-30">
+        @yield('content')
+    </div>
     
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
     @yield('scripts')
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var time_counter = 0;
+            var cart_lifespan = parseInt("{{ App\ShoppingCart\Cart::LIFE_SPAN }}");
+
+            var timer = setInterval(function() {
+                $('#cart-timer').text(++time_counter);
+
+                if (time_counter >= cart_lifespan) {
+                    clearInterval(timer);
+
+                    $('#cart-timer').text("Timeout!");
+
+                    alert("The cart is now expired!");
+                    location.reload();
+                }
+
+            }, 1000); // 1 sec
+        });
+    </script>
 </body>
 </html>

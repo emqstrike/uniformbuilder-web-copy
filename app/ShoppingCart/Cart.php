@@ -23,6 +23,12 @@ class Cart extends Model
         return $this->belongsTo('App\ShoppingCart\User');
     }
 
+    /**
+     * Valid cart basis
+     *
+     * @param  Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
+     */
     public function scopeValidToUse($query)
     {
         return $query->where('is_active', 1)
