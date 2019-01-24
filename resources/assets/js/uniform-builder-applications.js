@@ -3680,7 +3680,7 @@ $(document).ready(function() {
 
             if (ub.tools.activeTool.active()) { return; }
 
-            if (ub.status.fullView.getStatus()) { 
+            if (ub.status.fullView.getStatus()) {
 
                 if (ub.status.fullViewZoom.getStatus()) {
 
@@ -3711,10 +3711,9 @@ $(document).ready(function() {
             }
 
             if (ub.zoom) {
- 
+
                 ub.zoom_off();
                 return;
-
             }
 
             ub.funcs.hideVisiblePopups();
@@ -3723,22 +3722,20 @@ $(document).ready(function() {
 
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-     
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
-                
+
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) {
                 //if(_sizeOfTeamColors < _sizeOfColorsUsed){
                 if(_sizeOfTeamColors < 2){
                     ub.startModal(1);
-                    return;     
+                    return;
                 }
 
                 if (!ub.branding.useAllColors) {
                     if(_sizeOfTeamColors > 8){
                         ub.startModal(2);
-                        return;     
+                        return;
                     }
                 }
-                
             }
 
             /// Check if CW if empty, draw Pickers if it is
@@ -3767,10 +3764,10 @@ $(document).ready(function() {
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
 
-                ub.funcs.activatePartByIndex(_index);   
+                ub.funcs.activatePartByIndex(_index);
+                ub.funcs.removeSelectApplicationType();
 
-            }
-            else {
+            } else {
 
                 ub.funcs.clickOutside();
 
