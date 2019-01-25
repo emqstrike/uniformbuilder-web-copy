@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\OrdersAPIClient as APIClient;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 class OrdersController extends Controller
 {
@@ -22,18 +23,31 @@ class OrdersController extends Controller
 
     public function ordersMinified($from = null, $to = null, $test_order = null)
     {
-        if($from == null) {
+        if ($from == null) {
             $from = Carbon::now()->subDays(30)->format("Y-m-d");
         }
-        if($to == null) {
+
+        if ($to == null) {
             $to = Carbon::now()->format("Y-m-d");
         }
-        if($test_order == null) {
+
+        if ($test_order == null) {
             $test_order = 1;
         }
-        $orders = $this->client->getOrdersMinified($from, $to, $test_order);
-        foreach($orders as $order)
-        {
+
+        $filters = [];
+
+        if (Input::get('unassigned')) {
+            $filters['unassigned'] = Input::get('unassigned');
+        }
+
+        if (Input::get('deleted')) {
+            $filters['deleted'] = Input::get('deleted');
+        }
+
+        $orders = $this->client->getOrdersMinified($filters, $from, $to, $test_order);
+
+        foreach($orders as $order) {
             $order->created_at = date('M-d-Y', strtotime($order->created_at));
         }
 
@@ -41,7 +55,8 @@ class OrdersController extends Controller
             'orders' => $orders,
             'from_date' => $from,
             'to_date' => $to,
-            'test_order' => $test_order
+            'test_order' => $test_order,
+            'filters' => $filters
         ]);
     }
 
