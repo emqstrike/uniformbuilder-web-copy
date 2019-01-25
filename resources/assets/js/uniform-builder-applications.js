@@ -6229,9 +6229,11 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var blockPatternExceptions = ['Hockey Socks'];
+
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern))) { 
                 _additionalClass = 'active';
 
                 if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
@@ -6664,7 +6666,10 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4' && ub.config.sport !== "Football 2017") {
+        // this is to ignore input size 0.5 on application #4 on a specified block pattern
+        var blockPatternExceptions = ['Hockey Socks'];
+
+        if (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
 
             _inputSizes = [{size: '0.5', }];
 

@@ -2259,7 +2259,7 @@ $(document).ready(function() {
                         scale = scale.toString();
 
                     if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
-                        && typeof settingsObj.bestfit_obj === 'undefined') { 
+                        || typeof settingsObj.bestfit_obj === 'undefined') { 
 
                             embellishmentScales.push({
                                 appId: appIdStr,
