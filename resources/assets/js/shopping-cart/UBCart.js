@@ -15,12 +15,13 @@ var UBCart = {
         UBCart.fetchCartItems(function(response) {
             if (response.success) {
                 var cart_items = response.data;
+                window.cart_items = cart_items;
 
                 // load cart items
                 UBCart.updateShoppingCartDetails(cart_items);
 
                 // add to cart button and update to cart
-                if (! _.contains(_.pluck(cart_items, "item_id"), ub.config.material_id)) {
+                if (! _.contains(_.pluck(cart_items, "material_id"), ub.config.material_id)) {
                     // add to cart
                     $('#left-side-toolbar .cart-btn').attr('data-action', "add");
                     $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
@@ -29,7 +30,7 @@ var UBCart = {
                 } else {
                     // update cart
 
-                    var cart_item = _.filter(cart_items, {item_id: ub.config.material_id});
+                    var cart_item = _.filter(cart_items, {material_id: ub.config.material_id});
                     console.log(cart_item);
 
                     $('#left-side-toolbar .cart-btn').attr('data-action', "update");
@@ -76,10 +77,11 @@ var UBCart = {
         console.log("Adding item to cart ...");
 
         UBCart.cartItemApi.addToCart({
+            material_id: material.id,
             name: material.name,
             thumbnail: material.thumbnail_path,
             brand: material.brand,
-            item_id: parseInt(material.item_id),
+            item_id: parseInt(material.id),
             block_pattern_id: parseInt(material.block_pattern_id),
             neck_option: ub.neckOption,
             description: material.description,

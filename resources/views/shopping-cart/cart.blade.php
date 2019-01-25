@@ -32,14 +32,14 @@
 
 <script type="text/template" id="cart-items-tmpl">
     <% _.each(cart_items, function(item) { %>
-        <div class="col-md-6 cart-item" data-cart-item-id="<%= item.id %>">
+        <div class="col-md-6 cart-item" data-cart-item-id="<%= item.cart_item_id %>">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button class="btn btn-success pull-right btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</button>
-                    <h1 class="panel-title">Gator 11</h1>
+                    <a href="/builder/0/<%= item.material_id %>?customize-uniform" class="btn btn-success pull-right btn-xs" target="_blank"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</a>
+                    <h1 class="panel-title"><%= item.name %></h1>
                 </div>
                 <div class="panel-body">
-                    <img src="https://via.placeholder.com/150" class="img-responsive" alt="" />
+                    <img src="<%= item.thumbnail %>" class="img-responsive" alt="" width="100" />
                     <hr>
 
                     <div class="form-group">

@@ -23,7 +23,7 @@ var Cart = {
                 cart_items: Cart.cart_items
             }));
 
-            var cart_item_ids = _.pluck(Cart.cart_items, 'id');
+            var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
             _.map(cart_item_ids, function(cart_item_id) {
                 var default_size = $(':input[name="size"]', el).val();
                 return Cart.loadPlayers(cart_item_id, parseInt(default_size));
@@ -70,7 +70,7 @@ var Cart = {
 
         var player_rows_tmpl = _.template($('#player-rows-tmpl').html());
 
-        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
         var players = _.filter(cart_item.players, {size: size});
 
         $('.player-list tbody', cart_item_el).html(player_rows_tmpl({
@@ -89,7 +89,7 @@ var Cart = {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var tmpl = _.template($('#selected-sizes-tmpl').html());
 
-        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
         var selected_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
@@ -115,7 +115,7 @@ var Cart = {
         var selected_size = parseInt($(':input[name="size"]', cart_item_el).val());
         var player_list_el = $('.player-list tbody', cart_item_el);
 
-        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
         var addPlayerBootbox = bootbox.dialog({
             title: "Add Player",
@@ -190,7 +190,7 @@ var Cart = {
         var form_tmpl = _.template($('#form-tmpl').html());
         var selected_size = $(':input[name="size"]', cart_item_el).val();
 
-        var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+        var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
         var player = _.find(cart_item.players, {id: parseInt(player_id)});
 
@@ -274,7 +274,7 @@ var Cart = {
                 var player_id = _this.data('id');
                 var selected_size = $(':input[name="size"]').val();
 
-                var cart_item = _.find(Cart.cart_items, {id: cart_item_id});
+                var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
                 var players = cart_item.players;
 
                 CartItemPlayerApi.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {

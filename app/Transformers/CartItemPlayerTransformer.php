@@ -15,7 +15,10 @@ class CartItemPlayerTransformer extends TransformerAbstract
     public function transform(CartItem $cartItem)
     {
         return [
-            'id' => $cartItem->id,
+            'cart_item_id' => $cartItem->id,
+            'material_id' => $cartItem->material_id,
+            'name' => $cartItem->name,
+            'thumbnail' => $cartItem->thumbnail,
             'players' => $cartItem->cartItemPlayers->toArray()
         ];
     }

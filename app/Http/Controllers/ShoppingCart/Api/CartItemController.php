@@ -48,6 +48,7 @@ class CartItemController extends Controller
         $cart = Cart::findByToken($cart_token);
 
         $cart_item = CartItem::create([
+            'material_id' => $request->get('material_id'),
             'name' => $request->get('name'),
             'thumbnail' => $request->get('thumbnail'),
             'brand' => $request->get('brand'),

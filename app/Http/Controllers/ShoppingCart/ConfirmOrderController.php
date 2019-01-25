@@ -93,7 +93,7 @@ class ConfirmOrderController extends Controller
                     'neck_option' => $cart_item->neck_option,
                     'description' => $cart_item->description,
                     'type' => $cart_item->type,
-                    'builder_customizations' => $cart_item->builder_customizations,
+                    'builder_customization' => $cart_item->builder_customization,
                     'set_group_id' => $cart_item->set_group_id,
                     'factory_order_id' => $cart_item->factory_order_id,
                     'design_sheet ' => $cart_item->design_sheet,
