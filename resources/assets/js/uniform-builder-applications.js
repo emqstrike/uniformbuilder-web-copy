@@ -7844,7 +7844,19 @@ $(document).ready(function() {
             var _applicationType = '';
             var _sizeObj = undefined;
 
-            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            // list of sport block patterns that ignore ub.data.initialSizes
+            var blockPatternsException = ['Hockey Socks'];
+
+            // Temporary, this is to fix the issue regarding Hockey Socks (Jan. 25, 2019 @elmer)
+            if (!_.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            } else {
+
+                if (ub.config.type === 'lower' && _.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                    _sizeObj = ub.data.initialSizesLower.getSize(_type, _id, ub.current_material.material.uniform_category, ub.current_material.material.block_pattern);
+                }
+
+            }
 
             if (typeof _sizeObj !== "undefined") {
 
