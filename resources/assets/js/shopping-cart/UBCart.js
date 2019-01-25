@@ -1,37 +1,133 @@
 var UBCart = {
-    init: function() {
-        var CartItemApi = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
+    cartItemApi: null,
 
-        CartItemApi.getCartItems(function(response) {
+    init: function() {
+        UBCart.cartItemApi = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
+
+        // initialize shopping cart first before the start the logic
+        UBCart.initShoppingCart(function() {
+            $('#left-side-toolbar').on('click', '.cart-btn[data-action="add"]', UBCart.addToCart);
+            $('#left-side-toolbar').on('click', '.cart-btn[data-action="update"]', UBCart.updateItem);
+        });
+    },
+
+    initShoppingCart: function(callback) {
+        UBCart.fetchCartItems(function(response) {
             if (response.success) {
-                var tmpl = _.template($('#dropdown-cart-item-tmpl').html());
                 var cart_items = response.data;
 
-                // change cart number
-                $('#my-shopping-cart .cart-item-number').text(response.data.length);
-
-                // display cart items
-                $('#dropdown-cart-item-list').html(tmpl({
-                    cart_items: cart_items,
-                    shopping_cart_route: shopping_cart.route
-                }));
-
-                console.log(ub.config);
+                // load cart items
+                UBCart.updateShoppingCartDetails(cart_items);
 
                 // add to cart button and update to cart
-                // if (_.contains(_.pluck(cart_items, "item-id"), ub.config.material_id)) {
-                //     // add to cart
-                //     $('#left-side-toolbar .cart-btn').data('action', "add");
-                //     $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
+                if (! _.contains(_.pluck(cart_items, "item_id"), ub.config.material_id)) {
+                    // add to cart
+                    $('#left-side-toolbar .cart-btn').attr('data-action', "add");
+                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
 
-                //     console.log("add to cart");
-                // } else {
-                //     // update cart
-                //     $('#left-side-toolbar .cart-btn').data('action', "update");
-                //     $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE CART");
+                    console.log("add to cart");
+                } else {
+                    // update cart
 
-                //     console.log("update cart");
-                // }
+                    var cart_item = _.filter(cart_items, {item_id: ub.config.material_id});
+                    console.log(cart_item);
+
+                    $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                    $('#left-side-toolbar .cart-btn').data('cart-item-id', cart_item.id);
+                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+
+                    console.log("update cart");
+                }
+
+                $('#my-shopping-cart').removeAttr('cloak');
+
+                callback();
+            } else {
+                console.log("Something went wrong on fetching cart items!");
+            }
+        });
+    },
+
+    fetchCartItems: function(callback) {
+        UBCart.cartItemApi.getCartItems(function(response) {
+            callback(response);
+        });
+    },
+
+    updateShoppingCartDetails: function(cart_items) {
+        var tmpl = _.template($('#dropdown-cart-item-tmpl').html());
+
+        // change cart number
+        $('#my-shopping-cart .cart-item-number').text(cart_items.length);
+
+        $('#dropdown-cart-item-list').html(tmpl({
+            cart_items: cart_items,
+            shopping_cart_route: shopping_cart.route
+        }));
+    },
+
+    addToCart: function(e) {
+        e.preventDefault();
+        /* Act on the event */
+        console.log("Add to cart button madafaka jones");
+
+        var material = ub.current_material.material;
+
+        console.log("Adding item to cart ...");
+
+        UBCart.cartItemApi.addToCart({
+            name: material.name,
+            thumbnail: material.thumbnail_path,
+            brand: material.brand,
+            item_id: parseInt(material.item_id),
+            block_pattern_id: parseInt(material.block_pattern_id),
+            neck_option: ub.neckOption,
+            description: material.description,
+            type: material.type,
+            builder_customization: JSON.stringify(ub.current_material.settings),
+            design_sheet: material.design_sheet_path,
+        }, function(response) {
+            // add to cart response
+            var atc_response = response;
+            console.log(atc_response);
+
+            if (atc_response.success) {
+                console.log("Adding item to cart ok");
+
+                bootbox.alert("Add to cart " + material.name);
+
+                console.log("Updating cart items in dropdown ...");
+                UBCart.fetchCartItems(function(response) {
+                    console.log("Updating cart items in dropdown ok");
+
+                    var cart_items = response.data;
+
+                    // update cart items
+                    UBCart.updateShoppingCartDetails(cart_items);
+
+                    // change the action and text
+                    $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                    $('#left-side-toolbar .cart-btn').data('cart-item-id', atc_response.cart_item_id);
+                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+                });
+            }
+        });
+    },
+
+    updateItem: function(e) {
+        e.preventDefault();
+        /* Act on the event */
+        console.log("Update cart button madafaka jones");
+
+        var cart_item_id = parseInt($(this).data('cart-item-id'));
+
+        UBCart.cartItemApi.updateItem(cart_item_id, {
+            builder_customization: JSON.stringify(ub.current_material.settings)
+        }, function(response) {
+            console.log(response);
+
+            if (response.success) {
+                bootbox.alert("Successfully update");
             }
         });
     }

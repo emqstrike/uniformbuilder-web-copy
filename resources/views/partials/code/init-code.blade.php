@@ -309,6 +309,4 @@
         // end #load_order
 
     });
-
-    ub.funcs.addFunctionToAfterloadList(UBCart.init);
 </script>

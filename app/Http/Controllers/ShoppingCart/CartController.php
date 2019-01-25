@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $sizes = config('customizer.sizes');
 

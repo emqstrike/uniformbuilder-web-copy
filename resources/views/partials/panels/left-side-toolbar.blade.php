@@ -1,9 +1,11 @@
 <div id="left-side-toolbar">
 
-    {{-- add to cart button --}}
+    {{-- add/update to cart button --}}
     <span class="toolbar-item cart-btn">
         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-        <span class="toolbar-item-label">ADD TO CART</span>
+        <span class="toolbar-item-label">
+            {{-- to be load in js --}}
+        </span>
     </span>
 
     <hr class="left-side-divider middle middle-bottom fav-top" />

@@ -20,16 +20,13 @@
             </a>
         <% }); %>
         <div>
-            <a href="<%= shopping_cart_route %>" class="btn checkout-button">See All in My Cart</a>
+            <a href="<%= shopping_cart_route %>" class="btn checkout-button" target="_blank">See All in My Cart</a>
         </div>
     <% } else { %>
-        <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
-            <div class="row cp-padding-small">
-                <div class="col-md-12">
-                    <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">Empty Cart</h4>
-                </div>
+        <div class="row cp-padding-small">
+            <div class="col-md-12">
+                <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">Empty Cart</h4>
             </div>
-            <hr class="cp-margin-remove">
-        </a>
+        </div>
     <% } %>
 </script>

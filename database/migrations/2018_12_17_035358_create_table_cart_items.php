@@ -26,7 +26,7 @@ class CreateTableCartItems extends Migration
             $table->string('neck_option')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
             $table->string('type', 10)->nullable()->default(null);
-            $table->json('builder_customizations')->nullable()->default(null);
+            $table->longText('builder_customization')->nullable()->default(null);
             $table->integer('set_group_id')->nullable()->default(null);
             $table->integer('factory_order_id')->nullable()->default(null);
             $table->string('design_sheet')->nullable()->default(null);

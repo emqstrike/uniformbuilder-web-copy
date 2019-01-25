@@ -100,61 +100,11 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#" id="my-shopping-cart" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" id="my-shopping-cart" class="dropdown-toggle" data-toggle="dropdown" cloak>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; My Cart <span class="cp-text-bold cart-item-number">0</span>
                     </a>
                     <div class="shopping-dropdown-menu dropdown-menu" role="menu" id="dropdown-cart-item-list">
-                        {{-- <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
-                            <div class="row cp-padding-small">
-                                <div class="col-md-3">
-                                    <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/clinch_13_singlet072763a2c855/thumbnail.jpg?v=0.720" alt="" width="100" height="100">
-                                </div>
-                                <div class="col-md-9">
-                                    <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">
-                                        Clinch
-                                    </h4>
-                                    <div>
-                                        <span>Youth: $53</span><br>
-                                        <span>Adult: $43</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="cp-margin-remove">
-                        </a>
-                        <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
-                            <div class="row cp-padding-small">
-                                <div class="col-md-3">
-                                    <img src="https://s3.us-west-2.amazonaws.com/uniformbuilder/materials/staging/minnesota_154_sfn-jogger_front5c8e230302c9/thumbnail.jpg?v=0.720" alt="" width="100" height="100">
-                                </div>
-                                <div class="col-md-9">
-                                    <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">
-                                        minnesota
-                                    </h4>
-                                    <div>
-                                        <span>Youth: $53</span><br>
-                                        <span>Adult: $43</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="cp-margin-remove">
-                        </a>
-                        <a href="/cart-items/1" class="shopping-cart-item" target="_blank">
-                            <div class="row cp-padding-small">
-                                <div class="col-md-3">
-                                    <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/speed-17-alt-6-(colts)-jersey_42_waistd80fc6a98a42/thumbnail.jpg?v=0.720" alt="" width="100" height="100">
-                                </div>
-                                <div class="col-md-9">
-                                    <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">
-                                        SPEED 17 ALT 6 (COLTS) JERSEY
-                                    </h4>
-                                    <div>
-                                        <span>Youth: $53</span><br>
-                                        <span>Adult: $43</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="cp-margin-remove">
-                        </a> --}}
+                        {{-- to be load of js --}}
                     </div>
                 </li>
 

@@ -128,6 +128,7 @@ $(document).ready(function () {
 
             ub.zoom_off();
 
+            ub.funcs.addFunctionToAfterloadList(UBCart.init);
         };
 
 

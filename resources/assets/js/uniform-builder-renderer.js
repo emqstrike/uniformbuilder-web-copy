@@ -375,18 +375,4 @@ $(document).ready(function() {
             $("div#main_view").css('background-color', '#61605e');
             ub.funcs.removeUI();
         });
-
-        $('#left-side-toolbar').on('click', '.cart-btn[data-action="add"]', function(event) {
-            event.preventDefault();
-            /* Act on the event */
-            console.log("Click")
-            console.log("Add to cart button madafaka jones")
-        });
-
-        $('#left-side-toolbar').on('click', '.cart-btn[data-action="update"]', function(event) {
-            event.preventDefault();
-            /* Act on the event */
-            console.log("Click")
-            console.log("Update cart button madafaka jones")
-        });
 });

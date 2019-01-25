@@ -49,12 +49,16 @@ var Cart = {
 
         CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
             if (response.success) {
-                Cart.cart_items = response.data;
+                if (response.data.length > 0) {
+                    Cart.cart_items = response.data;
 
-                $('#cart-item-number').text(Cart.cart_items.length).show();
-                $('#cart-items-el').html("");
+                    $('#cart-item-number').text(Cart.cart_items.length).show();
+                    $('#cart-items-el').html("");
 
-                callback();
+                    callback();
+                } else {
+                    $('#cart-items-el').html('<div class="col-md-12">Cart is empty</div>');
+                }
             } else {
                 $('#cart-items-el').html('<div class="col-md-12">Failed to fetch cart items.</div>');
             }
