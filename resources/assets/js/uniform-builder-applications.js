@@ -7798,6 +7798,10 @@ $(document).ready(function() {
 
             ub.funcs.activateMascots(_settingsObject.code);
 
+            if (ub.current_material.settings.applications[_id].application.views[0].application.flip === 1) {
+                ub.funcs.flipMascot(_settingsObject);
+            }
+
         }
 
         if (_type === 'player_name') {
@@ -7832,6 +7836,10 @@ $(document).ready(function() {
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
+
+            if (ub.current_material.settings.applications[_id].application.views[0].application.flip === 1) {
+                ub.funcs.flipMascot(_settingsObject);
+            }
 
             delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
@@ -7920,6 +7928,10 @@ $(document).ready(function() {
             ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            if (ub.current_material.settings.applications[_id].application.views[0].application.flip === 1) {
+                ub.funcs.flipMascot(_settingsObject);
+            }
+
             delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
@@ -7956,6 +7968,10 @@ $(document).ready(function() {
 
             ub.funcs.LSRSBSFS(parseInt(_id));
 
+            if (ub.current_material.settings.applications[_id].application.views[0].application.flip === 1) {
+                ub.funcs.flipMascot(_settingsObject);
+            }
+
             delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
@@ -7990,7 +8006,10 @@ $(document).ready(function() {
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
             ub.funcs.activateEmbellishments(_settingsObject.code);
-            
+
+            if (ub.current_material.settings.applications[_id].application.views[0].application.flip === 1) {
+                ub.funcs.flipMascot(_settingsObject);
+            }
             //==> 
 
 
@@ -8899,6 +8918,7 @@ $(document).ready(function() {
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
 
                     var _type = $(this).data('type');
+
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
                     $('div#changeApplicationUI').remove();
