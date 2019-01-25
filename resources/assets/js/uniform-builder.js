@@ -5592,7 +5592,7 @@ $(document).ready(function () {
             var _email = $('input.quickRegistrationEmail').val();
             var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
-            if (!email_regex.test(_email)) { 
+            if (!email_regex.test(_email)) {
 
                 $('em.message').html('Please enter a valid email: ');
                 return false;
@@ -5600,20 +5600,22 @@ $(document).ready(function () {
             } else {
 
                 if (typeof $.ajaxSettings.headers !== "undefined") {
-                    delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+                    delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
                 }
-        
+
                 $.ajax({
                     data: JSON.stringify({ email: _email }),
                     url: ub.config.api_host + "/api/user/quickRegistration",
                     dataType: "json",
-                    type: "POST", 
+                    type: "POST",
                     crossDomain: true,
                     contentType: 'application/json',
-                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-                
+                    headers: {
+                        "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
+                    },
+
                     success: function (response){
-                        
+
                         if(response.success) {
 
                             window.ub.user = {
@@ -5633,12 +5635,12 @@ $(document).ready(function () {
                                 ub.funcs.initRoster();
                             } else if (src === "save") {
                                 ub.funcs.initSaveDesign();
+                            } else if (src === "feedback") {
+                                ub.funcs.initFeedbackForm();
                             }
-                            
                             return true;
 
-                        }
-                        else{
+                        } else{
 
                             $('a.login-link').trigger('click');
 
@@ -5647,11 +5649,9 @@ $(document).ready(function () {
                         }
 
                     }
-                
                 });
 
                 return true;
-
             }
 
         });
