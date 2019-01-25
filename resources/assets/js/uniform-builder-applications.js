@@ -7950,6 +7950,8 @@ $(document).ready(function() {
             
             if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _size = 4; }
 
+            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
+
             ub.funcs.setAppSize(_id, _size);
 
             _settingsObject.text             = ub.funcs.getSampleTeamName();
