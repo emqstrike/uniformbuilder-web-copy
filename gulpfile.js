@@ -123,6 +123,8 @@ elixir(function(mix) {
     mix.scripts("shopping-cart/api/CartItemApi.js", "public/js/shopping-cart/api/cart-item-api.js");
     mix.scripts("shopping-cart/api/CartItemPlayerApi.js", "public/js/shopping-cart/api/cart-item-player-api.js");
 
+    mix.scripts("shopping-cart/UBCart.js", "public/js/shopping-cart/ub-cart.js");
+
     mix.less(
         [
             // Third-party
