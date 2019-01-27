@@ -324,7 +324,7 @@ $(document).ready(function(){
             api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
             client = $(this).parent().parent().parent().find('.td-order-client').text();
             client = escapeSingleQuotes(client);
-            var order_id = $(this).parent().parent().parent().find('.td-order-id').text();
+            var order_id = $(this).parent().parent().find('.td-order-id').text();
 
             window.order_id = order_id;
             getOrderDetails(function(order){ window.order = order; });
