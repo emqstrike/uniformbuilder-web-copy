@@ -383,6 +383,11 @@ $(document).ready(function(){
 
                 }
 
+                console.log("BUILDER CUSTOMIZATION bcx");
+                console.log(bcx);
+                console.log("CUSTOMIZER MATERIAL ID");
+                console.log(customizer.material_id);
+
                 var teamcolors = bcx.team_colors;
 
                 var pdfOrderFormValue = bcx.pdfOrderForm;
