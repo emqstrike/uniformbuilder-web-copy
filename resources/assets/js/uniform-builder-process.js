@@ -156,9 +156,10 @@ $(document).ready(function() {
     ub.funcs.hideColumns = function () {
 
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isFootball() || ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
-        
-            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+        // !ub.funcs.isFootball() ||
+        if (!ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
+
+            $('th.sleevetype, th.lastnameapplication, td.sleevetype, td.lastnameapplication').hide();
 
         }
 
@@ -1146,7 +1147,11 @@ $(document).ready(function() {
         var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
-        var _transformedRoster      = [];
+        var _sortedModifierLabels   = _.indexBy(_.sortBy(ub.data.modifierLabels, 'intGroupID'), 'group_id');
+
+        // console.log('_sortedModifierLabels====>', _sortedModifierLabels);
+
+        var _transformedRoster       = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
 
@@ -1177,7 +1182,10 @@ $(document).ready(function() {
 
         });
 
-        var _type = ub.config.uniform_application_type.toTitleCase(); 
+        var _type = ub.config.uniform_application_type.toTitleCase();
+
+        // add modifier labels to settings
+        ub.current_material.settings.sorted_modifier_labels = _sortedModifierLabels;
 
         var orderInput = {
 
@@ -1241,9 +1249,8 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes,
-
-                },
+                    notes: _notes
+                }
             ]
         };        
 
@@ -1273,6 +1280,8 @@ $(document).ready(function() {
 
         var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
+
+        console.log('ub.funcs.prepareData() output=====>', _input);
 
         $.ajaxSetup({
             headers: {
@@ -2323,6 +2332,7 @@ $(document).ready(function() {
         }
 
         $('div#roster-input').fadeIn();
+        console.log('AFTER FADE IN ROSTER INPUT CONTAINER=======>');
 
         // Setup Events if this is not rejected
         if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.updateOrderFromCustomArtworkRequest) {
@@ -2336,6 +2346,7 @@ $(document).ready(function() {
             });
 
             $('span.add-player').on('click', function () {
+                console.log('ON CLICK ADD PLAYER=======>');
 
                 var _numbers    = ''; 
                 var _size       = '';
@@ -2422,6 +2433,7 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.hideColumns();
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order
