@@ -319,7 +319,7 @@ $(document).ready(function(){
 
             e.preventDefault();
 
-            var rep_id = parseInt($(this).parent().parent().parent().find('.rep-id').val());
+            var rep_id = parseInt($(this).parent().parent().find('.rep-id').val());
             var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
             api_order_id = $(this).parent().parent().find('.td-order-code').text();
             client = $(this).parent().parent().find('.td-order-client').text();
