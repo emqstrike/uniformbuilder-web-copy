@@ -29,12 +29,12 @@
 
                         <div id="filter-container" class="pull-left">
                             <div class="form-group">
-                                <input type="checkbox" id="unassigned-orders" @if (isset($filters['unassigned'])) checked="checked" @endif>    
+                                <input type="checkbox" id="unassigned-orders" @if (isset($filters['unassigned'])) checked="checked" @endif>
                                 <label>Unassigned</label>
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" id="deleted-orders" @if (isset($filters['deleted'])) checked="checked" @endif>    
+                                <input type="checkbox" id="deleted-orders" @if (isset($filters['deleted'])) checked="checked" @endif>
                                 <label>Deleted</label>
                             </div>
 
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="pull-right">
                             <label>Load Test Orders: </label>
@@ -321,8 +321,8 @@ $(document).ready(function(){
 
             var rep_id = parseInt($(this).parent().parent().parent().find('.rep-id').val());
             var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
-            api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
-            client = $(this).parent().parent().parent().find('.td-order-client').text();
+            api_order_id = $(this).parent().parent().find('.td-order-code').text();
+            client = $(this).parent().parent().find('.td-order-client').text();
             client = escapeSingleQuotes(client);
             var order_id = $(this).parent().parent().find('.td-order-id').text();
 
@@ -353,6 +353,12 @@ $(document).ready(function(){
             window.order_parts = null;
             getOrderParts(function(order_parts){ window.order_parts = order_parts; });
 
+            console.log(' ( ( ( WINDOW api_order_id ) ) ) ');
+            console.log(api_order_id);
+
+            console.log(' ( ( ( WINDOW order_parts ) ) ) ');
+            console.log(window.order_parts);
+
             function getOrderParts(callback){
                 var order_parts;
                 var url = "//" +api_host+ "/api/order/items/"+api_order_id;
@@ -374,6 +380,9 @@ $(document).ready(function(){
                 bcx = JSON.parse(entry.builder_customizations);
                 window.customizer_material_id = null;
                 window.pa_id = entry.id;
+
+                console.log("BCX > > > ");
+                console.log(bcx)
 
                 if('material_id' in bcx.upper){
                     window.customizer_material_id = bcx.upper.material_id;
@@ -1211,7 +1220,7 @@ $(document).ready(function(){
 
     $('.delete-order').click(function() {
         var orderID = $(this).data('order-id');
-        
+
         $('#delete-order-modal #order-id').val(orderID);
 
         $('#delete-order-modal').modal('show');
