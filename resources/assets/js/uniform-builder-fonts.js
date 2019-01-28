@@ -283,11 +283,7 @@ $(document).ready(function() {
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
 
-            if (ub.funcs.isTackleTwill()) {
-                _perspectiveData = _.find(_font._perspectiveData, {perspective: perspective});
-            } else {
-                _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
-            }
+            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
 
             _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
 
