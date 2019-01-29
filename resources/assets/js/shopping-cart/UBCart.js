@@ -27,6 +27,7 @@ var UBCart = {
 
                     // load the default settings
                     ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
+                    ub.funcs.removeLocations();
                 } else {
                     // update cart
                     var cart_item = _.find(cart_items, {material_id: ub.config.material_id});
@@ -37,6 +38,7 @@ var UBCart = {
 
                     // load the uniform settings of cart item
                     ub.loadSettings(JSON.parse(cart_item.builder_customization));
+                    ub.funcs.removeLocations();
                 }
 
                 $('#my-shopping-cart').removeAttr('cloak');
