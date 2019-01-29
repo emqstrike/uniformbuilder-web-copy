@@ -7,8 +7,10 @@
  *
  * File dependencies
  * - public/js/shopping-cart/cart-item-player-api.js
+ *
+ * Alias
+ * - cipa - Cart Item Player Api
  */
-var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
 
 var Cart = {
     cart_items: [],
@@ -47,12 +49,11 @@ var Cart = {
     initCartItems: function(callback) {
         $('#cart-items-el').html('<div class="col-md-12">Loading cart items ...</div>');
 
-        CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
+        cipa.getPlayersPerCartItem(function(response, textStatus, xhr) {
             if (response.success) {
                 if (response.data.length > 0) {
                     Cart.cart_items = response.data;
 
-                    $('#cart-item-number').text(Cart.cart_items.length).show();
                     $('#cart-items-el').html("");
 
                     callback();
@@ -143,7 +144,7 @@ var Cart = {
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            CartItemPlayerApi.addPlayer(cart_item_id, {
+                            cipa.addPlayer(cart_item_id, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -224,7 +225,7 @@ var Cart = {
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            CartItemPlayerApi.updatePlayer(cart_item_id, player_id, {
+                            cipa.updatePlayer(cart_item_id, player_id, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -277,7 +278,7 @@ var Cart = {
                 var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
                 var players = cart_item.players;
 
-                CartItemPlayerApi.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
+                cipa.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
                     cart_item.players = _.reject(players, {id: parseInt(player_id)});
 
                     if (cart_item.players.length < players.length) {

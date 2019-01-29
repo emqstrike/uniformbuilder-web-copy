@@ -123,6 +123,8 @@ elixir(function(mix) {
     mix.scripts("shopping-cart/api/CartItemApi.js", "public/js/shopping-cart/api/cart-item-api.js");
     mix.scripts("shopping-cart/api/CartItemPlayerApi.js", "public/js/shopping-cart/api/cart-item-player-api.js");
 
+    mix.scripts("shopping-cart/ConfirmOrder.js", "public/js/shopping-cart/confirm-order.js");
+
     mix.scripts("shopping-cart/UBCart.js", "public/js/shopping-cart/ub-cart.js");
 
     mix.less(
@@ -143,6 +145,6 @@ elixir(function(mix) {
         // Result
         'public/uniform-builder/css/uniform-builder.css'
     );
-    
+
     mix.sass('shopping-cart.scss', 'public/css/shopping-cart.css');
 });

@@ -10,8 +10,14 @@
 
 .orders-list {
     .item {
+        margin-bottom: 10px;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+
         img {
-            width: 25%;
+            width: 30%;
             display: inline-block;
         }
 

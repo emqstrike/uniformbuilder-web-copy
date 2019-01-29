@@ -25,20 +25,6 @@ CartItemApi.prototype = {
     getCartItems: function(callback) {
         $.get("/api/shopping-cart/cart-items", this.cartPermit, callback);
     },
-    /*
-    name // ub.current_material.material.name
-    thumbnail // ub.current_material.material.thumbnail_path
-    brand // ub.current_material.material.brand
-    item_id // parseInt(ub.current_material.material.item_id)
-    block pattern id // parseInt(ub.current_material.material.block_pattern_id)
-    neck option // ub.neckOption
-    description // ub.current_material.material.description
-    type // ub.current_material.material.type
-    builder_customization // JSON.stringify(ub.current_material.settings)
-    design_sheet // ub.current_material.material.design_sheet_path
-
-     */
-
 
     /**
      * Add item to cart

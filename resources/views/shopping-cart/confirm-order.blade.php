@@ -144,30 +144,8 @@
                             <h1 class="panel-title">Orders</h1>
                         </div>
                         <div class="panel-body">
-                            <div class="orders-list">
-                                <div class="item">
-                                    <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                                    <div class="order-details">
-                                        <h3 class="order-title">Dons Long Sleeve Crew Neck</h3>
-                                        <p>Tech-Tee (Apparel)</p>
-                                        <p>Jersey Name: Doe</p>
-                                        <p>Jersey Number:01</p>
-                                        <p>Jersey Size: XS</p>
-                                        <p>Price: $ 100.00</p>
-                                    </div>
-                                </div>
-
-                                <div class="item">
-                                    <img src="https://via.placeholder.com/300" class="img-responsive" alt="" />
-                                    <div class="order-details">
-                                        <h3 class="order-title">Dons Long Sleeve Crew Neck</h3>
-                                        <p>Tech-Tee (Apparel)</p>
-                                        <p>Jersey Name: Doe</p>
-                                        <p>Jersey Number:01</p>
-                                        <p>Jersey Size: XS</p>
-                                        <p>Price: $ 100.00</p>
-                                    </div>
-                                </div>
+                            <div class="orders-list" id="order-list">
+                                {{-- to be load of js --}}
                             </div>
                         </div>
                     </div>
@@ -205,4 +183,76 @@
 <form method="POST" action="{{ route('shopping-cart.confirm-order') }}" id="confirm-order-form" cloak hidden>
     {{ csrf_field() }}
 </form>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+
+<script type="text/template" id="selected-sizes-tmpl">
+    <% if (!_.isEmpty(selected_sizes)) { %>
+        <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <% _.each(selected_sizes, function(size) { %>
+                    <li role="presentation" class="<%= selected_sizes[0] == size ? 'active' : '' %>">
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= sizes[size] %></a>
+                    </li>
+                <% }); %>
+            </ul>
+
+            <br />
+
+            <div class="tab-content">
+                <% _.each(selected_sizes, function(size) { %>
+                    <div role="tabpanel" class="tab-pane fade <%= selected_sizes[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
+                        <table class="table table-hover table-bordered player-list">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Last Name</th>
+                                    <th>Number</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% var selected_players = _.filter(players, {size: size}) %>
+                                <% _.each(selected_players, function(player, n) { %>
+                                    <tr>
+                                        <td><%= n+1 %></td>
+                                        <td><%= player.last_name %></td>
+                                        <td><%= player.number %></td>
+                                        <td><%= player.quantity %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } else { %>
+        <p>No players available</p>
+    <% } %>
+</script>
+
+<script type="text/template" id="order-list-tmpl">
+<% if (!_.isEmpty(orders)) { %>
+    <% _.each(orders, function(order) { %>
+        <div class="item">
+            <img src="<%= order.thumbnail %>" class="img-responsive" alt="" />
+            <div class="order-details">
+                <h3 class="order-title"><%= order.name %></h3>
+                <p>Material ID: <span class="badge"><%= order.material_id %></span></p>
+                <a href="javascript:void(0)" class="btn btn-info btn-sm view-selected-sizes" data-cart-item-id="<%= order.cart_item_id %>">View selected sizes</a>
+            </div>
+        </div>
+    <% }); %>
+<% } else { %>
+    <div class="alert alert-info">
+        <p>No Orders found.</p>
+    </div>
+<% } %>
+</script>
+
+<script type="text/javascript" src="/js/shopping-cart/confirm-order.js"></script>
 @endsection

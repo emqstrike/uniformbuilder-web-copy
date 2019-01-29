@@ -14,12 +14,10 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        $sizes = config('customizer.sizes');
-
         $cart_token = \Session::get('cart_token');
         $cart = Cart::findByToken($cart_token);
 
-        return view('shopping-cart.cart', compact('sizes', 'sizes_json', 'cart'));
+        return view('shopping-cart.cart', compact('sizes_json', 'cart'));
     }
 
     public function createUserViaCart(Request $request)
@@ -33,7 +31,8 @@ class CartController extends Controller
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password'))
+            'password' => bcrypt($request->get('password')),
+            'logged_in_token' => "abcde" // erase this after
         ]);
 
         if ($user instanceof User)
@@ -45,7 +44,7 @@ class CartController extends Controller
 
             \Auth::loginUsingId($user->id);
 
-            \Log::info($cart->assignToUser($user) ? "Successfully assign current cart to new user" : "Cannot assign current cart to new user");
+            \Log::info($cart->assignToUser($user->id) ? "Successfully assign current cart to new user" : "Cannot assign current cart to new user");
 
             \Session::flash('success', 'Successfully create account!');
             return redirect()->route('shopping-cart.client-info');

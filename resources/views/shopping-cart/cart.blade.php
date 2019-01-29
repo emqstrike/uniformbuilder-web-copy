@@ -18,7 +18,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ route('shopping-cart.client-info') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+                    <a href="{{ Auth::check() ? route('shopping-cart.client-info') : route('shopping-cart.create-user-via-cart') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
                 </div>
             </div>
         </div>
@@ -235,14 +235,5 @@
     </form>
 </script>
 
-<script type="text/javascript">
-window.shopping_cart = {
-    logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
-    cart_token: "{{ \Session::get('cart_token') }}",
-    sizes: <?php echo json_encode($sizes) ?>
-}
-</script>
-
-<script type="text/javascript" src="/js/shopping-cart/api/cart-item-player-api.js"></script>
 <script type="text/javascript" src="/js/shopping-cart/cart.js"></script>
 @endsection

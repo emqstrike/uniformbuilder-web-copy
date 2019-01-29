@@ -29,7 +29,10 @@ Route::group([
     });
 
     Route::group([
-        'middleware' => "guest_middleware"
+        'middleware' => [
+            "guest_middleware",
+            "redirect_if_invalid_cart_item"
+        ]
     ], function() {
         Route::get('create-user-via-cart', "CartController@createUserViaCart")->name('shopping-cart.create-user-via-cart');
         Route::post('create-user-via-cart', "CartController@storeUserViaCart");
