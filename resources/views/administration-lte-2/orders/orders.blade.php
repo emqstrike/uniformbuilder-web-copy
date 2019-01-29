@@ -314,7 +314,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.send-to-factory', function(e) {
-        if(!$(this).attr('disabled')){
+        if (!$(this).attr('disabled')) {
             window.team_colors = null;
 
             e.preventDefault();
@@ -669,6 +669,7 @@ $(document).ready(function(){
                         type: "POST",
                         data: JSON.stringify(orderEntire),
                         contentType: 'application/json;',
+                        async: false,
                         success: function (data) {
                             alert('Order was sent to EDIT!');
                             var factory_order_id = data[0].OrderID;
@@ -1136,6 +1137,7 @@ $(document).ready(function(){
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
+            async: false,
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -1173,6 +1175,7 @@ $(document).ready(function(){
             data: JSON.stringify(parts),
             dataType: "json",
             crossDomain: true,
+            async: false,
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
