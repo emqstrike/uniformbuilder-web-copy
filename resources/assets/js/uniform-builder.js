@@ -8400,9 +8400,8 @@ $(document).ready(function () {
         ub.funcs.deleteSavedDesign = function (id, name) {
 
             var txt;
-            
             var r = confirm("Are you sure you want to delete '" + name + "'?");
-            
+
             if (r !== true) { return; }
 
             data = {
@@ -8410,79 +8409,65 @@ $(document).ready(function () {
             }
 
             $.ajax({
-
                 url: ub.config.api_host + '/api/saved_design/delete/',
                 data: JSON.stringify(data),
-                type: "POST", 
+                type: "POST",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
-
                 }
-                
             });
-   
         }
+
         ub.funcs.runDataTable = function () {
+            $('.data-table').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                initComplete: function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
 
-            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+                                column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                                $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
+                            });
 
-              $('.data-table').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": false,
-                    "info": true,
-                    "autoWidth": true,
-                    initComplete: function () {
-                        this.api().columns().every( function () {
-
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo( $(column.footer()).empty() )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                } );
-
-                            column.data().unique().sort().each( function ( d, j ) {
-
-                                select.append( '<option value="'+d+'">'+d+'</option>' )
-                            } );
-                        } );
-                        $(".data-table-filter-hide select").hide();                      
-                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
-                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
-                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
-                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
-                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
-
-                
-  
-                    }
-                }); 
-            });
-            
-            $(".dropdown-toggle").on('click', function () {                       
-
-                if($( ".btn-group" ).hasClass( "open" )){
-                    $( ".btn-group" ).removeClass("open");
-                }else{
-                    $( ".btn-group" ).addClass("open");
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                            $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
+                        });
+                    });
+                    $(".data-table-filter-hide select").hide();
+                    $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                    $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                    $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                    $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
+                    $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
                 }
             });
-           
 
+            // $(".dropdown-toggle").on('click', function () {
 
+            //     if($( ".btn-group" ).hasClass( "open" )){
+            //         $( ".btn-group" ).removeClass("open");
+            //     }else{
+            //         $( ".btn-group" ).addClass("open");
+            //     }
+            // });
         }
 
         ub.funcs.rebindSaveButtons = function (data) {
@@ -8593,9 +8578,12 @@ $(document).ready(function () {
                     });
                     
                     ub.funcs.runDataTable();
-
                     ub.funcs.rebindSaveButtons(data); 
             
+                    if (response.saved_designs.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.saved-designs-list table tfoot").hide();
+                    }
                 }
                 
             });
@@ -8674,7 +8662,7 @@ $(document).ready(function () {
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8682,7 +8670,7 @@ $(document).ready(function () {
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    }); 
+                    });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
@@ -8703,6 +8691,11 @@ $(document).ready(function () {
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
+
+                    if (dataSaved.orders.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.order-list table tfoot").hide();
+                    }
 
                     $('div.order-list.submitted').find('span.action-button.delete, span.action-button.edit').hide();
                     $('div.order-list.saved').find('span.action-button.delete, span.action-button.view').hide();

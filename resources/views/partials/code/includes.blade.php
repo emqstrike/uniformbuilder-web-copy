@@ -1,4 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{{$asset_storage}}/jquery/jquery-2.1.4.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/underscore/underscore.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js?v={{$asset_version}}"></script>
@@ -41,3 +42,5 @@
 <script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
 
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
