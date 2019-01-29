@@ -10533,7 +10533,7 @@ $(document).ready(function () {
     }
 
     $('.close-share-uniform-design-modal').on('click', function(){
-        $('#open-design-modal').modal('show');
+        $('#open-design-modal').modal('hide');
         $('#share-design-modal .team-email').val('');
     });
 
