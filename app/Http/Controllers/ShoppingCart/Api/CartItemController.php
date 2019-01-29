@@ -67,7 +67,7 @@ class CartItemController extends Controller
             [
                 'success' => true,
                 'message' => "Successfully add item to cart",
-                'cart_item_id' => 1
+                'cart_item_id' => $cart_item->id
             ] :
             [
             'success' => false,
@@ -82,8 +82,9 @@ class CartItemController extends Controller
      * - cart_token
      * - builder_customization
      */
-    public function updateItem(Request $request, CartItem $cartItem)
+    public function updateItem(Request $request, $cart_item_id)
     {
+        $cartItem = CartItem::find($cart_item_id);
         $cartItem->builder_customization = $request->get('builder_customization');
         $is_updated = $cartItem->save();
 

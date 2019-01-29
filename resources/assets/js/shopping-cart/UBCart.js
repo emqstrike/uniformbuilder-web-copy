@@ -15,7 +15,6 @@ var UBCart = {
         UBCart.fetchCartItems(function(response) {
             if (response.success) {
                 var cart_items = response.data;
-                window.cart_items = cart_items;
 
                 // load cart items
                 UBCart.updateShoppingCartDetails(cart_items);
@@ -26,18 +25,18 @@ var UBCart = {
                     $('#left-side-toolbar .cart-btn').attr('data-action', "add");
                     $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
 
-                    console.log("add to cart");
+                    // load the default settings
+                    ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
                 } else {
                     // update cart
-
-                    var cart_item = _.filter(cart_items, {material_id: ub.config.material_id});
-                    console.log(cart_item);
+                    var cart_item = _.find(cart_items, {material_id: ub.config.material_id});
 
                     $('#left-side-toolbar .cart-btn').attr('data-action', "update");
                     $('#left-side-toolbar .cart-btn').data('cart-item-id', cart_item.id);
                     $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
 
-                    console.log("update cart");
+                    // load the uniform settings of cart item
+                    ub.loadSettings(JSON.parse(cart_item.builder_customization));
                 }
 
                 $('#my-shopping-cart').removeAttr('cloak');
@@ -91,7 +90,6 @@ var UBCart = {
         }, function(response) {
             // add to cart response
             var atc_response = response;
-            console.log(atc_response);
 
             if (atc_response.success) {
                 console.log("Adding item to cart ok");
@@ -126,9 +124,8 @@ var UBCart = {
         UBCart.cartItemApi.updateItem(cart_item_id, {
             builder_customization: JSON.stringify(ub.current_material.settings)
         }, function(response) {
-            console.log(response);
-
             if (response.success) {
+                console.log("Updating builder customization in database ok");
                 bootbox.alert("Successfully update");
             }
         });

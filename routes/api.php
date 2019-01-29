@@ -5,9 +5,13 @@ Route::group([
     'namespace' => "ShoppingCart\Api",
     'middleware' => "cart_api_middleware"
 ], function() {
-    Route::get('cart-items', "CartItemController@getCartItems");
-    Route::post('add-to-cart', "CartItemController@addToCart");
-    Route::post('update-item/{cartItem}', "CartItemController@updateItem");
+    Route::group([
+        'prefix' => "cart-items"
+    ], function() {
+        Route::get('/', "CartItemController@getCartItems");
+        Route::post('add-to-cart', "CartItemController@addToCart");
+        Route::post('{cart_item_id}/update', "CartItemController@updateItem");
+    });
 
     Route::group([
         'prefix' => "cart-item-players"

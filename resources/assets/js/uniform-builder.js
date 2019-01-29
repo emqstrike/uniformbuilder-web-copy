@@ -127,8 +127,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
-            ub.funcs.addFunctionToAfterloadList(UBCart.init);
         };
 
 
@@ -1131,7 +1129,6 @@ $(document).ready(function () {
 
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
-
             }
             
         };
@@ -3499,16 +3496,12 @@ $(document).ready(function () {
 
                 // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
                 if (typeof window.ub.temp !== 'undefined') { 
-
                     ub.funcs.getCustomizations(window.ub.temp);
-                    
-                }
-                else {
-
+                } else if (true) { // edit cart item
+                    ub.funcs.addFunctionToAfterloadList(UBCart.init);
+                } else {
                     ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
-                    
                 }
-
             }
 
             ub.loadDefaulUniformStyle = function (defaultUniformStyle) {

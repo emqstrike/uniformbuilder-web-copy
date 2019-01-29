@@ -534,31 +534,32 @@ $(document).ready(function () {
     }
 
     ub.funcs.renderPipings = function (pipingObject, colorCount) {
-        var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
+        if (typeof pipingObject !== "undefined") {
+            var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
 
-        _.each (ub.views, function (perspective) {
+            _.each (ub.views, function (perspective) {
 
-            var _perspectiveString = perspective + '_view';
+                var _perspectiveString = perspective + '_view';
 
-            var _sprites = $.ub.create_piping(pipingObject, colorCount, perspective, _pipingSettingsObject);
+                var _sprites = $.ub.create_piping(pipingObject, colorCount, perspective, _pipingSettingsObject);
 
-            if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                if (typeof ub.objects[_perspectiveString] !== "undefined") {
 
-                if (typeof ub.objects[_perspectiveString][pipingObject.set] !== "undefined") {
+                    if (typeof ub.objects[_perspectiveString][pipingObject.set] !== "undefined") {
 
-                    ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][pipingObject.set]);
+                        ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][pipingObject.set]);
+
+                    }
 
                 }
 
-            }
+                ub[_perspectiveString].addChild(_sprites);
+                ub.objects[_perspectiveString][pipingObject.set] = _sprites;
 
-            ub[_perspectiveString].addChild(_sprites);
-            ub.objects[_perspectiveString][pipingObject.set] = _sprites;
+                ub.updateLayersOrder(ub[_perspectiveString]);
 
-            ub.updateLayersOrder(ub[_perspectiveString]);
-
-        });
-
+            });
+        }
     };
 
     ub.funcs.removePiping = function (pipingSet) {

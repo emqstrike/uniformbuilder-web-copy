@@ -45,7 +45,7 @@ CartItemApi.prototype = {
      * @return {void}
      */
     addToCart: function(data, callback) {
-        $.post("/api/shopping-cart/add-to-cart", $.extend(data, this.cartPermit), callback);
+        $.post("/api/shopping-cart/cart-items/add-to-cart", $.extend(data, this.cartPermit), callback);
     },
 
     /**
@@ -59,6 +59,6 @@ CartItemApi.prototype = {
      * @return {void}
      */
     updateItem: function(cart_item_id, data, callback) {
-        $.post("/api/shopping-cart/update-item/" + cart_item_id, $.extend(data, this.cartPermit), callback);
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update", $.extend(data, this.cartPermit), callback);
     }
 };
