@@ -23,7 +23,7 @@
                 </button>
                 <a class="navbar-brand" href="javascript:void(0)">Customizer Shopping Cart</a>
             </div>
-    
+
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="javascript:void(0)" style="cursor: default;">{{ \Auth::check() ? \Auth::user()->getFullName() : "guest" }}</a></li>
@@ -50,6 +50,7 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/shopping-cart/api/cart-item-api.js"></script>
     <script type="text/javascript" src="/js/shopping-cart/api/cart-item-player-api.js"></script>
 
     <script type="text/javascript">
@@ -61,8 +62,12 @@
     </script>
 
     <script type="text/javascript">
-        {{-- cipa - cart item player api --}}
+        /**
+            cipa - cart item player api
+            cia - cart item api
+         */
         var cipa = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
+        var cia = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
 
         var ShoppingCart = {
             init: function() {

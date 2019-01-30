@@ -13,7 +13,7 @@ function CartItemPlayerApi(logged_in_token, cart_token) {
         cart_token: this.cart_token,
 
         // laravel token
-        _token: $('meta[name="X-CSRF-TOKEN"]').attr('content')
+        _token: $('meta[name="csrf-token"]').attr('content')
     };
 }
 

@@ -1,7 +1,7 @@
 @extends('shopping-cart.layout')
 
 @section('meta')
-<meta name="X-CSRF-TOKEN" content="{{ csrf_token() }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 
 @section('content')
@@ -35,7 +35,10 @@
         <div class="col-md-6 cart-item" data-cart-item-id="<%= item.cart_item_id %>">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="/builder/0/<%= item.material_id %>?customize-uniform" class="btn btn-success pull-right btn-xs" target="_blank"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</a>
+                    <div class="btn-group pull-right">
+                        <a href="/builder/0/<%= item.material_id %>?customize-uniform" class="btn btn-success btn-xs" target="_blank"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-xs delete-cart-item" data-cart-item-id="<%= item.cart_item_id %>"><span class="glyphicon glyphicon-remove"></span> Delete to Cart</a>
+                    </div>
                     <h1 class="panel-title"><%= item.name %></h1>
                 </div>
                 <div class="panel-body">

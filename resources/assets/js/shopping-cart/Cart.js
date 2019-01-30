@@ -6,6 +6,7 @@
  *     - cart_token
  *
  * File dependencies
+ * - public/js/shopping-cart/cart-item-api.js
  * - public/js/shopping-cart/cart-item-player-api.js
  *
  * Alias
@@ -37,6 +38,8 @@ var Cart = {
 
             $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
             $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+
+            $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
         });
     },
 
@@ -108,8 +111,6 @@ var Cart = {
     onAddPlayer: function() {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
-
-        console.log(cart_item_id);
 
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
@@ -293,6 +294,18 @@ var Cart = {
                         console.log("not remove!");
                     }
                 });
+            }
+        });
+    },
+
+    onDeleteItemToCart: function(e) {
+        var _this = $(this);
+        var cart_item_id = parseInt($(this).data('cart-item-id'));
+
+        cia.deleteToCart(cart_item_id, function(response) {
+            if (response.success) {
+                _this.closest('.cart-item').fadeOut();
+                bootbox.alert("Successfully deleted");
             }
         });
     }

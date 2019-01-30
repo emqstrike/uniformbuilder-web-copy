@@ -51,7 +51,7 @@ CartItemApi.prototype = {
     /**
      * Update item to cart
      *
-     * @param {integer} cart_item_id
+     * @param {int} cart_item_id
      * @param {json}   data {
      *     builder_customization [string]
      * }
@@ -60,5 +60,16 @@ CartItemApi.prototype = {
      */
     updateItem: function(cart_item_id, data, callback) {
         $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update", $.extend(data, this.cartPermit), callback);
+    },
+
+    /**
+     * Delete item to cart
+     *
+     * @param  {int}   cart_item_id
+     * @param  {function} callback
+     * @return {void}
+     */
+    deleteToCart: function(cart_item_id, callback) {
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", this.cartPermit, callback);
     }
 };

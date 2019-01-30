@@ -100,4 +100,28 @@ class CartItemController extends Controller
             ]
         );
     }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     */
+    public function deleteToCart($cart_item_id)
+    {
+        $cartItem = CartItem::find($cart_item_id);
+        $cartItem->cartItemPlayers()->delete();
+        $is_deleted = $cartItem->delete();
+
+        return response()->json(
+            $is_deleted ?
+            [
+                'success' => true,
+                'message' => "Successfully delete item to cart"
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot delete item to cart this time. Please try again later."
+            ]
+        );
+    }
 }
