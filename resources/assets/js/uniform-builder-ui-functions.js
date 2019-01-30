@@ -3,15 +3,22 @@ $(document).ready(function() {
         if  (typeof color !== "undefined") {
             ub.renderer.backgroundColor = color;
         }
-    },
+    };
 
     ub.funcs.removeApplicationHeader = function() {
         $("#navbar-header").css('display', 'none');
         $("div.user-profile").css('display', 'none');
         $("h1#header_text").css('display', 'none');
-    },
+    };
 
     ub.funcs.disbleSidebarLeft = function() {
         $("div#left-side-toolbar").css("display", 'none');
+    };
+
+    ub.funcs.changeStage = function() {
+        ub.funcs.changeStageBackgroundColor("0xffffff");
+        ub.funcs.removeApplicationHeader();
+        ub.funcs.disbleSidebarLeft();
     }
+
 })

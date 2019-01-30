@@ -245,6 +245,7 @@ $(document).ready(function () {
 
             if (ub.config.brand.toLowerCase() == 'richardson') {
                 ub.modifierController = new ModifierController('#property-modifiers-menu', ub.config.brand);
+                ub.funcs.changeStage();
             } else {
                 if (typeof ub.modifierController !== 'undefined') {
                     ub.modifierController.disable();
