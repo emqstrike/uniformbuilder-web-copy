@@ -818,7 +818,10 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4') {
+        // this is to ignore input size 0.5 on application #4 on a specified block pattern
+        var blockPatternExceptions = ['Hockey Socks'];
+
+        if (_id === '4' && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
 
             _inputSizes = [{size: '0.5', }];
 
@@ -2256,7 +2259,7 @@ $(document).ready(function() {
                         scale = scale.toString();
 
                     if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
-                        && typeof settingsObj.bestfit_obj === 'undefined') { 
+                        || typeof settingsObj.bestfit_obj === 'undefined') { 
 
                             embellishmentScales.push({
                                 appId: appIdStr,
