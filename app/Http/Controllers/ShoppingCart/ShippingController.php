@@ -13,7 +13,10 @@ class ShippingController extends Controller
     public function index()
     {
         $shipping_information = \Auth::user()->shipping_information;
-        return view('shopping-cart.shipping', compact('shipping_information'));
+        $client_information = \Auth::user()->client_information;
+        $same_as_client_info = $shipping_information->sameAsClientInfo($client_information);
+
+        return view('shopping-cart.shipping', compact('shipping_information', 'same_as_client_info'));
     }
 
     public function store(SaveShippingInfo $request)

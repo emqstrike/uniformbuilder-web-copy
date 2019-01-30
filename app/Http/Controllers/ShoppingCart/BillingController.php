@@ -13,7 +13,10 @@ class BillingController extends Controller
     public function index()
     {
         $billing_information = \Auth::user()->billing_information;
-        return view('shopping-cart.billing', compact('billing_information'));
+        $client_information = \Auth::user()->client_information;
+        $same_as_client_info = $billing_information->sameAsClientInfo($client_information);
+
+        return view('shopping-cart.billing', compact('billing_information', 'same_as_client_info'));
     }
 
     public function store(SaveBillingInfo $request)

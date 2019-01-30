@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-info btn-sm" data-loading-text="Fetching Client Info" id="same-as-client-info" {{ !is_null($shipping_information) ? "disabled" : "" }}>Copy Client Info</button>
+                                    <button type="button" class="btn btn-info btn-sm" data-loading-text="Fetching Client Info" id="same-as-client-info" {{ $same_as_client_info ? "disabled" : "" }}>Copy Client Info</button>
                                 </div>
                             </div>
                         </div>
