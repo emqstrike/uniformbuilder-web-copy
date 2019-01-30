@@ -119,10 +119,14 @@ elixir(function(mix) {
         'public/uniform-builder/js/ub.js'
     );
 
-    mix.scripts("shopping-cart/Cart.js", "public/js/shopping-cart/cart.js");
+    mix.scripts("shopping-cart/ShoppingCart.js", "public/js/shopping-cart/shopping-cart.js");
     mix.scripts("shopping-cart/api/CartItemApi.js", "public/js/shopping-cart/api/cart-item-api.js");
     mix.scripts("shopping-cart/api/CartItemPlayerApi.js", "public/js/shopping-cart/api/cart-item-player-api.js");
+    mix.scripts("shopping-cart/api/ClientInfoApi.js", "public/js/shopping-cart/api/client-info-api.js");
 
+    mix.scripts("shopping-cart/Cart.js", "public/js/shopping-cart/cart.js");
+    mix.scripts("shopping-cart/Billing.js", "public/js/shopping-cart/billing.js");
+    mix.scripts("shopping-cart/Shipping.js", "public/js/shopping-cart/shipping.js");
     mix.scripts("shopping-cart/ConfirmOrder.js", "public/js/shopping-cart/confirm-order.js");
 
     mix.scripts("shopping-cart/UBCart.js", "public/js/shopping-cart/ub-cart.js");

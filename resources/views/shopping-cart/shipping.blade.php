@@ -21,6 +21,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <button type="button" class="btn btn-info btn-sm" data-loading-text="Fetching Client Info" id="same-as-client-info" {{ !is_null($shipping_information) ? "disabled" : "" }}>Copy Client Info</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="full_name">Full Name</label>
                                     <input type="text" name="full_name" value="{{ !is_null($shipping_information) ? $shipping_information->full_name : '' }}" class="form-control" />
                                 </div>
@@ -110,4 +118,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/shopping-cart/shipping.js"></script>
 @endsection

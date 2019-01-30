@@ -245,5 +245,8 @@
     </form>
 </script>
 
+<script type="text/javascript">
+window.customizer_sizes = <?php echo json_encode(config('customizer.sizes')) ?>;
+</script>
 <script type="text/javascript" src="/js/shopping-cart/cart.js"></script>
 @endsection

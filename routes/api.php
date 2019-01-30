@@ -23,4 +23,10 @@ Route::group([
         Route::post('{cartItemPlayer}/update', "CartItemPlayerController@update")->middleware("cart_item_api_middleware");
         Route::post('{cartItemPlayer}/delete', "CartItemPlayerController@delete")->middleware('cart_item_api_middleware');
     });
+
+    Route::group([
+        'prefix' => "client-info"
+    ], function() {
+        Route::get('/', "ClientInfoController@getInfo");
+    });
 });

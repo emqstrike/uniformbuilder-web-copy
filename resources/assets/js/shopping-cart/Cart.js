@@ -1,18 +1,10 @@
 /**
  * Required global object
- * - shopping_cart
- *     - sizes
- *     - logged_in_token
- *     - cart_token
+ * - customizer_sizes
  *
  * File dependencies
- * - public/js/shopping-cart/cart-item-api.js
- * - public/js/shopping-cart/cart-item-player-api.js
- *
- * Alias
- * - cipa - Cart Item Player Api
+ * - public/js/shopping-cart/shopping-cart.js
  */
-
 var Cart = {
     cart_items: [],
 
@@ -22,7 +14,7 @@ var Cart = {
             var tmpl = _.template($('#cart-items-tmpl').html());
 
             el.append(tmpl({
-                sizes: shopping_cart.sizes,
+                sizes: customizer_sizes,
                 cart_items: Cart.cart_items
             }));
 
@@ -52,7 +44,7 @@ var Cart = {
     initCartItems: function(callback) {
         $('#cart-items-el').html('<div class="col-md-12">Loading cart items ...</div>');
 
-        cipa.getPlayersPerCartItem(function(response, textStatus, xhr) {
+        ShoppingCart.cipa.getPlayersPerCartItem(function(response, textStatus, xhr) {
             if (response.success) {
                 if (response.data.length > 0) {
                     Cart.cart_items = response.data;
@@ -102,7 +94,7 @@ var Cart = {
             message: tmpl({
                 players: cart_item.players,
                 selected_sizes: selected_sizes,
-                sizes: shopping_cart.sizes
+                sizes: customizer_sizes
             }),
             size: "large"
         });
@@ -145,7 +137,7 @@ var Cart = {
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            cipa.addPlayer(cart_item_id, {
+                            ShoppingCart.cipa.addPlayer(cart_item_id, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -226,7 +218,7 @@ var Cart = {
 
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
-                            cipa.updatePlayer(cart_item_id, player_id, {
+                            ShoppingCart.cipa.updatePlayer(cart_item_id, player_id, {
                                 size: selected_size,
                                 last_name: last_name,
                                 number: number,
@@ -279,7 +271,7 @@ var Cart = {
                 var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
                 var players = cart_item.players;
 
-                cipa.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
+                ShoppingCart.cipa.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
                     cart_item.players = _.reject(players, {id: parseInt(player_id)});
 
                     if (cart_item.players.length < players.length) {
@@ -306,10 +298,12 @@ var Cart = {
             if (yes) {
                 _this.button('loading');
 
-                cia.deleteToCart(cart_item_id, function(response) {
+                ShoppingCart.cia.deleteToCart(cart_item_id, function(response) {
                     if (response.success) {
                         _this.closest('.cart-item').fadeOut();
                         bootbox.alert("Successfully deleted");
+
+                        ShoppingCart.loadCartNumber();
                     } else {
                         bootbox.alert(response.message);
                         _this.button('reset');

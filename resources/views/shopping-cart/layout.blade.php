@@ -50,62 +50,19 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/shopping-cart/api/cart-item-api.js"></script>
-    <script type="text/javascript" src="/js/shopping-cart/api/cart-item-player-api.js"></script>
+    <script type="text/javascript" src="/underscore/underscore.js"></script>
 
     <script type="text/javascript">
     window.shopping_cart = {
         logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
         cart_token: "{{ \Session::get('cart_token') }}",
-        sizes: <?php echo json_encode(config('customizer.sizes')) ?>
+        cart_lifespan: parseInt("{{ App\ShoppingCart\Cart::LIFE_SPAN }}")
     }
     </script>
-
-    <script type="text/javascript">
-        /**
-            cipa - cart item player api
-            cia - cart item api
-         */
-        var cipa = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
-        var cia = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
-
-        var ShoppingCart = {
-            init: function() {
-                ShoppingCart.cartTimer();
-                ShoppingCart.loadCartNumber();
-            },
-
-            cartTimer: function() {
-                var time_counter = 0;
-                var cart_lifespan = parseInt("{{ App\ShoppingCart\Cart::LIFE_SPAN }}");
-
-                var timer = setInterval(function() {
-                    $('#cart-timer').text(++time_counter);
-
-                    if (time_counter >= cart_lifespan) {
-                        clearInterval(timer);
-
-                        $('#cart-timer').text("Timeout!");
-
-                        alert("The cart is now expired!");
-                        location.reload();
-                    }
-
-                }, 1000); // 1 sec
-            },
-
-            loadCartNumber: function() {
-                cipa.getPlayersPerCartItem(function(response, textStatus, xhr) {
-                    if (response.success) {
-                        $('#cart-item-number').text(response.data.length).show();
-                    }
-                });
-            }
-        };
-
-        $(document).ready(ShoppingCart.init);
-    </script>
-
+    <script type="text/javascript" src="/js/shopping-cart/api/cart-item-api.js"></script>
+    <script type="text/javascript" src="/js/shopping-cart/api/cart-item-player-api.js"></script>
+    <script type="text/javascript" src="/js/shopping-cart/api/client-info-api.js"></script>
+    <script type="text/javascript" src="/js/shopping-cart/shopping-cart.js"></script>
     @yield('scripts')
 </body>
 </html>

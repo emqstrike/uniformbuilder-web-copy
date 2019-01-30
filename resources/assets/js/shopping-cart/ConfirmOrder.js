@@ -1,6 +1,10 @@
-
-var CartItemPlayerApi = new CartItemPlayerApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
-
+/**
+ * Required global object
+ * - customizer_sizes
+ *
+ * File dependencies
+ * - public/js/shopping-cart/shopping-cart.js
+ */
 var ConfirmOrder = {
     cart_items: [],
 
@@ -18,7 +22,7 @@ var ConfirmOrder = {
     },
 
     loadOrders: function(callback) {
-        CartItemPlayerApi.getPlayersPerCartItem(function(response, textStatus, xhr) {
+        ShoppingCart.cipa.getPlayersPerCartItem(function(response, textStatus, xhr) {
             if (response.success) {
                 if (response.data.length > 0) {
                     ConfirmOrder.cart_items = response.data;
@@ -46,7 +50,7 @@ var ConfirmOrder = {
             message: tmpl({
                 players: cart_item.players,
                 selected_sizes: selected_sizes,
-                sizes: shopping_cart.sizes
+                sizes: customizer_sizes
             }),
             size: "large"
         });
