@@ -10525,18 +10525,7 @@ $(document).ready(function () {
         });
     }
 
-    $('.close-share-uniform-design-modal').on('click', function(){
-        $('#open-design-modal').modal('show');
-        $('#share-design-modal .team-email').val('');
-    });
-
     $('.share-uniform-design-by-email').on('click', function(){
-        
-        // var data = {
-        //     email_list: $('#share-design-modal .team-email').val(),
-        //     order_id: $(this).data('order-id'),
-        //     sharer_name: ub.user.fullname
-        // };
 
         var _id = $(this).data('order-id');
 
