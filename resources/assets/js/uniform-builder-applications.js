@@ -6562,9 +6562,11 @@ $(document).ready(function () {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var blockPatternExceptions = ['Hockey Socks'];
+
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern))) { 
                 _additionalClass = 'active';
 
                 if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
@@ -7883,8 +7885,14 @@ $(document).ready(function () {
         }
 
         var _inputSizes;
-        if (_id === '4' && ub.config.sport !== "Football 2017") {
-            _inputSizes = [{size: '0.5',}];
+
+        // this is to ignore input size 0.5 on application #4 on a specified block pattern
+        var blockPatternExceptions = ['Hockey Socks'];
+
+        if (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
+
+            _inputSizes = [{size: '0.5', }];
+
         } else {
             _inputSizes = _.sortBy(_sizes.sizes, function (obj) {
                 return parseFloat(obj.size)
@@ -9075,7 +9083,19 @@ $(document).ready(function () {
             var _applicationType = '';
             var _sizeObj = undefined;
 
-            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            // list of sport block patterns that ignore ub.data.initialSizes
+            var blockPatternsException = ['Hockey Socks'];
+
+            // Temporary, this is to fix the issue regarding Hockey Socks (Jan. 25, 2019 @elmer)
+            if (!_.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            } else {
+
+                if (ub.config.type === 'lower' && _.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                    _sizeObj = ub.data.initialSizesLower.getSize(_type, _id, ub.current_material.material.uniform_category, ub.current_material.material.block_pattern);
+                }
+
+            }
 
             if (typeof _sizeObj !== "undefined") {
 
@@ -9176,9 +9196,7 @@ $(document).ready(function () {
             var _applicationType = 'team_name';
             var _size = 2;
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-                _size = 4;
-            }
+            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -11806,11 +11824,11 @@ $(document).ready(function () {
         }
 
         _.each(_list, function(item) {
-            if (item.name.includes("Body Left")) {
+            if (item.name.includes("Body Left") || item.name.includes("Front Body")) {
                 item.position = 1;
             }
 
-            if (item.name.includes("Body Right")) {
+            if (item.name.includes("Body Right") || item.name.includes("Back Body")) {
                 item.position = 2;
             }
         });
@@ -11844,9 +11862,8 @@ $(document).ready(function () {
     }
 
     ub.funcs.newApplication = function (perspective, part, type, side) {
-
         var _pha = _.find(ub.data.placeHolderApplications, {perspective: perspective});
-        var _phaSettings = ub.data.placeholderApplicationSettings[_pha.id];
+        var _phaSettings = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part = part;
         var _sport = ub.current_material.material.uniform_category;
         var _blockPattern = ub.current_material.material.block_pattern;
@@ -12248,6 +12265,7 @@ $(document).ready(function () {
                     } else {
                         // If perspective is not Front or Back, just select the first part
                         $('span.part').first().addClass('active');
+                        $('span.part').first().trigger('click');
                         var side = $('span.side.active').data('id');
                         var _partToMakeActive = _perspective.toTitleCase();
 
@@ -12371,18 +12389,6 @@ $(document).ready(function () {
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
-
-                if (_side === "left" || _side === "right") {
-
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');
-
-                    // Restore Previous Part
-                    if (typeof _previousPart !== "undefined") {
-                        $('span.part[data-id="' + _previousPart + '"]').addClass('active');
-                    }
-
-                }
-
             });
 
             // Application Type
@@ -12541,6 +12547,8 @@ $(document).ready(function () {
             }
 
             // End Art Only
+
+        $('div.perspective-container > span.perspective.active').trigger('click');
 
         });
 

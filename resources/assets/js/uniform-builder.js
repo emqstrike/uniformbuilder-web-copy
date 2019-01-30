@@ -1117,6 +1117,8 @@ $(document).ready(function () {
 
                 ub.funcs.optimize();
 
+                ub.funcs.setupRetain();
+
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
 

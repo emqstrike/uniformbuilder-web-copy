@@ -472,6 +472,7 @@ class MaterialsController extends Controller
         $reversible_group = $request->input('reversible_group');
         $reversible_pair_id = $request->input('reversible_pair_id');
         $reversible_type = $request->input('reversible_type');
+        $retain_settings = $request->input('retain_settings_from_saved_design');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -533,8 +534,9 @@ class MaterialsController extends Controller
             'brand' => $brand,
             'reversible_group' => $reversible_group,
             'reversible_pair_id' => $reversible_pair_id,
-            'reversible_type' => $reversible_type
-
+            'reversible_type' => $reversible_type,
+            'model_number' => $request->input('model_number'),
+            'retain_settings_from_saved_design' => $retain_settings
         ];
         try {
             // Thumbnail Files

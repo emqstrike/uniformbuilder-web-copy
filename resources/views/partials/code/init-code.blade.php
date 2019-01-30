@@ -24,6 +24,7 @@
             option: "{{ isset($material->neck_option) ? $material->neck_option: 'none' }}",
             blockPattern: "{{ isset($material->block_pattern) ? $material->block_pattern : 'none' }}",
             hiddenBody: false,
+            retain: false,
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
             asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
