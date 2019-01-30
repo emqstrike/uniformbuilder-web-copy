@@ -302,10 +302,19 @@ var Cart = {
         var _this = $(this);
         var cart_item_id = parseInt($(this).data('cart-item-id'));
 
-        cia.deleteToCart(cart_item_id, function(response) {
-            if (response.success) {
-                _this.closest('.cart-item').fadeOut();
-                bootbox.alert("Successfully deleted");
+        bootbox.confirm("Remove Item to Cart?", function(yes) {
+            if (yes) {
+                _this.button('loading');
+
+                cia.deleteToCart(cart_item_id, function(response) {
+                    if (response.success) {
+                        _this.closest('.cart-item').fadeOut();
+                        bootbox.alert("Successfully deleted");
+                    } else {
+                        bootbox.alert(response.message);
+                        _this.button('reset');
+                    }
+                });
             }
         });
     }

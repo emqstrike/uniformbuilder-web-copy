@@ -36,8 +36,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="btn-group pull-right">
-                        <a href="/builder/0/<%= item.material_id %>?customize-uniform" class="btn btn-success btn-xs" target="_blank"><span class="glyphicon glyphicon-pencil"></span> Edit In Customizer</a>
-                        <a href="javascript:void(0)" class="btn btn-danger btn-xs delete-cart-item" data-cart-item-id="<%= item.cart_item_id %>"><span class="glyphicon glyphicon-remove"></span> Delete to Cart</a>
+                        <a href="/builder/0/<%= item.material_id %>?customize-uniform" class="btn btn-success btn-xs" target="_blank">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit In Customizer
+                        </a>
+                        <button class="btn btn-danger btn-xs delete-cart-item"
+                            data-cart-item-id="<%= item.cart_item_id %>"
+                            data-loading-text="<span class='glyphicon glyphicon-repeat gly-spin'></span>">
+
+                            <span class="glyphicon glyphicon-remove"></span> Delete to Cart
+                        </button>
                     </div>
                     <h1 class="panel-title"><%= item.name %></h1>
                 </div>
