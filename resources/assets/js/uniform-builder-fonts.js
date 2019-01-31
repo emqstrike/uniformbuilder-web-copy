@@ -105,9 +105,12 @@ $(document).ready(function() {
         });
 
         // Hide Richardson Fonts #Richardson
-        if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
-            ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
-        }
+        // if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
+        //     ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
+        // }
+
+        var _brand = ub.current_material.material.brand;
+        ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
 
     };
 
