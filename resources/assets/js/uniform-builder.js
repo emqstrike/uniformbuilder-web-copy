@@ -2827,19 +2827,9 @@ $(document).ready(function () {
 
         // Process Prolook Logo Here
         LogoPanel.init();
-        // if (ub.current_material.material.logo_position !== null) {
 
-        //     LogoPanel.process.initLogoData(ub.current_material.material.logo_position);
-
-        //     ub.funcs.afterLoadFunctionList.push(function() {
-        //         LogoPanel.process.processLogo();
-        //     });
-
-        //     if (_.size(ub.current_material.settings.logos) > 0) {
-
-        //         LogoPanel.process.processSavedLogo();
-        //     }
-        // }
+        // Process Gradient
+        GradientPanel.init();
 
         if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
