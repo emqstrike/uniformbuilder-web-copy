@@ -283,6 +283,8 @@ $(document).ready(function() {
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
 
+            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
+
             _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
 
             ub.utilities.info('');

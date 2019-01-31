@@ -6562,9 +6562,11 @@ $(document).ready(function () {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var blockPatternExceptions = ['Hockey Socks'];
+
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern))) { 
                 _additionalClass = 'active';
 
                 if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
@@ -7883,8 +7885,14 @@ $(document).ready(function () {
         }
 
         var _inputSizes;
-        if (_id === '4' && ub.config.sport !== "Football 2017") {
-            _inputSizes = [{size: '0.5',}];
+
+        // this is to ignore input size 0.5 on application #4 on a specified block pattern
+        var blockPatternExceptions = ['Hockey Socks'];
+
+        if (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
+
+            _inputSizes = [{size: '0.5', }];
+
         } else {
             _inputSizes = _.sortBy(_sizes.sizes, function (obj) {
                 return parseFloat(obj.size)
@@ -9078,7 +9086,19 @@ $(document).ready(function () {
             var _applicationType = '';
             var _sizeObj = undefined;
 
-            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            // list of sport block patterns that ignore ub.data.initialSizes
+            var blockPatternsException = ['Hockey Socks'];
+
+            // Temporary, this is to fix the issue regarding Hockey Socks (Jan. 25, 2019 @elmer)
+            if (!_.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            } else {
+
+                if (ub.config.type === 'lower' && _.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                    _sizeObj = ub.data.initialSizesLower.getSize(_type, _id, ub.current_material.material.uniform_category, ub.current_material.material.block_pattern);
+                }
+
+            }
 
             if (typeof _sizeObj !== "undefined") {
 
@@ -9179,9 +9199,7 @@ $(document).ready(function () {
             var _applicationType = 'team_name';
             var _size = 2;
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-                _size = 4;
-            }
+            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -12374,21 +12392,6 @@ $(document).ready(function () {
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
-
-                /* cannot decide if this code is needed (Command by: Rodrigo)
-
-                if (_side === "left" || _side === "right") {
-
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');
-
-                    // Restore Previous Part
-                    if (typeof _previousPart !== "undefined") {
-                        $('span.part[data-id="' + _previousPart + '"]').addClass('active');
-                    }
-
-                }
-
-                */
             });
 
             // Application Type
