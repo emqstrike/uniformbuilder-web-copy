@@ -147,48 +147,47 @@
                     </li>
                 </ul>
             @else
-                <a href="/messages" id="messages">
+                <li>
+                    <a href="/messages" id="messages">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications (<span class="message-badge"></span>)
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="feedback">
+                        <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
+                    </a>
+                </li>
+                <li>
+                    <div class = "btn-group">
 
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications (<span class="message-badge"></span>)
+                      <button type="button" id="firstname" class="btn">
+                          <i class="fa fa-user" aria-hidden="true"></i> <span class="hello">Hello {{ Session::get('firstName') }}!</span>
+                      </button>
 
-                </a>
+                      <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
+                          <span class = "caret"></span>
+                          <span class = "sr-only">Toggle Dropdown</span>
+                      </button>
 
-                <a href="#" id="feedback">
+                      <ul class = "dropdown-menu" role="menu">
 
-                    <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
+                          <!-- <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li> -->
+                          <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
 
-                </a>
+                          <li class="divider"></li>
+                          <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
+                          <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                          <li><a href="/my-custom-artwork-requests"><i class="fa fa-picture-o" aria-hidden="true"></i> MY CUSTOM LOGO REQUESTS</a></li>
+                          <li class="divider"></li>
 
-                <div class = "btn-group">
+                          <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
+                          <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
+                          <li class="divider"></li>
+                          <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
 
-                  <button type="button" id="firstname" class="btn">
-                      <i class="fa fa-user" aria-hidden="true"></i> <span class="hello">Hello {{ Session::get('firstName') }}!</span>
-                  </button>
-
-                  <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
-                      <span class = "caret"></span>
-                      <span class = "sr-only">Toggle Dropdown</span>
-                  </button>
-
-                  <ul class = "dropdown-menu" role="menu">
-
-                      <!-- <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li> -->
-                      <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
-
-                      <li class="divider"></li>
-                      <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
-                      <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
-                      <li><a href="/my-custom-artwork-requests"><i class="fa fa-picture-o" aria-hidden="true"></i> MY CUSTOM LOGO REQUESTS</a></li>
-                      <li class="divider"></li>
-
-                      <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
-                      <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
-                      <li class="divider"></li>
-                      <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
-
-                  </ul>
-
-                </div>
+                      </ul>
+                    </div>
+                </li>
             @endif
         </div>
     </div>

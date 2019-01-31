@@ -68,6 +68,12 @@ class User extends Model implements AuthenticatableContract
         }
     }
 
+    public function generateNewLoggedInToken()
+    {
+        $this->logged_in_token = uniqid();
+        return $this->save();
+    }
+
     public static function findByLoggedInToken($logged_in_token)
     {
         return static::where('logged_in_token', $logged_in_token)

@@ -13,7 +13,8 @@ class AddColumnsForShoppingCartInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('logged_in_token', 13)->nullable()->default(null)->after("remember_token");
+            $table->string('logged_in_token', 13) // uniqid()
+                ->nullable()->default(null)->after("remember_token");
         });
     }
 

@@ -2,19 +2,21 @@
 namespace App\Http\Controllers;
 
 use App\APIClients\UsersAPIClient as APIClient;
+use App\Auth\Auth;
 use App\Http\Controllers\Administration\AuthenticationController as AdminAuthController;
+use App\ShoppingCart\User;
 use App\TeamStoreClient\UserTeamStoreClient;
+use App\Traits\HandleTeamStoreConfiguration;
 use App\Utilities\Crypt;
 use App\Utilities\Log;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
 use Redirect;
 use Session;
-use \Exception;
 use Webmozart\Json\JsonDecoder;
-use App\Traits\HandleTeamStoreConfiguration;
-use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
+use \Exception;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -134,6 +136,9 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userAllowedPages', $user->allowed_pages);
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                // shopping cart
+                Auth::user()->generateNewLoggedInToken();
 
                 #
                 # TEAM STORE LOGIN HANDLER

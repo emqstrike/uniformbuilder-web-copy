@@ -41,7 +41,6 @@
                 Cart Token: <span class="label label-info">{{ \Session::get('cart_token') }}</span> <br>
                 Cart Lifespan: <span class="label label-info">{{ App\ShoppingCart\Cart::LIFE_SPAN }} seconds</span> <br>
                 Cart Timer: <span class="glyphicon glyphicon-time"></span> <span id="cart-timer">0</span> <br>
-                Session: <pre>{{ var_dump(\Session::all()) }}</pre>
                 <hr>
             </div>
         </div>
