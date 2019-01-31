@@ -1,125 +1,165 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+    <style>
+        table .btn {
+            display: block;
+            margin-bottom: 5px;
+            width: 100%;
+        }
 
-@endsection
-
-@section('custom-styles')
-
+        #filter-container .form-group {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
 @endsection
 
 @section('content')
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        @section('page-title', 'Orders')
+                        <h1>
+                            Orders
+                        </h1>
+                        <hr>
 
-</style>
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    @section('page-title', 'Orders')
-                    <h1>
-                        Orders
-                    </h1>
-                    <hr>
-                    <label>DATE RANGE -- From:</label>
-                    <input type="text" id="from-date" value="{{ $from_date }}">
-                    <label>To:</label>
-                    <input type="text" id="to-date" value="{{ $to_date }}">
-                    <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
-                    <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
-                    <div class="pull-right">
-                        <label>Load Test Orders: </label>
-                        <select id="load-test-order">
-                            <option value="0" @if($test_order == 0) selected="selected"@endif>No</option>
-                            <option value="1" @if($test_order == 1) selected="selected"@endif>Yes</option>
-                        </select>
-                    </div>
-                </div>
+                        <div id="filter-container" class="pull-left">
+                            <div class="form-group">
+                                <input type="checkbox" id="unassigned-orders" @if (isset($filters['unassigned'])) checked="checked" @endif>
+                                <label>Unassigned</label>
+                            </div>
 
-                <div class="box-body">
-                    <table data-toggle='table' class='table data-table table-bordered table-striped orders' id="orders_table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Order Code</th>
-                            <th>Client</th>
-                            <th>PDF Link</th>
-                            <th>Submitted by User</th>
-                            <th id="select-filter">Test Order</th>
-                            <th>FOID</th>
-                            <th>Assigned Sales Rep</th>
-                            <th>Date Submitted</th>
-                            <th class="col-md-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            <div class="form-group">
+                                <input type="checkbox" id="deleted-orders" @if (isset($filters['deleted'])) checked="checked" @endif>
+                                <label>Deleted</label>
+                            </div>
 
-                    @forelse ($orders as $order)
+                            <div class="form-group">
+                                <label>DATE RANGE -- From:</label>
+                                <input type="text" id="from-date" value="{{ $from_date }}">
+                                <label>To:</label>
+                                <input type="text" id="to-date" value="{{ $to_date }}">
+                            </div>
 
-                    <tr class="tbody-row @if( $order->factory_order_id ) success @endif">
-                        <td class="td-order-id">{{ $order->id }}</td>
-                        <td class="td-order-code">{{ $order->order_id }}</td>
-                        <td class="td-order-client">{{ $order->client }}</td>
-                        <td class="td-order-pdf-link">
-                            <center>
-                                <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
-                            </center>
-                        </td>
-                        <td class="td-order-user-id">
-                            {{ $order->first_name }} {{ $order->last_name }} &lt;{{ $order->email }}&gt;
-                        </td>
-                        <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
-                        <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
-                        <td class="td-assigned-sales-rep">
-                            @if( !$order->factory_order_id )
-                            <select class="form-control rep-id" name="rep-id">
-                                <option value="0">Select Sales Rep</option>
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
+                                <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
+                            </div>
+                        </div>
+
+
+
+                        <div class="pull-right">
+                            <label>Load Test Orders: </label>
+                            <select id="load-test-order">
+                                <option value="0" @if($test_order == 0) selected="selected"@endif>No</option>
+                                <option value="1" @if($test_order == 1) selected="selected"@endif>Yes</option>
                             </select>
-                            @endif
-                            {{ $order->rep_email or '' }}
-                        </td>
-                        <td class="td-order-date-submitted">{{ $order->created_at }}</td>
-                        <td class="col-md-1">
-                            @if( !$order->factory_order_id )
-                            <center>
-                                <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory" disabled>Send to Edit</a>
-                            </center>
-                            @endif
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
-                    @empty
+                    <div class="box-body">
+                        <table data-toggle='table' class='table data-table table-bordered table-striped orders' id="orders_table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Order Code</th>
+                                <th>Client</th>
+                                <th>PDF Link</th>
+                                <th>Submitted by User</th>
+                                <th id="select-filter">Test Order</th>
+                                <th>FOID</th>
+                                <th>Assigned Sales Rep</th>
+                                <th>Date Submitted</th>
+                                <th class="col-md-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        <tr>
-                            <td colspan='6'>
-                                No Orders Found
+                        @forelse ($orders as $order)
+
+                        <tr class="tbody-row @if( $order->factory_order_id ) success @endif">
+                            <td class="td-order-id">{{ $order->id }}</td>
+                            <td class="td-order-code">{{ $order->order_id }}</td>
+                            <td class="td-order-client">{{ $order->client }}</td>
+
+                            <td class="td-order-pdf-link">
+                                <center>
+                                    <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
+                                </center>
+                            </td>
+
+                            <td class="td-order-user-id">
+                                {{ $order->first_name }} {{ $order->last_name }} &lt;{{ $order->email }}&gt;
+                            </td>
+
+                            <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
+                            <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
+                            <td class="td-assigned-sales-rep">
+                                @if (! $order->factory_order_id)
+                                    <select class="form-control rep-id" name="rep-id">
+                                        <option value="0">Select Sales Rep</option>
+                                    </select>
+                                @endif
+
+                                {{ $order->rep_email or '' }}
+                            </td>
+
+                            <td class="td-order-date-submitted">{{ $order->created_at }}</td>
+                            <td class="col-md-1">
+                                @if (! $order->factory_order_id)
+                                    @if ($order->deleted_at)
+                                        <button class="btn btn-sm btn-flat btn-success view-note" data-order-note="{{ $order->notes }}">View note</button>
+                                        <button class="btn btn-sm btn-flat btn-danger undelete-order" data-order-id="{{ $order->id }}">Undelete</button>
+                                    @else
+                                        <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory" disabled>
+                                            Send to Edit
+                                        </a>
+
+                                        <button class="btn btn-sm btn-flat btn-danger delete-order" data-order-id="{{ $order->id }}">Delete</button>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
 
-                    @endforelse
+                        @empty
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    </table>
+                            <tr>
+                                <td colspan='6'>
+                                    No Orders Found
+                                </td>
+                            </tr>
+
+                        @endforelse
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
+    @include('administration-lte-2.orders.modal.delete-order')
+    @include('administration-lte-2.orders.modal.note')
 @endsection
 
 @section('scripts')
@@ -217,8 +257,20 @@ $(document).ready(function(){
         $from = $('#from-date').val();
         $to = $('#to-date').val();
         $test_order = $('#load-test-order').val();
-        window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
 
+        if ($('#unassigned-orders').is(":checked")) {
+            var unassigned = "unassigned=true";
+        } else {
+            var unassigned = "";
+        }
+
+        if ($('#deleted-orders').is(":checked")) {
+            var deleted = "&deleted=true";
+        } else {
+            var deleted = "";
+        }
+
+        window.location = "/administration/v1-0/ordersMinified/" + $from + "/" + $to + "/" + $test_order + "?" + unassigned + deleted;
     });
 
     $(document).on('change', '#load-test-order', function(e) {
@@ -228,7 +280,6 @@ $(document).ready(function(){
         $to = $('#to-date').val();
         $test_order = $('#load-test-order').val();
         window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
-
     });
 
     $(document).on('change', '.rep-id', function(e) {
@@ -263,17 +314,17 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.send-to-factory', function(e) {
-        if(!$(this).attr('disabled')){
+        if (!$(this).attr('disabled')) {
             window.team_colors = null;
 
             e.preventDefault();
 
-            var rep_id = parseInt($(this).parent().parent().parent().find('.rep-id').val());
+            var rep_id = parseInt($(this).parent().parent().find('.rep-id').val());
             var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
-            api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
-            client = $(this).parent().parent().parent().find('.td-order-client').text();
+            api_order_id = $(this).parent().parent().find('.td-order-code').text();
+            client = $(this).parent().parent().find('.td-order-client').text();
             client = escapeSingleQuotes(client);
-            var order_id = $(this).parent().parent().parent().find('.td-order-id').text();
+            var order_id = $(this).parent().parent().find('.td-order-id').text();
 
             window.order_id = order_id;
             getOrderDetails(function(order){ window.order = order; });
@@ -302,6 +353,12 @@ $(document).ready(function(){
             window.order_parts = null;
             getOrderParts(function(order_parts){ window.order_parts = order_parts; });
 
+            console.log(' ( ( ( WINDOW api_order_id ) ) ) ');
+            console.log(api_order_id);
+
+            console.log(' ( ( ( WINDOW order_parts ) ) ) ');
+            console.log(window.order_parts);
+
             function getOrderParts(callback){
                 var order_parts;
                 var url = "//" +api_host+ "/api/order/items/"+api_order_id;
@@ -324,6 +381,9 @@ $(document).ready(function(){
                 window.customizer_material_id = null;
                 window.pa_id = entry.id;
 
+                console.log("BCX > > > ");
+                console.log(bcx)
+
                 if('material_id' in bcx.upper){
                     window.customizer_material_id = bcx.upper.material_id;
 
@@ -331,6 +391,11 @@ $(document).ready(function(){
                     window.customizer_material_id = bcx.lower.material_id;
 
                 }
+
+                console.log("BUILDER CUSTOMIZATION bcx");
+                console.log(bcx);
+                console.log("CUSTOMIZER MATERIAL ID");
+                console.log(window.customizer_material_id);
 
                 var teamcolors = bcx.team_colors;
 
@@ -604,6 +669,7 @@ $(document).ready(function(){
                         type: "POST",
                         data: JSON.stringify(orderEntire),
                         contentType: 'application/json;',
+                        async: false,
                         success: function (data) {
                             alert('Order was sent to EDIT!');
                             var factory_order_id = data[0].OrderID;
@@ -1071,6 +1137,7 @@ $(document).ready(function(){
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
+            async: false,
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -1108,6 +1175,7 @@ $(document).ready(function(){
             data: JSON.stringify(parts),
             dataType: "json",
             crossDomain: true,
+            async: false,
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
@@ -1153,6 +1221,84 @@ $(document).ready(function(){
         });
     }
 
+    $('.delete-order').click(function() {
+        var orderID = $(this).data('order-id');
+
+        $('#delete-order-modal #order-id').val(orderID);
+
+        $('#delete-order-modal').modal('show');
+    });
+
+    $('#delete-order').click(function(event) {
+        event.preventDefault();
+
+        var orderID = $('#delete-order-modal #order-id').val();
+        var note = $('#delete-order-modal #notes').val();
+
+        var data = {
+            id: orderID,
+            notes: note
+        }
+
+        var url = "//" + api_host + "/api/order/delete-with-notes";
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response) {
+                if (response.success == true) {
+                    $('#delete-order-modal').modal('hide');
+                    $('#delete-order-modal #order-id').val('');
+                    $('#delete-order-modal #notes').val('');
+
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    $('#delete-order-modal').on('hidden.bs.modal', function (e) {
+        $('#delete-order-modal #order-id').val('');
+        $('#delete-order-modal #notes').val('');
+    });
+
+    $('.undelete-order').click(function() {
+        var orderID = $(this).data('order-id');
+
+        var url = "//" + api_host + "/api/order/undelete";
+
+        var data = {
+            id: orderID
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response) {
+                if (response.success == true) {
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    $('.view-note').click(function() {
+        $('#note-modal #notes').val('');
+        var note = $(this).data('order-note');
+
+        $('#note-modal #notes').val(note);
+        $('#note-modal').modal('show');
+    });
 });
 </script>
 @endsection

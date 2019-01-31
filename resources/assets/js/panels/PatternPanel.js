@@ -269,7 +269,6 @@ PatternPanel.prototype = {
             }
 
             $('#pattern-change-color').modal('show');
-            console.log("sadhasldskajdh")
         });
     },
 
@@ -335,20 +334,23 @@ PatternPanel.prototype = {
     },
 
     createPatternPreviewFromPatternPicker: function(currentPart, patternID) {
-        var _patternID                  = patternID.toString();
-        var _currentPart                = currentPart;
-        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var _patternID = patternID.toString();
+        var _currentPart = currentPart;
+        var _patternObject = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
 
         _.each (_patternObject.layers, function (layer) {
 
-            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+            var color = color_palette[layer.layer_no - 1];
 
-            if (typeof team_color !== 'undefined')
+            if (typeof color !== 'undefined')
             {
                 // Assign New Team Color if not just use default
-                layer.default_color = team_color.hex_code;
+                layer.default_color = color.hex_code;
             }
         });
+
+        console.log(_patternObject.layers)
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
@@ -373,13 +375,16 @@ PatternPanel.prototype = {
         var _patternID = patternID.toString();
         var _currentPart = currentPart;
         var _patternObject = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
 
-        _.each (_patternObject.layers, function (layer)  {
+        _.each (_patternObject.layers, function (layer) {
 
-            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+            var color = color_palette[layer.layer_no - 1];
 
-            if (typeof team_color !== 'undefined') {
-                layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default
+            if (typeof color !== 'undefined')
+            {
+                // Assign New Team Color if not just use default
+                layer.default_color = color.hex_code;
             }
         });
 
@@ -605,8 +610,10 @@ PatternPanel.prototype = {
     },
 
     applyTeamColorOnPattern(index, layerCount, patternObj, materialOption) {
+        var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
+
         for (var i = 1; i <= layerCount; i++) {
-            var colorOBJ = ub.current_material.settings.team_colors[i - 1];
+            var colorOBJ = color_palette[i - 1];
             if (typeof colorOBJ !== "undefined") {
                 var color_id = colorOBJ ? colorOBJ.id : null;
                 var color_label = colorOBJ ? colorOBJ.color_code : null;
@@ -616,7 +623,7 @@ PatternPanel.prototype = {
         }
     },
 
-    getCurrentMaterialOptions() {
+    getCurrentMaterialOptions: function() {
         // Get Material Option
         var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
         var _names = ub.funcs.ui.getAllNames(_modifier.name);

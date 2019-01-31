@@ -156,9 +156,10 @@ $(document).ready(function() {
     ub.funcs.hideColumns = function () {
 
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isFootball() || ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
-        
-            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+        // !ub.funcs.isFootball() ||
+        if (!ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
+
+            $('th.sleevetype, th.lastnameapplication, td.sleevetype, td.lastnameapplication').hide();
 
         }
 
@@ -864,6 +865,8 @@ $(document).ready(function() {
         var _sleeveCut              = '';
         var _lastnameApplication    = '';
         var _itemID                 = parseInt(ub.current_material.material.item_id);
+        var _blockPatternID         = parseInt(ub.current_material.material.block_pattern_id);
+        var _neckOption             = ub.neckOption;
         var _uniformName            = ub.current_material.material.name;
 
         var _clientOrgName          = $('input[name="client-organization"]').val();
@@ -950,6 +953,7 @@ $(document).ready(function() {
 
             order: {
 
+                brand: ub.current_material.material.brand,
                 client: _clientName,  
                 submitted: _submitted,
                 user_id: _user_id,
@@ -996,8 +1000,9 @@ $(document).ready(function() {
             order_items: [
                 {
 
-                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
+                    block_pattern_id: _blockPatternID,
+                    neck_option: _neckOption,
                     description: _uniformName,
                     type: ub.current_material.material.type,
                     builder_customizations: JSON.stringify(ub.current_material.settings),
@@ -1041,8 +1046,7 @@ $(document).ready(function() {
 
         _result = ub.data.minimumOrder.getQty(_sport);
 
-        // Show submit order only if qty is greater or equal than required per style
-        if (_qty >= _result.qty) { $('span.submit-confirmed-order').fadeIn(); }
+        $('span.submit-confirmed-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -1055,7 +1059,10 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').on('click', function () {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
-
+            if (_qty < _result.qty) { 
+                bootbox.alert("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " items per style.");
+                return;
+            }
             // if (ub.config.orderArtworkStatus === "rejected") {
 
             //     ub.funcs.resubmitOrderForm();
@@ -1140,7 +1147,11 @@ $(document).ready(function() {
         var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
-        var _transformedRoster      = [];
+        var _sortedModifierLabels   = _.indexBy(_.sortBy(ub.data.modifierLabels, 'intGroupID'), 'group_id');
+
+        // console.log('_sortedModifierLabels====>', _sortedModifierLabels);
+
+        var _transformedRoster       = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
 
@@ -1171,7 +1182,10 @@ $(document).ready(function() {
 
         });
 
-        var _type = ub.config.uniform_application_type.toTitleCase(); 
+        var _type = ub.config.uniform_application_type.toTitleCase();
+
+        // add modifier labels to settings
+        ub.current_material.settings.sorted_modifier_labels = _sortedModifierLabels;
 
         var orderInput = {
 
@@ -1235,9 +1249,8 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes,
-
-                },
+                    notes: _notes
+                }
             ]
         };        
 
@@ -1267,6 +1280,8 @@ $(document).ready(function() {
 
         var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
+
+        console.log('ub.funcs.prepareData() output=====>', _input);
 
         $.ajaxSetup({
             headers: {
@@ -1866,24 +1881,8 @@ $(document).ready(function() {
 
         }
 
-        var _result = true;
-        var _qty = ub.funcs.getOrderQty();
-        var _sport = ub.current_material.material.uniform_category;
-        _result = ub.data.minimumOrder.getQty(_sport);
+        ub.funcs.proceedToPreview(orderInfo);
 
-        if (_qty < _result.qty) {
-
-            bootbox.confirm("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " per style. You can only 'Save' and not 'Submit' this order if you proceed. To be able to Submit an Order for this item, please place at least " + _result.qty + " items.<br /><br />Press 'Cancel' to add more items.<br />Press 'OK' to save this order info and add the quantity later. <br /><br />Thank you!" , function (result) { 
-
-                if (result) { ub.funcs.proceedToPreview(orderInfo); }
-
-            });
-
-        } else {
-
-            ub.funcs.proceedToPreview(orderInfo);
-
-        }
 
     }
 
@@ -2333,6 +2332,7 @@ $(document).ready(function() {
         }
 
         $('div#roster-input').fadeIn();
+        console.log('AFTER FADE IN ROSTER INPUT CONTAINER=======>');
 
         // Setup Events if this is not rejected
         if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.updateOrderFromCustomArtworkRequest) {
@@ -2346,6 +2346,7 @@ $(document).ready(function() {
             });
 
             $('span.add-player').on('click', function () {
+                console.log('ON CLICK ADD PLAYER=======>');
 
                 var _numbers    = ''; 
                 var _size       = '';
@@ -2432,6 +2433,7 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.hideColumns();
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order

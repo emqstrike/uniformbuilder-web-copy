@@ -109,7 +109,6 @@ $(document).ready(function() {
         //     ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
         // }
 
-
         var _brand = ub.current_material.material.brand;
         ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
 
@@ -165,8 +164,18 @@ $(document).ready(function() {
 
             ub.utilities.info(ub.data.fonts.length + " fonts loaded for " + ub.config.brand.toTitleCase());
             ub.utilities.info(ub.config.gender.toTitleCase() + ' / ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option);
-            console.log(ub.data.fonts);
-            console.log(' ');
+            
+            // filter for Hockey Socks block pattern fonts
+            // get all fonts dedicated for `Hockey Socks` block pattern only
+            var material = ub.current_material.material;
+            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Socks") { 
+                ub.data.fonts = _.filter(ub.data.fonts, function(font) {
+                    var parsedBlockPatterns = JSON.parse(font.block_patterns);
+                    if(_.isEqual(parsedBlockPatterns, 'Hockey Socks')) {
+                        return font;
+                    }
+                });
+            }
 
             ub.displayDoneAt( ub.data.fonts[0].name + ' preloaded.');
 
@@ -273,6 +282,8 @@ $(document).ready(function() {
 
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
+
+            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
 
             _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
 
@@ -538,6 +549,17 @@ $(document).ready(function() {
 
     }
 
+    //set the configuration flag if the material's saved design settings should be retained.
+    ub.funcs.setupRetain = function () {
+
+        var retain = ub.current_material.material.retain_settings_from_saved_design;
+
+        if (retain === 1 || retain === '1') {
+            ub.config.retain = true;
+        }
+
+    }
+
     ub.data.getPixelFontSize = function (fontID, fontSize, perspective, application) {
 
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
@@ -569,6 +591,12 @@ $(document).ready(function() {
                 yScale: parseFloat(_fontSizeTable.y_scale),
 
             };
+
+            // if retain is true, ignore fontOffsets
+            if (ub.config.retain) {
+                _fontSizeData.xOffset = 0;
+                _fontSizeData.yOffset = 0;
+            }
 
         } else {
 

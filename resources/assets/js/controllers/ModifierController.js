@@ -138,6 +138,7 @@ ModifierController.prototype = {
 
         // New Properties Object
         var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        propertiesPanel.initModifiers("base");
         ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
 
         var part_panel = ub.modifierController.controllers.parts.getPanel();
@@ -157,6 +158,7 @@ ModifierController.prototype = {
 
         // New Properties Object
         var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
+        propertiesPanel.initModifiers("insert");
         ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
 
         var insert_panel = ub.modifierController.controllers.inserts.getPanel();

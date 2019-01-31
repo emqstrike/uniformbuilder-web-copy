@@ -27,7 +27,7 @@
 </script>
 
 <script type="text/mustache" id="m-no-logo-message">
-    <div id="m-no-logo-message" class="m-no-logo-message">
+    <div id="m-no-logo-message" class="m-no-logo-message cp-padding-medium cp-padding-remove-vertical">
         <h3 class="cp-fc-white">Notice</h3>
         <div class="cp-fc-white">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!

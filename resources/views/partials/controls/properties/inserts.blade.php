@@ -15,7 +15,7 @@
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
                         <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
-                            @{{ #color_palette }}
+                            @{{ #colors }}
                                 <div class="color_element sublimated color-container-button">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box color-selector-button"
@@ -29,7 +29,7 @@
                                     </button>
                                     <span class="label">@{{ name }}</span>
                                 </div>
-                            @{{ /color_palette }}
+                            @{{ /colors }}
                         </div>
                     </div>
                 </div>
