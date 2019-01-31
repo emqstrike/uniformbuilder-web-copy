@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
+use App\Auth\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\ShoppingCart\Cart;
@@ -11,7 +12,7 @@ class ConfirmOrderController extends Controller
 {
     public function index()
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         $client_information = $user->client_information;
         $billing_information = $user->billing_information;
         $shipping_information = $user->shipping_information;
@@ -29,7 +30,7 @@ class ConfirmOrderController extends Controller
             return redirect()->route('shopping-cart');
         }
 
-        $user = \Auth::user();
+        $user = Auth::user();
         $client_information = $user->client_information;
         $billing_information = $user->billing_information;
         $shipping_information = $user->shipping_information;

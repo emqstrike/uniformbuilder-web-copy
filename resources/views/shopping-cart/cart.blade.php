@@ -1,5 +1,7 @@
 @extends('shopping-cart.layout')
 
+@inject('Auth', 'App\Auth\Auth')
+
 @section('meta')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
@@ -18,7 +20,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ Auth::check() ? route('shopping-cart.client-info') : route('shopping-cart.create-user-via-cart') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+                    <a href="{{ $Auth::check() ? route('shopping-cart.client-info') : route('shopping-cart.create-user-via-cart') }}" class="btn btn-primary">Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
                 </div>
             </div>
         </div>

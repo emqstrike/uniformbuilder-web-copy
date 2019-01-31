@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+// Remove this migration file after
 class CreateUsersTable extends Migration
 {
     /**
@@ -18,11 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->string('logged_in_token', 13)->nullable()->default(null);
             $table->rememberToken();
-            $table->bigInteger('client_id')->nullable()->default(null);
-            $table->bigInteger('billing_id')->nullable()->default(null);
-            $table->bigInteger('shipping_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

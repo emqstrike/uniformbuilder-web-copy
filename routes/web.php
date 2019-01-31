@@ -5,13 +5,13 @@ Route::get('remote-login/{token?}', 'AuthenticationController@remoteLogin');
 Route::group([
     'prefix' => "shopping-cart",
     'namespace' => "ShoppingCart",
-    'middleware' => ["session_flash_middleware", "cart_middleware"],
+    'middleware' => ["cart_middleware"],
 ], function() {
     Route::get('/', "CartController@index")->name('shopping-cart');
 
     Route::group([
         'middleware' => [
-            "auth",
+            "user_middleware",
             "redirect_if_invalid_cart_item"
         ]
     ], function() {
@@ -37,15 +37,4 @@ Route::group([
         Route::get('create-user-via-cart', "CartController@createUserViaCart")->name('shopping-cart.create-user-via-cart');
         Route::post('create-user-via-cart', "CartController@storeUserViaCart");
     });
-});
-
-Route::get('login-user', function() {
-    \Auth::loginUsingId(1);
-});
-
-Route::get('logout-user', function() {
-    \Session::remove('cart_token');
-    \Session::remove('cart_timeout');
-    \Session::save();
-    \Auth::logout();
 });

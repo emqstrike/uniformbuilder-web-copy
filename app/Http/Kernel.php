@@ -8,7 +8,7 @@ use App\Http\Middleware\ShoppingCart\CartMiddleware;
 use App\Http\Middleware\ShoppingCart\ConfirmOrderMiddleware;
 use App\Http\Middleware\ShoppingCart\GuestMiddleware;
 use App\Http\Middleware\ShoppingCart\RedirectIfInvalidCartItem;
-use App\Http\Middleware\ShoppingCart\SessionFlashMiddleware;
+use App\Http\Middleware\ShoppingCart\UserMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -45,8 +45,8 @@ class Kernel extends HttpKernel
         'cart_item_api_middleware' => CartItemApiMiddleware::class,
 
         'guest_middleware' => GuestMiddleware::class,
+        'user_middleware' => UserMiddleware::class,
         'redirect_if_invalid_cart_item' => RedirectIfInvalidCartItem::class,
-        'session_flash_middleware' => SessionFlashMiddleware::class,
-        'confirm_order_middleware' => ConfirmOrderMiddleware::class,
+        'confirm_order_middleware' => ConfirmOrderMiddleware::class
     ];
 }

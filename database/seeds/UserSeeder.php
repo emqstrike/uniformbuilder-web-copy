@@ -1,5 +1,6 @@
 <?php
 
+use App\ShoppingCart\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -11,6 +12,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\ShoppingCart\User::class)->create();
+        User::create([
+            'id' => 645,
+            'first_name' => "Rodrigo III",
+            'last_name' => "Galura",
+            'email' => "shinichiConan3rd@gmail.com",
+            'password' => bcrypt("secret123"),
+        ]);
     }
 }

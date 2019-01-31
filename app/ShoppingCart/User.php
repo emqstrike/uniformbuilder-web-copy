@@ -11,7 +11,7 @@ class User extends Model implements AuthenticatableContract
 {
     use Authenticatable;
 
-    protected $fillable = ["first_name", "last_name", "email", "password", "logged_in_token", "remember_token", "billing_id", "shipping_id"];
+    protected $fillable = ["first_name", "last_name", "email", "password", "logged_in_token", "remember_token"];
 
     public function carts()
     {

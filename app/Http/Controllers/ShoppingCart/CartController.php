@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
+use App\Auth\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\ShoppingCart\CreateUserViaCartRequest;
@@ -42,7 +43,7 @@ class CartController extends Controller
             $cart_token = \Session::get('cart_token');
             $cart = Cart::findByToken($cart_token);
 
-            \Auth::loginUsingId($user->id);
+            Auth::loginUsingId($user->id);
 
             \Log::info($cart->assignToUser($user->id) ? "Successfully assign current cart to new user" : "Cannot assign current cart to new user");
 

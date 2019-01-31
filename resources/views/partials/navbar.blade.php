@@ -103,8 +103,11 @@
                     <a href="#" id="my-shopping-cart" class="dropdown-toggle" data-toggle="dropdown" cloak>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; My Cart <span class="cp-text-bold cart-item-number">0</span>
                     </a>
-                    <div class="shopping-dropdown-menu dropdown-menu" role="menu" id="dropdown-cart-item-list">
-                        {{-- to be load of js --}}
+                    <div class="shopping-dropdown-menu dropdown-menu" role="menu">
+                        <div class="dropdown-cart-item-list" id="dropdown-cart-item-list">
+                            {{-- to be load of js --}}
+                        </div>
+                        <a href="{{ route('shopping-cart') }}" class="btn checkout-button" target="_blank" id="my-carts-link">See All in My Cart</a>
                     </div>
                 </li>
 

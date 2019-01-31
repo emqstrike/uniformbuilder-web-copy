@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
+use App\Auth\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\ShoppingCart\SaveShippingInfo;
@@ -12,9 +13,9 @@ class ShippingController extends Controller
 {
     public function index()
     {
-        $shipping_information = \Auth::user()->shipping_information;
-        $client_information = \Auth::user()->client_information;
-        $same_as_client_info = $shipping_information->sameAsClientInfo($client_information);
+        $shipping_information = Auth::user()->shipping_information;
+        $client_information = Auth::user()->client_information;
+        $same_as_client_info = !is_null($shipping_information) ? $shipping_information->sameAsClientInfo($client_information) : false;
 
         return view('shopping-cart.shipping', compact('shipping_information', 'same_as_client_info'));
     }
@@ -22,7 +23,7 @@ class ShippingController extends Controller
     public function store(SaveShippingInfo $request)
     {
         $data = $request->all();
-        $shipping_information = \Auth::user()->shipping_information;
+        $shipping_information = Auth::user()->shipping_information;
 
         if (is_null($shipping_information))
         {
@@ -38,13 +39,12 @@ class ShippingController extends Controller
                 'city' => $data['city'],
                 'zip' => $data['zip_code'],
 
-                'user_id' => \Auth::user()->id
+                'user_id' => Auth::user()->id
             ]);
 
             if ($shipping_information instanceof ShippingInformation)
             {
-                \Session::put('success', "Shipping info successfully saved!");
-                \Session::save();
+                \Session::flash('success', "Shipping info successfully saved!");
                 return redirect()->route("shopping-cart.confirm-order");
             }
 
@@ -70,14 +70,13 @@ class ShippingController extends Controller
             $shipping_information->state = $data['state'];
             $shipping_information->city = $data['city'];
             $shipping_information->zip = $data['zip_code'];
-            $shipping_information->user_id = \Auth::user()->id;
+            $shipping_information->user_id = Auth::user()->id;
 
             if (!empty($shipping_information->getDirty()))
             {
                 if ($shipping_information->save())
                 {
-                    \Session::put('success', "Shipping info successfully saved!");
-                    \Session::save();
+                    \Session::flash('success', "Shipping info successfully saved!");
                 }
             }
 

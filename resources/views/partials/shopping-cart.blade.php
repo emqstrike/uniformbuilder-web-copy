@@ -2,7 +2,7 @@
     <% if (cart_items.length > 0) { %>
         <% _.each(cart_items, function(cart_item) { %>
             <a href="/builder/0/<%= cart_item.item_id %>?customizer-uniform" class="shopping-cart-item" target="_blank">
-                <div class="row cp-padding-small">
+                <div class="row cp-padding-small" style="margin-right: 0">
                     <div class="col-md-3">
                         <img src="<%= cart_item.thumbnail %>" alt="" width="100" height="100">
                     </div>
@@ -19,11 +19,8 @@
                 <hr class="cp-margin-remove">
             </a>
         <% }); %>
-        <div>
-            <a href="<%= shopping_cart_route %>" class="btn checkout-button" target="_blank">See All in My Cart</a>
-        </div>
     <% } else { %>
-        <div class="row cp-padding-small">
+        <div class="row cp-padding-small" style="margin-right: 0">
             <div class="col-md-12">
                 <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">Empty Cart</h4>
             </div>

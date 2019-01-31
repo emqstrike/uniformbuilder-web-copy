@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\ShoppingCart;
 
+use App\Auth\Auth;
 use App\ShoppingCart\Cart;
 use App\ShoppingCart\User;
 use Closure;
@@ -45,7 +46,6 @@ class CartMiddleware
         } // else define cart timeout
 
         \Session::put('cart_timeout', time());
-        \Session::save();
     }
 
     private function cartToken($request, Closure $next)
@@ -59,13 +59,13 @@ class CartMiddleware
             if (!is_null($cart))
             {
                 // is user authenticated
-                if (\Auth::check())
+                if (Auth::check())
                 {
                     // has current cart owner
                     if ($cart->hasOwner())
                     {
                         // is user not the owner of current cart
-                        if ($cart->user->id !== \Auth::user()->id)
+                        if ($cart->user->id !== Auth::user()->id)
                         {
                             die("Error: You are unauthorized to access the cart " . $cart->id);
                         }
@@ -73,10 +73,10 @@ class CartMiddleware
                     else
                     {
                         // assign current cart to authenticated user
-                        $cart->assignToUser(\Auth::user()->id);
+                        $cart->assignToUser(Auth::user()->id);
                     }
 
-                    $user = \Auth::user();
+                    $user = Auth::user();
                     if ($user->hasMultipleCarts())
                     {
                         $user->mergeMyCarts($cart);
@@ -97,11 +97,10 @@ class CartMiddleware
 
         $cart = Cart::takeCart();
         \Session::put('cart_token', $cart->token);
-        \Session::save();
 
-        if (\Auth::check())
+        if (Auth::check())
         {
-            $user = \Auth::user();
+            $user = Auth::user();
 
             $cart->assignToUser($user->id);
 

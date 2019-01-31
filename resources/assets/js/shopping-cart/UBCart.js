@@ -62,9 +62,11 @@ var UBCart = {
         // change cart number
         $('#my-shopping-cart .cart-item-number').text(cart_items.length);
 
+        // hide see all in my carts link if cart items empty
+        $('#my-carts-link')[cart_items.length === 0 ? "hide" : "show"]();
+
         $('#dropdown-cart-item-list').html(tmpl({
-            cart_items: cart_items,
-            shopping_cart_route: shopping_cart.route
+            cart_items: cart_items
         }));
     },
 

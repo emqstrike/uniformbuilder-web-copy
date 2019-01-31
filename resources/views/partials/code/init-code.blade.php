@@ -2,8 +2,7 @@
 <script type="text/javascript">
     window.shopping_cart = {
         logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
-        cart_token: "{{ \Session::get('cart_token') }}",
-        route: "{{ route('shopping-cart') }}"
+        cart_token: "{{ \Session::get('cart_token') }}"
     };
 </script>
 

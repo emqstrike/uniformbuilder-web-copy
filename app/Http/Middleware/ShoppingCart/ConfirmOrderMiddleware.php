@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\ShoppingCart;
 
+use App\Auth\Auth;
 use Closure;
 
 class ConfirmOrderMiddleware
@@ -20,7 +21,7 @@ class ConfirmOrderMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = \Auth::user();
+        $user = Auth::user();
 
         if (!is_null($user->client_information) && !is_null($user->billing_information) && !is_null($user->shipping_information))
         {

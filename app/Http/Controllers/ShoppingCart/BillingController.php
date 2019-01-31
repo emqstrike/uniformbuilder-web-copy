@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ShoppingCart;
 
+use App\Auth\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\ShoppingCart\SaveBillingInfo;
@@ -12,9 +13,9 @@ class BillingController extends Controller
 {
     public function index()
     {
-        $billing_information = \Auth::user()->billing_information;
-        $client_information = \Auth::user()->client_information;
-        $same_as_client_info = $billing_information->sameAsClientInfo($client_information);
+        $billing_information = Auth::user()->billing_information;
+        $client_information = Auth::user()->client_information;
+        $same_as_client_info = !is_null($billing_information) ? $billing_information->sameAsClientInfo($client_information) : false;
 
         return view('shopping-cart.billing', compact('billing_information', 'same_as_client_info'));
     }
@@ -22,7 +23,7 @@ class BillingController extends Controller
     public function store(SaveBillingInfo $request)
     {
         $data = $request->all();
-        $billing_information = \Auth::user()->billing_information;
+        $billing_information = Auth::user()->billing_information;
 
         if (is_null($billing_information))
         {
@@ -38,13 +39,12 @@ class BillingController extends Controller
                 'city' => $data['city'],
                 'zip' => $data['zip_code'],
 
-                'user_id' => \Auth::user()->id
+                'user_id' => Auth::user()->id
             ]);
 
             if ($billing_information instanceof BillingInformation)
             {
-                \Session::put('success', "Billing info successfully saved!");
-                \Session::save();
+                \Session::flash('success', "Billing info successfully saved!");
                 return redirect()->route("shopping-cart.shipping");
             }
 
@@ -70,14 +70,13 @@ class BillingController extends Controller
             $billing_information->state = $data['state'];
             $billing_information->city = $data['city'];
             $billing_information->zip = $data['zip_code'];
-            $billing_information->user_id = \Auth::user()->id;
+            $billing_information->user_id = Auth::user()->id;
 
             if (!empty($billing_information->getDirty()))
             {
                 if ($billing_information->save())
                 {
-                    \Session::put('success', "Billing info successfully saved!");
-                    \Session::save();
+                    \Session::flash('success', "Billing info successfully saved!");
                 }
             }
 

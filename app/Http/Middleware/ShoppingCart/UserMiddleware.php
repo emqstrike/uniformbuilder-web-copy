@@ -4,7 +4,7 @@ namespace App\Http\Middleware\ShoppingCart;
 
 use Closure;
 
-class GuestMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class GuestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!\Session::get('isLoggedIn'))
+        if (\Session::get('isLoggedIn'))
         {
             return $next($request);
         }

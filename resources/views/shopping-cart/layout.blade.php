@@ -1,3 +1,5 @@
+@inject('Auth', 'App\Auth\Auth')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +28,7 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="javascript:void(0)" style="cursor: default;">{{ \Auth::check() ? \Auth::user()->getFullName() : "guest" }}</a></li>
+                    <li><a href="javascript:void(0)" style="cursor: default;">{{ $Auth::check() ? $Auth::user()->getFullName() : "guest" }}</a></li>
                     <li><a href="{{ route('shopping-cart') }}"><span class="glyphicon glyphicon-shopping-cart"></span> <span class="badge" cloak id="cart-item-number">3</span></a></li>
                 </ul>
             </div>
@@ -39,6 +41,7 @@
                 Cart Token: <span class="label label-info">{{ \Session::get('cart_token') }}</span> <br>
                 Cart Lifespan: <span class="label label-info">{{ App\ShoppingCart\Cart::LIFE_SPAN }} seconds</span> <br>
                 Cart Timer: <span class="glyphicon glyphicon-time"></span> <span id="cart-timer">0</span> <br>
+                Session: <pre>{{ var_dump(\Session::all()) }}</pre>
                 <hr>
             </div>
         </div>
@@ -54,7 +57,7 @@
 
     <script type="text/javascript">
     window.shopping_cart = {
-        logged_in_token: "{{ \Auth::check() ? \Auth::user()->logged_in_token : '' }}",
+        logged_in_token: "{{ $Auth::check() ? $Auth::user()->logged_in_token : '' }}",
         cart_token: "{{ \Session::get('cart_token') }}",
         cart_lifespan: parseInt("{{ App\ShoppingCart\Cart::LIFE_SPAN }}")
     }
