@@ -108,6 +108,7 @@ elixir(function(mix) {
             'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
+            'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
 

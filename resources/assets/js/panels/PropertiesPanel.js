@@ -70,6 +70,16 @@ PropertiesPanel.prototype = {
                 var color_pallete = color_palette = ColorPalette.funcs.getConfigurationPerTab(palette_category);
                 modifier.colors = color_pallete;
             }
+
+            // Check if uniform has gradient
+            if (typeof ub.data.gradients !== "undefined" && _.size(ub.data.gradients) > 0) {
+                var gradientObject = _.find(ub.data.gradients, {name: modifier.fullname});
+                if (typeof gradientObject !== "undefined") {
+                    modifier.hasGradient = true;
+                } else {
+                    modifier.hasGradient = false;
+                }
+            }
         });
     },
 
@@ -131,6 +141,8 @@ PropertiesPanel.prototype = {
         _.map(_this.modifiers, function(index) {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
+            var gradientObject = materialObject.gradient;
+            var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
             if (typeof materialObject !== "undefined")
             {
@@ -171,6 +183,13 @@ PropertiesPanel.prototype = {
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
+                }
+
+                if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                    var gradientContainer = $(".pattern-main-container-"+ materialObject.code + " .gradient-container-button .gradient-selector-button[data-gradient-name='gradient']");
+                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Gradient Color</button>");
+                    gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                    gradientContainer.addClass('active-pattern');
                 }
             }
 

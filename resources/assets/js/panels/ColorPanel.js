@@ -32,8 +32,6 @@ ColorPanel.prototype = {
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
 
-            console.log("Modifier: ", modifier_category);
-
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
             selected_color.html("");
@@ -119,7 +117,6 @@ ColorPanel.prototype = {
             if (previousColor.length > 0) {
                 previousColor.removeClass('active-color');
                 previousColor.html("");
-                console.log("Remove active color");
             }
 
             // Get matching color button
