@@ -61,12 +61,8 @@ $(document).ready(function() {
             "top": '150px',
             "left": '150px'
         });
-    };
 
-    ub.funcs.removeSpecialModifier = function() {
-        $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
-        $("#right-main-window.pane-main-window").css('height', '600px');
-    }
+    };
 
     ub.funcs.handlePerspectiveEvent = function() {
         $("div#left-side-toolbar .perspective").on('click', '.change-perspective-button', function(event) {
@@ -87,9 +83,6 @@ $(document).ready(function() {
         ub.funcs.changeStageBackgroundColor("0xffffff");
         ub.funcs.removeApplicationHeader();
         ub.funcs.setupRightPanelHeader();
-        ub.funcs.removeSpecialModifier();
-
-        $('#property-modifiers-menu .menu-item-fabrics').trigger("click")
 
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
