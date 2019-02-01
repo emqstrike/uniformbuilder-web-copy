@@ -236,7 +236,16 @@ ModifierController.prototype = {
 
             }
 
-            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
+            var col_md = 0
+            if (logo_positions.length === 1) {
+                col_md = 12;
+            } else if (logo_positions.length === 2) {
+                col_md = 6;
+            } else if (logo_positions.length === 3) {
+                col_md = 4;
+            }
+
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions, col_md);
             var logo_panel = ub.modifierController.logo.getPanel();
             properties_panel.setBodyPanel(logo_panel);
 

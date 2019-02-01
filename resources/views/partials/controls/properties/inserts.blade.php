@@ -4,8 +4,8 @@
         @{{ #inserts }}
             <li class="panel-index-@{{ index }}">
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
-                        <div class="cp-text-uppercase cp-fc-white">
+                    <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
+                        <div class="cp-text-uppercase ">
                             <h4 class="header cp-text-bold">@{{ name }}</h4>
                             <p style="font-weight: bold;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
@@ -13,10 +13,10 @@
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
+                        <p class="cp-padding-left-small ">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
-                                <div class="color_element sublimated color-container-button">
+                                <div class="color_element color-container-button cp-color-element-auto">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box color-selector-button"
                                         style="background-color: #@{{ hex_code }};"
@@ -27,7 +27,6 @@
                                         data-modifier-category="@{{ fullname }}"
                                     >
                                     </button>
-                                    <span class="label">@{{ name }}</span>
                                 </div>
                             @{{ /colors }}
                         </div>
@@ -36,10 +35,10 @@
                 @{{#hasPattern}}
                     <div class="row modifier-wrapper">
                         <div class="col-md-12 cp-padding-remove">
-                            <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
+                            <p class="cp-padding-left-small">PATTERN</p>
                             <div class="pattern-main-container-@{{ fullname }}">
                                 @{{ #patterns }}
-                                    <div class="color_element sublimated">
+                                    <div class="color_element cp-color-element-auto">
                                         <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
                                             <button
                                                 class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
@@ -78,7 +77,7 @@
                     </div>
                 @{{/hasPattern}}
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-padding-remove-vertical cp-margin-remove">
                         <p class="cp-margin-remove-top cp-border"></p>
                     </div>
                 </div>
@@ -87,8 +86,8 @@
 
         @{{^inserts}}
             <div>
-                <h3 class="cp-fc-white">Notice</h3>
-                <div class="cp-fc-white">
+                <h3 class="">Notice</h3>
+                <div class="">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
                 </div>
 
