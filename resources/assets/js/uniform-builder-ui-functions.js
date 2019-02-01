@@ -5,10 +5,9 @@ $(document).ready(function() {
         }
     };
 
-    ub.funcs.removeApplicationHeader = function() {
-        $("#navbar-header").css('display', 'none');
-        $("div.user-profile").css('display', 'none');
-        $("h1#header_text").css('display', 'none');
+    ub.funcs.removeNavigationHeader = function() {
+        $("nav.navbar.navbar-default.navbar-fixed-top").remove();
+        $(".generic-canvas").css('background-color', 'white');
     };
 
     ub.funcs.setupRightPanelHeader = function() {
@@ -59,7 +58,7 @@ $(document).ready(function() {
         // Add CSS in left side toolbar
         $("div#left-side-toolbar").css({
             "top": '150px',
-            "left": '150px'
+            "left": '120px'
         });
     };
 
@@ -80,21 +79,85 @@ $(document).ready(function() {
         });
     };
 
+    ub.funcs.setupRightPanelFooter = function () {
+        $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
+        $("#right-main-window.pane-main-window").css('height', '600px');
+
+        var richardson_footer = document.getElementById("m-richardson-footer");
+        var render_footer = Mustache.render(richardson_footer.innerHTML);
+
+        $("div#right-pane-column").append(render_footer);
+        $(".richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
+
+        // Bind Event
+        _.delay(function() {
+            ub.funcs.handleOnNextModifier();
+            ub.funcs.handleOnPreviousModifier();
+        }, 500)
+    };
+
+    ub.funcs.handleOnNextModifier = function () {
+        $("#right-pane-column .richardson-footer").on('click', '.richardson-onNext', function(event) {
+            event.preventDefault();
+            var current_modifier = ub.current_modifier;
+            var total_modifier = 8;
+
+            if (ub.current_modifier !== total_modifier) {
+                if (current_modifier >= 1) {
+                    ub.current_modifier++;
+                    $('#property-modifiers-menu .group-' + ub.current_modifier).trigger('click');
+                    $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+                }
+            }
+
+            if (ub.current_modifier === total_modifier)  {
+                $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
+            }
+        });
+    };
+
+    ub.funcs.handleOnPreviousModifier = function () {
+        $("#right-pane-column .richardson-footer").on('click', '.richardson-onPrevious', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var current_modifier = ub.current_modifier;
+            var modifier_limit = 1;
+
+            if (ub.current_modifier !== modifier_limit) {
+                ub.current_modifier--
+                $('#property-modifiers-menu .group-' + ub.current_modifier).trigger('click');
+                $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
+            }
+
+            if (ub.current_modifier === modifier_limit) {
+                $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
+            }
+        });
+    };
+
     ub.funcs.changeStage = function() {
+        ub.current_modifier = 1;
+        $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
+
         $("div#left-side-toolbar").html("")
         $("div.customizer-uniform-information").html("");
         $("p.verbiage-text").addClass('cp-fc-black');
-        ub.funcs.changeStageBackgroundColor("0xffffff");
-        ub.funcs.removeApplicationHeader();
-        ub.funcs.setupRightPanelHeader();
-        ub.funcs.removeSpecialModifier();
 
-        $('#property-modifiers-menu .menu-item-fabrics').trigger("click")
+        ub.funcs.setupRightPanelHeader();
+        ub.funcs.changeStageBackgroundColor("0xffffff");
+        ub.funcs.removeNavigationHeader();
+        ub.funcs.setupRightPanelFooter();
+
 
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
         }, 2000)
+    };
+
+    ub.funcs.enableRichardsonNavigator = function() {
+        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+        $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
     };
 
 })
