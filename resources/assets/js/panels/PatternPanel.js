@@ -145,7 +145,7 @@ PatternPanel.prototype = {
 
                 if (blank.id !== _id) {
                     // Show edit pattern button
-                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'>Edit Pattern Color</button>");
+                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button app-btn w-45' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                 }
 
                 $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');

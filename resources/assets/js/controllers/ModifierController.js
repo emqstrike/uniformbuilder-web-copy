@@ -130,6 +130,9 @@ ModifierController.prototype = {
 
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         propertiesPanel.setBodyPanel(fabric_panel);
+
+        ub.current_modifier = 1;
+        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },
 
     parts: function(_this) {
@@ -149,7 +152,10 @@ ModifierController.prototype = {
         propertiesPanel.bindEvents();
         GradientPanel.events.init();
 
+        ub.current_modifier = 2;
+
         $("#primary_options_container").scrollTo(0);
+        ub.funcs.enableRichardsonNavigator();
     },
 
     inserts: function() {
@@ -168,7 +174,10 @@ ModifierController.prototype = {
         // Bind Events
         propertiesPanel.bindEvents();
 
+        ub.current_modifier = 3;
+
         $("#primary_options_container").scrollTo(0);
+        ub.funcs.enableRichardsonNavigator();
     },
 
     pipings: function() {
@@ -205,18 +214,27 @@ ModifierController.prototype = {
             piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
             properties_panel.setBodyPanel(piping_panel);
         }
+
+        ub.current_modifier = 4;
+        ub.funcs.enableRichardsonNavigator();
     },
 
     letters: function() {
         ub.funcs.startNewApplicationLetters();
+        ub.current_modifier = 5;
+        ub.funcs.enableRichardsonNavigator();
     },
 
     numbers: function() {
         ub.funcs.startNewApplicationNumbers();
+        ub.current_modifier = 6;
+        ub.funcs.enableRichardsonNavigator();
     },
 
     applications: function() {
         ub.funcs.startNewApplication();
+        ub.current_modifier = 7;
+        ub.funcs.enableRichardsonNavigator();
     },
 
     logo: function() {
@@ -236,7 +254,16 @@ ModifierController.prototype = {
 
             }
 
-            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
+            var col_md = 0
+            if (logo_positions.length === 1) {
+                col_md = 12;
+            } else if (logo_positions.length === 2) {
+                col_md = 6;
+            } else if (logo_positions.length === 3) {
+                col_md = 4;
+            }
+
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions, col_md);
             var logo_panel = ub.modifierController.logo.getPanel();
             properties_panel.setBodyPanel(logo_panel);
 
@@ -257,6 +284,9 @@ ModifierController.prototype = {
             var render = Mustache.render(panel.innerHTML);
             properties_panel.setBodyPanel(render);
         }
+
+        ub.current_modifier = 8;
+        $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
     }
 };
 

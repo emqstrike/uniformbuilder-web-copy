@@ -9,11 +9,12 @@
  * - Mustache
  */
 
-function LogoPanel(element, logo_positions) {
+function LogoPanel(element, logo_positions, count) {
     this.panel = document.getElementById(element);
     this.data = {
         logo_position: logo_positions,
-        brand: ub.config.brand
+        brand: ub.config.brand,
+        count: count
     };
     this.bindEvents();
 }
