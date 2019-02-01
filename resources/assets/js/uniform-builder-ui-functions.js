@@ -81,7 +81,11 @@ $(document).ready(function() {
 
     ub.funcs.setupRightPanelFooter = function () {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
-        $("#right-main-window.pane-main-window").css('height', '600px');
+        $("#right-main-window.pane-main-window").css({
+            'height': '600px',
+            "background-color": "white",
+            "border": "1px solid #e6e6e6"
+        });;
 
         var richardson_footer = document.getElementById("m-richardson-footer");
         var render_footer = Mustache.render(richardson_footer.innerHTML);

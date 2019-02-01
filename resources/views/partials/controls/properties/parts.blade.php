@@ -4,8 +4,8 @@
         @{{ #parts }}
             <li class="panel-index-@{{ index }}">
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-padding-medium cp-padding-remove-vertical">
-                        <div class="cp-text-uppercase cp-fc-white">
+                    <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
+                        <div class="cp-text-uppercase">
                             <h4 class="header cp-text-bold">@{{ name }}</h4>
                             <p style="font-weight: bold;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
@@ -13,10 +13,10 @@
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-medium cp-fc-white">COLOR</p>
+                        <p class="cp-padding-left-small">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
-                                <div class="color_element color-container-button">
+                                <div class="color_element color-container-button cp-color-element-auto">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box color-selector-button"
                                         style="background-color: #@{{ hex_code }};"
@@ -27,7 +27,6 @@
                                         data-modifier-category="@{{ fullname }}"
                                     >
                                     </button>
-                                    <span class="label">@{{ name }}</span>
                                 </div>
                             @{{ /colors }}
                         </div>
@@ -38,10 +37,10 @@
 
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-medium cp-fc-white">PATTERN</p>
+                        <p class="cp-padding-left-small">PATTERN</p>
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
-                                <div class="color_element">
+                                <div class="color_element cp-color-element-auto">
                                     <div class="pattern-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
                                         <button
                                             class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
@@ -56,7 +55,7 @@
                                 </div>
                             @{{ /patterns }}
                             @{{#hasGradient}}
-                            <div class="color_element">
+                            <div class="color_element cp-color-element-auto">
                                 <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
                                     <button
                                         class="grow change-color whitebtn cp-new-color-box gradient-selector-button"
@@ -82,7 +81,7 @@
                 @{{/hasPattern}}
 
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-medium cp-padding-remove-vertical cp-margin-remove">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-padding-remove-vertical cp-margin-remove">
                         <p class="cp-margin-remove-top cp-border"></p>
                     </div>
                 </div>
@@ -217,20 +216,6 @@
 
 <script type="text/mustache" id="m-tab-patterns-colors">
 @{{ #colors }}
-    {{-- <div class="col-md-2 cp-padding-remove cp-margin-top-small tab-patterns-colors-@{{ modifier_category }}">
-        <div>
-            <button
-            class="pattern-color-selector-button cp-modal-color"
-            style="background-color: #@{{ hex_code}};"
-            data-color-name="@{{ name}}"
-            data-color-label="@{{ color_code }}"
-            data-color-id="@{{ id }}"
-            >
-
-            </button>
-        </div>
-        <p class="label cp-fc-black">@{{ name }}</p>
-    </div> --}}
     <div class="color_element tab-patterns-colors-@{{ modifier_category }}">
         <button
             class="grow change-color whitebtn cp-new-color-box pattern-color-selector-button"
