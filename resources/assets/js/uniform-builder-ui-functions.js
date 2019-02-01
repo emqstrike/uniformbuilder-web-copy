@@ -11,21 +11,6 @@ $(document).ready(function() {
         $("h1#header_text").css('display', 'none');
     };
 
-    ub.funcs.setupRightPanelHeader = function() {
-        $("div.options_panel_header").html("");
-
-        var template = document.getElementById("m-richardson-right-panel-header");
-        var data = {
-            "uniform_name": ub.current_material.material.name,
-            "block_pattern": ub.current_material.material.block_pattern,
-            "application_type": ub.funcs.isSublimated() ? "color infused" : ub.funcs.isTackleTwill() ? "color dyed" : ""
-        };
-
-        var rendered = Mustache.render(template.innerHTML, data);
-
-        $("div.options_panel_header").html(rendered);
-    };
-
     ub.funcs.setupSidePanelToolbar = function() {
         ub.front_view.visible = true;
         ub.back_view.visible = true;
@@ -59,7 +44,7 @@ $(document).ready(function() {
         // Add CSS in left side toolbar
         $("div#left-side-toolbar").css({
             "top": '150px',
-            "left": '150px'
+            "left": '50px'
         });
 
     };
@@ -69,25 +54,23 @@ $(document).ready(function() {
             event.preventDefault();
             /* Act on the event */
             var view = $(this).data('perspective');
-            if (ub.active_view !== view) {
-                var perspective = new PerspectiveController();
-                perspective.setPerspective(view)
-            }
+            var perspective = new PerspectiveController();
+            perspective.setPerspective(view)
         });
-    };
+    }
+
+
 
     ub.funcs.changeStage = function() {
         $("div#left-side-toolbar").html("")
         $("div.customizer-uniform-information").html("");
-        $("p.verbiage-text").addClass('cp-fc-black');
         ub.funcs.changeStageBackgroundColor("0xffffff");
         ub.funcs.removeApplicationHeader();
-        ub.funcs.setupRightPanelHeader();
 
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
-        }, 2000)
-    };
+        }, 1500)
+    }
 
 })
