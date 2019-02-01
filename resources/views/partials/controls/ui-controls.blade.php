@@ -3623,5 +3623,6 @@
 @include('partials.controls.properties.logo')
 @include('partials.controls.properties.gradient')
 @include('partials.controls.properties.fabrics')
+@include('partials.controls.properties.richardson-skin')
 
 @include('partials.controls.team-store-products-picker')

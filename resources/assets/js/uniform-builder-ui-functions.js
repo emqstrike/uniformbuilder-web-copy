@@ -5,10 +5,9 @@ $(document).ready(function() {
         }
     };
 
-    ub.funcs.removeApplicationHeader = function() {
-        $("#navbar-header").css('display', 'none');
-        $("div.user-profile").css('display', 'none');
-        $("h1#header_text").css('display', 'none');
+    ub.funcs.removeNavigationHeader = function() {
+        $("nav.navbar.navbar-default.navbar-fixed-top").remove();
+        $(".generic-canvas").css('background-color', 'white');
     };
 
     ub.funcs.setupRightPanelHeader = function() {
@@ -141,9 +140,28 @@ $(document).ready(function() {
     };
 
     ub.funcs.changeStage = function() {
+        ub.current_modifier = 1;
+        $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
+
+        $("div#left-side-toolbar").html("")
+        $("div.customizer-uniform-information").html("");
+        $("p.verbiage-text").addClass('cp-fc-black');
+
+        ub.funcs.setupRightPanelHeader();
         ub.funcs.changeStageBackgroundColor("0xffffff");
-        ub.funcs.removeApplicationHeader();
-        ub.funcs.disbleSidebarLeft();
-    }
+        ub.funcs.removeNavigationHeader();
+        ub.funcs.setupRightPanelFooter();
+
+
+        _.delay(function() {
+            ub.funcs.setupSidePanelToolbar();
+            ub.funcs.handlePerspectiveEvent();
+        }, 2000)
+    };
+
+    ub.funcs.enableRichardsonNavigator = function() {
+        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+        $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
+    };
 
 })

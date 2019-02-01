@@ -38,17 +38,18 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
+            <div class="customizer-uniform-information">
+                <div id="uniform_name"></div>
+                <div id="uniform-price-youth"></div>
+                <div id="uniform-price-adult"></div>
+                <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
+                <div id="saved_design_name"></div>
 
-            <div id="uniform_name"></div>
-            <div id="uniform-price-youth"></div>
-            <div id="uniform-price-adult"></div>
-            <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
-            <div id="saved_design_name"></div>
+                <div id="order-status"></div>
 
-            <div id="order-status"></div>
-
-            <div id="return-to-customizer">
-                <button id="button-return-to-customizer">Return to Customizer</button>
+                <div id="return-to-customizer">
+                    <button id="button-return-to-customizer">Return to Customizer</button>
+                </div>
             </div>
 
             <div id="top-left-side-toolbar">

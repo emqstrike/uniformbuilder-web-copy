@@ -1221,7 +1221,7 @@ $(document).ready(function(){
         });
     }
 
-    $(document).on('click', '.delete-order', function() {
+    $('.delete-order').click(function() {
         var orderID = $(this).data('order-id');
 
         $('#delete-order-modal #order-id').val(orderID);
@@ -1229,7 +1229,7 @@ $(document).ready(function(){
         $('#delete-order-modal').modal('show');
     });
 
-    $(document).on('click', '#delete-order', function(event) {
+    $('#delete-order').click(function(event) {
         event.preventDefault();
 
         var orderID = $('#delete-order-modal #order-id').val();
@@ -1267,7 +1267,7 @@ $(document).ready(function(){
         $('#delete-order-modal #notes').val('');
     });
 
-    $(document).on('click', '.undelete-order', function() {
+    $('.undelete-order').click(function() {
         var orderID = $(this).data('order-id');
 
         var url = "//" + api_host + "/api/order/undelete";
@@ -1292,7 +1292,7 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '.view-note', function() {
+    $('.view-note').click(function() {
         $('#note-modal #notes').val('');
         var note = $(this).data('order-note');
 
