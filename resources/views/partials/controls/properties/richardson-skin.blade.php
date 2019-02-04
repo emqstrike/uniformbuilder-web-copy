@@ -47,17 +47,13 @@
                                 <span class="fa fa-arrow-left cp-fc-red cp-text-center"></span>
                             </div>
                         </div>
-                        <div class="col-md-5 cp-padding-remove">
-                            <div class="cp-border cp-border-black">
-                                <h4 class="cp-text-uppercase cp-text-center">Previous</h4>
-                            </div>
+                        <div class="col-md-5 cp-padding-remove cp-border cp-border-black cp-remove-border-vertical">
+                            <h4 class="cp-text-uppercase cp-text-center">Previous</h4>
                         </div>
                     </a>
                     <a href="javascript:void(0)" class="richardson-onNext cp-fc-black">
-                        <div class="col-md-5 cp-padding-remove">
-                            <div class="cp-border cp-border-black">
-                                <h4 class="cp-text-uppercase cp-text-center">Next</h4>
-                            </div>
+                        <div class="col-md-5 cp-padding-remove cp-border cp-border-black cp-remove-border-vertical">
+                            <h4 class="cp-text-uppercase cp-text-center">Next</h4>
                         </div>
                         <div class="col-md-1 cp-padding-remove">
                             <div class="richardson-arrow cp-padding-tiny">

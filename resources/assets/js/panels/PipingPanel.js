@@ -37,9 +37,12 @@ PipingPanel.prototype = {
                 colors: colors,
                 type: piping_type,
                 type_wo_left_prefix: piping_type.indexOf('Left') === 0 ? piping_type.replace("Left", "") : piping_type,
-                modifier: modifier
+                modifier: modifier,
+                enabled: active_piping_set.enabled
             };
         });
+
+        console.log(piping_set_items);
 
         this.set_items = {piping_set_items: piping_set_items};
     }
@@ -55,58 +58,13 @@ PipingPanel.events = {
 
     init: function() {
         if (PipingPanel.events.is_init_events_called === 0) {
-            $(".modifier_main_container").on("click", "#pipingsUI .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
-            $(".modifier_main_container").on("click", "#pipingsUI .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
-            $(".modifier_main_container").on('click', '#pipingsUI .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
-            $(".modifier_main_container").on("click", "#pipingsUI .toggleOption", PipingPanel.events.togglePiping);
+            $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
+            $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
+            $(".modifier_main_container").on('click', '.richardson-piping-ui .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
             $(".modifier_main_container").on('click', ".piping-color-categories .piping-color-item .piping-color-selector", PipingPanel.events.onChangeColorLayer);
-            $(".modifier_main_container").on('click', '#pipingsUI #piping-change-color .piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
-            $(".modifier_main_container").on('click', '#piping-change-color .modal-footer .cancel-application', PipingPanel.events.onCancelEditPiping);
+            $(".modifier_main_container").on('click', '#piping-change-color .piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
+            $(".modifier_main_container").on('click', '#piping-change-color .cancel-application', PipingPanel.events.onCancelEditPiping);
             PipingPanel.events.is_init_events_called = 1;
-        }
-    },
-
-    togglePiping: function() {
-        var toggle_el = $(this).closest('.toggle');
-        var piping_item_el = $(this).closest('.piping-item');
-        var piping_type = piping_item_el.data('piping-type');
-        var status = toggle_el.data('status');
-        var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
-        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
-        var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+ piping_type +'"]');
-
-        if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.utilities.reInitiateLogo();
-        }
-
-        if (status === PipingPanel.STATUS_ON) {
-            $('.valueContainer', toggle_el).css('margin-left', '-100px');
-            toggle_el.removeClass('defaultShadow');
-
-            PipingPanel.removePiping(piping_type);
-            if (piping_type.indexOf('Left') === 0) {
-                var matching_side = ub.funcs.getMatchingSide(piping_type);
-                PipingPanel.removePiping(matching_side);
-            }
-
-            $('.content-wrapper', piping_item_el).slideUp("fast");
-            toggle_el.data('status', PipingPanel.STATUS_OFF);
-        } else {
-            $('.valueContainer', toggle_el).css('margin-left', '0');
-            toggle_el.addClass('defaultShadow');
-
-            if (pipingSettingsObject.size !== "") {
-                $('span.piping-sizes-buttons[data-size="' + pipingSettingsObject.size + '"]', piping_item_el).click();
-            } else {
-                $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
-            }
-
-            $('.content-wrapper', piping_item_el).slideDown("fast");
-            toggle_el.data('status', PipingPanel.STATUS_ON);
-        }
-
-        if (typeof ub.data.logos !== "undefined") {
-            LogoPanel.utilities.reInitiateLogo();
         }
     },
 
@@ -116,6 +74,15 @@ PipingPanel.events = {
         var type = $(this).data('type');
         var size = $(this).data('size');
         var piping_type = piping_el.data('piping-type');
+
+
+        $(".piping-sizes-buttons", piping_el).removeClass("active");
+        $(this).addClass("active");
+
+        if (size === "none") {
+            PipingPanel.disablePiping(piping_type)
+            return;
+        }
 
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
@@ -148,9 +115,7 @@ PipingPanel.events = {
         }
         /// End Process Matching Object
 
-        $(".colors-row", piping_el).html(colorsMarkup);
-        $(".piping-sizes-buttons", piping_el).removeClass("active");
-        $(this).addClass("active");
+        $(".piping-color-modifier-container", piping_el).html(colorsMarkup);
 
         if (pipingSettingsObject.numberOfColors === 0) {
             $('.piping-colors-buttons[data-type="' + firstColor.name + '"]', piping_el).click();
@@ -170,7 +135,10 @@ PipingPanel.events = {
 
     onPipingColorButtonClick: function(e) {
         var piping_el = $(this).closest('.piping-item');
-        var active_size_type = $('.size-row .piping-sizes-buttons.active', piping_el).data('type');
+        var active_size_type = $('.sizes .piping-sizes-buttons.active', piping_el).data('type');
+
+        $(".piping-colors-buttons", piping_el).removeClass("active");
+        $(this).addClass("active");
 
         var value = $(this).data('value');
         var size = $(this).data('size');
@@ -223,16 +191,18 @@ PipingPanel.events = {
         if (typeof ub.data.logos !== "undefined") {
             LogoPanel.utilities.reInitiateLogo();
         }
-
-        $(".piping-colors-buttons", piping_el).removeClass("active");
-        $(this).addClass("active");
     },
 
     onShowPipingModal: function(e)
     {
-        var modifier = $(this).data("modifier");
-        var type = $(this).data("piping-type");
-        var number_of_colors = $("." + modifier + " .colors-row .piping-colors-buttons.active").data("value");
+        var piping_el = $(this).closest('.piping-item');
+        var type = piping_el.data("piping-type");
+        var modifier = piping_el.data("piping-modifier");
+        var number_of_colors = $(".colors .piping-colors-buttons.active", piping_el).data("value");
+
+        console.log(type);
+        console.log(number_of_colors);
+        
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         var layers = ub.current_material.settings.pipings[type].layers;
 
@@ -240,7 +210,7 @@ PipingPanel.events = {
             'background-image': "url("+ image +")"
         });
 
-        $("#piping-change-color .modal-footer .cancel-application").attr('data-modifier', modifier);
+        $("#piping-change-color .cancel-application").attr('data-modifier', modifier);
 
         if ($(".piping-color-categories li.active")) {
             $(".piping-color-categories li").removeClass('active');
@@ -338,7 +308,9 @@ PipingPanel.events = {
         // Get Piping Sets
         var modifier = $(this).data("modifier");
 
-        var active_size_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
+        console.log(modifier)
+
+        var active_size_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.active').data('type');
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
         var _name = pipingObject.name;
 
@@ -401,18 +373,16 @@ PipingPanel.events = {
 
     onCancelEditPiping: function() {
         var modifier = $(this).data("modifier");
-        var piping_type = $("."+ modifier +' .size-row .piping-sizes-buttons.active').data('type');
+        var piping_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.active').data('type');
 
         var pipingObject = _.find(ub.data.pipings, {name: piping_type});
         PipingPanel.removePiping(pipingObject.set);
-
-        var active_piping_set = PipingPanel.getActivePipingSet(pipingObject.set);
 
         if (typeof ub.data.logos !== "undefined") {
             LogoPanel.utilities.reInitiateLogo();
         }
 
-        $('span.piping-sizes-buttons[data-type="' + active_piping_set.name + '"]').click();
+        $('.piping-item .piping-sizes-buttons[data-type="' + piping_type + '"]').click();
         $('#piping-change-color').modal('hide');
     }
 };
@@ -420,23 +390,18 @@ PipingPanel.events = {
 PipingPanel.setInitialState = function() {
     var piping_types = PipingPanel.getPipingTypes();
 
-    _.map(piping_types, function(piping_type) {
-        var status = PipingPanel.getPipingPanelStatus(piping_type);
-        var pipping_settings_object = ub.funcs.getPipingSettingsObject(piping_type);
 
-        var piping_item_el = $('#pipingsUI .piping-item[data-piping-type="'+ piping_type +'"]');
+    _.map(piping_types, function(piping_type) {
+        var pipping_settings_object = ub.funcs.getPipingSettingsObject(piping_type);
+        var piping_item_el = $('.richardson-piping-ui .piping-item[data-piping-type="'+ piping_type +'"]');
 
         if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
-            $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).click();
+            $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).trigger('click');
+        } else {
+            $('.piping-sizes-buttons[data-size="none"]', piping_item_el).addClass('active');
         }
 
-        var temporary_status = status === PipingPanel.STATUS_ON ? PipingPanel.STATUS_OFF : PipingPanel.STATUS_ON;
-
-        $('.toggle', piping_item_el).data('status', temporary_status);
-        $('.toggleOption.'+temporary_status, $('.toggle', piping_item_el)).click();
     });
-
-    $('#pipingsUI').fadeIn();
 };
 
 PipingPanel.getActivePipingSet = function(piping_type) {
@@ -497,5 +462,22 @@ PipingPanel.removePiping = function(pipingSet) {
 
     if (typeof(ub.current_material.settings.pipings[pipingSet]) !== "undefined") {
         ub.current_material.settings.pipings[pipingSet].enabled = 0;
+    }
+}
+
+
+PipingPanel.disablePiping = function(piping_type) {
+    var color_container = $('.richardson-piping-ui .piping-item[data-piping-type="' + piping_type + '"]').find('.piping-color-modifier-container');
+
+    if (color_container.length !== 0) {
+        color_container.html("");
+    }
+
+    // Remove Piping
+    PipingPanel.removePiping(piping_type);
+    // Remove Matching Piping
+    if (piping_type.indexOf('Left') === 0) {
+        var matching_side = ub.funcs.getMatchingSide(piping_type);
+        PipingPanel.removePiping(matching_side);
     }
 }
