@@ -24,11 +24,11 @@ class SaveClientInfo extends Request
     public function rules()
     {
         return [
-            'full_name' => "required",
-            'athletic_director' => "required",
-            'email' => "required",
-            'phone_number' => "required",
-            'fax' => "required",
+            'full_name' => "required|min:4|max:50|alpha_spaces",
+            'athletic_director' => "required|min:4|max:50|alpha_spaces",
+            'email' => "required|email",
+            'phone_number' => "required", // skip
+            'fax' => "required", // skip
         ];
     }
 }
