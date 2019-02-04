@@ -92,6 +92,8 @@ return [
         ],
     ],
 
+    'email_not_exist' => "Email is already exists.",
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

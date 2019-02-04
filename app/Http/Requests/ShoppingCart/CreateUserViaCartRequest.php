@@ -24,11 +24,10 @@ class CreateUserViaCartRequest extends Request
     public function rules()
     {
         return [
-            'first_name' => "required",
-            'last_name' => "required",
-            'email' => "required",
-            'password' => "required"
-            // 'confirm_password' => "required"
+            'first_name' => "required|min:2|max:50",
+            'last_name' => "required|min:2|max:50",
+            'email' => "required|email_not_exist",
+            'password' => "required|min:8|max:50|confirmed"
         ];
     }
 }

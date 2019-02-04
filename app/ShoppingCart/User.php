@@ -80,4 +80,9 @@ class User extends Model implements AuthenticatableContract
                 ->get()
                 ->first();
     }
+
+    public static function findByEmail($email)
+    {
+        return static::where('email', $email)->first();
+    }
 }
