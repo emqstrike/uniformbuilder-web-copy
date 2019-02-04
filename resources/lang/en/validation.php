@@ -93,6 +93,7 @@ return [
     ],
 
     'email_not_exist' => "Email is already exists.",
+    'alpha_spaces' => "The :attribute may only contain letters and spaces.",
 
     /*
     |--------------------------------------------------------------------------

@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
             $user = User::findByEmail($value);
             return is_null($user);
         });
+
+        \Validator::extend('alpha_spaces', function ($attribute, $value) {
+            return preg_match('/^[\pL\s]+$/u', $value);
+        });
     }
 
     /**
