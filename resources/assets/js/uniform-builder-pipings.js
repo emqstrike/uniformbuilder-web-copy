@@ -465,10 +465,15 @@ $(document).ready(function () {
     },
 
     ub.funcs.getPipingColorsNew = function (activePipingSet) {
-
+        var modifier = activePipingSet.set.toLowerCase().replace(/ /g, "-");
         var _template   = $('#m-piping-colors-new').html();
         var _colorArray = ub.funcs.getPipingColorArray(activePipingSet);
-        var _data = { colors: _colorArray };
+        var _data = {
+            colors: _colorArray,
+            modifier: modifier,
+            type: activePipingSet.set
+        };
+
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
