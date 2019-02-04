@@ -468,7 +468,7 @@ $(document).ready(function () {
 
         var _template   = $('#m-piping-colors-new').html();
         var _colorArray = ub.funcs.getPipingColorArray(activePipingSet);
-        var _data = { items: _colorArray };
+        var _data = { colors: _colorArray };
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
