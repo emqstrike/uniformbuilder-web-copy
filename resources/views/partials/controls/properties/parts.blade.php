@@ -103,7 +103,9 @@
                         <div id="patternPreviewUI" style="width: 100% !important">
                             <canvas id="patternPreview" class="patternPreview"></canvas>
                         </div>
-                        <p class="cp-text-center cp-text-uppercase cp-text-small cp-text-bold cp-margin-small modal-pattern-name"></p>
+                        <div>
+                            <p class="cp-text-center cp-width-1-1 cp-text-uppercase cp-text-small cp-text-bold cp-margin-small modal-pattern-name"></p>
+                        </div>
                     </div>
                     <div class="col-md-9 cp-padding-left-p35">
                         <ul class="nav nav-tabs pattern-color-categories cp-border-none" role="tablist">
