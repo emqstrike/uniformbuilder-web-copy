@@ -232,15 +232,15 @@ PipingPanel.events = {
             case 1:
                 $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '100%');
                 $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
-                $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'none');
-                $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'none');
+                $(".piping-color-categories .piping-color-item .piping-category-2").parent().css('display', 'none');
+                $(".piping-color-categories .piping-color-item .piping-category-3").parent().css('display', 'none');
                 break;
             case 2:
                 $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '50%');
                 $(".piping-color-categories .piping-color-item .piping-category-2").parent().css('width', '50%');
                 $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
                 $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'block');
-                $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'none');
+                $(".piping-color-categories .piping-color-item .piping-category-3").parent().css('display', 'none');
                 break;
         }
 
