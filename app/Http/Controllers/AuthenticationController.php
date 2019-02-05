@@ -204,6 +204,7 @@ class AuthenticationController extends AdminAuthController
                     'state' => $user->state,
                     'zip' => $user->zip,
                     'accessToken' => base64_encode($access_token),
+                    'logged_in_token' => Auth::user()->logged_in_token
                 ];
 
             } else {

@@ -2945,6 +2945,9 @@ $(document).ready(function() {
                     ub.id = response.userID;
                     ub.funcs.afterLogin();
 
+                    // initialize shopping cart
+                    shopping_cart.logged_in_token = response.logged_in_token;
+                    UBCart.init();
                 } else {
 
                     if (typeof fromMiddleScreen !== 'undefined') {

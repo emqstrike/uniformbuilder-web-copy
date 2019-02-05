@@ -2424,50 +2424,53 @@
 <!-- Logged In Nav -->
 
     <script type="text/mustache" id="m-loggedInNavbar">
+        <div class="activate_qa_tools">Activate QA Tools</div>
 
-        <a href="/messages" id="messages">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" id="my-shopping-cart" class="dropdown-toggle" data-toggle="dropdown" cloak>
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp; My Cart <span class="cp-text-bold cart-item-number">0</span>
+                </a>
+                <div class="shopping-dropdown-menu dropdown-menu" role="menu">
+                    <div class="dropdown-cart-item-list" id="dropdown-cart-item-list">
+                        {{-- to be load of js --}}
+                    </div>
+                    <a href="{{ route('shopping-cart') }}" class="btn checkout-button" target="_blank" id="my-carts-link">See All in My Cart</a>
+                </div>
+            </li>
+            <li>
+                <a href="/messages" id="messages">
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications <span class="badge"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="feedback">
+                    <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
+                </a>
+            </li>
+            <li>
+                <div class="btn-group">
+                    <button type="button" id="firstname" class="btn">
+                        <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
+                    </button>
+                    <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
+                        <span class = "caret"></span>
+                        <span class = "sr-only">Toggle Dropdown</span>
+                    </button>
 
-            <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications <span class="badge"></span>
-
-        </a>
-
-        <a href="#" id="feedback">
-
-            <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
-
-        </a>
-
-         <div class = "btn-group">
-
-            <button type="button" id="firstname" class="btn">
-
-                <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
-
-            </button>
-
-            <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
-
-                <span class = "caret"></span>
-                <span class = "sr-only">Toggle Dropdown</span>
-
-            </button>
-
-            <ul class = "dropdown-menu" role="menu">
-
-                <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
-                <li class="divider"></li>
-
-                <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
-                <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
-                <li class="divider"></li>
-                <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
-                <li class="divider"></li>
-                <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
-
-            </ul>
-
-        </div>
-
+                    <ul class = "dropdown-menu" role="menu">
+                        <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
+                        <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
      </script>
 
 <!-- End Logged In Nav -->

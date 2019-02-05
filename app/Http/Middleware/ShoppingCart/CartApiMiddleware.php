@@ -39,17 +39,28 @@ class CartApiMiddleware
                     if ($cart->hasOwner())
                     {
                         // is user not the owner of current cart
-                        if ($cart->user->id === $user->id)
+                        if ($cart->user->id !== $user->id)
                         {
-                            \Log::debug('lagusan api 1');
-                            return $next($request);
+                            goto unauthorized;
                         }
                     }
+                    else
+                    {
+                        // assign current cart to authenticated user
+                        $cart->assignToUser($user->id);
+                    }
 
-                    goto unauthorized;
+                    if ($user->hasMultipleCarts())
+                    {
+                        $user->mergeMyCarts($cart);
+                    }
+
+                    \Log::debug('lagusan api 1');
+                    return $next($request);
                 }
                 elseif ($cart->hasOwner())
                 {
+                    \Log::debug("unauthorized owner");
                     goto unauthorized;
                 }
 
