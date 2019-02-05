@@ -13,11 +13,13 @@
 function PatternPanel(element) {
     this.panel = document.getElementById(element);
     this.previousPattern = {};
-    this.patternColors = [];
+    // this.patternColors = [];
     this.items = {
         patterns: ub.data.patterns
     };
 }
+
+PatternPanel.patternColors = [];
 
 PatternPanel.prototype = {
     constructor: PatternPanel,
@@ -33,7 +35,7 @@ PatternPanel.prototype = {
     },
 
     getPatternColors: function(index) {
-        var patternColor =  this.patternColors[index];
+        var patternColor =  PatternPanel.patternColors[index];
 
         if (typeof patternColor !== "undefined") {
             return patternColor;
@@ -59,14 +61,14 @@ PatternPanel.prototype = {
     },
 
     setPatternColor: function(index, layerID, colorObj, patternObj, materialOption) {
-        var find = this.patternColors[index];
+        var find = PatternPanel.patternColors[index];
 
         if (typeof find !== "undefined") {
-            var findLayer = _.find(this.patternColors[index], {layerID: layerID});
+            var findLayer = _.find(PatternPanel.patternColors[index], {layerID: layerID});
             if (typeof findLayer !== "undefined") {
                 findLayer.color = colorObj;
             } else {
-                this.patternColors[index].push({
+                PatternPanel.patternColors[index].push({
                     layerID: layerID,
                     color: colorObj,
                     patternObj: patternObj,
@@ -74,8 +76,8 @@ PatternPanel.prototype = {
                 });
             }
         } else {
-            this.patternColors[index] = new Array();
-            this.patternColors[index].push({
+            PatternPanel.patternColors[index] = new Array();
+            PatternPanel.patternColors[index].push({
                 layerID: layerID,
                 color: colorObj,
                 patternObj: patternObj,
@@ -85,7 +87,7 @@ PatternPanel.prototype = {
     },
 
     destroyPatternColor: function(index) {
-        delete this.patternColors[index];
+        delete PatternPanel.patternColors[index];
     },
 
     onSelect: function() {
@@ -310,6 +312,8 @@ PatternPanel.prototype = {
 
             // Pattern Object
             var _patternObj = _this.getCurrentPatternObject();
+
+            console.log(PatternPanel.patternColors);
 
             // Save Pattern Color
             _this.setPatternColor(category_modifier, layerID, _colorOBJ, _patternObj, materialOption);
