@@ -89,84 +89,74 @@
         @{{ /parts }}
     </ul>
 </div>
-<div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+<div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
     <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content cp-padding-large">
+            <div class="modal-header cp-bgc-light cp-text-center">
                 <div>
-                    <a type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                </div>
-                <div>
-                    <h4 class="modal-title cp-fc-black" id="myModalLabel">Pattern Color</h4>
+                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">Pattern Color</h4>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body cp-padding-remove-horizontal">
                 <div class="row">
-                    <div class="col-md-12 cp-padding-left-xlarge">
-                        <div id="patternPreviewUI">
-
+                    <div class="col-md-3 cp-padding-remove-right">
+                        <div id="patternPreviewUI" style="width: 100% !important">
+                            <canvas id="patternPreview" class="patternPreview"></canvas>
                         </div>
+                        <p class="cp-text-center cp-text-uppercase cp-text-small cp-text-bold cp-margin-small modal-pattern-name"></p>
                     </div>
-                    <div class="col-md-12">
-                        <h3 class="cp-text-center cp-fc-black cp-margin-small modal-pattern-name"></h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="cp-padding-top-medium">
-                            <ul class="nav nav-tabs pattern-color-categories" role="tablist">
-                                <li role="presentation" class="active cp-float-none">
-                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-1"
-                                                aria-controls="pattern-category-1"
-                                                role="tab" data-toggle="tab"
-                                                class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-1"
-                                        >
-                                            Color 1
-                                        </a>
-                                    </div>
-                                </li>
+                    <div class="col-md-9 cp-padding-left-p35">
+                        <ul class="nav nav-tabs pattern-color-categories cp-border-none" role="tablist">
+                            <li role="presentation" class="active cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-1"
+                                            aria-controls="pattern-category-1"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-1"
+                                    >
+                                        1
+                                    </a>
+                                </div>
+                            </li>
 
-                                <li role="presentation" class="cp-float-none">
-                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-2"
-                                                aria-controls="pattern-category-2"
-                                                role="tab" data-toggle="tab"
-                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-2"
-                                        >
-                                            Color 2
-                                        </a>
-                                    </div>
-                                </li>
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-2"
+                                            aria-controls="pattern-category-2"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-2"
+                                    >
+                                        2
+                                    </a>
+                                </div>
+                            </li>
 
-                                <li role="presentation" class="cp-float-none">
-                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-3"
-                                                aria-controls="pattern-category-3"
-                                                role="tab" data-toggle="tab"
-                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-3"
-                                        >
-                                            Color 3
-                                        </a>
-                                    </div>
-                                </li>
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-3"
+                                            aria-controls="pattern-category-3"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-3"
+                                    >
+                                        3
+                                    </a>
+                                </div>
+                            </li>
 
-                                <li role="presentation" class="cp-float-none">
-                                    <div class="col-sm-3 cp-padding-remove pattern-color-item">
-                                        <a href="#pattern-color-category-4"
-                                                aria-controls="pattern-category-4"
-                                                role="tab" data-toggle="tab"
-                                                class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-4"
-                                        >
-                                            Color 4
-                                        </a>
-                                    </div>
-                                </li>
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-4"
+                                            aria-controls="pattern-category-4"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-4"
+                                    >
+                                        4
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
 
-                            </ul>
-                        </div>
-
-                        <div class="col-md-12 cp-padding-top-xs">
+                        <div class="col-md-12 pattern-colorpicker-container">
                             <div id="pattern-color-tab-content">
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
@@ -200,13 +190,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 cp-padding-remove-horizontal">
+                            <div class="row cp-margin-top-xs">
+                                <div class="col-md-6">
+                                    <button type="button" class="col-md-6 piping-button cp-width-1-1 cp-text-uppercase apply-pattern-color">Done</button>
+                                </div>
+
+                                <div class="col-md-6 pattern-footer-button">
+                                    <button type="button" class="piping-button cancel-application cp-width-1-1 cp-text-uppercase close-pattern-color-modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div>
-                    <button type="button" class="btn btn-default cp-button-medium close-pattern-color-modal">Close</button>
-                    <button type="button" class="btn btn-default cp-button-medium apply-pattern-color">Apply Pattern</button>
                 </div>
             </div>
         </div>
@@ -216,7 +211,7 @@
 
 <script type="text/mustache" id="m-tab-patterns-colors">
 @{{ #colors }}
-    <div class="color_element tab-patterns-colors-@{{ modifier_category }}">
+    <div class="color_element cp-color-element-auto tab-patterns-colors-@{{ modifier_category }}">
         <button
             class="grow change-color whitebtn cp-new-color-box pattern-color-selector-button"
             style="background-color: #@{{ hex_code }};"
@@ -226,7 +221,6 @@
             data-modifier-category=@{{ modifier_category }}
         >
         </button>
-        <span class="label cp-fc-black">@{{ name }}</span>
     </div>
 @{{ /colors }}
 </script>

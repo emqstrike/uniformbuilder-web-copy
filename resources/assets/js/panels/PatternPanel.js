@@ -249,22 +249,22 @@ PatternPanel.prototype = {
 
             switch (_layerCount) {
                 case 1:
-                    $(".pattern-color-categories .pattern-category-2").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-2").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
                     break;
                 case 2:
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
-                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
                 case 3:
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '33.3%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '33.3%');
                     $(".pattern-color-categories .pattern-category-3").parent().css('width', '33.3%');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
             }
 
@@ -520,12 +520,12 @@ PatternPanel.prototype = {
     },
 
     createPatternUI: function(patternObject) {
-        var _htmlBuilder = "<div id='patternNewUI'>";
-        _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
-        _htmlBuilder     += "</div>";
+        // var _htmlBuilder = "<div id='patternNewUI'>";
+        // _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
+        // _htmlBuilder     += "</div>";
 
-        $("#patternPreviewUI").append(_htmlBuilder);
-        $('#patternNewUI').fadeIn();
+        // $("#patternPreviewUI").append(_htmlBuilder);
+        $('#patternPreviewUI').fadeIn();
         setTimeout(this.createPatternPreview(patternObject), 1000);
     },
 
@@ -542,8 +542,8 @@ PatternPanel.prototype = {
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
 
-        canvas.setHeight(300);
-        canvas.setWidth(300);
+        canvas.setHeight(150);
+        canvas.setWidth(150);
 
         _.each(_patternObj.layers, function (layer) {
 
@@ -584,8 +584,8 @@ PatternPanel.prototype = {
             originY: 'center',
             rx: 5,
             ry: 5,
-            width: 250,
-            height:60,
+            width: 150,
+            height: 50,
             opacity: 0.5,
         });
 
