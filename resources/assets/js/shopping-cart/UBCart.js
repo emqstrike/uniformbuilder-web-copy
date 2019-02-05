@@ -6,6 +6,10 @@ var UBCart = {
 
         // initialize shopping cart first before the start the logic
         UBCart.initShoppingCart(function() {
+            // unbind first to avoid duplicate event
+            $('#left-side-toolbar').off('click', '.cart-btn[data-action="add"]');
+            $('#left-side-toolbar').off('click', '.cart-btn[data-action="update"]');
+
             $('#left-side-toolbar').on('click', '.cart-btn[data-action="add"]', UBCart.addToCart);
             $('#left-side-toolbar').on('click', '.cart-btn[data-action="update"]', UBCart.updateItem);
         });
