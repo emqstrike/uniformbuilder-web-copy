@@ -1228,7 +1228,7 @@
 
         @{{#applications}}
             <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
-                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <h4 class="application-thumbnail-name">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
                     <span>
@@ -1273,16 +1273,36 @@
 <!-- Start Slider Container -->
 
     <script type="text/mustache" id="m-slider-container">
-        <div class="slidersContainer">
+        <div class="slidersContainer cp-padding-remove-horizontal">
             <div class="manipulator-type-container scale" data-type="scale">
-                <h5>LOGO SIZE</h5>
+                <h5 class="cp-padding-top-small cp-text-bold cp-text-uppercase"><i class="fa fa-font"></i>&nbsp;FONT SIZE</h5>
+                <div class="cp-padding-large cp-padding-remove-vertical">
+                    <div class="sc scale">
+                        <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="manipulator-type-container move" data-type="move">
-                <h5>POSITION</h5>
+                <h5 class="cp-padding-top-small cp-text-bold cp-text-uppercase"><i class="fa fa-arrows-alt"></i>&nbsp;POSITION</h5>
+                <div class="cp-padding-large cp-padding-remove-vertical">
+                    <div class="sc move">
+                        <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
+                    </div>
+                </div>
+                <div class="cp-padding-large cp-padding-remove-vertical">
+                    <div class="sc move">
+                        <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
+                    </div>
+                </div>
             </div>
             <div class="manipulator-type-container rotate" data-type="rotate">
-                <h5>ROTATE</h5>
+                <h5 class="cp-padding-top-small cp-text-bold cp-text-uppercase"><i class="fa fa-undo"></i>&nbsp;ROTATE</h5>
+                <div class="cp-padding-large cp-padding-remove-vertical">
+                    <div class="sc rotate">
+                        <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </script>

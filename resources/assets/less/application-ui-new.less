@@ -83,6 +83,13 @@
     padding-top: 15px;
     margin-top: 20px;
 
+    h4.application-thumbnail-name {
+        font-size: 22px;
+        font-weight: bolder;
+        padding: 15px 0px 15px 0px;
+        margin: 0;
+    }
+
     .thumb-container {
 
         .thumbnail {
@@ -95,6 +102,16 @@
 
         .thumb-links {
             padding-top: 15px;
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+
+            h5 {
+                font-weight: bolder;
+                font-size: 20px;
+            }
         }
 
         .thumb-name {
@@ -111,6 +128,32 @@
             margin-bottom: 15px;
         }
 
+        button {
+            padding: 5px !important;
+            background-color: #ffffff !important;
+            border: 1px solid #dddddd !important;
+        }
+
+        button.active {
+            color: #ffffff !important;
+            background-color: #343434 !important;
+            border: 1px solid #343434 !important;
+        }
+
+    }
+
+    .toggleApplications {
+        button {
+            background-color: #ffffff !important;
+            border: 1px solid #dddddd !important;
+            padding: 5px !important;
+        }
+
+        button.active {
+            color: #ffffff !important;
+            background-color: #343434 !important;
+            border: 1px solid #343434 !important;
+        }
     }
 
     .posContainer {
@@ -121,8 +164,7 @@
         display: block;
         width: 100%;
         background: transparent;
-        margin: 15px 0 0 0;
-        padding: 15px 30px;
+        padding: 15px;
 
         .manipulator-type-container {
             &.scale {
@@ -211,6 +253,13 @@
 
 .add-new-application {
     margin-bottom: 15px;
+}
+
+.noUi-tooltip {
+    display: none;
+}
+.noUi-active .noUi-tooltip {
+    display: block;
 }
 
 // div.options_panel_section#primary_options_container {
