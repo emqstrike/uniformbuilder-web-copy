@@ -329,6 +329,11 @@
           <i class="fa fa-thumbs-up"></i> <span>Approved Style Requests</span>
         </a>
       </li>
+      <li  data-step="17" data-intro="View Approved Style Requests.">
+        <a href="/administration/styles_on_customizer">
+          <i class="fa fa-check-square-o"></i> <span>Styles on Customizer</span>
+        </a>
+      </li>
       <li  data-step="17" data-intro="View individual styles info">
         <a href="/administration/style_viewer">
           <i class="fa fa-search"></i> <span>Style Viewer</span>
@@ -403,7 +408,7 @@
       <span>User Pairings</span>
       </a>
   </li>
-    
+
     <li class="treeview" data-position="right">
         <a href="#">
             <i class="fa fa-exclamation-triangle"></i>
