@@ -103,6 +103,7 @@
                          <td>
                             <input type="hidden" name="style_status"" class="style-status" value="{{ $style_request->status }}">
                             <input type="hidden" name="style_is_fixed"" class="style-is-fixed" value="{{ $style_request->is_fixed }}">
+                            <input type="hidden" name="style_customizer_available"" class="style-customizer-available" value="{{ $style_request->customizer_available }}">
                         {{ $style_request->status }}
                         @if($style_request->is_fixed == 1 AND $style_request->status == 'approved')
                             <a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -234,6 +235,7 @@
                     <select class="form-control brand">
                         <option value="none">None</option>
                         <option value="prolook">Prolook</option>
+                        <option value="richardson">Richardson</option>
                 </select>
                 </div>
             </div>
@@ -289,6 +291,14 @@
                     <input type="checkbox" name="is_fixed" class="is_fixed">
                 </div>
             </div>
+
+            <div class="form-group" id="is_customizer_available_div" style="display: none;">
+                <label class="col-md-4 control-label">Is Added to Customizer</label>
+                <div class="col-md-6">
+                    <input type="checkbox" name="customizer_available" class="customizer_available">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-md-4 control-label">Notes</label>
                     <div class="col-md-6">
@@ -404,7 +414,7 @@ $(function(){
         win.focus();
     }
 
-    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes, .application_type, .is_fixed', function() {
+    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes, .application_type, .is_fixed, .customizer_available', function() {
         updateData();
     });
 
@@ -448,38 +458,39 @@ $(function(){
     $(document).on('change', '.block-pattern', function() {
         var exist = false;
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-
+        $('.block-pattern').html('');
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
+        if (window.block_pattern_id != undefined) {
+            var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
 
-        var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
-
-        if(block_pattern[0].neck_options != "null"){
+            if(block_pattern[0].neck_options != "null"){
 
 
-            var x = JSON.parse(block_pattern[0].neck_options);
+                var x = JSON.parse(block_pattern[0].neck_options);
 
-            var list = [];
-            _.each(x, function(item){
-                list.push(_.omit(item, 'children'));
-                list.push(_.flatten(_.pick(item, 'children')));
-            });
-            var result = _.flatten(list);
+                var list = [];
+                _.each(x, function(item){
+                    list.push(_.omit(item, 'children'));
+                    list.push(_.flatten(_.pick(item, 'children')));
+                });
+                var result = _.flatten(list);
 
-            var option_value = window.option_value;
-            $('.block-pattern-option').html('');
-            result.forEach(function(entry) {
-                if (option_value == entry.name) {
-                    exist = true;
-                    var elem = '<option value="'+entry.name+'" selected>'+entry.name+'</option>'
-                    $('.block-pattern-option').append(elem);
-                }
-                else {
-                   var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
-                    $('.block-pattern-option').append(elem);
-                }
+                var option_value = window.option_value;
+                $('.block-pattern-option').html('');
+                result.forEach(function(entry) {
+                    if (option_value == entry.name) {
+                        exist = true;
+                        var elem = '<option value="'+entry.name+'" selected>'+entry.name+'</option>'
+                        $('.block-pattern-option').append(elem);
+                    }
+                    else {
+                       var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
+                        $('.block-pattern-option').append(elem);
+                    }
 
-            });
+                });
 
+            }
         }
 
         if(!exist && option_value != null) {
@@ -564,6 +575,12 @@ $(function(){
             var is_fixed = 0
         }
 
+        if ($('.customizer_available').is(':checked')) {
+            var customizer_available = 1;
+        } else {
+            var customizer_available = 0
+        }
+
         var id = $('.id').val();
         var name = $('.name').val();
         var sport = $('.sport').val();
@@ -594,7 +611,9 @@ $(function(){
             'uniform_application_type' : application_type,
             'is_fixed' : is_fixed,
             'type' : type,
-            'brand' : brand
+            'brand' : brand,
+            'customizer_available' : customizer_available
+
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -710,6 +729,7 @@ $(function(){
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
+        $('#is_customizer_available_div').removeAttr('style');
         $('#upload_design_sheet').attr({"style": "display: none;"});
         $('#save-data').attr({"style": "display: block;"});
     });
@@ -742,12 +762,13 @@ $(function(){
         $('.enable_custom_bp').prop('checked', false);
         $('.custom_option').val(null);
         $('.enable_custom_bpo').prop('checked', false);
-        $('.is_fixed, .enable_custom_bpo, .enable_custom_bp').trigger('change');
+        $('.is_fixed, .enable_custom_bpo, .enable_custom_bp, .customizer_available').trigger('change');
 
         $('#deadline').attr({"style": "display: block;"});
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
         $('#is_fixed_div').attr({"style": "display: none;"});
+        $('#is_customizer_available_div').attr({"style": "display: none;"});
         $('#upload_design_sheet').attr({"style":"z-index: 2; margin-top: -250px; position: absolute; width: 95%;"});
         $('#save-data').attr({"style":"margin-top: 260px; z-index: 3;"});
         $('#input_notes').text('');
@@ -768,7 +789,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path, .brand").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path, .brand, .customizer_available").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -825,6 +846,8 @@ $(function(){
         var design_sheet_url = thisObj.parent().parent().find('.style-design-sheet-url').val();
         var deadline = thisObj.parent().parent().find('.style-deadline').html();
         var brand = thisObj.parent().parent().find('.style-brand').html();
+        var customizer_available = thisObj.parent().parent().find('.style-customizer-available').val();
+
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -850,6 +873,13 @@ $(function(){
         else {
             $('.is_fixed').prop('checked', false);
         }
+
+        if (customizer_available == 1) {
+            $('.customizer_available').prop('checked', true);
+        } else {
+            $('.customizer_available').prop('checked', false);
+        }
+
         $('#myModal').modal('show');
 
     }

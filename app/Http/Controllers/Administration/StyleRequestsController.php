@@ -58,4 +58,14 @@ class StyleRequestsController extends Controller
 
     }
 
+    public function stylesOnCustomizer()
+    {
+        $style_requests = $this->client->stylesOnCustomizer();
+
+        return view('administration.style-requests.styles-on-customizer', [
+            'style_requests' => $style_requests
+        ]);
+
+    }
+
 }
