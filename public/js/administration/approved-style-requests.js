@@ -46,18 +46,17 @@ $(function() {
         var sorted_block_patterns = _.sortBy(filtered_block_patterns, function(o) { return o.name; });
 
         var block_pattern_value = window.block_pattern_value;
-        $('#block_pattern').html('');
-
+        var elem = '';
         sorted_block_patterns.forEach(function(entry) {
             if (block_pattern_value == entry.name) {
                 exist = true;
-                var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'" selected>'+entry.name+'</option>'
-                $('.block-pattern').append(elem);
+                elem += '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'" selected>'+entry.name+'</option>'
+
             } else {
-                var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
-                $('.block-pattern').append(elem);
+                elem += '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
             }
         });
+        $('.block-pattern').append(elem);
 
         if (! exist && block_pattern_value != null) {
             $('.enable_custom_bp').prop('checked', true);
@@ -71,9 +70,7 @@ $(function() {
     $(document).on('change', '.block-pattern', function() {
         var exist = false;
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-          $('.block-pattern').html('');
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
-
         if (window.block_pattern_id != undefined) {
             var block_pattern = _.filter(window.block_pattern, function(e) {
                 return e.id == window.block_pattern_id.toString();
@@ -263,10 +260,8 @@ $(function() {
 
             if (data.is_fixed == 1) {
                 window.rowData[16] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
-            } else if(data.notes != '' && data.status == 'pending') {
-                window.rowData[16] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
-            } else if(data.notes != '' && data.status == 'rejected') {
-                window.rowData[16] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
+            } else if(data.notes != '' && data.status == 'approved') {
+                window.rowData[16] += `<button class="view-notes btn btn-warning btn-sm">View</button>`;
             } else {
                 window.rowData[16] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
             }
@@ -459,7 +454,6 @@ $(function() {
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
-
         buildSportsDropdown();
 
         $('.sport').trigger('change');

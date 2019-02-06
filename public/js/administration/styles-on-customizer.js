@@ -71,7 +71,6 @@ $(function() {
     $(document).on('change', '.block-pattern', function() {
         var exist = false;
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-          $('.block-pattern').html('');
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         if (window.block_pattern_id != undefined) {
