@@ -7,7 +7,6 @@ $(document).ready(function() {
 
     ub.funcs.removeNavigationHeader = function() {
         $("nav.navbar.navbar-default.navbar-fixed-top").remove();
-        $(".generic-canvas").css('background-color', 'white');
     };
 
     ub.funcs.setupRightPanelHeader = function() {
@@ -148,7 +147,6 @@ $(document).ready(function() {
         $("p.verbiage-text").addClass('cp-fc-black');
 
         ub.funcs.setupRightPanelHeader();
-        ub.funcs.changeStageBackgroundColor("0xffffff");
         ub.funcs.removeNavigationHeader();
         ub.funcs.setupRightPanelFooter();
 
@@ -156,6 +154,7 @@ $(document).ready(function() {
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
+            $("#main_container").css("display", "block");
         }, 2000)
     };
 
