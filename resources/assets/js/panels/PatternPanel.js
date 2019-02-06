@@ -13,11 +13,13 @@
 function PatternPanel(element) {
     this.panel = document.getElementById(element);
     this.previousPattern = {};
-    this.patternColors = [];
+    // this.patternColors = [];
     this.items = {
         patterns: ub.data.patterns
     };
 }
+
+PatternPanel.patternColors = [];
 
 PatternPanel.prototype = {
     constructor: PatternPanel,
@@ -33,7 +35,7 @@ PatternPanel.prototype = {
     },
 
     getPatternColors: function(index) {
-        var patternColor =  this.patternColors[index];
+        var patternColor =  PatternPanel.patternColors[index];
 
         if (typeof patternColor !== "undefined") {
             return patternColor;
@@ -59,14 +61,14 @@ PatternPanel.prototype = {
     },
 
     setPatternColor: function(index, layerID, colorObj, patternObj, materialOption) {
-        var find = this.patternColors[index];
+        var find = PatternPanel.patternColors[index];
 
         if (typeof find !== "undefined") {
-            var findLayer = _.find(this.patternColors[index], {layerID: layerID});
+            var findLayer = _.find(PatternPanel.patternColors[index], {layerID: layerID});
             if (typeof findLayer !== "undefined") {
                 findLayer.color = colorObj;
             } else {
-                this.patternColors[index].push({
+                PatternPanel.patternColors[index].push({
                     layerID: layerID,
                     color: colorObj,
                     patternObj: patternObj,
@@ -74,8 +76,8 @@ PatternPanel.prototype = {
                 });
             }
         } else {
-            this.patternColors[index] = new Array();
-            this.patternColors[index].push({
+            PatternPanel.patternColors[index] = new Array();
+            PatternPanel.patternColors[index].push({
                 layerID: layerID,
                 color: colorObj,
                 patternObj: patternObj,
@@ -85,7 +87,7 @@ PatternPanel.prototype = {
     },
 
     destroyPatternColor: function(index) {
-        delete this.patternColors[index];
+        delete PatternPanel.patternColors[index];
     },
 
     onSelect: function() {
@@ -249,22 +251,22 @@ PatternPanel.prototype = {
 
             switch (_layerCount) {
                 case 1:
-                    $(".pattern-color-categories .pattern-category-2").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-2").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
                     break;
                 case 2:
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
-                    $(".pattern-color-categories .pattern-category-3").css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
                 case 3:
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '33.3%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '33.3%');
                     $(".pattern-color-categories .pattern-category-3").parent().css('width', '33.3%');
-                    $(".pattern-color-categories .pattern-category-4").css('display', 'none');
+                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
             }
 
@@ -310,6 +312,8 @@ PatternPanel.prototype = {
 
             // Pattern Object
             var _patternObj = _this.getCurrentPatternObject();
+
+            console.log(PatternPanel.patternColors);
 
             // Save Pattern Color
             _this.setPatternColor(category_modifier, layerID, _colorOBJ, _patternObj, materialOption);
@@ -520,12 +524,12 @@ PatternPanel.prototype = {
     },
 
     createPatternUI: function(patternObject) {
-        var _htmlBuilder = "<div id='patternNewUI'>";
-        _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
-        _htmlBuilder     += "</div>";
+        // var _htmlBuilder = "<div id='patternNewUI'>";
+        // _htmlBuilder     += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
+        // _htmlBuilder     += "</div>";
 
-        $("#patternPreviewUI").append(_htmlBuilder);
-        $('#patternNewUI').fadeIn();
+        // $("#patternPreviewUI").append(_htmlBuilder);
+        $('#patternPreviewUI').fadeIn();
         setTimeout(this.createPatternPreview(patternObject), 1000);
     },
 
@@ -542,8 +546,8 @@ PatternPanel.prototype = {
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
 
-        canvas.setHeight(300);
-        canvas.setWidth(300);
+        canvas.setHeight(150);
+        canvas.setWidth(150);
 
         _.each(_patternObj.layers, function (layer) {
 
@@ -584,8 +588,8 @@ PatternPanel.prototype = {
             originY: 'center',
             rx: 5,
             ry: 5,
-            width: 250,
-            height:60,
+            width: 150,
+            height: 50,
             opacity: 0.5,
         });
 

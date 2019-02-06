@@ -188,8 +188,8 @@
 
 <script type="text/mustache" id="m-no-piping-message">
     <div id="no-piping-message" class="no-piping-message">
-        <h3 class="cp-fc-white">Notice</h3>
-        <div class="cp-fc-white">
+        <h3>Notice</h3>
+        <div>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
         </div>
 
