@@ -298,8 +298,8 @@ $(function() {
                 // Marker that applications has been initialized
                 $(this).addClass('init')
             }
-            $(this).find('.noUi-value-large').first().html('Down');
-            $(this).find('.noUi-value-large').last().html('Up');
+            $(this).find('.noUi-value-large').first().html('Up');
+            $(this).find('.noUi-value-large').last().html('Down');
         });
 
         // slider rotate
