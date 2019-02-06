@@ -11,9 +11,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 cp-padding-remove-left">
                         <div class="gradient-preview">
-                            <img src="http://i.pravatar.cc/300" width="100%" height="100%">
+                            <img src="http://via.placeholder.com/150" width="100%" height="100%">
                         </div>
                     </div>
                     <div class="col-md-8 cp-padding-remove gradient-main-container">
