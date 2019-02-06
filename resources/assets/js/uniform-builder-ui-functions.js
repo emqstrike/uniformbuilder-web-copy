@@ -166,19 +166,18 @@ $(document).ready(function() {
 
     ub.funcs.richardsonPTSCategory = function() {
         var category;
-        var blockPattern = ub.current_material.material.name;
+        var blockPattern = ub.current_material.material.block_pattern;
 
         if (blockPattern.includes("PTS Signature")) {
-            category = "PTS 90"
+            category = "PTS 90";
         } else if (blockPattern.includes("PTS Pro Select")) {
-            category = "PTS 80"
+            category = "PTS 80";
         } else if (blockPattern.includes("PTS Select")) {
-            category = "PTS 70"
-        } else if (blockPattern.includes("PTS Five-Tool")) {
-            category = "PTS 10"
-        } else if (blockPattern.includes("PTS Wheelhouse")) {
-            category = "PTS 20"
-            console.log("Here")
+            category = "PTS 70";
+        } else if (blockPattern.includes("PTS Hoodie")) {
+            category = "PTS 10";
+        } else if (blockPattern.includes("PTS Cage Jacket")) {
+            category = "PTS 20";
         }
 
         return category;

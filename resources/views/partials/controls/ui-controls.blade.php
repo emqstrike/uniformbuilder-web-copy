@@ -1073,7 +1073,7 @@
 <!-- Application UI Block - LETTERS -->
 
     <script type="text/mustache" id="add-new-application-letters">
-        <div class="application-letters-container cp-padding-medium cp-padding-remove-vertical">
+        <div class="application-letters-container cp-padding-medium">
             <h4 class="app-letters-title">@{{ title }}</h4>
             @{{^isTwill}}
             <div class="addApplicationsOpts hide">
@@ -1162,9 +1162,9 @@
                         @{{{ colorsSelection }}}
                     @{{/colorPicker}}
 
-                    <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
+                   {{--  <div style="width:100%; height: 200px; background: pink; margin-top: 70px;">
                         <h5 class="app-letters-subtitle">CHOOSE LAYOUT</h5>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         @{{/applications}}
@@ -1276,24 +1276,13 @@
         <div class="slidersContainer">
             <div class="manipulator-type-container scale" data-type="scale">
                 <h5>LOGO SIZE</h5>
-                <div class="sc scale">
-                    <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
-                </div>
             </div>
 
-            <div class="manipulator-type-container move" data-type="move" style="margin: 0px">
+            <div class="manipulator-type-container move" data-type="move">
                 <h5>POSITION</h5>
-                <div class="sc move">
-                    <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
-                    <div id="move-slider-y" class="move y slider-control-move-y" data-id="@{{ code }}"></div>
-                </div>
             </div>
-
             <div class="manipulator-type-container rotate" data-type="rotate">
                 <h5>ROTATE</h5>
-                <div class="sc rotate">
-                    <div id="rotate-slider" class="slider-control-rotate" data-id="@{{ code }}"></div>
-                </div>
             </div>
         </div>
     </script>
