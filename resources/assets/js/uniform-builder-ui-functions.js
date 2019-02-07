@@ -15,7 +15,7 @@ $(document).ready(function() {
         var template = document.getElementById("m-richardson-right-panel-header");
         var data = {
             "uniform_name": ub.current_material.material.name,
-            "block_pattern": ub.current_material.material.block_pattern,
+            "block_pattern": ub.funcs.richardsonPTSCategory(),
             "application_type": ub.funcs.isSublimated() ? "color infused" : ub.funcs.isTackleTwill() ? "color dyed" : ""
         };
 
@@ -162,5 +162,24 @@ $(document).ready(function() {
         $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
         $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
     };
+
+    ub.funcs.richardsonPTSCategory = function() {
+        var category;
+        var blockPattern = ub.current_material.material.block_pattern;
+
+        if (blockPattern.includes("PTS Signature")) {
+            category = "PTS 90";
+        } else if (blockPattern.includes("PTS Pro Select")) {
+            category = "PTS 80";
+        } else if (blockPattern.includes("PTS Select")) {
+            category = "PTS 70";
+        } else if (blockPattern.includes("PTS Hoodie")) {
+            category = "PTS 10";
+        } else if (blockPattern.includes("PTS Cage Jacket")) {
+            category = "PTS 20";
+        }
+
+        return category;
+    }
 
 })
