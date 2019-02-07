@@ -1,3 +1,4 @@
+@if ( env('BRAND') !== "Richardson")
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
 
@@ -172,3 +173,4 @@
         </div>
     </div>
 </nav>
+@endif
