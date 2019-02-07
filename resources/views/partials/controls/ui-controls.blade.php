@@ -1100,7 +1100,7 @@
         @{{/newApplication}}
 
         @{{#applications}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
                 <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">

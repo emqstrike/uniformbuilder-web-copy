@@ -650,7 +650,7 @@ $(function() {
         }
 
         _teamColors = _.sortBy(_teamColors, "order");
-        _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade">';
+        _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
             _.each(_teamColors, function (_color) {
 
                 var _checkMark = '&nbsp;';
