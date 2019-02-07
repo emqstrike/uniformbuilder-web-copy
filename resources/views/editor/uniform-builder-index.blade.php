@@ -382,5 +382,13 @@
         -->
 
     </div>
+    {{-- Hide main contain if the brand is richardson --}}
+    <script type="text/javascript">
+        window.brand_env = '{{ env('BRAND') }}';
+
+        if (brand_env === "Richardson") {
+            document.getElementById("main_container").style.display = "none";
+        }
+    </script>
 
 @endsection('right-pane')
