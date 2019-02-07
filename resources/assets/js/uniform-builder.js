@@ -7501,6 +7501,8 @@ $(document).ready(function () {
 
             $('span.secondary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+                
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
