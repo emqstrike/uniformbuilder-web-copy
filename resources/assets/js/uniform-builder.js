@@ -6979,6 +6979,8 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
 
+                ub.filters.tertiary = _dataItem.toString();
+
                 if (_dataItem === "All") {
 
                     _newSet = window.origItems;
@@ -7125,6 +7127,7 @@ $(document).ready(function () {
 
         ub.filters.primary = "All";
         ub.filters.secondary = "All";
+        ub.filters.tertiary = "All";
 
         $('span.secondary-filters').removeClass('active');
         $('span.primary-filters').removeClass('active');
@@ -7398,6 +7401,16 @@ $(document).ready(function () {
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
 
+                if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+
+                    _options = ['Belted Pant', 'Elastic Waistband Pant'];
+
+                } else {
+
+                    $('div.quarternary-bar').hide();
+
+                }
+
             } else {
 
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
@@ -7452,7 +7465,6 @@ $(document).ready(function () {
                 item: 'Favorites',
 
             });
-
 
             _.each(_options, function (option) {
 
@@ -7584,6 +7596,8 @@ $(document).ready(function () {
             });
 
             $('span.primary-filters').on('click', function () {
+
+                ub.filters.tertiary = 'All';
 
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
