@@ -1124,6 +1124,50 @@
 
             <div class="clearfix"></div>
         </div>
+
+        <div class="bootbox modal fade in" id="application-list-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content cp-padding-remove">
+                    <div class="modal-header cp-bgc-light cp-text-center">
+                        <div>
+                            <h4 class="modal-title cp-text-uppercase" id="myModalLabel">All Application(s)</h4>
+                        </div>
+                    </div>
+                    <div class="modal-body application-list-body cp-padding-medium cp-padding-remove-vertical">
+                        <ul class="list-unstyled application-list">
+                            
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="app-btn show-location-markers" data-status="show" >Show Location Marker</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="app-btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/mustache" id="m-application-layer-list">
+        @{{ #applications }}
+            <li class="cp-border-bottom application-item-@{{ code }}">
+                <div class="row cp-margin-remove cp-padding-small">
+                    <div class="col-md-10 cp-text-medium cp-padding-remove">
+                        <span>#@{{ code }}</span>
+                        <span>@{{ application_type }} - @{{ caption }}</span>
+                        <span>(@{{ view }})</span>
+                    </div>
+                    <div class="col-md-2 cp-text-center pull-right cp-padding-remove" style="padding-left: 45px !important;">
+                        <a href="javascript:void(0)" data-application-id="@{{ code }}" class="cp-fc-black remove-application-button"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+            </li>
+        @{{ /applications }}
     </script>
 
     <script type="text/mustache" id="m-application-ui-block-letters">
@@ -1132,7 +1176,7 @@
         @{{/newApplication}}
 
         @{{#applications}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom cp-margin-remove" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
                 <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">

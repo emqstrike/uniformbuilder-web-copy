@@ -168,6 +168,72 @@ $(function() {
 
     });
 
+    // on click view application
+    $("#primary_options_container").on('click', '.view-app-letters', function() {
+        var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
+        var applications = [];
+
+        _.map(_applicationCollection, function(application) {
+            var item = {
+                code: application.code,
+                caption: ub.funcs.getSampleCaption(application),
+                view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
+                application_type: application.application_type.toUpperCase().replace('_', ' ')
+            }
+
+            applications.push(item);
+        });
+
+        data = {
+            applications: applications
+        };
+
+        var applicationListUI = ub.utilities.buildTemplateString('#m-application-layer-list', data);
+
+        $("#application-list-modal ul.application-list").html("")
+        $("#application-list-modal ul.application-list").html(applicationListUI);
+
+        $("#application-list-modal").modal("show")
+    });
+
+    // On click delete application
+    $("#primary_options_container").on('click', '#application-list-modal .remove-application-button', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var application_id = $(this).data("application-id");
+
+        var applicationObject = ub.current_material.settings.applications[application_id];
+
+        $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
+
+        // ub.funcs.removeApplicationByID(application_id)
+    });
+
+    // On show & hide location marker
+    $("#primary_options_container").on('click', '#application-list-modal .show-location-markers', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var status = $(this).data("status");
+
+        if (status === "show") {
+            $(this).data("status", "hide");
+            $(this).html("");
+            $(this).html("Hide Location Marker")
+            ub.funcs.showLocations();
+        }
+
+        if (status === "hide") {
+            $(this).data("status", "show");
+            $(this).html("");
+            $(this).html("Show Location Marker")
+            ub.funcs.removeLocations();
+        }
+
+        $("#application-list-modal").modal("hide")
+    });
+
+
+
 /*
 
   __                  _   _
@@ -251,9 +317,6 @@ $(function() {
         }
         // initializer
         ub.funcs.initializer();
-
-
-
     };
 
     ub.funcs.initializer = function () {
@@ -364,9 +427,7 @@ $(function() {
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
-
         });
-
     };
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
@@ -665,5 +726,4 @@ $(function() {
         return _html;
 
     };
-
 });
