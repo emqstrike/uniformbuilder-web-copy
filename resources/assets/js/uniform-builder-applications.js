@@ -10341,6 +10341,11 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Arm Cuff') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1 ||
                                                                  item.name.indexOf("Pro-Dry") > -1 ||
+                                                                 item.name.indexOf('Warp Speed 1') > -1 ||
+                                                                 item.name.indexOf('Warp Speed 2') > -1 ||
+                                                                 item.name.indexOf('Warp Speed 3') > -1 ||
+                                                                 item.name.indexOf('Front Body Pattern') > -1 ||
+                                                                 item.name.indexOf('Back Body Pattern') > -1 ||
                                                                  item.name.indexOf('Belt Loop') > -1; });
 
             if (ub.funcs.isSocks()) { 
