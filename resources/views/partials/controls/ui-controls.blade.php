@@ -1155,7 +1155,7 @@
 
     <script type="text/mustache" id="m-application-layer-list">
         @{{ #applications }}
-            <li class="cp-border-bottom application-item-@{{ code }}">
+            <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-zindex="6">
                 <div class="row cp-margin-remove cp-padding-small">
                     <div class="col-md-10 cp-text-medium cp-padding-remove">
                         <span>#@{{ code }}</span>
