@@ -9994,6 +9994,82 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // Temporary, this is to fix the issue regarding Hockey Socks (Jan. 25, 2019 @elmer)
+    ub.data.initialSizesLower = {
+
+        items: [
+            {
+                type: 'player_number',
+                types: [
+                    {
+                        applicationNumbers: [1, 2, 3, 4, 5, 6],
+                        resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Hockey',],
+                        blockPattern: ['Hockey Socks',]
+                    },
+                    {
+                        applicationNumbers: [7, 8],
+                        resultApplicationType: 'back_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Hockey',],
+                        blockPattern: ['Hockey Socks',]
+                    },
+                ]
+
+            }
+            
+        ], 
+        getSize: function (type, applicationNumber, sport, blockPattern) {
+
+            var _result = undefined;
+            var _items = _.find(this.items, {type: type});
+
+            console.log('Start output here...')
+
+
+            if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
+
+            _result = _.find(_items.types, function (type) {
+
+                return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport) && _.contains(type.blockPattern, blockPattern);
+
+            });
+
+            if (typeof _result === "undefined") {
+
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default') && _.contains(type.blockPattern, blockPattern); });
+
+            }
+
+            if (typeof _result === "undefined" && applicationNumber < 70) {
+
+                ub.utilities.warn('Using catch all initial size (-1)');
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default') && _.contains(type.blockPattern, blockPattern); });
+
+            } 
+
+            // For Free Form Tool
+            if (applicationNumber > 70) {
+
+                _result =  {
+                    applicationNumbers: [-1],
+                    resultApplicationType: 'front_number',
+                    size: 4,
+                    font_size: 4,
+                    sport: ['Default', 'Free Form Tool'],
+                };
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
     // Sports using the new Font Metrics (one_inch_in_px)
     ub.data.sportsMain = {
 
@@ -11191,7 +11267,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Hockey',
-            filters: ['All', 'Jersey', 'Pants'],
+            filters: ['All', 'Jersey', 'Socks'],
         },
         {
             sport: '2017 Team Short with Pockets (Apparel)',

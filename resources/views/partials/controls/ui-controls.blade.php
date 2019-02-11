@@ -1426,25 +1426,21 @@
 
                     </tr>
 
-                @{{/orders}} 
-
+                @{{/orders}}
            </tbody>
-           <tfoot>                
-                <td></td>
-                <td class="data-table-filter-hide"></td>               
-                <td class="data-table-filter-hide"></td>
-                <td class="data-table-filter-hide"></td>
-                <td></td>
-                <td></td>
-                <td class="data-table-filter-hide"></td>
-                <td class="data-table-filter-hide"></td>
 
+           <tfoot>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
            </tfoot>
-            
-
         </table>
-
-    </script>   
+    </script>
 
 <!-- End Orders Table -->
 

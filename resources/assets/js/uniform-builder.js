@@ -1106,6 +1106,8 @@ $(document).ready(function () {
 
                 ub.funcs.optimize();
 
+                ub.funcs.setupRetain();
+
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
 
@@ -6977,6 +6979,8 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
 
+                ub.filters.tertiary = _dataItem.toString();
+
                 if (_dataItem === "All") {
 
                     _newSet = window.origItems;
@@ -7123,6 +7127,7 @@ $(document).ready(function () {
 
         ub.filters.primary = "All";
         ub.filters.secondary = "All";
+        ub.filters.tertiary = "All";
 
         $('span.secondary-filters').removeClass('active');
         $('span.primary-filters').removeClass('active');
@@ -7396,6 +7401,16 @@ $(document).ready(function () {
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
 
+                if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+
+                    _options = ['Belted Pant', 'Elastic Waistband Pant'];
+
+                } else {
+
+                    $('div.quarternary-bar').hide();
+
+                }
+
             } else {
 
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
@@ -7451,7 +7466,6 @@ $(document).ready(function () {
 
             });
 
-
             _.each(_options, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
@@ -7487,6 +7501,8 @@ $(document).ready(function () {
 
             $('span.secondary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+                
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
@@ -7582,6 +7598,8 @@ $(document).ready(function () {
             });
 
             $('span.primary-filters').on('click', function () {
+
+                ub.filters.tertiary = 'All';
 
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
@@ -8398,9 +8416,8 @@ $(document).ready(function () {
         ub.funcs.deleteSavedDesign = function (id, name) {
 
             var txt;
-            
             var r = confirm("Are you sure you want to delete '" + name + "'?");
-            
+
             if (r !== true) { return; }
 
             data = {
@@ -8408,112 +8425,86 @@ $(document).ready(function () {
             }
 
             $.ajax({
-
                 url: ub.config.api_host + '/api/saved_design/delete/',
                 data: JSON.stringify(data),
-                type: "POST", 
+                type: "POST",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
-
                 }
-                
             });
-   
         }
+
         ub.funcs.runDataTable = function () {
+            $('.data-table').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                initComplete: function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
 
-            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+                                column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                            });
 
-              $('.data-table').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": false,
-                    "info": true,
-                    "autoWidth": true,
-                    initComplete: function () {
-                        this.api().columns().every( function () {
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        });
+                    });
 
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo( $(column.footer()).empty() )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                } );
-
-                            column.data().unique().sort().each( function ( d, j ) {
-
-                                select.append( '<option value="'+d+'">'+d+'</option>' )
-                            } );
-                        } );
-                        $(".data-table-filter-hide select").hide();                      
-                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
-                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
-                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
-                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
-                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
-
-                
-  
-                    }
-                }); 
-            });
-            
-            $(".dropdown-toggle").on('click', function () {                       
-
-                if($( ".btn-group" ).hasClass( "open" )){
-                    $( ".btn-group" ).removeClass("open");
-                }else{
-                    $( ".btn-group" ).addClass("open");
+                    $(".data-table-filter-hide select").hide();
+                    $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                    $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                    $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                    $(".dataTables_filter input").attr( "style","width: 300px; margin-left: 10px;");
                 }
             });
-           
 
+            // $(".dropdown-toggle").on('click', function () {
 
+            //     if($( ".btn-group" ).hasClass( "open" )){
+            //         $( ".btn-group" ).removeClass("open");
+            //     }else{
+            //         $( ".btn-group" ).addClass("open");
+            //     }
+            // });
         }
 
         ub.funcs.rebindSaveButtons = function (data) {
 
             var $container = $('div.saved-designs-list');
             var $imgThumbs = $('img.tview');
-                
-            $imgThumbs.unbind('click');
-            $imgThumbs.on('click', function () {
 
+            $("div.saved-designs-list").on('click', 'img.tview', function () {
                 var _file = $(this).data('file');
                 var _str = "<img src ='" + _file + "' />";
-                
                 ub.showModalTool(_str);
-
             });
 
-            $('span.action-button.view').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.view', function () {
                 var _savedDesignID = $(this).data('saved-design-id');
-
                 var url = '/my-saved-design/' + _savedDesignID + '/render';
                 window.open(url, '_blank');
-                
             });
 
-            $('span.action-button.delete').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.delete', function () {
                 var _deleteDesignID = $(this).data('saved-design-id');
                 var _name = $(this).data('name');
-
                 ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
             });
 
             bindShareDesigns();
@@ -8591,9 +8582,12 @@ $(document).ready(function () {
                     });
                     
                     ub.funcs.runDataTable();
-
                     ub.funcs.rebindSaveButtons(data); 
             
+                    if (response.saved_designs.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.saved-designs-list table tfoot").hide();
+                    }
                 }
                 
             });
@@ -8672,7 +8666,7 @@ $(document).ready(function () {
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8680,7 +8674,7 @@ $(document).ready(function () {
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    }); 
+                    });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
@@ -8701,6 +8695,11 @@ $(document).ready(function () {
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
+
+                    if (dataSaved.orders.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.order-list table tfoot").hide();
+                    }
 
                     $('div.order-list.submitted').find('span.action-button.delete, span.action-button.edit').hide();
                     $('div.order-list.saved').find('span.action-button.delete, span.action-button.view').hide();
@@ -10530,18 +10529,7 @@ $(document).ready(function () {
         });
     }
 
-    $('.close-share-uniform-design-modal').on('click', function(){
-        $('#open-design-modal').modal('show');
-        $('#share-design-modal .team-email').val('');
-    });
-
     $('.share-uniform-design-by-email').on('click', function(){
-        
-        // var data = {
-        //     email_list: $('#share-design-modal .team-email').val(),
-        //     order_id: $(this).data('order-id'),
-        //     sharer_name: ub.user.fullname
-        // };
 
         var _id = $(this).data('order-id');
 
@@ -10580,7 +10568,7 @@ $(document).ready(function () {
     });
 
     function bindShareDesigns() {
-        $('.share-uniform-design').on('click', function(){
+        $('div.saved-designs-list').on('click', '.share-uniform-design',function(){
             var order_id = $(this).data('saved-design-id');
             $('#open-design-modal').modal('hide');
             $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);

@@ -584,6 +584,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     // Style Requests
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index'])->name('style_requests');
     Route::get('approved_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@approvedIndex'])->name('approved_style_requests');
+    Route::get('styles_on_customizer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesOnCustomizer'])->name('styles_on_customizer');
     Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer'])->name('style_viewer');
     Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats'])->name('styles_stats');
 
