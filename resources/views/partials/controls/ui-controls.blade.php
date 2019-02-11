@@ -1119,43 +1119,16 @@
 
             <div class="add-new-application-letters">
                 <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
-                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
+                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button" data-type="@{{ type }}"><span class="fa fa-eye"></span> View All Application</button>
             </div>
 
             <div class="clearfix"></div>
-        </div>
-
-        <div class="bootbox modal fade in" id="application-list-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content cp-padding-remove">
-                    <div class="modal-header cp-bgc-light cp-text-center">
-                        <div>
-                            <h4 class="modal-title cp-text-uppercase" id="myModalLabel">All Application(s)</h4>
-                        </div>
-                    </div>
-                    <div class="modal-body application-list-body cp-padding-medium cp-padding-remove-vertical">
-                        <ul class="list-unstyled application-list">
-                            
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button type="button" class="app-btn show-location-markers" data-status="show" >Show Location Marker</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="app-btn" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </script>
 
     <script type="text/mustache" id="m-application-layer-list">
         @{{ #applications }}
-            <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-zindex="6">
+            <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-application-type="@{{ type }}" data-zindex="6">
                 <div class="row cp-margin-remove cp-padding-small">
                     <div class="col-md-10 cp-text-medium cp-padding-remove">
                         <span>#@{{ code }}</span>
@@ -1163,12 +1136,16 @@
                         <span>(@{{ view }})</span>
                     </div>
                     <div class="col-md-2 cp-text-center pull-right cp-padding-remove" style="padding-left: 45px !important;">
-                        <a href="javascript:void(0)" data-application-id="@{{ code }}" class="cp-fc-black remove-application-button"><i class="fa fa-trash"></i></a>
+                        <a href="javascript:void(0)" data-application-id="@{{ code }}" data-application-type="@{{ type }}" class="cp-fc-black remove-application-button">
+                            <i class="fa fa-trash"></i>
+                        </a>
                     </div>
                 </div>
             </li>
         @{{ /applications }}
     </script>
+
+
 
     <script type="text/mustache" id="m-application-ui-block-letters">
         @{{#newApplication}}

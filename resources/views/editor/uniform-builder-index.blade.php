@@ -251,6 +251,10 @@
 
             @include('partials.panels.randomFeeds')
 
+            @if(env("BRAND") === "Richardson")
+                @include('partials.panels.richardson-application-modal')
+            @endif
+
         </div>
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
@@ -380,7 +384,7 @@
         </div>
 
         -->
-
+        {{-- Modal for Richardson Application List --}}
     </div>
     {{-- Hide main contain if the brand is richardson --}}
     <script type="text/javascript">

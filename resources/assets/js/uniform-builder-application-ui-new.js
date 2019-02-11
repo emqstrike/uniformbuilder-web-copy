@@ -170,8 +170,33 @@ $(function() {
 
     // on click view application
     $("#primary_options_container").on('click', '.view-app-letters', function() {
-        var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
-        var applications = [];
+        var type = $(this).data("type")
+        // Filter active
+        var activeApplications = _.filter(ub.current_material.settings.applications, function(application) {
+            if (application.application_type !== "free") {
+                if (typeof application.status === "undefined" || application.status === "on") {
+                    if (type === "letters") {
+                        if (application.application_type === "team_name" || application.application_type === "player_name") {
+                            return application;
+                        }
+                    } else if (type === "numbers") {
+                        if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
+                            return application;
+                        }
+                    } else if (type === "mascots") {
+                        if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
+                            return application;
+                        }
+                    }
+                }
+            } else {
+                return application;
+            }
+        });
+        // Sort by zindex
+        var _applicationCollection = _.sortBy(activeApplications, 'zIndex').reverse();
+
+        var applicationObject = [];
 
         _.map(_applicationCollection, function(application) {
             var item = {
@@ -179,14 +204,15 @@ $(function() {
                 code: application.code,
                 caption: ub.funcs.getSampleCaption(application),
                 view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
-                application_type: application.application_type.toUpperCase().replace('_', ' ')
+                application_type: application.application_type.toUpperCase().replace('_', ' '),
+                type: application.application_type
             }
 
-            applications.push(item);
+            applicationObject.push(item);
         });
 
         data = {
-            applications: applications
+            applications: applicationObject
         };
 
         var applicationListUI = ub.utilities.buildTemplateString('#m-application-layer-list', data);
@@ -246,20 +272,21 @@ $(function() {
     });
 
     // On click delete application
-    $("#primary_options_container").on('click', '#application-list-modal .remove-application-button', function(event) {
+    $("#application-list-modal").on('click', '.remove-application-button', function(event) {
         event.preventDefault();
         /* Act on the event */
         var application_id = $(this).data("application-id");
+        var application_type = $(this).data("application-type");
 
-        var applicationObject = ub.current_material.settings.applications[application_id];
+        _.delay(function() {
+            $('.applicationUIBlock[data-application-id="'+ application_id +'"] div.toggleApplications .hide-letters-opt').trigger('click');
+        }, 50);
 
         $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
-
-        // ub.funcs.removeApplicationByID(application_id)
     });
 
     // On show & hide location marker
-    $("#primary_options_container").on('click', '#application-list-modal .show-location-markers', function(event) {
+    $("#application-list-modal").on('click', '.show-location-markers', function(event) {
         event.preventDefault();
         /* Act on the event */
         var status = $(this).data("status");
@@ -279,6 +306,15 @@ $(function() {
         }
 
         $("#application-list-modal").modal("hide")
+    });
+
+    $("#application-list-modal").on('click', 'li.layer', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var location = $(this).data("location-id");
+        var application_type = $(this).data("application-type");
+
+        $("#primary_options_container").scrollTo('div.applicationUIBlock[data-application-id="'+ location +'"]', {duration: 700});
     });
 
 

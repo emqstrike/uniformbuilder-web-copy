@@ -874,7 +874,8 @@ $(function() {
         var templateData = {
             isTwill: true,
             title: _title,
-            disabled: 'disabled'
+            disabled: 'disabled',
+            type: _designType
         };
         _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData)
 
@@ -920,7 +921,8 @@ $(function() {
                 part: true,
                 side: true,
                 partsData: ub.funcs.getFreeFormLayers(),
-                showTypes: showTypes
+                showTypes: showTypes,
+                type: _designType
             }
 
             _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
