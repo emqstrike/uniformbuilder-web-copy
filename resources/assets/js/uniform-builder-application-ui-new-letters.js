@@ -7,26 +7,6 @@ $(function() {
 
     var ub = window.ub;
 
-    // on click mascot and embellishments group #7
-    $('#new-toolbar > .group-5').on('click', function () {
-        if (! $(this).hasClass('active')) {
-            // If tab is not currently active, add active class to element and remove active class from other tabs
-            $(this).addClass('active').siblings().removeClass("active");
-            // Display decoration letters
-            ub.funcs.startNewApplicationLetters();
-        }
-    });
-
-    // on click mascot and embellishments group #6
-    $('#new-toolbar > .group-6').on('click', function () {
-        if (! $(this).hasClass('active')) {
-            // If tab is not currently active, add active class to element and remove active class from other tabs
-            $(this).addClass('active').siblings().removeClass("active");
-            // Display decoration numbers
-            ub.funcs.startNewApplicationNumbers();
-        }
-    });
-
     $('#primary_options_container')
             // To add a new letter application (show Choose Location and Choose Perspective options)
             .on('click', '.add-app-letters', function () {

@@ -17,16 +17,6 @@ $(function() {
  \___| \_/ \___|_| |_|\__|___/
 
 */
-
-    // on click mascot and embellishments group #7
-    $('#new-toolbar > .group-7').on('click', function () {
-        console.log('GROUP 7 CLICKED===>');
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active').siblings().removeClass("active");
-            ub.funcs.startNewApplication();
-        }
-    });
-
     // on click flip
     $('#primary_options_container').on('click', '.flipBtn', function () {
         var dataId = $(this).attr('data-id');
@@ -262,9 +252,6 @@ $(function() {
                 ub.updateLayersOrder(ub.back_view);
                 ub.updateLayersOrder(ub.left_view);
                 ub.updateLayersOrder(ub.right_view);
-
-                var _locationID = $(evt.item).data('location-id');
-                ub.funcs.activateManipulator(_locationID);
             }
         });
 
