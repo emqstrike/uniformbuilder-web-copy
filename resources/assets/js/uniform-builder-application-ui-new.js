@@ -284,7 +284,6 @@ $(function() {
 
 
 /*
-
   __                  _   _
  / _|                | | (_)
 | |_ _   _ _ __   ___| |_ _  ___  _ __  ___
@@ -323,7 +322,8 @@ $(function() {
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
-                    sliderContainer: ub.funcs.sliderContainer(i.code)
+                    sliderContainer: ub.funcs.sliderContainer(i.code),
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -336,7 +336,8 @@ $(function() {
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objStock);
             }
@@ -360,6 +361,7 @@ $(function() {
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
+
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('mascots');

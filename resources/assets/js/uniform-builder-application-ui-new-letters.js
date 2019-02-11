@@ -156,14 +156,19 @@ $(function() {
                 $(this).addClass('active').attr('disabled', 'disabled');
                 $(this).next().removeClass('active').removeAttr('disabled');
                 $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').fadeIn();
+
+                var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+                ub.funcs.manipulateApplicationByStatus("on", application_id);
             })
             // To hide a letter's customization options
             .on('click', '.hide-letters-opt', function () {
                 $(this).addClass('active').attr('disabled', 'disabled');
                 $(this).prev().removeClass('active').removeAttr('disabled');
                 $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').hide();
+
+                var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+                ub.funcs.manipulateApplicationByStatus("off", application_id);
             })
-            
             // To change main color
             .on('click', '.main-color', function () {
                 $(this).addClass('active');
@@ -365,57 +370,6 @@ $(function() {
                 }
 
             })
-            .on('click', 'button.toggleAppOpt', function () {
-
-                var _id = $(this).closest('.applicationUIBlock').data('application-id')
-                var _currentStatus = $(this).parent().data('status');
-                var s;
-
-                if (_currentStatus === "on") {
-                    s = 'off';
-                }
-                else {
-                    s = 'on';
-                }
-
-                if (s === "on") {
-                    ub.funcs.LSRSBSFS(parseInt(_id));
-                }
-
-                ub.funcs.toggleApplicationOpts($(this).parent(), _id, s);
-
-                var _matchingSide;
-                var _matchingID = undefined;
-                var _processMatchingSide = true;
-                var _matchingSettingsObject = undefined;
-
-                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
-                if (typeof _matchingID !== "undefined") {
-
-                    _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-
-                }
-
-                if (typeof _matchingSettingsObject !== "undefined") {
-
-                    if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-
-                        // Toggle matching mascot if the same mascot is selected
-                        _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
-
-                    }
-
-                }
-
-                if (typeof _matchingID !== "undefined") {
-
-                    if (_processMatchingSide) {
-                        ub.funcs.toggleApplication(_matchingID, s);
-                    }
-
-                }
-            })
             .on('click', '.change-free-app', function () {
                 var _id = $(this).closest('.applicationUIBlock').data('application-id');
                 var _type = $(this).data('type')
@@ -456,14 +410,15 @@ $(function() {
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
-                isPlayerName: isPlayerName    
+                isPlayerName: isPlayerName,
+                status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             }
             _appData.push(objStock);
         });
 
         var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
         $('.modifier_main_container').append(_htmlBuilder);
-        
+
         // prepare data
         var templateData = {
             applications: _appData
@@ -478,14 +433,28 @@ $(function() {
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('letters');
         }
+
         // initializer
         ub.funcs.initializer();
 
+        // Setup
+        _.map(_appData, function(application) {
+            if (application.application_type !== "free") {
+                if (application.status) {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
+                } else {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
+                }
+            }
+        });
     };
 
     ub.funcs.startNewApplicationNumbers = function () {
         $('#mod_primary_panel > .modifier_main_container').empty();
-
         // get applications and filter
         var _Applications = ub.current_material.settings.applications;
         var _filteredApplications = _.filter(_Applications, function(i) {
@@ -512,7 +481,8 @@ $(function() {
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
                 accents: true,
                 accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
-                isPlayerName: false, 
+                isPlayerName: false,
+                status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             }
             _appData.push(objStock);
         });
@@ -537,10 +507,24 @@ $(function() {
 
         // initializer
         ub.funcs.initializer();
+
+        // Setup
+        _.map(_appData, function(application) {
+            if (application.application_type !== "free") {
+                if (application.status) {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
+                } else {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
+                }
+            }
+        });
     }
 
     ub.funcs.activateApplicationsLetters = function (application_id) {
-    
         ub.funcs.beforeActivateApplication();
     
         if ($('div#primaryPatternPopup').is(':visible')) {
@@ -1354,9 +1338,8 @@ $(function() {
         ub.funcs.initializer();
     }
 
-    ub.funcs.toggleApplicationOpts = function (element, id, state) {
-
-        var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+    ub.funcs.toggleApplicationOpts = function (application_id, status) {
+        var _settingsObj = ub.funcs.getApplicationSettings(parseInt(application_id));
 
         // Consider deleted locations
         if (typeof _settingsObj === "undefined") {
@@ -1365,52 +1348,26 @@ $(function() {
 
         var _views = _settingsObj.application.views;
 
-        var _state = state;
-
-        if (_state === "off") {
-            if (ub.activeApplication === id) {
-                return;
-            }
-
-            element.data('status', "off");
-            element.closest('.applicationUIBlock').find('input[type=text]').attr('disabled', 'disabled')
-
-        } else {
-
-            element.data('status', "on");
-            element.closest('.applicationUIBlock').find('input[type=text]').removeAttr('disabled')
-
-            ub.funcs.hideGAFontTool();
-
-        }
-
         _.each(_views, function (view) {
-
             var _view = view.perspective + '_view';
-            var _obj = ub.objects[_view]['objects_' + id];
+            var _obj = ub.objects[_view]['objects_' + application_id];
 
             if (typeof _obj === "undefined") {
                 return;
             }
 
-            if (_state === "on") {
-
+            if (status === "on") {
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
                 _settingsObj.status = "on";
                 ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
                 ub.updateLayersOrder(ub[_view]);
-
             } else {
-
                 _obj.oldZIndex = _obj.zIndex;
                 _obj.zIndex = 0;
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "off";
-
             }
-
         });
-
     }
 
     ub.funcs.activateMascotColors = function (application_id) {
@@ -1876,5 +1833,37 @@ $(function() {
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
+    }
+
+    ub.funcs.manipulateApplicationByStatus = function (status, application_id) {
+        if (status === "on") {
+            ub.funcs.LSRSBSFS(application_id);
+        }
+
+        ub.funcs.toggleApplicationOpts(application_id, status);
+
+        var _matchingSide;
+        var _matchingID = undefined;
+        var _processMatchingSide = true;
+        var _matchingSettingsObject = undefined;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(application_id);
+
+        if (typeof _matchingID !== "undefined") {
+            _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+        }
+
+        if (typeof _matchingSettingsObject !== "undefined") {
+            if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                // Toggle matching mascot if the same mascot is selected
+                _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+            }
+        }
+
+        if (typeof _matchingID !== "undefined") {
+            if (_processMatchingSide) {
+                ub.funcs.toggleApplication(_matchingID, status);
+            }
+        }
     }
 });
