@@ -63,6 +63,18 @@ CartItemApi.prototype = {
     },
 
     /**
+     * Update thumbnail of item
+     *
+     * @param {int} cart_item_id
+     * @param {string} thumbnail
+     * @param {function} callback
+     * @return {void}
+     */
+    updateThumbnail: function(cart_item_id, thumbnail, callback) {
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-thumbnail", $.extend({thumbnail: thumbnail}, this.cartPermit), callback);
+    },
+
+    /**
      * Delete item to cart
      *
      * @param  {int}   cart_item_id

@@ -13320,6 +13320,26 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.uploadBase64Image = function(base64Image, callback) {
+        var formData = new FormData();
+        var base64ImageContent = base64Image.replace(/^data:image\/(png|jpg);base64,/, "");
+        var blob = ub.utilities.base64ToBlob(base64ImageContent, "image/png")
+        formData.append('file', blob);
+
+        $.ajax({
+            url: ub.config.api_host + "/api/fileUpload",
+            type: "POST",
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+
+            success: function(response) {
+                callback(response);
+            }
+        });
+    };
 
     ub.uploadLogo = function (dUrl) {
 
@@ -13373,7 +13393,7 @@ $(document).ready(function () {
 
         });
 
-    }
+    },
 
     ub.funcs.turnLocationsOff = function () {
 

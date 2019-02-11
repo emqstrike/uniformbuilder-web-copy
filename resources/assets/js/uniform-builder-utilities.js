@@ -155,8 +155,30 @@ $(document).ready(function() {
                 if (!word[0]) return;
                 return word.replace(word[0], word[0].toUpperCase());
             }).join(' ');
-        }
+        },
 
+        base64ToBlob: function(base64ImageContent, mime)
+        {
+            mime = mime || '';
+            var sliceSize = 1024;
+            var byteChars = window.atob(base64ImageContent);
+            var byteArrays = [];
+
+            for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
+                var slice = byteChars.slice(offset, offset + sliceSize);
+
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                var byteArray = new Uint8Array(byteNumbers);
+
+                byteArrays.push(byteArray);
+            }
+
+            return new Blob(byteArrays, {type: mime});
+        }
     };
 
     /// Benchmarks

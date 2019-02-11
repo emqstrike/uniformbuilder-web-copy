@@ -11,6 +11,7 @@ Route::group([
         Route::get('/', "CartItemController@getCartItems");
         Route::post('add-to-cart', "CartItemController@addToCart");
         Route::post('{cart_item_id}/update', "CartItemController@updateItem");
+        Route::post('{cart_item_id}/update-thumbnail', "CartItemController@updateThumbnail");
         Route::post('{cart_item_id}/delete-to-cart', "CartItemController@deleteToCart");
     });
 

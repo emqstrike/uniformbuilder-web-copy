@@ -12,6 +12,10 @@ var UBCart = {
 
             $('#left-side-toolbar').on('click', '.cart-btn[data-action="add"]', UBCart.addToCart);
             $('#left-side-toolbar').on('click', '.cart-btn[data-action="update"]', UBCart.updateItem);
+
+            if (typeof Storage !== "undefined") {
+                sessionStorage.front_thumbnail = ub.getThumbnailImage2('front_view');
+            }
         });
     },
 
@@ -101,23 +105,19 @@ var UBCart = {
 
             if (atc_response.success) {
                 console.log("Adding item to cart ok");
-
                 bootbox.alert("Add to cart " + material.name);
 
-                console.log("Updating cart items in dropdown ...");
-                UBCart.fetchCartItems(function(response) {
-                    console.log("Updating cart items in dropdown ok");
+                var current_front_thumbnail = ub.getThumbnailImage2('front_view');
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_thumbnail, atc_response.cart_item_id);
 
-                    var cart_items = response.data;
+                if (typeof Storage !== "undefined") {
+                    sessionStorage.front_thumbnail = current_front_thumbnail;
+                }
 
-                    // update cart items
-                    UBCart.updateShoppingCartDetails(cart_items);
-
-                    // change the action and text
-                    $('#left-side-toolbar .cart-btn').attr('data-action', "update");
-                    $('#left-side-toolbar .cart-btn').data('cart-item-id', atc_response.cart_item_id);
-                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
-                });
+                // change the action and text
+                $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                $('#left-side-toolbar .cart-btn').data('cart-item-id', atc_response.cart_item_id);
+                $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
             }
         });
     },
@@ -129,13 +129,53 @@ var UBCart = {
 
         var cart_item_id = parseInt($(this).data('cart-item-id'));
 
+        if (typeof Storage !== "undefined") {
+            var current_front_thumbnail = ub.getThumbnailImage2('front_view');
+            if (sessionStorage.front_thumbnail !== current_front_thumbnail) {
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_thumbnail, cart_item_id);
+
+                sessionStorage.front_thumbnail = current_front_thumbnail;
+            }
+        }
+
         UBCart.cartItemApi.updateItem(cart_item_id, {
-            builder_customization: JSON.stringify(ub.current_material.settings)
+            builder_customization: JSON.stringify(ub.current_material.settings),
+            thumbnail: ub.current_material.material.thumbnail_path
         }, function(response) {
             if (response.success) {
-                console.log("Updating builder customization in database ok");
+                console.log("Updating item in database ok");
                 bootbox.alert("Successfully update");
+
+                // update cart items in dropdown
+                UBCart.fetchCartItems(function(response) {
+                    var cart_items = response.data;
+                    UBCart.updateShoppingCartDetails(cart_items);
+                });
             }
+        });
+    },
+
+    uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id) {
+        // Upload base 64 image
+        ub.funcs.uploadBase64Image(base64Image, function(uploadImageResponse) {
+            console.log(uploadImageResponse);
+
+            if (uploadImageResponse.success) {
+                // update thumbnail
+                UBCart.cartItemApi.updateThumbnail(cart_item_id, uploadImageResponse.filename, function(updateThumbnailResponse) {
+                    // update cart items in dropdown
+                    UBCart.fetchCartItems(function(response) {
+                        var cart_items = response.data;
+                        UBCart.updateShoppingCartDetails(cart_items);
+                    });
+                });
+            }
+
+            // update cart items in dropdown
+            UBCart.fetchCartItems(function(response) {
+                var cart_items = response.data;
+                UBCart.updateShoppingCartDetails(cart_items);
+            });
         });
     }
 };

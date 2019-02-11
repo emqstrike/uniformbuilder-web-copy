@@ -81,11 +81,13 @@ class CartItemController extends Controller
      * - logged_in_token
      * - cart_token
      * - builder_customization
+     * - thumbnail
      */
     public function updateItem(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
         $cartItem->builder_customization = $request->get('builder_customization');
+        $cartItem->thumbnail = $request->get('thumbnail');
         $is_updated = $cartItem->save();
 
         return response()->json(
@@ -97,6 +99,31 @@ class CartItemController extends Controller
             [
                 'success' => false,
                 'message' => "Cannot update the item this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     * - thumbnail
+     */
+    public function updateThumbnail(Request $request, $cart_item_id)
+    {
+        $cartItem = CartItem::find($cart_item_id);
+        $cartItem->thumbnail = $request->get('thumbnail');
+        $is_updated = $cartItem->save();
+
+        return response()->json(
+            $is_updated ?
+            [
+                'success' => true,
+                'message' => "Successfully update thumbnail of item."
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot update the thumbnail of item this time. Please try again later."
             ]
         );
     }
