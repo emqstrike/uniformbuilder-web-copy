@@ -1256,14 +1256,19 @@
                 <h4 class="application-thumbnail-name">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
-                    <span>
-                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
-                    </span>
-
-                    <div class="thumb-links pull-left">
-                        <h5>@{{ type }}</h5>
-                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
-                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span>
+                                <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                            </span>
+                        </div>
+                        <div class="col-md-7 cp-padding-remove">
+                            <div class="thumb-links">
+                                <h5>@{{ type }}</h5>
+                                <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                                <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="clearfix"></div>

@@ -31,6 +31,7 @@ $(function() {
         $(this).addClass('active');
         $(this).next().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').removeClass('disabled-image');
         var application_id = $(this).closest(".applicationUIBlock").data('application-id');
         ub.funcs.manipulateApplicationByStatus("on", application_id);
     });
@@ -40,6 +41,7 @@ $(function() {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
+        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').addClass('disabled-image');
         var application_id = $(this).closest(".applicationUIBlock").data('application-id');
         ub.funcs.manipulateApplicationByStatus("off", application_id);
         ub.funcs.deactivateMoveTool();
@@ -391,10 +393,12 @@ $(function() {
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').addClass('active');
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').removeClass('active');
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').removeClass('disabled-image');
                 } else {
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').addClass('active');
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').removeClass('active');
                     $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').hide();
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').addClass('disabled-image');
                 }
             }
         });
