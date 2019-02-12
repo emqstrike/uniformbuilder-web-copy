@@ -6403,7 +6403,10 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
             ub.funcs.activateColors(application_id);     
-        }        
+        }
+
+        // This will check if the move tool will activated or not
+        ub.funcs.activateDisableMoveTool(application_id);
 
     };
 
@@ -7249,33 +7252,33 @@ $(document).ready(function() {
 
             if(_currentStatus === "on") {
                 s = 'off';
+                ub.funcs.deactivateMoveTool();
             }
             else {
                 s = 'on';
+                ub.funcs.activateMoveTool(_id);
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
+            ub.funcs.toggleApplication(_id,s);
 
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
             var _matchingSettingsObject = undefined;
-            
+
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
                 _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                
             }
-            
+
             if (typeof _matchingSettingsObject !== "undefined") {
 
                 if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-                            
-                    // Toggle matching mascot if the same mascot is selected 
+                    // Toggle matching mascot if the same mascot is selected
                     _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
 
                 }
@@ -7285,13 +7288,11 @@ $(document).ready(function() {
             if (typeof _matchingID !== "undefined") {
 
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
-                
             }
-
         });
 
         $('div#applicationUI').fadeIn();
-        ub.funcs.activateMoveTool(application_id);
+        // ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
@@ -8247,6 +8248,9 @@ $(document).ready(function() {
             $('span.cog').fadeIn();
 
         }
+
+        // This will check if the move tool will activated or not
+        ub.funcs.activateDisableMoveTool(application_id);
 
         // if (parseInt(application_id) === 1) {
 
@@ -9433,28 +9437,26 @@ $(document).ready(function() {
 
             var _currentStatus = $('div.toggle').data('status');
             var s;
+
             if(_currentStatus === "on") {
                 s = 'off';
+                ub.funcs.deactivateMoveTool();
                 $('div#changeApplicationUI').remove();
-            }
-            else {
+            } else {
+                ub.funcs.activateMoveTool(application_id);
                 s = 'on';
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
-
+            ub.funcs.toggleApplication(_id, s);
              var _matchingID = undefined;
-            
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-            
+
             if (typeof _matchingID !== "undefined") {
 
-                ub.funcs.toggleApplication(_matchingID.toString(), s); 
-
+                ub.funcs.toggleApplication(_matchingID.toString(), s);
             }
-
         });
 
         /// Initialize
@@ -12179,6 +12181,16 @@ $(document).ready(function() {
         var _result = _.find(ub.data.mascots, {id: id.toString()}); 
         return _result;
 
+    }
+
+    ub.funcs.activateDisableMoveTool = function (application_id) {
+        var application = ub.funcs.getApplicationSettings(application_id)
+
+        if (application.status === "off") {
+            ub.funcs.deactivateMoveTool();
+        } else {
+            ub.funcs.activateMoveTool(application.code);
+        }
     }
 
 });
