@@ -59,7 +59,9 @@ CartItemApi.prototype = {
      * @return {void}
      */
     updateItem: function(cart_item_id, data, callback) {
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update", $.extend(data, this.cartPermit), callback);
+        var params = $.extend(data, this.cartPermit, {_method: "PUT"});
+
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update", params, callback);
     },
 
     /**
@@ -71,7 +73,9 @@ CartItemApi.prototype = {
      * @return {void}
      */
     updateThumbnail: function(cart_item_id, thumbnail, callback) {
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-thumbnail", $.extend({thumbnail: thumbnail}, this.cartPermit), callback);
+        var params = $.extend({thumbnail: thumbnail}, this.cartPermit, {_method: "PUT"});
+
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-thumbnail", params, callback);
     },
 
     /**
@@ -82,6 +86,6 @@ CartItemApi.prototype = {
      * @return {void}
      */
     deleteToCart: function(cart_item_id, callback) {
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", this.cartPermit, callback);
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", $.extend(this.cartPermit, {_method: "DELETE"}), callback);
     }
 };

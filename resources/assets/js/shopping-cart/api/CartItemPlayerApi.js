@@ -55,7 +55,8 @@ CartItemPlayerApi.prototype = {
         var params = $.extend(
             this.cartPermit,
             {cart_item_id: cart_item_id},
-            data
+            data,
+            {_method: "PUT"}
         );
 
         $.post("/api/shopping-cart/cart-item-players/"+player_id+"/update", params, callback);
@@ -70,7 +71,8 @@ CartItemPlayerApi.prototype = {
     deletePlayer: function(cart_item_id, player_id, callback) {
         var params = $.extend(
             this.cartPermit,
-            {cart_item_id: cart_item_id}
+            {cart_item_id: cart_item_id},
+            {_method: "DELETE"}
         );
 
         $.post("/api/shopping-cart/cart-item-players/"+player_id+"/delete", params, callback);

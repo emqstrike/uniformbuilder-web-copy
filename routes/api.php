@@ -10,9 +10,9 @@ Route::group([
     ], function() {
         Route::get('/', "CartItemController@getCartItems");
         Route::post('add-to-cart', "CartItemController@addToCart");
-        Route::post('{cart_item_id}/update', "CartItemController@updateItem");
-        Route::post('{cart_item_id}/update-thumbnail', "CartItemController@updateThumbnail");
-        Route::post('{cart_item_id}/delete-to-cart', "CartItemController@deleteToCart");
+        Route::put('{cart_item_id}/update', "CartItemController@updateItem");
+        Route::put('{cart_item_id}/update-thumbnail', "CartItemController@updateThumbnail");
+        Route::delete('{cart_item_id}/delete-to-cart', "CartItemController@deleteToCart");
     });
 
     Route::group([
@@ -21,8 +21,8 @@ Route::group([
         Route::get('/', "CartItemPlayerController@getPlayersPerCartItem");
 
         Route::post('add', "CartItemPlayerController@add")->middleware("cart_item_api_middleware");
-        Route::post('{cartItemPlayer}/update', "CartItemPlayerController@update")->middleware("cart_item_api_middleware");
-        Route::post('{cartItemPlayer}/delete', "CartItemPlayerController@delete")->middleware('cart_item_api_middleware');
+        Route::put('{cartItemPlayer}/update', "CartItemPlayerController@update")->middleware("cart_item_api_middleware");
+        Route::delete('{cartItemPlayer}/delete', "CartItemPlayerController@delete")->middleware('cart_item_api_middleware');
     });
 
     Route::group([
