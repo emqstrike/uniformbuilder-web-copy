@@ -95,7 +95,16 @@
         .thumbnail {
             height: 100%;
             width: 100%;
-            .borders(#666);
+            .borders(#aaa);
+            padding: 0 !important;
+        }
+
+        .thumbnail:hover {
+            cursor: pointer;
+        }
+
+        .thumbnail.disabled-image:hover {
+            cursor: auto !important;
         }
 
         .thumbnail.disabled-image {

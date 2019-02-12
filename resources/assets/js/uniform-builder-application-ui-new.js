@@ -165,6 +165,15 @@ $(function() {
 
     });
 
+    // on click mascot image
+    $("#primary_options_container").on('click', '.applicationUIBlock .thumb-container .thumbnail', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        if (!$(this).hasClass('disabled-image')) {
+            console.log("Onclick mascot")
+        }
+    });
+
     // on click view application
     $("#primary_options_container").on('click', '.view-app-letters', function() {
         var type = $(this).data("type")
