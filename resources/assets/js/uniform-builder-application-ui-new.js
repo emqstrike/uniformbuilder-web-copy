@@ -31,6 +31,8 @@ $(function() {
         $(this).addClass('active');
         $(this).next().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("on", application_id);
     });
 
     // on click hide slidersContainer
@@ -38,6 +40,9 @@ $(function() {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
+        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("off", application_id);
+        ub.funcs.deactivateMoveTool();
     });
 
     // on click color item type mascot
@@ -371,11 +376,6 @@ $(function() {
             applications: _appData
         };
 
-        console.log('_filteredApplications===>', _filteredApplications);
-        console.log('props===>', props);
-
-        // send to mustache
-        
         // add the "Add Application" button
         var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
         $('.modifier_main_container').append(_htmlBuilder);
@@ -385,8 +385,24 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+        _.map(_appData, function(application) {
+            if (application.application_type !== "free") {
+                if (application.status) {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+                } else {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').hide();
+                }
+            }
+        });
+
 
         if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('mascots');
+        } else {
             ub.funcs.getFreeApplicationsContainer('mascots');
         }
         // initializer

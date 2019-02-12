@@ -147,6 +147,7 @@ $(function() {
                 $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').hide();
 
                 var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+                ub.funcs.deactivateMoveTool();
                 ub.funcs.manipulateApplicationByStatus("off", application_id);
             })
             // To change main color
@@ -412,6 +413,8 @@ $(function() {
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('letters');
+        } else {
+            ub.funcs.getFreeApplicationsContainer('letters');
         }
 
         // initializer
@@ -482,6 +485,8 @@ $(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('numbers');
+        } else {
             ub.funcs.getFreeApplicationsContainer('numbers');
         }
 
@@ -1341,13 +1346,20 @@ $(function() {
             if (status === "on") {
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
                 _settingsObj.status = "on";
-                ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+
+                if (_settingsObj.application_type !== "embellishments" && _settingsObj.application_type !== "mascot") {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj);
+                }
+
                 ub.updateLayersOrder(ub[_view]);
+
             } else {
+
                 _obj.oldZIndex = _obj.zIndex;
                 _obj.zIndex = 0;
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "off";
+
             }
         });
     }
@@ -1785,14 +1797,14 @@ $(function() {
                     })
                 }
 
-                if (ub.config.uniform_application_type !== "sublimated") {
+                // if (ub.config.uniform_application_type !== "sublimated") {
                     if (_.contains(_validApplicationTypes, 'embellishments')) {
                         _types.push({
                             name: 'embellishments',
                             defaultText: 'Custom Mascot'
                         })
                     }
-                }
+                // }
             }
 
             var objStock = {

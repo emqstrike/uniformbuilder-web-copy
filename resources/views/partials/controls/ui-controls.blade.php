@@ -1225,15 +1225,19 @@
     <script type="text/mustache" id="free-applications-container">
         @{{#applications}}
             @{{#isVisible}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-margin-remove" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
-                @{{#appTypes}}
-                <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
-                @{{/appTypes}}
+                <div class="row">
+                    @{{#appTypes}}
+                        <div class="col-md-6">
+                            <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                        </div>
+                    @{{/appTypes}}
+                </div>
             </div>
             @{{/isVisible}}
-    @{{/applications}}
+        @{{/applications}}
     </script>
 <!-- End Free Applications Block -->
 
@@ -1248,7 +1252,7 @@
         <div class="clearfix"></div>
 
         @{{#applications}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium" data-application-id="@{{ code }}">
                 <h4 class="application-thumbnail-name">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
