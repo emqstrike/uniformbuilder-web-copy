@@ -90,7 +90,7 @@ var UBCart = {
 
         var material = ub.current_material.material;
 
-        waitingDialog.show("Adding item", {rtl: false, progressType: "success"});
+        waitingDialog.show("Adding item to cart...", {rtl: false, progressType: "success"});
         waitingDialog.progress(1, 2);
 
         UBCart.cartItemApi.addToCart({
@@ -106,46 +106,52 @@ var UBCart = {
             builder_customization: JSON.stringify(ub.current_material.settings),
             design_sheet: material.design_sheet_path,
         }, function(response) {
-            waitingDialog.message(response.message);
             waitingDialog.progress(2, 2);
-
             _.delay(function() { // delay .5s to finish the progress bar
-                waitingDialog.hide();
+                waitingDialog.message(response.message);
 
-                _.delay(function() { // delay .5s again to give time of closing modal
-                    if (response.success) {
-                        // get all images
-                        ub.funcs.showViews();
-                        var current_left_image = ub.getThumbnailImage2('left_view');
-                        var current_front_image = ub.getThumbnailImage2('front_view');
-                        var current_back_image = ub.getThumbnailImage2('back_view');
-                        var current_right_image = ub.getThumbnailImage2('right_view');
-                        ub.funcs.hideViews();
-                        ub.funcs.setVisibleView(ub.active_view);
-                        ub[ub.active_view + '_view'].alpha = 1;
-                        // end
+                if (response.success) {
+                    _.delay(function() { // delay 1.5s to give time of reading long message
+                        waitingDialog.hide();
 
-                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE, function() {
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE, function() {
-                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE, function() {
-                                    UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
+                        _.delay(function() { // delay .5s to give time for closing modal
+                            // get all images
+                            ub.funcs.showViews();
+                            var current_left_image = ub.getThumbnailImage2('left_view');
+                            var current_front_image = ub.getThumbnailImage2('front_view');
+                            var current_back_image = ub.getThumbnailImage2('back_view');
+                            var current_right_image = ub.getThumbnailImage2('right_view');
+                            ub.funcs.hideViews();
+                            ub.funcs.setVisibleView(ub.active_view);
+                            ub[ub.active_view + '_view'].alpha = 1;
+                            // end
+
+                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE, function() {
+                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE, function() {
+                                    UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE, function() {
+                                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
+                                    });
                                 });
                             });
-                        });
 
-                        if (typeof Storage !== "undefined") {
-                            sessionStorage.left_image = current_left_image;
-                            sessionStorage.front_image = current_front_image;
-                            sessionStorage.back_image = current_back_image;
-                            sessionStorage.right_image = current_right_image;
-                        }
+                            if (typeof Storage !== "undefined") {
+                                sessionStorage.left_image = current_left_image;
+                                sessionStorage.front_image = current_front_image;
+                                sessionStorage.back_image = current_back_image;
+                                sessionStorage.right_image = current_right_image;
+                            }
 
-                        // change the action and text
-                        $('#left-side-toolbar .cart-btn').attr('data-action', "update");
-                        $('#left-side-toolbar .cart-btn').data('cart-item-id', response.cart_item_id);
-                        $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
-                    }
-                }, 500);
+                            // change the action and text
+                            $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                            $('#left-side-toolbar .cart-btn').data('cart-item-id', response.cart_item_id);
+                            $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+                        }, 500);
+                    }, 3000);
+                } else {
+                    _.delay(function() { // delay .5s to give time of reading short message
+                        waitingDialog.hide();
+                    }, 500);
+                }
             }, 500);
         });
     },
@@ -202,7 +208,7 @@ var UBCart = {
     },
 
     uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id, perspective, callback) {
-        waitingDialog.show("Generating " + perspective + "  image", {rtl: false, progressType: "success"});
+        waitingDialog.show("Implementing styles for " + perspective + " perspective...", {rtl: false, progressType: "success"});
         waitingDialog.progress(1, 4);
 
         // Upload base 64 image
@@ -211,24 +217,27 @@ var UBCart = {
             waitingDialog.progress(2, 4);
 
             if (uploadImageResponse.success) {
-                // update thumbnail
+                // update image
                 UBCart.cartItemApi.updateImage(cart_item_id, uploadImageResponse.filename, perspective, function(updateThumbnailResponse) {
                     waitingDialog.progress(3, 4);
+                    _.delay(function() { // delay .5s to finish the progress bar
 
-                    // update cart items in dropdown
-                    UBCart.fetchCartItems(function(response) {
-                        var cart_items = response.data;
-                        UBCart.updateShoppingCartDetails(cart_items);
+                        // update cart items in dropdown
+                        UBCart.fetchCartItems(function(response) {
+                            var cart_items = response.data;
+                            UBCart.updateShoppingCartDetails(cart_items);
 
-                        waitingDialog.progress(4, 4);
-                        _.delay(function() { // delay .5s to finish the progress bar
-                            waitingDialog.hide();
+                            waitingDialog.progress(4, 4);
+                            _.delay(function() { // delay .5s to finish the progress bar
+                                waitingDialog.hide();
 
-                            _.delay(function() { // delay .5s again to give time of closing modal
-                                if (callback) callback();
+                                _.delay(function() { // delay .5s again to give time for closing modal
+                                    if (callback) callback();
+                                }, 500);
                             }, 500);
-                        }, 500);
-                    });
+                        });
+                    }, 500);
+
                 });
             } else {
                 // update cart items in dropdown

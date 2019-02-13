@@ -66,7 +66,7 @@ class CartItemController extends Controller
             $cart_item instanceof CartItem ?
             [
                 'success' => true,
-                'message' => "Successfully add item to cart",
+                'message' => "Successfully add item to cart but the styles not yet implemented.",
                 'cart_item_id' => $cart_item->id
             ] :
             [

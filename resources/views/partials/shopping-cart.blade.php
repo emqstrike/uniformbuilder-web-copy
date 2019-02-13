@@ -4,7 +4,7 @@
             <a href="/builder/0/<%= cart_item.item_id %>?customizer-uniform" class="shopping-cart-item" target="_blank">
                 <div class="row cp-padding-small" style="margin-right: 0">
                     <div class="col-md-3">
-                        <img src="<%= cart_item.thumbnail %>" alt="" width="100" height="100">
+                        <img src="<%= cart_item.front_image %>" alt="" width="100" height="100">
                     </div>
                     <div class="col-md-9">
                         <h4 class="cp-margin-remove-top cp-text-uppercase cp-text-bold">
