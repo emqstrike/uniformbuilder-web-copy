@@ -38,6 +38,9 @@ Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
+//Stand Alone Saved Designs Page
+Route::get('saved_designs/{currentPage?}', 'AdministrationV2\SavedDesignsController@standAlone')->name('saved_designs_stand_alone');
+
 // Utilities
 Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
 
