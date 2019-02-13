@@ -76,7 +76,7 @@
                     <li class="divider"></li>
                     <h6 class="dropdown-header">About Us</h6>
                     <li><a href="http://www.prolook.com" target="_new"><i class="fa fa-globe" aria-hidden="true"></i> Official Prolook Website</a></li>
-                    <li><a href="http://blog.prolook.com/" target="_new"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
+                    <li><a href="https://www.prolook.com/social/" target="_new"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
                     <li><a href="http://www.prolook.com/contact/" target="_new"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact Us</a></li>
 
                     <li class="divider"></li>
