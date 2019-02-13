@@ -1,5 +1,31 @@
 <script type="text/template" id="random-feeds-list">
-    <div id="randomFeedsUI">
+    <div class="cp-padding-small richardson-random-feed-ui">
+            @{{ #random_feed_set_items }}
+                <div class="random-feed-item" data-random-feed-type="@{{type}}">
+                    <div class="cp-text-uppercase">
+                        <h4 class="header cp-text-bold">@{{ type }}</h4>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6 cp-padding-horizontal-tiny">
+                                <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 1</button>
+                            </div>
+                            <div class="col-md-6 cp-padding-horizontal-tiny">
+                                <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 2</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
+                            <p class="cp-margin-remove-top cp-border"></p>
+                        </div>
+                    </div>
+                </div>
+            @{{ /random_feed_set_items }}
+        </div
+</script>
+
+<{{-- div id="randomFeedsUI">
         <div class="header">
             <div class="body">
                 @{{ #random_feed_set_items }}
@@ -23,9 +49,7 @@
                 @{{ /random_feed_set_items }}
             </div>
         </div>
-    </div>
-</script>
-
+    </div> --}}
 {{-- <div id="randomFeedsUI">
     <div class="header">
         <div class="toggle" data-status="@{{status}}">
