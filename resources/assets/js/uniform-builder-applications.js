@@ -10797,13 +10797,21 @@ $(document).ready(function() {
 
                             _partToMakeActive =  _perspective.toTitleCase();
 
+                            var partCount = 0;
+
                             $('div.part-container span').each(function() {
+                                
                                 var part = $(this).text();
 
-                                if (part.indexOf(_partToMakeActive) !== -1) {
+                                if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                    
+                                    partCount++;
+                                    
                                     _partToMakeActive = part;
+
                                     $('span.part').removeClass('active');
                                     $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
                                 }
 
                             });
