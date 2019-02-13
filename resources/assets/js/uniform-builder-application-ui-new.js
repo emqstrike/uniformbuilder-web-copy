@@ -169,9 +169,9 @@ $(function() {
     $("#primary_options_container").on('click', '.applicationUIBlock .thumb-container .thumbnail', function(event) {
         event.preventDefault();
         /* Act on the event */
-        if (!$(this).hasClass('disabled-image')) {
-            console.log("Onclick mascot")
-        }
+        console.log("Onclick mascot")
+
+        $("#mascot-popup-modal").modal("show")
     });
 
     // on click view application
