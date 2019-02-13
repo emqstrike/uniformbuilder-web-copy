@@ -11,7 +11,10 @@ Route::group([
         Route::get('/', "CartItemController@getCartItems");
         Route::post('add-to-cart', "CartItemController@addToCart");
         Route::put('{cart_item_id}/update', "CartItemController@updateItem");
-        Route::put('{cart_item_id}/update-thumbnail', "CartItemController@updateThumbnail");
+        Route::put('{cart_item_id}/update-left-image', "CartItemController@updateLeftImage");
+        Route::put('{cart_item_id}/update-front-image', "CartItemController@updateFrontImage");
+        Route::put('{cart_item_id}/update-back-image', "CartItemController@updateBackImage");
+        Route::put('{cart_item_id}/update-right-image', "CartItemController@updateRightImage");
         Route::delete('{cart_item_id}/delete-to-cart', "CartItemController@deleteToCart");
     });
 

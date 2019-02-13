@@ -32,7 +32,7 @@ class CartItemController extends Controller
      * - logged_in_token
      * - cart_token
      * - name
-     * - thumbnail
+     * - front_image
      * - brand
      * - item_id
      * - block_pattern_id
@@ -50,7 +50,7 @@ class CartItemController extends Controller
         $cart_item = CartItem::create([
             'material_id' => $request->get('material_id'),
             'name' => $request->get('name'),
-            'thumbnail' => $request->get('thumbnail'),
+            'front_image' => $request->get('front_image'),
             'brand' => $request->get('brand'),
             'item_id' => $request->get('item_id'),
             'block_pattern_id' => $request->get('block_pattern_id'),
@@ -81,13 +81,13 @@ class CartItemController extends Controller
      * - logged_in_token
      * - cart_token
      * - builder_customization
-     * - thumbnail
+     * - front_image
      */
     public function updateItem(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
         $cartItem->builder_customization = $request->get('builder_customization');
-        $cartItem->thumbnail = $request->get('thumbnail');
+        $cartItem->front_image = $request->get('front_image');
         $is_updated = $cartItem->save();
 
         return response()->json(
@@ -107,23 +107,98 @@ class CartItemController extends Controller
      * Data available
      * - logged_in_token
      * - cart_token
-     * - thumbnail
+     * - left_image
      */
-    public function updateThumbnail(Request $request, $cart_item_id)
+    public function updateLeftImage(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
-        $cartItem->thumbnail = $request->get('thumbnail');
+        $cartItem->left_image = $request->get('left_image');
         $is_updated = $cartItem->save();
 
         return response()->json(
             $is_updated ?
             [
                 'success' => true,
-                'message' => "Successfully update thumbnail of item."
+                'message' => "Successfully update left image of item."
             ] :
             [
                 'success' => false,
-                'message' => "Cannot update the thumbnail of item this time. Please try again later."
+                'message' => "Cannot update the left image of item this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     * - front_image
+     */
+    public function updateFrontImage(Request $request, $cart_item_id)
+    {
+        $cartItem = CartItem::find($cart_item_id);
+        $cartItem->front_image = $request->get('front_image');
+        $is_updated = $cartItem->save();
+
+        return response()->json(
+            $is_updated ?
+            [
+                'success' => true,
+                'message' => "Successfully update front image of item."
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot update the front image of item this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     * - back_image
+     */
+    public function updateBackImage(Request $request, $cart_item_id)
+    {
+        $cartItem = CartItem::find($cart_item_id);
+        $cartItem->back_image = $request->get('back_image');
+        $is_updated = $cartItem->save();
+
+        return response()->json(
+            $is_updated ?
+            [
+                'success' => true,
+                'message' => "Successfully update back image of item."
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot update the back image of item this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     * - right_image
+     */
+    public function updateRightImage(Request $request, $cart_item_id)
+    {
+        $cartItem = CartItem::find($cart_item_id);
+        $cartItem->right_image = $request->get('right_image');
+        $is_updated = $cartItem->save();
+
+        return response()->json(
+            $is_updated ?
+            [
+                'success' => true,
+                'message' => "Successfully update right image of item."
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot update the right image of item this time. Please try again later."
             ]
         );
     }

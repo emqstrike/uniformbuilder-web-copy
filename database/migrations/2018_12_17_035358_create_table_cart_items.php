@@ -16,7 +16,10 @@ class CreateTableCartItems extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('material_id')->nullable()->default(null);
             $table->string('name', 50)->nullable()->default(null);
-            $table->string('thumbnail')->nullable()->default(null);
+            $table->string('left_image')->nullable()->default(null);
+            $table->string('front_image')->nullable()->default(null);
+            $table->string('back_image')->nullable()->default(null);
+            $table->string('right_image')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
             $table->double('total_price')->nullable()->default(null);
             $table->double('profit_amount')->nullable()->default(null);

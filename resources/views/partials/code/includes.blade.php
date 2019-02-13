@@ -43,5 +43,6 @@
 
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
+<script src="{{$asset_storage}}/bootstrap-waitingfor/bootstrap-waitingfor.js"></script>
 <script src="{{$asset_storage}}/js/shopping-cart/api/cart-item-api.js"></script>
 <script src="{{$asset_storage}}/js/shopping-cart/ub-cart.js"></script>

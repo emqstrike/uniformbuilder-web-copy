@@ -51,7 +51,10 @@
                     <h1 class="panel-title"><%= item.name %></h1>
                 </div>
                 <div class="panel-body">
-                    <img src="<%= item.thumbnail %>" class="img-responsive" alt="" width="100" />
+                    <img src="<%= item.images.left_image %>" class="img-responsive" alt="" width="100" />
+                    <img src="<%= item.images.front_image %>" class="img-responsive" alt="" width="100" />
+                    <img src="<%= item.images.back_image %>" class="img-responsive" alt="" width="100" />
+                    <img src="<%= item.images.right_image %>" class="img-responsive" alt="" width="100" />
                     <hr>
 
                     <div class="form-group">

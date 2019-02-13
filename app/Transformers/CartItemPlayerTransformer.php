@@ -18,7 +18,7 @@ class CartItemPlayerTransformer extends TransformerAbstract
             'cart_item_id' => $cartItem->id,
             'material_id' => $cartItem->material_id,
             'name' => $cartItem->name,
-            'thumbnail' => $cartItem->thumbnail,
+            'images' => $cartItem->images(),
             'players' => $cartItem->cartItemPlayers->toArray()
         ];
     }

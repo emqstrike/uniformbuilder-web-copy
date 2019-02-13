@@ -31,7 +31,10 @@ CartItemApi.prototype = {
      *
      * @param {json}   data {
      *     name [string],
-     *     thumbnail [string],
+     *     left_image [string],
+     *     front_image [string],
+     *     back_image [string],
+     *     right_image [string],
      *     brand [string],
      *     item_id [int]
      *     block_pattern_id [int],
@@ -65,17 +68,20 @@ CartItemApi.prototype = {
     },
 
     /**
-     * Update thumbnail of item
+     * Update image of item
      *
      * @param {int} cart_item_id
-     * @param {string} thumbnail
+     * @param {string} image
+     * @param {string} perspective
      * @param {function} callback
      * @return {void}
      */
-    updateThumbnail: function(cart_item_id, thumbnail, callback) {
-        var params = $.extend({thumbnail: thumbnail}, this.cartPermit, {_method: "PUT"});
+    updateImage: function(cart_item_id, image, perspective, callback) {
+        var image_obj = {};
+        image_obj[perspective + "_image"] = image;
+        var params = $.extend(image_obj, this.cartPermit, {_method: "PUT"});
 
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-thumbnail", params, callback);
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-"+perspective+"-image", params, callback);
     },
 
     /**
