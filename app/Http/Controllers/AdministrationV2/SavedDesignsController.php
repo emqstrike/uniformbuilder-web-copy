@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use JasonGrimes\Paginator;
+use Session;
 
 class SavedDesignsController extends Controller
 {
@@ -159,6 +160,44 @@ class SavedDesignsController extends Controller
             'filters',
             'queryString'
         ));
+    }
+
+    public function loginForm(Request $request)
+    {
+        $errorMessage = null;
+        if ($request->session()->has('error_message'))
+        {
+            $errorMessage = $request->session()->get('error_message', '');
+        }
+        return view('administration.auth.saved-designs-login', [
+            'error_message' => $errorMessage
+        ]);
+    }
+
+    public function savedDesignsLogin(Request $request)
+    {
+
+        $password = $request->input('password');
+
+        try
+        {
+            if ($password == config('customizer.access_saved_designs'))
+            {
+                Session::put('accessSavedDesigns', $password);
+                return redirect('saved_designs');
+            }
+            else
+            {
+                Session::flash('flash_message', 'Access Denied');
+                return redirect('saved_design/login');
+            }
+
+        }
+        catch (ClientException $e)
+        {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error);
+        }
     }
 
 }

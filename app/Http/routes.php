@@ -39,7 +39,9 @@ Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderControll
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
 //Stand Alone Saved Designs Page
-Route::get('saved_designs/{currentPage?}', 'AdministrationV2\SavedDesignsController@standAlone')->name('saved_designs_stand_alone');
+Route::get('saved_design/login', 'AdministrationV2\SavedDesignsController@loginForm')->name('saved_designs_login_form');
+Route::post('saved_design/login', 'AdministrationV2\SavedDesignsController@savedDesignsLogin')->name('saved_designs_stand_alone_login');
+Route::get('saved_designs/{currentPage?}', ['middleware' => 'accessSavedDesigns', 'uses' => 'AdministrationV2\SavedDesignsController@standAlone'])->name('saved_designs_stand_alone');
 
 // Utilities
 Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
