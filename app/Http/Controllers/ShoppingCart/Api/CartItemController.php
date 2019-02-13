@@ -66,7 +66,7 @@ class CartItemController extends Controller
             $cart_item instanceof CartItem ?
             [
                 'success' => true,
-                'message' => "Successfully add item to cart but the styles not yet implemented.",
+                'message' => "Successfully add item to cart.",
                 'cart_item_id' => $cart_item->id
             ] :
             [
@@ -81,13 +81,11 @@ class CartItemController extends Controller
      * - logged_in_token
      * - cart_token
      * - builder_customization
-     * - front_image
      */
     public function updateItem(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
         $cartItem->builder_customization = $request->get('builder_customization');
-        $cartItem->front_image = $request->get('front_image');
         $is_updated = $cartItem->save();
 
         return response()->json(

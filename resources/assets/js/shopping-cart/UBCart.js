@@ -6,6 +6,8 @@ var UBCart = {
     BACK_IMAGE_PERSPECTIVE: "back",
     RIGHT_IMAGE_PERSPECTIVE: "right",
 
+    is_upload_base_64_image_available: true,
+
     init: function() {
         UBCart.cartItemApi = new CartItemApi(shopping_cart.logged_in_token, shopping_cart.cart_token);
 
@@ -20,6 +22,15 @@ var UBCart = {
 
             if (typeof Storage !== "undefined") {
                 sessionStorage.front_image = ub.getThumbnailImage2('front_view');
+
+                ub.funcs.showViews();
+                sessionStorage.left_image = ub.getThumbnailImage2('left_view');
+                sessionStorage.front_image = ub.getThumbnailImage2('front_view');
+                sessionStorage.back_image = ub.getThumbnailImage2('back_view');
+                sessionStorage.right_image = ub.getThumbnailImage2('right_view');
+                ub.funcs.hideViews();
+                ub.funcs.setVisibleView(ub.active_view);
+                ub[ub.active_view + '_view'].alpha = 1;
             }
         });
     },
@@ -126,13 +137,10 @@ var UBCart = {
                             ub[ub.active_view + '_view'].alpha = 1;
                             // end
 
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE, function() {
-                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE, function() {
-                                    UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE, function() {
-                                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
-                                    });
-                                });
-                            });
+                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
+                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
+                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
+                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
 
                             if (typeof Storage !== "undefined") {
                                 sessionStorage.left_image = current_left_image;
@@ -163,36 +171,8 @@ var UBCart = {
 
         var cart_item_id = parseInt($(this).data('cart-item-id'));
 
-        if (typeof Storage !== "undefined") {
-            var current_left_image = ub.getThumbnailImage2('left_view');
-            var current_front_image = ub.getThumbnailImage2('front_view');
-            var current_back_image = ub.getThumbnailImage2('back_view');
-            var current_right_image = ub.getThumbnailImage2('right_view');
-
-            if (sessionStorage.left_image !== current_left_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, atc_response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
-                sessionStorage.left_image = current_left_image;
-            }
-
-            if (sessionStorage.front_image !== current_front_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, atc_response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
-                sessionStorage.front_image = current_front_image;
-            }
-
-            if (sessionStorage.back_image !== current_back_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, atc_response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
-                sessionStorage.back_image = current_back_image;
-            }
-
-            if (sessionStorage.right_image !== current_right_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, atc_response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
-                sessionStorage.right_image = current_right_image;
-            }
-        }
-
         UBCart.cartItemApi.updateItem(cart_item_id, {
-            builder_customization: JSON.stringify(ub.current_material.settings),
-            front_image: ub.current_material.material.thumbnail_path
+            builder_customization: JSON.stringify(ub.current_material.settings)
         }, function(response) {
             if (response.success) {
                 console.log("Updating item in database ok");
@@ -205,56 +185,98 @@ var UBCart = {
                 });
             }
         });
+
+        if (typeof Storage !== "undefined") {
+            // get all images
+            ub.funcs.showViews();
+            var current_left_image = ub.getThumbnailImage2('left_view');
+            var current_front_image = ub.getThumbnailImage2('front_view');
+            var current_back_image = ub.getThumbnailImage2('back_view');
+            var current_right_image = ub.getThumbnailImage2('right_view');
+            ub.funcs.hideViews();
+            ub.funcs.setVisibleView(ub.active_view);
+            ub[ub.active_view + '_view'].alpha = 1;
+            // end
+
+            if (sessionStorage.left_image !== current_left_image) {
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
+                sessionStorage.left_image = current_left_image;
+            }
+
+            if (sessionStorage.front_image !== current_front_image) {
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
+                sessionStorage.front_image = current_front_image;
+            }
+
+            if (sessionStorage.back_image !== current_back_image) {
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
+                sessionStorage.back_image = current_back_image;
+            }
+
+            if (sessionStorage.right_image !== current_right_image) {
+                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
+                sessionStorage.right_image = current_right_image;
+            }
+        }
     },
 
-    uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id, perspective, callback) {
-        waitingDialog.show("Implementing styles for " + perspective + " perspective...", {rtl: false, progressType: "success"});
-        waitingDialog.progress(1, 4);
+    uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id, perspective) {
+        var upload_time = setInterval(function() {
+            if (UBCart.is_upload_base_64_image_available) {
+                console.log("Processing: " + perspective);
 
-        // Upload base 64 image
-        ub.funcs.uploadBase64Image(base64Image, function(uploadImageResponse) {
-            console.log(uploadImageResponse);
-            waitingDialog.progress(2, 4);
+                UBCart.is_upload_base_64_image_available = false;
 
-            if (uploadImageResponse.success) {
-                // update image
-                UBCart.cartItemApi.updateImage(cart_item_id, uploadImageResponse.filename, perspective, function(updateThumbnailResponse) {
-                    waitingDialog.progress(3, 4);
-                    _.delay(function() { // delay .5s to finish the progress bar
+                waitingDialog.show("Implementing styles for <b>" + perspective + " perspective</b>...", {rtl: false, progressType: "success"});
+                waitingDialog.progress(1, 4);
 
+                // Upload base 64 image
+                ub.funcs.uploadBase64Image(base64Image, function(uploadImageResponse) {
+                    console.log(uploadImageResponse);
+                    waitingDialog.progress(2, 4);
+
+                    if (uploadImageResponse.success) {
+                        // update image
+                        UBCart.cartItemApi.updateImage(cart_item_id, uploadImageResponse.filename, perspective, function(updateThumbnailResponse) {
+                            waitingDialog.progress(3, 4);
+                            _.delay(function() { // delay .5s to finish the progress bar
+
+                                // update cart items in dropdown
+                                UBCart.fetchCartItems(function(response) {
+                                    var cart_items = response.data;
+                                    UBCart.updateShoppingCartDetails(cart_items);
+
+                                    waitingDialog.progress(4, 4);
+                                    _.delay(function() { // delay .5s to finish the progress bar
+                                        waitingDialog.hide();
+
+                                        _.delay(function() { // delay .5s again to give time for closing modal
+                                            UBCart.is_upload_base_64_image_available = true;
+                                            clearInterval(upload_time);
+                                        }, 500);
+                                    }, 500);
+                                });
+                            }, 500);
+                        });
+                    } else {
                         // update cart items in dropdown
                         UBCart.fetchCartItems(function(response) {
                             var cart_items = response.data;
                             UBCart.updateShoppingCartDetails(cart_items);
 
-                            waitingDialog.progress(4, 4);
+                            waitingDialog.progress(100);
                             _.delay(function() { // delay .5s to finish the progress bar
                                 waitingDialog.hide();
 
-                                _.delay(function() { // delay .5s again to give time for closing modal
-                                    if (callback) callback();
+                                _.delay(function() { // delay .5s again to give time of closing modal
+                                    UBCart.is_upload_base_64_image_available = true;
+                                    clearInterval(upload_time);
                                 }, 500);
                             }, 500);
                         });
-                    }, 500);
-
-                });
-            } else {
-                // update cart items in dropdown
-                UBCart.fetchCartItems(function(response) {
-                    var cart_items = response.data;
-                    UBCart.updateShoppingCartDetails(cart_items);
-
-                    waitingDialog.progress(100);
-                    _.delay(function() { // delay .5s to finish the progress bar
-                        waitingDialog.hide();
-
-                        _.delay(function() { // delay .5s again to give time of closing modal
-                            if (callback) callback();
-                        }, 500);
-                    }, 500);
+                    }
                 });
             }
-        });
+        }, 1000);
     }
 };
