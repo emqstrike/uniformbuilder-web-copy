@@ -21,7 +21,7 @@ RandomFeedPanel.prototype = {
         });
 
         this.set_items = {
-            random_feed_set_items: random_feed_set_item,
+            random_feed_set_items: random_feed_set_items,
             colors: ub.current_material.settings.team_colors
         };
     }
