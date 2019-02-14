@@ -9354,19 +9354,20 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     if (response.success) {
-
                         // Remove M and JS here ...
                         var _reps = _.without(response.sales_reps, _.findWhere(response.sales_reps, {rep_id: '4321'})); // M
                         _reps = _.without(_reps, _.findWhere(_reps, {rep_id: '179'})); // JS
 
+                        // Filter active sales rep
+                        _reps = _.filter(_reps, function(rep) {
+                            if (rep.active !== 0) {
+                                return rep;
+                            }
+                        });
                         cb(_reps);
-
                     }
-
                 }
-                
             });
 
 
