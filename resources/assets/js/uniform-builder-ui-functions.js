@@ -149,6 +149,7 @@ $(document).ready(function() {
         ub.funcs.setupRightPanelHeader();
         ub.funcs.removeNavigationHeader();
         ub.funcs.setupRightPanelFooter();
+        ub.funcs.changeStageBackgroundColor(0xffffff);
 
 
         _.delay(function() {

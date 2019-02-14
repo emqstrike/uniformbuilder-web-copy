@@ -1119,12 +1119,33 @@
 
             <div class="add-new-application-letters">
                 <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
-                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button"><span class="fa fa-eye"></span> View All Application</button>
+                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button" data-type="@{{ type }}"><span class="fa fa-eye"></span> View All Application</button>
             </div>
 
             <div class="clearfix"></div>
         </div>
     </script>
+
+    <script type="text/mustache" id="m-application-layer-list">
+        @{{ #applications }}
+            <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-application-type="@{{ type }}" data-zindex="6">
+                <div class="row cp-margin-remove cp-padding-small">
+                    <div class="col-md-10 cp-text-medium cp-padding-remove">
+                        <span>#@{{ code }}</span>
+                        <span>@{{ application_type }} - @{{ caption }}</span>
+                        <span>(@{{ view }})</span>
+                    </div>
+                    <div class="col-md-2 cp-text-center pull-right cp-padding-remove" style="padding-left: 45px !important;">
+                        <a href="javascript:void(0)" data-application-id="@{{ code }}" data-application-type="@{{ type }}" class="cp-fc-black remove-application-button">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        @{{ /applications }}
+    </script>
+
+
 
     <script type="text/mustache" id="m-application-ui-block-letters">
         @{{#newApplication}}
@@ -1132,7 +1153,7 @@
         @{{/newApplication}}
 
         @{{#applications}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom cp-margin-remove" data-application-id="@{{ code }}">
                 <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
                 <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">
@@ -1204,15 +1225,19 @@
     <script type="text/mustache" id="free-applications-container">
         @{{#applications}}
             @{{#isVisible}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium cp-margin-remove" data-application-id="@{{ code }}">
                 <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
-                @{{#appTypes}}
-                <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
-                @{{/appTypes}}
+                <div class="row">
+                    @{{#appTypes}}
+                        <div class="col-md-6">
+                            <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                        </div>
+                    @{{/appTypes}}
+                </div>
             </div>
             @{{/isVisible}}
-    @{{/applications}}
+        @{{/applications}}
     </script>
 <!-- End Free Applications Block -->
 
@@ -1227,18 +1252,23 @@
         <div class="clearfix"></div>
 
         @{{#applications}}
-            <div class="applicationUIBlock cp-padding-medium cp-padding-remove-vertical" data-application-id="@{{ code }}">
+            <div class="applicationUIBlock cp-padding-medium" data-application-id="@{{ code }}">
                 <h4 class="application-thumbnail-name">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
-                    <span>
-                        <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
-                    </span>
-
-                    <div class="thumb-links pull-left">
-                        <h5>@{{ type }}</h5>
-                        <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
-                        <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span>
+                                <image src="@{{ thumbnail }}" class="thumbnail pull-left" />
+                            </span>
+                        </div>
+                        <div class="col-md-7 cp-padding-remove">
+                            <div class="thumb-links">
+                                <h5>@{{ type }}</h5>
+                                <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
+                                <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="clearfix"></div>
