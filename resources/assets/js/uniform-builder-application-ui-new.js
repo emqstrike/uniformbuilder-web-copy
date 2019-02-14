@@ -17,16 +17,6 @@ $(function() {
  \___| \_/ \___|_| |_|\__|___/
 
 */
-
-    // on click mascot and embellishments group #7
-    $('#new-toolbar > .group-7').on('click', function () {
-        console.log('GROUP 7 CLICKED===>');
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active').siblings().removeClass("active");
-            ub.funcs.startNewApplication();
-        }
-    });
-
     // on click flip
     $('#primary_options_container').on('click', '.flipBtn', function () {
         var dataId = $(this).attr('data-id');
@@ -41,6 +31,9 @@ $(function() {
         $(this).addClass('active').attr('disabled', 'disabled');
         $(this).next().removeClass('active').removeAttr('disabled');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').removeClass('disabled-image');
+        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("on", application_id);
     });
 
     // on click hide slidersContainer
@@ -48,6 +41,10 @@ $(function() {
         $(this).addClass('active').attr('disabled', 'disabled');
         $(this).prev().removeClass('active').removeAttr('disabled');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
+        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').addClass('disabled-image');
+        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("off", application_id);
+        ub.funcs.deactivateMoveTool();
     });
 
     // on click color item type mascot
@@ -168,8 +165,164 @@ $(function() {
 
     });
 
-/*
+    // on click mascot image
+    $("#primary_options_container").on('click', '.applicationUIBlock .thumb-container .thumbnail', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        if (!$(this).hasClass('disabled-image')) {
+            console.log("Onclick mascot")
+        }
+    });
 
+    // on click view application
+    $("#primary_options_container").on('click', '.view-app-letters', function() {
+        var type = $(this).data("type")
+        // Filter active
+        var activeApplications = _.filter(ub.current_material.settings.applications, function(application) {
+            if (application.application_type !== "free") {
+                if (typeof application.status === "undefined" || application.status === "on") {
+                    if (type === "letters") {
+                        if (application.application_type === "team_name" || application.application_type === "player_name") {
+                            return application;
+                        }
+                    } else if (type === "numbers") {
+                        if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
+                            return application;
+                        }
+                    } else if (type === "mascots") {
+                        if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
+                            return application;
+                        }
+                    }
+                }
+            } else {
+                return application;
+            }
+        });
+        // Sort by zindex
+        var _applicationCollection = _.sortBy(activeApplications, 'zIndex').reverse();
+
+        var applicationObject = [];
+
+        _.map(_applicationCollection, function(application) {
+            var item = {
+                zindex: application.zIndex,
+                code: application.code,
+                caption: ub.funcs.getSampleCaption(application),
+                view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
+                application_type: application.application_type.toUpperCase().replace('_', ' '),
+                type: application.application_type
+            }
+
+            applicationObject.push(item);
+        });
+
+        data = {
+            applications: applicationObject
+        };
+
+        var applicationListUI = ub.utilities.buildTemplateString('#m-application-layer-list', data);
+
+        $("#application-list-modal ul.application-list").html("")
+        $("#application-list-modal ul.application-list").html(applicationListUI);
+
+        ub.data.sorting = false;
+
+        ub.sort = $("ul.application-list").sortable({
+            handle: '.layer',
+            animation: 150,
+            onStart: function (evt) {
+                ub.data.sorting = true;
+                ub.data.justSorted = true;
+            },
+            onEnd: function (evt) {
+                ub.data.sorting = false;
+                ub.data.justSorted = true;
+
+            },
+            onUpdate: function (evt) {
+                $.each($('li.layer'), function (key, value) {
+                    var _length = _.size(ub.current_material.settings.applications);
+                    var _index = _length - (key + 1);
+                    var _locID = $(value).data('location-id');
+                    var _app = ub.current_material.settings.applications[_locID];
+                    _app.zIndex = _index;
+
+                    $(this).find('li.zIndex').html(_index + 1);
+
+                    if (_app.application_type === "free") {
+                        return;
+                    }
+
+                    _.each(_app.application.views, function (view) {
+
+                        var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
+
+                        if (_obj.zIndex !== 0) { // Skip changing zIndex if application is disabled
+                            _obj.zIndex = -(ub.funcs.generateZindex('applications') + _index);
+                        }
+                    });
+                });
+
+                ub.updateLayersOrder(ub.front_view);
+                ub.updateLayersOrder(ub.back_view);
+                ub.updateLayersOrder(ub.left_view);
+                ub.updateLayersOrder(ub.right_view);
+            }
+        });
+
+        $("#application-list-modal").modal("show")
+    });
+
+    // On click delete application
+    $("#application-list-modal").on('click', '.remove-application-button', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var application_id = $(this).data("application-id");
+        var application_type = $(this).data("application-type");
+
+        _.delay(function() {
+            $('.applicationUIBlock[data-application-id="'+ application_id +'"] div.toggleApplications .hide-letters-opt').trigger('click');
+        }, 50);
+
+        $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
+    });
+
+    // On show & hide location marker
+    $("#application-list-modal").on('click', '.show-location-markers', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var status = $(this).data("status");
+
+        if (status === "show") {
+            $(this).data("status", "hide");
+            $(this).html("");
+            $(this).html("Hide Location Marker")
+            ub.funcs.showLocations();
+        }
+
+        if (status === "hide") {
+            $(this).data("status", "show");
+            $(this).html("");
+            $(this).html("Show Location Marker")
+            ub.funcs.removeLocations();
+        }
+
+        $("#application-list-modal").modal("hide")
+    });
+
+    $("#application-list-modal").on('click', 'li.layer', function(event) {
+        event.preventDefault();
+        /* Act on the event */
+        var location = $(this).data("location-id");
+        var application_type = $(this).data("application-type");
+
+        $("#primary_options_container").scrollTo('div.applicationUIBlock[data-application-id="'+ location +'"]', {duration: 700});
+    });
+
+
+
+/*
   __                  _   _
  / _|                | | (_)
 | |_ _   _ _ __   ___| |_ _  ___  _ __  ___
@@ -199,7 +352,6 @@ $(function() {
 
         // getting only data that i need
         _.map(_filteredApplications, function (i) {
-            _generateSizes = ub.funcs.getGeneratedObjectSizes(i)
 
             if (i.application_type === 'embellishments') {
                 var objCustom = {
@@ -212,7 +364,7 @@ $(function() {
                     viewPrint: i.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
-                    generateSizes: _generateSizes
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -226,7 +378,7 @@ $(function() {
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
-                    generateSizes: _generateSizes
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objStock);
             }
@@ -237,11 +389,6 @@ $(function() {
             applications: _appData
         };
 
-        console.log('_filteredApplications===>', _filteredApplications);
-        console.log('props===>', props);
-
-        // send to mustache
-        
         // add the "Add Application" button
         var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
         $('.modifier_main_container').append(_htmlBuilder);
@@ -251,14 +398,25 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        if (ub.funcs.isTackleTwill()) {
-            ub.funcs.getFreeApplicationsContainer('mascots');
-        }
+        _.map(_appData, function(application) {
+            if (application.application_type !== "free") {
+                if (application.status) {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').fadeIn();
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').removeClass('disabled-image');
+                } else {
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').addClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').removeClass('active');
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').hide();
+                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').addClass('disabled-image');
+                }
+            }
+        });
+
+        ub.funcs.getFreeApplicationsContainer('mascots');
         // initializer
         ub.funcs.initializer();
-
-
-
     };
 
     ub.funcs.initializer = function () {
@@ -369,9 +527,7 @@ $(function() {
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
-
         });
-
     };
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
@@ -546,7 +702,7 @@ $(function() {
 
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
-                _html += '<div class="colorSelectionContainer">';
+                _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
                 _html += '<h4 class="app-letters-subtitle">'+_title+'</h4>';
                 _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
@@ -579,7 +735,7 @@ $(function() {
 
         } else {
 
-            _html += '<div class="colorSelectionContainer">';
+            _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
             _html += '<h5 class="app-letters-subtitle">'+_title+'</h5>';
             _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
@@ -670,5 +826,4 @@ $(function() {
         return _html;
 
     };
-
 });

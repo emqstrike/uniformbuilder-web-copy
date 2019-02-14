@@ -93,11 +93,24 @@
     .thumb-container {
 
         .thumbnail {
-            height: 153px;
-            width: 175px;
-            .borders(#666);
-            .radius(0);
-            margin-right: 15px;
+            height: 100%;
+            width: 100%;
+            .borders(#aaa);
+            padding: 0 !important;
+        }
+
+        .thumbnail:hover {
+            cursor: pointer;
+        }
+
+        .thumbnail.disabled-image:hover {
+            cursor: auto !important;
+        }
+
+        .thumbnail.disabled-image {
+            background-color: #eee;
+            -webkit-filter: grayscale(100%) opacity(70%);
+            filter: grayscale(100%) opacity(70%);
         }
 
         .thumb-links {

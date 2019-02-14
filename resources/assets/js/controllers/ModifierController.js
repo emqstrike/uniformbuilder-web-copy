@@ -221,20 +221,26 @@ ModifierController.prototype = {
 
     letters: function() {
         ub.funcs.startNewApplicationLetters();
-        ub.current_modifier = 5;
         ub.funcs.enableRichardsonNavigator();
+        ub.current_modifier = 5;
+
+        $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
         ub.funcs.startNewApplicationNumbers();
-        ub.current_modifier = 6;
         ub.funcs.enableRichardsonNavigator();
+        ub.current_modifier = 6;
+
+        $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
         ub.funcs.startNewApplication();
-        ub.current_modifier = 7;
         ub.funcs.enableRichardsonNavigator();
+        ub.current_modifier = 7;
+
+        $("#primary_options_container").scrollTo(0);
     },
 
     logo: function() {
