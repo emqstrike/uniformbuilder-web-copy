@@ -1,31 +1,41 @@
 <script type="text/template" id="random-feeds-list">
-    <div class="cp-padding-small richardson-random-feed-ui">
-            @{{ #random_feed_set_items }}
-                <div class="random-feed-item" data-random-feed-type="@{{type}}">
-                    <div class="cp-text-uppercase">
-                        <h4 class="header cp-text-bold">@{{ type }}</h4>
-                    </div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6 cp-padding-horizontal-tiny">
-                                <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 1</button>
-                            </div>
-                            <div class="col-md-6 cp-padding-horizontal-tiny">
-                                <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 2</button>
-                            </div>
+    <div class="cp-padding-medium richardson-random-feed-ui">
+        @{{ #random_feed_set_items }}
+            <div class="random-feed-item" data-random-feed-type="@{{type}}">
+                <div>
+                    <div class="row cp-padding-small">
+                        <div class="col-md-2 cp-padding-remove">
+                            <select class="form-control">
+                                <option>On</option>
+                                <option>Off</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
-                            <p class="cp-margin-remove-top cp-border"></p>
+                        <div class="col-md-10 cp-padding-remove">
+                            <h4 class="header cp-text-bold cp-padding-small cp-padding-remove-vertical">@{{ type }}</h4>
                         </div>
                     </div>
                 </div>
-            @{{ /random_feed_set_items }}
-        </div
+                <div>
+                    <div class="row">
+                        <div class="col-md-6 cp-padding-horizontal-tiny">
+                            <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 1</button>
+                        </div>
+                        <div class="col-md-6 cp-padding-horizontal-tiny">
+                            <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 2</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
+                        <p class="cp-margin-remove-top cp-border"></p>
+                    </div>
+                </div>
+            </div>
+        @{{ /random_feed_set_items }}
+    </div>
 </script>
 
-<{{-- div id="randomFeedsUI">
+{{-- div id="randomFeedsUI">
         <div class="header">
             <div class="body">
                 @{{ #random_feed_set_items }}
