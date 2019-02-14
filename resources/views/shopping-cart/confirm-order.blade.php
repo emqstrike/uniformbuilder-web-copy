@@ -239,7 +239,7 @@
 <% if (!_.isEmpty(orders)) { %>
     <% _.each(orders, function(order) { %>
         <div class="item">
-            <img src="<%= order.thumbnail %>" class="img-responsive" alt="" />
+            <img src="<%= order.images.front_image %>" class="img-responsive" alt="" />
             <div class="order-details">
                 <h3 class="order-title"><%= order.name %></h3>
                 <p>Material ID: <span class="badge"><%= order.material_id %></span></p>

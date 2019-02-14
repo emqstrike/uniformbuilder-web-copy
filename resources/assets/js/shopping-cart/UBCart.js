@@ -119,7 +119,7 @@ var UBCart = {
         }, function(response) {
             waitingDialog.progress(2, 2);
             _.delay(function() { // delay .5s to finish the progress bar
-                waitingDialog.message(response.message);
+                waitingDialog.message(response.message + " Please wait to implement styles for all perspective.");
 
                 if (response.success) {
                     _.delay(function() { // delay 1.5s to give time of reading long message
