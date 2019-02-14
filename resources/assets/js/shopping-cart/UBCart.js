@@ -39,6 +39,7 @@ var UBCart = {
         UBCart.fetchCartItems(function(response) {
             if (response.success) {
                 var cart_items = response.data;
+                console.log(cart_items);
 
                 // load cart items
                 UBCart.updateShoppingCartDetails(cart_items);
