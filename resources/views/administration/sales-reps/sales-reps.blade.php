@@ -4,6 +4,51 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+<style type="text/css">
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+
+</style>
 @endsection
 
 @section('content')
@@ -77,17 +122,14 @@
                                 @endif
                             </td>
                             <td>
-                                @if($rep->active == 1)
-                                    <font color="green">Active</font>
-                                @else
-                                    {{'Inactive'}}
-                                @endif
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-rep" id="switch-{{ $rep->id }}" data-rep-id="{{ $rep->id }}" {{ ($rep->active) ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
                             </td>
                             <td class="td-buttons">
-
-                              <!--   <a href="#" class="rep-info btn btn-default btn-xs " >
-                                   <i class="glyphicon glyphicon-info-sign">Profile</i>
-                                </a> -->
                                 <a href="/administration/sales_reps/edit/{{$rep->id}}" class="edit-part btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit">Edit</i>
                                 </a>
@@ -159,6 +201,32 @@ $(document).ready(function(){
         "ordering": true,
         "info": true,
         "autoWidth": false
+    });
+
+    $(document).on('click', '.toggle-rep', function(e) {
+        e.preventDefault();
+        var id = $(this).data('rep-id');
+        var url = "//" + api_host + "/api/sales_rep/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
     });
 
 });
