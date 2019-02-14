@@ -3,9 +3,6 @@
         <div class="modal-content cp-padding-large">
             <div class="modal-header cp-bgc-light cp-text-center cp-border-none">
                 <div>
-                    <a type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                </div>
-                <div>
                     <h4 class="modal-title cp-fc-black cp-text-uppercase" id="myModalLabel">Gradient Color</h4>
                 </div>
             </div>
@@ -13,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-4 cp-padding-remove-left">
                         <div class="gradient-preview">
-                            <img src="http://via.placeholder.com/150" width="100%" height="100%">
+                            <canvas id="gradientPreview" class="gradientPreview"></canvas>
                         </div>
                     </div>
                     <div class="col-md-8 cp-padding-remove gradient-main-container">
@@ -49,14 +46,24 @@
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="gradient-color-picker-1" data-gradient-category="1">
                                         <div class="gradient-color-picker-1-container">
-                                            
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="gradient-color-picker-2" data-gradient-category="2">
                                         <div class="gradient-color-picker-2-container">
-                                            
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 cp-padding-remove-horizontal">
+                            <div class="row cp-margin-top-xs">
+                                <div class="col-md-6">
+                                    <button type="button" class="gradient-buttons col-md-6 piping-button cp-width-1-1 cp-text-uppercase apply-gradient-color">Done</button>
+                                </div>
+
+                                <div class="col-md-6 pattern-footer-button">
+                                    <button type="button" class="gradient-buttons piping-button cancel-application cp-width-1-1 cp-text-uppercase close-gradient-modal">Cancel</button>
                                 </div>
                             </div>
                         </div>
