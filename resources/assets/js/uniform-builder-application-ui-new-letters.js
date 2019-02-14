@@ -411,11 +411,7 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        if (ub.funcs.isTackleTwill()) {
-            ub.funcs.getFreeApplicationsContainer('letters');
-        } else {
-            ub.funcs.getFreeApplicationsContainer('letters');
-        }
+        ub.funcs.getFreeApplicationsContainer('letters');
 
         // initializer
         ub.funcs.initializer();
@@ -484,11 +480,7 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        if (ub.funcs.isTackleTwill()) {
-            ub.funcs.getFreeApplicationsContainer('numbers');
-        } else {
-            ub.funcs.getFreeApplicationsContainer('numbers');
-        }
+        ub.funcs.getFreeApplicationsContainer('numbers');
 
         // initializer
         ub.funcs.initializer();

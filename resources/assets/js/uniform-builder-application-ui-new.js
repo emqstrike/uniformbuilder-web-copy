@@ -412,12 +412,7 @@ $(function() {
             }
         });
 
-
-        if (ub.funcs.isTackleTwill()) {
-            ub.funcs.getFreeApplicationsContainer('mascots');
-        } else {
-            ub.funcs.getFreeApplicationsContainer('mascots');
-        }
+        ub.funcs.getFreeApplicationsContainer('mascots');
         // initializer
         ub.funcs.initializer();
     };
@@ -705,7 +700,7 @@ $(function() {
 
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
-                _html += '<div class="colorSelectionContainer">';
+                _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
                 _html += '<h4 class="app-letters-subtitle">'+_title+'</h4>';
                 _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
@@ -738,7 +733,7 @@ $(function() {
 
         } else {
 
-            _html += '<div class="colorSelectionContainer">';
+            _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
             _html += '<h5 class="app-letters-subtitle">'+_title+'</h5>';
             _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
 
