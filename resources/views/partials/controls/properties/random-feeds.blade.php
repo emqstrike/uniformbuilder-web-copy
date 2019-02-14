@@ -23,6 +23,22 @@
                         <div class="col-md-6 cp-padding-horizontal-tiny">
                             <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">Color 2</button>
                         </div>
+
+                        <div class="col-md-12">
+                            @{{ #colors }}
+                                <div class="color_element cp-color-element-auto">
+                                    <button
+                                        class="grow change-color whitebtn cp-new-color-box piping-color-selector-button"
+                                        style="background-color: #@{{ hex_code }};"
+                                        data-color-name="@{{ name}}"
+                                        data-color-code="@{{ color_code }}"
+                                        data-color-id="@{{ id }}"
+                                        data-modifier="@{{ modifier }}"
+                                    >
+                                    </button>
+                                </div>
+                            @{{ /colors }}
+                        </div>
                     </div>
                 </div>
                 <div class="row">

@@ -20,7 +20,10 @@ RandomFeedPanel.prototype = {
             };
         });
 
-        this.set_items = {random_feed_set_items: random_feed_set_items};
+        this.set_items = {
+            random_feed_set_items: random_feed_set_item,
+            colors: ub.current_material.settings.team_colors
+        };
     }
 };
 
