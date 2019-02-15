@@ -21,7 +21,7 @@
 
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
-                        <a href="#" class="uk-padding-remove">
+                        <a href="/richardson/index" class="uk-padding-remove">
                             <img class="" src="/richardson/img/richardsonlogo.png" width="200" height="80" alt="">
                         </a>
                     </li>

@@ -57,10 +57,10 @@
 </section>
 
 <section>
-    <div class="uk-container">
+    <div class="uk-container block-pattern-container">
         <h3 class="uk-h2 uk-margin-large-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select a starting point below</h3>
         <ul class="uk-subnav uk-child-width-expand bottom-arrow bac-light top-line tl-red active-fc-red uk-margin-remove-bottom" uk-height-match="target: li > ul"  uk-switcher="connect: .switcher-container">
-            <li>
+            <li class="uk-active block-pattern-item" data-block-pattern="PTS Signature">
                 <div class="uk-text-center">
                     <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Signature</a>
                 </div>
@@ -76,7 +76,7 @@
                     <li>Lorem ipsum dolor sit amet</li>
                 </ul>
             </li>
-            <li>
+            <li class="block-pattern-item" data-block-pattern="PTS Pro Select">
                 <div class="uk-text-center">
                     <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Pro Select</a>
                 </div>
@@ -90,7 +90,7 @@
                     <li>Lorem ipsum dolor sit amet</li>
                 </ul>
             </li>
-            <li>
+            <li class="block-pattern-item" data-block-pattern="PTS Select">
                 <div class="uk-text-center">
                     <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Select</a>
                 </div>
@@ -108,7 +108,7 @@
             </li>
         </ul>
     </div>
-    <ul class="uk-switcher switcher-container bgc-light">
+    <ul class="uk-switcher switcher-container bgc-light uniform-type-container">
         <li class="uk-container">
 
             <div class="uk-margin-medium-top uk-flex uk-flex-center uk-hidden@m" uk-grid>
@@ -122,11 +122,11 @@
                 </div>
             </div>
 
-            <h3 class="uk-h2 uk-margin-medium-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select a uniform type</h3>
+            <h3 class="uk-h2 uk-margin-medium-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select uniform type</h3>
 
             <div class="uk-grid-medium uk-child-width-expand@s uk-text-center uk-margin-large-bottom" uk-grid>
                 <div>
-                    <a href="/styles/Pts-signature/types/sublimated" class="uk-button uk-width-1-1 uk-link-reset bgc-red">
+                    <a href="javascript:void(0)" data-application-type="sublimated" class="richardson-filter-button uk-button uk-width-1-1 uk-link-reset bgc-red">
                         <h2 class="uk-h2 fc-white uk-text-uppercase uk-text-bold uk-padding uk-padding-remove-horizontal uk-margin-remove abrade-black">Sublimated Fabric</h2>
                     </a>
                     <div class="uk-flex-center uk-grid uk-margin-top" uk-grid>
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="/styles/Pts-signature/types/sublimated" class="uk-button uk-width-1-1 uk-link-reset bgc-dark">
+                    <a href="javascript:void(0)" data-application-type="tackle-twill" class="richardson-filter-button uk-button uk-width-1-1 uk-link-reset bgc-dark">
                         <h2 class="uk-h2 fc-white uk-text-uppercase uk-text-bold uk-padding uk-padding-remove-horizontal uk-margin-remove abrade-black">Dyed Fabric</h2>
                     </a>
                     <div class="uk-flex-center uk-grid uk-margin-top" uk-grid>
@@ -167,11 +167,11 @@
                 </div>
             </div>
 
-            <h3 class="uk-h2 uk-margin-medium-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select a uniform type again</h3>
+            <h3 class="uk-h2 uk-margin-medium-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select uniform type</h3>
 
             <div class="uk-grid-medium uk-child-width-expand@s uk-text-center uk-margin-large-bottom" uk-grid>
                 <div>
-                    <a href="#" class="uk-button uk-width-1-1 uk-link-reset bgc-red">
+                    <a href="javascript:void(0)" data-application-type="sublimated" class="richardson-filter-button uk-button uk-width-1-1 uk-link-reset bgc-red">
                         <h2 class="uk-h2 fc-white uk-text-uppercase uk-text-bold uk-padding uk-padding-remove-horizontal uk-margin-remove abrade-black">Sublimated Fabric</h2>
                     </a>
                     <div class="uk-flex-center uk-grid uk-margin-top" uk-grid>
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="#" class="uk-button uk-width-1-1 uk-link-reset bgc-dark">
+                    <a href="javascript:void(0)" data-application-type="sublimated" class="richardson-filter-button uk-button uk-width-1-1 uk-link-reset bgc-dark">
                         <h2 class="uk-h2 fc-white uk-text-uppercase uk-text-bold uk-padding uk-padding-remove-horizontal uk-margin-remove abrade-black">Dyed Fabric</h2>
                     </a>
                     <div class="uk-flex-center uk-grid uk-margin-top" uk-grid>
@@ -211,11 +211,11 @@
                 </div>
             </div>
 
-            <h3 class="uk-h2 uk-margin-large-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select a uniform type again please</h3>
+            <h3 class="uk-h2 uk-margin-large-top uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic">Select uniform type</h3>
 
             <div class="uk-grid-medium uk-text-center uk-margin-large-bottom uk-flex-center" uk-grid>
                 <div class="uk-width-1-1 uk-width-3-4@m">
-                    <a href="/styles/Pts-signature/types/sublimated" class="uk-button uk-width-1-1 uk-link-reset bgc-red">
+                    <a href="javascript:void(0)" data-application-type="tackle-twill" class="richardson-filter-button uk-button uk-width-1-1 uk-link-reset bgc-red">
                         <h2 class="uk-h2 fc-white uk-text-uppercase uk-text-bold uk-padding uk-padding-remove-horizontal uk-margin-remove abrade-black">Sublimated Fabric</h2>
                     </a>
                     <div class="uk-flex-center uk-grid uk-margin-top" uk-grid>
@@ -231,4 +231,18 @@
         </li>
     </ul>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+        $(".uniform-type-container").on('click', '.richardson-filter-button', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var base_url = window.location.origin;
+            var blockPattern = $(".block-pattern-container li.uk-active").data("block-pattern");
+            var application_type = $(this).data("application-type");
+
+            window.location.replace(base_url + "/richardson/styles/" + blockPattern + "/types/" + application_type);
+        });
+    });
+</script>
 @endsection

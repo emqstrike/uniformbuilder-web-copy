@@ -6,7 +6,7 @@
                 <div class="uk-width-1-1 uk-width-1-2@m">
                     <div class="uk-grid-small uk-flex uk-flex-center uk-flex-middle" uk-grid>
                         <div class="uk-width-1-1 uk-width-1-4@s uk-width-auto@m">
-                            <img class="uk-comment-avatar uk-align-center" src="./img/Program_Badge.png" width="143" height="83" alt="">
+                            <img class="uk-comment-avatar uk-align-center" src="/richardson/img/Program_Badge.png" width="143" height="83" alt="">
                         </div>
                         <div class="uk-width-1-1 uk-width-expand@s">
                             <h3 class="uk-heading uk-margin-remove fc-red uk-text-bold uk-text-center uk-text-left@s abrade-ultra-italic">Stay connected with us.</h3>
