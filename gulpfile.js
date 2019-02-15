@@ -139,5 +139,10 @@ elixir(function(mix) {
         // Result
         'public/uniform-builder/css/uniform-builder.css'
     );
-    
+
+    mix.sass([
+        'style.scss'
+    ],
+
+    'public/richardson/css/richardson-builder.css');
 });
