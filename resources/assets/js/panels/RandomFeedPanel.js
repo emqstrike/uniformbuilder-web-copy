@@ -16,7 +16,7 @@ RandomFeedPanel.prototype = {
 
         var random_feed_set_items = _.map(random_feed_sets, function(random_feed_type) {
             return {
-                type: random_feed_type
+                type: random_feed_type,
             };
         });
 
@@ -38,123 +38,145 @@ RandomFeedPanel.events = {
 
     init: function() {
         if (RandomFeedPanel.events.is_init_events_called === 0) {
-            $(".modifier_main_container").on("click", "#randomFeedsUI .toggleOption", RandomFeedPanel.events.onToggleRandomFeed);
-            $(".modifier_main_container").on("click", "#randomFeedsUI .colorItem", RandomFeedPanel.events.onColorItemClick);
+            $(".modifier_main_container").on('change', '.richardson-random-feed-ui .random-feed-option', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                var status = $(this).val();
+                var colorContainer = $(this).closest('.random-feed-item').find(".random-feed-color-container");
+                var random_feed_item_el = $(this).closest('.random-feed-item');
+                var random_feed_type = random_feed_item_el.data('random-feed-type');
+                var active_random_feed = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
+                var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed.set);
+
+                if (status === "on") {
+                    RandomFeedPanel.showColors(random_feed_type);
+                    var activeButton = random_feed_item_el.find(".random-feed-color-container .random-feed-color-button.active");
+                    var randomfeedButton = random_feed_item_el.find(".random-feed-color-container .random-feed-color-button");
+                    activeButton.removeClass("active");
+                    randomfeedButton.first().addClass("active");
+
+                    // // Color Element
+                    var activeColor = $(this).closest('.random-feed-item').find(".random-feed-color-container .color_element .active-color");
+                    activeColor.removeClass("active-color")
+                    activeColor.html("");
+
+                    // // Layer One
+                    var layerObj = _.find(randomFeedSettingsObject.layers, {layer: 1});
+                    var layerColorElement = colorContainer.find('.random-feed-color-selector-button[data-color-code="'+ layerObj.colorCode +'"]');
+                    RandomFeedPanel.addCheckOnSelectedColor(layerColorElement, layerObj.colorCode);
+
+                    colorContainer.show();
+                } else if (status === "off") {
+                    ub.funcs.removeRandomFeed(random_feed_type);
+
+                    if (random_feed_type.indexOf('Left') === 0) {
+                        var matchingSide = ub.funcs.getMatchingSide(random_feed_type);
+                        ub.funcs.removeRandomFeed(matchingSide);
+                    }
+
+                    colorContainer.hide();
+                }
+            });
+
+            $(".modifier_main_container").on('click', '.random-feed-color-container .random-feed-color-button', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                var random_feed_item_el = $(this).closest('.random-feed-item');
+                var random_feed_type = random_feed_item_el.data('random-feed-type');
+                var colorContainer = $(this).closest('.random-feed-item').find(".random-feed-color-container");
+                var active_random_feed = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
+                var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed.set);
+                var layerID = $(this).data("layer");
+
+                var layerObj = _.find(randomFeedSettingsObject.layers, {layer: layerID});
+
+                // // Color Element
+                var activeColor = $(this).closest('.random-feed-item').find(".random-feed-color-container .color_element .active-color");
+                activeColor.removeClass("active-color")
+                activeColor.html("");
+
+                var layerColorElement = colorContainer.find('.random-feed-color-selector-button[data-color-code="'+ layerObj.colorCode +'"]');
+                RandomFeedPanel.addCheckOnSelectedColor(layerColorElement, layerObj.colorCode);
+
+                var randomFeedBtn = $(this).closest('.random-feed-item').find(".random-feed-color-button.active");
+                randomFeedBtn.removeClass('active');
+                $(this).addClass("active");
+            });
+
+            $(".modifier_main_container").on('click', '.random-feed-color-container .random-feed-color-selector-button', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                var randomFeedType = $(this).closest('.random-feed-item').data("random-feed-type");
+                // Remove previous active color
+                var activeColor = $(this).closest('.random-feed-item').find(".random-feed-color-container .color_element .active-color");
+                activeColor.removeClass("active-color")
+                activeColor.html("");
+
+                // Layer ID
+                var layerID = $(this).closest('.random-feed-item').find(".random-feed-color-button.active").data("layer");
+                var colorLabel = $(this).data("color-code");
+                var _colorObj   = ub.funcs.getColorByColorCode(colorLabel);
+
+                var active_random_feed = RandomFeedPanel.getActiveRandomFeedSet(randomFeedType);
+                var randomFeedObject = _.find(ub.data.randomFeeds, {name: active_random_feed.name});
+                var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed.set);
+
+                var matchingName = "";
+                var matchingRandomFeedObject;
+                var matchingRandomFeedSettingsObject;
+
+                if (randomFeedObject.name.indexOf('Left') > -1) {
+                    matchingName = ub.funcs.getMatchingSide(randomFeedObject.name);
+                    matchingRandomFeedObject = _.find(ub.data.randomFeeds, {name: matchingName});
+                }
+
+                if (randomFeedObject.name.indexOf('Right') > -1) {
+                    matchingName = ub.funcs.getMatchingSide(randomFeedObject.name);
+                    matchingRandomFeedObject = _.find(ub.data.randomFeeds, {name: matchingName});
+                }
+
+                if (typeof matchingRandomFeedObject !== 'undefined') {
+                    matchingRandomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(matchingRandomFeedObject.set);
+                    ub.funcs.changeRandomFeedSize(matchingRandomFeedSettingsObject, matchingRandomFeedObject, active_random_feed.size);
+                }
+
+                ub.funcs.changeRandomFeedColor(_colorObj, layerID.toString(), randomFeedObject);
+
+                var _layer = _.find(randomFeedSettingsObject.layers, {layer: parseInt(layerID)});
+
+                if (typeof _layer !== "undefined") {
+                    _layer.colorCode = colorLabel;
+                    _layer.colorObj = _colorObj;
+                }
+
+                if (typeof matchingRandomFeedObject !== "undefined") {
+                    ub.funcs.changeRandomFeedColor(_colorObj, layerID, matchingRandomFeedObject);
+                    var _matchingLayer         = _.find(matchingRandomFeedSettingsObject.layers, {layer: parseInt(layerID)});
+
+                    if (typeof _matchingLayer !== "undefined") {
+                        _matchingLayer.colorCode   = colorLabel;
+                        _matchingLayer.colorObj    = _colorObj;
+                    }
+                }
+
+                // Add new active color
+                RandomFeedPanel.addCheckOnSelectedColor($(this), colorLabel);
+            });
 
             RandomFeedPanel.events.is_init_events_called = 1;
         }
     },
-
-    onToggleRandomFeed: function() {
-        var toggle_random_feed_el = $(this).closest('.toggle');
-        var status = toggle_random_feed_el.data('status');
-
-        var random_feed_item_el = $(this).closest('.random-feed-item');
-        var random_feed_type = random_feed_item_el.data('random-feed-type');
-
-        if (status === RandomFeedPanel.STATUS_ON) {
-            ub.funcs.removeRandomFeed(random_feed_type);
-
-            if (random_feed_type.indexOf('Left') === 0) {
-                var matchingSide = ub.funcs.getMatchingSide(random_feed_type);
-                ub.funcs.removeRandomFeed(matchingSide);
-            }
-
-            $('.valueContainer', toggle_random_feed_el).css('margin-left', '-100px');
-            toggle_random_feed_el.removeClass('defaultShadow');
-
-            RandomFeedPanel.hideColors(toggle_random_feed_el);
-
-            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_OFF);
-        } else {
-            $('.valueContainer', toggle_random_feed_el).css('margin-left', '0px');
-            toggle_random_feed_el.addClass('defaultShadow');
-
-            RandomFeedPanel.showColors(toggle_random_feed_el);
-
-            toggle_random_feed_el.data('status', RandomFeedPanel.STATUS_ON);
-        }
-    },
-
-    onColorItemClick: function() {
-        if ($(this).hasClass('turnOff')) {
-            /// insert code here...
-            return;
-        }
-
-        var random_feed_item_el = $(this).closest('.random-feed-item');
-        var random_feed_type = random_feed_item_el.data('random-feed-type');
-
-        var _layer_no   = $(this).data('layer-no');
-        var _color_code = $(this).data('color-code');
-        var _layer_name = $(this).data('layer-name');
-        var _temp       = $(this).data('temp');
-        var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
-
-        var active_random_feed = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
-        var randomFeedObject = _.find(ub.data.randomFeeds, {name: active_random_feed.name});
-        var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed.set);
-
-        var matchingName = "";
-        var matchingRandomFeedObject;
-        var matchingRandomFeedSettingsObject;
-
-        if (randomFeedObject.name.indexOf('Left') > -1) {
-            matchingName = ub.funcs.getMatchingSide(randomFeedObject.name);
-            matchingRandomFeedObject = _.find(ub.data.randomFeeds, {name: matchingName});
-        }
-        if (randomFeedObject.name.indexOf('Right') > -1) {
-            matchingName = ub.funcs.getMatchingSide(randomFeedObject.name);
-            matchingRandomFeedObject = _.find(ub.data.randomFeeds, {name: matchingName});
-        }
-
-        if (typeof matchingRandomFeedObject !== 'undefined') {
-            matchingRandomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(matchingRandomFeedObject.set);
-            ub.funcs.changeRandomFeedSize(matchingRandomFeedSettingsObject, matchingRandomFeedObject, active_random_feed.size);
-        }
-
-        ub.funcs.changeRandomFeedColor(_colorObj, _layer_no, randomFeedObject);
-        RandomFeedPanel.changeActiveColor(_layer_no, _color_code, _colorObj, random_feed_item_el);
-
-        var _layer = _.find(randomFeedSettingsObject.layers, {layer: parseInt(_layer_no)});
-
-        if (typeof _layer !== "undefined") {
-
-            _layer.colorCode = _color_code;
-            _layer.colorObj = _colorObj;
-        
-        }
-        
-        if (typeof matchingRandomFeedObject !== "undefined") {
-
-            ub.funcs.changeRandomFeedColor(_colorObj, _layer_no, matchingRandomFeedObject);
-
-            var _matchingLayer         = _.find(matchingRandomFeedSettingsObject.layers, {layer: parseInt(_layer_no)});
-
-            if (typeof _matchingLayer !== "undefined") {
-
-                _matchingLayer.colorCode   = _color_code;
-                _matchingLayer.colorObj    = _colorObj;
-
-            }
-            
-        }
-    }
 };
 
-RandomFeedPanel.showColors = function(toggle_random_feed_el) {
-    var random_feed_item_el = toggle_random_feed_el.closest('.random-feed-item');
-    var random_feed_type = random_feed_item_el.data('random-feed-type');
-
-    var color_value = RandomFeedPanel.ACTIVE_RANDOM_FEED_COLOR_BUTTON;
-    var color_type = "color " + color_value;
-
+RandomFeedPanel.showColors = function(random_feed_type) {
     var active_random_feed = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
     var randomFeedObject = _.find(ub.data.randomFeeds, {name: active_random_feed.name});
     var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed.set);
-
-    var colorPickerHtml = ub.funcs.drawRandomFeedColorPickers(randomFeedObject, color_value, randomFeedSettingsObject);
     var selectedColorArray = ub.current_material.settings.team_colors;
+
+    console.log(randomFeedSettingsObject);
+
+    ub.funcs.changeRandomFeedSize(randomFeedSettingsObject, randomFeedObject, active_random_feed.size);
 
     var matchingName = "";
     var matchingRandomFeedObject;
@@ -174,21 +196,8 @@ RandomFeedPanel.showColors = function(toggle_random_feed_el) {
         ub.funcs.changeRandomFeedSize(matchingRandomFeedSettingsObject, matchingRandomFeedObject, active_random_feed.size);
     }
 
-    $('.colorContainer', random_feed_item_el).html(colorPickerHtml);
-
     ub.funcs.initRandomFeedColors(randomFeedObject, selectedColorArray[0]);
-    ub.funcs.renderRandomFeed(randomFeedObject, color_value);
-
-    _.each(randomFeedSettingsObject.layers, function (layer) {
-        if (layer.colorCode !== "") {
-            $('.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]', random_feed_item_el).click();
-        }
-    });
-};
-
-RandomFeedPanel.hideColors = function(toggle_random_feed_el) {
-    var random_feed_item_el = toggle_random_feed_el.closest('.random-feed-item');
-    $('.colorContainer', random_feed_item_el).html("");
+    ub.funcs.renderRandomFeed(randomFeedObject, RandomFeedPanel.ACTIVE_RANDOM_FEED_COLOR_BUTTON);
 };
 
 RandomFeedPanel.changeActiveColor = function(layer_num, color_code, color_obj, random_feed_item_el, type) {
@@ -238,15 +247,29 @@ RandomFeedPanel.setInitialState = function() {
 
     _.map(random_feed_sets, function(random_feed_type) {
         var active_random_feed_set = RandomFeedPanel.getActiveRandomFeedSet(random_feed_type);
-        var status = (typeof active_random_feed_set !== "undefined" && active_random_feed_set.enabled === 1) ? "on" : "off";
+        var randomFeedSettingsObject = ub.funcs.getRandomFeedSettingsObject(active_random_feed_set.set);
 
-        var random_feed_item_el = $('#randomFeedsUI .random-feed-item[data-random-feed-type="'+random_feed_type+'"]');
-
-        var temporary_status = status === RandomFeedPanel.STATUS_ON ? RandomFeedPanel.STATUS_OFF : RandomFeedPanel.STATUS_ON;
-
-        $('.toggle', random_feed_item_el).data('status', temporary_status);
-        $('.toggleOption.'+temporary_status, $('.toggle', random_feed_item_el)).click();
+        if (randomFeedSettingsObject.enabled) {
+            // Show Buttons
+            $('.random-feed-item[data-random-feed-type="'+ random_feed_type +'"] .random-feed-option').val("on").trigger('change');
+        } else  {
+            $('.random-feed-item[data-random-feed-type="'+ random_feed_type +'"] .random-feed-option').val("off").trigger('change');
+        }
     });
-
-    $('#randomFeedsUI').fadeIn();
 };
+
+RandomFeedPanel.addCheckOnSelectedColor = function(element, colorLabel) {
+    element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+    element.addClass('active-color');
+
+    if (colorLabel === 'W'
+        || colorLabel === 'Y'
+        || colorLabel === 'CR'
+        || colorLabel === 'S'
+        || colorLabel === 'PK'
+        || colorLabel === 'OP'
+        || colorLabel === 'SG'
+    ) {
+        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
+    }
+}

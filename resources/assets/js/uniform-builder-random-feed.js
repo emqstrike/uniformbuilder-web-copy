@@ -190,7 +190,6 @@ $(document).ready(function () {
 
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change randomFeed color here ...
-
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][_randomFeedSet.set];
@@ -532,7 +531,6 @@ $(document).ready(function () {
 
         if (typeof(ub.current_material.settings.randomFeeds[randomFeedSet]) !== "undefined") {
             ub.current_material.settings.randomFeeds[randomFeedSet].enabled = 0;
-            ub.current_material.settings.randomFeeds[randomFeedSet].numberOfColors = 0;
         }
     }
 

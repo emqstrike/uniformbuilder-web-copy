@@ -5,9 +5,9 @@
                 <div>
                     <div class="row cp-padding-small">
                         <div class="col-md-2 cp-padding-remove">
-                            <select class="form-control">
-                                <option>On</option>
-                                <option>Off</option>
+                            <select class="form-control random-feed-option">
+                                <option value="on">On</option>
+                                <option value="off">Off</option>
                             </select>
                         </div>
                         <div class="col-md-10 cp-padding-remove">
@@ -15,29 +15,29 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="random-feed-color-container">
                     <div class="row">
                         <div class="col-md-6 cp-padding-horizontal-tiny">
-                            <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-text-uppercase cp-text-bold cp-margin-remove active">Color 1</button>
+                            <button class="piping-button random-feed-color-button cp-width-1-1 cp-text-small cp-text-uppercase cp-text-bold cp-margin-remove active" data-layer="1">Color 1</button>
                         </div>
                         <div class="col-md-6 cp-padding-horizontal-tiny">
-                            <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-text-uppercase cp-text-bold cp-margin-remove">Color 2</button>
+                            <button class="piping-button random-feed-color-button cp-width-1-1 cp-text-small cp-text-uppercase cp-text-bold cp-margin-remove" data-layer="2">Color 2</button>
                         </div>
 
                         <div class="col-md-12 cp-padding-small">
-                                @{{ #colors }}
-                                    <div class="color_element cp-color-element-auto">
-                                        <button
-                                            class="grow change-color whitebtn cp-new-color-box piping-color-selector-button"
-                                            style="background-color: #@{{ hex_code }};"
-                                            data-color-name="@{{ name}}"
-                                            data-color-code="@{{ color_code }}"
-                                            data-color-id="@{{ id }}"
-                                            data-modifier="@{{ modifier }}"
-                                        >
-                                        </button>
-                                    </div>
-                                @{{ /colors }}
+                            @{{ #colors }}
+                                <div class="color_element cp-color-element-auto">
+                                    <button
+                                        class="grow change-color whitebtn cp-new-color-box random-feed-color-selector-button"
+                                        style="background-color: #@{{ hex_code }};"
+                                        data-color-name="@{{ name}}"
+                                        data-color-code="@{{ color_code }}"
+                                        data-color-id="@{{ id }}"
+                                        data-modifier="@{{ modifier }}"
+                                    >
+                                    </button>
+                                </div>
+                            @{{ /colors }}
                         </div>
                     </div>
                 </div>
