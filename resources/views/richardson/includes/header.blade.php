@@ -62,7 +62,7 @@
         <div class="uk-container uk-container-large">
             <nav class="uk-navbar-container uk-navbar-transparent main-menu" uk-navbar>
                 <ul class="uk-navbar-nav uk-grid-collapse line-divider uk-width-1-1 con-select active-fc-red" uk-grid>
-                    <li class="uk-text-bold sd uk-margin-auto"><a href="#" class=" uk-text-center uk-padding-remove-horizontal btn-selection-choice abrade-black">Uniforms:</a></li>
+                    <li class="uk-text-bold sd uk-margin-auto"><a href="javascript:void(0)" class=" uk-text-center uk-padding-remove-horizontal btn-selection-choice abrade-black nav-uniforms-button">Uniforms:</a></li>
                     <li class="uk-text-bold bgc-light uk-width-expand"><a href="#" class=" uk-text-center uk-padding-remove-horizontal btn-selection-choice oswald-regular">New releases</a></li>
                     <li class="uk-text-bold bgc-light uk-width-expand"><a href="#" class=" uk-text-center uk-padding-remove-horizontal btn-selection-choice oswald-regular">Product categories</a></li>
                     <li class="uk-text-bold bgc-light uk-width-expand"><a href="#" class=" uk-text-center uk-padding-remove-horizontal btn-selection-choice oswald-regular">Markets</a></li>

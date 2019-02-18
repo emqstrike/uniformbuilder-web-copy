@@ -1,5 +1,5 @@
 @include("richardson.includes.header")
 
-@yield("body")
+    @yield("body")
 
 @include("richardson.includes.footer")
