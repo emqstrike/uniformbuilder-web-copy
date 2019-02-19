@@ -9,7 +9,7 @@
                         <div class="uk-cover-container">
                             <div class="loading">
                                 <div class="uk-text-center">
-                                    <div uk-spinner="ratio: 15.5"></div>
+                                    <div uk-spinner="ratio: 15.4"></div>
                                 </div>
                             </div>
                             <div class="banner">

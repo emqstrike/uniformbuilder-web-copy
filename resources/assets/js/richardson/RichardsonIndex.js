@@ -31,6 +31,7 @@ var RichardsonIndex = {
         $("#richardson-main-container .banner").hide();
         $("#richardson-main-container .index-main-header").show();
         $("#richardson-main-container div.richardson-initial-picker").html("");
+        $("body").scrollTo(0);
 
         RichardsonIndex.renderUniformPicker(blockPattern, application_type);
     },
