@@ -582,7 +582,7 @@ $(document).ready(function () {
 
                    var fill = "white";
 
-                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
+                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG' || _colorOBJ.color_code === 'FLG') {
                         fill = 'black';
                    }
 
@@ -760,7 +760,15 @@ $(document).ready(function () {
 
         } else {
 
-            _colorSet = ub.funcs.getBaseColors(); 
+            _colorSet = ub.funcs.getBaseColors();
+
+            // hide FLB and FLG colors on Team Colors UI
+            if (ub.config.blockPattern === 'Flag Football') {
+                var flag_colors = ['FLB', 'FLG'];
+                _colorSet = _.filter(ub.data.colors, function(color) {
+                    return !_.contains(flag_colors, color.color_code);
+                });
+            }
 
         }
 
