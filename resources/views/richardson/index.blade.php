@@ -254,7 +254,7 @@
 
 <script type="text/mustache" id="m-richardson-styles">
     <div class="uk-padding-small uk-padding-remove-horizontal">
-        <h5 class="uk-h2 uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic uk-margin-remove uk-padding-small uk-padding-remove-horizontal uniform-filter-header" data-block-pattern="@{{ block_pattern }}" data-application-type="@{{ application_type }}">
+        <h5 class="uk-h2 uk-text-uppercase uk-text-bold uk-text-center abrade-ultra-italic uk-margin-remove uk-padding-small uk-padding-remove-horizontal uniform-filter-header" data-block-pattern="@{{ block_pattern }}" data-application-type="@{{ type }}">
             @{{ block_pattern }} - @{{ application_type }} Fabric
         </h5>
 

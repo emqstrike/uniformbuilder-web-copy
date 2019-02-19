@@ -9,57 +9,30 @@ var RichardsonIndex = {
             /* Act on the event */
             RichardsonIndex.onLoad();
         });
+        ub.richardson.materials = [];
         RichardsonIndex.onLoad();
     },
 
     onLoad: function() {
-        if (typeof ub.richardson.materials !== "undefined") {
-            var template = document.getElementById("m-richardson-index");
-            var render = Mustache.render(template.innerHTML);
-            $("#richardson-main-container .index-main-header").show();
-            $("#richardson-main-container div.richardson-initial-picker").html("");
-            $("#richardson-main-container div.richardson-initial-picker").html(render);
-        } else {
-            $("#richardson-main-container .loading").show();
-            $("#richardson-main-container .banner").hide();
-            getJSON("https://api.prolook.com/api/materials",
-                function(response) {
-                    if (response.success) {
-                        var materials = response.materials;
-
-                        var richardsons = _.filter(materials, function(material) {
-                            if (material.brand === "Richardson" || material.brand === "richardson") {
-                                return material;
-                            }
-                        });
-
-                        ub.richardson.materials = richardsons;
-                        var template = document.getElementById("m-richardson-index");
-                        var render = Mustache.render(template.innerHTML);
-                        $(".richardson-initial-picker").html("");
-                        $(".richardson-initial-picker").html(render);
-
-                        $("#richardson-main-container .loading").hide();
-                        $("#richardson-main-container .banner").show();
-                    }
-                },
-
-                function(error) {
-                    console.log(error)
-                }
-            );
-        }
+        var template = document.getElementById("m-richardson-index");
+        var render = Mustache.render(template.innerHTML);
+        $("#richardson-main-container .index-main-header").show();
+        $("#richardson-main-container div.richardson-initial-picker").html("");
+        $("#richardson-main-container div.richardson-initial-picker").html(render);
+        $("#richardson-main-container .loading").hide();
+        $("#richardson-main-container .banner").show();
     },
 
     onFilterStyles: function() {
         var blockPattern = $(".block-pattern-container li.uk-active").data("block-pattern");
         var application_type = $(this).data("application-type");
 
-        var uniforms = RichardsonIndex.getFilteredUniforms(blockPattern, application_type, "upper");
+        $("#richardson-main-container .loading").show();
+        $("#richardson-main-container .banner").hide();
+        $("#richardson-main-container .index-main-header").show();
+        $("#richardson-main-container div.richardson-initial-picker").html("");
 
-        RichardsonIndex.renderStyles(blockPattern, application_type);
-        RichardsonIndex.renderSecondaryFilter(blockPattern, "upper");
-        RichardsonIndex.renderUniforms(uniforms);
+        RichardsonIndex.renderUniformPicker(blockPattern, application_type);
     },
 
     onFilterByType: function() {
@@ -67,7 +40,14 @@ var RichardsonIndex = {
         var application_type = $("#richardson-main-container .uniform-filter-header").data("application-type");
         var type = $(this).data("type");
 
-        var uniforms = RichardsonIndex.getFilteredUniforms(blockPattern, application_type, type);
+        // Uniforms Materials
+        var find = _.find(ub.richardson.materials, {block_pattern: blockPattern});
+
+        var uniforms = _.filter(find.materials, function(material) {
+            if (material.uniform_application_type === application_type && material.type === type) {
+                return material;
+            }
+        });
 
         RichardsonIndex.renderSecondaryFilter(blockPattern, type);
         RichardsonIndex.renderUniforms(uniforms);
@@ -79,7 +59,21 @@ var RichardsonIndex = {
         var type = $("#richardson-main-container ul.primary-filter").find("li.uk-active").data("type");
         var neck_option = $(this).data("filter-neck");
 
-        var uniforms = RichardsonIndex.getFilteredUniforms(blockPattern, application_type, type, neck_option);
+        // Uniforms Materials
+        var find = _.find(ub.richardson.materials, {block_pattern: blockPattern});
+
+        var uniforms = _.filter(find.materials, function(material) {
+            if (material.uniform_application_type === application_type && material.type === type) {
+                if (neck_option !== "all") {
+                    if (material.neck_option === neck_option) {
+                        return material;
+                    }
+                } else {
+                    return material;
+                }
+            }
+        });
+
         RichardsonIndex.renderUniforms(uniforms);
     },
 
@@ -87,6 +81,7 @@ var RichardsonIndex = {
         var template = document.getElementById("m-richardson-styles");
         var render = Mustache.render(template.innerHTML, {
             block_pattern: blockPattern,
+            type: application_type,
             application_type: application_type.replace("_", " ")
         });
         $("#richardson-main-container .index-main-header").hide();
@@ -114,24 +109,51 @@ var RichardsonIndex = {
         $("#richardson-main-container #uniform-list").html(render);
     },
 
-    getFilteredUniforms: function(blockPattten, application_type, type, neck_option) {
-        var uniforms = _.filter(ub.richardson.materials, function(material) {
-            if (material.block_pattern.includes(blockPattten) && material.is_blank === 0) {
-                if (material.uniform_application_type === application_type && material.type === type) {
+    renderUniformPicker: function(blockPattern, application_type) {
+        var find = _.find(ub.richardson.materials, {block_pattern: blockPattern});
+
+        if (typeof find !== "undefined") {
+
+            var uniforms = _.filter(find.materials, function(material) {
+                if (material.uniform_application_type === application_type && material.type === "upper") {
                     return material;
                 }
-            }
-        });
-
-        if (typeof neck_option !== "undefined" && neck_option !== "all") {
-            uniforms = _.filter(uniforms, function(uniform) {
-                if (uniform.neck_option === neck_option) {
-                    return uniform;
-                }
             });
-        }
 
-        return uniforms;
+            RichardsonIndex.renderStyles(blockPattern, application_type);
+            RichardsonIndex.renderSecondaryFilter(blockPattern, "upper");
+            RichardsonIndex.renderUniforms(uniforms);
+
+        } else {
+            getJSON("https://api.prolook.com/api/v1-0/get_styles/richardson/men/baseball/" + blockPattern,
+                function(response) {
+                    if (response.success) {
+                        var materials = response.materials;
+                        ub.richardson.materials.push({
+                            block_pattern: blockPattern,
+                            materials: materials
+                        });
+
+                        var uniforms = _.filter(materials, function(material) {
+                            if (material.uniform_application_type === application_type && material.type === "upper") {
+                                return material;
+                            }
+                        });
+
+                        RichardsonIndex.renderStyles(blockPattern, application_type);
+                        RichardsonIndex.renderSecondaryFilter(blockPattern, "upper");
+                        RichardsonIndex.renderUniforms(uniforms);
+
+                    } else {
+                        console.log("Something went wrong")
+                    }
+                },
+
+                function(error) {
+                    console.log(error)
+                }
+            );
+        }
     }
 }
 
