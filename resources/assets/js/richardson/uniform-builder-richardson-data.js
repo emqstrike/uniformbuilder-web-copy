@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    window.ub = {}
 	ub.richardson = {};
 	ub.richardson.data = {};
 

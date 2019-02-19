@@ -36,15 +36,9 @@
         
     </div>
 </div>
+@include("richardson.includes.richardson-init-code")
 <script type="text/javascript" src="/richardson/js/uniform-builder-richardson-data.js"></script>
 <script type="text/javascript" src="/richardson/js/RichardsonIndex.js"></script>
-<script type="text/javascript">
-    $(document).ready(function($) {
-        ub.richardson.config = {
-            host: "{{ env('CUSTOMIZER_HOST') }}",
-        }
-    });
-</script>
 
 <script type="text/mustache" id="m-richardson-index">
     <div class="richardson-index-container">
