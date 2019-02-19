@@ -6,8 +6,8 @@
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
                         <div class="cp-text-uppercase">
-                            <h4 class="header cp-text-bold">@{{ name }}</h4>
-                            <p style="font-weight: bold;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
+                            <h4 class="header cp-text-bold abrade-ultra-italic">@{{ name }}</h4>
+                            <p style="font-weight: bold; font-family: Abrade-Book;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
 
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-small">PATTERN</p>
+                        <p class="cp-padding-left-small" style="font-family: Abrade-Book;">PATTERN</p>
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
                                 <div class="color_element cp-color-element-auto">

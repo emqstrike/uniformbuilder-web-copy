@@ -1074,7 +1074,7 @@
 
     <script type="text/mustache" id="add-new-application-letters">
         <div class="application-letters-container cp-padding-medium">
-            <h4 class="app-letters-title">@{{ title }}</h4>
+            <h4 class="app-letters-title abrade-ultra-italic">@{{ title }}</h4>
             @{{^isTwill}}
             <div class="addApplicationsOpts hide">
 
@@ -1154,7 +1154,7 @@
 
         @{{#applications}}
             <div class="applicationUIBlock cp-padding-medium cp-padding-remove-bottom cp-margin-remove" data-application-id="@{{ code }}">
-                <h4 class="app-letters-title">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
+                <h4 class="app-letters-title abrade-ultra-italic">@{{ type }} <span class="subtitle">(@{{ perspective }} view) #@{{ code }}</span></h4>
 
                 <div class="toggleApplications posContainer clearfix app-letters-wrapper" data-status="on">
                     <button type="button" class="toggleAppOpt app-btn w-45 pull-left active view-letters-opt app-letters-button">View</button>
@@ -1162,7 +1162,7 @@
                 </div>
 
                 <div class="app-letters-wrapper">
-                    <h5 class="app-letters-subtitle">INPUT @{{ type }}</h5>
+                    <h5 class="app-letters-subtitle abrade-black">INPUT @{{ type }}</h5>
                     <input type="text" name="sampleText" class="sampleText app-letters-input" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} />
                 </div>
 
@@ -1196,11 +1196,11 @@
 <!-- Font Styles -->
     <script type="text/mustache" id="m-font-styles-container">
         <div class="clearfix">
-            <h5 class="app-letters-subtitle">@{{ type }} FONT</h5>
+            <h5 class="app-letters-subtitle abrade-black">@{{ type }} FONT</h5>
             <div class="posContainer input-group" align="center" style="color: black">
-                <span class="input-group-addon fontStyleLeft" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                <span class="input-group-addon fontStyleLeft cp-fc-red" data-direction="previous"><i class="glyphicon glyphicon-arrow-left"></i></span>
                 <span class="font_name form-control" style="font-size: 1.2em; font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
-                <span class="input-group-addon fontStyleRight" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                <span class="input-group-addon fontStyleRight cp-fc-red" data-direction="next"><i class="glyphicon glyphicon-arrow-right"></i></span>
             </div>
         </div>
     </script>
@@ -1209,7 +1209,7 @@
 <!-- Font Accents -->
     <script type="text/mustache" id="m-font-accents-container">
         <div class="clearfix">
-            <h5 class="app-letters-subtitle">@{{ title }}</h5>
+            <h5 class="app-letters-subtitle abrade-black">@{{ title }}</h5>
 
             @{{#accentsData}}
             <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
@@ -1226,7 +1226,7 @@
         @{{#applications}}
             @{{#isVisible}}
             <div class="applicationUIBlock cp-padding-medium cp-margin-remove" data-application-id="@{{ code }}">
-                <h4>@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <h4 class="abrade-ultra-italic">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="row">
                     @{{#appTypes}}
@@ -1253,7 +1253,7 @@
 
         @{{#applications}}
             <div class="applicationUIBlock cp-padding-medium" data-application-id="@{{ code }}">
-                <h4 class="application-thumbnail-name">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
+                <h4 class="application-thumbnail-name abrade-ultra-italic">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
 
                 <div class="thumb-container">
                     <div class="row">
