@@ -44,7 +44,7 @@
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 
-@if(env("BRAND") === "Richardson" && env("HEADER_VISIBLE"))
+@if(env("BRAND") === "Richardson")
     <script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit.js?v={{$asset_version}}"></script>
     <script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit-icons.js?v={{$asset_version}}"></script>
 @endif

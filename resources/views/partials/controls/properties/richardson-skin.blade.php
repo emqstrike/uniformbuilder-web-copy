@@ -40,25 +40,25 @@
     <div class="richardson-footer">
         <div class="cp-padding-tiny cp-bgc-light">
             <div class="cp-width-1-1">
-                <div class="cp-padding-xs">
+                <div class="cp-padding-small">
                     <div class=" uk-grid-collapse uk-text-center" uk-grid>
                         <a href="javascript:void(0)" class="richardson-onPrevious uk-link-reset uk-width-1-2 abrade-medium" uk-switcher-item="previous">
                             <div class="uk-grid-collapse" uk-grid>
-                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark bdr-remove-right">
+                                <div class="uk-width-auto cp-padding-tiny padding-tiny-vertical bdr-thin bdr-dark bdr-remove-right">
                                     <span class="fc-red fa fa-arrow-left"></span>
                                 </div>
-                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Prev<span class="hidden-xxs">ious</span></div>
+                                <div class="uk-width-expand cp-padding-tiny padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Prev<span class="hidden-xxs">ious</span></div>
                             </div>
                         </a>
                         <a href="javascript:void(0)" class="richardson-onNext uk-link-reset uk-width-1-2 abrade-medium"uk-switcher-item="next">
                             <div class="uk-grid-collapse" uk-grid>
-                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Next</div>
-                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark">
+                                <div class="uk-width-expand cp-padding-tiny padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Next</div>
+                                <div class="uk-width-auto cp-padding-tiny padding-tiny-vertical bdr-thin bdr-dark">
                                     <span class="fc-red fa fa-arrow-right"></span>
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                        <a href="#" class="link-reset cp-padding-tiny uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
                     </div>
                 </div>
             </div>

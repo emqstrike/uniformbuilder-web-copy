@@ -56,12 +56,12 @@ $(document).ready(function() {
 
         // Add CSS in left side toolbar
         $("div#left-side-toolbar").css({
-            "top": '220px',
+            "top": ub.config.isHeaderVisible ? '220px' : "100px",
             "left": '120px'
         });
 
         $("div#right-pane-column").css({
-            "top": "220px",
+            "top": ub.config.isHeaderVisible ? '220px' : "100px",
             "right": "50px"
         })
     };
