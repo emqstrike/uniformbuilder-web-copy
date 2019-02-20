@@ -6,14 +6,14 @@
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
                         <div class="cp-text-uppercase">
-                            <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove">@{{ name }}</h4>
-                            <p class="cp-text-bold abrade-book uk-margin-small uk-margin-remove-top">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
+                            <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">@{{ name }}</h4>
+                            <p class="cp-text-bold abrade-book uk-margin-small uk-margin-remove-top uk-text-uppercase">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book uk-margin-small">COLOR</p>
+                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element color-container-button cp-color-element-auto">
@@ -37,7 +37,7 @@
 
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book uk-margin-small">PATTERN</p>
+                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">PATTERN</p>
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
                                 <div class="color_element cp-color-element-auto">
