@@ -1,0 +1,489 @@
+@import "button" ;
+@import "_variables";
+@import "colors";
+@import "palette";
+@import "font-style";
+
+.abrade-black {
+  font-family: Abrade-Black !important;
+}
+.abrade-book {
+  font-family: Abrade-Book !important;
+}
+.abrade-heavy {
+  font-family: Abrade-Heavy !important;
+}
+.abrade-medium {
+  font-family: Abrade-Medium !important;
+}
+.abrade-ultra {
+  font-family: Abrade-Ultra !important;
+}
+.abrade-ultra-italic {
+  font-family: Abrade-Ultra-Italic !important;
+}
+.oswald-regular {
+  font-family: Oswald, san-serif !important;
+}
+
+body {
+  font-family: Abrade-Book;
+}
+
+
+.btn-icon {
+  padding: 8px;
+  line-height: 0px;
+  font-size: 6px !important; }
+
+.padding-tiny-vertical {
+  padding-top: 7px;
+  padding-bottom: 7px; }
+
+.bdr-remove {
+  border: none !important; }
+
+.bdr-remove-right {
+  border-right: none !important; }
+
+.bdr-thin {
+  border: .5px solid; }
+
+.bdr-reg {
+  border: 1px solid; }
+
+.bdrr-none {
+  border-radius: 0; }
+
+header .main-menu .uk-navbar-nav > li > a {
+  height: 60px;
+  min-height: 0px !important;
+}
+
+
+header .uk-grid-divider > :not(.uk-first-column)::before {
+  border-left: solid 1.5px #aaa; }
+
+
+
+
+.bottom-arrow > *.uk-active:after {
+  content: " ";
+  display: block;
+  height: 18px;
+  width: 18px;
+  transform: rotate(45deg);
+  text-shadow: none;
+  position: relative;
+  margin: 20px auto -9px auto;
+  z-index: -1; }
+
+.bottom-arrow.arrow-outward > *.uk-active:after {
+  transform: rotate(45deg);
+  text-shadow: none;
+  position: relative;
+  margin: -9px auto auto auto;
+  z-index: -1; }
+
+.bac-light > *.uk-active:after {
+  background-color: #eeeeee !important; }
+
+
+.bac-dark > *.uk-active:after {
+  background-color: #343434 !important; }
+
+.active-fc-red .uk-active a {
+  color: $color-red;}
+
+.active-bgc-red .uk-active a {
+  color: $color-light;
+  background-color: $color-red; }
+
+.active-bdr-red .uk-active a {
+  border-color: $color-red; }
+
+.active-bgc-dark .uk-active a {
+  color: $color-light;
+  background-color: $color-dark; }
+
+.active-bdr-dark .uk-active a {
+  border-color: $color-dark; }
+
+.con-select.active-bgc-dark .uk-active {
+  color: $color-light;
+  background-color: $color-dark;
+  border-color: $color-dark; }
+
+.con-select.active-bgc-red .uk-active {
+  color: $color-light;
+  background-color: $color-red;
+  border-color: $color-red; }
+
+.top-line > div a,
+.top-line > li a {
+  border-top: 4px solid transparent; }
+
+.top-line.tl-red > .uk-active a {
+  border-color: $color-red; }
+
+.con-tab > li.uk-active div > img {
+  background-color: #eeeeee !important; }
+
+.con-news-letter {
+  border: solid 1px white; }
+
+.con-news-letter .form-input {
+  color: #eeeeee !important;
+  background-color: #343434 !important;
+  border: none; }
+.con-news-letter .form-input:focus {
+  background-color: #343434 !important; }
+
+//.con-news-letter .form-input-left-icon {
+//  padding: 9px;
+//  display: inline-block;
+//  margin-right: -5px;
+//  border-right: solid 1px white; }
+//
+//.con-news-letter .form-input-btn-right {
+//  line-height: 0;
+//  color: #343434 !important;
+//  padding: 1px 0 1px 30px;
+//  margin-left: -4px;
+//  border: solid 1px #eeeeee !important; }
+//  .con-news-letter .form-input-btn-right:hover {
+//    background-color: #eeeeee !important; }
+//
+//.con-news-letter .form-input-btn-right-icon {
+//  padding: 9px;
+//  margin-left: 30px;
+//  border-left: solid 1px; }
+
+.con-load-design .uk-input:focus {
+  color: #eeeeee !important;
+  border-color: #eeeeee !important; }
+.con-load-design .uk-input::placeholder {
+  color: #eeeeee !important; }
+
+.con-load-design .uk-input.bgc-red:focus {
+  background-color: #e32139 !important; }
+
+.con-load-design .uk-input.bgc-dark:focus {
+  background-color: #343434 !important; }
+
+.con-card-item > div > div {
+  border: 1px solid #dedede;
+  background-color: white; }
+
+.con-steps .wizard > .actions a span.left {
+  left: 0;
+  border-right: 1px solid #353535;
+  background: url(https://richardsonsports.com/customizer/images/css/arrow-l.png) no-repeat center center; }
+
+.con-steps .wizard > .actions a span.right {
+  right: 0;
+  border-left: 1px solid #353535;
+  background: url(https://richardsonsports.com/customizer/images/css/arrow-r.png) no-repeat center center; }
+
+.thumbnail-small {
+  width: 44px;
+  padding: 5px 8px; }
+
+.box-palette {
+  padding: 0px !important;
+  border: 0px;
+  border-radius: 0px;
+}
+.palette {
+  height: 35px;
+  width: 35px;
+  display: block;
+  border: 1px solid #aaaaaa !important;
+}
+
+.choice-icon {
+  display: none !important; }
+
+.con-palettes .btn-selection-choice.uk-active .choice-icon {
+  display: block !important; }
+
+.con-mascot-act-arch .btn-selection-choice {
+  &.uk-active > div {
+    background-color: $color-lightGray;
+  }
+  &.uk-active h6 {
+    background-color: $color-red;
+  }
+  & button {
+    line-height: 0px;
+  }
+}
+
+.slider .rs-path-color {
+  background-color: #aaaaaa !important; }
+
+.slider .rs-handle {
+  background-color: #343434 !important; }
+
+.rs-tooltip {
+  margin: 0 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important; }
+
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  background: #343434 !important;
+  border-color: transparent; }
+
+.ui-slider {
+  background: #aaaaaa !important; }
+
+.ui-slider-label {
+  font-size: 12px;
+  color: #343434 !important; }
+
+.ui-slider-pip.ui-slider-pip-selected .ui-slider-label {
+  color: #242424 !important; }
+
+.uk-grid-small.grid-tiny {
+  margin-left: -6px; }
+
+.uk-grid-small.grid-tiny > * {
+  padding-left: 6px; }
+
+.uk-grid-small.grid-tiny>.uk-grid-margin {
+  margin-top: 6px;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.con-legend .box {
+  width: 20px;
+  height: 20px;
+}
+
+
+#modal-all-application .uk-list > li:nth-child(n+2) {
+  margin-top: 0;
+  padding: 0;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+
+.uk-tooltip {
+  font-weight: bolder;
+  padding: 18px 10px;
+  border-radius: 0px;
+  line-height: 0px;
+  display: block !important;
+  background-color: $color-darkerGray;
+  text-transform: uppercase;
+  font-family: Abrade-Ultra-Italic;
+
+  &:hover{
+    display: block !important;
+  }
+
+  &:after {
+    z-index: 1000 !important;
+    content: " ";
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    clear: both;
+    border: 0px;
+  }
+
+  &:after:hover {
+    display: block !important;
+  }
+}
+
+.uk-tooltip.uk-transform-origin-center-right {
+  &:after {
+    margin-right: -14.9px !important;
+    top: 50% !important;
+    right: 0px;
+    border-bottom: 18px solid transparent;
+    border-top: 18px solid transparent;
+    border-left: 10px solid $color-darkerGray;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+.uk-tooltip.uk-transform-origin-center-left {
+  &:after {
+    margin-left: -5px !important;
+    top: 50% !important;
+    left: 0px;
+    border-bottom: 18px solid transparent;
+    border-top: 18px solid transparent;
+    border-right: 10px solid $color-darkerGray;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+.uk-tooltip.uk-transform-origin-bottom-right {
+  &:after {
+    margin-bottom: -10px !important;
+    bottom: 0px;
+    right: 0px;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 10px solid $color-darkerGray;
+  }
+}
+
+.uk-tooltip.uk-transform-origin-bottom-left {
+  &:after {
+    margin-bottom: -10px !important;
+    bottom: 0px;
+    left: 0px;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 10px solid $color-darkerGray;
+  }
+}
+
+.line-divider>:nth-child(n+3):not(.uk-first-column)::before {
+  content: "";
+  height: 100%;
+  margin-left: 0;
+  border-left: 1px solid $color-gray;
+  position: absolute;
+}
+
+.line-divider>:nth-child(2):not(.uk-first-column) {
+  margin-right: -9px !important;
+}
+
+nav.main-menu ul li.sd a {
+  margin-left: -6px;
+  &:hover {
+    color: $color-red;
+  }
+}
+
+nav.main-menu ul li a {
+  color: #636466;
+  &:hover {
+    color: $color-red;
+  }
+}
+
+nav.main-menu ul li.sd {
+  position: relative;
+
+  &:before, &:after {
+    content: " ";
+    display: block;
+    height: 10px;
+    width: 33px;
+    top: 11px;
+    right: -17px;
+    transform: rotate(66deg);
+    -webkit-transform: rotate(66deg);
+    -ms-transform: rotate(66deg);
+    position: absolute;
+    border-top: 1px solid $color-gray;
+    background-color: $color-lightGray;
+  }
+  &:after {
+    transform: rotate(111deg);
+    top: auto;
+    bottom: 11px;
+    background-color: $color-lightGray;
+  }
+}
+
+.hov-red{
+  &:hover {
+    background-color: $color-red;
+  }
+}
+
+.left-nav .box {
+  height: 37px;
+}
+
+img.custom-logo-upload-preview {
+  border: 1.5px dashed #aaa !important;
+  max-width: 336px;
+}
+
+.link-reset {
+  text-decoration: none !important;
+}
+
+.uk-disabled {
+  &.con-img-added-mascot-logo {
+    background-color: $color-light;
+    & img {
+      -webkit-filter: grayscale(100%) opacity(70%); /* Safari */
+      filter: grayscale(100%) opacity(70%);
+    }
+  }
+}
+
+.con-add-view-application {
+  & .con-add-application {
+    &.uk-active {
+      display: none;
+    }
+  }
+
+  & .con-toggle {
+    & .toggle-show.uk-active {
+      background-color: $color-darker;
+      color: $color-light;
+    }
+  }
+}
+
+
+@media screen and (min-width: 640px) {
+
+  .left-nav {
+    //margin-left: -36px;
+    max-width: 36px;
+  }
+
+  .left-nav .box {
+    width: 100% !important;
+    flex-basis: auto;
+    flex: none;
+  }
+
+  .con-preview-pane-thumb-nav {
+    max-width: 80px;
+  }
+
+  .wer {
+    margin-left: 36px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .hidden-xxs {
+    display:none;
+  }
+}

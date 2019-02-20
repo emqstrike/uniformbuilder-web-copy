@@ -121,6 +121,10 @@ elixir(function(mix) {
         'public/uniform-builder/js/ub.js'
     );
 
+
+    mix.scripts('richardson/RichardsonIndex.js', 'public/richardson/js/RichardsonIndex.js')
+       .scripts('richardson/uniform-builder-richardson-data.js', 'public/richardson/js/uniform-builder-richardson-data.js')
+
     mix.less(
         [
             // Third-party
@@ -139,5 +143,10 @@ elixir(function(mix) {
         // Result
         'public/uniform-builder/css/uniform-builder.css'
     );
-    
+
+    mix.sass([
+        'style.scss'
+    ],
+
+    'public/richardson/css/richardson-builder.css');
 });
