@@ -236,22 +236,22 @@
 </script>
 
 <script type="text/template" id="order-list-tmpl">
-<% if (!_.isEmpty(orders)) { %>
-    <% _.each(orders, function(order) { %>
-        <div class="item">
-            <img src="<%= order.images.front_image %>" class="img-responsive" alt="" />
-            <div class="order-details">
-                <h3 class="order-title"><%= order.name %></h3>
-                <p>Material ID: <span class="badge"><%= order.material_id %></span></p>
-                <a href="javascript:void(0)" class="btn btn-info btn-sm view-selected-sizes" data-cart-item-id="<%= order.cart_item_id %>">View selected sizes</a>
+    <% if (!_.isEmpty(orders)) { %>
+        <% _.each(orders, function(order) { %>
+            <div class="item">
+                <img src="<%= order.images.front_image %>" class="img-responsive" alt="" />
+                <div class="order-details">
+                    <h3 class="order-title"><%= order.name %></h3>
+                    <p>Material ID: <span class="badge"><%= order.material_id %></span></p>
+                    <a href="javascript:void(0)" class="btn btn-info btn-sm view-selected-sizes" data-cart-item-id="<%= order.cart_item_id %>">View selected sizes</a>
+                </div>
             </div>
+        <% }); %>
+    <% } else { %>
+        <div class="alert alert-info">
+            <p>No Orders found.</p>
         </div>
-    <% }); %>
-<% } else { %>
-    <div class="alert alert-info">
-        <p>No Orders found.</p>
-    </div>
-<% } %>
+    <% } %>
 </script>
 
 <script type="text/javascript">

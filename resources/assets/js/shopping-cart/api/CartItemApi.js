@@ -93,5 +93,16 @@ CartItemApi.prototype = {
      */
     deleteToCart: function(cart_item_id, callback) {
         $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", $.extend(this.cartPermit, {_method: "DELETE"}), callback);
+    },
+
+    /**
+     * Retain item to cart. Assume the cart have duplicate cart item.
+     *
+     * @param  {int}   cart_item_id
+     * @param  {function} callback
+     * @return {void}
+     */
+    retainItem: function(cart_item_id, callback) {
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/retain-item", $.extend(this.cartPermit, {_method: "POST"}), callback);
     }
 };

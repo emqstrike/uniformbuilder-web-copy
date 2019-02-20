@@ -16,6 +16,7 @@ Route::group([
         Route::put('{cart_item_id}/update-back-image', "CartItemController@updateBackImage");
         Route::put('{cart_item_id}/update-right-image', "CartItemController@updateRightImage");
         Route::delete('{cart_item_id}/delete-to-cart', "CartItemController@deleteToCart");
+        Route::post('{cart_item_id}/retain-item', "CartItemController@retainItem");
     });
 
     Route::group([

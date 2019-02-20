@@ -27,4 +27,11 @@ class CartItem extends Model
 
         return compact('left_image', 'front_image', 'back_image', 'right_image');
     }
+
+    public function getDuplicateItem($cart_id)
+    {
+        return static::where('material_id', $this->material_id)
+                ->where('cart_id', $cart_id)
+                ->get();
+    }
 }

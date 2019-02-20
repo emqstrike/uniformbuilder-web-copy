@@ -10,28 +10,41 @@ var Cart = {
 
     init: function() {
         Cart.initCartItems(function() {
-            var el = $('#cart-items-el');
-            var tmpl = _.template($('#cart-items-tmpl').html());
+            var duplicate_material = Cart.getDuplicateMaterial(Cart.cart_items);
 
-            el.append(tmpl({
-                sizes: customizer_sizes,
-                cart_items: Cart.cart_items
-            }));
+            if (duplicate_material.length > 0) {
+                var duplicate_items_tmpl = _.template($('#duplicate-items-tmpl').html());
+                bootbox.dialog({
+                    title: "You have duplicate items. Please choose do you want to retain.",
+                    message: duplicate_items_tmpl({duplicate_cart_items: duplicate_material}),
+                    closeButton: false
+                });
 
-            var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
-            _.map(cart_item_ids, function(cart_item_id) {
-                var default_size = $(':input[name="size"]', el).val();
-                return Cart.loadPlayers(cart_item_id, parseInt(default_size));
-            });
+                $('body').on('click', '#duplicate-items-container .cart-item-btn', Cart.onSelectItemToBeRetain);
+            } else {
+                var el = $('#cart-items-el');
+                var cart_items_tmpl = _.template($('#cart-items-tmpl').html());
 
-            $(':input[name="size"]', el).change(Cart.onSizeChange);
-            $('.player-list .add-player', el).click(Cart.onAddPlayer);
-            $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+                el.append(cart_items_tmpl({
+                    sizes: customizer_sizes,
+                    cart_items: Cart.cart_items
+                }));
 
-            $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
-            $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+                var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
+                _.map(cart_item_ids, function(cart_item_id) {
+                    var default_size = $(':input[name="size"]', el).val();
+                    return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+                });
 
-            $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
+                $(':input[name="size"]', el).change(Cart.onSizeChange);
+                $('.player-list .add-player', el).click(Cart.onAddPlayer);
+                $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+
+                $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+                $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+
+                $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
+            }
         });
     },
 
@@ -72,6 +85,63 @@ var Cart = {
         $('.player-list tbody', cart_item_el).html(player_rows_tmpl({
             players: players
         }));
+    },
+
+    getDuplicateMaterial: function (cart_items)
+    {
+        var duplicate_material = [];
+        var material_ids = _.uniq(_.pluck(cart_items, "material_id"));
+
+        for (var i in material_ids) {
+            var material_id = material_ids[i];
+            var result = _.where(cart_items, {material_id: material_id});
+
+            if (result.length > 1) {
+                duplicate_material.push(result);
+            }
+        }
+
+        return duplicate_material;
+    },
+
+    onSelectItemToBeRetain: function() {
+        var _this = this;
+
+        $(this).parent().find('button').removeClass("active");
+        $(this).addClass("active");
+
+        bootbox.confirm("Are you sure do you want to retain the selected item?", function(yes) {
+            if (yes) {
+                var cart_item_id = $(_this).data('cart-item-id');
+
+                ShoppingCart.cia.retainItem(cart_item_id, function(response) {
+                    if (response.success) {
+                        $(_this).removeClass("btn-default").addClass("btn-success").prop('disabled', true);
+                        $(_this).parent().find("button:not('.active')").fadeOut(function() {
+                            $(this).remove();
+
+                            var done = true;
+                            $.each($('#duplicate-items-container .panel'), function(index, el) {
+                                if ($('.cart-item-btn', el).length > 1) {
+                                    done = false;
+                                    return;
+                                }
+                            });
+
+                            if (done) {
+                                location.reload();
+                            }
+                        });
+
+                        console.log(response.message);
+                    } else {
+                        bootbox.alert(response.message);
+                    }
+                });
+            } else {
+                $(_this).removeClass('active');
+            }
+        });
     },
 
     onSizeChange: function() {

@@ -206,7 +206,7 @@ class CartItemController extends Controller
      * - logged_in_token
      * - cart_token
      */
-    public function deleteToCart($cart_item_id)
+    public function deleteToCart(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
         $cartItem->cartItemPlayers()->delete();
@@ -221,6 +221,38 @@ class CartItemController extends Controller
             [
                 'success' => false,
                 'message' => "Cannot delete item to cart this time. Please try again later."
+            ]
+        );
+    }
+
+    /**
+     * Data available
+     * - logged_in_token
+     * - cart_token
+     */
+    public function retainItem(Request $request, $cart_item_id)
+    {
+        $cart_token = $request->get('cart_token');
+        $cart = Cart::findByToken($cart_token);
+        $cart_items = $cart->cart_items;
+
+        $cart_item = CartItem::find($cart_item_id);
+        $duplicate_item_ids = $cart_item->getDuplicateItem($cart->id)->pluck('id')->toArray();
+
+        // remove cart item id that to be retain
+        unset($duplicate_item_ids[array_search($cart_item_id, $duplicate_item_ids)]);
+
+        $destroy_nums = CartItem::destroy($duplicate_item_ids);
+
+        return response()->json(
+            $destroy_nums > 0 ?
+            [
+                'success' => true,
+                'message' => "Successfully retain the cart item"
+            ] :
+            [
+                'success' => false,
+                'message' => "Cannot retain the cart item this time. Please try again later."
             ]
         );
     }

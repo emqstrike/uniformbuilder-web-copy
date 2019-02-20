@@ -26,6 +26,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
@@ -33,78 +34,58 @@
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
 <script type="text/template" id="duplicate-items-tmpl">
-    <table class="table table-hover table-bordered table-condensed table-striped">
-        <tbody>
-            <tr>
-                <td>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/f742463c33a60a4b4c0c1b94/f742463c33a60a4b4c0c1b94.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Left</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/0b153e364d165c03065231da/0b153e364d165c03065231da.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Front</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/934893c5fc6f1864634bb19b/934893c5fc6f1864634bb19b.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Back</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/bbfe44e7e4669d303a95b0c6/bbfe44e7e4669d303a95b0c6.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Right</b>
-                            </p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/f742463c33a60a4b4c0c1b94/f742463c33a60a4b4c0c1b94.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Left</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/0b153e364d165c03065231da/0b153e364d165c03065231da.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Front</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/934893c5fc6f1864634bb19b/934893c5fc6f1864634bb19b.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Back</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="https://s3.us-west-2.amazonaws.com/api-qstrike/uploaded_files/production/bbfe44e7e4669d303a95b0c6/bbfe44e7e4669d303a95b0c6.blob" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Right</b>
-                            </p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</script>
+    <div id="duplicate-items-container">
+        <% _.each(duplicate_cart_items, function(cart_items) { %>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title"><%= cart_items[0].name %></h1>
+                </div>
+                <div class="panel-body">
+                    <div class="btn-group-vertical btn-block">
+                        <% _.each(cart_items, function (item) { %>
+                            <button type="button" class="btn btn-default cart-item-btn" data-cart-item-id="<%= item.cart_item_id %>">
+                                <% if (item.images.left_image !== null) { %>
+                                    <div class="col-md-3">
+                                        <img src="<%= item.images.left_image %>" class="img-responsive" alt="" width="100" />
+                                        <p class="text-center">
+                                            <b>Left</b>
+                                        </p>
+                                    </div>
+                                <% } %>
 
-<script type="text/javascript">
-    var tmpl = _.template($('#duplicate-items-tmpl').html());
-    bootbox.dialog({
-        title: "You have duplicate items. Please choose do you want to retain.",
-        message: tmpl()
-    });
+                                <% if (item.images.front_image !== null) { %>
+                                    <div class="col-md-3">
+                                        <img src="<%= item.images.front_image %>" class="img-responsive" alt="" width="100" />
+                                        <p class="text-center">
+                                            <b>Front</b>
+                                        </p>
+                                    </div>
+                                <% } %>
+
+                                <% if (item.images.back_image !== null) { %>
+                                    <div class="col-md-3">
+                                        <img src="<%= item.images.back_image %>" class="img-responsive" alt="" width="100" />
+                                        <p class="text-center">
+                                            <b>Back</b>
+                                        </p>
+                                    </div>
+                                <% } %>
+
+                                <% if (item.images.right_image !== null) { %>
+                                    <div class="col-md-3">
+                                        <img src="<%= item.images.right_image %>" class="img-responsive" alt="" width="100" />
+                                        <p class="text-center">
+                                            <b>Right</b>
+                                        </p>
+                                    </div>
+                                <% } %>
+                            </button>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
 </script>
 
 <script type="text/template" id="cart-items-tmpl">
