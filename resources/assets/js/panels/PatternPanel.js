@@ -240,10 +240,22 @@ PatternPanel.prototype = {
             }
 
             // Return Normal Width
-            $(".pattern-color-categories .pattern-category-1").parent().css('width', '');
-            $(".pattern-color-categories .pattern-category-2").parent().css('width', '');
-            $(".pattern-color-categories .pattern-category-3").parent().css('width', '');
-            $(".pattern-color-categories .pattern-category-4").parent().css('width', '');
+            $(".pattern-color-categories .pattern-category-1").parent().css({
+                "width": '',
+                "display": 'block'
+            });
+            $(".pattern-color-categories .pattern-category-2").parent().css({
+                "width": '',
+                "display": 'block'
+            });
+            $(".pattern-color-categories .pattern-category-3").parent().css({
+                "width": '',
+                "display": 'block'
+            });
+            $(".pattern-color-categories .pattern-category-4").parent().css({
+                "width": '',
+                "display": 'block'
+            });
             $(".pattern-color-categories .pattern-category-1").css('display', 'block');
             $(".pattern-color-categories .pattern-category-2").css('display', 'block');
             $(".pattern-color-categories .pattern-category-3").css('display', 'block');
@@ -251,22 +263,25 @@ PatternPanel.prototype = {
 
             switch (_layerCount) {
                 case 1:
+                    console.log("1")
                     $(".pattern-color-categories .pattern-category-2").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
                     break;
                 case 2:
+                    console.log("2")
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
                 case 3:
-                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '33.3%');
-                    $(".pattern-color-categories .pattern-category-2").parent().css('width', '33.3%');
-                    $(".pattern-color-categories .pattern-category-3").parent().css('width', '33.3%');
-                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
+                    console.log("3")
+                    $(".pattern-color-categories a.pattern-category-1").parent().css('width', '33.3%');
+                    $(".pattern-color-categories a.pattern-category-2").parent().css('width', '33.3%');
+                    $(".pattern-color-categories a.pattern-category-3").parent().css('width', '33.3%');
+                    $(".pattern-color-categories a.pattern-category-4").parent().css('display', 'none');
                     break;
             }
 
