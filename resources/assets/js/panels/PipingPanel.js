@@ -224,9 +224,18 @@ PipingPanel.events = {
         $(".piping-color-categories .piping-color-item .piping-category-1").css('display', 'block');
         $(".piping-color-categories .piping-color-item .piping-category-2").css('display', 'block');
         $(".piping-color-categories .piping-color-item .piping-category-3").css('display', 'block');
-        $(".piping-color-categories .piping-color-item .piping-category-1").parent().css('width', '');
-        $(".piping-color-categories .piping-color-item .piping-category-2").parent().css('width', '');
-        $(".piping-color-categories .piping-color-item .piping-category-3").parent().css('width', '');
+        $(".piping-color-categories .piping-color-item .piping-category-1").parent().css({
+            "width": '',
+            "display": 'block'
+        });
+        $(".piping-color-categories .piping-color-item .piping-category-2").parent().css({
+            "width": '',
+            "display": 'block'
+        });
+        $(".piping-color-categories .piping-color-item .piping-category-3").parent().css({
+            "width": '',
+            "display": 'block'
+        });
 
         switch (number_of_colors) {
             case 1:
