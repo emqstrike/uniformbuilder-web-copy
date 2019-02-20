@@ -65,7 +65,7 @@
             </div>
             <div class="cp-width-1-1">
                 <div class="cp-padding-xs cp-bgc-darkerGray">
-                    <h4 class="cp-text-uppercase cp-text-center cp-margin-remove cp-fc-white">Finish / View Summary</h4>
+                    <h4 class="cp-text-uppercase cp-text-center cp-margin-remove cp-fc-white abrade-ultra-italic">Finish / View Summary</h4>
                 </div>
             </div>
             <div class="cp-width-1-1">

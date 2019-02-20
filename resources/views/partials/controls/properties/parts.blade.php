@@ -7,13 +7,13 @@
                     <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
                         <div class="cp-text-uppercase">
                             <h4 class="header cp-text-bold abrade-ultra-italic">@{{ name }}</h4>
-                            <p style="font-weight: bold; font-family: Abrade-Book;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
+                            <p class="cp-text-bold abrade-book">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-small">COLOR</p>
+                        <p class="cp-padding-left-small abrade-book">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element color-container-button cp-color-element-auto">
@@ -37,7 +37,7 @@
 
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-small" style="font-family: Abrade-Book;">PATTERN</p>
+                        <p class="cp-padding-left-small abrade-book">PATTERN</p>
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
                                 <div class="color_element cp-color-element-auto">
@@ -94,7 +94,7 @@
         <div class="modal-content cp-padding-large">
             <div class="modal-header cp-bgc-light cp-text-center">
                 <div>
-                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">Pattern Color</h4>
+                    <h4 class="modal-title cp-text-uppercase cp-text-bold" id="myModalLabel">Pattern Color</h4>
                 </div>
             </div>
             <div class="modal-body cp-padding-remove-horizontal">

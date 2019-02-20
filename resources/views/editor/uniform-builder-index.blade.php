@@ -89,14 +89,14 @@
 @section('right-pane')
 
     <div id="property-modifiers-menu" class="hidden">
-        <a href="#" class="group-pane tippy-menu-item group-1 menu-item-fabrics" data-tippy-content="FABRICS" data-item="fabrics">1</a>
-        <a href="#" class="group-pane tippy-menu-item group-2 menu-item-parts" data-tippy-content="PARTS" data-item="parts">2</a>
-        <a href="#" class="group-pane tippy-menu-item group-3 menu-item-inserts" data-tippy-content="INSERTS" data-item="inserts">3</a>
-        <a href="#" class="group-pane group-4 menu-item-pipings">4</a>
-        <a href="#" class="group-pane tippy-menu-item group-5 menu-item-letters" data-tippy-content="LETTERS" data-item="letters">5</a>
-        <a href="#" class="group-pane tippy-menu-item group-6 menu-item-numbers" data-tippy-content="NUMBERS" data-item="numbers">6</a>
-        <a href="#" class="group-pane tippy-menu-item group-7 menu-item-applications" data-tippy-content="APPLICATIONS" data-item="applications">7</a>
-        <a href="#" class="group-pane tippy-menu-item group-8 menu-item-logo" data-tippy-content="LOGO" data-item="logo">8</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-1 menu-item-fabrics" data-tippy-content="FABRICS" data-item="fabrics">1</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-2 menu-item-parts" data-tippy-content="PARTS" data-item="parts">2</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-3 menu-item-inserts" data-tippy-content="INSERTS" data-item="inserts">3</a>
+        <a href="#" class="group-pane abrade-ultra group-4 menu-item-pipings">4</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-5 menu-item-letters" data-tippy-content="LETTERS" data-item="letters">5</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-6 menu-item-numbers" data-tippy-content="NUMBERS" data-item="numbers">6</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-7 menu-item-applications" data-tippy-content="APPLICATIONS" data-item="applications">7</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-8 menu-item-logo" data-tippy-content="LOGO" data-item="logo">8</a>
     </div>
 
     <div id="right-pane" class="pane">

@@ -1264,9 +1264,9 @@
                         </div>
                         <div class="col-md-7 cp-padding-remove">
                             <div class="thumb-links">
-                                <h5>@{{ type }}</h5>
-                                <a href="@{{ viewArtDetails }}"><p>View Art Details</p></a>
-                                <a href="@{{ viewPrint }}"><p>View Print Ready File</p></a>
+                                <h5 class="abrade-black">@{{ type }}</h5>
+                                <a href="@{{ viewArtDetails }}"><p class="abrade-book">View Art Details</p></a>
+                                <a href="@{{ viewPrint }}"><p class="abrade-book">View Print Ready File</p></a>
                             </div>
                         </div>
                     </div>
