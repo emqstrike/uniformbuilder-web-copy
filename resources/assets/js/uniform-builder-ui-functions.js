@@ -56,9 +56,14 @@ $(document).ready(function() {
 
         // Add CSS in left side toolbar
         $("div#left-side-toolbar").css({
-            "top": '150px',
+            "top": '220px',
             "left": '120px'
         });
+
+        $("div#right-pane-column").css({
+            "top": "220px",
+            "right": "50px"
+        })
     };
 
     ub.funcs.removeSpecialModifier = function() {
@@ -155,7 +160,10 @@ $(document).ready(function() {
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
-            $("#main_container").css("display", "block");
+            $("#main_container").css({
+                "display": "block",
+                "margin": "0"
+            });
         }, 2000)
     };
 

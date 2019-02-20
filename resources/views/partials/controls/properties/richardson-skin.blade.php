@@ -39,38 +39,42 @@
 <script type="text/mustache" id="m-richardson-footer">
     <div class="richardson-footer">
         <div class="cp-padding-tiny cp-bgc-light">
-            <div class="cp-border cp-border-black">
-                <div class="row">
-                    <a href="javascript:void(0)" class="richardson-onPrevious cp-fc-black">
-                        <div class="col-md-1 cp-padding-remove">
-                            <div class="richardson-arrow-left cp-padding-tiny">
-                                <span class="fa fa-arrow-left cp-fc-red cp-text-center"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-5 cp-padding-remove cp-border cp-border-black cp-remove-border-vertical">
-                            <h4 class="cp-text-uppercase cp-text-center">Previous</h4>
-                        </div>
-                    </a>
-                    <a href="javascript:void(0)" class="richardson-onNext cp-fc-black">
-                        <div class="col-md-5 cp-padding-remove cp-border cp-border-black cp-remove-border-vertical">
-                            <h4 class="cp-text-uppercase cp-text-center">Next</h4>
-                        </div>
-                        <div class="col-md-1 cp-padding-remove">
-                            <div class="richardson-arrow cp-padding-tiny">
-                                <span class="fa fa-arrow-right cp-fc-red cp-text-center"></span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="cp-width-1-1">
-                <div class="cp-padding-xs cp-bgc-darkerGray">
-                    <h4 class="cp-text-uppercase cp-text-center cp-margin-remove cp-fc-white abrade-ultra-italic">Finish / View Summary</h4>
-                </div>
-            </div>
             <div class="cp-width-1-1">
                 <div class="cp-padding-xs">
-                    
+                    <div class=" uk-grid-collapse uk-text-center" uk-grid>
+                        <a href="javascript:void(0)" class="richardson-onPrevious uk-link-reset uk-width-1-2 abrade-medium" uk-switcher-item="previous">
+                            <div class="uk-grid-collapse" uk-grid>
+                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark bdr-remove-right">
+                                    <span class="fc-red fa fa-arrow-left"></span>
+                                </div>
+                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Prev<span class="hidden-xxs">ious</span></div>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0)" class="richardson-onNext uk-link-reset uk-width-1-2 abrade-medium"uk-switcher-item="next">
+                            <div class="uk-grid-collapse" uk-grid>
+                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Next</div>
+                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark">
+                                    <span class="fc-red fa fa-arrow-right"></span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cp-width-1-1 cp-padding-small">
+                <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic" uk-grid>
+                    <div class="uk-width-expand con-legend uk-grid-small grid-tiny uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <div class="bdr-red bdr-reg box"></div>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-text-middle">= Incomplete Step</span>
+                        </div>
+                    </div>
+                    <div class="uk-width-auto">
+                        <a href="#" class="uk-link-reset fc-red abrade-ultra-italic">User Login</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
-    @if(env("BRAND") === "Richardson")
-    <link rel="stylesheet" href="{{$asset_storage}}/richardson/css/richardson-builder.css?v={{$asset_version}}">
-    @endif
 
+    @if(env("BRAND") === "Richardson" && env("HEADER_VISIBLE"))
+        <link rel="stylesheet" href="{{$asset_storage}}/richardson/css/richardson-builder.css?v={{$asset_version}}">
+        <link rel="stylesheet" href="{{$asset_storage}}/node_modules/uikit/dist/css/uikit.css?v={{$asset_version}}">
+    @endif

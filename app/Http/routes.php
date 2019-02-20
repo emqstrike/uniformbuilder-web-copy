@@ -11,7 +11,11 @@
 |
 */
 Route::get('/', function () {
-    return redirect('/index');
+    if (env("BRAND") === "Richardson") {
+        return redirect("/richardson/index");
+    } else {
+        return redirect('/index');
+    }
 });
 
 Route::get('/down', function () {

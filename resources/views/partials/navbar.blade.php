@@ -185,4 +185,7 @@
         </div>
     </div>
 </nav>
+
+@elseif (env("HEADER_VISIBLE"))
+@include("richardson.includes.navbar")
 @endif
