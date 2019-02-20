@@ -15,6 +15,7 @@
             api_host: "{{ config('customizer.api_http_protocol') }}://{{ config('customizer.api_host') }}",
             asset_version: "{{ $asset_version }}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
+            isHeaderVisible: "{{ env('HEADER_VISIBLE') }}",
 
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",

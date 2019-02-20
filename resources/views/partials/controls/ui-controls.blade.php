@@ -1080,7 +1080,7 @@
 
                 @{{#designType}}
                     <div class="posContainer clearfix app-letters-wrapper @{{ showTypes }}">
-                        <h5>CHOOSE A DESIGN TYPE</h5>
+                        <h5 class="uk-margin-small abrade-black">CHOOSE A DESIGN TYPE</h5>
                         @{{#designTypeData}}
                             <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
                         @{{/designTypeData}}
@@ -1089,7 +1089,7 @@
 
                 @{{#perspective}}
                     <div class="posContainer clearfix app-letters-wrapper">
-                        <h5>CHOOSE PERSPECTIVE</h5>
+                        <h5 class="uk-margin-small abrade-black">CHOOSE PERSPECTIVE</h5>
                         <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
                         <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
                         <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
@@ -1099,7 +1099,7 @@
 
                 @{{#part}}
                     <div class="posContainer clearfix app-letters-wrapper">
-                        <h5>CHOOSE PART</h5>
+                        <h5 class="uk-margin-small abrade-black">CHOOSE PART</h5>
                         @{{#partsData}}
                         <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
                         @{{/partsData}}
@@ -1108,7 +1108,7 @@
 
                 @{{#side}}
                     <div class="posContainer clearfix sideOptions hide app-letters-wrapper">
-                        <h5>CHOOSE SIDE</h5>
+                        <h5 class="uk-margin-small abrade-black">CHOOSE SIDE</h5>
                         <button class="side" data-id="na" style="display: none;">N/A</button>
                         <button class="app-btn w-45 side" data-id="right">Right</button>
                         <button class="app-btn w-45 side" data-id="left">Left</button>

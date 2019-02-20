@@ -1,19 +1,19 @@
 <script type="text/mustache" id="m-parts">
-<div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
+<div class="cp-padding-medium" id="primary_options_colors">
     <ul style="list-style:none; padding: 0 !important" class="parts-container">
         @{{ #parts }}
             <li class="panel-index-@{{ index }}">
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
                         <div class="cp-text-uppercase">
-                            <h4 class="header cp-text-bold abrade-ultra-italic">@{{ name }}</h4>
-                            <p class="cp-text-bold abrade-book">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
+                            <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove">@{{ name }}</h4>
+                            <p class="cp-text-bold abrade-book uk-margin-small uk-margin-remove-top">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book">COLOR</p>
+                        <p class="cp-padding-left-small abrade-book uk-margin-small">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element color-container-button cp-color-element-auto">
@@ -37,7 +37,7 @@
 
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book">PATTERN</p>
+                        <p class="cp-padding-left-small abrade-book uk-margin-small">PATTERN</p>
                         <div class="pattern-main-container-@{{ fullname }}">
                             @{{ #patterns }}
                                 <div class="color_element cp-color-element-auto">

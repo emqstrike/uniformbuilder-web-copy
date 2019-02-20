@@ -137,7 +137,8 @@ elixir(function(mix) {
             'application-ui-new.less',
             'application-ui-new-letters.less',
             'application-ui-new-numbers.less',
-            'application-ui-new-fabrics.less'
+            'application-ui-new-fabrics.less',
+            'tippy-tooltip.less'
         ],
 
         // Result

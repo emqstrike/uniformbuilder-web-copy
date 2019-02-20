@@ -52,7 +52,8 @@ ModifierController.prototype = {
             delay: 0,
             size: 'large',
             animation: 'shift-away',
-            placement: 'left-end'
+            placement: 'left-end',
+            arrow: true
         });
 
         // change pipings to random feeds if the item is sock
@@ -61,7 +62,8 @@ ModifierController.prototype = {
             delay: 0,
             size: 'large',
             animation: 'shift-away',
-            placement: 'left-end'
+            placement: 'left-end',
+            arrow: true
         });
     },
 

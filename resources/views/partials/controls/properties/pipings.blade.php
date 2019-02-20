@@ -4,8 +4,8 @@
         @{{ #piping_set_items }}
             <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
                 <div class="cp-text-uppercase">
-                    <h4 class="header cp-text-bold abrade-ultra-italic">@{{ type_wo_left_prefix }}</h4>
-                    <p class="cp-text-bold">Choose Size</p>
+                    <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove">@{{ type_wo_left_prefix }}</h4>
+                    <p class="cp-text-bold uk-margin-remove-top">Choose Size</p>
                 </div>
                 <div class="sizes">
                     <div class="row">

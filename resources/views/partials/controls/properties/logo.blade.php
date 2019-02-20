@@ -1,8 +1,8 @@
 <script type="text/mustache" id="m-logo">
     <div class="cp-padding-medium cp-padding-top-small" id="primary_option_logo">
         <div class="logo-header">
-            <h4 class="cp-margin-remove cp-text-uppercase cp-text-bold">@{{ brand }} Logo</h4>
-            <p class="cp-text-uppercase cp-text-medium cp-padding-small cp-padding-remove-horizontal cp-margin-remove">Choose Location</p>
+            <h4 class="cp-margin-remove cp-text-uppercase cp-text-bold abrade-ultra-italic">@{{ brand }} Logo</h4>
+            <h5 class="cp-text-uppercase cp-text-medium uk-margin-small">Choose Location</h5>
         </div>
         <div class="row logo-perspective-btn-container">
             @{{ #logo_position }}
