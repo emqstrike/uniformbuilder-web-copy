@@ -16,7 +16,7 @@
     <div class="richardson-header">
         <div class="">
             <a href="/" class="cp-text-uppercase cp-fc-black pull-right">
-                <h5 class="cp-text-uppercase cp-fc-black pull-right cp-margin-remove">
+                <h5 class="cp-text-uppercase cp-fc-black pull-right cp-margin-remove" style="font-family: Abrade-Book;">
                     SELECT NEW STYLE
                 </h5>
             </a>
@@ -24,13 +24,13 @@
         <br/>
         <div class="uniform-name">
             <div>
-                <h6 class="cp-text-uppercase cp-text-bold cp-fc-black cp-margin-remove cp-padding-xs cp-padding-remove-horizontal">@{{ block_pattern }}</h6>
+                <h4 class="cp-text-uppercase cp-text-bold cp-fc-black cp-margin-remove cp-padding-xs cp-padding-remove-horizontal oswald-regular">@{{ block_pattern }}</h4>
             </div>
             <div>
-                <h4 class="cp-text-uppercase cp-text-bold cp-fc-darkGray cp-margin-remove cp-padding-xs cp-padding-remove-horizontal">@{{ uniform_name }}</h4>
+                <h2 class="cp-text-uppercase cp-text-bold cp-fc-darkGray cp-margin-remove cp-padding-xs cp-padding-remove-horizontal abrade-ultra-italic cp-text-large">@{{ uniform_name }}</h2>
             </div>
             <div>
-                <h6 class="cp-text-uppercase cp-text-bold cp-fc-red cp-padding-xs cp-margin-remove cp-padding-remove-horizontal">@{{ application_type }}</h6>
+                <h6 class="cp-text-uppercase cp-text-bold cp-fc-red cp-padding-xs cp-margin-remove cp-padding-remove-horizontal abrade-ultra cp-text-medium">@{{ application_type }}</h6>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="cp-width-1-1">
                 <div class="cp-padding-xs cp-bgc-darkerGray">
-                    <h4 class="cp-text-uppercase cp-text-center cp-margin-remove cp-fc-white">Finish / View Summary</h4>
+                    <h4 class="cp-text-uppercase cp-text-center cp-margin-remove cp-fc-white abrade-ultra-italic">Finish / View Summary</h4>
                 </div>
             </div>
             <div class="cp-width-1-1">

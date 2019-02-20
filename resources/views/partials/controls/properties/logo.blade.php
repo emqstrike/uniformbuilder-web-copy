@@ -28,13 +28,11 @@
 
 <script type="text/mustache" id="m-no-logo-message">
     <div id="m-no-logo-message" class="m-no-logo-message cp-padding-medium cp-padding-remove-vertical">
-        <h3>Notice</h3>
         <div>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
-        </div>
-
-        <div class="cp-padding-top-small">
-            <div class="cp-off-button">OFF</div>
+            <h3 class="abrade-ultra-italic">Notice</h3>
+            <div class="abrade-book">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
+            </div>
         </div>
     </div>
 </script>

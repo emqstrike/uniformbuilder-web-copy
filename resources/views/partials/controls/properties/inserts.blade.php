@@ -1,19 +1,19 @@
 <script type="text/mustache" id="m-inserts">
 <div class="cp-padding-medium cp-padding-remove-vertical" id="primary_options_colors">
-    <ul style="list-style:none; padding: 0 !important" id="parts-with-insert-container">
+    <ul style="list-style:none; padding: 0 !important" class="parts-container">
         @{{ #inserts }}
             <li class="panel-index-@{{ index }}">
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
-                        <div class="cp-text-uppercase ">
-                            <h4 class="header cp-text-bold">@{{ name }}</h4>
-                            <p style="font-weight: bold;">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
+                        <div class="cp-text-uppercase">
+                            <h4 class="header cp-text-bold abrade-ultra-italic">@{{ name }}</h4>
+                            <p class="cp-text-bold abrade-book">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-small ">COLOR</p>
+                        <p class="cp-padding-left-small abrade-book">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element color-container-button cp-color-element-auto">
@@ -32,50 +32,54 @@
                         </div>
                     </div>
                 </div>
+
                 @{{#hasPattern}}
-                    <div class="row modifier-wrapper">
-                        <div class="col-md-12 cp-padding-remove">
-                            <p class="cp-padding-left-small">PATTERN</p>
-                            <div class="pattern-main-container-@{{ fullname }}">
-                                @{{ #patterns }}
-                                    <div class="color_element cp-color-element-auto">
-                                        <div class="pattern-container-button" data-toggle="tooltip" data-placement="top" title="@{{ name }}">
-                                            <button
-                                                class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
-                                                style="background-image: url('@{{ icon }}');"
-                                                data-pattern-id="@{{ id }}"
-                                                data-pattern-name="@{{ name }}"
-                                                data-modifier-category="@{{ fullname }}"
-                                                data-modifier-index="@{{ index }}"
-                                            >
-                                            </button>
-                                        </div>
-                                    </div>
-                                @{{ /patterns }}
-                                @{{#hasGradient}}
-                                <div class="color_element">
-                                    <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
+
+                <div class="row modifier-wrapper">
+                    <div class="col-md-12 cp-padding-remove">
+                        <p class="cp-padding-left-small abrade-book">PATTERN</p>
+                        <div class="pattern-main-container-@{{ fullname }}">
+                            @{{ #patterns }}
+                                <div class="color_element cp-color-element-auto">
+                                    <div class="pattern-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
                                         <button
-                                            class="grow change-color whitebtn cp-new-color-box gradient-selector-button"
-                                            style="background-image: linear-gradient(red, yellow)"
-                                            data-gradient-name="gradient"
+                                            class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
+                                            style="background-image: url('@{{ icon }}');"
+                                            data-pattern-id="@{{ id }}"
+                                            data-pattern-name="@{{ name }}"
                                             data-modifier-category="@{{ fullname }}"
                                             data-modifier-index="@{{ index }}"
                                         >
                                         </button>
                                     </div>
                                 </div>
-                                @{{/hasGradient}}
+                            @{{ /patterns }}
+                            @{{#hasGradient}}
+                            <div class="color_element cp-color-element-auto">
+                                <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
+                                    <button
+                                        class="grow change-color whitebtn cp-new-color-box gradient-selector-button"
+                                        style="background-image: linear-gradient(red, yellow)"
+                                        data-gradient-name="gradient"
+                                        data-modifier-category="@{{ fullname }}"
+                                        data-modifier-index="@{{ index }}"
+                                    >
+                                    </button>
+                                </div>
                             </div>
+                            @{{/hasGradient}}
                         </div>
                     </div>
-                    <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
-                        <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
-                            <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
-                            </div>
+                </div>
+                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
+                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
+                        <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
                         </div>
                     </div>
+                </div>
+
                 @{{/hasPattern}}
+
                 <div class="row modifier-wrapper">
                     <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-padding-remove-vertical cp-margin-remove">
                         <p class="cp-margin-remove-top cp-border"></p>
@@ -86,13 +90,9 @@
 
         @{{^inserts}}
             <div>
-                <h3 class="">Notice</h3>
-                <div class="">
+                <h3 class="abrade-ultra-italic">Notice</h3>
+                <div class="abrade-book">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
-                </div>
-
-                <div class="cp-padding-top-small">
-                    <div class="cp-off-button">OFF</div>
                 </div>
             </div>
         @{{/inserts}}
@@ -103,7 +103,7 @@
         <div class="modal-content cp-padding-large">
             <div class="modal-header cp-bgc-light cp-text-center">
                 <div>
-                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">Pattern Color</h4>
+                    <h4 class="modal-title cp-text-uppercase cp-text-bold" id="myModalLabel">Pattern Color</h4>
                 </div>
             </div>
             <div class="modal-body cp-padding-remove-horizontal">

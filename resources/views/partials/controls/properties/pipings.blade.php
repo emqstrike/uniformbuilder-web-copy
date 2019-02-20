@@ -1,9 +1,10 @@
+
 <script type="text/mustache" id="m-piping-sidebar-new">
     <div class="cp-padding-small richardson-piping-ui">
         @{{ #piping_set_items }}
             <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
                 <div class="cp-text-uppercase">
-                    <h4 class="header cp-text-bold">@{{ type_wo_left_prefix }}</h4>
+                    <h4 class="header cp-text-bold abrade-ultra-italic">@{{ type_wo_left_prefix }}</h4>
                     <p class="cp-text-bold">Choose Size</p>
                 </div>
                 <div class="sizes">
@@ -33,7 +34,7 @@
                 <div class="modal-content">
                     <div class="modal-header cp-bgc-light cp-text-center">
                         <div>
-                            <h4 class="modal-title cp-text-uppercase" id="myModalLabel">Piping Color</h4>
+                            <h4 class="modal-title cp-text-uppercase cp-text-bold" id="myModalLabel">Piping Color</h4>
                         </div>
                     </div>
                     <div class="modal-body cp-padding-remove-horizontal">
@@ -188,13 +189,11 @@
 
 <script type="text/mustache" id="m-no-piping-message">
     <div id="no-piping-message" class="no-piping-message">
-        <h3>Notice</h3>
         <div>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
-        </div>
-
-        <div class="cp-padding-top-small">
-            <div class="cp-off-button">OFF</div>
+            <h3 class="abrade-ultra-italic">Notice</h3>
+            <div class="abrade-book">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
+            </div>
         </div>
     </div>
 </script>
