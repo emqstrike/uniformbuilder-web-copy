@@ -39,40 +39,68 @@ var UBCart = {
         UBCart.fetchCartItems(function(response) {
             if (response.success) {
                 var cart_items = response.data;
-                console.log(cart_items);
+                var duplicate_material = UBCart.getDuplicateMaterial(cart_items);
 
-                // load cart items
-                UBCart.updateShoppingCartDetails(cart_items);
+                if (duplicate_material.length > 0) {
+                    var duplicate_items_tmpl = _.template($('#duplicate-items-tmpl').html());
+                    bootbox.dialog({
+                        title: "You have duplicate items. Please choose do you want to retain.",
+                        message: duplicate_items_tmpl({duplicate_cart_items: duplicate_material}),
+                        closeButton: false
+                    });
 
-                // add to cart button and update to cart
-                if (! _.contains(_.pluck(cart_items, "material_id"), ub.config.material_id)) {
-                    // add to cart
-                    $('#left-side-toolbar .cart-btn').attr('data-action', "add");
-                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
-
-                    // load the default settings
-                    ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
-                    ub.funcs.removeLocations();
+                    $('body').on('click', '#duplicate-items-container .cart-item-btn', UBCart.onSelectItemToBeRetain);
                 } else {
-                    // update cart
-                    var cart_item = _.find(cart_items, {material_id: ub.config.material_id});
+                    // load cart items
+                    UBCart.updateShoppingCartDetails(cart_items);
 
-                    $('#left-side-toolbar .cart-btn').attr('data-action', "update");
-                    $('#left-side-toolbar .cart-btn').data('cart-item-id', cart_item.id);
-                    $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+                    // add to cart button and update to cart
+                    if (! _.contains(_.pluck(cart_items, "material_id"), ub.config.material_id)) {
+                        // add to cart
+                        $('#left-side-toolbar .cart-btn').attr('data-action', "add");
+                        $('#left-side-toolbar .cart-btn .toolbar-item-label').text("ADD TO CART");
 
-                    // load the uniform settings of cart item
-                    ub.loadSettings(JSON.parse(cart_item.builder_customization));
-                    ub.funcs.removeLocations();
+                        // load the default settings
+                        ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
+                        ub.funcs.removeLocations();
+                    } else {
+                        // update cart
+                        var cart_item = _.find(cart_items, {material_id: ub.config.material_id});
+
+                        $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                        $('#left-side-toolbar .cart-btn').data('cart-item-id', cart_item.id);
+                        $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+
+                        // load the uniform settings of cart item
+                        ub.loadSettings(JSON.parse(cart_item.builder_customization));
+                        ub.funcs.removeLocations();
+                    }
+
+                    $('#my-shopping-cart').removeAttr('cloak');
+
+                    callback();
                 }
-
-                $('#my-shopping-cart').removeAttr('cloak');
-
-                callback();
             } else {
                 console.log("Something went wrong on fetching cart items!");
             }
         });
+    },
+
+    getDuplicateMaterial: function (cart_items)
+    {
+        var duplicate_material = [];
+        var material_ids = _.uniq(_.pluck(cart_items, "material_id"));
+
+        for (var i in material_ids) {
+            var material_id = material_ids[i];
+            var result = _.where(cart_items, {material_id: material_id});
+
+            if (result.length > 1) {
+                duplicate_material.push(result);
+            }
+        }
+
+        return duplicate_material;
     },
 
     fetchCartItems: function(callback) {
@@ -279,5 +307,45 @@ var UBCart = {
                 });
             }
         }, 1000);
+    },
+
+    onSelectItemToBeRetain: function() {
+        var _this = this;
+
+        $(this).parent().find('button').removeClass("active");
+        $(this).addClass("active");
+
+        bootbox.confirm("Are you sure do you want to retain the selected item?", function(yes) {
+            if (yes) {
+                var cart_item_id = $(_this).data('cart-item-id');
+
+                UBCart.cartItemApi.retainItem(cart_item_id, function(response) {
+                    if (response.success) {
+                        $(_this).removeClass("btn-default").addClass("btn-success").prop('disabled', true);
+                        $(_this).parent().find("button:not('.active')").fadeOut(function() {
+                            $(this).remove();
+
+                            var done = true;
+                            $.each($('#duplicate-items-container .panel'), function(index, el) {
+                                if ($('.cart-item-btn', el).length > 1) {
+                                    done = false;
+                                    return;
+                                }
+                            });
+
+                            if (done) {
+                                location.reload();
+                            }
+                        });
+
+                        console.log(response.message);
+                    } else {
+                        bootbox.alert(response.message);
+                    }
+                });
+            } else {
+                $(_this).removeClass('active');
+            }
+        });
     }
 };
