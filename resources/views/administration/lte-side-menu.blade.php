@@ -241,7 +241,7 @@
       </li>
       <li  data-step="21" data-intro="For Reversible Groups settings.">
         <a href="/administration/reversible_groups">
-          <i class="fa fa-retweet"></i> <span>Reversible Groups</span>
+           <i class="fa fa-retweet"></i> <span>Reversible Groups</span>
         </a>
       </li>
     </ul>
@@ -277,7 +277,7 @@
     </a>
   </li>
   <li data-position='right'>
-    <a href="/administration/saved_designs" >
+    <a href="/administration/v1-0/saved_designs" >
       <i class="glyphicon glyphicon-blackboard"></i> <span>Saved Designs</span>
     </a>
   </li>
