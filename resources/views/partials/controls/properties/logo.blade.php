@@ -27,7 +27,7 @@
 </script>
 
 <script type="text/mustache" id="m-no-logo-message">
-    <div id="m-no-logo-message" class="m-no-logo-message cp-padding-medium cp-padding-remove-vertical">
+    <div id="m-no-logo-message" class="m-no-logo-message uk-padding-small">
         <div>
             <h3 class="abrade-ultra-italic">Notice</h3>
             <div class="abrade-book">

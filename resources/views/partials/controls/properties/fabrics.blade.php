@@ -1,8 +1,8 @@
 <script type="x-tmpl-mustache" id="fabric-tmpl">
     @{{ #fabrics }}
         <div class="fabric-container">
-            <h4>FABRIC</h4>
-            <h5>CHOOSE BASE FABRIC</h5>
+            <h4 class="cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">FABRIC</h4>
+            <h5 class="cp-text-bold abrade-book uk-margin-small uk-margin-remove-top uk-text-uppercase">CHOOSE BASE FABRIC</h5>
 
             <div class="fabric-layers">
                 @{{ #fabric_layers }}
@@ -28,8 +28,8 @@
     @{{ /fabrics }}
 
     @{{ ^fabrics }}
-        <div class="fabric-container">
-            <h4>No Fabric Available</h4>
+        <div class="uk-padding-small">
+            <h4 class="cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">No Fabric Available</h4>
         </div>
     @{{ /fabrics }}
 </script>
