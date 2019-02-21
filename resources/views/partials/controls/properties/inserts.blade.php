@@ -1,5 +1,5 @@
 <script type="text/mustache" id="m-inserts">
-<div class="cp-padding-medium" id="primary_options_colors">
+<div class="cp-padding-medium uk-padding-remove-bottom" id="primary_options_colors">
     <ul style="list-style:none; padding: 0 !important" class="parts-container">
         @{{ #inserts }}
             <li class="panel-index-@{{ index }}">

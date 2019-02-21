@@ -79,12 +79,15 @@
                 <ul class="uk-subnav uk-child-width-expand bottom-arrow bac-light top-line tl-red active-fc-red uk-margin-remove-bottom" uk-height-match="target: li > ul"  uk-switcher="connect: .switcher-container">
                     <li class="uk-active block-pattern-item" data-block-pattern="PTS Signature">
                         <div class="uk-text-center">
-                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Signature</a>
+                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">
+                                Pts Signature
+                                <div class="uk-cover-container">
+                                    <canvas width="380" height="429"></canvas>
+                                    <img src="./img/Untitled-1.svg" alt="" uk-cover>
+                                </div>
+                            </a>
                         </div>
-                        <div class="uk-cover-container">
-                            <canvas width="380" height="429"></canvas>
-                            <img src="./img/Untitled-1.svg" alt="" uk-cover>
-                        </div>
+                        
                         <ul class="uk-list uk-list-bullet uk-padding-small uk-padding-remove-vertical uk-visible@m">
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</li>
                             <li>Lorem ipsum dolor sit amet</li>
@@ -95,12 +98,15 @@
                     </li>
                     <li class="block-pattern-item" data-block-pattern="PTS Pro Select">
                         <div class="uk-text-center">
-                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Pro Select</a>
+                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">
+                                Pts Pro Select
+                                <div class="uk-cover-container">
+                                    <canvas width="380" height="429"></canvas>
+                                    <img src="./img/Untitled-1.svg" alt="" uk-cover>
+                                </div>
+                            </a>
                         </div>
-                        <div class="uk-cover-container">
-                            <canvas width="380" height="429"></canvas>
-                            <img src="./img/Untitled-1.svg" alt="" uk-cover>
-                        </div>
+                        
                         <ul class="uk-list uk-list-bullet uk-padding-small uk-padding-remove-vertical uk-visible@m">
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</li>
                             <li>Lorem ipsum dolor sit amet</li>
@@ -109,11 +115,13 @@
                     </li>
                     <li class="block-pattern-item" data-block-pattern="PTS Select">
                         <div class="uk-text-center">
-                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">Pts Select</a>
-                        </div>
-                        <div class="uk-cover-container">
-                            <canvas width="380" height="429"></canvas>
-                            <img src="./img/Untitled-1.svg" alt="" uk-cover>
+                            <a href="#" class="uk-text-bold fc-dark abrade-ultra">
+                                Pts Select
+                                <div class="uk-cover-container">
+                                    <canvas width="380" height="429"></canvas>
+                                    <img src="./img/Untitled-1.svg" alt="" uk-cover>
+                                </div>
+                            </a>
                         </div>
                         <ul class="uk-list uk-list-bullet uk-padding-small uk-padding-remove-vertical uk-visible@m">
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</li>
