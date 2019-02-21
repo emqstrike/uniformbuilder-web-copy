@@ -15,7 +15,7 @@
 <script type="text/mustache" id="m-richardson-right-panel-header">
     <div class="richardson-header">
         <div class="">
-            <a href="/" class="cp-text-uppercase cp-fc-black pull-right">
+            <a href="#" class="cp-text-uppercase cp-fc-black pull-right">
                 <h5 class="cp-text-uppercase cp-fc-black pull-right cp-margin-remove" style="font-family: Abrade-Book;">
                     SELECT NEW STYLE
                 </h5>
@@ -27,7 +27,7 @@
                 <h4 class="cp-text-uppercase cp-text-bold cp-fc-black cp-margin-remove cp-padding-xs cp-padding-remove-horizontal oswald-regular">@{{ block_pattern }}</h4>
             </div>
             <div>
-                <h2 class="cp-text-uppercase cp-text-bold cp-fc-darkGray cp-margin-remove cp-padding-xs cp-padding-remove-horizontal abrade-ultra-italic cp-text-large">@{{ uniform_name }}</h2>
+                <h2 class="cp-text-uppercase cp-text-bold cp-fc-darkGray cp-margin-remove cp-padding-xs cp-padding-remove-horizontal abrade-ultra-italic cp-text-large uk-text-truncate">@{{ uniform_name }}</h2>
             </div>
             <div>
                 <h6 class="cp-text-uppercase cp-text-bold cp-fc-red cp-padding-xs cp-margin-remove cp-padding-remove-horizontal abrade-ultra cp-text-medium">@{{ application_type }}</h6>
@@ -38,7 +38,7 @@
 
 <script type="text/mustache" id="m-richardson-footer">
     <div class="richardson-footer">
-        <div class="cp-padding-tiny cp-bgc-light">
+        <div class="cp-bgc-light">
             <div class="cp-width-1-1">
                 <div class="cp-padding-small">
                     <div class=" uk-grid-collapse uk-text-center" uk-grid>
