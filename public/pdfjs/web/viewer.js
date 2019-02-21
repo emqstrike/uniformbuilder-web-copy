@@ -7157,7 +7157,7 @@ var HOSTED_VIEWER_ORIGINS = ['null',
   'https://customizer.prolook.com',
   'https://staging-customizer.prolook.com',
   'http://localhost',
-  'http://localhost:3000',
+  'http://localhost:5000',
   'http://romack.staging.prolook.com'
 ];
 function validateFileURL(file) {
