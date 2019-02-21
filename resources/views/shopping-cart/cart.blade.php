@@ -32,6 +32,7 @@
 @section('scripts')
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+<script type="text/javascript" src="/js/shopping-cart/helpers/jv-bs3.js"></script>
 
 <script type="text/template" id="duplicate-items-tmpl">
     <div id="duplicate-items-container">
@@ -312,19 +313,19 @@
 
 <script type="text/template" id="form-tmpl">
     <form role="form">
-        <div class="form-group">
+        <div class="form-group has-feedback">
             <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" value="<%= typeof(last_name) !== "undefined" ? last_name : '' %>" class="form-control" />
+            <input type="text" name="last_name" value="<%= typeof(last_name) !== "undefined" ? last_name : '' %>" class="form-control" style="padding: 6px 12px;" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group has-feedback">
             <label for="number">Number</label>
-            <input type="text" name="number" value="<%= typeof(number) !== "undefined" ? number : '' %>" class="form-control" />
+            <input type="number" name="number" value="<%= typeof(number) !== "undefined" ? number : '' %>" class="form-control" min="1" max="99" style="padding: 6px 12px;" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group has-feedback">
             <label for="quantity">Quantity</label>
-            <input type="text" name="quantity" value="<%= typeof(quantity) !== "undefined" ? quantity : '' %>" class="form-control" />
+            <input type="number" name="quantity" value="<%= typeof(quantity) !== "undefined" ? quantity : '' %>" class="form-control" min="1" max="100" style="padding: 6px 12px;" />
         </div>
     </form>
 </script>

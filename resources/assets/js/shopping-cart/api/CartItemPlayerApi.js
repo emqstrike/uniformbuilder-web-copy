@@ -29,14 +29,23 @@ CartItemPlayerApi.prototype = {
      * @param {function} callback
      * @return {void}
      */
-    addPlayer: function(cart_item_id, data, callback) {
+    addPlayer: function(cart_item_id, data, callback, ajaxObject) {
         var params = $.extend(
             this.cartPermit,
             {cart_item_id: cart_item_id},
             data
         );
 
-        $.post("/api/shopping-cart/cart-item-players/add", params, callback);
+        if (typeof ajaxObject === "undefined") {
+            $.post("/api/shopping-cart/cart-item-players/add", params, callback);
+        } else {
+            $.ajax(_.extend({
+                url: "/api/shopping-cart/cart-item-players/add",
+                type: "POST",
+                dataType: 'JSON',
+                data: params
+            }, ajaxObject));
+        }
     },
 
     /**

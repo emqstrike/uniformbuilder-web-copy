@@ -196,47 +196,65 @@ var Cart = {
                     label: '<span class="glyphicon glyphicon-saved"></span> Add Player',
                     className: "btn-primary",
                     callback: function() {
-                        var el = $(this);
+                        var form = $(this).find('.bootbox-body form');
+                        var jvBs3 = new JvBs3(form);
 
-                        var last_name = $(':input[name="last_name"]', el).val(),
-                            number = $(':input[name="number"]', el).val(),
-                            quantity = $(':input[name="quantity"]', el).val();
+                        var last_name = $(':input[name="last_name"]', form).val(),
+                            number = $(':input[name="number"]', form).val(),
+                            quantity = $(':input[name="quantity"]', form).val();
 
-                        if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
-                            addPlayerBootbox.modal('hide');
+                        ShoppingCart.cipa.addPlayer(cart_item_id, {
+                            size: selected_size,
+                            last_name: last_name,
+                            number: number,
+                            quantity: parseInt(quantity)
+                        }, null, {
+                            beforeSend: function() {
+                                $(':input', form.closest('.modal-content')).prop('disabled', true);
+                            },
 
-                            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+                            complete: function() {
+                                $(':input', form.closest('.modal-content')).prop('disabled', false);
+                            },
 
-                            ShoppingCart.cipa.addPlayer(cart_item_id, {
-                                size: selected_size,
-                                last_name: last_name,
-                                number: number,
-                                quantity: parseInt(quantity)
-                            }, function(response, textStatus, xhr) {
+                            success: function(response) {
                                 if (response.success) {
+                                    $(':input', form.closest('.modal-content')).prop('disabled', true);
+
                                     if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
                                         player_list_el.html("");
                                     }
 
-                                    var data_num = cart_item.players.length;
-
                                     cart_item.players.push(response.data);
+                                    var tr_num = $('tr', player_list_el).length;
+                                    player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, response.data)));
 
-                                    if (cart_item.players.length > data_num) {
-                                        console.log("saved!");
-                                        var tr_num = $('tr', player_list_el).length;
+                                    form.before('<div class="alert alert-success"><p>'+response.message+'</p></div>');
 
-                                        player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, response.data)));
-                                    } else {
-                                        console.log("not save!");
-                                    }
+                                    _.delay(function() {
+                                        addPlayerBootbox.hide();
+                                    }, 1000);
                                 }
+                            },
 
-                                bootbox.hideAll();
-                            });
-                        } else {
-                            console.log("invalid input");
-                        }
+                            error: function(xhr) {
+                                if (xhr.status === 422) {
+                                    var errors = xhr.responseJSON;
+                                    var error_keys = Object.keys(errors);
+
+                                    $.each($(':input', form), function(index, el) {
+                                        var field = $(el).attr('name');
+
+                                        // error found
+                                        if (error_keys.indexOf(field) !== -1) {
+                                            jvBs3.highlight($(':input[name="'+field+'"]', form), errors[field][0]);
+                                        } else {
+                                            jvBs3.unhighlight($(':input[name="'+field+'"]', form));
+                                        }
+                                    });
+                                }
+                            }
+                        });
 
                         return false;
                     }
