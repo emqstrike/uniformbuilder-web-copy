@@ -2,7 +2,7 @@
     $(document).ready( function () {
         window.ub = {};
         window.ub.richardson = {};
-        window.ub.richardson.config = {
+        window.ub.config = {
             host: "{{ env('CUSTOMIZER_HOST') }}",
             brand: "{{ config('brand.name') }}",
             toString: false,

@@ -204,6 +204,36 @@ PropertiesPanel.prototype = {
                 return;
             }
 
+            if (ub.status.fullView.getStatus()) {
+                if (ub.status.fullViewZoom.getStatus()) {
+                    // Turn Off Full View Zoom
+                    ub.funcs.resetZoom();
+                    ub.status.fullViewZoom.setStatus(false, undefined);
+                } else {
+                    // Zoom View Depending on the area that was clicked
+                    ub.funcs.resetZoom();
+                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                    if (typeof _view !== "undefined") {
+                        ub.funcs.hideViews();
+                        ub.funcs.zoomView(_view);
+                    }
+                    ub.status.fullViewZoom.setStatus(true, _view);
+                }
+                return;
+            }
+
+            if (ub.zoom) {
+                ub.zoom_off();
+                return;
+            }
+
+            ub.funcs.hideVisiblePopups();
+
+            if (typeof ub.activeApplication !== "undefined") {
+                return;
+            }
+
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
@@ -229,7 +259,6 @@ PropertiesPanel.prototype = {
                         $('#property-modifiers-menu .menu-item-parts').trigger('click');
                     }
                 }
-
                 _this.activePanelbyIndex(_index);
             }
             else
