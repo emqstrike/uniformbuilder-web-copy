@@ -19,6 +19,8 @@ function CartItemApi(logged_in_token, cart_token) {
 
 CartItemApi.prototype = {
     /**
+     * Get all cart items
+     *
      * @param {function} callback
      * @return {void}
      */

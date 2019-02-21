@@ -86,8 +86,7 @@ var UBCart = {
         });
     },
 
-    getDuplicateMaterial: function (cart_items)
-    {
+    getDuplicateMaterial: function (cart_items) {
         var duplicate_material = [];
         var material_ids = _.uniq(_.pluck(cart_items, "material_id"));
 

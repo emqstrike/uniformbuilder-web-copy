@@ -32,6 +32,7 @@
 @section('scripts')
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+<script type="text/javascript" src="/js/shopping-cart/api/material-api.js"></script>
 <script type="text/javascript" src="/js/shopping-cart/helpers/jv-bs3.js"></script>
 
 <script type="text/template" id="duplicate-items-tmpl">
@@ -331,6 +332,9 @@
 </script>
 
 <script type="text/javascript">
+window.cart = {
+    api_host: "{{ config('customizer.api_host') }}"
+};
 window.customizer_sizes = <?php echo json_encode(config('customizer.sizes')) ?>;
 </script>
 <script type="text/javascript" src="/js/shopping-cart/cart.js"></script>

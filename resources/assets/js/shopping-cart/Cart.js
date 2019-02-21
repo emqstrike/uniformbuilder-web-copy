@@ -1,14 +1,19 @@
 /**
  * Required global object
  * - customizer_sizes
+ * - cart
+ *     - api_host
  *
  * File dependencies
  * - public/js/shopping-cart/shopping-cart.js
  */
 var Cart = {
     cart_items: [],
+    ma: null,
 
     init: function() {
+        Cart.ma = new MaterialApi(cart.api_host);
+
         Cart.initCartItems(function() {
             var duplicate_material = Cart.getDuplicateMaterial(Cart.cart_items);
 
@@ -22,28 +27,39 @@ var Cart = {
 
                 $('body').on('click', '#duplicate-items-container .cart-item-btn', Cart.onSelectItemToBeRetain);
             } else {
-                var el = $('#cart-items-el');
-                var cart_items_tmpl = _.template($('#cart-items-tmpl').html());
+                // var el = $('#cart-items-el');
+                // var cart_items_tmpl = _.template($('#cart-items-tmpl').html());
 
-                el.append(cart_items_tmpl({
-                    sizes: customizer_sizes,
-                    cart_items: Cart.cart_items
-                }));
+                // el.append(cart_items_tmpl({
+                //     sizes: customizer_sizes,
+                //     cart_items: Cart.cart_items
+                // }));
 
-                var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
-                _.map(cart_item_ids, function(cart_item_id) {
-                    var default_size = $(':input[name="size"]', el).val();
-                    return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+                // var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
+                // _.map(cart_item_ids, function(cart_item_id) {
+                //     var default_size = $(':input[name="size"]', el).val();
+                //     return Cart.loadPlayers(cart_item_id, parseInt(default_size));
+                // });
+
+                // $(':input[name="size"]', el).change(Cart.onSizeChange);
+                // $('.player-list .add-player', el).click(Cart.onAddPlayer);
+                // $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+
+                // $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+                // $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+
+                // $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
+
+                Cart.getAllMaterials(Cart.cart_items, function(response) {
+                    if (response.success) {
+                        var material = response.material;
+
+                        var pricing = JSON.parse(material.pricing);
+                        console.log(pricing);
+                    } else {
+                        console.log(response.message);
+                    }
                 });
-
-                $(':input[name="size"]', el).change(Cart.onSizeChange);
-                $('.player-list .add-player', el).click(Cart.onAddPlayer);
-                $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
-
-                $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
-                $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
-
-                $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
             }
         });
     },
@@ -87,8 +103,7 @@ var Cart = {
         }));
     },
 
-    getDuplicateMaterial: function (cart_items)
-    {
+    getDuplicateMaterial: function (cart_items) {
         var duplicate_material = [];
         var material_ids = _.uniq(_.pluck(cart_items, "material_id"));
 
@@ -102,6 +117,15 @@ var Cart = {
         }
 
         return duplicate_material;
+    },
+
+    getAllMaterials: function(cart_items, callback) {
+        var cart_item;
+
+        for (var i in cart_items) {
+            cart_item = cart_items[i];
+            Cart.ma.getMaterial(cart_item.material_id, callback);
+        }
     },
 
     onSelectItemToBeRetain: function() {
