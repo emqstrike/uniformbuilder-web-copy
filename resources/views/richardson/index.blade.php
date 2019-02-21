@@ -314,11 +314,11 @@
                 <img class="uk-padding-small" src="@{{ thumbnail_path }}" alt="">
             @{{ /thumbnail_path }}
             @{{ ^thumbnail_path }}
-                <img class="uk-padding-small" src="/richardson/img/branding-right-chest.jpg" alt="">
+                <img class="uk-padding-small" src="@{{ host }}/richardson/img/branding-right-chest.jpg" alt="">
             @{{ /thumbnail_path }}
 
             <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-padding-remove">
-                <a href="/builder/0/@{{ id }}" class="uk-button uk-button-small padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold">
+                <a href="@{{ host }}/richardson/customize/@{{ id }}" class="uk-button uk-button-small padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold">
                     <div class=" uk-flex uk-flex-middle">
                         <span class="icon icon-customize-this-uniform padding-tiny-vertical"></span>
                         <div class="abrade-ultra-italic uk-margin-small-left uk-visible@s">
