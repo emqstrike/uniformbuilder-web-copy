@@ -31,10 +31,9 @@ CartItemApi.prototype = {
      *
      * @param {json}   data {
      *     name [string],
-     *     left_image [string],
      *     front_image [string],
-     *     back_image [string],
-     *     right_image [string],
+     *     size [string],
+     *     price [double],
      *     brand [string],
      *     item_id [int]
      *     block_pattern_id [int],
@@ -72,7 +71,7 @@ CartItemApi.prototype = {
      *
      * @param {int} cart_item_id
      * @param {string} image
-     * @param {string} perspective
+     * @param {string} perspective (left,, front, back, right)
      * @param {function} callback
      * @return {void}
      */

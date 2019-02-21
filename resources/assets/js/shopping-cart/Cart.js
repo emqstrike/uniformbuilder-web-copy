@@ -211,15 +211,12 @@ var Cart = {
                         }, null, {
                             beforeSend: function() {
                                 $(':input', form.closest('.modal-content')).prop('disabled', true);
-                            },
-
-                            complete: function() {
-                                $(':input', form.closest('.modal-content')).prop('disabled', false);
+                                console.log("beforeSend");
                             },
 
                             success: function(response) {
                                 if (response.success) {
-                                    $(':input', form.closest('.modal-content')).prop('disabled', true);
+                                    console.log("success");
 
                                     if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
                                         player_list_el.html("");
@@ -232,12 +229,15 @@ var Cart = {
                                     form.before('<div class="alert alert-success"><p>'+response.message+'</p></div>');
 
                                     _.delay(function() {
-                                        addPlayerBootbox.hide();
+                                        addPlayerBootbox.modal('hide');
+                                        $(':input', form.closest('.modal-content')).prop('disabled', false);
                                     }, 1000);
                                 }
                             },
 
                             error: function(xhr) {
+                                $(':input', form.closest('.modal-content')).prop('disabled', false);
+
                                 if (xhr.status === 422) {
                                     var errors = xhr.responseJSON;
                                     var error_keys = Object.keys(errors);

@@ -33,6 +33,8 @@ class CartItemController extends Controller
      * - cart_token
      * - name
      * - front_image
+     * - size
+     * - price
      * - brand
      * - item_id
      * - block_pattern_id
@@ -51,6 +53,8 @@ class CartItemController extends Controller
             'material_id' => $request->get('material_id'),
             'name' => $request->get('name'),
             'front_image' => $request->get('front_image'),
+            'size' => $request->get('size'),
+            'price' => $request->get('price'),
             'brand' => $request->get('brand'),
             'item_id' => $request->get('item_id'),
             'block_pattern_id' => $request->get('block_pattern_id'),

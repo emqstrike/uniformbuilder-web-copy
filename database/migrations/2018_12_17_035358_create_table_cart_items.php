@@ -20,6 +20,7 @@ class CreateTableCartItems extends Migration
             $table->string('front_image')->nullable()->default(null);
             $table->string('back_image')->nullable()->default(null);
             $table->string('right_image')->nullable()->default(null);
+            $table->string('size', 10)->nullable()->default(null);
             $table->double('price')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
             $table->string('brand', 20)->nullable()->default(null);
