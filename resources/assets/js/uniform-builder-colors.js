@@ -228,6 +228,16 @@ $(document).ready(function() {
                     'RB',
                 ]
             },
+            // Flag Football
+            {
+                block_pattern: 'Flag Football',
+                neck_options: ['Flag Jersey'],
+                material_option: 'Team Flag', 
+                valid_colors: [
+                    'FLB',
+                    'FLG',
+                ]
+            },
         ],
 
         getLimitedColorSet: function (materialOption) {
@@ -350,19 +360,27 @@ $(document).ready(function() {
     }
 
 	ub.funcs.prepareColors = function () {
-		
+
 		ub.data.colors = _.filter(ub.data.colors, function (color) {
             return color = color.active === 1 || color.active === '1';
         });
 
 		ub.data.colors = _.filter(ub.data.colors, function (color) {
 			return !ub.data.excludedColors.isExcluded(ub.config.sport, ub.config.uniform_application_type, color.color_code);
-		})
+		});
 
         ub.data.colors = _.map(ub.data.colors, function (color) {
             color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
             return color;
         });
+
+        // FLB and FLG colors are for Flag Football block pattern only
+        if (ub.config.blockPattern !== 'Flag Football') {
+            var flag_colors = ['FLB', 'FLG'];
+            ub.data.colors = _.filter(ub.data.colors, function(color) {
+                return !_.contains(flag_colors, color.color_code);
+            });
+        }
                 
         ub.data.colors = _.sortBy(ub.data.colors, 'order');
 
