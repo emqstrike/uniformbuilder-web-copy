@@ -111,6 +111,7 @@ elixir(function(mix) {
             'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
+            'panels/SummaryPreviewPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',

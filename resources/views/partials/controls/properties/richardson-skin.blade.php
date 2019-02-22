@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="link-reset cp-padding-tiny uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                        <a  href="javascript:void(0)" class="uniform-summary-preview link-reset cp-padding-tiny uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
                     </div>
                 </div>
             </div>

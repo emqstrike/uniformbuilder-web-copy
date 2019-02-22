@@ -156,6 +156,8 @@ $(document).ready(function() {
         ub.funcs.setupRightPanelFooter();
         ub.funcs.changeStageBackgroundColor(0xffffff);
 
+        SummaryPreviewPanel.events.init();
+
 
         _.delay(function() {
             ub.funcs.setupSidePanelToolbar();
