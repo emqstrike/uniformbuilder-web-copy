@@ -3186,7 +3186,7 @@ $(document).ready(function() {
                 var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
                 _transformed_boundaries.push(p); 
 
-            });      
+            });
     
         }
         else {
@@ -3196,7 +3196,7 @@ $(document).ready(function() {
                 var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
                 _transformed_boundaries.push(p); 
 
-            });   
+            });
 
         }
 
@@ -6270,6 +6270,10 @@ $(document).ready(function() {
 
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
+
+        // exit if undefined
+        if (typeof _v === 'undefined') { return; }
+        
         var _obj = ub.objects[_v + '_view']['objects_' + settingsObject.code];
 
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
@@ -9537,6 +9541,10 @@ $(document).ready(function() {
 
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
+
+        // exit if undefined
+        if (typeof _primaryView == 'undefined') { return; }
+
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
   
         ub.focusObject      = ub.objects[_perspective]["locations_" + application_id];
@@ -11254,6 +11262,10 @@ $(document).ready(function() {
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
             var _primaryView = ub.funcs.getPrimaryView(app.application);
+            
+            // exit if undefined
+            if (typeof _primaryView === 'undefined') { return; }
+            
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
 
             var _appTypeAlias =  _applicationType;
