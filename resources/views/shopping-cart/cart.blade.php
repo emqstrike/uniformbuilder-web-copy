@@ -149,7 +149,7 @@
                             </div>
 
                             <div class="pull-right">
-                                <button class="btn btn-link view-selected-sizes">View all selected sizes</button>
+                                <button class="btn btn-link view-all-items">View all items</button>
                             </div>
                         </div>
                     </div>
@@ -238,14 +238,14 @@
     </tr>
 </script>
 
-<script type="text/template" id="selected-sizes-tmpl">
-    <% if (!_.isEmpty(selected_sizes)) { %>
+<script type="text/template" id="all-items-tmpl">
+    <% if (!_.isEmpty(all_items)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-                <% _.each(selected_sizes, function(size) { %>
-                    <li role="presentation" class="<%= selected_sizes[0] == size ? 'active' : '' %>">
-                        {{-- todo: change the a.text of dynamic size --}}
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %></a>
+                <% _.each(all_items, function(size) { %>
+                    <% var selected_players = _.filter(players, {size: size}) %>
+                    <li role="presentation" class="<%= all_items[0] == size ? 'active' : '' %>">
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency %><%= selected_players[0].price.toFixed(2) %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -253,8 +253,8 @@
             <br />
 
             <div class="tab-content">
-                <% _.each(selected_sizes, function(size) { %>
-                    <div role="tabpanel" class="tab-pane fade <%= selected_sizes[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
+                <% _.each(all_items, function(size) { %>
+                    <div role="tabpanel" class="tab-pane fade <%= all_items[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
                         <table class="table table-hover table-bordered player-list">
                             <thead>
                                 <tr>
@@ -265,7 +265,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% var selected_players = _.filter(players, {size: size}) %>
+                                <% selected_players = _.filter(players, {size: size}) %>
                                 <% _.each(selected_players, function(player, n) { %>
                                     <tr>
                                         <td><%= n+1 %></td>
@@ -291,7 +291,7 @@
             <% if (typeof sizes.adult !== "undefined") { %>
                 <optgroup label="Adult">
                     <% _.each(sizes.adult, function(size) { %>
-                        <option value="<%= size.size %>"><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency %><%= size.msrp %></option>
                     <% }); %>
                 </optgroup>
             <% } %>
@@ -299,9 +299,9 @@
             <% if (typeof sizes.youth !== "undefined") { %>
                 <optgroup label="Youth">
                     <% _.each(sizes.youth, function(size) { %>
-                        <option value="<%= size.size %>"><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency %><%= size.msrp %></option>
                     <% }); %>
-                </optgroup>>
+                </optgroup>
             <% } %>
 
         <% } else { %>

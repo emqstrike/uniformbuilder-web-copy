@@ -24,6 +24,7 @@ CartItemPlayerApi.prototype = {
      *     size: string,
      *     last_name: [string],
      *     number: [string],
+     *     price: [double],
      *     quantity: [int],
      * }
      * @param {function} callback
@@ -52,7 +53,6 @@ CartItemPlayerApi.prototype = {
      * @param {int} cart_item_id
      * @param {int} player_id
      * @param {json} data {
-     *     size: [int],
      *     last_name: [string],
      *     number: [string],
      *     quantity: [int],

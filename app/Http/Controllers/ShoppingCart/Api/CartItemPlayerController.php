@@ -21,6 +21,7 @@ class CartItemPlayerController extends Controller
      * - size
      * - last_name
      * - number
+     * - price
      * - quantity
      */
     public function add(AddPlayerRequest $request)
@@ -29,6 +30,7 @@ class CartItemPlayerController extends Controller
             'size' => $request->get('size'),
             'last_name' => $request->get('last_name'),
             'number' => $request->get('number'),
+            'price' => $request->get('price'),
             'quantity' => $request->get('quantity'),
             'cart_item_id' => $request->get('cart_item_id')
         ]);
@@ -43,7 +45,8 @@ class CartItemPlayerController extends Controller
                     'size' => $cart_item_player->size,
                     'last_name' => $cart_item_player->last_name,
                     'number' => $cart_item_player->number,
-                    'quantity' => (int) $cart_item_player->quantity,
+                    'price' => (int) $cart_item_player->price,
+                    'quantity' => (int) $cart_item_player->quantity
                 ]
             ] :
             [
@@ -64,7 +67,6 @@ class CartItemPlayerController extends Controller
      */
     public function update(Request $request, CartItemPlayer $cartItemPlayer)
     {
-        $cartItemPlayer->size = $request->get('size');
         $cartItemPlayer->last_name = $request->get('last_name');
         $cartItemPlayer->number = $request->get('number');
         $cartItemPlayer->quantity = $request->get('quantity');

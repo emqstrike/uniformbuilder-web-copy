@@ -17,6 +17,7 @@ class CreateTableCartItemPlayers extends Migration
             $table->string('size', 10)->nullable()->default(null);
             $table->string('last_name')->nullable()->default(null);
             $table->string('number', 2)->nullable()->default(null);
+            $table->double('price')->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);
 
             $table->bigInteger('cart_item_id')->nullable()->default(null);

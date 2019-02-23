@@ -35,7 +35,7 @@ var Cart = {
 
                 el.on('change', ':input[name="size"]', Cart.onSizeChange);
                 $('.player-list .add-player', el).click(Cart.onAddPlayer);
-                $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+                $('.view-all-items', el).click(Cart.onViewAllSelectedSizes);
 
                 $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
                 $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
@@ -121,8 +121,8 @@ var Cart = {
                     currency: "$"
                 }));
 
-                var default_size = $(':input[name="size"]', cart_item_el).val();
-                return Cart.loadPlayers(cart_item_id, default_size);
+                var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());
+                return Cart.loadPlayers(cart_item_id, size_price.size);
             } else {
                 console.log(response.message);
             }
@@ -187,17 +187,17 @@ var Cart = {
 
     onViewAllSelectedSizes: function() {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
-        var tmpl = _.template($('#selected-sizes-tmpl').html());
+        var tmpl = _.template($('#all-items-tmpl').html());
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
-
-        var selected_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
+        var all_items = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
-            title: "Selected Sizes",
+            title: "All Items",
             message: tmpl({
                 players: cart_item.players,
-                selected_sizes: selected_sizes
+                all_items: all_items,
+                currency: "$"
             }),
             size: "large"
         });
@@ -209,7 +209,8 @@ var Cart = {
 
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
-        var selected_size = $(':input[name="size"]', cart_item_el).val();
+
+        var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());
         var player_list_el = $('.player-list tbody', cart_item_el);
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
@@ -237,21 +238,20 @@ var Cart = {
                             quantity = $(':input[name="quantity"]', form).val();
 
                         ShoppingCart.cipa.addPlayer(cart_item_id, {
-                            size: selected_size,
+                            size: size_price.size,
                             last_name: last_name,
                             number: number,
+                            price: parseFloat(size_price.price),
                             quantity: parseInt(quantity)
                         }, null, {
                             beforeSend: function() {
                                 $(':input', form.closest('.modal-content')).prop('disabled', true);
-                                console.log("beforeSend");
                             },
 
                             success: function(response) {
                                 if (response.success) {
-                                    console.log("success");
 
-                                    if (_.filter(cart_item.players, {size: selected_size}).length == 0) {
+                                    if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
                                         player_list_el.html("");
                                     }
 
@@ -303,7 +303,6 @@ var Cart = {
         var _this = $(this);
         var player_id = $(this).data('id');
         var form_tmpl = _.template($('#form-tmpl').html());
-        var selected_size = $(':input[name="size"]', cart_item_el).val();
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
@@ -340,7 +339,6 @@ var Cart = {
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 
                             ShoppingCart.cipa.updatePlayer(cart_item_id, player_id, {
-                                size: selected_size,
                                 last_name: last_name,
                                 number: number,
                                 quantity: parseInt(quantity)
@@ -387,7 +385,7 @@ var Cart = {
                 var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
 
                 var player_id = _this.data('id');
-                var selected_size = $(':input[name="size"]').val();
+                var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());
 
                 var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
                 var players = cart_item.players;
@@ -400,7 +398,7 @@ var Cart = {
 
                         _this.closest('tr').fadeOut();
 
-                        if (_.filter(cart_item.players, {size: parseInt(selected_size)}).length == 0) {
+                        if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
                             $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
                         }
                     } else {

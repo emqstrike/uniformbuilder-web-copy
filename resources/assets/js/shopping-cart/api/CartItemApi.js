@@ -34,8 +34,6 @@ CartItemApi.prototype = {
      * @param {json}   data {
      *     name [string],
      *     front_image [string],
-     *     size [string],
-     *     price [double],
      *     brand [string],
      *     item_id [int]
      *     block_pattern_id [int],

@@ -1,7 +1,4 @@
 /**
- * Required global object
- * - customizer_sizes
- *
  * File dependencies
  * - public/js/shopping-cart/shopping-cart.js
  */
@@ -17,7 +14,7 @@ var ConfirmOrder = {
                 orders: ConfirmOrder.cart_items
             }));
 
-            $('.view-selected-sizes', order_list).click(ConfirmOrder.onViewAllSelectedSizes);
+            $('.view-all-items', order_list).click(ConfirmOrder.onViewAllSelectedSizes);
         });
     },
 
@@ -39,22 +36,21 @@ var ConfirmOrder = {
 
     onViewAllSelectedSizes: function() {
         var cart_item_id = $(this).data('cart-item-id');
-        var tmpl = _.template($('#selected-sizes-tmpl').html());
+        var tmpl = _.template($('#all-items-tmpl').html());
 
         var cart_item = _.find(ConfirmOrder.cart_items, {cart_item_id: cart_item_id});
 
         var selected_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
-            title: "Selected Sizes",
+            title: "All Items",
             message: tmpl({
                 players: cart_item.players,
-                selected_sizes: selected_sizes,
-                sizes: customizer_sizes
+                selected_sizes: selected_sizes
             }),
             size: "large"
         });
-    },
+    }
 };
 
 $(document).ready(ConfirmOrder.init);

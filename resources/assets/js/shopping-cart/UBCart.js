@@ -102,25 +102,6 @@ var UBCart = {
         return duplicate_material;
     },
 
-    getDefaultAgePrice: function(material) {
-        var ADULT_AGE = "adult";
-        var YOUTH_AGE = "youth";
-        var price_properties = material.parsedPricingTable.properties;
-
-        var agePrice = null;
-
-        switch (true) {
-            case typeof price_properties[ADULT_AGE] !== "undefined":
-                agePrice = price_properties[ADULT_AGE];
-                break;
-
-            case typeof price_properties[YOUTH_AGE] !== "undefined":
-                agePrice = price_properties[YOUTH_AGE];
-                break;
-        }
-
-        return agePrice;
-    },
 
     fetchCartItems: function(callback) {
         UBCart.cartItemApi.getCartItems(function(response) {
@@ -152,21 +133,10 @@ var UBCart = {
         waitingDialog.show("Adding item to cart...", {rtl: false, progressType: "success"});
         waitingDialog.progress(1, 2);
 
-        var default_size = null;
-        var default_price = null;
-        var defaultAgePrice = UBCart.getDefaultAgePrice(material);
-
-        if (defaultAgePrice !== "undefined") {
-            default_size = defaultAgePrice[0].size;
-            default_price = defaultAgePrice[0].msrp;
-        }
-
         UBCart.cartItemApi.addToCart({
             material_id: material.id,
             name: material.name,
             front_image: material.thumbnail_path,
-            size: default_size,
-            price: default_price,
             brand: material.brand,
             item_id: parseInt(material.id),
             block_pattern_id: parseInt(material.block_pattern_id),

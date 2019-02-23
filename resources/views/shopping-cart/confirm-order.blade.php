@@ -189,13 +189,13 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
-<script type="text/template" id="selected-sizes-tmpl">
-    <% if (!_.isEmpty(selected_sizes)) { %>
+<script type="text/template" id="all-items-tmpl">
+    <% if (!_.isEmpty(all_items)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-                <% _.each(selected_sizes, function(size) { %>
-                    <li role="presentation" class="<%= selected_sizes[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= sizes[size] %></a>
+                <% _.each(all_items, function(size) { %>
+                    <li role="presentation" class="<%= all_items[0] == size ? 'active' : '' %>">
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -203,8 +203,8 @@
             <br />
 
             <div class="tab-content">
-                <% _.each(selected_sizes, function(size) { %>
-                    <div role="tabpanel" class="tab-pane fade <%= selected_sizes[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
+                <% _.each(all_items, function(size) { %>
+                    <div role="tabpanel" class="tab-pane fade <%= all_items[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
                         <table class="table table-hover table-bordered player-list">
                             <thead>
                                 <tr>
@@ -243,7 +243,7 @@
                 <div class="order-details">
                     <h3 class="order-title"><%= order.name %></h3>
                     <p>Material ID: <span class="badge"><%= order.material_id %></span></p>
-                    <a href="javascript:void(0)" class="btn btn-info btn-sm view-selected-sizes" data-cart-item-id="<%= order.cart_item_id %>">View selected sizes</a>
+                    <a href="javascript:void(0)" class="btn btn-info btn-sm view-all-items" data-cart-item-id="<%= order.cart_item_id %>">View all items</a>
                 </div>
             </div>
         <% }); %>
@@ -255,7 +255,6 @@
 </script>
 
 <script type="text/javascript">
-window.customizer_sizes = <?php echo json_encode(config('customizer.sizes')) ?>;
 </script>
 <script type="text/javascript" src="/js/shopping-cart/confirm-order.js"></script>
 @endsection
