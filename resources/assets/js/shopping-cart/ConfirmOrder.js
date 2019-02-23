@@ -11,10 +11,11 @@ var ConfirmOrder = {
             var tmpl = _.template($('#order-list-tmpl').html());
 
             order_list.append(tmpl({
-                orders: ConfirmOrder.cart_items
+                orders: ConfirmOrder.cart_items,
+                currency: "$"
             }));
 
-            $('.view-all-items', order_list).click(ConfirmOrder.onViewAllSelectedSizes);
+            $('.view-all-players', order_list).click(ConfirmOrder.onViewAllPlayers);
         });
     },
 
@@ -34,23 +35,23 @@ var ConfirmOrder = {
         });
     },
 
-    onViewAllSelectedSizes: function() {
+    onViewAllPlayers: function() {
         var cart_item_id = $(this).data('cart-item-id');
-        var tmpl = _.template($('#all-items-tmpl').html());
+        var tmpl = _.template($('#all-players-tmpl').html());
 
         var cart_item = _.find(ConfirmOrder.cart_items, {cart_item_id: cart_item_id});
-
-        var selected_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
+        var all_items = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
-            title: "All Items",
+            title: "All Players",
             message: tmpl({
                 players: cart_item.players,
-                selected_sizes: selected_sizes
+                all_items: all_items,
+                currency: "$"
             }),
             size: "large"
         });
-    }
+    },
 };
 
 $(document).ready(ConfirmOrder.init);

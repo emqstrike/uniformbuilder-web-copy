@@ -35,7 +35,7 @@ var Cart = {
 
                 el.on('change', ':input[name="size"]', Cart.onSizeChange);
                 $('.player-list .add-player', el).click(Cart.onAddPlayer);
-                $('.view-all-items', el).click(Cart.onViewAllSelectedSizes);
+                $('.view-all-players', el).click(Cart.onViewAllPlayers);
 
                 $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
                 $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
@@ -185,15 +185,15 @@ var Cart = {
         Cart.loadPlayers(cart_item_id, size);
     },
 
-    onViewAllSelectedSizes: function() {
+    onViewAllPlayers: function() {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
-        var tmpl = _.template($('#all-items-tmpl').html());
+        var tmpl = _.template($('#all-players-tmpl').html());
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
         var all_items = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
-            title: "All Items",
+            title: "All Players",
             message: tmpl({
                 players: cart_item.players,
                 all_items: all_items,

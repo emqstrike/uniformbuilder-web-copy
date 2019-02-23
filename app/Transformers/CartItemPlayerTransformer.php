@@ -19,6 +19,7 @@ class CartItemPlayerTransformer extends TransformerAbstract
             'material_id' => $cartItem->material_id,
             'name' => $cartItem->name,
             'images' => $cartItem->images(),
+            'total_price' => (float) $cartItem->cartItemPlayers->sum('price'),
             'players' => $cartItem->cartItemPlayers->toArray()
         ];
     }

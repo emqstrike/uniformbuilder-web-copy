@@ -149,7 +149,7 @@
                             </div>
 
                             <div class="pull-right">
-                                <button class="btn btn-link view-all-items">View all items</button>
+                                <button class="btn btn-link view-all-players">View All Players</button>
                             </div>
                         </div>
                     </div>
@@ -238,14 +238,14 @@
     </tr>
 </script>
 
-<script type="text/template" id="all-items-tmpl">
+<script type="text/template" id="all-players-tmpl">
     <% if (!_.isEmpty(all_items)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
                 <% _.each(all_items, function(size) { %>
                     <% var selected_players = _.filter(players, {size: size}) %>
                     <li role="presentation" class="<%= all_items[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency %><%= selected_players[0].price.toFixed(2) %></a>
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency + selected_players[0].price.toFixed(2) %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -291,7 +291,7 @@
             <% if (typeof sizes.adult !== "undefined") { %>
                 <optgroup label="Adult">
                     <% _.each(sizes.adult, function(size) { %>
-                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency + size.msrp %></option>
                     <% }); %>
                 </optgroup>
             <% } %>
@@ -299,7 +299,7 @@
             <% if (typeof sizes.youth !== "undefined") { %>
                 <optgroup label="Youth">
                     <% _.each(sizes.youth, function(size) { %>
-                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency + size.msrp %></option>
                     <% }); %>
                 </optgroup>
             <% } %>

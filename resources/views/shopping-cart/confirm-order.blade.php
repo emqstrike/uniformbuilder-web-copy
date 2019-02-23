@@ -189,13 +189,14 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
 
-<script type="text/template" id="all-items-tmpl">
+<script type="text/template" id="all-players-tmpl">
     <% if (!_.isEmpty(all_items)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
                 <% _.each(all_items, function(size) { %>
+                    <% var selected_players = _.filter(players, {size: size}) %>
                     <li role="presentation" class="<%= all_items[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %></a>
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency + selected_players[0].price.toFixed(2) %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -215,7 +216,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% var selected_players = _.filter(players, {size: size}) %>
+                                <% selected_players = _.filter(players, {size: size}) %>
                                 <% _.each(selected_players, function(player, n) { %>
                                     <tr>
                                         <td><%= n+1 %></td>
@@ -234,7 +235,6 @@
         <p>No players available</p>
     <% } %>
 </script>
-
 <script type="text/template" id="order-list-tmpl">
     <% if (!_.isEmpty(orders)) { %>
         <% _.each(orders, function(order) { %>
@@ -243,7 +243,8 @@
                 <div class="order-details">
                     <h3 class="order-title"><%= order.name %></h3>
                     <p>Material ID: <span class="badge"><%= order.material_id %></span></p>
-                    <a href="javascript:void(0)" class="btn btn-info btn-sm view-all-items" data-cart-item-id="<%= order.cart_item_id %>">View all items</a>
+                    <p>Total Price: <span class="badge"><%= currency + order.total_price.toFixed(2) %></span></p>
+                    <a href="javascript:void(0)" class="btn btn-info btn-sm view-all-players" data-cart-item-id="<%= order.cart_item_id %>">View All Players</a>
                 </div>
             </div>
         <% }); %>
