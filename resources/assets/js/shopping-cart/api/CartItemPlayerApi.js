@@ -21,7 +21,7 @@ CartItemPlayerApi.prototype = {
     /**
      * @param {int} cart_item_id
      * @param {json} data {
-     *     size: [int],
+     *     size: string,
      *     last_name: [string],
      *     number: [string],
      *     quantity: [int],

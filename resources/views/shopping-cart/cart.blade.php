@@ -92,7 +92,7 @@
 
 <script type="text/template" id="cart-items-tmpl">
     <% _.each(cart_items, function(item) { %>
-        <div class="col-md-6 cart-item" data-cart-item-id="<%= item.cart_item_id %>">
+        <div class="col-md-6 cart-item" data-cart-item-id="<%= item.cart_item_id %>" data-material-id="<%= item.material_id %>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="btn-group pull-right">
@@ -140,13 +140,11 @@
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <label for="size">Select Size</label>
 
-                                <select name="size" class="form-control">
-                                    <% _.each(sizes, function(size_text, size){ %>
-                                        <option value="<%= size %>"><%= size_text %></option>
-                                    <% }); %>
+                                <select name="size" class="form-control" disabled>
+                                    <option value="null">Loading...</option>
                                 </select>
                             </div>
 
@@ -167,32 +165,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if (!_.isEmpty(item.players)) { %>
-                                <% _.each(item.players, function(player, index) { %>
-                                    <tr>
-                                        <td><%= index+1 %></td>
-                                        <td>
-                                            <p class="last_name"><%= player.last_name %></p>
-                                        </td>
-                                        <td>
-                                            <p class="number"><%= player.number %></p>
-                                        </td>
-                                        <td>
-                                            <p class="quantity"><%= player.quantity %></p>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-success btn-xs edit-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-pencil"></span></button>
-                                                <button class="btn btn-danger btn-xs delete-player" data-id="<%= player.id %>"><span class="glyphicon glyphicon-remove-sign"></span></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="5">No players added</td>
-                                </tr>
-                            <% } %>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -272,7 +244,8 @@
             <ul class="nav nav-tabs" role="tablist">
                 <% _.each(selected_sizes, function(size) { %>
                     <li role="presentation" class="<%= selected_sizes[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= sizes[size] %></a>
+                        {{-- todo: change the a.text of dynamic size --}}
+                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -312,6 +285,31 @@
     <% } %>
 </script>
 
+<script type="text/template" id="sizes-tmpl">
+    <select name="size" class="form-control">
+        <% if (!_.isEmpty(sizes)) { %>
+            <% if (typeof sizes.adult !== "undefined") { %>
+                <optgroup label="Adult">
+                    <% _.each(sizes.adult, function(size) { %>
+                        <option value="<%= size.size %>"><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                    <% }); %>
+                </optgroup>
+            <% } %>
+
+            <% if (typeof sizes.youth !== "undefined") { %>
+                <optgroup label="Youth">
+                    <% _.each(sizes.youth, function(size) { %>
+                        <option value="<%= size.size %>"><%= size.size %> - <%= currency %><%= size.msrp %></option>
+                    <% }); %>
+                </optgroup>>
+            <% } %>
+
+        <% } else { %>
+            <option value="null">Empty</option>
+        <% } %>
+    </select>
+</script>
+
 <script type="text/template" id="form-tmpl">
     <form role="form">
         <div class="form-group has-feedback">
@@ -335,7 +333,6 @@
 window.cart = {
     api_host: "{{ config('customizer.api_host') }}"
 };
-window.customizer_sizes = <?php echo json_encode(config('customizer.sizes')) ?>;
 </script>
 <script type="text/javascript" src="/js/shopping-cart/cart.js"></script>
 @endsection

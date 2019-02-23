@@ -14,7 +14,7 @@ class CreateTableCartItemPlayers extends Migration
     {
         Schema::create('cart_item_players', function (Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('size')->nullable()->default(null);
+            $table->string('size', 10)->nullable()->default(null);
             $table->string('last_name')->nullable()->default(null);
             $table->string('number', 2)->nullable()->default(null);
             $table->smallInteger('quantity')->default(1);

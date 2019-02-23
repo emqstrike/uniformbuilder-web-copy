@@ -1,6 +1,5 @@
 /**
  * Required global object
- * - customizer_sizes
  * - cart
  *     - api_host
  *
@@ -27,39 +26,23 @@ var Cart = {
 
                 $('body').on('click', '#duplicate-items-container .cart-item-btn', Cart.onSelectItemToBeRetain);
             } else {
-                // var el = $('#cart-items-el');
-                // var cart_items_tmpl = _.template($('#cart-items-tmpl').html());
+                var el = $('#cart-items-el');
+                var cart_items_tmpl = _.template($('#cart-items-tmpl').html());
 
-                // el.append(cart_items_tmpl({
-                //     sizes: customizer_sizes,
-                //     cart_items: Cart.cart_items
-                // }));
+                el.append(cart_items_tmpl({
+                    cart_items: Cart.cart_items
+                }));
 
-                // var cart_item_ids = _.pluck(Cart.cart_items, 'cart_item_id');
-                // _.map(cart_item_ids, function(cart_item_id) {
-                //     var default_size = $(':input[name="size"]', el).val();
-                //     return Cart.loadPlayers(cart_item_id, parseInt(default_size));
-                // });
+                el.on('change', ':input[name="size"]', Cart.onSizeChange);
+                $('.player-list .add-player', el).click(Cart.onAddPlayer);
+                $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
 
-                // $(':input[name="size"]', el).change(Cart.onSizeChange);
-                // $('.player-list .add-player', el).click(Cart.onAddPlayer);
-                // $('.view-selected-sizes', el).click(Cart.onViewAllSelectedSizes);
+                $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
+                $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
 
-                // $('.player-list tbody', el).on('click', 'tr td .edit-player', Cart.onEditPlayer);
-                // $('.player-list tbody', el).on('click', 'tr td .delete-player', Cart.onDeletePlayer);
+                $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
 
-                // $('.cart-item', el).on('click', '.delete-cart-item', Cart.onDeleteItemToCart);
-
-                Cart.getAllMaterials(Cart.cart_items, function(response) {
-                    if (response.success) {
-                        var material = response.material;
-
-                        var pricing = JSON.parse(material.pricing);
-                        console.log(pricing);
-                    } else {
-                        console.log(response.message);
-                    }
-                });
+                Cart.setDynamicMaterialSize(Cart.cart_items);
             }
         });
     },
@@ -119,6 +102,33 @@ var Cart = {
         return duplicate_material;
     },
 
+    setDynamicMaterialSize: function(cart_items) {
+        Cart.getAllMaterials(cart_items, function(response) {
+            if (response.success) {
+                var material = response.material;
+
+                var pricing = JSON.parse(material.pricing);
+
+                var cart_item_el = $('#cart-items-el .cart-item[data-material-id="'+material.id+'"]');
+                var cart_item_id = cart_item_el.data('cart-item-id');
+
+                var input_parent = $(':input[name="size"]', cart_item_el).parent();
+                $(':input[name="size"]', cart_item_el).remove();
+
+                var tmpl = _.template($('#sizes-tmpl').html());
+                input_parent.append(tmpl({
+                    sizes: pricing.properties,
+                    currency: "$"
+                }));
+
+                var default_size = $(':input[name="size"]', cart_item_el).val();
+                return Cart.loadPlayers(cart_item_id, default_size);
+            } else {
+                console.log(response.message);
+            }
+        });
+    },
+
     getAllMaterials: function(cart_items, callback) {
         var cart_item;
 
@@ -172,7 +182,7 @@ var Cart = {
         var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
         var size = $(this).val();
 
-        Cart.loadPlayers(cart_item_id, parseInt(size));
+        Cart.loadPlayers(cart_item_id, size);
     },
 
     onViewAllSelectedSizes: function() {
@@ -187,8 +197,7 @@ var Cart = {
             title: "Selected Sizes",
             message: tmpl({
                 players: cart_item.players,
-                selected_sizes: selected_sizes,
-                sizes: customizer_sizes
+                selected_sizes: selected_sizes
             }),
             size: "large"
         });
@@ -200,7 +209,7 @@ var Cart = {
 
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
-        var selected_size = parseInt($(':input[name="size"]', cart_item_el).val());
+        var selected_size = $(':input[name="size"]', cart_item_el).val();
         var player_list_el = $('.player-list tbody', cart_item_el);
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
