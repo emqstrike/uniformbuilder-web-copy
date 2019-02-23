@@ -151,22 +151,34 @@
                     </div>
 
                     <div class="panel panel-default">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="order-summary">
                             <tbody>
                                 <tr>
                                     <td colspan="2" class="bg-info text-info">Order Summary</td>
                                 </tr>
                                 <tr>
                                     <td>Total Items Fee</td>
-                                    <td>$ 105.40</td>
+                                    <td>
+                                        <p class="total-items-fee">
+                                            {{-- to be load of js --}}
+                                        </p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Shipping Fee</td>
-                                    <td>$ 10.00</td>
+                                    <td>
+                                        <p class="shipping-fee">
+                                            {{-- to be load of js --}}
+                                        </p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Total Amount</td>
-                                    <td>$ 115.40</td>
+                                    <td>
+                                        <p class="total-amount">
+                                            {{-- to be load of js --}}
+                                        </p>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -5,6 +5,8 @@
 var ConfirmOrder = {
     cart_items: [],
 
+    shipping_fee: 10, // assume
+
     init: function() {
         ConfirmOrder.loadOrders(function() {
             var order_list = $('#order-list');
@@ -14,6 +16,12 @@ var ConfirmOrder = {
                 orders: ConfirmOrder.cart_items,
                 currency: "$"
             }));
+
+            var total_items_fee = _.pluck(ConfirmOrder.cart_items, "total_price").reduce(function(n1, n2) { return n1 + n2; });
+
+            $('#order-summary .total-items-fee').text("$" + total_items_fee.toFixed(2));
+            $('#order-summary .shipping-fee').text("$" + ConfirmOrder.shipping_fee.toFixed(2));
+            $('#order-summary .total-amount').text("$" + (total_items_fee + ConfirmOrder.shipping_fee).toFixed(2));
 
             $('.view-all-players', order_list).click(ConfirmOrder.onViewAllPlayers);
         });
