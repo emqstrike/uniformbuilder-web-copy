@@ -2533,6 +2533,10 @@ $(document).ready(function () {
             if (typeof e.code !== 'undefined') {
                 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
+
+                // exit if material is undefined
+                if (typeof _materialOption === 'undefined') { return; };
+
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
                 e.team_color_id     = _team_color_id;
