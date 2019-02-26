@@ -711,6 +711,8 @@ $(document).ready(function() {
     ub.funcs.freeFeedbackForm();
 
     ub.funcs.postOrderData = function (data, url) {
+        console.log('this is the test data');
+        console.log(JSON.stringify(data));
 
         var _postData   = data;
         var _url        = url;
@@ -746,7 +748,7 @@ $(document).ready(function() {
                 ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
 
                 // Go to view order details form after submission
-                window.location = _viewOrderLink;
+                // window.location = _viewOrderLink;
 
             }
             
