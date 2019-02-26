@@ -131,7 +131,7 @@
                 var mascotValue = $(this).val();
 
                 jQuery.each(mascots, function(index, item) {
-                    if (item.id == mascotValue ) {
+                    if (item.code == mascotValue ) {
                         filteredMascots.push( index );
                     }
                 });
