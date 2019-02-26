@@ -234,18 +234,16 @@ class CartItemController extends Controller
     {
         $cart_token = $request->get('cart_token');
         $cart = Cart::findByToken($cart_token);
-        $cart_items = $cart->cart_items;
-
         $cart_item = CartItem::find($cart_item_id);
-        $duplicate_item_ids = $cart_item->getDuplicateItem($cart->id)->pluck('id')->toArray();
 
-        // remove cart item id that to be retain
-        unset($duplicate_item_ids[array_search($cart_item_id, $duplicate_item_ids)]);
+        $toBeDeleteCartItem = $cart_item->getDuplicateItem($cart->id)->filter(function($cartItem) use($cart_item_id) {
+            return $cartItem->id != $cart_item_id;
+        })->first();
 
-        $destroy_nums = CartItem::destroy($duplicate_item_ids);
+        $is_deleted = $toBeDeleteCartItem->cartItemPlayers()->delete() && $toBeDeleteCartItem->delete();
 
         return response()->json(
-            $destroy_nums > 0 ?
+            $is_deleted ?
             [
                 'success' => true,
                 'message' => "Successfully retain the cart item"
