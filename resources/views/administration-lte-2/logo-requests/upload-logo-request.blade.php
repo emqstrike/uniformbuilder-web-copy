@@ -19,13 +19,15 @@
                         <input type="hidden" name="logo_request_id" value="{{ $logo_request_id }}">
                         <input type="hidden" name="logo_index" value="{{ $logo_index }}">
                         <input type="hidden" name="logo_request_user_id" value="{{ $logo_request_user_id }}">
+                        <input type="hidden" name="sports" value="All">
+
 
                         <a href="{{ route('v1_add_existing_logo', ['logo_request_id' => $logo_request_id, 'logo_index' => $logo_index, 'logo_request_user_id' => $logo_request_user_id]) }}" class="btn btn-flat btn-primary">
                             Choose existing mascot
                         </a>
-                        
+
                         <h3>Upload mascot details:</h3>
-                        
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">

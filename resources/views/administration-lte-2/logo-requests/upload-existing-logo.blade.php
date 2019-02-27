@@ -81,7 +81,6 @@
 
             $(document).on('click', '.submit-record', function(e) {
                 var val = $('.dd-selected-value').val();
-                console.log(val);
                 $('#mascot_id').val(val);
             });
 

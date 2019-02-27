@@ -122,6 +122,7 @@ class MascotsController extends Controller
         $brand = $request->input('brand');
 
         $sports = explode(",", $request->input('sports_value'));
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -270,6 +271,7 @@ class MascotsController extends Controller
         $code = $request->input('code');
         $category = $request->input('category');
         $layersProperties = $request->input('layers_properties');
+        $sports = explode(",", $request->input('sports'));
 
         if ($request->input('artwork_request_id') != null) {
             $artworkRequestID = $request->input('artwork_request_id');
@@ -309,7 +311,8 @@ class MascotsController extends Controller
             'category' => $category,
             'layers_properties' => $layersProperties,
             'user_id' => $artworkUserId,
-            'brand' => $request->input('brand')
+            'brand' => $request->input('brand'),
+            'sports' => $sports
         ];
 
         $id = null;
@@ -330,7 +333,7 @@ class MascotsController extends Controller
                     $filename = Random::randomize(12);
 
                     $data['icon'] = FileUploader::upload($materialOptionFile, $mascotName, 'material_option', "materials", "{$materialFolder}/{$filename}.png");
-                    
+
                     // update artwork data
                     array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
                     $ar_json[$artworkIndex]['updated'] = 1;
