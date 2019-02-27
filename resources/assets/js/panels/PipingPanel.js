@@ -200,9 +200,6 @@ PipingPanel.events = {
         var modifier = piping_el.data("piping-modifier");
         var number_of_colors = $(".colors .piping-colors-buttons.active", piping_el).data("value");
 
-        console.log(type);
-        console.log(number_of_colors);
-        
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         var layers = ub.current_material.settings.pipings[type].layers;
 
@@ -276,7 +273,17 @@ PipingPanel.events = {
 
                 if (selected_button_el.length > 0)
                 {
-                    selected_button_el.html('<div class="cp-check-background cp-background-cover piping-check"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                    selected_button_el.html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium"></span></div>');
+                    if (index.colorCode === 'W'
+                        || index.colorCode === 'Y'
+                        || index.colorCode === 'CR'
+                        || index.colorCode === 'S'
+                        || index.colorCode === 'PK'
+                        || index.colorCode === 'OP'
+                        || index.colorCode === 'SG'
+                    ) {
+                        selected_button_el.html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium cp-fc-black"></span></div>');
+                    }
                     selected_button_el.addClass('active-piping-color');
                 }
             });
@@ -316,8 +323,6 @@ PipingPanel.events = {
 
         // Get Piping Sets
         var modifier = $(this).data("modifier");
-
-        console.log(modifier)
 
         var active_size_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.active').data('type');
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
@@ -376,7 +381,19 @@ PipingPanel.events = {
             'background-image': "url("+ image +")"
         });
 
-        $(this).html('<div class="cp-check-background cp-background-cover piping-check"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+        $(this).html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium"></span></div>');
+
+        if (color_code === 'W'
+            || color_code === 'Y'
+            || color_code === 'CR'
+            || color_code === 'S'
+            || color_code === 'PK'
+            || color_code === 'OP'
+            || color_code === 'SG'
+        ) {
+            $(this).html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium cp-fc-black"></span></div>');
+        }
+
         $(this).addClass('active-piping-color');
     },
 

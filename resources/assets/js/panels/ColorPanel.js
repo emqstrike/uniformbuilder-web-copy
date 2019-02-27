@@ -137,7 +137,7 @@ ColorPanel.prototype = {
 
     addCheckOnSelectedColor: function(element, colorLabel)
     {
-        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white cp-check-color-font-size"></span>');
         element.addClass('active-color');
 
         if (colorLabel === 'W'
