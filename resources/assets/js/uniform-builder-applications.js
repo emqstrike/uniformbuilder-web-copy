@@ -1375,10 +1375,12 @@ $(document).ready(function () {
                         ub.updateApplicationSpecsPanel(_application.code);
 
                         var _start;
+                        var _multiplier = 100;
                         if (application_type !== "mascot") {
 
                             _start = (10 * application_obj.scale.x) / 3;
                             _start = _start / 100;
+                            _multiplier = 10;
 
                         } else {
 
@@ -1388,7 +1390,7 @@ $(document).ready(function () {
                         }
 
                         if (ub.data.useScrollingUI) {
-                            var val = Math.abs(Math.round((application_obj.scale.x * 100 )/ 3));
+                            var val = Math.abs(Math.round((application_obj.scale.x * _multiplier)/ 3));
 
                             if(val < 1) {
                                 val = 1;
