@@ -19,8 +19,6 @@
                         <input type="hidden" name="logo_request_id" value="{{ $logo_request_id }}">
                         <input type="hidden" name="logo_index" value="{{ $logo_index }}">
                         <input type="hidden" name="logo_request_user_id" value="{{ $logo_request_user_id }}">
-                        <input type="hidden" name="sports" value="All">
-
 
                         <a href="{{ route('v1_add_existing_logo', ['logo_request_id' => $logo_request_id, 'logo_index' => $logo_index, 'logo_request_user_id' => $logo_request_user_id]) }}" class="btn btn-flat btn-primary">
                             Choose existing mascot
@@ -53,6 +51,23 @@
                             <label class="col-md-4 control-label">File</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sports</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="">
+                                <select name="sports[]" class="form-control sports" multiple="multiple" required="true">
+                                    <option value="All">All</option>
+                                    @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+
+                                </select>
                             </div>
                         </div>
 
@@ -172,6 +187,17 @@
                 var color = $('option:selected', this).data('color');
                 $(this).css('background-color', color);
             });
+
+            $('.sports').select2({
+                placeholder: "Select sports",
+                multiple: true,
+                allowClear: true
+            });
+
+            $(".sports").change(function() {
+                $('#sports_value').val($(this).val());
+            });
+
         });
     </script>
 @endsection
