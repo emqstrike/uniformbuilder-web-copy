@@ -1283,59 +1283,145 @@ $(document).ready(function() {
 
         console.log('ub.funcs.prepareData() output=====>', _input);
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
 
-        $.ajax({
-            data: JSON.stringify({builder_customizations: _input}),
-            url: ub.config.host + "/generateOrderForm",
-            dataType: "json",
-            type: "POST",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-        
-            success: function(response) {
+        // $.ajax({
+        //     data: JSON.stringify({builder_customizations: _input}),
+        //     url: ub.config.host + "/generateOrderForm",
+        //     dataType: "json",
+        //     type: "POST",
+        //     crossDomain: true,
+        //     contentType: 'application/json',
+        //     headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        //
+        //     success: function(response) {
+        //
+        //         if (response.success) {
+        //
+        //             console.log('OLD PDF LINK', response.filename);
 
-                if (response.success) {
 
-                    ub.funcs.displayLinks(response.filename);
+                    var _data = {
+                        selectedSource:"Prolook Customizer",
+                        selectedTemplate:"Richardson",
+                        searchKey:"2018-PCY",
+                        thumbnails: {
+                            "front_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/0ee11aa60c27172c5a2fc67a190abdbc.png",
+                            "back_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/468b114e15f07cc92356c86411a08ccc.png",
+                            "left_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/f5652bede172f91c5079d71bb1421b65.png",
+                            "right_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/224e4e89c93f3f0223208bd39918e8dd.png"
+                        },
+                        category:"",
+                        fullName:"",
+                        client:"",
+                        orderId:"87b669eef8d0",
+                        foid:"",
+                        description:"",
+                        cutPdf:"",
+                        stylesPdf:"",
+                        roster:"",
+                        pipings:"",
+                        createdDate:"",
+                        notes:"",
+                        sizeBreakdown:"",
+                        applications:"",
+                        sizingTable:"",
+                        upper:"",
+                        lower:"",
+                        hiddenBody:"",
+                        randomFeeds:"",
+                        legacyPDF:"",
+                        applicationType:""
+                    };
 
+                    console.log('RUNNING REQUEST TO PDF SERVICE');
+                    var newPDF = ub.funcs.pdfService(_data);
+
+                    // console.log('SENDING TO DISPLAY');
+                    // ub.funcs.displayLinks(newPDF);
+
+                    // this is commented not used
                     // if (ub.config.orderArtworkStatus === "rejected") {
 
                     //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                     //     $('span.save-order').hide();
 
-                    // } 
+                    // }
 
-                    if (ub.data.updateOrderFromCustomArtworkRequest) {
 
-                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-                        $('span.save-order').hide();                        
 
-                    }
 
+        //             if (ub.data.updateOrderFromCustomArtworkRequest) {
+        //
+        //                 $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+        //                 $('span.save-order').hide();
+        //
+        //             }
+        //
+        //         }
+        //         else {
+        //             console.log('error: ');
+        //             console.log(response.message);
+        //         }
+        //
+        //     },
+        //     error: function(error) {
+        //         $.smkAlert({
+        //             text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+        //             type: 'warning'
+        //         });
+        //     }
+        //
+        // });
+
+
+    };
+
+    ub.funcs.pdfService = function (_data) {
+
+        var pdfLink = null;
+
+        $.ajax({
+            // async: false,
+            data: JSON.stringify(_data),
+            url: "http://localhost:7000/api/upload",
+            dataType: "json",
+            type: "POST",
+            crossDomain: true,
+            contentType: 'application/json',
+            // headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function(response) {
+
+                if (response.success) {
+                    pdfLink = response.pdfUrl;
+
+                    console.log('SENDING TO DISPLAY');
+                    ub.funcs.displayLinks(pdfLink);
                 }
                 else {
                     console.log('error: ');
-                    console.log(response.message);
+                    console.log(response);
                 }
 
             },
             error: function(error) {
                 $.smkAlert({
-                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                    text: 'ERROR IN PDF SERVICE',
                     type: 'warning'
                 });
             }
-        
+
         });
 
+        console.log('[pdfService] - PDF LINK IS', pdfLink);
 
-    }
+        // return pdfLink;
+    };
 
     ub.funcs.thumbnailsUploaded = function () {
 
@@ -1364,7 +1450,7 @@ $(document).ready(function() {
 
         });
 
-    }
+    };
 
     ub.funcs.validateOrderForm = function () {
 
@@ -1373,7 +1459,7 @@ $(document).ready(function() {
 
         ub.funcs.generatePDF();
 
-    }
+    };
 
     ub.funcs.duplicateClientInfo = function () {
 
@@ -1403,7 +1489,7 @@ $(document).ready(function() {
 
         }
 
-    }
+    };
 
     ub.funcs.setVal = function (name, val) {
 
@@ -1413,7 +1499,7 @@ $(document).ready(function() {
             $('input[name="' + name + '"]').val(val);    
         }
 
-    }
+    };
 
     ub.funcs.prepareOrderForm = function (orderInfo) {
 
