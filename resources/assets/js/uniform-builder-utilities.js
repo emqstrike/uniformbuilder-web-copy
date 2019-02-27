@@ -110,6 +110,7 @@ $(document).ready(function() {
             var xhr = typeof XMLHttpRequest != 'undefined'
                 ? new XMLHttpRequest()
                 : new ActiveXObject('Microsoft.XMLHTTP');
+            xhr.withCredentials = true;
             xhr.open('post', url, true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.onreadystatechange = function() {
