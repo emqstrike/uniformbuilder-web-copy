@@ -336,7 +336,7 @@ PatternPanel.prototype = {
 
             var colorLabel = $(this).data("color-label");
 
-            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            $(this).html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white cp-check-color-font-size"></span>');
             $(this).addClass('active-pattern-color');
 
             if (colorLabel === 'W' ||
@@ -665,7 +665,7 @@ PatternPanel.prototype = {
         _.delay(function() {
 
             var color = $("#pattern-color-category-" + index + " button.pattern-color-selector-button[data-color-id='" + colorID + "']");
-            color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+            color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white cp-check-color-font-size"></span>');
             color.addClass('active-pattern-color');
             if (colorLabel === 'W'
                 || colorLabel === 'Y'
