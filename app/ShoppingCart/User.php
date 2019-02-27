@@ -70,7 +70,13 @@ class User extends Model implements AuthenticatableContract
 
     public function generateNewLoggedInToken()
     {
-        $this->logged_in_token = uniqid();
+        $login_tokens = static::all()->pluck('logged_in_token')->toArray();
+
+        do {
+            $new_token = uniqid();
+        } while (in_array($new_token, $login_tokens));
+
+        $this->logged_in_token = $new_token;
         return $this->save();
     }
 
