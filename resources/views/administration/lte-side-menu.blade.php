@@ -95,7 +95,7 @@
                 </a>
             </li> -->
             <li>
-                <a href="/administration/logo_requests" >
+                <a href="/administration/{{ env('ENDPOINT_VERSION') }}/logo_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
                 </a>
             </li>
@@ -115,12 +115,12 @@
         </a>
       </li>
       <li data-step="4" data-intro="For Application Sizes settings." data-position='right'>
-        <a href="/administration/application_sizes">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/application_sizes">
           <i class="fa fa-cube"></i> <span>Application Sizes</span>
         </a>
       </li>
       <li  data-step="5" data-intro="For Block patterns settings.">
-        <a href="/administration/block_patterns">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/block_patterns">
           <i class="fa fa-star"></i> <span>Block Patterns</span>
         </a>
       </li>
@@ -135,22 +135,22 @@
         </a>
       </li>
       <li  data-step="7" data-intro="For Mascots settings.">
-        <a href="/administration/mascots">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots">
           <i class="fa fa-linux"></i> <span>Mascots</span>
         </a>
       </li>
       <li  data-step="8" data-intro="For Mascots category settings.">
-        <a href="/administration/mascots_categories">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots_categories">
           <i class="fa fa-circle"></i> <span>Mascots Categories</span>
         </a>
       </li>
       <li  data-step="8" data-intro="For Mascots group category settings.">
-        <a href="/administration/mascots_groups_categories">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots_groups_categories">
           <i class="fa fa-circle"></i> <span>Mascots Groups Categories</span>
         </a>
       </li>
       <li  data-step="7" data-intro="For Mascots settings.">
-        <a href="/administration/mascot_sizes">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascot_sizes">
           <i class="fa fa-linux"></i> <span>Mascot Sizes</span>
         </a>
       </li>
@@ -185,7 +185,7 @@
         </a>
       </li>
       <li  data-step="11" data-intro="For Uniform Categories settings.">
-        <a href="/administration/categories">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/categories">
           <i class="fa fa-soccer-ball-o"></i> <span>Uniform Categories</span>
         </a>
       </li>
@@ -195,17 +195,17 @@
         </a>
       </li>
       <li  data-step="13" data-intro="For Colors settings.">
-        <a href="/administration/colors">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors">
           <i class="fa fa-paint-brush"></i> <span>Colors</span>
         </a>
       </li>
       <li  data-step="13" data-intro="For Colors settings.">
-        <a href="/administration/colors_sets">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors_sets">
           <i class="fa fa-paint-brush"></i> <span>Colors Sets</span>
         </a>
       </li>
       <li  data-step="14" data-intro="For Patterns settings.">
-        <a href="/administration/patterns">
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns">
           <i class="fa fa-table"></i> <span>Patterns</span>
         </a>
       </li>
@@ -277,7 +277,7 @@
     </a>
   </li>
   <li data-position='right'>
-    <a href="/administration/v1-0/saved_designs" >
+    <a href="/administration/{{ env('ENDPOINT_VERSION') }}/saved_designs" >
       <i class="glyphicon glyphicon-blackboard"></i> <span>Saved Designs</span>
     </a>
   </li>
