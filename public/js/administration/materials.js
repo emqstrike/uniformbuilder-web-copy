@@ -723,11 +723,11 @@ $(document).ready(function() {
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
         var app_y                   = '<input type="text" style="' + style + '" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
-        var app_primary             = '<input type="checkbox" style="' + style + '" class="app-primary" value="1">';
-        var app_logo                = '<input type="checkbox" style="' + style + '" class="app-logo" value="1">';
-        var app_team_name           = '<input type="checkbox" style="' + style + '" class="app-team-name" value="1">';
-        var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
-        var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
+        var app_primary             = '<input checked type="checkbox" style="' + style + '" class="app-primary" value="1">';
+        var app_logo                = '<input checked type="checkbox" style="' + style + '" class="app-logo" value="1">';
+        var app_team_name           = '<input checked type="checkbox" style="' + style + '" class="app-team-name" value="1">';
+        var app_player_name         = '<input checked type="checkbox" style="' + style + '" class="app-player-name" value="1">';
+        var app_number              = '<input checked type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
         var default_mascot          = '<input type="textbox" class="mascotFilter"><select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
@@ -735,17 +735,17 @@ $(document).ready(function() {
         var tailsweep               = '<select style=' + style + ' class="app-default-tailsweep" data-id="' + group.id + '"></select><input type="hidden" class="app-tailsweep-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
-        var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var vertical_text           = '<input checked type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
-        var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
-        var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
+        var rotated_tailsweep       = '<input checked type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
+        var embellishment           = '<input checked type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
         var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var custom_scale_x          = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="0" size="4">';
         var custom_scale_y          = '<input type="text" style="' + style + '" class="app-custom-scale-y" value="0" size="4">';
-        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
+        var flipped                 = '<input checked type="checkbox" style="' + style + '" class="app-flipped" value="1"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
