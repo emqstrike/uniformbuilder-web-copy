@@ -25,20 +25,23 @@
     </div>
 </div>
 
-<div id="richardson-summary-preview" class="uk-modal-container" uk-modal>
+<div id="richardson-summary-preview" class="uk-modal-container" uk-modal="esc-close: false; bg-close: false;">
     <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-outside" type="button" uk-close></button>
         <div class="uk-padding-small cp-bgc-light uk-text-center uk-text-bold">
             <h2 class="uk-modal-title uk-text-uppercase uk-margin-remove abrade-black">uniform Summary</h2>
         </div>
         <div class="uk-flex-center">
-            <div class="loading">
+            <div class="loading uk-padding-small uk-padding-remove-horizontal">
                 <div class="uk-text-center">
                     <div uk-spinner="ratio: 8"></div>
                     <div>Preparing uniform preview.....</div>
                 </div>
             </div>
-            <div class="uk-padding-small pdf-iframe-container">
-                <iframe class="pdf-iframe" src="" width="100%" style="height: 70vh !important"></iframe>
+            <div class="uk-padding-small pdf-iframe-container uk-padding-remove-horizontal">
+                <div class="uk-padding-small uk-padding-remove-horizontal">
+                    <iframe class="pdf-iframe" src="" width="100%" style="height: 70vh !important"></iframe>
+                </div>
             </div>
         </div>
     </div>
