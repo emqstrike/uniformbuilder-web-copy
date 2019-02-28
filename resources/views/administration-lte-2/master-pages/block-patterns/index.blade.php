@@ -108,9 +108,9 @@
                                         <input type="hidden" value="{{ $block_pattern->neck_options }}" class="neck-options-container">
 
                                         @if ($block_pattern->neck_options)
-                                            <?php 
-                                                $options = json_decode($block_pattern->neck_options, true); 
-                                                $count = count($options);
+                                            <?php
+                                                $options = json_decode($block_pattern->neck_options, true);
+                                                $count = count((array) $options);
                                             ?>
 
                                             @for ($index = 1; $index <= $count; $index++)
