@@ -14,9 +14,8 @@ SummaryPreviewPanel.events = {
                 $(".loading").show();
 
                 // Check if all thumbnails uploaded
-                if (_this.isUniformChange()) {
+                if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined") {
                     _this.prepareThumbnails();
-                    console.log("PRepare Thumbnails")
                 } else {
                     $(".pdf-iframe-container").show();
                     $(".loading").hide();
