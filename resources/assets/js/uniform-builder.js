@@ -5544,6 +5544,18 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
+        $('input.quickRegistrationEmail').on('focus', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            $popup.unbind('mousedown', ub.funcs.handle_mousedown);
+        });
+
+        $('input.quickRegistrationEmail').on('blur', function(event) {
+            event.preventDefault();
+            // bind drag
+            $popup.bind('mousedown', ub.funcs.handle_mousedown);
+        });
+
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
@@ -5694,29 +5706,13 @@ $(document).ready(function () {
 
         $('div.close-popup').on('click', function (){
 
-            $popup.remove();
-            ub.status.quickRegistrationPopup = false;
+            if ( $popup.is(':visible') ) {
+                $popup.remove();
+                ub.status.quickRegistrationPopup = false;
+            }
+
 
         });
-
-        // $popup.bind('clickoutside', function () {
-
-        //     var _status = $(this).data('status');
-
-        //     if (_status === 'hidden') {
-
-        //         $(this).data('status', 'visible');
-        //         return;
-
-        //     }
-
-        //     $(this).data('status', 'hidden');
-        //     $(this).hide();
-        //     $(this).remove();
-        //     ub.status.quickRegistrationPopup = false;
-
-        // });
-
 
     }
 
