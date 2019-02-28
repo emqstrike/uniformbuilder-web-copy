@@ -198,7 +198,7 @@ ModifierController.prototype = {
 
             RandomFeedPanel.events.init();
             RandomFeedPanel.setInitialState();
-        } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
+        } else if (PipingPanel.isValidToProcessPipings() && ub.data.pipings.length !== 0) { // display pipings
             ub.funcs.activatePanelGuard();
             ub.funcs.deactivatePanels();
 

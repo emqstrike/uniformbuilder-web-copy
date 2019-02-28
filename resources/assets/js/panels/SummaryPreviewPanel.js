@@ -95,6 +95,13 @@ SummaryPreviewPanel.events = {
     },
 
     prepareThumbnails: function() {
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+
+        ub.funcs.deactivateMoveTool();
+
         ub.current_material.settings.thumbnails = {
             front_view: "",
             back_view: "",

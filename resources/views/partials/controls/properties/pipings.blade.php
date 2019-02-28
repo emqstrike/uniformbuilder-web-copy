@@ -188,7 +188,7 @@
 </script>
 
 <script type="text/mustache" id="m-no-piping-message">
-    <div id="no-piping-message" class="no-piping-message">
+    <div id="no-piping-message" class="uk-padding-small">
         <div>
             <h3 class="abrade-ultra-italic">Notice</h3>
             <div class="abrade-book">
