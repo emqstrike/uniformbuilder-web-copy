@@ -310,6 +310,10 @@ ModifierController.scrollToOptions = function (application_type, application_id)
         $('#property-modifiers-menu .menu-item-applications').trigger('click')
     }
 
+    var application = ub.current_material.settings.applications[application_id];
+
+    ub.funcs.activateMoveTool(application.code);
+
     $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
 
 };
