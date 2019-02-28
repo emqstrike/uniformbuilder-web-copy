@@ -5547,13 +5547,13 @@ $(document).ready(function () {
         $('input.quickRegistrationEmail').on('focus', function(event) {
             event.preventDefault();
             // Unbind drag
-            $popup.unbind('mousedown', ub.funcs.handle_mousedown);
+            $('div#primaryQuickRegistrationPopup').unbind('mousedown', ub.funcs.handle_mousedown);
         });
 
         $('input.quickRegistrationEmail').on('blur', function(event) {
             event.preventDefault();
             // bind drag
-            $popup.bind('mousedown', ub.funcs.handle_mousedown);
+            $('div#primaryQuickRegistrationPopup').bind('mousedown', ub.funcs.handle_mousedown);
         });
 
         // convenience method
@@ -5706,11 +5706,8 @@ $(document).ready(function () {
 
         $('div.close-popup').on('click', function (){
 
-            if ( $popup.is(':visible') ) {
-                $popup.remove();
-                ub.status.quickRegistrationPopup = false;
-            }
-
+            $('div#primaryQuickRegistrationPopup').remove();
+            ub.status.quickRegistrationPopup = false;
 
         });
 
