@@ -1049,6 +1049,7 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
+        // var _url = _linkTransformed;
 
         $('iframe#pdfViewer').attr('src', _url)
         $('a.previewPDFLink').attr('href', _url);
@@ -1304,36 +1305,37 @@ $(document).ready(function() {
         //
         //             console.log('OLD PDF LINK', response.filename);
 
+                    var bc = ub.current_material.settings
 
                     var _data = {
                         selectedSource:"Prolook Customizer",
-                        selectedTemplate:"Richardson",
-                        searchKey:"2018-PCY",
-                        thumbnails: {
-                            "front_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/0ee11aa60c27172c5a2fc67a190abdbc.png",
-                            "back_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/468b114e15f07cc92356c86411a08ccc.png",
-                            "left_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/f5652bede172f91c5079d71bb1421b65.png",
-                            "right_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/224e4e89c93f3f0223208bd39918e8dd.png"
-                        },
-                        category:"",
+                        selectedTemplate:"Prolook",
+                        searchKey:"testing",
+                        // thumbnails: {
+                        //     "front_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/0ee11aa60c27172c5a2fc67a190abdbc.png",
+                        //     "back_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/468b114e15f07cc92356c86411a08ccc.png",
+                        //     "left_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/f5652bede172f91c5079d71bb1421b65.png",
+                        //     "right_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/224e4e89c93f3f0223208bd39918e8dd.png"
+                        // },
+                        thumbnails: bc.thumbnails,
+                        category: bc.uniform_category,
                         fullName:"",
                         client:"",
-                        orderId:"87b669eef8d0",
+                        orderId:"",
                         foid:"",
                         description:"",
-                        cutPdf:"",
-                        stylesPdf:"",
-                        roster:"",
-                        pipings:"",
+                        cutPdf: bc.cut_pdf,
+                        stylesPdf: bc.styles_pdf,
+                        roster: bc.roster,
+                        pipings: bc.pipings,
                         createdDate:"",
                         notes:"",
-                        sizeBreakdown:"",
-                        applications:"",
-                        sizingTable:"",
-                        upper:"",
-                        lower:"",
-                        hiddenBody:"",
-                        randomFeeds:"",
+                        sizeBreakdown: bc.size_breakdown,
+                        applications: bc.applications,
+                        sizingTable: bc.sizingTable,
+                        upper: bc.upper,
+                        lower: bc.hiddenBody,
+                        randomFeeds: bc.randomFeeds,
                         legacyPDF:"",
                         applicationType:""
                     };
@@ -1418,7 +1420,7 @@ $(document).ready(function() {
 
         });
 
-        console.log('[pdfService] - PDF LINK IS', pdfLink);
+        // console.log('[pdfService] - PDF LINK IS', pdfLink);
 
         // return pdfLink;
     };
