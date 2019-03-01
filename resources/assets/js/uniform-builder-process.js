@@ -1109,7 +1109,7 @@ $(document).ready(function() {
     };
 
     // This is a dublicate of the Submit Order Form, refactor this
-    ub.funcs.prepareData = function () {
+        ub.funcs.prepareData = function () {
 
         var _notes                  = $('textarea#additional-notes').val();
         var _attachments            = [];
@@ -1305,39 +1305,36 @@ $(document).ready(function() {
         //
         //             console.log('OLD PDF LINK', response.filename);
 
-                    var bc = ub.current_material.settings
+                    console.log('PROCESSING!!!');
+
+                    var bc = _input.order_items[0].builder_customizations;
+                    var order_items = _input.order_items[0];
 
                     var _data = {
                         selectedSource:"Prolook Customizer",
                         selectedTemplate:"Prolook",
                         searchKey:"testing",
-                        // thumbnails: {
-                        //     "front_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/0ee11aa60c27172c5a2fc67a190abdbc.png",
-                        //     "back_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/468b114e15f07cc92356c86411a08ccc.png",
-                        //     "left_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/f5652bede172f91c5079d71bb1421b65.png",
-                        //     "right_view":"https:\/\/s3.us-west-2.amazonaws.com\/uniformbuilder\/uploads\/local\/224e4e89c93f3f0223208bd39918e8dd.png"
-                        // },
                         thumbnails: bc.thumbnails,
                         category: bc.uniform_category,
-                        fullName:"",
-                        client:"",
-                        orderId:"",
+                        fullName: "", // not used in any pdf service templates
+                        client: _input.order.client,
+                        orderId: _.isEmpty(bc.order_info) ? "" : "***ORDERID***",
                         foid:"",
-                        description:"",
+                        description: order_items.description,
                         cutPdf: bc.cut_pdf,
                         stylesPdf: bc.styles_pdf,
                         roster: bc.roster,
                         pipings: bc.pipings,
                         createdDate:"",
-                        notes:"",
+                        notes: order_items.notes,
                         sizeBreakdown: bc.size_breakdown,
                         applications: bc.applications,
                         sizingTable: bc.sizingTable,
                         upper: bc.upper,
                         lower: bc.hiddenBody,
                         randomFeeds: bc.randomFeeds,
-                        legacyPDF:"",
-                        applicationType:""
+                        legacyPDF:"", // display link if old pdf is generated
+                        applicationType: order_items.application_type
                     };
 
                     console.log('RUNNING REQUEST TO PDF SERVICE');
