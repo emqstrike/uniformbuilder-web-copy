@@ -565,8 +565,6 @@ $(function() {
             }
         });
 
-        ub.current_material.settings.slider = element;
-
         element.noUiSlider.on('update', function (values, handle) {
 
             if (!_flag) { _flag = true; return;}

@@ -1280,10 +1280,6 @@ $(document).ready(function () {
                             $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-origin').css('left', val_y + '%')
                             $('div.slider-control-move-x[data-id=' + _application.code + '] .noUi-tooltip').html(val_x)
                             $('div.slider-control-move-y[data-id=' + _application.code + '] .noUi-tooltip').html(val_y)
-
-                            var yElement = $('div.slider-control-move-y[data-id="'+ _application.code + '"]');
-                            var xElement = $('div.slider-control-move-x[data-id="'+ _application.code + '"]');
-                            console.log(xElement.noUiSlider);
                         }
 
                     }
