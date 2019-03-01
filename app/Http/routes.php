@@ -36,7 +36,7 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}/{product_id?}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
-Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
+Route::get('/styles/{gender}/{sport?}/{hsel?}', 'UniformBuilderController@styles');
 
 //Stand Alone Saved Designs Page
 Route::get('saved_design/login', 'AdministrationV2\SavedDesignsController@loginForm')->name('saved_designs_login_form');
