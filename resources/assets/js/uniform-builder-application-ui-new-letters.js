@@ -411,7 +411,10 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        ub.funcs.getFreeApplicationsContainer('letters');
+
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('letters');
+        }
 
         // initializer
         ub.funcs.initializer();
@@ -480,7 +483,10 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        ub.funcs.getFreeApplicationsContainer('numbers');
+
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('numbers');
+        }
 
         // initializer
         ub.funcs.initializer();

@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div class="modal-body application-list-body cp-padding-medium cp-padding-remove-vertical">
-                <ul class="list-unstyled application-list">
+                <ul class="list-unstyled application-list cp-margin-remove">
                     
                 </ul>
             </div>
