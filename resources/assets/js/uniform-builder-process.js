@@ -734,8 +734,16 @@ $(document).ready(function() {
                 var _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
                 var _message = '';
 
+                // re run pdf service to update with order code
+                ub.pdfService.preview_data.orderId = response.order_code;
+                ub.pdfService.preview_data.searchKey = response.order_code;
+                console.log('UPDATED PREVIEW DATA', ub.pdfService.preview_data);
+                ub.funcs.pdfService(false, ub.pdfService.preview_data);
+
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
+                $('.order-dialog').fadeOut();
+                $('.modal-backdrop').fadeOut();
 
                 _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
 
@@ -746,7 +754,9 @@ $(document).ready(function() {
                 ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
 
                 // Go to view order details form after submission
-                window.location = _viewOrderLink;
+                setTimeout(function() {
+                    window.location = _viewOrderLink; }, 60000
+                );
 
             }
             
@@ -1051,7 +1061,7 @@ $(document).ready(function() {
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
         // var _url = _linkTransformed;
 
-        $('iframe#pdfViewer').attr('src', _url)
+        $('iframe#pdfViewer').attr('src', _url);
         $('a.previewPDFLink').attr('href', _url);
 
         $('div#validate-order-form > span.processing').fadeOut();
@@ -1073,7 +1083,7 @@ $(document).ready(function() {
              if (ub.data.updateOrderFromCustomArtworkRequest) {
 
                 // ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
-
+                 console.log('===> submiting form with artwork status updated');
                     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
                     $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
@@ -1082,10 +1092,22 @@ $(document).ready(function() {
                 // });
 
             } else {
-
+                console.log('===> submiting form');
                 ub.funcs.submitOrderForm(ub.constants.order_actions.SUBMIT_ORDER);
                 $('span.submit-confirmed-order').html('Submitting Order...');
 
+                 var dialog = bootbox.dialog({
+                     title: 'Please wait while we submit your order. Thank You!',
+                     message: '<p class="text-center" style="font-size:30px;"><i class="fa fa-spin fa-spinner"></i> Loading...</p>',
+                     className: 'order-dialog',
+                     closeButton: false
+                 });
+
+                 dialog.init(function(){
+                     // setTimeout(function(){
+                     //     dialog.find('.bootbox-body').html('I was loaded after the dialog was shown!');
+                     // }, 3000);
+                 });
             }
             
         });
@@ -1099,6 +1121,19 @@ $(document).ready(function() {
 
             ub.funcs.submitOrderForm(ub.constants.order_actions.SAVE_ORDER);
             $('span.save-order').html('Saving Order...');
+
+            var dialog = bootbox.dialog({
+                title: 'Please wait while we save your order. Thank You!',
+                message: '<p class="text-center" style="font-size:30px;"><i class="fa fa-spin fa-spinner"></i> Loading...</p>',
+                className: 'order-dialog',
+                closeButton: false
+            });
+
+            dialog.init(function(){
+                // setTimeout(function(){
+                //     dialog.find('.bootbox-body').html('I was loaded after the dialog was shown!');
+                // }, 3000);
+            });
 
         });
 
@@ -1309,16 +1344,17 @@ $(document).ready(function() {
 
                     var bc = _input.order_items[0].builder_customizations;
                     var order_items = _input.order_items[0];
+                    var stamp = moment(Date.now()).format();
 
                     var _data = {
                         selectedSource:"Prolook Customizer",
                         selectedTemplate:"Prolook",
-                        searchKey:"testing",
+                        searchKey:"preview-" + order_items.material_id + "-" + order_items.item_id + "-" + stamp.replace(/[:+]/g, "-"),
                         thumbnails: bc.thumbnails,
                         category: bc.uniform_category,
                         fullName: "", // not used in any pdf service templates
                         client: _input.order.client,
-                        orderId: _.isEmpty(bc.order_info) ? "" : "***ORDERID***",
+                        orderId: "",
                         foid:"",
                         description: order_items.description,
                         cutPdf: bc.cut_pdf,
@@ -1338,7 +1374,10 @@ $(document).ready(function() {
                     };
 
                     console.log('RUNNING REQUEST TO PDF SERVICE');
-                    var newPDF = ub.funcs.pdfService(_data);
+                    var newPDF = ub.funcs.pdfService(true, _data);
+                    ub.pdfService = {
+                        preview_data: _data
+                    }
 
                     // console.log('SENDING TO DISPLAY');
                     // ub.funcs.displayLinks(newPDF);
@@ -1380,12 +1419,12 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.pdfService = function (_data) {
+    ub.funcs.pdfService = function (async, _data) {
 
         var pdfLink = null;
 
         $.ajax({
-            // async: false,
+            async: async,
             data: JSON.stringify(_data),
             url: "http://localhost:7000/api/upload",
             dataType: "json",

@@ -5748,6 +5748,7 @@ $(document).ready(function () {
 
     }
 
+
     ub.funcs.initOrderProcess = function () {
 
         ub.funcs.cleanupBeforeOrder();
@@ -9976,6 +9977,10 @@ $(document).ready(function () {
             $('span.tab[data-type="pdf"]').unbind('click');
             $('span.tab[data-type="pdf"]').on('click', function () {
 
+                var path = location.pathname;
+                var order_id = path.substring(path.lastIndexOf("/") + 1);
+                var _url = "https://service-pdf.s3.us-west-2.amazonaws.com/pdf/prolook-" + order_id + ".pdf"
+                $('iframe#pdfViewer').attr('src', _url);
                 ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="pdf"]');
                 ub.funcs.showTab('div.order-info', 'div.order-info.pdf');
 
