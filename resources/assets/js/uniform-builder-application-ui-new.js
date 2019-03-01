@@ -179,6 +179,11 @@ $(function() {
         var type = $(this).data("type")
         // Filter active
         var activeApplications = _.filter(ub.current_material.settings.applications, function(application) {
+            if (ub.funcs.isTackleTwill()) {
+                if (application.application_type === "free") {
+                    return application
+                }
+            }
             if (typeof application.status === "undefined" || application.status === "on") {
                 if (type === "letters") {
                     if (application.application_type === "team_name" || application.application_type === "player_name") {
