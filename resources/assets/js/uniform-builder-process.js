@@ -1325,7 +1325,7 @@ $(document).ready(function() {
                         stylesPdf: bc.styles_pdf,
                         roster: bc.roster,
                         pipings: bc.pipings,
-                        createdDate:"",
+                        createdDate: moment(Date.now()).format('YYYY/MM/DD'),
                         notes: order_items.notes,
                         sizeBreakdown: bc.size_breakdown,
                         applications: bc.applications,
