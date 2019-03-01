@@ -1143,6 +1143,11 @@
                 </div>
             </li>
         @{{ /applications }}
+        @{{ ^applications }}
+            <div class="cp-text-center">
+                <h4 class="cp-padding-small cp-padding-remove-horizontal cp-margin-remove">No application</h4>
+            </div>
+        @{{ /applications }}
     </script>
 
 

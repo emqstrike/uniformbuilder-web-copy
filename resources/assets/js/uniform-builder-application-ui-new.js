@@ -179,24 +179,25 @@ $(function() {
         var type = $(this).data("type")
         // Filter active
         var activeApplications = _.filter(ub.current_material.settings.applications, function(application) {
-            if (application.application_type !== "free") {
-                if (typeof application.status === "undefined" || application.status === "on") {
-                    if (type === "letters") {
-                        if (application.application_type === "team_name" || application.application_type === "player_name") {
-                            return application;
-                        }
-                    } else if (type === "numbers") {
-                        if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
-                            return application;
-                        }
-                    } else if (type === "mascots") {
-                        if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
-                            return application;
-                        }
+            if (ub.funcs.isTackleTwill()) {
+                if (application.application_type === "free") {
+                    return application
+                }
+            }
+            if (typeof application.status === "undefined" || application.status === "on") {
+                if (type === "letters") {
+                    if (application.application_type === "team_name" || application.application_type === "player_name") {
+                        return application;
+                    }
+                } else if (type === "numbers") {
+                    if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
+                        return application;
+                    }
+                } else if (type === "mascots") {
+                    if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
+                        return application;
                     }
                 }
-            } else {
-                return application;
             }
         });
         // Sort by zindex
@@ -414,7 +415,9 @@ $(function() {
             }
         });
 
-        ub.funcs.getFreeApplicationsContainer('mascots');
+        if (ub.funcs.isTackleTwill()) {
+            ub.funcs.getFreeApplicationsContainer('mascots');
+        }
         // initializer
         ub.funcs.initializer();
     };
