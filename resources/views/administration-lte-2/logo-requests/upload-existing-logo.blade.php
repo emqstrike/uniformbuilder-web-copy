@@ -21,9 +21,9 @@
                         <input type="hidden" name="logo_request_user_id" value="{{ $logo_request_user_id }}">
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Filter</label>
+                            <label class="col-md-4 control-label">Search by ID</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-filter" name="mascot_filter" value="">
+                                <input type="text" class="form-control mascot-filter" placeholder="Enter ID" name="mascot_filter" value="">
                             </div>
                         </div>
 
@@ -64,7 +64,7 @@
 
             function getMascots(callback) {
                 var mascots;
-                var url = "//" +api_host+ "/api/mascots";
+                var url = "//" +api_host+ "/api/mascots/filter/all/Mascot";
                 $.ajax({
                     url: url,
                     async: false,
@@ -81,7 +81,6 @@
 
             $(document).on('click', '.submit-record', function(e) {
                 var val = $('.dd-selected-value').val();
-                console.log(val);
                 $('#mascot_id').val(val);
             });
 
@@ -131,22 +130,12 @@
                 var mascotValue = $(this).val();
 
                 jQuery.each(mascots, function(index, item) {
-                    if (((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1) {
+                    if (item.code == mascotValue ) {
                         filteredMascots.push( index );
                     }
                 });
+                $('#mascots').ddslick('select', {index: filteredMascots });
 
-                var mascotFilterIndex=$(".mascot-filter").index(this);
-                if ($(this).val()) {
-                    $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
-                    jQuery.each(filteredMascots, function(index, item) {
-                        $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
-                    });
-                } else {
-                    $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
-                }
-
-                console.log(filteredMascots);
             });
         });
     </script>

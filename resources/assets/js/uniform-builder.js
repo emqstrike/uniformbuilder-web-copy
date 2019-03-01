@@ -2533,6 +2533,10 @@ $(document).ready(function () {
             if (typeof e.code !== 'undefined') {
                 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
+
+                // exit if material is undefined
+                if (typeof _materialOption === 'undefined') { return; };
+
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
                 e.team_color_id     = _team_color_id;
@@ -5540,6 +5544,18 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
+        $('input.quickRegistrationEmail').on('focus', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            $('div#primaryQuickRegistrationPopup').unbind('mousedown', ub.funcs.handle_mousedown);
+        });
+
+        $('input.quickRegistrationEmail').on('blur', function(event) {
+            event.preventDefault();
+            // bind drag
+            $('div#primaryQuickRegistrationPopup').bind('mousedown', ub.funcs.handle_mousedown);
+        });
+
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
@@ -5690,29 +5706,10 @@ $(document).ready(function () {
 
         $('div.close-popup').on('click', function (){
 
-            $popup.remove();
+            $('div#primaryQuickRegistrationPopup').remove();
             ub.status.quickRegistrationPopup = false;
 
         });
-
-        // $popup.bind('clickoutside', function () {
-
-        //     var _status = $(this).data('status');
-
-        //     if (_status === 'hidden') {
-
-        //         $(this).data('status', 'visible');
-        //         return;
-
-        //     }
-
-        //     $(this).data('status', 'hidden');
-        //     $(this).hide();
-        //     $(this).remove();
-        //     ub.status.quickRegistrationPopup = false;
-
-        // });
-
 
     }
 
