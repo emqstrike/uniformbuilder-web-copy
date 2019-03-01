@@ -1410,7 +1410,7 @@ $(document).ready(function() {
             },
             error: function(error) {
                 $.smkAlert({
-                    text: 'ERROR IN PDF SERVICE',
+                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
                     type: 'warning'
                 });
             }
