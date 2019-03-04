@@ -93,8 +93,6 @@ PatternPanel.prototype = {
     onSelect: function() {
         let _this = this;
         var blank = _.find(ub.data.patterns.items, {name: "Blank", brand: "richardson"});
-        console.log(blank)
-
         $(".modifier_main_container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
             // Get Modifier category and index
             let modifier_category = $(this).data("modifier-category");
@@ -264,21 +262,18 @@ PatternPanel.prototype = {
 
             switch (_layerCount) {
                 case 1:
-                    console.log("1")
                     $(".pattern-color-categories .pattern-category-2").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
                     break;
                 case 2:
-                    console.log("2")
                     $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
                     $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
                     $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
                     break;
                 case 3:
-                    console.log("3")
                     $(".pattern-color-categories a.pattern-category-1").parent().css('width', '33.3%');
                     $(".pattern-color-categories a.pattern-category-2").parent().css('width', '33.3%');
                     $(".pattern-color-categories a.pattern-category-3").parent().css('width', '33.3%');
@@ -329,8 +324,6 @@ PatternPanel.prototype = {
             // Pattern Object
             var _patternObj = _this.getCurrentPatternObject();
 
-            console.log(PatternPanel.patternColors);
-
             // Save Pattern Color
             _this.setPatternColor(category_modifier, layerID, _colorOBJ, _patternObj, materialOption);
             _this.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID.toString(), _patternObj);
@@ -369,8 +362,6 @@ PatternPanel.prototype = {
                 layer.default_color = color.hex_code;
             }
         });
-
-        console.log(_patternObject.layers)
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);

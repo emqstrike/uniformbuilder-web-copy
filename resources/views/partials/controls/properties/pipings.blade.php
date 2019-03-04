@@ -1,6 +1,6 @@
 
 <script type="text/mustache" id="m-piping-sidebar-new">
-    <div class="cp-padding-small richardson-piping-ui uk-padding-remove-right">
+    {{-- <div class="cp-padding-small richardson-piping-ui uk-padding-remove-right">
         @{{ #piping_set_items }}
             <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
                 <div class="cp-text-uppercase">
@@ -24,105 +24,34 @@
                 <hr class="uk-margin-remove" />
             </div>
         @{{ /piping_set_items }}
-        <div class="bootbox modal fade in" id="piping-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 210px !important">
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content">
-                    <div class="modal-header cp-bgc-light cp-text-center">
-                        <div>
-                            <h4 class="modal-title cp-text-uppercase cp-text-bold" id="myModalLabel">Piping Color</h4>
-                        </div>
+    </div> --}}
+    <ul class="uk-list uk-list-large uk-list-divider">
+        @{{ #piping_set_items }}
+            <li>
+                <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
+                    <div class="cp-text-uppercase">
+                        <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">@{{ type_wo_left_prefix }}</h4>
+                        <p class="cp-text-bold uk uk-margin-remove-top uk-text-uppercase uk-margin-small">Choose Size</p>
                     </div>
-                    <div class="modal-body cp-padding-remove-horizontal">
+                    <div class="sizes">
                         <div class="row">
-                            <div class="col-md-5 cp-padding-remove-right">
-                                <div class="cp-margin-bottom-small piping-preview" id="piping-preview"></div>
-                            </div>
-                            <div class="col-md-7 cp-padding-remove-left">
-                                <div>
-                                    <ul class="nav nav-tabs piping-color-categories cp-border-none" role="tablist">
-                                        <li role="presentation" class="active cp-float-none">
-                                            <div class="col-sm-4 cp-padding-remove piping-color-item cp-border">
-                                                <a href="#piping-color-category-1"
-                                                        aria-controls="piping-category-1"
-                                                        role="tab" data-toggle="tab"
-                                                        class="cp-button-active cp-width-1-1 piping-color-selector cp-tab-button piping-category-1"
-                                                >
-                                                    Color 1
-                                                </a>
-                                            </div>
-                                        </li>
-
-                                        <li role="presentation" class="cp-float-none">
-                                            <div class="col-sm-4 cp-padding-remove piping-color-item cp-border">
-                                                <a href="#piping-color-category-2"
-                                                        aria-controls="piping-category-2"
-                                                        role="tab" data-toggle="tab"
-                                                        class="cp-width-1-1 piping-color-selector cp-tab-button piping-category-2"
-                                                >
-                                                    Color 2
-                                                </a>
-                                            </div>
-                                        </li>
-
-                                        <li role="presentation" class="cp-float-none">
-                                            <div class="col-sm-4 cp-padding-remove piping-color-item cp-border">
-                                                <a href="#piping-color-category-3"
-                                                        aria-controls="piping-category-3"
-                                                        role="tab" data-toggle="tab"
-                                                        class="cp-width-1-1 piping-color-selector cp-tab-button piping-category-3"
-                                                >
-                                                    Color 3
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="col-md-3 uk-padding-remove-right">
+                                    <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">None</button>
                                 </div>
-
-                                <div class="col-md-12 piping-container">
-                                    <div id="piping-color-tab-content">
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="piping-color-category-1" data-piping-category="1">
-                                                <div class="piping-color-main-container-1">
-                                                    <div class="row piping-color-button-container">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="piping-color-category-2" data-piping-category="2">
-                                                <div class="piping-color-main-container-2">
-                                                    <div class="row piping-color-button-container">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="piping-color-category-3" data-piping-category="3">
-                                                <div class="piping-color-main-container-3">
-                                                    <div class="row piping-color-button-container">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            @{{#sizes}}
+                                <div class="col-md-3 piping-size-button-container">
+                                    <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-type="@{{name}}" data-size="@{{size}}">@{{size}}</button>
                                 </div>
-                                <div class="col-md-12 cp-padding-remove-horizontal">
-                                    <div class="row cp-margin-top-xs">
-                                        <div class="col-md-6">
-                                            <button type="button" class="col-md-6 piping-button cp-width-1-1 cp-text-uppercase" data-dismiss="modal">Done</button>
-                                        </div>
-
-                                        <div class="col-md-6" style="padding-left: 0 !important; padding-right: 31px;">
-                                            <button type="button" class="piping-button cancel-application cp-width-1-1 cp-text-uppercase">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @{{/sizes}}
                         </div>
                     </div>
+                    <div class="piping-color-modifier-container">
+                    </div>
+                    <hr class="uk-margin-remove" />
                 </div>
-            </div>
-        </div>
-    </div>
+            </li>
+        @{{ /piping_set_items }}
+    </ul>
 </script>
 
 <script type="text/mustache" id="m-piping-colors-new">
