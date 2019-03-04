@@ -1,19 +1,19 @@
 
 <script type="text/mustache" id="m-piping-sidebar-new">
-    <div class="cp-padding-small richardson-piping-ui">
+    <div class="cp-padding-small richardson-piping-ui uk-padding-remove-right">
         @{{ #piping_set_items }}
             <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
                 <div class="cp-text-uppercase">
                     <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">@{{ type_wo_left_prefix }}</h4>
-                    <p class="cp-text-bold uk-margin-remove-top uk-text-uppercase">Choose Size</p>
+                    <p class="cp-text-bold uk uk-margin-remove-top uk-text-uppercase uk-margin-small">Choose Size</p>
                 </div>
                 <div class="sizes">
                     <div class="row">
-                            <div class="col-md-3 cp-padding-horizontal-tiny">
+                            <div class="col-md-3 uk-padding-remove-right">
                                 <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">None</button>
                             </div>
                         @{{#sizes}}
-                            <div class="col-md-3 cp-padding-horizontal-tiny">
+                            <div class="col-md-3 piping-size-button-container">
                                 <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-type="@{{name}}" data-size="@{{size}}">@{{size}}</button>
                             </div>
                         @{{/sizes}}
@@ -21,12 +21,7 @@
                 </div>
                 <div class="piping-color-modifier-container">
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
-                        <p class="cp-margin-remove-top cp-border"></p>
-                    </div>
-                </div>
+                <hr class="uk-margin-remove" />
             </div>
         @{{ /piping_set_items }}
         <div class="bootbox modal fade in" id="piping-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 210px !important">
@@ -131,13 +126,13 @@
 </script>
 
 <script type="text/mustache" id="m-piping-colors-new">
-    <div class="cp-text-uppercase cp-margin-top-small">
-        <p class="cp-text-bold uk-text-uppercase">CHOOSE NUMBER OF COLORS</p>
+    <div class="cp-text-uppercase uk-margin-small-top">
+        <p class="cp-text-bold uk-margin-small uk-text-uppercase">CHOOSE NUMBER OF COLORS</p>
     </div>
     <div class="colors">
         <div class="row">
             @{{#colors}}
-                <div class="col-md-3 cp-padding-horizontal-tiny">
+                <div class="col-md-3 piping-size-button-container">
                     <button class="piping-colors-buttons piping-button cp-width-1-1 cp-text-small cp-margin-remove" data-type="@{{name}}" data-size="@{{size}}" data-value="@{{val}}">
                         @{{val}}
                     </button>

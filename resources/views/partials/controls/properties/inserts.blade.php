@@ -12,8 +12,8 @@
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">COLOR</p>
+                    <div class="col-md-12 uk-margin-small cp-padding-remove">
+                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase" style="margin: 5px !important">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
                                 <div class="color_element color-container-button cp-color-element-auto">
@@ -222,7 +222,7 @@
 
 <script type="text/mustache" id="m-tab-patterns-colors">
 @{{ #colors }}
-    <div class="color_element cp-color-element-auto tab-patterns-colors-@{{ modifier_category }}">
+    <div class="color_element cp-color-element-auto tab-patterns-colors-@{{ modifier_category }}" data-tippy-content="@{{ name }}">
         <button
             class="grow change-color whitebtn cp-new-color-box pattern-color-selector-button"
             style="background-color: #@{{ hex_code }};"

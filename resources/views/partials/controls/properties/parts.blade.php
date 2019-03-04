@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-margin-bottom-medium cp-padding-remove">
+                    <div class="col-md-12 uk-margin-small cp-padding-remove">
                         <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">COLOR</p>
                         <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
                             @{{ #colors }}
