@@ -1,89 +1,58 @@
 <script type="text/mustache" id="m-parts">
-<div class="cp-padding-medium uk-padding-remove-bottom" id="primary_options_colors">
-    <ul style="list-style:none; padding: 0 !important" class="parts-container">
+<div id="primary_options_colors">
+    <ul class="parts-container uk-list uk-list-large uk-list-divider uk-padding-small">
         @{{ #parts }}
             <li class="panel-index-@{{ index }}">
-                <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-padding-tiny cp-padding-remove-vertical">
-                        <div class="cp-text-uppercase">
-                            <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">@{{ name }}</h4>
-                            <p class="cp-text-bold abrade-book uk-margin-small uk-margin-remove-top uk-text-uppercase">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row modifier-wrapper">
-                    <div class="col-md-12 uk-margin-small cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">COLOR</p>
-                        <div class="color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}">
-                            @{{ #colors }}
-                                <div class="color_element color-container-button cp-color-element-auto">
-                                    <button
-                                        class="grow change-color whitebtn cp-new-color-box color-selector-button"
-                                        style="background-color: #@{{ hex_code }};"
-                                        data-color-id="@{{ id }}"
-                                        data-color-name="@{{ name }}"
-                                        data-color-label="@{{ color_code }}"
-                                        data-color-id="@{{ id }}"
-                                        data-modifier-category="@{{ fullname }}"
-                                    >
-                                    </button>
-                                </div>
-                            @{{ /colors }}
-                        </div>
-                    </div>
-                </div>
+                <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ name }}</h5>
+                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</h6>
 
-                @{{#hasPattern}}
-
-                <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-padding-remove">
-                        <p class="cp-padding-left-small abrade-book uk-margin-small uk-text-uppercase">PATTERN</p>
-                        <div class="pattern-main-container-@{{ fullname }}">
-                            @{{ #patterns }}
-                                <div class="color_element cp-color-element-auto">
-                                    <div class="pattern-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
-                                        <button
-                                            class="grow change-color whitebtn cp-new-color-box pattern-selector-button"
-                                            style="background-image: url('@{{ icon }}');"
-                                            data-pattern-id="@{{ id }}"
-                                            data-pattern-name="@{{ name }}"
-                                            data-modifier-category="@{{ fullname }}"
-                                            data-modifier-index="@{{ index }}"
-                                        >
-                                        </button>
-                                    </div>
-                                </div>
-                            @{{ /patterns }}
-                            @{{#hasGradient}}
-                            <div class="color_element cp-color-element-auto">
-                                <div class="gradient-container-button" tippy-pattern-name" data-tippy-content="@{{ name }}">
-                                    <button
-                                        class="grow change-color whitebtn cp-new-color-box gradient-selector-button"
-                                        style="background-image: linear-gradient(red, yellow)"
-                                        data-gradient-name="gradient"
-                                        data-modifier-category="@{{ fullname }}"
-                                        data-modifier-index="@{{ index }}"
-                                    >
-                                    </button>
-                                </div>
+                <div class="con-select con-palettes w-btn-toggle">
+                    <h6 class="uk-margin-small uk-margin-remove-horizontal uk-text-uppercase">Color</h6>
+                    <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-color conAutoSelect color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" uk-grid>
+                        @{{#colors}}
+                            <div class="color-container-button" uk-tooltip="title: @{{ name }}; pos: left;">
+                                <button class="uk-inline box-palette btn-selection-choice palette-color color-selector-button palette"
+                                    style="background-color: #@{{ hex_code }};"
+                                    data-color-id="@{{ id }}"
+                                    data-color-name="@{{ name }}"
+                                    data-color-label="@{{ color_code }}"
+                                    data-color-id="@{{ id }}"
+                                    data-modifier-category="@{{ fullname }}"
+                                >
+                                </button>
                             </div>
-                            @{{/hasGradient}}
-                        </div>
+                        @{{ /colors}}
                     </div>
-                </div>
-                <div class="row modifier-wrapper" data-modifier-name="@{{ name }}">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-margin-remove">
-                        <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container cp-margin-remove">
-                        </div>
+                    @{{#hasPattern}}
+                    <h6 class="uk-margin-small uk-margin-remove-horizontal uk-text-uppercase">Pattern</h6>
+                    <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-pattern pattern-main-container-@{{ fullname }}" uk-grid>
+                        @{{ #patterns }}
+                            <div class="pattern-container-button" uk-tooltip="title: @{{ name }}; pos: left;">
+                                <button class="uk-inline box-palette btn-selection-choice palette-pattern palette pattern-selector-button"
+                                    style="background-image: url('@{{ icon }}');"
+                                    data-pattern-id="@{{ id }}"
+                                    data-pattern-name="@{{ name }}"
+                                    data-modifier-category="@{{ fullname }}"
+                                    data-modifier-index="@{{ index }}"
+                                >
+                                </button>
+                            </div>
+                        @{{ /patterns }}
+                        @{{#hasGradient}}
+                            <div class="gradient-container-button" uk-tooltip="title: Gradient; pos: left;">
+                                <button class="uk-inline box-palette btn-selection-choice palette-pattern palette gradient-selector-button"
+                                    style="background-image: linear-gradient(red, yellow)"
+                                    data-gradient-name="gradient"
+                                    data-modifier-category="@{{ fullname }}"
+                                    data-modifier-index="@{{ index }}"
+                                >
+                                </button>
+                            </div>
+                        @{{/hasGradient}}
                     </div>
-                </div>
-
-                @{{/hasPattern}}
-
-                <div class="row modifier-wrapper">
-                    <div class="col-md-12 cp-margin-top-small cp-padding-tiny cp-padding-remove-vertical cp-margin-remove">
-                        <p class="cp-margin-remove-top cp-border"></p>
+                    <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container uk-margin-small-top">
                     </div>
+                    @{{/hasPattern}}
                 </div>
             </li>
         @{{ /parts }}

@@ -92,7 +92,8 @@ PatternPanel.prototype = {
 
     onSelect: function() {
         let _this = this;
-        var blank = _.find(ub.data.patterns.items, {name: "Blank"});
+        var blank = _.find(ub.data.patterns.items, {name: "Blank", brand: "richardson"});
+        console.log(blank)
 
         $(".modifier_main_container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
             // Get Modifier category and index

@@ -195,9 +195,9 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   border-radius: 0px;
 }
 .palette {
-  height: 35px;
-  width: 35px;
-  display: block;
+  height: 35px !important;
+  width: 35px !important;
+  display: block !important;
   border: 1px solid #aaaaaa !important;
 }
 
@@ -255,12 +255,22 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   color: #242424 !important; }
 
 .uk-grid-small.grid-tiny {
-  margin-left: -6px; }
+  margin-left: -3px; }
 
 .uk-grid-small.grid-tiny > * {
   padding-left: 6px; }
 
 .uk-grid-small.grid-tiny>.uk-grid-margin {
+  margin-top: 6px;
+}
+
+.uk-grid-small.grid-tiny-1 {
+  margin-left: -3px; }
+
+.uk-grid-small.grid-tiny-1 > * {
+  padding-left: 0px; }
+
+.uk-grid-small.grid-tiny-1>.uk-grid-margin {
   margin-top: 6px;
 }
 
@@ -290,9 +300,9 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 
 .uk-tooltip {
   font-weight: bolder;
-  padding: 18px 10px;
+  padding: 20px;
   border-radius: 0px;
-  line-height: 0px;
+  line-height: 15px;
   display: block !important;
   background-color: $color-darkerGray;
   text-transform: uppercase;
