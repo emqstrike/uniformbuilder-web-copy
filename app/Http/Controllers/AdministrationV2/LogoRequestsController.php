@@ -29,6 +29,10 @@ class LogoRequestsController extends Controller
 
         $filters = [];
 
+        if (Input::get('id')) {
+            $filters['id'] = Input::get('id');
+        }
+
         if (Input::get('origin')) {
             if (Input::get('origin') != 'all') {
                 $filters['origin'] = Input::get('origin');
