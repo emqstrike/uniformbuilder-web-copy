@@ -755,7 +755,7 @@ $(document).ready(function() {
 
                 // Go to view order details form after submission
                 setTimeout(function() {
-                    window.location = _viewOrderLink; }, 60000
+                    window.location = _viewOrderLink; }, 30000
                 );
 
             }
