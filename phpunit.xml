@@ -13,6 +13,9 @@
         <testsuite name="Application Test Suite">
             <directory>./tests/</directory>
         </testsuite>
+        <testsuite name="Shopping Cart Unit Test Suite">
+            <directory suffix="Test.php">./tests/Unit/ShoppingCart/</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
