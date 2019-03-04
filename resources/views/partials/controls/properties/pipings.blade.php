@@ -25,29 +25,25 @@
             </div>
         @{{ /piping_set_items }}
     </div> --}}
-    <ul class="uk-list uk-list-large uk-list-divider">
+    <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove richardson-piping-ui">
         @{{ #piping_set_items }}
-            <li>
-                <div class="piping-item" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
-                    <div class="cp-text-uppercase">
-                        <h4 class="header cp-text-bold abrade-ultra-italic cp-margin-remove uk-text-uppercase">@{{ type_wo_left_prefix }}</h4>
-                        <p class="cp-text-bold uk uk-margin-remove-top uk-text-uppercase uk-margin-small">Choose Size</p>
-                    </div>
-                    <div class="sizes">
-                        <div class="row">
-                                <div class="col-md-3 uk-padding-remove-right">
-                                    <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-size="none">None</button>
-                                </div>
-                            @{{#sizes}}
-                                <div class="col-md-3 piping-size-button-container">
-                                    <button class="piping-button piping-sizes-buttons cp-width-1-1 cp-text-small cp-margin-remove" data-type="@{{name}}" data-size="@{{size}}">@{{size}}</button>
-                                </div>
-                            @{{/sizes}}
+            <li class="piping-item" data-piping-type="@{{ type }}" data-piping-modifier="@{{ modifier }}">
+                <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ type_wo_left_prefix }}</h5>
+                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose size</h6>
+                <div class="sizes">
+                    <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>
+                        <div class="uk-width-auto uk-width-expand@s">
+                            <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice piping-sizes-buttons" data-size="none">None</a>
                         </div>
+                        @{{ #sizes }}
+                            <div class="uk-width-auto uk-width-expand@s">
+                                <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice piping-sizes-buttons" data-type="@{{ name }}" data-size="@{{ size }}">@{{ size }}</a>
+                            </div>
+                        @{{ /sizes }}
                     </div>
-                    <div class="piping-color-modifier-container">
-                    </div>
-                    <hr class="uk-margin-remove" />
+                </div>
+                <div class="con-choose-numbers-colors piping-color-modifier-container">
+                    
                 </div>
             </li>
         @{{ /piping_set_items }}
@@ -55,27 +51,21 @@
 </script>
 
 <script type="text/mustache" id="m-piping-colors-new">
-    <div class="cp-text-uppercase uk-margin-small-top">
-        <p class="cp-text-bold uk-margin-small uk-text-uppercase">CHOOSE NUMBER OF COLORS</p>
-    </div>
-    <div class="colors">
-        <div class="row">
-            @{{#colors}}
-                <div class="col-md-3 piping-size-button-container">
-                    <button class="piping-colors-buttons piping-button cp-width-1-1 cp-text-small cp-margin-remove" data-type="@{{name}}" data-size="@{{size}}" data-value="@{{val}}">
-                        @{{val}}
-                    </button>
-                </div>
-            @{{/colors}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 cp-margin-top-xs cp-padding-small">
-            <div class="cp-margin-remove">
-                <button class="edit-piping-modal-button richardson-button w-35" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}"><i class="fa fa-edit"></i>&nbsp;Edit Color</button>
+    <h6 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase">Choose Number of Colors</h6>
+    <div class="choose-numbers-colors uk-grid-small grid-tiny uk-grid-match uk-text-center con-select active-bgc-dark colors" uk-grid>
+        @{{#colors}}
+            <div class="uk-width-expand piping-size-button-container">
+                <a class="uk-button uk-button-small uk-button-default btn-selection-choice piping-colors-buttons" data-type="@{{name}}" data-size="@{{size}}" data-value="@{{val}}">
+                    @{{val}}
+                </a>
             </div>
-        </div>
+        @{{/colors}}
     </div>
+    <a class="uk-button uk-button-default uk-margin-small-top uk-text-capitalize edit-piping-modal-button uk-padding-remove-vertical" data-piping-type="@{{type}}" data-piping-modifier="@{{ modifier }}">
+        <div class="uk-flex uk-flex-middle">
+            <i class="fa fa-edit"></i>&nbsp; &nbsp;Edit Color
+        </div>
+    </a>
 </script>
 
 <script type="text/mustache" id="m-piping-sizes-new">

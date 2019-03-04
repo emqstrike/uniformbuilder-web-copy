@@ -196,7 +196,7 @@
                             </ul>
                         </div>
 
-                        <div class="col-md-12 piping-container">
+                        <div class="col-md-12 uk-padding-remove-right">
                             <div id="piping-color-tab-content">
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="piping-color-category-1" data-piping-category="1">

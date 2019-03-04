@@ -61,9 +61,9 @@ PipingPanel.events = {
             $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
             $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
             $(".modifier_main_container").on('click', '.richardson-piping-ui .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
-            $(".modifier_main_container").on('click', ".piping-color-categories .piping-color-item .piping-color-selector", PipingPanel.events.onChangeColorLayer);
-            $(".modifier_main_container").on('click', '#piping-change-color .piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
-            $(".modifier_main_container").on('click', '#piping-change-color .cancel-application', PipingPanel.events.onCancelEditPiping);
+            $("#piping-change-color").on('click', ".piping-color-categories .piping-color-item .piping-color-selector", PipingPanel.events.onChangeColorLayer);
+            $("#piping-change-color").on('click', '.piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
+            $("#piping-change-color").on('click', '.cancel-application', PipingPanel.events.onCancelEditPiping);
             PipingPanel.events.is_init_events_called = 1;
         }
     },
@@ -76,8 +76,8 @@ PipingPanel.events = {
         var piping_type = piping_el.data('piping-type');
 
 
-        $(".piping-sizes-buttons", piping_el).removeClass("active");
-        $(this).addClass("active");
+        $(".piping-sizes-buttons", piping_el).removeClass("uk-active");
+        $(this).addClass("uk-active");
 
         if (size === "none") {
             PipingPanel.disablePiping(piping_type)
@@ -135,10 +135,10 @@ PipingPanel.events = {
 
     onPipingColorButtonClick: function(e) {
         var piping_el = $(this).closest('.piping-item');
-        var active_size_type = $('.sizes .piping-sizes-buttons.active', piping_el).data('type');
+        var active_size_type = $('.sizes .piping-sizes-buttons.uk-active', piping_el).data('type');
 
-        $(".piping-colors-buttons", piping_el).removeClass("active");
-        $(this).addClass("active");
+        $(".piping-colors-buttons", piping_el).removeClass("uk-active");
+        $(this).addClass("uk-active");
 
         var value = $(this).data('value');
         var size = $(this).data('size');
@@ -198,7 +198,7 @@ PipingPanel.events = {
         var piping_el = $(this).closest('.piping-item');
         var type = piping_el.data("piping-type");
         var modifier = piping_el.data("piping-modifier");
-        var number_of_colors = $(".colors .piping-colors-buttons.active", piping_el).data("value");
+        var number_of_colors = $(".colors .piping-colors-buttons.uk-active", piping_el).data("value");
 
         var image = ub.getThumbnailImage(ub.active_view + "_view");
         var layers = ub.current_material.settings.pipings[type].layers;
@@ -324,7 +324,7 @@ PipingPanel.events = {
         // Get Piping Sets
         var modifier = $(this).data("modifier");
 
-        var active_size_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.active').data('type');
+        var active_size_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.uk-active').data('type');
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
         var _name = pipingObject.name;
 
@@ -399,7 +399,7 @@ PipingPanel.events = {
 
     onCancelEditPiping: function() {
         var modifier = $(this).data("modifier");
-        var piping_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.active').data('type');
+        var piping_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.uk-active').data('type');
 
         var pipingObject = _.find(ub.data.pipings, {name: piping_type});
         PipingPanel.removePiping(pipingObject.set);
@@ -424,7 +424,7 @@ PipingPanel.setInitialState = function() {
         if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
             $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).trigger('click');
         } else {
-            $('.piping-sizes-buttons[data-size="none"]', piping_item_el).addClass('active');
+            $('.piping-sizes-buttons[data-size="none"]', piping_item_el).addClass('uk-active');
         }
 
     });
