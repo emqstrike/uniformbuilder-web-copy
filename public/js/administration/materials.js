@@ -677,9 +677,10 @@ $(document).ready(function() {
 
         var fonts_options = '<option value="">Not Set</option>';
         var app_material_brand = $('#app-material-brand').val();
-        for(var i = 0; i < window.fonts.length; i++) {
-            if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
-            fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+
+        for (var i = 0; i < window.fonts.length; i++) {
+            if (window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand) {
+                fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
             }
         }
 
@@ -694,17 +695,17 @@ $(document).ready(function() {
             var bp_options = pattern.block_pattern_options;
             var sportOk = _.contains(sport, current_sport);
             var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
-                return (sportOk && optionsOk && asset_target === current_asset_target);
+            
+            return (sportOk && optionsOk && asset_target === current_asset_target);
         });
 
         // sort input patterns by name in ascending order
         input_patterns.sort(dynamicSort('name'));
 
         $.each(input_patterns, function (i, item) {
-            if(item.id == 33) {
+            if (item.id == 33) {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-            }
-            else {
+            } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
             }
         });
@@ -751,89 +752,91 @@ $(document).ready(function() {
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
-        for(var i = 0; i<items_arr.length; i++) {
 
-            if(default_item != items_arr[i]) {
+        for (var i = 0; i<items_arr.length; i++) {
+            if (default_item != items_arr[i]) {
                 select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
             }
 
         }
+
         select_append += "</select>";
 
         var fields = [
-                    delete_application,
-                    app_id,
-                    select_append,
-                    def_name,
-                    application_rotation,
-                    app_x,
-                    app_y,
-                    app_primary,
-                    app_logo,
-                    embellishment,
-                    app_team_name,
-                    app_player_name,
-                    app_number,
-                    app_font_sizes,
-                    colors,
-                    accents,
-                    default_mascot,
-                    tailsweep,
-                    rotated_tailsweep,
-                    default_font,
-                    default_text,
-                    vertical_text,
-                    default_number,
-                    inksoft_design_id,
-                    app_opacity,
-                    def_pattern_position,
-                    app_default_pattern,
-                    custom_scale_x,
-                    custom_scale_y,
-                    flipped,
-                    flip
-                ];
+            delete_application,
+            app_id,
+            select_append,
+            def_name,
+            application_rotation,
+            app_x,
+            app_y,
+            app_primary,
+            app_logo,
+            embellishment,
+            app_team_name,
+            app_player_name,
+            app_number,
+            app_font_sizes,
+            colors,
+            accents,
+            default_mascot,
+            tailsweep,
+            rotated_tailsweep,
+            default_font,
+            default_text,
+            vertical_text,
+            default_number,
+            inksoft_design_id,
+            app_opacity,
+            def_pattern_position,
+            app_default_pattern,
+            custom_scale_x,
+            custom_scale_y,
+            flipped,
+            flip
+        ];
 
         $( ".front-applications" ).append(generateTRow(fields));
-        var canvasItem = "application"+group.id;
+
+        var canvasItem = "application" + group.id;
         application_number++;
 
         $.each(window.mascots, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
+
             var c = 0;
+
             var xdata = JSON.parse(item.layers_properties);
+
             $.each(xdata, function(i, item) {
                 c++;
             });
+
             item['description'] = item.category + ' [ ' + c + ' ]';
             item['imageSrc'] = item.icon;
             item['layers'] = c ;
-
         });
 
         mascotsData = window.mascots;
 
         var mascot_class = '.app-default-mascot';
-        $(mascot_class).ddslick({
 
+        $(mascot_class).ddslick({
             data: mascotsData,
             width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
-            onSelected: function (data) {
+            onSelected: function(data) {
+                var rowIndex = data.original[0].outerHTML;
+                rowIndex = $.parseHTML(rowIndex);
+                rowIndex = $(rowIndex).data("id");
 
-
-                    var rowIndex = data.original[0].outerHTML;
-                    rowIndex = $.parseHTML(rowIndex);
-                    rowIndex = $(rowIndex).data("id");
-
-                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
-                        accentMascotSelect(data,"mascot",rowIndex);
-                    }
-
+                if ($('.app-def-item').eq(rowIndex).val()=="mascot") {
+                    accentMascotSelect(data,"mascot",rowIndex);
+                }
             },
         });
 
@@ -845,6 +848,7 @@ $(document).ready(function() {
             item['imageSrc'] = item.thumbnail;
             console.log(item.secondary_id);
         });
+
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
 
@@ -860,12 +864,10 @@ $(document).ready(function() {
                 rowIndex = $.parseHTML(rowIndex);
                 rowIndex = $(rowIndex).data("id");
 
-                if($('.app-def-item').eq(rowIndex).val()!="mascot"){
-
+                if ($('.app-def-item').eq(rowIndex).val()!="mascot") {
                     accentMascotSelect(data,"accent",rowIndex);
                 }
             },
-
         });
 
         $.each(window.tailsweeps, function(i, item) {
@@ -873,8 +875,10 @@ $(document).ready(function() {
             item['value'] = item.id;
             item['selected'] = false;
         });
+
         var tailsweepsData = window.tailsweeps;
         var tailsweep_class = '.app-default-tailsweep';
+
         $(tailsweep_class).ddslick({
             data: tailsweepsData,
             width: 250,
@@ -888,35 +892,34 @@ $(document).ready(function() {
         $(document).on("change",".accentLayerColors",function(){
             updateColorField(this);
         });
+
         function updateColorField(t){
         var colorCodeField="";
            $(t).parent(".colorSelection").find("select").each(function() {
-
                 var colorCode = ($(this).find(":selected"))[0].outerHTML;
 
                 colorCode =  $.parseHTML(colorCode);
                 colorCode = $(colorCode).data("color-code");
-                colorCodeField = colorCodeField +","+colorCode;
-                $(this).css("background","#"+$(this).find(":selected").val());
-
+                colorCodeField = colorCodeField + "," + colorCode;
+                $(this).css("background","#" + $(this).find(":selected").val());
             });
-           $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
+           $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
         }
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
-            console.log('FLIP ADD');
-            var id = $(this).data('id');
-            flipApplication(id);
-        });
+                console.log('FLIP ADD');
+                var id = $(this).data('id');
+                flipApplication(id);
+            });
         });
 
         updateApplicationsJSON();
 
-        $(document).on('change', '.app-id', function(){
+        $(document).on('change', '.app-id', function() {
             var temp_app_id = $(this).val();
-            $(this).parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+            $(this).parent().find('.appTooltip').data('message', 'App #: ' + temp_app_id);
         });
 
         $('[data-toggle="tooltip"]').popover({
@@ -927,6 +930,8 @@ $(document).ready(function() {
                 return $(this).data('message');
             }
         });
+
+        console.timeEnd('cache');
     });
 
 
