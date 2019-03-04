@@ -2,7 +2,6 @@
 
 namespace App\ShoppingCart;
 
-use App\ShoppingCart\ClientInformation;
 use Illuminate\Database\Eloquent\Model;
 
 class BillingInformation extends Model
