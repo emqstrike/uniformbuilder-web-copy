@@ -524,7 +524,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null, $hsel = null)
+    public function styles($gender = null, $sport = null, $org = null)
     {
         $config = [
             'styles' => true,
@@ -533,8 +533,12 @@ class UniformBuilderController extends Controller
         ];
 
         // For HSEL
-        if (!is_null($hsel) && $hsel === "HSEL") {
-            $config['hsel'] = true;
+        if (!is_null($org)) {
+            if ($org === "HSEL") {
+                $config['hsel'] = true;
+            } else {
+                abort(404);
+            }
         }
 
         return $this->showBuilder($config);
