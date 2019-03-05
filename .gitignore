@@ -11,3 +11,7 @@ after.sh
 aliases
 \.idea/
 npm-debug.log
+
+/cypress/fixtures/
+/cypress/plugins/
+/cypress/support/
