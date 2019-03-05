@@ -45,7 +45,7 @@
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
                         <input type="hidden" name="old_font_size_table" id="old_font_size_table" value="{{ $font->font_size_table }}">
-                
+
                         <div class="form-group">
                             <div class="colr-md-6" align="center">
                                 @if ($font->font_path)
@@ -216,7 +216,7 @@
                                     <a href="#" data-toggle="tooltip" data-message="Bulk update for font size tables values.">
                                         <span class="glyphicon glyphicon-info-sign"></span>
                                     </a>
-                                    
+
                                     <thead>
                                         <tr>
                                             <td>Application #</td>
@@ -300,7 +300,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Twill Font Size Tables</h3>
+                                        <h3 style="margin-top: 0;">Twill Font Size Tables <a href="#font-twill"class="collapse-fonts" data-toggle="collapse"><i class="fa fa-chevron-right"></i></a></h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -309,7 +309,7 @@
                                         <a href="#" class="btn btn-warning btn-flat reset-fst">Reset Font Size Tables data</a>
                                     </div>
                                 </div>
-
+                                <div id="font-twill" class="collapse">
                                 <div class="form-group" style="margin-top: 30px;">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -357,7 +357,7 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        
+
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -391,7 +391,7 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        
+
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -439,6 +439,7 @@
                                         </table>
                                     </div>
                                 </div>
+                                </div>
                             </div>
                         </div> <!-- END -->
 
@@ -448,7 +449,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Sublimated Font Size Tables</h3>
+                                        <h3 style="margin-top: 0;">Sublimated Font Size Tables <a href="#font-subli" class="collapse-fonts" data-toggle="collapse"><i class="fa fa-chevron-right"></i></a> </h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -460,6 +461,7 @@
                             </div>
 
                             <div class="fluid-container">
+                                <div id="font-subli" class="collapse">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -470,7 +472,7 @@
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
                                             </h3>
-                                            
+
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
@@ -523,7 +525,7 @@
                                 </div>
 
                                 <hr>
-                                    
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -586,10 +588,11 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         </div> <!-- END -->
-                    
+
                         <hr>
-                        
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 <h3>
@@ -597,7 +600,7 @@
                                     <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
                                 </h3>
                             </div>
-                                
+
                             <div class="col-md-12">
                                 <table class="table table-bordered">
                                     <thead>
@@ -1006,7 +1009,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                          
+
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1022,7 +1025,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                     
+
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1264,7 +1267,7 @@
 
             $(document).on('click', '.btn-remove-layer', function() {
                 var rowCount = $('.layers-row').length;
-                
+
                 $(this).closest('tr').remove();
                 var newRowCount = $('.layers-row').length;
 
