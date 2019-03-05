@@ -127,8 +127,8 @@ $(function() {
     $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', function () {
 
         // changing active color
-        $(this).parent().find('span').removeClass('activeColorItem').html('');
-        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+        $(this).parent().parent().find('button').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size"></span>');
 
         // proceed
         var dataId = $(this).attr('data-id');
@@ -162,7 +162,6 @@ $(function() {
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
         }
-
     });
 
     // on click mascot image
@@ -736,9 +735,11 @@ $(function() {
 
         } else {
 
-            _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
-            _html += '<h5 class="app-letters-subtitle abrade-black">'+_title+'</h5>';
-            _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+            _html += '<div class="colorSelectionContainer">';
+            // _html += '<h5 class="app-letters-subtitle abrade-black">'+_title+'</h5>'; 
+            // _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+            _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
+            _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>'
 
             _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -765,7 +766,8 @@ $(function() {
                 if (typeof _color !== 'undefined') {
 
                     // adding tabs
-                    _html += '<li><a href="#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
+                    // _html += '<li><a href="#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
+                    _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.name + '</a></li>';
 
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
@@ -777,10 +779,14 @@ $(function() {
             });
 
             _html += '</ul>';
-                _html += '<div class="tab-content">';
-                    _html += _colorBlock;
-                _html += '</div>';
-            _html += '</div>';
+            //     _html += '<div class="tab-content">';
+            //         _html += _colorBlock;
+            //     _html += '</div>';
+            // _html += '</div>';
+
+            _html += '<ul class="uk-switcher uk-margin uk-padding-remove">'
+            _html += _colorBlock;
+            _html += '</ul>';
 
         }
 
@@ -807,24 +813,35 @@ $(function() {
         }
 
         _teamColors = _.sortBy(_teamColors, "order");
-        _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
-            _.each(_teamColors, function (_color) {
+        // _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
+        _html += '<li>'
+        _html += '<div class="con-select con-palettes">'
+        _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color" uk-grid>'
+        _.each(_teamColors, function (_color) {
 
-                var _checkMark = '&nbsp;';
-                var _class = '';
+            var _checkMark = '';
+            var _class = '';
+            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
 
-                if (activeColorCode === _color.color_code) {
-                    _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
-                    _class = 'activeColorItem';
-                }
+            if (activeColorCode === _color.color_code) {
+                _checkMark = '<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size" style="color:#' + _colorObj.forecolor + ';"></span>';
+                _class = 'activeColorItem';
+            }
 
-                var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-                _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
+            _html += '<div uk-tooltip="title:' + _colorObj.name + '; pos: left;">';
+            _html += '<button class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+            _html += _checkMark;
+            _html += '</button>';
+            _html += '</div>';
 
-            });
+            // _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '"  data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
+
+        });
+
         _html += '</div>';
+        _html += '</div>';
+        _html += '</li>';
 
         return _html;
-
     };
 });

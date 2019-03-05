@@ -133,20 +133,20 @@ $(function() {
 
             // To view a letter's customization options
             .on('click', '.view-letters-opt', function () {
-                $(this).addClass('active').attr('disabled', 'disabled');
-                $(this).next().removeClass('active').removeAttr('disabled');
-                $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').fadeIn();
+                $(this).addClass('uk-active').attr('disabled', 'disabled');
+                $(this).parent().parent().find(".hide-letters-opt").removeClass('uk-active').removeAttr("disabled");
+                $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').fadeIn();
 
-                var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+                var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
                 ub.funcs.manipulateApplicationByStatus("on", application_id);
             })
             // To hide a letter's customization options
             .on('click', '.hide-letters-opt', function () {
-                $(this).addClass('active').attr('disabled', 'disabled');
-                $(this).prev().removeClass('active').removeAttr('disabled');
-                $(this).closest('.applicationUIBlock').find('.lettersOptsContainer').hide();
+                $(this).addClass('uk-active').attr('disabled', 'disabled');
+                $(this).parent().parent().find(".view-letters-opt").removeClass('uk-active').removeAttr("disabled");
+                $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').hide();
 
-                var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+                var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
                 ub.funcs.deactivateMoveTool();
                 ub.funcs.manipulateApplicationByStatus("off", application_id);
             })
@@ -163,10 +163,10 @@ $(function() {
             // To change a letter's font accent
             .on('click', '.thumbnailContainer', function () {
                 $('.thumbnailContainer.active').removeClass('active')
-                $(this).closest('div.clearfix').find('i').remove()
-                $(this).addClass('active').append('<i class="fa fa-check" aria-hidden="true"></i>')
+                $(this).closest('div.font-accent-container').find('i').remove();
+                $(this).addClass('active').append('<i class="fa fa-check cp-fc-white fa-2x uk-overlay-primary" aria-hidden="true"></i>')
 
-                var id = $(this).closest('.applicationUIBlock').data('application-id').toString()
+                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
                 var settingsObj = _.find(ub.current_material.settings.applications, {code: id});
                 var accentID = $(this).data('accent-id');
 
@@ -177,18 +177,14 @@ $(function() {
                 matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
                 if (typeof matchingID !== "undefined") {
-
                     var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
                     ub.funcs.changeAccentFromPopup(accentID, _matchingSettingsObject);
-
                 }
-
-
             })
             // To change an application's text on enter
             .on('keypress', 'input.sampleText', function (e) {
                 var _val = $(this).val();
-                var id = $(this).closest('.applicationUIBlock').data('application-id').toString()
+                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
                 var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
 
@@ -253,7 +249,7 @@ $(function() {
 
                                     _application.text = _val;
                                     ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-                                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
+                                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
 
                                 }
 
@@ -269,7 +265,7 @@ $(function() {
                 var _val = $(this).val();
                 ub.status.onText = false;
 
-                var id = $(this).closest('.applicationUIBlock').data('application-id').toString()
+                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
                 _settingsObject.text = _val;
 
@@ -289,7 +285,7 @@ $(function() {
 
                             _application.text = _val;
                             ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-                            $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlock .sampleText')).val(_val);
+                            $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
 
                         }
 
@@ -298,61 +294,44 @@ $(function() {
                 });
             })
             // To change an application's font by clicking left or right arrow
-            .on('click', 'span.fontStyleLeft, span.fontStyleRight', function (e) {
-                var _id = $(this).closest('.applicationUIBlock').data('application-id').toString()
+            .on('click', 'a.fontStyleLeft, a.fontStyleRight', function (e) {
+                var _id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
                 var _direction = $(this).data('direction');
                 var _newFont = ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
 
                 if (typeof _newFont !== 'undefined') {
-
                     ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
                     // ub.funcs.activateApplications(_settingsObject.code)
+                    $(this).parent().parent().find('.font_name').text(_newFont.caption)
+                    $(this).parent().parent().find('.font_name').css('font-family', _newFont.name)
 
-                    $(this).parent().find('.font_name').text(_newFont.caption)
-                    $(this).parent().find('.font_name').css('font-family', _newFont.name)
-
-                }
-                else {
-
+                } else {
                     // No Font!
                     return;
-
                 }
 
                 if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
-
                     _.each(ub.current_material.settings.applications, function (_application) {
-
                         if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
-
                             if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
                                 ub.funcs.changeFontFromPopup(_newFont.id, _application);
-
                             }
-
                         }
-
                     });
-
                 }
 
                 var _matchingID = undefined;
 
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
                 if (typeof _matchingID !== "undefined") {
-
                     var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
                 }
-
             })
             .on('click', '.change-free-app', function () {
-                var _id = $(this).closest('.applicationUIBlock').data('application-id');
+                var _id = $(this).closest('.applicationUIBlockNew').data('application-id');
                 var _type = $(this).data('type')
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id.toString() });
                 _settingsObject.status = 'on';
@@ -397,20 +376,20 @@ $(function() {
             _appData.push(objStock);
         });
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
-        $('.modifier_main_container').append(_htmlBuilder);
-
         // prepare data
         var templateData = {
             applications: _appData
         };
 
         // send to mustache
-        var _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-letters-uikit', templateData);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
+
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
+        $('.modifier_main_container ul.application-container li').first().append(_htmlBuilder);
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('letters');
@@ -423,13 +402,13 @@ $(function() {
         _.map(_appData, function(application) {
             if (application.application_type !== "free") {
                 if (application.status) {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
                 } else {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
                 }
             }
         });
@@ -470,7 +449,7 @@ $(function() {
         });
 
         var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION NUMBERS', 'numbers');
-        $('.modifier_main_container').append(_htmlBuilder);
+        $('.modifier_main_container ul.application-container').append(_htmlBuilder);
 
         // prepare data
         var templateData = {
@@ -495,13 +474,13 @@ $(function() {
         _.map(_appData, function(application) {
             if (application.application_type !== "free") {
                 if (application.status) {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
                 } else {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
                 }
             }
         });
@@ -509,37 +488,35 @@ $(function() {
 
     ub.funcs.activateApplicationsLetters = function (application_id) {
         ub.funcs.beforeActivateApplication();
-    
         if ($('div#primaryPatternPopup').is(':visible')) {
             return;
         }
         if ($('div#primaryMascotPopup').is(':visible')) {
             return;
         }
-    
+
         ub.funcs.beforeActivateApplication();
-    
+
         if (!ub.funcs.okToStart()) {
             return;
         }
-    
+        
         ub.funcs.activatePanelGuard();
-    
+        
         if (ub.funcs.isBitFieldOn()) {
-    
+
             var _marker = _.find(ub.data.markerBitField, {value: true});
-    
+
             if (_marker.code.toString() !== application_id.toString()) {
                 return;
             }
-    
+
         }
-    
+
         $('div#changeApplicationUI').remove();
-    
         var _id = application_id.toString();
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
-    
+
         if (typeof _settingsObject === "undefined") {
             return;
         }
@@ -772,15 +749,17 @@ $(function() {
             isPlayerName: isPlayerName
         }
     
-        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
-        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
+        // _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-reinit-application', templateData);
+        var appBlock = $('.modifier_main_container').find('li[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
-            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
+            setTimeout(function () { $('.modifier_main_container').scrollTo($('li[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 500)
         } else {
             // Existing application
-            appBlock.replaceWith(_htmlBuilder);
+            appBlock.html("");
+            appBlock.html(_htmlBuilder)
         }
 
         /// Applications Color Events
@@ -823,7 +802,7 @@ $(function() {
                 'id': j.id,
                 'code': j.code,
                 'active': _settingsObject.accent_obj.id === j.id ? 'active' : '',
-                'activeCheck': _settingsObject.accent_obj.id === j.id ? '<i class="fa fa-check" aria-hidden="true"></i>' : ''
+                'activeCheck': _settingsObject.accent_obj.id === j.id ? '<i class="fa fa-check cp-fc-white fa-2x uk-overlay-primary" aria-hidden="true"></i>' : ''
             }
 
             _accents.push(acc);
@@ -1186,11 +1165,11 @@ $(function() {
         templateData.applications = objMascot;
         _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', templateData);
 
-        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
+        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
-            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
+            setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 500)
         } else {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
@@ -1687,7 +1666,7 @@ $(function() {
 
             _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
         }
-        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlock');
+        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container').append(_htmlBuilder);
@@ -1695,7 +1674,7 @@ $(function() {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
         }
-        setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlock')) }, 500)
+        setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 500)
 
         /// Applications Color Events
 

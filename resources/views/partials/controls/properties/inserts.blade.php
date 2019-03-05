@@ -56,6 +56,11 @@
                 </div>
             </li>
         @{{ /inserts }}
+        @{{ ^inserts }}
+            <li>
+                <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">No available insert</h5>
+            </li>
+        @{{ /inserts }}
     </ul>
 </div>
 </script>
