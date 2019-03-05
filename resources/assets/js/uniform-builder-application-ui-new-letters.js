@@ -887,6 +887,8 @@ $(function() {
                 type: _designType
             }
 
+            console.log(templateData)
+
             _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
         }
 
