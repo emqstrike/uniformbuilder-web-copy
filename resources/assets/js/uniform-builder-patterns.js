@@ -110,22 +110,16 @@ $(document).ready(function () {
 
     ub.funcs.getPatternList = function () {
 
-        var _sport = ub.current_material.material.uniform_category;
-        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID');
+        var brand = ub.current_material.material.brand;
 
-        // _patternList = _.filter(_patternList, function (pattern) {
-
-        //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
-        //         pattern.blockPatternOptions === null ||
-        //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
-
-        //     return _expression;
-
-        // });
+        var patternList = _.filter(ub.data.patterns.items, {
+            active: "1",
+            brand: brand
+        });
 
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
 
-             _patternList = _.filter(_patternList, function (pattern) {
+             patternList = _.filter(patternList, function (pattern) {
 
                 return _.contains(pattern.blockPatternOptions, ub.neckOption) || pattern.name === "Blank" ;
 
@@ -133,7 +127,7 @@ $(document).ready(function () {
 
         }
 
-        return _patternList;
+        return _.sortBy(patternList, 'sortID');
 
     }
 
