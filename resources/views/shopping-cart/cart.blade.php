@@ -239,13 +239,13 @@
 </script>
 
 <script type="text/template" id="all-players-tmpl">
-    <% if (!_.isEmpty(all_items)) { %>
+    <% if (!_.isEmpty(all_player_sizes)) { %>
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-                <% _.each(all_items, function(size) { %>
+                <% _.each(all_player_sizes, function(size) { %>
                     <% var selected_players = _.filter(players, {size: size}) %>
-                    <li role="presentation" class="<%= all_items[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency + selected_players[0].price.toFixed(2) %></a>
+                    <li role="presentation" class="<%= all_player_sizes[0] == size ? 'active' : '' %>">
+                        <a href="#size-<%= size.replace(/(\s)/g, "-").replace(/(\(|\))/g, "") %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency + selected_players[0].price.toFixed(2) %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -253,8 +253,8 @@
             <br />
 
             <div class="tab-content">
-                <% _.each(all_items, function(size) { %>
-                    <div role="tabpanel" class="tab-pane fade <%= all_items[0] == size ? 'in active' : '' %>" id="size-<%= size %>">
+                <% _.each(all_player_sizes, function(size) { %>
+                    <div role="tabpanel" class="tab-pane fade <%= all_player_sizes[0] == size ? 'in active' : '' %>" id="size-<%= size.replace(/(\s)/g, "-").replace(/(\(|\))/g, "") %>">
                         <table class="table table-hover table-bordered player-list">
                             <thead>
                                 <tr>

@@ -48,13 +48,13 @@ var ConfirmOrder = {
         var tmpl = _.template($('#all-players-tmpl').html());
 
         var cart_item = _.find(ConfirmOrder.cart_items, {cart_item_id: cart_item_id});
-        var all_items = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
+        var all_player_sizes = _.sortBy(_.uniq(_.pluck(cart_item.players, 'size')));
 
         bootbox.dialog({
             title: "All Players",
             message: tmpl({
                 players: cart_item.players,
-                all_items: all_items,
+                all_player_sizes: all_player_sizes,
                 currency: "$"
             }),
             size: "large"
