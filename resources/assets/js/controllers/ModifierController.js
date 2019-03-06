@@ -225,6 +225,7 @@ ModifierController.prototype = {
         ub.funcs.startNewApplicationLetters();
         ub.funcs.enableRichardsonNavigator();
         ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);
@@ -233,6 +234,8 @@ ModifierController.prototype = {
     numbers: function() {
         ub.funcs.startNewApplicationNumbers();
         ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 6;
 
         $("#primary_options_container").scrollTo(0);
@@ -242,7 +245,8 @@ ModifierController.prototype = {
         ub.funcs.startNewApplication();
         ub.funcs.enableRichardsonNavigator();
         ub.current_modifier = 7;
-
+        ApplicationPanel.events.initGlobalEvents();
+        ApplicationMascotPanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 

@@ -3,41 +3,42 @@
 
 "use strict";
 
-$(function() {
+function ApplicationMascotPanel() {
 
-    var ub = window.ub;
-    var util =  window.util;
+};
 
-/*
-                      _
-                     | |
-  _____   _____ _ __ | |_ ___
- / _ \ \ / / _ \ '_ \| __/ __|
-|  __/\ V /  __/ | | | |_\__ \
- \___| \_/ \___|_| |_|\__|___/
+ApplicationMascotPanel.events = {
+    is_init: 0,
 
-*/
-    // on click flip
-    $('#primary_options_container').on('click', '.flipBtn', function () {
+    init: function() {
+        var _this = this;
+        if (ApplicationMascotPanel.events.is_init === 0) {
+            $('#primary_options_container').on('click', '.flipBtn', _this.onFlipMascot);
+            $('#primary_options_container').on('click', '.view-sliders', _this.onShowMascot);
+            $('#primary_options_container').on('click', '.hide-sliders', _this.onHideMascot);
+            $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
+            ApplicationMascotPanel.events.is_init = 1;
+        }
+    },
+
+    onFlipMascot: function() {
         var dataId = $(this).attr('data-id');
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
         ub.funcs.flipMascot(_settingsObject);
 
-        $(this).toggleClass('active');
-    });
+        $(this).toggleClass('uk-active');
+    },
 
-    // on click view slidersContainer
-    $('#primary_options_container').on('click', '.view-sliders', function () {
+    onShowMascot: function() {
         $(this).addClass('active');
         $(this).next().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
         $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').removeClass('disabled-image');
         var application_id = $(this).closest(".applicationUIBlock").data('application-id');
         ub.funcs.manipulateApplicationByStatus("on", application_id);
-    });
+    },
 
-    // on click hide slidersContainer
-    $('#primary_options_container').on('click', '.hide-sliders', function () {
+    onHideMascot: function() {
         $(this).addClass('active');
         $(this).prev().removeClass('active');
         $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
@@ -45,14 +46,12 @@ $(function() {
         var application_id = $(this).closest(".applicationUIBlock").data('application-id');
         ub.funcs.manipulateApplicationByStatus("off", application_id);
         ub.funcs.deactivateMoveTool();
-    });
+    },
 
-    // on click color item type mascot
-    $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', function () {
-
+    onChangeMascotColor: function() {
         // changing active color
-        $(this).parent().find('span').removeClass('activeColorItem').html('');
-        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+        $(this).parent().parent().find('button').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size"></span>');
 
         // proceed
         var dataId = $(this).attr('data-id');
@@ -66,17 +65,13 @@ $(function() {
 
 
         var _oldVal = {
-
             layerNo: _layer_no,
             color: _settingsObject.color_array[_layer_no - 1],
             applicationCode: _settingsObject.code,
-
         };
 
         if (_temp !== 'undo') {
-
             ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
-
         }
 
         ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject);
@@ -94,243 +89,39 @@ $(function() {
 
         // On Crew Socks, only change the color of the matching side if its the same mascot id
         if (typeof _matchingSettingsObject !== "undefined") {
-
             if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) {
-
                 _processMatchingSide = false;
-
             }
 
             if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-
                 if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) {
                     _processMatchingSide = true;
                 }
-
             }
-
         }
 
         if (typeof _matchingID !== "undefined") {
-
             if (_processMatchingSide) {
-
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
-
             }
-
         }
+    }
+}
 
-    });
+$(function() {
 
-    // on click color item type accent
-    $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', function () {
+    var ub = window.ub;
+    var util =  window.util;
 
-        // changing active color
-        $(this).parent().parent().find('button').removeClass('activeColorItem').html('');
-        $(this).addClass('activeColorItem').html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size"></span>');
+    /*
+      __                  _   _
+     / _|                | | (_)
+    | |_ _   _ _ __   ___| |_ _  ___  _ __  ___
+    |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+    | | | |_| | | | | (__| |_| | (_) | | | \__ \
+    |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
 
-        // proceed
-        var dataId = $(this).attr('data-id');
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
-
-        var _layer_no = $(this).data('layer-no');
-        var _color_code = $(this).data('color-code');
-        var _layer_name = $(this).data('layer-name');
-        var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-        var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
-
-        _layer.default_color = _colorObj.hex_code;
-        _settingsObject.color_array[_layer_no - 1] = _colorObj;
-
-        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj, 'accent');
-
-        var _matchingID;
-        var _matchingSide;
-
-        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
-
-        if (typeof _matchingID !== "undefined") {
-
-            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-
-            _layer.default_color = _colorObj.hex_code;
-            _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-
-            ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-        }
-    });
-
-    // on click mascot image
-    $("#primary_options_container").on('click', '.applicationUIBlock .thumb-container .thumbnail', function(event) {
-        event.preventDefault();
-        /* Act on the event */
-        if (!$(this).hasClass('disabled-image')) {
-            console.log("Onclick mascot")
-        }
-    });
-
-    // on click view application
-    $("#primary_options_container").on('click', '.view-app-letters', function() {
-        var type = $(this).data("type")
-        // Filter active
-        var activeApplications = _.filter(ub.current_material.settings.applications, function(application) {
-            if (ub.funcs.isTackleTwill()) {
-                if (application.application_type === "free") {
-                    return application
-                }
-            }
-            if (typeof application.status === "undefined" || application.status === "on") {
-                if (type === "letters") {
-                    if (application.application_type === "team_name" || application.application_type === "player_name") {
-                        return application;
-                    }
-                } else if (type === "numbers") {
-                    if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
-                        return application;
-                    }
-                } else if (type === "mascots") {
-                    if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
-                        return application;
-                    }
-                }
-            }
-        });
-        // Sort by zindex
-        var _applicationCollection = _.sortBy(activeApplications, 'zIndex').reverse();
-
-        var applicationObject = [];
-
-        _.map(_applicationCollection, function(application) {
-            var item = {
-                zindex: application.zIndex,
-                code: application.code,
-                caption: ub.funcs.getSampleCaption(application),
-                view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
-                application_type: application.application_type.toUpperCase().replace('_', ' '),
-                type: application.application_type
-            }
-
-            applicationObject.push(item);
-        });
-
-        data = {
-            applications: applicationObject
-        };
-
-        var applicationListUI = ub.utilities.buildTemplateString('#m-application-layer-list', data);
-
-        $("#application-list-modal ul.application-list").html("")
-        $("#application-list-modal ul.application-list").html(applicationListUI);
-
-        ub.data.sorting = false;
-
-        ub.sort = $("ul.application-list").sortable({
-            handle: '.layer',
-            animation: 150,
-            onStart: function (evt) {
-                ub.data.sorting = true;
-                ub.data.justSorted = true;
-            },
-            onEnd: function (evt) {
-                ub.data.sorting = false;
-                ub.data.justSorted = true;
-
-            },
-            onUpdate: function (evt) {
-                $.each($('li.layer'), function (key, value) {
-                    var _length = _.size(ub.current_material.settings.applications);
-                    var _index = _length - (key + 1);
-                    var _locID = $(value).data('location-id');
-                    var _app = ub.current_material.settings.applications[_locID];
-                    _app.zIndex = _index;
-
-                    $(this).find('li.zIndex').html(_index + 1);
-
-                    if (_app.application_type === "free") {
-                        return;
-                    }
-
-                    _.each(_app.application.views, function (view) {
-
-                        var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
-
-                        if (_obj.zIndex !== 0) { // Skip changing zIndex if application is disabled
-                            _obj.zIndex = -(ub.funcs.generateZindex('applications') + _index);
-                        }
-                    });
-                });
-
-                ub.updateLayersOrder(ub.front_view);
-                ub.updateLayersOrder(ub.back_view);
-                ub.updateLayersOrder(ub.left_view);
-                ub.updateLayersOrder(ub.right_view);
-            }
-        });
-
-        $("#application-list-modal").modal("show")
-    });
-
-    // On click delete application
-    $("#application-list-modal").on('click', '.remove-application-button', function(event) {
-        event.preventDefault();
-        /* Act on the event */
-        var application_id = $(this).data("application-id");
-        var application_type = $(this).data("application-type");
-
-        _.delay(function() {
-            $('.applicationUIBlock[data-application-id="'+ application_id +'"] div.toggleApplications .hide-letters-opt').trigger('click');
-        }, 50);
-
-        $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
-    });
-
-    // On show & hide location marker
-    $("#application-list-modal").on('click', '.show-location-markers', function(event) {
-        event.preventDefault();
-        /* Act on the event */
-        var status = $(this).data("status");
-
-        if (status === "show") {
-            $(this).data("status", "hide");
-            $(this).html("");
-            $(this).html("Hide Location Marker")
-            ub.funcs.showLocations();
-        }
-
-        if (status === "hide") {
-            $(this).data("status", "show");
-            $(this).html("");
-            $(this).html("Show Location Marker")
-            ub.funcs.removeLocations();
-        }
-
-        $("#application-list-modal").modal("hide")
-    });
-
-    $("#application-list-modal").on('click', 'li.layer', function(event) {
-        event.preventDefault();
-        /* Act on the event */
-        var location = $(this).data("location-id");
-        var application_type = $(this).data("application-type");
-
-        $("#primary_options_container").scrollTo('div.applicationUIBlock[data-application-id="'+ location +'"]', {duration: 700});
-    });
-
-
-
-/*
-  __                  _   _
- / _|                | | (_)
-| |_ _   _ _ __   ___| |_ _  ___  _ __  ___
-|  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
-| | | |_| | | | | (__| |_| | (_) | | | \__ \
-|_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
-
- */
+     */
 
     ub.funcs.startNewApplication = function () {
 
@@ -384,14 +175,16 @@ $(function() {
 
         // prepare data
         var props = {
+            title: "DECORATION",
+            type: "mascots",
             applications: _appData
         };
 
         // add the "Add Application" button
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
-        $('.modifier_main_container').append(_htmlBuilder);
+        // var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
+        // $('.modifier_main_container').append(_htmlBuilder);
 
-        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-mascot-uikit', props);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
@@ -702,9 +495,9 @@ $(function() {
 
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
-                _html += '<div class="colorSelectionContainer cp-padding-small cp-padding-remove-horizontal">';
-                _html += '<h4 class="app-letters-subtitle abrade-black">'+_title+'</h4>';
-                _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+                _html += '<div class="colorSelectionContainer">';
+                _html += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
+                _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>';
 
                 _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
@@ -714,7 +507,7 @@ $(function() {
                     if (typeof _color !== 'undefined') {
 
                         // adding tabs
-                        _html += '<li><a href="#tab-' + id + '-' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
+                        _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.layer_number + '</a></li>';
 
                         // building separated color blocks
                         _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
@@ -726,9 +519,9 @@ $(function() {
                 });
 
                 _html += '</ul>';
-                    _html += '<div class="tab-content">';
-                        _html += _colorBlock;
-                    _html += '</div>';
+                _html += '<ul class="uk-switcher uk-margin uk-padding-remove">'
+                _html += _colorBlock;
+                _html += '</ul>';
                 _html += '</div>';
 
             }
@@ -736,8 +529,6 @@ $(function() {
         } else {
 
             _html += '<div class="colorSelectionContainer">';
-            // _html += '<h5 class="app-letters-subtitle abrade-black">'+_title+'</h5>'; 
-            // _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
             _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
             _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>'
 
@@ -755,23 +546,15 @@ $(function() {
 
                 // Use default color if team color is short
                 if (typeof _color === "undefined") {
-
                     _hexCode = layer.default_color;
                     _color = ub.funcs.getColorObjByHexCode(_hexCode);
-
                     ub.utilities.error('Undefined color found here!!!');
-
                 }
 
                 if (typeof _color !== 'undefined') {
-
-                    // adding tabs
-                    // _html += '<li><a href="#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
                     _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.name + '</a></li>';
-
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
-
                 } else {
                     util.error('Hex Code: ' + _hexCode + ' not found!');
                 }
@@ -779,14 +562,10 @@ $(function() {
             });
 
             _html += '</ul>';
-            //     _html += '<div class="tab-content">';
-            //         _html += _colorBlock;
-            //     _html += '</div>';
-            // _html += '</div>';
-
             _html += '<ul class="uk-switcher uk-margin uk-padding-remove">'
             _html += _colorBlock;
             _html += '</ul>';
+            _html += '</div>';
 
         }
 
