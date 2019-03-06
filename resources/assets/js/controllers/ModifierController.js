@@ -224,6 +224,7 @@ ModifierController.prototype = {
     letters: function() {
         ub.funcs.startNewApplicationLetters();
         ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
         ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);

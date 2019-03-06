@@ -10,227 +10,360 @@ ApplicationPanel.events = {
     is_init_events_called : 0,
 
     init: function() {
-        if (is_init_events_called === "") {}
+        var _this = this;
+        if (ApplicationPanel.events.is_init_events_called === 0) {
+            $("#primary_options_container").on('click', '.view-letters-opt', _this.onViewApplicationOptions);
+            $("#primary_options_container").on('click', '.hide-letters-opt', _this.onHideApplicationOptions);
+            $("#primary_options_container").on('click', '.thumbnailContainer', _this.onSelectFontAccent);
+            $("#primary_options_container").on('keypress', 'input.app-letters-input', _this.onKeyPressApplicationText);
+            $("#primary_options_container").on('blur', 'input.app-letters-input', _this.onBlurApplicationText);
+            $("#primary_options_container").on('click', 'a.fontStyleLeft, a.fontStyleRight', _this.onChangeFontStyle);
+            $("#primary_options_container").on('click', '.change-free-app', _this.onChangeFreeApplication);
+            $("#primary_options_container").on('click', '.main-color', _this.onChangeMainColor);
+            $("#primary_options_container").on('click', '.view-app-letters', _this.onChangeMainColor);
+            $("#primary_options_container").on('click', '.outline-color', _this.onChangeMainColor);
+
+            // For adding of Application
+            $("#primary_options_container").on('click', '.new-application-container .show-add-application-options', _this.showAddApplicationBlock);
+            // Cancel Adding
+            $("#primary_options_container").on('click', '.add-new-application-block .cancel-adding-application', _this.onCancelAddApplication);
+            // On Add Application
+            $("#primary_options_container").on('click', '.add-new-application-block .add-new-application', _this.onAddNewApplication);
+            // On Select Design type
+            $("#primary_options_container").on('click', '.design-type-container .design-type-button', _this.onSelectDesignType);
+            // On Select Perpective
+            $("#primary_options_container").on('click', '.perspective-container .perspective', _this.onSelectPerspective);
+            //On Select Uniform Part
+            $("#primary_options_container").on('click', '.parts-container .part', _this.onSelectPart);
+            // On Select part side
+            $("#primary_options_container").on('click', '.side-container .side', _this.onSelectPartSide);
+
+            ApplicationPanel.events.is_init_events_called = 1;
+        }
+    },
+
+    onViewApplicationOptions: function() {
+        $(this).addClass('uk-active').attr('disabled', 'disabled');
+        $(this).parent().parent().find(".hide-letters-opt").removeClass('uk-active').removeAttr("disabled");
+        $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').fadeIn();
+
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("on", application_id);
+    },
+
+    onHideApplicationOptions: function() {
+        $(this).addClass('uk-active').attr('disabled', 'disabled');
+        $(this).parent().parent().find(".view-letters-opt").removeClass('uk-active').removeAttr("disabled");
+        $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').hide();
+
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        ub.funcs.deactivateMoveTool();
+        ub.funcs.manipulateApplicationByStatus("off", application_id);
+    },
+
+    onSelectFontAccent: function() {
+        $('.thumbnailContainer.active').removeClass('active')
+        $(this).closest('div.font-accent-container').find('i').remove();
+        $(this).addClass('active').append('<i class="fa fa-check cp-fc-white fa-2x uk-overlay-primary" aria-hidden="true"></i>')
+
+        var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
+        var settingsObj = _.find(ub.current_material.settings.applications, {code: id});
+        var accentID = $(this).data('accent-id');
+
+        ub.funcs.changeAccentFromPopup(accentID, settingsObj);
+        ub.funcs.activateApplicationsLetters(settingsObj.code);
+
+        var matchingID = undefined;
+        matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+        if (typeof matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
+            ub.funcs.changeAccentFromPopup(accentID, _matchingSettingsObject);
+        }
+    },
+
+    onKeyPressApplicationText: function() {
+        var _val = $(this).val();
+        var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
+
+        if (e.keyCode === 13) {
+            _settingsObject.text = _val;
+
+            if (typeof _settingsObject.tailsweep !== "undefined") {
+                // Tailsweep, is off for now
+                // if (_settingsObject.text.length <= 5) { _length = 'short'; }
+                // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; }
+                // if (_settingsObject.text.length > 7) { _length = 'long'; }
+
+                _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
+
+                _settingsObject.tailsweep.length = _length;
+
+                $('span.sizeItem').removeClass('active');
+                $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+            }
+
+            /// Set Auto Font Size on Team Name, Baseball / Fastpitch
+            if (parseInt(id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
+                if (_settingsObject.application_type === "team_name") {
+                    var _len = _val.length;
+                    var _size = _settingsObject.font_size;
+
+                    if (_len <= 4) {
+                        _size = 4;
+                    } else if (_len >= 5 && _len <= 7) {
+                        _size = 3;
+                    } else if (_len >= 8) {
+                        _size = 2;
+                    }
+
+                    ub.funcs.setAppSize(application_id, _size);
+                    ub.funcs.setAUIActiveSize(_size);
+                }
+            }
+            /// End Set Auto Font Size
+
+            ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+            // cancel automatic changing of application (e.g. all team names changes)
+            if (_isFreeFormEnabled) {
+                return;
+            }
+
+            _.each(ub.current_material.settings.applications, function (_application) {
+                if (_application.type !== "logo" && _application.type !== "mascot") {
+                    if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+                        _application.text = _val;
+                        ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                        $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
+                    }
+                }
+            });
+        }
+    },
+
+    onBlurApplicationText: function() {
+        var _val = $(this).val();
+        ub.status.onText = false;
+
+        var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
+        _settingsObject.text = _val;
+
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
+        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+        // cancel automatic changing of application (e.g. all team names changes)
+        if (_isFreeFormEnabled) {
+            return;
+        }
+
+        _.each(ub.current_material.settings.applications, function (_application) {
+            if (_application.type !== "logo" && _application.type !== "mascot") {
+                if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+                    _application.text = _val;
+                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
+                }
+            }
+        });
+    },
+
+    onChangeFontStyle: function() {
+        var _id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+
+        var _direction = $(this).data('direction');
+        var _newFont = ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
+
+        if (typeof _newFont !== 'undefined') {
+            ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
+            // ub.funcs.activateApplications(_settingsObject.code)
+            $(this).parent().parent().find('.font_name').text(_newFont.caption)
+            $(this).parent().parent().find('.font_name').css('font-family', _newFont.name)
+        } else {
+            // No Font!
+            return;
+        }
+
+        if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
+            _.each(ub.current_material.settings.applications, function (_application) {
+                if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
+                    if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+                        ub.funcs.changeFontFromPopup(_newFont.id, _application);
+                    }
+                }
+            });
+        }
+
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+        if (typeof _matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+        }
+    },
+
+    onChangeFreeApplication: function() {
+        var _id = $(this).closest('.applicationUIBlockNew').data('application-id');
+        var _type = $(this).data('type')
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id.toString() });
+        _settingsObject.status = 'on';
+        ub.funcs.changeApplicationType(_settingsObject, _type)
+    },
+
+    onChangeMainColor: function() {
+        $(this).addClass('active');
+        $(this).next().removeClass('active');
+    },
+
+    onViewAppLetters: function() {
+        $('.add-new-application-letters button').removeClass('active')
+        $('#primary_options_container').find('.addApplicationsOpts').addClass('hide');
+    },
+
+    onChangeOutlineColor: function() {
+        $(this).addClass('active');
+        $(this).prev().removeClass('active');
+    },
+
+    showAddApplicationBlock: function() {
+        $(".container-add-view-application").hide();
+
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
+        $(".modifier_main_container .add-application-block").html("");
+        $(".modifier_main_container .add-application-block").html(_htmlBuilder);
+
+        // Activate first button
+        $(".design-type-container button.design-type-button").first().addClass("uk-active");
+        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
+        // $(".parts-container button.part").first().addClass("uk-active");
+    },
+
+    onCancelAddApplication: function() {
+        $(".container-add-view-application").show();
+        $(".modifier_main_container .add-application-block").html("");
+    },
+
+    onSelectDesignType: function() {
+        $(".design-type-container").find("button.uk-active").removeClass('uk-active');
+        $(this).addClass('uk-active')
+    },
+
+    onSelectPerspective: function() {
+        $(".perspective-container").find("button.uk-active").removeClass('uk-active');
+        var view = $(this).data('id');
+
+        // If FRONT perspective is clicked
+        if($(this).data('id') === "front") {
+            // Remove class from the currently active PART then change it to FRONT BODY
+            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+            $(".parts-container").find('button[data-id="Front Body"].part').addClass('uk-active')
+            ApplicationPanel.events.showSideOptions(false, '')
+
+        } else if($(this).data('id') === "back") {
+            // If BACK perspective is clicked
+            // Remove class from the currently active PART then change it to BACK BODY
+            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+            $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
+            ApplicationPanel.events.showSideOptions(false, '')
+        } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
+            // If LEFT or RIGHT perspective is clicked,
+            var activePart = $(".parts-container").find('button.part.uk-active');
+            var parts = ['Front Body', 'Back Body'];
+            // If currently active PART is Front/Back Body,
+            if (parts.includes(activePart.data('id'))) {
+                // Change the active PART to SLEEVE
+                activePart.removeClass('uk-active')
+                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
+            }
+
+            if (activePart.length === 0) {
+                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
+            }
+            // Show options for Sleeves, Side Panel, and Sleeve Insert
+            ApplicationPanel.events.showSideOptions(true, $(this).data('id'))
+        }
+
+        if (ub.active_view !== view) {
+            var perspective = new PerspectiveController();
+            perspective.setPerspective(view)
+        }
+
+        $(this).addClass('uk-active')
+    },
+
+    onSelectPart: function() {
+        $(".parts-container").find("button.uk-active").removeClass('uk-active');
+        $(this).addClass('uk-active');
+
+        if($(this).data('id') === "Front Body") {
+            // Change the active perspective to FRONT
+            $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
+            $(".perspective-container").find('button[data-id="front"].perspective').addClass('uk-active')
+            ApplicationPanel.events.showSideOptions(false, '')
+
+        } else if($(this).data('id') === "Back Body") {
+        // If BACK BODY part is clicked,
+            // Change the active perspective to BACk
+            $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
+            $(".perspective-container").find('button[data-id="back"].perspective').addClass('uk-active')
+            ApplicationPanel.events.showSideOptions(false, '')
+        } else {
+            // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
+            var activePerspective = $(".perspective-container").find('button.perspective.uk-active');
+            var perspectives = ['front', 'back']
+            // And active perspective if FRONT OR BACK,
+            if (perspectives.includes(activePerspective.data('id'))) {
+                // Change the active perspective to LEFT
+                activePerspective.removeClass('uk-active')
+                $(".perspective-container").find('button[data-id="left"].perspective').addClass('uk-active')
+            }
+            // Show options
+            ApplicationPanel.events.showSideOptions(true, activePerspective.data('id'))
+        }
+    },
+
+    onSelectPartSide: function() {
+        $(".side-container").find("button.uk-active").removeClass('uk-active');
+        $(this).addClass('uk-active')
+
+        // Change active perspective along with the side that is clicked
+        $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
+        $(".perspective-container").find('button[data-id="' + $(this).data('id') + '"].perspective').addClass('uk-active');
+    },
+
+    onAddNewApplication: function() {
+        var _perspective = $('.perspective-container button.perspective.uk-active').data('id');
+        var _part = $('.parts-container button.part.uk-active').data('id');
+        var _type = $('.design-type-container button.design-type-button.uk-active').data('type');
+        var _side = $('.side-container button.side.uk-active').data('id');
+
+        ub.funcs.newApplication(_perspective, _part, _type, _side);
+
+        $(".container-add-view-application").show();
+        $(".modifier_main_container .add-application-block").html("");
+    },
+
+    showSideOptions: function (show, id) {
+        if (show) {
+            $(".add-new-application-block").find('.sideOptions').removeClass('hide')
+            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
+            $(".add-new-application-block").find('.sideOptions button[data-id="' + id + '"].side').addClass('uk-active')
+        } else {
+            $(".add-new-application-block").find('.sideOptions').addClass('hide')
+            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
+            $(".add-new-application-block").find('.sideOptions button[data-id="na"].side').addClass('uk-active')
+        }
     }
 }
 
 $(function() {
 
     var ub = window.ub;
-
-    $('#primary_options_container')
-            // To hide "Add Application" options
-            .on('click', '.view-app-letters', function () {
-                $('.add-new-application-letters button').removeClass('active')
-                $('#primary_options_container').find('.addApplicationsOpts').addClass('hide');
-            })
-
-            // To view a letter's customization options
-            .on('click', '.view-letters-opt', function () {
-                $(this).addClass('uk-active').attr('disabled', 'disabled');
-                $(this).parent().parent().find(".hide-letters-opt").removeClass('uk-active').removeAttr("disabled");
-                $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').fadeIn();
-
-                var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
-                ub.funcs.manipulateApplicationByStatus("on", application_id);
-            })
-            // To hide a letter's customization options
-            .on('click', '.hide-letters-opt', function () {
-                $(this).addClass('uk-active').attr('disabled', 'disabled');
-                $(this).parent().parent().find(".view-letters-opt").removeClass('uk-active').removeAttr("disabled");
-                $(this).closest('.applicationUIBlockNew').find('.lettersOptsContainer').hide();
-
-                var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
-                ub.funcs.deactivateMoveTool();
-                ub.funcs.manipulateApplicationByStatus("off", application_id);
-            })
-            // To change main color
-            .on('click', '.main-color', function () {
-                $(this).addClass('active');
-                $(this).next().removeClass('active');
-            })
-            // To change outline color
-            .on('click', '.outline-color', function () {
-                $(this).addClass('active');
-                $(this).prev().removeClass('active');
-            })
-            // To change a letter's font accent
-            .on('click', '.thumbnailContainer', function () {
-                $('.thumbnailContainer.active').removeClass('active')
-                $(this).closest('div.font-accent-container').find('i').remove();
-                $(this).addClass('active').append('<i class="fa fa-check cp-fc-white fa-2x uk-overlay-primary" aria-hidden="true"></i>')
-
-                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
-                var settingsObj = _.find(ub.current_material.settings.applications, {code: id});
-                var accentID = $(this).data('accent-id');
-
-                ub.funcs.changeAccentFromPopup(accentID, settingsObj);
-                ub.funcs.activateApplicationsLetters(settingsObj.code);
-
-                var matchingID = undefined;
-                matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
-
-                if (typeof matchingID !== "undefined") {
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
-                    ub.funcs.changeAccentFromPopup(accentID, _matchingSettingsObject);
-                }
-            })
-            // To change an application's text on enter
-            .on('keypress', 'input.sampleText', function (e) {
-                var _val = $(this).val();
-                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
-                var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
-                var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
-
-                    if (e.keyCode === 13) {
-
-                        _settingsObject.text = _val;
-
-                        if (typeof _settingsObject.tailsweep !== "undefined") {
-
-                            // Tailsweep, is off for now
-                            // if (_settingsObject.text.length <= 5) { _length = 'short'; }
-                            // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; }
-                            // if (_settingsObject.text.length > 7) { _length = 'long'; }
-
-                            _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
-
-                            _settingsObject.tailsweep.length = _length;
-
-                            $('span.sizeItem').removeClass('active');
-                            $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
-
-                        }
-
-                        /// Set Auto Font Size on Team Name, Baseball / Fastpitch
-
-                        if (parseInt(id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
-
-                            if (_settingsObject.application_type === "team_name") {
-
-                                var _len = _val.length;
-                                var _size = _settingsObject.font_size;
-
-                                if (_len <= 4) {
-                                    _size = 4;
-                                } else if (_len >= 5 && _len <= 7) {
-                                    _size = 3;
-                                } else if (_len >= 8) {
-                                    _size = 2;
-                                }
-
-                                ub.funcs.setAppSize(application_id, _size);
-                                ub.funcs.setAUIActiveSize(_size);
-
-                            }
-
-                        }
-
-                        /// End Set Auto Font Size
-
-                        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
-                        // cancel automatic changing of application (e.g. all team names changes)
-                        if (_isFreeFormEnabled) {
-                            return;
-                        }
-
-                        _.each(ub.current_material.settings.applications, function (_application) {
-
-                            if (_application.type !== "logo" && _application.type !== "mascot") {
-
-                                if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
-                                    _application.text = _val;
-                                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-                                    $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
-
-                                }
-
-                            }
-
-                        });
-
-                    }
-
-            })
-            // To change an application's text on blur
-            .on('blur', 'input.sampleText', function () { 
-                var _val = $(this).val();
-                ub.status.onText = false;
-
-                var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
-                var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
-                _settingsObject.text = _val;
-
-                var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
-                // cancel automatic changing of application (e.g. all team names changes)
-                if (_isFreeFormEnabled) {
-                    return;
-                }
-
-                _.each(ub.current_material.settings.applications, function (_application) {
-
-                    if (_application.type !== "logo" && _application.type !== "mascot") {
-
-                        if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
-                            _application.text = _val;
-                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-                            $('.modifier_main_container').find($('div[data-application-id=' + _application.code + '].applicationUIBlockNew .sampleText')).val(_val);
-
-                        }
-
-                    }
-
-                });
-            })
-            // To change an application's font by clicking left or right arrow
-            .on('click', 'a.fontStyleLeft, a.fontStyleRight', function (e) {
-                var _id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
-                var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
-
-                var _direction = $(this).data('direction');
-                var _newFont = ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
-
-                if (typeof _newFont !== 'undefined') {
-                    ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
-                    // ub.funcs.activateApplications(_settingsObject.code)
-                    $(this).parent().parent().find('.font_name').text(_newFont.caption)
-                    $(this).parent().parent().find('.font_name').css('font-family', _newFont.name)
-
-                } else {
-                    // No Font!
-                    return;
-                }
-
-                if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
-                    _.each(ub.current_material.settings.applications, function (_application) {
-                        if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
-                            if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-                                ub.funcs.changeFontFromPopup(_newFont.id, _application);
-                            }
-                        }
-                    });
-                }
-
-                var _matchingID = undefined;
-
-                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-                if (typeof _matchingID !== "undefined") {
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                    ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-                }
-            })
-            .on('click', '.change-free-app', function () {
-                var _id = $(this).closest('.applicationUIBlockNew').data('application-id');
-                var _type = $(this).data('type')
-                var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id.toString() });
-                _settingsObject.status = 'on';
-                ub.funcs.changeApplicationType(_settingsObject, _type)
-            });
 
     // Show group 5 contents
     ub.funcs.startNewApplicationLetters = function () {
@@ -272,6 +405,7 @@ $(function() {
 
         // prepare data
         var templateData = {
+            title: "DECORATION LETTERS",
             applications: _appData
         };
 
@@ -281,9 +415,8 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
-        $('.modifier_main_container ul.application-container li').first().append(_htmlBuilder);
+        // var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
+        // $('.modifier_main_container ul.application-container li').first().append(_htmlBuilder);
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('letters');
@@ -296,12 +429,12 @@ $(function() {
         _.map(_appData, function(application) {
             if (application.application_type !== "free") {
                 if (application.status) {
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').addClass('active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplicationContainer .view-letters-opt').addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplicationContainer .hide-letters-opt').removeClass('uk-active');
                     $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').fadeIn();
                 } else {
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .hide-letters-opt').addClass('active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplications .view-letters-opt').removeClass('active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplicationContainer .hide-letters-opt').addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.toggleApplicationContainer .view-letters-opt').removeClass('uk-active');
                     $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.lettersOptsContainer').hide();
                 }
             }
@@ -684,7 +817,7 @@ $(function() {
         ub.funcs.afterActivateApplication(application_id);
 
         // codes from activateApplications were omitted from this point
-    
+        console.log("Active MAsteroc Fucker shitter,, ")
     }
 
     // Build template for font accent selection
@@ -727,14 +860,6 @@ $(function() {
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
         var _htmlBuilder = '';
-        var templateData = {
-            isTwill: true,
-            title: _title,
-            disabled: 'disabled',
-            type: _designType
-        };
-        _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData)
-
         if (! ub.funcs.isTackleTwill()) {
             var types = [];
             var showTypes = '';
@@ -748,8 +873,6 @@ $(function() {
                     type: 'player_name',
                     name: 'Player Name',
                 });
-
-            
             } else if (_designType === 'numbers') {
                 types.push({
                     type: 'player_number',
@@ -781,9 +904,16 @@ $(function() {
                 type: _designType
             }
 
-            console.log(templateData)
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData);
+        } else {
+            var templateData = {
+                isTwill: true,
+                title: _title,
+                disabled: 'disabled',
+                type: _designType
+            };
 
-            _htmlBuilder = ub.utilities.buildTemplateString('#add-new-application-letters', templateData);
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData)
         }
 
         return _htmlBuilder;
@@ -1503,7 +1633,7 @@ $(function() {
                 isPlayerName: isPlayerName,
             }
         
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block-letters', templateData);
+            _htmlBuilder = ub.utilities.buildTemplateString('#m-reinit-application', templateData);
         } else if (isMascots) {
             var objMascot = {};
             var _inputSizes;
@@ -1565,12 +1695,13 @@ $(function() {
         var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
         if (appBlock.length === 0) {
             // New application
-            $('.modifier_main_container').append(_htmlBuilder);
+            $('.modifier_main_container ul.application-container').append(_htmlBuilder);
         } else {
             // Existing application
             appBlock.replaceWith(_htmlBuilder);
         }
-        setTimeout(function () { $('.modifier_main_container').scrollTo($('div[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 500)
+
+        setTimeout(function () { $('.modifier_main_container').scrollTo($('li[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 200)
 
         /// Applications Color Events
 
