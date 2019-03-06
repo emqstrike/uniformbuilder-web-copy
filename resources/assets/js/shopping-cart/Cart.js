@@ -219,6 +219,7 @@ var Cart = {
             title: "Add Player",
             message: form_tmpl(),
             closeButton: false,
+            className: "add-player-modal",
 
             buttons: {
                 cancel: {
@@ -294,6 +295,10 @@ var Cart = {
                 }
             }
         });
+
+        addPlayerBootbox.on("shown.bs.modal", function() {
+            $('.add-player-modal form :input[name="last_name"]').focus();
+        })
     },
 
     onEditPlayer: function() {
