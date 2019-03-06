@@ -273,34 +273,12 @@
                                 </table>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-2 col-md-offset-5">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>Show Twill</td>
-                                        <td>
-                                            <input type="checkbox" class="show-twill">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Show Sublimated</td>
-                                        <td>
-                                            <input type="checkbox" class="show-sublimated">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
                         <hr>
-
                         <div class="form-group twill-fst"> <!-- START -->
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Twill Font Size Tables <a href="#font-twill"class="collapse-fonts" data-toggle="collapse"><i class="fa fa-chevron-right"></i></a></h3>
+                                        <h3 style="margin-top: 0;"><a href="#font-twill"class="collapse-fonts" data-toggle="collapse">Twill Font Size Tables </a></h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -449,7 +427,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Sublimated Font Size Tables <a href="#font-subli" class="collapse-fonts" data-toggle="collapse"><i class="fa fa-chevron-right"></i></a> </h3>
+                                        <h3 style="margin-top: 0;"><a href="#font-subli" class="collapse-fonts" data-toggle="collapse">Sublimated Font Size Tables </a> </h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -685,10 +663,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/fonts/fonts.js"></script>
-    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript">
 
