@@ -1,142 +1,20 @@
 <!-- Application UI Block - LETTERS -->
+<script type="text/mustache" id="add-new-application-letters">
+    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
 
-    <script type="text/mustache" id="add-new-application-letters">
-        {{-- <div class="application-letters-container cp-padding-medium">
-            <h4 class="app-letters-title abrade-ultra-italic">@{{ title }}</h4>
-            @{{^isTwill}}
-            <div class="addApplicationsOpts hide">
-
-                @{{#designType}}
-                    <div class="posContainer clearfix app-letters-wrapper @{{ showTypes }}">
-                        <h5 class="uk-margin-small abrade-black">CHOOSE A DESIGN TYPE</h5>
-                        @{{#designTypeData}}
-                            <button type="button" class="app-btn w-45 optionButton" data-type="@{{ type }}">@{{ name }}</button>
-                        @{{/designTypeData}}
-                    </div>
-                @{{/designType}}
-
-                @{{#perspective}}
-                    <div class="posContainer clearfix app-letters-wrapper">
-                        <h5 class="uk-margin-small abrade-black">CHOOSE PERSPECTIVE</h5>
-                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="front">Front</button>
-                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="back">Back</button>
-                        <button type="button" class="app-btn w-45 pull-left perspective" data-id="left">Left</button>
-                        <button type="button" class="app-btn w-45 pull-right perspective" data-id="right">Right</button>
-                    </div>
-                @{{/perspective}}
-
-                @{{#part}}
-                    <div class="posContainer clearfix app-letters-wrapper">
-                        <h5 class="uk-margin-small abrade-black">CHOOSE PART</h5>
-                        @{{#partsData}}
-                        <button type="button" class="app-btn w-45 part" data-id="@{{ name }}">@{{ name }}</button>
-                        @{{/partsData}}
-                    </div>
-                @{{/part}}
-
-                @{{#side}}
-                    <div class="posContainer clearfix sideOptions hide app-letters-wrapper">
-                        <h5 class="uk-margin-small abrade-black">CHOOSE SIDE</h5>
-                        <button class="side" data-id="na" style="display: none;">N/A</button>
-                        <button class="app-btn w-45 side" data-id="right">Right</button>
-                        <button class="app-btn w-45 side" data-id="left">Left</button>
-                    </div>
-                @{{/side}}
-            </div>
-            @{{/isTwill}}
-
-            <div class="add-new-application-letters">
-                <button type="button" class="app-btn w-45 pull-left add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}><span class="fa fa-plus-circle"></span> Add Application</button>
-                <button type="button" class="app-btn w-45 pull-right view-app-letters app-letters-button" data-type="@{{ type }}"><span class="fa fa-eye"></span> View All Application</button>
-            </div>
-
-            <div class="clearfix"></div>
-        </div> --}}
-        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
-
-        {{-- <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-            <div class="uk-width-1-2 ">
-                <button class="toggle-decor-letter uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice" type="button">
-                    <span class="uk-margin-small-right fa fa-add"></span>Add application
-                </button>
-            </div>
-            <div class="uk-width-1-2 ">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice toggle-hide" type="button">
-                    <span class="uk-margin-small-right fa fa-view"></span>View all application
-                </button>
-            </div>
-        </div> --}}
-
-        <div class="toggle-decor-letter con-add-application">
-            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black"><span>1.</span>&nbsp;Choose design type</h6>
-            <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark" uk-grid>
-                @{{ #designType }}
-                    @{{ #designTypeData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" data-type="@{{ type }}">
-                                @{{ name }}
-                            </button>
-                        </div>
-                    @{{ /designTypeData }}
-                @{{ /designType }}
-            </div>
-
-            <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span>2.</span>&nbsp;Choose Perspective</h6>
-            <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark" uk-grid>
-                <div class="">
-                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="front">Front</button>
-                </div>
-                <div>
-                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="back">Back</button>
-                </div>
-                <div>
-                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="left">Left</button>
-                </div>
-                <div>
-                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="right">Right</button>
-                </div>
-            </div>
-
-            <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span>3.</span>&nbsp;Choose Part</h6>
-            <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark" uk-grid>
-                @{{ #part }}
-                    @{{ #partsData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="@{{ name }}">@{{ name }}</button>
-                        </div>
-                    @{{ /partsData }}
-                @{{ /part }}
-            </div>
-
-            @{{#side}}
-                <div class="posContainer sideOptions hide app-letters-wrapper">
-                    <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">Choose Side</h6>
-                    <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark" uk-grid>
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="right">Right</button>
-                        </div>
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="left">Left</button>
-                        </div>
-                    </div>
-                </div>
-            @{{ /side }}
-
-            <h6 uk-margin class="uk-margin-medium-top uk-margin-remove-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span>4.</span></h6>
-            <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-                <div class="uk-width-1-2">
-                    <button class="toggle-decor-letter uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice" type="button">
-                        <span class="uk-margin-small-right fa fa-add"></span>Add application
-                    </button>
-                </div>
-                <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice toggle-hide" type="button">
-                        <span class="uk-margin-small-right fa fa-cancel"></span>Cancel
-                    </button>
-                </div>
-            </div>
+    <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
+        <div class="uk-width-1-2 ">
+            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize add-app-letters app-letters-button @{{ disabled }}" @{{ disabled }}" type="button">
+                <span class="uk-margin-small-right fa fa-add"></span>Add application
+            </button>
         </div>
-    </script>
+        <div class="uk-width-1-2 ">
+            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-app-letters app-letters-button" data-type="@{{ type }}" type="button">
+                <span class="uk-margin-small-right fa fa-view"></span>View all application
+            </button>
+        </div>
+    </div>
+</script>
 
 <script type="text/mustache" id="m-application-layer-list">
     @{{ #applications }}
@@ -229,16 +107,6 @@
 
 <!-- Font Accents -->
 <script type="text/mustache" id="m-font-accents-container">
-    {{-- <div class="clearfix">
-        <h5 class="app-letters-subtitle abrade-black">@{{ title }}</h5>
-        @{{#accentsData}}
-        <div class="thumbnailContainer @{{ active }}" data-accent-id="@{{ id }}">
-            <img class="font-accent-thumbnail" src="@{{ thumbnail }}">
-            @{{{ activeCheck }}}
-        </div>
-        @{{/accentsData}}
-    </div> --}}
-
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">@{{ title }}</h6>
     <div class="font-accent-container uk-grid-small grid-tiny uk-grid-match uk-child-width-1-5 uk-child-width-1-6@s uk-child-width-1-5@m con-select con-palettes" uk-grid>
         @{{#accentsData}}
@@ -276,9 +144,7 @@
 <!-- End Free Applications Block -->
 
 <!-- Application UI Block -->
-
 <script type="text/mustache" id="m-application-ui-block">
-
     @{{#newApplication}}
         @{{{ newApplicationContainer }}}
     @{{/newApplication}}
@@ -329,7 +195,6 @@
 
        </div>
     @{{/applications}}
-
 </script>
 
 <!-- End Application UI Block -->
@@ -437,36 +302,77 @@
 </script>
 
 <script type="text/mustache" id="m-add-new-application">
-    <div class="toggle-decor-letter con-add-application uk-active">
-        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">Choose location</h6>
-        <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark" uk-grid>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide uk-active">Front body</button>
+    @{{^isTwill}}
+        <div class="uk-padding-small uk-padding-remove-vertical addApplicationsOpts hide">
+            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">1</span>&nbsp;Choose design type</h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark posContainer app-letters-wrapper @{{ showTypes }}" uk-grid>
+                @{{ #designType }}
+                    @{{ #designTypeData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" data-type="@{{ type }}">
+                                @{{ name }}
+                            </button>
+                        </div>
+                    @{{ /designTypeData }}
+                @{{ /designType }}
             </div>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice">Back body</button>
-            </div>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice">Left sleeve</button>
-            </div>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice">Right sleeve</button>
-            </div>
-        </div>
 
-        <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">Choose perspective</h6>
-        <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-3 uk-text-center con-select active-bgc-dark uk-margin-medium-bottom" uk-grid>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide uk-active">Front number</button>
+            <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">2</span>&nbsp;Choose Perspective</h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark posContainer app-letters-wrapper" uk-grid>
+                <div class="">
+                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="front">Front</button>
+                </div>
+                <div>
+                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="back">Back</button>
+                </div>
+                <div>
+                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="left">Left</button>
+                </div>
+                <div>
+                    <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-id="right">Right</button>
+                </div>
             </div>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice">Back number</button>
+
+            <h6 uk-margin class="uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">3</span>&nbsp;Choose Part</h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark posContainer app-letters-wrapper" uk-grid>
+                @{{ #part }}
+                    @{{ #partsData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="@{{ name }}">@{{ name }}</button>
+                        </div>
+                    @{{ /partsData }}
+                @{{ /part }}
             </div>
-            <div class="">
-                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice">Sleeve number</button>
+
+            @{{#side}}
+                <div class="posContainer sideOptions hide app-letters-wrapper">
+                    <h6 uk-margin class="uk-padding-small uk-padding-remove-vertical uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">Choose Side</h6>
+                    <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark" uk-grid>
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="right">Right</button>
+                        </div>
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice toggle-hide" data-id="left">Left</button>
+                        </div>
+                    </div>
+                </div>
+            @{{ /side }}
+
+            <h6 uk-margin class="uk-margin-medium-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">4</span></h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center add-new-application-letters" uk-grid>
+                <div class="uk-width-1-2">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice" type="button">
+                        <span class="uk-margin-small-right fa fa-add"></span>Add application
+                    </button>
+                </div>
+                <div class="uk-width-1-2 ">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice toggle-hide" type="button">
+                        <span class="uk-margin-small-right fa fa-cancel"></span>Cancel
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    @{{/isTwill}}
 </script>
 
 <script type="text/mustache" id="m-reinit-application">

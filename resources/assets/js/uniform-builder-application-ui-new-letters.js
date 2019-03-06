@@ -3,128 +3,22 @@
 
 "use strict";
 
+function ApplicationPanel() {
+}
+
+ApplicationPanel.events = {
+    is_init_events_called : 0,
+
+    init: function() {
+        if (is_init_events_called === "") {}
+    }
+}
+
 $(function() {
 
     var ub = window.ub;
 
     $('#primary_options_container')
-            // To add a new letter application (show Choose Location and Choose Perspective options)
-            .on('click', '.add-app-letters', function () {
-                var opts = $('#primary_options_container').find('.addApplicationsOpts')
-
-                // Check if clicked to add an application or show the options
-                // If clicked to show options
-                if ($(this).hasClass('active') === false) {
-                    $(this).addClass('active hide-app-letters');
-                    opts.removeClass('hide');
-
-                    // On click of DESIGN TYPE buttons
-                    opts.on('click', 'button.optionButton', function () {
-                        // Remove class from the currently active element then change the clicked element to active
-                        opts.find('button.optionButton.active').removeClass('active');
-                        $(this).addClass('active');
-                    });
-                    // On click of PERSPECTIVE buttons
-                    opts.on('click', 'button.perspective', function () {
-                        // Remove class from the currently active element then change the clicked element to active
-                        opts.find('button.perspective.active').removeClass('active');
-                        $(this).addClass('active');
-
-                        // If FRONT perspective is clicked
-                        if($(this).data('id') === "front") {
-                            // Remove class from the currently active PART then change it to FRONT BODY
-                            opts.find('button.part.active').removeClass('active');
-                            opts.find('button[data-id="Front Body"].part').addClass('active')
-                            showSideOptions(false, '')
-
-                        } else if($(this).data('id') === "back") {
-                        // If BACK perspective is clicked
-                            // Remove class from the currently active PART then change it to BACK BODY
-                            opts.find('button.part.active').removeClass('active');
-                            opts.find('button[data-id="Back Body"].part').addClass('active')
-                            showSideOptions(false, '')
-                        } else {
-                            // If LEFT or RIGHT perspective is clicked,
-                            var activePart = opts.find('button.part.active');
-                            var parts = ['Front Body', 'Back Body'];
-                            // If currently active PART is Front/Back Body,
-                            if (parts.includes(activePart.data('id'))) {
-                                // Change the active PART to SLEEVE
-                                activePart.removeClass('active')
-                                opts.find('button[data-id="Sleeve"].part').addClass('active')
-                            }
-                            // Show options for Sleeves, Side Panel, and Sleeve Insert
-                            showSideOptions(true, $(this).data('id'))
-                        }
-
-                    });
-                    // On click of PART buttons
-                    opts.on('click', 'button.part', function () {
-                        opts.find('button.part.active').removeClass('active');
-                        $(this).addClass('active');
-
-                        // If FRONT BODY part is cliked
-                        if($(this).data('id') === "Front Body") {
-                            // Change the active perspective to FRONT
-                            opts.find('button.perspective.active').removeClass('active');
-                            opts.find('button[data-id="front"].perspective').addClass('active')
-                            showSideOptions(false, '')
-
-                        } else if($(this).data('id') === "Back Body") {
-                        // If BACK BODY part is clicked,
-                            // Change the active perspective to BACk
-                            opts.find('button.perspective.active').removeClass('active');
-                            opts.find('button[data-id="back"].perspective').addClass('active')
-                            showSideOptions(false, '')
-                        } else {
-                            // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
-
-                            var activePerspective = opts.find('button.perspective.active');
-                            var perspectives = ['front', 'back']
-                            // And active perspective if FRONT OR BACK,
-                            if (perspectives.includes(activePerspective.data('id'))) {
-                                // Change the active perspective to LEFT
-                                activePerspective.removeClass('active')
-                                opts.find('button[data-id="left"].perspective').addClass('active')
-                            }
-
-                            // Show options
-                            showSideOptions(true, activePerspective.data('id'))
-                        }
-                    })
-                    // On click of SIDE buttons
-                    opts.on('click', 'button.side', function () {
-                        opts.find('button.side.active').removeClass('active');
-                        $(this).addClass('active');
-
-                        // Change active perspective along with the side that is clicked
-                        opts.find('button.perspective.active').removeClass('active');
-                        opts.find('button[data-id="' + $(this).data('id') + '"].perspective').addClass('active')
-                    })
-                } else {
-                    // If clicked to add application,
-                    var _perspective = $('button.perspective.active').data('id');
-                    var _part = $('button.part.active').data('id');
-                    var _type = $('button.optionButton.active').data('type');
-                    var _side = $('button.side.active').data('id');
-
-                    ub.funcs.newApplication(_perspective, _part, _type, _side);
-                    $(this).removeClass('active')
-                    opts.addClass('hide')
-                }
-
-                showSideOptions = function (show, id) {
-                    if (show) {
-                        opts.find('.sideOptions').removeClass('hide')
-                        opts.find('.sideOptions .side.active').removeClass('active')
-                        opts.find('.sideOptions button[data-id="' + id + '"].side').addClass('active')
-                    } else {
-                        opts.find('.sideOptions').addClass('hide')
-                        opts.find('.sideOptions .side.active').removeClass('active')
-                        opts.find('.sideOptions button[data-id="na"].side').addClass('active')
-                    }
-                }
-            })
             // To hide "Add Application" options
             .on('click', '.view-app-letters', function () {
                 $('.add-new-application-letters button').removeClass('active')
