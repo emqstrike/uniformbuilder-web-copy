@@ -147,14 +147,71 @@ var UBCart = {
             design_sheet: material.design_sheet_path,
         }, function(response) {
             waitingDialog.progress(2, 2);
-            _.delay(function() { // delay .5s to finish the progress bar
-                waitingDialog.message(response.message + " Please wait to implement styles for all perspective.");
-
+            _.delay(function() { // delay 1s to finish the progress bar
                 if (response.success) {
-                    _.delay(function() { // delay 1.5s to give time of reading long message
-                        waitingDialog.hide();
+                    waitingDialog.message(response.message + " Please wait to save styles for all perspective.");
 
-                        _.delay(function() { // delay .5s to give time for closing modal
+                    _.delay(function() { // delay 3s to give time of reading long message
+                        // get all images
+                        ub.funcs.showViews();
+                        var current_left_image = ub.getThumbnailImage2('left_view');
+                        var current_front_image = ub.getThumbnailImage2('front_view');
+                        var current_back_image = ub.getThumbnailImage2('back_view');
+                        var current_right_image = ub.getThumbnailImage2('right_view');
+                        ub.funcs.hideViews();
+                        ub.funcs.setVisibleView(ub.active_view);
+                        ub[ub.active_view + '_view'].alpha = 1;
+                        // end
+
+                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
+                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
+                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
+                        UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE, true);
+
+                        if (typeof Storage !== "undefined") {
+                            sessionStorage.left_image = current_left_image;
+                            sessionStorage.front_image = current_front_image;
+                            sessionStorage.back_image = current_back_image;
+                            sessionStorage.right_image = current_right_image;
+                        }
+
+                        // change the action and text
+                        $('#left-side-toolbar .cart-btn').attr('data-action', "update");
+                        $('#left-side-toolbar .cart-btn').data('cart-item-id', response.cart_item_id);
+                        $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
+                    }, 3000);
+                } else {
+                    waitingDialog.message(response.message);
+
+                    _.delay(function() { // delay 1s to give time of reading short message
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }, 1000);
+        });
+    },
+
+    updateItem: function(e) {
+        e.preventDefault();
+        /* Act on the event */
+        console.log("Update cart button madafaka jones");
+
+        var cart_item_id = parseInt($(this).data('cart-item-id'));
+
+        waitingDialog.show("Updating item...", {rtl: false, progressType: "success"});
+        waitingDialog.progress(1, 2);
+
+        UBCart.cartItemApi.updateItem(cart_item_id, {
+            builder_customization: JSON.stringify(ub.current_material.settings)
+        }, function(response) {
+            waitingDialog.progress(2, 2);
+
+            _.delay(function() { // delay 1s to finish the progress bar
+                if (response.success) {
+                    if (typeof Storage !== "undefined") {
+                        waitingDialog.message(response.message + " Please wait to save styles for all perspective.");
+
+                        _.delay(function() { // delay 3s to give time of reading long message
                             // get all images
                             ub.funcs.showViews();
                             var current_left_image = ub.getThumbnailImage2('left_view');
@@ -166,97 +223,55 @@ var UBCart = {
                             ub[ub.active_view + '_view'].alpha = 1;
                             // end
 
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, response.cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, response.cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, response.cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
-                            UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, response.cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
-
-                            if (typeof Storage !== "undefined") {
+                            if (sessionStorage.left_image !== current_left_image) {
+                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
                                 sessionStorage.left_image = current_left_image;
-                                sessionStorage.front_image = current_front_image;
-                                sessionStorage.back_image = current_back_image;
-                                sessionStorage.right_image = current_right_image;
                             }
 
-                            // change the action and text
-                            $('#left-side-toolbar .cart-btn').attr('data-action', "update");
-                            $('#left-side-toolbar .cart-btn').data('cart-item-id', response.cart_item_id);
-                            $('#left-side-toolbar .cart-btn .toolbar-item-label').text("UPDATE ITEM");
-                        }, 500);
-                    }, 3000);
+                            if (sessionStorage.front_image !== current_front_image) {
+                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
+                                sessionStorage.front_image = current_front_image;
+                            }
+
+                            if (sessionStorage.back_image !== current_back_image) {
+                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
+                                sessionStorage.back_image = current_back_image;
+                            }
+
+                            if (sessionStorage.right_image !== current_right_image) {
+                                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE, true);
+                                sessionStorage.right_image = current_right_image;
+                            }
+                        }, 3000);
+                    } else {
+                        waitingDialog.message("Cannot update the styles because Storage not support of the browser.");
+
+                        _.delay(function() { // delay 1s to give time of reading short message
+                            waitingDialog.hide();
+                        }, 1000);
+                    }
                 } else {
-                    _.delay(function() { // delay .5s to give time of reading short message
+                    waitingDialog.message(response.message);
+
+                    _.delay(function() { // delay 1s to give time of reading short message
                         waitingDialog.hide();
-                    }, 500);
+                    }, 1000);
                 }
-            }, 500);
+            }, 1000);
         });
     },
 
-    updateItem: function(e) {
-        e.preventDefault();
-        /* Act on the event */
-        console.log("Update cart button madafaka jones");
-
-        var cart_item_id = parseInt($(this).data('cart-item-id'));
-
-        UBCart.cartItemApi.updateItem(cart_item_id, {
-            builder_customization: JSON.stringify(ub.current_material.settings)
-        }, function(response) {
-            if (response.success) {
-                console.log("Updating item in database ok");
-                bootbox.alert("Successfully update");
-
-                // update cart items in dropdown
-                UBCart.fetchCartItems(function(response) {
-                    var cart_items = response.data;
-                    UBCart.updateShoppingCartDetails(cart_items);
-                });
-            }
-        });
-
-        if (typeof Storage !== "undefined") {
-            // get all images
-            ub.funcs.showViews();
-            var current_left_image = ub.getThumbnailImage2('left_view');
-            var current_front_image = ub.getThumbnailImage2('front_view');
-            var current_back_image = ub.getThumbnailImage2('back_view');
-            var current_right_image = ub.getThumbnailImage2('right_view');
-            ub.funcs.hideViews();
-            ub.funcs.setVisibleView(ub.active_view);
-            ub[ub.active_view + '_view'].alpha = 1;
-            // end
-
-            if (sessionStorage.left_image !== current_left_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_left_image, cart_item_id, UBCart.LEFT_IMAGE_PERSPECTIVE);
-                sessionStorage.left_image = current_left_image;
-            }
-
-            if (sessionStorage.front_image !== current_front_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_front_image, cart_item_id, UBCart.FRONT_IMAGE_PERSPECTIVE);
-                sessionStorage.front_image = current_front_image;
-            }
-
-            if (sessionStorage.back_image !== current_back_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_back_image, cart_item_id, UBCart.BACK_IMAGE_PERSPECTIVE);
-                sessionStorage.back_image = current_back_image;
-            }
-
-            if (sessionStorage.right_image !== current_right_image) {
-                UBCart.uploadBase64ImageThenUpdateShoppingCartDetails(current_right_image, cart_item_id, UBCart.RIGHT_IMAGE_PERSPECTIVE);
-                sessionStorage.right_image = current_right_image;
-            }
-        }
-    },
-
-    uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id, perspective) {
+    uploadBase64ImageThenUpdateShoppingCartDetails: function(base64Image, cart_item_id, perspective, done) {
         var upload_time = setInterval(function() {
             if (UBCart.is_upload_base_64_image_available) {
+                done = done || false;
+
                 console.log("Processing: " + perspective);
 
                 UBCart.is_upload_base_64_image_available = false;
 
-                waitingDialog.show("Implementing styles for <b>" + perspective + " perspective</b>...", {rtl: false, progressType: "success"});
+                waitingDialog.message("Saving styles for <b>" + perspective + " perspective</b>...", {rtl: false, progressType: "success"});
+                // waitingDialog("Implementing styles for <b>" + perspective + " perspective</b>...", {rtl: false, progressType: "success"});
                 waitingDialog.progress(1, 4);
 
                 // Upload base 64 image
@@ -277,7 +292,9 @@ var UBCart = {
 
                                     waitingDialog.progress(4, 4);
                                     _.delay(function() { // delay .5s to finish the progress bar
-                                        waitingDialog.hide();
+                                        if (done) {
+                                            waitingDialog.hide()
+                                        }
 
                                         _.delay(function() { // delay .5s again to give time for closing modal
                                             UBCart.is_upload_base_64_image_available = true;
