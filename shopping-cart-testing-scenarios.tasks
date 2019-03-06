@@ -1,0 +1,99 @@
+Shopping Cart Testing Scenarios:
+ - Open customizer with any material id
+   ☐ Test if cart token is set
+   ☐ Default cart item number must be 0
+   ☐ Default cart item list must be empty
+   ☐ See all in My cart link must not available
+ - Add opened material to cart
+   ☐ Cart item number must be 1
+   ☐ Added material must be in cart item dropdown
+   ☐ See all in My cart link must be available
+   - Click See all in My Cart to open Shopping Cart page
+     ☐ Check if the current url is correct
+     ☐ Cart token must be set
+     ☐ Images must be correct
+     ☐ Default players must be empty
+     - Close the shopping cart page
+ - Update opened material
+   ☐ Image of item in dropdown must change.
+   - Click See all in My Cart to open Shopping Cart page
+     ☐ Check if the current url is correct
+     ☐ Cart token must be set
+     ☐ Images must be correct
+     ☐ Default players must still empty
+     - Close the shopping cart page
+
+ - Click See all in My Cart to open Shopping Cart page
+   ☐ Check if the current url is correct
+   ☐ Cart token must be set
+
+   - Click View All Players
+     ☐ All players modal must be show
+     ☐ Players in the modal must be empty
+     ☐ Click x button must be hide the modal
+
+   - Click add player button
+     ☐ Add player modal must be show
+     ☐ Click Cancel must be hide the modal
+   - Click add player button again
+     ☐ Add player modal must be show
+     - Click add player button in modal
+       ☐ Last name must be
+         ☐ Required
+         ☐ Minimum of 2
+         ☐ Maximum of 50
+         ☐ Only accept string and space
+       ☐ Number must be
+         ☐ Required
+         ☐ Numeric
+         ☐ Minimum of 0
+         ☐ Maximum of 99
+         ☐ Number of digits must be 1 or 2
+       ☐ Quantity must be
+         ☐ Required
+         ☐ Numeric
+         ☐ Minimum of 1
+         ☐ Maximum of 100
+       ☐ When all fields are valid, alert must show indicate that the player is successfully added.
+     - Hide the modal
+   ☐ Added player must be display in the table of player.
+
+   - Click pencil icon button
+     ☐ Edit player modal must be show
+     ☐ Click Cancel must be hide the modal
+
+   - Click pencil icon button again
+     ☐ Edit player modal must be show
+     ☐ Value of each field must be correct
+     - Clear the value of each field
+     - Click Update Player button in modal
+       ☐ Last name must be
+         ☐ Required
+         ☐ Minimum of 2
+         ☐ Maximum of 50
+         ☐ Only accept string and space
+       ☐ Number must be
+         ☐ Required
+         ☐ Numeric
+         ☐ Minimum of 0
+         ☐ Maximum of 99
+         ☐ Number of digits must be 1 or 2
+       ☐ Quantity must be
+         ☐ Required
+         ☐ Numeric
+         ☐ Minimum of 1
+         ☐ Maximum of 100
+       ☐ When all fields are valid, alert must show indicate that the player is successfully added.
+     - Click Cancel in modal
+       ☐ Modal must be hide
+   ☐ Updated player must be display in the table of players.
+
+   - Click x icon button in the table of players
+     ☐ Confirmation of deleting player must be show
+     ☐ Clicking Cancel button must be hide the modal
+
+   - Click x icon button in the table of players again
+     ☐ Confirmation of deleting player must be show
+     ☐ Clicking OK button must delete player
+     ☐ Modal must be hide
+     ☐ Remove player in the table of players.
