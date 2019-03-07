@@ -233,13 +233,13 @@ PatternPanel.prototype = {
                 }
             );
 
-            $(".uk-switcher .con-palettes .pattern-color-button-container").html("");
-            $(".uk-switcher .con-palettes .pattern-color-button-container").html(render_pattern_colors);
+            $(".uk-switcher .pattern-color-button-container").html("");
+            $(".uk-switcher .pattern-color-button-container").html(render_pattern_colors);
 
             $("ul.layer-container").html("");
             $("ul.layer-container").html(render_pattern_layers);
 
-            $("ul.layer-container li").first().addClass('uk-active');
+            $("ul.layer-container li").first().trigger('click');
 
             UIkit.modal("#modal-edit-palette-pattern").show();
         });
