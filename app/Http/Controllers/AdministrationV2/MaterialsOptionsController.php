@@ -2,29 +2,41 @@
 
 namespace App\Http\Controllers\AdministrationV2;
 
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
-use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
+use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\FontsAPIClient;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient as APIClient;
+use App\APIClients\MaterialsOptionsAPIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Utilities\FileUploader;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\Request;
+use \Redirect;
 
 class MaterialsOptionsController extends Controller
 {
     protected $client;
     protected $materialClient;
+    protected $materialOptionClient;
+    protected $applicationsClient;
+    protected $fontClient;
 
     public function __construct(
-        APIClient $apiClient,
-        MaterialsAPIClient $materialClient
+        APIClient $apiClient, 
+        MaterialsAPIClient $materialClient, 
+        MaterialsOptionsAPIClient $materialOptionClient,
+        ApplicationsAPIClient $applicationsClient,
+        FontsAPIClient $fontClient
     )
     {
         $this->client = $apiClient;
         $this->materialClient = $materialClient;
+        $this->materialOptionClient = $materialOptionClient;
+        $this->applicationsClient = $applicationsClient;
+        $this->fontClient = $fontClient;
     }
 
     public function updateMaterialOptions(Request $request)
@@ -413,5 +425,36 @@ class MaterialsOptionsController extends Controller
             Log::info('Failed');
             return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
         }
+    }
+
+    public function getMaterialApplication($id)
+    {
+        $materialOption = $this->materialOptionClient->getMaterialOption($id);
+        $options = $this->materialOptionClient->getByMaterialId($materialOption->material_id);
+        $material = $this->materialClient->getMaterial($materialOption->material_id);
+
+        foreach ($options as $option) {
+            if ($materialOption->perspective == $option->perspective) {
+                if ($option->name == 'Guide') {
+                    $guide = $option->material_option_path;
+                }
+
+                if ($option->setting_type == 'highlights') {
+                    $highlightPath = $option->material_option_path;
+                }
+            } 
+        }
+
+        $applications = $this->applicationsClient->getApplications();
+        $fonts = $this->fontClient->getFonts();
+        
+        return view('administration-lte-2.master-pages.materials.material-application', compact(
+            'materialOption',
+            'material',
+            'guide',
+            'highlightPath',
+            'applications',
+            'fonts'
+        ));
     }
 }
