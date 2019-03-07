@@ -247,7 +247,7 @@ ApplicationPanel.events = {
         $(".container-add-view-application").hide();
         var type = $(this).data("application-type");
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', type);
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', type);
         $(".modifier_main_container .add-application-block").html("");
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
@@ -271,13 +271,13 @@ ApplicationPanel.events = {
         var view = $(this).data('id');
 
         // If FRONT perspective is clicked
-        if($(this).data('id') === "front") {
+        if ($(this).data('id') === "front") {
             // Remove class from the currently active PART then change it to FRONT BODY
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
             $(".parts-container").find('button[data-id="Front Body"].part').addClass('uk-active')
             ApplicationPanel.events.showSideOptions(false, '')
 
-        } else if($(this).data('id') === "back") {
+        } else if ($(this).data('id') === "back") {
             // If BACK perspective is clicked
             // Remove class from the currently active PART then change it to BACK BODY
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
@@ -298,7 +298,7 @@ ApplicationPanel.events = {
                 $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
             }
             // Show options for Sleeves, Side Panel, and Sleeve Insert
-            ApplicationPanel.events.showSideOptions(true, $(this).data('id'))
+            ApplicationPanel.events.showSideOptions(true, $(this).data('id'));
         }
 
         if (ub.active_view !== view) {
@@ -313,17 +313,14 @@ ApplicationPanel.events = {
         $(".parts-container").find("button.uk-active").removeClass('uk-active');
         $(this).addClass('uk-active');
 
-        if($(this).data('id') === "Front Body") {
+        if ($(this).data('id') === "Front Body") {
             // Change the active perspective to FRONT
-            $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
-            $(".perspective-container").find('button[data-id="front"].perspective').addClass('uk-active')
+            $(".perspective-container").find('button[data-id="front"].perspective').trigger('click');
             ApplicationPanel.events.showSideOptions(false, '')
 
-        } else if($(this).data('id') === "Back Body") {
-        // If BACK BODY part is clicked,
+        } else if ($(this).data('id') === "Back Body") {
             // Change the active perspective to BACk
-            $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
-            $(".perspective-container").find('button[data-id="back"].perspective').addClass('uk-active')
+            $(".perspective-container").find('button[data-id="back"].perspective').trigger('click');
             ApplicationPanel.events.showSideOptions(false, '')
         } else {
             // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
@@ -332,11 +329,8 @@ ApplicationPanel.events = {
             // And active perspective if FRONT OR BACK,
             if (perspectives.includes(activePerspective.data('id'))) {
                 // Change the active perspective to LEFT
-                activePerspective.removeClass('uk-active')
-                $(".perspective-container").find('button[data-id="left"].perspective').addClass('uk-active')
+                $(".perspective-container").find('button[data-id="left"].perspective').trigger('click');
             }
-            // Show options
-            ApplicationPanel.events.showSideOptions(true, activePerspective.data('id'))
         }
     },
 
@@ -345,8 +339,7 @@ ApplicationPanel.events = {
         $(this).addClass('uk-active')
 
         // Change active perspective along with the side that is clicked
-        $(".perspective-container").find('button.perspective.uk-active').removeClass('uk-active');
-        $(".perspective-container").find('button[data-id="' + $(this).data('id') + '"].perspective').addClass('uk-active');
+        $(".perspective-container").find('button[data-id="' + $(this).data('id') + '"].perspective').trigger('click');
     },
 
     onAddNewApplication: function() {
@@ -516,6 +509,10 @@ ApplicationPanel.events = {
 
         _.delay(function() {
             $('li.applicationUIBlockNew[data-application-id="'+ application_id +'"] .hide-letters-opt').trigger('click');
+
+            if (application_type === "embellishments" || application_type === "mascot") {
+                $('li.applicationUIBlockNew[data-application-id="'+ application_id +'"] .hide-show-button-container .hide-application').trigger('click');
+            }
         }, 50);
 
         $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
@@ -1059,7 +1056,7 @@ $(function() {
         var _htmlBuilder = '';
         if (! ub.funcs.isTackleTwill()) {
             var types = [];
-            var showTypes = '';
+            var isShow;
             if(_designType === 'letters') { 
                 types.push({
                     type: 'team_name',
@@ -1070,13 +1067,14 @@ $(function() {
                     type: 'player_name',
                     name: 'Player Name',
                 });
+                isShow = true;
             } else if (_designType === 'numbers') {
                 types.push({
                     type: 'player_number',
                     name: 'Player Number',
                 });
 
-                showTypes = 'hide';
+                isShow = false;
             } else if (_designType === 'mascots') {
                 types.push({
                     type: 'mascot',
@@ -1086,6 +1084,7 @@ $(function() {
                     type: 'embellishments',
                     name: 'Custom Mascot',
                 });
+                isShow = true;
             }
 
             templateData = {
@@ -1097,7 +1096,7 @@ $(function() {
                 part: true,
                 side: true,
                 partsData: ub.funcs.getFreeFormLayers(),
-                showTypes: showTypes,
+                isShow: isShow,
                 type: _designType
             }
 

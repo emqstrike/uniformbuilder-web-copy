@@ -13,37 +13,38 @@ ApplicationMascotPanel.events = {
     init: function() {
         var _this = this;
         if (ApplicationMascotPanel.events.is_init === 0) {
-            $('#primary_options_container').on('click', '.flipBtn', _this.onFlipMascot);
-            $('#primary_options_container').on('click', '.view-sliders', _this.onShowMascot);
-            $('#primary_options_container').on('click', '.hide-sliders', _this.onHideMascot);
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .flip-mascot', _this.onFlipMascot);
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .view-application', _this.onShowMascot);
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .hide-application', _this.onHideMascot);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
             ApplicationMascotPanel.events.is_init = 1;
         }
     },
 
     onFlipMascot: function() {
-        var dataId = $(this).attr('data-id');
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+        var code = $(this).data("application-code").toString();
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: code});
         ub.funcs.flipMascot(_settingsObject);
 
         $(this).toggleClass('uk-active');
     },
 
     onShowMascot: function() {
-        $(this).addClass('active');
-        $(this).next().removeClass('active');
-        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
-        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').removeClass('disabled-image');
-        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        $(this).addClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find(".hide-application").removeClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').show();
+        // Disable image
+        $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         ub.funcs.manipulateApplicationByStatus("on", application_id);
     },
 
     onHideMascot: function() {
-        $(this).addClass('active');
-        $(this).prev().removeClass('active');
-        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
-        $(this).closest('.applicationUIBlock').find('.thumb-container .thumbnail').addClass('disabled-image');
-        var application_id = $(this).closest(".applicationUIBlock").data('application-id');
+        $(this).addClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find(".view-application").removeClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').hide();
+        $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         ub.funcs.manipulateApplicationByStatus("off", application_id);
         ub.funcs.deactivateMoveTool();
     },
@@ -180,10 +181,6 @@ $(function() {
             applications: _appData
         };
 
-        // add the "Add Application" button
-        // var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
-        // $('.modifier_main_container').append(_htmlBuilder);
-
         _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-mascot-uikit', props);
 
         // output to page
@@ -192,15 +189,15 @@ $(function() {
         _.map(_appData, function(application) {
             if (application.application_type !== "free") {
                 if (application.status) {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').fadeIn();
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').removeClass('disabled-image');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').show();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
                 } else {
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .hide-sliders').addClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"] div.toggleApplications .view-sliders').removeClass('active');
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.slidersContainer, .colorSelectionContainer').hide();
-                    $('.applicationUIBlock[data-application-id="'+ application.code +'"]').find('.thumb-container .thumbnail').addClass('disabled-image');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').hide();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
                 }
             }
         });
