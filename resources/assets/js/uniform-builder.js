@@ -7263,7 +7263,7 @@ $(document).ready(function () {
             });
 
            ub.funcs.prepFilters();
-           console.log("data", data)
+           
         }
 
         if (type === 'uniforms') {
