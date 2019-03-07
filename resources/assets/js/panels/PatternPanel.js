@@ -239,7 +239,10 @@ PatternPanel.prototype = {
             $("ul.layer-container").html("");
             $("ul.layer-container").html(render_pattern_layers);
 
-            $("ul.layer-container li").first().trigger('click');
+            $("ul.layer-container li").first().addClass("uk-active");
+
+            $("ul.pattern-color-main-container li.uk-active").removeClass('uk-active');
+            $("ul.pattern-color-main-container li").first().addClass('uk-active');
 
             UIkit.modal("#modal-edit-palette-pattern").show();
         });
@@ -258,8 +261,8 @@ PatternPanel.prototype = {
             var materialOption = _this.getCurrentMaterialOptions();
 
             // Get Color Object
-            var _colorID = $(this).data('color-id');
-            var _colorOBJ = _.find(_colorSet, {id: _colorID.toString()});
+            var _colorID = $(this).data('color-label');
+            var _colorOBJ = ub.funcs.getColorByColorCode(_colorID);
 
             // Layer
             var layerID = active_pattern_color_category;
