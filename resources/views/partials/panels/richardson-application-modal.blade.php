@@ -240,3 +240,188 @@
         </div>
     </div>
 </div>
+
+<div class="bootbox modal fade in" id="pattern-change-color" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content cp-padding-large">
+            <div class="modal-header cp-bgc-light cp-text-center">
+                <div>
+                    <h4 class="modal-title cp-text-uppercase cp-text-bold" id="myModalLabel">Pattern Color</h4>
+                </div>
+            </div>
+            <div class="modal-body cp-padding-remove-horizontal">
+                <div class="row">
+                    <div class="col-md-3 cp-padding-remove-right">
+                        {{-- <div id="patternPreviewUI" style="width: 100% !important">
+                            <canvas id="patternPreview" class="patternPreview"></canvas>
+                        </div> --}}
+                        <div>
+                            <p class="cp-text-center cp-width-1-1 cp-text-uppercase cp-text-small cp-text-bold cp-margin-small modal-pattern-name"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-9 cp-padding-left-p35">
+                        <ul class="nav nav-tabs pattern-color-categories cp-border-none" role="tablist">
+                            <li role="presentation" class="active cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-1"
+                                            aria-controls="pattern-category-1"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-button-active cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-1"
+                                    >
+                                        1
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-2"
+                                            aria-controls="pattern-category-2"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-2"
+                                    >
+                                        2
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-3"
+                                            aria-controls="pattern-category-3"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-3"
+                                    >
+                                        3
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li role="presentation" class="cp-float-none">
+                                <div class="col-md-3 cp-padding-remove pattern-color-item cp-border">
+                                    <a href="#pattern-color-category-4"
+                                            aria-controls="pattern-category-4"
+                                            role="tab" data-toggle="tab"
+                                            class="cp-width-1-1 pattern-color-selector cp-tab-button pattern-category-4"
+                                    >
+                                        4
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="col-md-12">
+                            <div id="pattern-color-tab-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="pattern-color-category-1" data-pattern-category="1">
+                                        <div class="pattern-color-main-container-1">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-2" data-pattern-category="2">
+                                        <div class="pattern-color-main-container-2">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-3" data-pattern-category="3">
+                                        <div class="pattern-color-main-container-3">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="pattern-color-category-4" data-pattern-category="4">
+                                        <div class="pattern-color-main-container-4">
+                                            <div class="row pattern-color-button-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 cp-padding-remove-horizontal">
+                            <div class="row cp-margin-top-xs">
+                                <div class="col-md-6">
+                                    <button type="button" class="col-md-6 piping-button cp-width-1-1 cp-text-uppercase apply-pattern-color">Done</button>
+                                </div>
+
+                                <div class="col-md-6 pattern-footer-button">
+                                    <button type="button" class="piping-button cancel-application cp-width-1-1 cp-text-uppercase close-pattern-color-modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-edit-palette-pattern" class="uk-flex-top" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Pattern Color</h6>
+        <div class="uk-grid-medium uk-flex-center" uk-grid>
+            <div class="uk-width-auto uk-width-1-3@m">
+                <div>
+                    <div id="patternPreviewUI" style="width: 100% !important">
+                        <canvas id="patternPreview" class="patternPreview"></canvas>
+                    </div>
+                </div>
+                <h6 class="uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase modal-pattern-name"></h6>
+            </div>
+            <div class="uk-width-1-1 uk-width-2-3@m uk-text-center">
+                <div>
+                    <ul class="uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark layer-container" uk-switcher uk-grid>
+                        
+                    </ul>
+                    <ul class="uk-switcher uk-margin uk-padding-remove pattern-color-main-container">
+                        <li class="pattern-color-main-container-1">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color pattern-color-button-container" uk-grid>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="pattern-color-main-container-2">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color pattern-color-button-container" uk-grid>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="pattern-color-main-container-3">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color pattern-color-button-container" uk-grid>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="pattern-color-main-container-4">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color pattern-color-button-container" uk-grid>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="pattern-color-main-container-5">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color pattern-color-button-container" uk-grid>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uk-grid-small uk-grid-match uk-text-center" uk-grid>
+                    <div class="uk-width-1-2 uk-width-1-2@s">
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 apply-pattern-color" type="button">Done</button>
+                    </div>
+                    <div class="uk-width-1-2 uk-width-1-2@s">
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 uk-modal-close" type="button">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

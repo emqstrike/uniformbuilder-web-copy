@@ -249,7 +249,7 @@ PropertiesPanel.prototype = {
 
                 if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
                 {
-                    if ($("#primary_options_container #parts-with-insert-container").length === 0) {
+                    if ($("#primary_options_container .inserts-container").length === 0) {
                         $('#property-modifiers-menu .menu-item-inserts').trigger('click');
                     }
                 }

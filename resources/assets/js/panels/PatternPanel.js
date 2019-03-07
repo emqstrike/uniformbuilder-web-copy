@@ -216,7 +216,7 @@ PatternPanel.prototype = {
             var color_palette = ColorPalette.funcs.getConfigurationPerTab("pattern");
 
             // Render Mustache
-            var pattern_colors_element = document.getElementById("m-tab-patterns-colors");
+            var pattern_colors_element = document.getElementById("m-tab-patterns-colors-uikit");
             var render_pattern_colors = Mustache.render(
                 pattern_colors_element.innerHTML,
                 {
@@ -225,40 +225,23 @@ PatternPanel.prototype = {
                 }
             );
 
+            var pattern_layers_element = document.getElementById("m-tab-patterns-layers");
+            var render_pattern_layers = Mustache.render(
+                pattern_layers_element.innerHTML,
+                {
+                    layers: _patternObj.layers,
+                }
+            );
+
             // Render Pattern Color
-            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html("");
-            $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html(render_pattern_colors);
+            // $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html("");
+            // $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html(render_pattern_colors);
 
-            if ($(".pattern-color-categories li.active")) {
-                $(".pattern-color-categories li").removeClass('active');
-                $(".pattern-color-categories li a.pattern-color-selector").removeClass('cp-button-active');
-                $("#pattern-color-tab-content .tab-content .tab-pane").removeClass('active');
-                $("#pattern-color-tab-content .tab-content div:first-child").addClass("active");
-                $(".pattern-color-categories li").first().addClass('active');
-                $(".pattern-color-categories li").first().find(".pattern-color-selector").addClass('cp-button-active');
-            }
+            $(".uk-switcher .con-palettes .pattern-color-button-container").html("");
+            $(".uk-switcher .con-palettes .pattern-color-button-container").html(render_pattern_colors);
 
-            // Return Normal Width
-            $(".pattern-color-categories .pattern-category-1").parent().css({
-                "width": '',
-                "display": 'block'
-            });
-            $(".pattern-color-categories .pattern-category-2").parent().css({
-                "width": '',
-                "display": 'block'
-            });
-            $(".pattern-color-categories .pattern-category-3").parent().css({
-                "width": '',
-                "display": 'block'
-            });
-            $(".pattern-color-categories .pattern-category-4").parent().css({
-                "width": '',
-                "display": 'block'
-            });
-            $(".pattern-color-categories .pattern-category-1").css('display', 'block');
-            $(".pattern-color-categories .pattern-category-2").css('display', 'block');
-            $(".pattern-color-categories .pattern-category-3").css('display', 'block');
-            $(".pattern-color-categories .pattern-category-4").css('display', 'block');
+            $("ul.layer-container").html("");
+            $("ul.layer-container").html(render_pattern_layers);
 
             switch (_layerCount) {
                 case 1:
@@ -281,7 +264,8 @@ PatternPanel.prototype = {
                     break;
             }
 
-            $('#pattern-change-color').modal('show');
+            // $('#pattern-change-color').modal('show');
+            UIkit.modal("#modal-edit-palette-pattern").show();
         });
     },
 
@@ -301,18 +285,17 @@ PatternPanel.prototype = {
 
     onSelectColorPerCategory: function() {
         var _this = this;
-        $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
-            window.pattern_color_object = [];
+        $("#modal-edit-palette-pattern").on('click', '.pattern-color-button-container .pattern-color-selector-button', function(event) {
             /* Act on the event */
-            var active_pattern_color_category = $("#pattern-color-tab-content .tab-content").find('.tab-pane.active').data("pattern-category");
+            var active_pattern_color_category = $("#modal-edit-palette-pattern ul.layer-container").find('li.uk-active').data("layer-id");
             var category_modifier = $(this).data('modifier-category');
-
-            var selected_color = $(".pattern-color-main-container-" + active_pattern_color_category).find('.active-pattern-color');
+            var selected_color = $(".pattern-color-main-container li.uk-active").find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');
             selected_color.html("");
-
             // Get Material Option
             var materialOption = _this.getCurrentMaterialOptions();
+
+            console.log("TImes")
 
             // Get Color Object
             var _colorID = $(this).data('color-id');
@@ -499,31 +482,30 @@ PatternPanel.prototype = {
 
     onApplyChanges: function() {
         var _this = this;
-        $("#pattern-change-color").on('click', '.apply-pattern-color', function(event) {
+        $("#modal-edit-palette-pattern").on('click', '.apply-pattern-color', function(event) {
             event.preventDefault();
             /* Act on the event */
             var modifierObject = _.find(ub.data.modifierLabels, {index: ub.current_part});
+            console.log("modifier object", modifierObject)
             _this.applyChangesInMainCanvas(modifierObject.fullname);
-            // _this.destroyPatternColor();
         });
     },
 
     applyChangesInMainCanvas: function(index) {
         // Get modifier Label
         var patternColors = this.getPatternColors(index)
-
         // Set Material Option
         if (patternColors.length > 0) {
             _.map(patternColors, function(index) {
                 ub.funcs.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj)
             });
-            $('#pattern-change-color').modal('hide');
         }
+        UIkit.modal("#modal-edit-palette-pattern").hide();
     },
 
     onClosePatternModal: function() {
         var _this = this;
-        $("#pattern-change-color").on('click', '.close-pattern-color-modal', function(event) {
+        $("#modal-edit-palette-pattern").on('click', '.close-pattern-color-modal', function(event) {
             event.preventDefault();
             /* Act on the event */
             $('#pattern-change-color').modal('hide');
@@ -655,8 +637,7 @@ PatternPanel.prototype = {
 
     loadSelectedColor: function(index, colorID, colorLabel) {
         _.delay(function() {
-
-            var color = $("#pattern-color-category-" + index + " button.pattern-color-selector-button[data-color-id='" + colorID + "']");
+            var color = $("li.pattern-color-main-container-"+ index + " .pattern-color-button-container .pattern-color-selector-button[data-color-id='"+ colorID +"']");
             color.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white cp-check-color-font-size"></span>');
             color.addClass('active-pattern-color');
             if (colorLabel === 'W'

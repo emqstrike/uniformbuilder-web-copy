@@ -70,8 +70,33 @@
             data-color-label="@{{ color_code }}"
             data-color-id="@{{ id }}"
             data-modifier-category=@{{ modifier_category }}
+            uk-tooltip="title: @{{ name }}; pos: left;"
         >
         </button>
     </div>
 @{{ /colors }}
+</script>
+
+<script type="text/mustache" id="m-tab-patterns-colors-uikit">
+    @{{#colors}}
+        <div class="pattern-color-button-container" uk-tooltip="title: @{{ name }}; pos: left;">
+            <button class="uk-inline box-palette btn-selection-choice palette-color pattern-color-selector-button palette"
+                style="background-color: #@{{ hex_code }};"
+                data-color-id="@{{ id }}"
+                data-color-name="@{{ name }}"
+                data-color-label="@{{ color_code }}"
+                data-color-id="@{{ id }}"
+                data-modifier-category="@{{ fullname }}"
+            >
+            </button>
+        </div>
+    @{{ /colors}}
+</script>
+
+<script type="text/mustache" id="m-tab-patterns-layers">
+    @{{ #layers }}
+        <li class="uk-padding-remove" data-layer-id="@{{ layer_no }}">
+            <a class="uk-width-1-1 padding-tiny-vertical uk-button-default fc-dark">@{{ layer_no }}</a>
+        </li>
+    @{{ /layers }}
 </script>
