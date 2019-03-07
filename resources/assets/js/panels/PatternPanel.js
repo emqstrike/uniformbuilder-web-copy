@@ -233,59 +233,21 @@ PatternPanel.prototype = {
                 }
             );
 
-            // Render Pattern Color
-            // $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html("");
-            // $("#pattern-color-tab-content .tab-content .tab-pane .pattern-color-button-container").html(render_pattern_colors);
-
             $(".uk-switcher .con-palettes .pattern-color-button-container").html("");
             $(".uk-switcher .con-palettes .pattern-color-button-container").html(render_pattern_colors);
 
             $("ul.layer-container").html("");
             $("ul.layer-container").html(render_pattern_layers);
 
-            switch (_layerCount) {
-                case 1:
-                    $(".pattern-color-categories .pattern-category-2").parent().css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '100%');
-                    break;
-                case 2:
-                    $(".pattern-color-categories .pattern-category-1").parent().css('width', '50%');
-                    $(".pattern-color-categories .pattern-category-2").parent().css('width', '50%');
-                    $(".pattern-color-categories .pattern-category-3").parent().css('display', 'none');
-                    $(".pattern-color-categories .pattern-category-4").parent().css('display', 'none');
-                    break;
-                case 3:
-                    $(".pattern-color-categories a.pattern-category-1").parent().css('width', '33.3%');
-                    $(".pattern-color-categories a.pattern-category-2").parent().css('width', '33.3%');
-                    $(".pattern-color-categories a.pattern-category-3").parent().css('width', '33.3%');
-                    $(".pattern-color-categories a.pattern-category-4").parent().css('display', 'none');
-                    break;
-            }
+            $("ul.layer-container li").first().addClass('uk-active');
 
-            // $('#pattern-change-color').modal('show');
             UIkit.modal("#modal-edit-palette-pattern").show();
-        });
-    },
-
-    onChangeColorPaternCategory: function() {
-        $(".pattern-color-categories .pattern-color-item").on('click', '.pattern-color-selector', function(event) {
-            event.preventDefault();
-            /* Act on the event */
-            var selected_category = $(".pattern-color-categories").find(".cp-button-active");
-            selected_category.removeClass('active-color-pattern-category');
-            selected_category.removeClass('cp-button-active');
-
-            $(this).addClass('active-color-pattern-category');
-            $(this).addClass('cp-button-active');
-
         });
     },
 
     onSelectColorPerCategory: function() {
         var _this = this;
-        $("#modal-edit-palette-pattern").on('click', '.pattern-color-button-container .pattern-color-selector-button', function(event) {
+        $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
             /* Act on the event */
             var active_pattern_color_category = $("#modal-edit-palette-pattern ul.layer-container").find('li.uk-active').data("layer-id");
             var category_modifier = $(this).data('modifier-category');
@@ -294,8 +256,6 @@ PatternPanel.prototype = {
             selected_color.html("");
             // Get Material Option
             var materialOption = _this.getCurrentMaterialOptions();
-
-            console.log("TImes")
 
             // Get Color Object
             var _colorID = $(this).data('color-id');
@@ -431,8 +391,7 @@ PatternPanel.prototype = {
         canvas.renderAll();
     },
 
-    activatePatterns: function()
-    {
+    activatePatterns: function() {
         var _modifier = ub.funcs.getModifierByIndex(ub.current_part);
 
         if (typeof _modifier === 'undefined')
@@ -482,11 +441,10 @@ PatternPanel.prototype = {
 
     onApplyChanges: function() {
         var _this = this;
-        $("#modal-edit-palette-pattern").on('click', '.apply-pattern-color', function(event) {
+        $(".footer-button").on('click', '.apply-pattern-color', function(event) {
             event.preventDefault();
             /* Act on the event */
             var modifierObject = _.find(ub.data.modifierLabels, {index: ub.current_part});
-            console.log("modifier object", modifierObject)
             _this.applyChangesInMainCanvas(modifierObject.fullname);
         });
     },
@@ -501,15 +459,6 @@ PatternPanel.prototype = {
             });
         }
         UIkit.modal("#modal-edit-palette-pattern").hide();
-    },
-
-    onClosePatternModal: function() {
-        var _this = this;
-        $("#modal-edit-palette-pattern").on('click', '.close-pattern-color-modal', function(event) {
-            event.preventDefault();
-            /* Act on the event */
-            $('#pattern-change-color').modal('hide');
-        });
     },
 
     createPatternUI: function(patternObject) {
