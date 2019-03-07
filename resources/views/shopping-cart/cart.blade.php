@@ -109,30 +109,32 @@
                     <h1 class="panel-title"><%= item.name %></h1>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="<%= item.images.left_image %>" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Left</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="<%= item.images.front_image %>" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Front</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="<%= item.images.back_image %>" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Back</b>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <img src="<%= item.images.right_image %>" class="img-responsive" alt="" width="100" />
-                            <p class="text-center">
-                                <b>Right</b>
-                            </p>
+                    <div class="image-container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="<%= item.images.left_image %>" class="img-responsive left-image" alt="" width="100" />
+                                <p class="text-center">
+                                    <b>Left</b>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="<%= item.images.front_image %>" class="img-responsive front-image" alt="" width="100" />
+                                <p class="text-center">
+                                    <b>Front</b>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="<%= item.images.back_image %>" class="img-responsive back-image" alt="" width="100" />
+                                <p class="text-center">
+                                    <b>Back</b>
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="<%= item.images.right_image %>" class="img-responsive right-image" alt="" width="100" />
+                                <p class="text-center">
+                                    <b>Right</b>
+                                </p>
+                            </div>
                         </div>
                     </div>
 

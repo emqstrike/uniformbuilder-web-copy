@@ -1,15 +1,8 @@
-// add player testing
-// Accessing client info page, billing info page, shipping info page, confirm order page, submit order must redirect to my cart if some cart item has no player.
-// Redirect to my cart if some cart item has no player and accessing
-//  - client info page
-//  - billing info page
-//  - shipping info page
-//  - confirm order page
-//  - submit order
-
-describe("End to end testing in customizer page", function() {
-    var base_url = Cypress.config().baseUrl;
-    var url = "/builder/0/404";
+describe('Shopping Cart End To End Testing', function () {
+    const MATERIAL_ID = 404;
+    const BASE_URL = Cypress.config().baseUrl;
+    const URL = "/builder/0/" + MATERIAL_ID;
+    const SHOPPING_CART_URL = "/shopping-cart";
 
     Cypress.Cookies.debug(true);
 
@@ -17,62 +10,156 @@ describe("End to end testing in customizer page", function() {
         Cypress.Cookies.preserveOnce("XSRF-TOKEN", "laravel_session");
     });
 
-    it("Open 404 material id", function() {
-        cy.visit(url);
-        cy.pause(); // to give time to load completely the page
+    describe('Checking default cart content', function () {
+        it("Open material id "+ MATERIAL_ID, function() {
+            cy.visit(URL);
+            cy.pause(); // to give time to load completely the page
+        });
+
+        it('Default cart item number must be 0', function() {
+            cy.get('#my-shopping-cart')
+                .find('.cart-item-number')
+                .should('have.contain', 0);
+        });
+
+        it('Default cart item list must be empty', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#dropdown-cart-item-list h4')
+                .should('have.contain', "Empty Cart");
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
+
+        it('See all in My cart link must not available', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#my-carts-link').should('not.visible');
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
     });
 
-    it('Default cart item number must be 0', function() {
-        cy.get('#my-shopping-cart')
-            .find('.cart-item-number')
-            .should('have.contain', 0);
+    describe('Adding current material to cart', function () {
+        it('Cart item number must be 1 after the process of add to cart', function() {
+            cy.get('#left-side-toolbar .cart-btn').click(); // click add to cart button
+            cy.pause(); // to give time to generate image of all perspective
+
+            cy.get('#my-shopping-cart')
+                .find('.cart-item-number')
+                .should('have.contain', 1);
+        });
+
+        it('Added material must be in cart item dropdown', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#dropdown-cart-item-list .shopping-cart-item').should('have.attr', "href", URL + "?customizer-uniform");
+            cy.get('#dropdown-cart-item-list .shopping-cart-item > div > div > img').should('be.visible');
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
+
+        it('See all in My cart link must be available', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#my-carts-link')
+                .should('have.attr', "href", BASE_URL + "/shopping-cart")
+                .and('have.contain', "See All in My Cart");
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
     });
 
-    it('Empty cart item must display "Empty Cart"', function () {
-        cy.get('#my-shopping-cart').click(); // open dropdown
-        cy.get('#dropdown-cart-item-list h4')
-            .should('have.contain', "Empty Cart");
-        cy.get('#my-shopping-cart').click(); // close dropdown
-    });
-    it('Empty cart item must not show the text "See All in My Cart"', function () {
-        cy.get('#my-shopping-cart').click(); // open dropdown
-        cy.get('#my-carts-link').should('not.visible');
-        cy.get('#my-shopping-cart').click(); // close dropdown
-    });
+    describe('Checking shopping cart page', function () {
+        // var img_front_temp;
 
-    it('Cart item number must be now 1', function() {
-        cy.get('#left-side-toolbar .cart-btn').click(); // click add to cart button
-        cy.pause(); // to give time to generate image of all perspective
+        it('Open shopping cart page', function () {
+            // img_front_temp = cy.document().querySelector('#dropdown-cart-item-list .shopping-cart-item > div > div > img').getAttribute('src');
+            // console.log("img FRONT: " + img_front_temp);
 
-        cy.get('#my-shopping-cart')
-            .find('.cart-item-number')
-            .should('have.contain', 1);
-    });
+            cy.visit(SHOPPING_CART_URL);
+            cy.pause(); // to give time to load completely the page
+        });
 
-    it('Text "Empty Cart" must not show when the cart is not empty', function () {
-        cy.get('#my-shopping-cart').click(); // open dropdown
-        cy.get('#dropdown-cart-item-list h4')
-            .contains("Empty Cart")
-            .should('not.exist');
-        cy.get('#my-shopping-cart').click(); // close dropdown
+        // it('Images must be correct', function () {
+        //     cy.get('#cart-items-el .cart-item[data-material-id="404"] .image-container .front-image')
+        //         .should('have.attr', "src", img_front_temp);
+        // });
+
+        it('Default players must be empty', function () {
+            cy.get('#cart-items-el .cart-item[data-material-id="404"] .player-list tbody tr td:first-child')
+                .should('have.contain', "No players added");
+        });
+
+        it('Number of cart must be 1', function () {
+            cy.get('#cart-item-number')
+                .should('have.contain', 1);
+        });
     });
 
-    it('Item added must be display in dropdown', function () {
-        cy.get('#my-shopping-cart').click(); // open dropdown
-        cy.get('#dropdown-cart-item-list .shopping-cart-item').should('have.attr', "href", url + "?customizer-uniform");
-        cy.get('#dropdown-cart-item-list .shopping-cart-item > div > div > img').should('be.visible');
-        cy.get('#my-shopping-cart').click(); // close dropdown
+    describe('Updating item to cart', function () {
+        it("Open material id "+ MATERIAL_ID + " again", function() {
+            cy.visit(URL);
+            cy.pause(); // to give time to load completely the page
+        });
+
+        it('Cart item number must still 1 after the updating item process.', function () {
+            // change colors of front and back
+            cy.get('#property-modifiers-menu a[data-item="parts"]').click();
+
+            // change colors of front
+            cy.get('.parts-container .color-main-container-front_body .color_element button[data-color-name="Cardinal"]').click();
+
+            // change colors of back
+            cy.get('#right-main-window .change-view[data-view="back"]').click()
+            cy.get('.parts-container .color-main-container-back_body .color_element button[data-color-name="Cardinal"]').click();
+
+            cy.get('#right-main-window .change-view[data-view="front"]').click()
+
+            cy.get('#left-side-toolbar .cart-btn').click(); // click update item button
+
+            cy.pause(); // to give time to generate image of all perspective
+
+            cy.get('#my-shopping-cart')
+                .find('.cart-item-number')
+                .should('have.contain', 1);
+        });
+
+        it('Updated material must still in dropdown', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#dropdown-cart-item-list .shopping-cart-item').should('have.attr', "href", URL + "?customizer-uniform");
+            cy.get('#dropdown-cart-item-list .shopping-cart-item > div > div > img').should('be.visible');
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
+
+        it('See all in My cart link must still available', function () {
+            cy.get('#my-shopping-cart').click(); // open dropdown
+            cy.get('#my-carts-link')
+                .should('have.attr', "href", BASE_URL + "/shopping-cart")
+                .and('have.contain', "See All in My Cart");
+            cy.get('#my-shopping-cart').click(); // close dropdown
+        });
+
+        // it('Image of item in dropdown must change.', function () {
+        //     //
+        // });
     });
 
-    it('Text "See All in My Cart" must show when the cart has item', function () {
-        cy.get('#my-shopping-cart').click(); // open dropdown
-        cy.get('#my-carts-link')
-            .should('have.attr', "href", base_url + "/shopping-cart")
-            .and('have.contain', "See All in My Cart");
-        cy.get('#my-shopping-cart').click(); // close dropdown
+    describe('Checking shopping cart page again', function () {
+        // var img_front_temp;
+
+        it('Open shopping cart page', function () {
+            cy.visit(SHOPPING_CART_URL);
+            cy.pause(); // to give time to load completely the page
+        });
+
+        // it('Images must be correct', function () {
+        //     //
+        // });
+
+        it('Default players must still empty', function () {
+            cy.get('#cart-items-el .cart-item[data-material-id="404"] .player-list tbody tr td:first-child')
+                .should('have.contain', "No players added");
+        });
+
+        it('Number of cart must still 1', function () {
+            cy.get('#cart-item-number')
+                .should('have.contain', 1);
+        });
     });
 });
-
 
 // describe("Add player testing", function() {
 //     it("Clicking Add Player button must show Add Player Modal.", function() {

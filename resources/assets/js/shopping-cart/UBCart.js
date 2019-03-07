@@ -1,3 +1,9 @@
+/**
+ * Required global object
+ * - shopping_cart
+ *     - logged_in_token
+ *     - cart_token
+ */
 var UBCart = {
     cartItemApi: null,
 

@@ -1,32 +1,38 @@
 Shopping Cart Testing Scenarios:
- - Open customizer with any material id
-   ☐ Test if cart token is set
-   ☐ Default cart item number must be 0
-   ☐ Default cart item list must be empty
-   ☐ See all in My cart link must not available
- - Add opened material to cart
-   ☐ Cart item number must be 1
-   ☐ Added material must be in cart item dropdown
-   ☐ See all in My cart link must be available
-   - Click See all in My Cart to open Shopping Cart page
-     ☐ Check if the current url is correct
-     ☐ Cart token must be set
-     ☐ Images must be correct
-     ☐ Default players must be empty
-     - Close the shopping cart page
- - Update opened material
+  - Checking default cart content
+    ✔ Open material id [material id] @done (19-03-07 09:43)
+    ✔ Default cart item number must be 0 @done (19-03-07 08:43)
+    ✔ Default cart item list must be empty @done (19-03-07 08:43)
+    ✔ See all in My cart link must not available @done (19-03-07 08:43)
+
+ - Adding current material to cart
+   ✔ Cart item number must be 1 after the process of add to cart @done (19-03-07 08:43)
+   ✔ Added material must be in cart item dropdown @done (19-03-07 13:19)
+   ✔ See all in My cart link must be available @done (19-03-07 13:19)
+
+ - Checking shopping cart page
+   ✔ Open shopping cart page @done (19-03-07 13:19)
+   ☐ Images must be correct
+   ✔ Default players must be empty @done (19-03-07 13:19)
+   ✔ Number of cart must be 1 @done (19-03-07 13:19)
+
+ - Updating item to cart
+   ☐ Open material id [material id] again
+   ☐ Cart item number must still 1 after the updating item process.
+   ☐ Updated material must still in dropdown
+   ☐ See all in My cart link must still available
    ☐ Image of item in dropdown must change.
-   - Click See all in My Cart to open Shopping Cart page
-     ☐ Check if the current url is correct
-     ☐ Cart token must be set
-     ☐ Images must be correct
-     ☐ Default players must still empty
-     - Close the shopping cart page
+
+ - Checking shopping cart page again
+   ☐ Open shopping cart page
+   ☐ Images must be correct
+   ☐ Default players must still empty
+   ☐ Number of cart must still 1
+
+// stop here muna
 
  - Click See all in My Cart to open Shopping Cart page
    ☐ Check if the current url is correct
-   ☐ Cart token must be set
-
    - Click View All Players
      ☐ All players modal must be show
      ☐ Players in the modal must be empty
