@@ -1622,7 +1622,6 @@ $(function() {
 
     // Currently for Letters and Mascots only
     ub.funcs.activateApplicationsAll = function (application_id) {
-    
         var _id = application_id.toString();
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType = _settingsObject.application_type;
@@ -1884,12 +1883,15 @@ $(function() {
 
             _htmlBuilder = ub.utilities.buildTemplateString('#m-reinit-application-numbers', templateData);
         }
-        var appBlock = $('.modifier_main_container').find('div[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
+
+        var appBlock = $('.modifier_main_container').find('li[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew');
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container ul.application-container').append(_htmlBuilder);
+            console.log("appblock 0")
         } else {
             // Existing application
+            console.log("appblock !0")
             appBlock.replaceWith(_htmlBuilder);
         }
 
@@ -1962,13 +1964,13 @@ $(function() {
 
             // if letters tab (5) is currently displayed
             if (activeTab === "letters") {
-            if (_.contains(_validApplicationTypes, 'team_name')) {
-                _types.push({
-                    name: 'team_name',
-                    defaultText: 'Team Name'
-                })
-            }
-            if (_.contains(_validApplicationTypes, 'player_name')) {
+                if (_.contains(_validApplicationTypes, 'team_name')) {
+                    _types.push({
+                        name: 'team_name',
+                        defaultText: 'Team Name'
+                    })
+                }
+                if (_.contains(_validApplicationTypes, 'player_name')) {
                     _types.push({
                         name: 'player_name',
                         defaultText: 'Player Name'
@@ -1983,15 +1985,12 @@ $(function() {
                         defaultText: 'Stock Mascot'
                     })
                 }
-
-                // if (ub.config.uniform_application_type !== "sublimated") {
-                    if (_.contains(_validApplicationTypes, 'embellishments')) {
-                        _types.push({
-                            name: 'embellishments',
-                            defaultText: 'Custom Mascot'
-                        })
-                    }
-                // }
+                if (_.contains(_validApplicationTypes, 'embellishments')) {
+                    _types.push({
+                        name: 'embellishments',
+                        defaultText: 'Custom Mascot'
+                    })
+                }
             }
 
             var objStock = {
@@ -2013,7 +2012,7 @@ $(function() {
         _htmlBuilder = ub.utilities.buildTemplateString('#free-applications-container', templateData);
 
         // output to page
-        $('.modifier_main_container').append(_htmlBuilder);
+        $('.modifier_main_container ul.application-container').append(_htmlBuilder);
     }
 
     ub.funcs.manipulateApplicationByStatus = function (status, application_id) {

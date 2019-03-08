@@ -69,17 +69,16 @@
 <script type="text/mustache" id="free-applications-container">
     @{{#applications}}
         @{{#isVisible}}
-        <div class="applicationUIBlock cp-padding-medium cp-margin-remove" data-application-id="@{{ code }}">
-            <h4 class="abrade-ultra-italic">@{{ type }} (@{{ perspective }} view) #@{{ code }}</h4>
-
-            <div class="row">
-                @{{#appTypes}}
-                    <div class="col-md-6">
-                        <button type="button" class="app-btn w-30 change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
-                    </div>
-                @{{/appTypes}}
-            </div>
-        </div>
+            <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
+                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{ perspective }} view) #@{{ code }}</h5>
+                <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark toggleApplicationContainer" uk-grid>
+                    @{{ #appTypes }}
+                        <div class="uk-width-1-2">
+                            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice change-free-app" data-type="@{{ name }}">@{{ defaultText }}</button>
+                        </div>
+                    @{{ /appTypes }}
+                </div>
+            </li>
         @{{/isVisible}}
     @{{/applications}}
 </script>
