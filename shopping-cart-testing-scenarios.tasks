@@ -17,27 +17,51 @@ Shopping Cart Testing Scenarios:
    ✔ Number of cart must be 1 @done (19-03-07 13:19)
 
  - Updating item to cart
-   ☐ Open material id [material id] again
-   ☐ Cart item number must still 1 after the updating item process.
-   ☐ Updated material must still in dropdown
-   ☐ See all in My cart link must still available
-   ☐ Image of item in dropdown must change.
+   ✔ Open material id [material id] again @done (19-03-07 14:36)
+   ✔ Cart item number must still 1 after the updating item process. @done (19-03-07 14:36)
+   ✔ Updated material must still in dropdown @done (19-03-07 14:36)
+   ✔ See all in My cart link must still available @done (19-03-07 14:36)
+   ✔ Image of item in dropdown must change. @done (19-03-07 14:36)
 
  - Checking shopping cart page again
-   ☐ Open shopping cart page
+   ✔ Open shopping cart page @done (19-03-07 14:36)
    ☐ Images must be correct
-   ☐ Default players must still empty
-   ☐ Number of cart must still 1
+   ✔ Default players must still empty @done (19-03-07 14:36)
+   ✔ Number of cart must still 1 @done (19-03-07 14:36)
+
+  - Cart item players testing
+   ✔ Default players in the modal must be empty @done (19-03-08 14:50)
+
+   - Input value in last name field testing
+     ✔ Empty input for last name field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+     ✔ Input value less than 2 characters for last_name field must show error indicate the minimum characters is 2. @done (19-03-08 14:50)
+     ✔ Input value greater than 50 characters for last_name field must show error indicate the maximum characters is 50. @done (19-03-08 14:50)
+     ✔ Input numeric value for last_name field must show error indicate the numeric is invalid. @done (19-03-08 14:50)
+     ✔ Input special characters value for last_name field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+     ✔ Valid input for last name field must remove error message. @done (19-03-08 14:50)
+
+   - Input value in number field testing
+     ✔ Empty input for number field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+     ✔ Input string value for number field must show error indicate the string is invalid. @done (19-03-08 14:50)
+     ✔ Input special characters value for number field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+     ✔ Input value less than 0 characters for number field must show error indicate the minimum characters is 0. @done (19-03-08 14:50)
+     ✔ Input value greater than 99 characters for number field must show error indicate the maximum characters is 99. @done (19-03-08 14:50)
+     ✔ Input value that digit is greater than 2 characters for number field must show error indicate the digit must only 1 or 2. @done (19-03-08 14:50)
+     ✔ Valid input for number field must remove error message. @done (19-03-08 14:50)
+
+   - Input value in quantity field testing
+     ✔ Empty input for quantity field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+     ✔ Input string value for quantity field must show error indicate the string is invalid. @done (19-03-08 14:50)
+     ✔ Input special characters value for quantity field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+     ✔ Input value less than 1 characters for quantity field must show error indicate the minimum characters is 1. @done (19-03-08 14:50)
+     ✔ Input value greater than 100 characters for quantity field must show error indicate the maximum characters is 100. @done (19-03-08 14:50)
+     ✔ Valid input for quantity field must remove error message. @done (19-03-08 14:50)
+
+   - All fields are valid testing
+     ✔ Valid inputs must show message indicate player is added in current cart item. @done (19-03-08 14:50)
+
 
 // stop here muna
-
- - Click See all in My Cart to open Shopping Cart page
-   ☐ Check if the current url is correct
-   - Click View All Players
-     ☐ All players modal must be show
-     ☐ Players in the modal must be empty
-     ☐ Click x button must be hide the modal
-
    - Click add player button
      ☐ Add player modal must be show
      ☐ Click Cancel must be hide the modal

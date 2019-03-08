@@ -17,9 +17,7 @@ describe('Shopping Cart End To End Testing', function () {
         });
 
         it('Default cart item number must be 0', function() {
-            cy.get('#my-shopping-cart')
-                .find('.cart-item-number')
-                .should('have.contain', 0);
+            cy.get('#my-shopping-cart').find('.cart-item-number').should('have.contain', 0);
         });
 
         it('Default cart item list must be empty', function () {
@@ -41,9 +39,7 @@ describe('Shopping Cart End To End Testing', function () {
             cy.get('#left-side-toolbar .cart-btn').click(); // click add to cart button
             cy.pause(); // to give time to generate image of all perspective
 
-            cy.get('#my-shopping-cart')
-                .find('.cart-item-number')
-                .should('have.contain', 1);
+            cy.get('#my-shopping-cart').find('.cart-item-number').should('have.contain', 1);
         });
 
         it('Added material must be in cart item dropdown', function () {
@@ -70,22 +66,20 @@ describe('Shopping Cart End To End Testing', function () {
             // console.log("img FRONT: " + img_front_temp);
 
             cy.visit(SHOPPING_CART_URL);
-            cy.pause(); // to give time to load completely the page
         });
 
         // it('Images must be correct', function () {
-        //     cy.get('#cart-items-el .cart-item[data-material-id="404"] .image-container .front-image')
+        //     cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .image-container .front-image')
         //         .should('have.attr', "src", img_front_temp);
         // });
 
         it('Default players must be empty', function () {
-            cy.get('#cart-items-el .cart-item[data-material-id="404"] .player-list tbody tr td:first-child')
+            cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .player-list tbody tr td:first-child')
                 .should('have.contain', "No players added");
         });
 
         it('Number of cart must be 1', function () {
-            cy.get('#cart-item-number')
-                .should('have.contain', 1);
+            cy.get('#cart-item-number').should('have.contain', 1);
         });
     });
 
@@ -112,9 +106,7 @@ describe('Shopping Cart End To End Testing', function () {
 
             cy.pause(); // to give time to generate image of all perspective
 
-            cy.get('#my-shopping-cart')
-                .find('.cart-item-number')
-                .should('have.contain', 1);
+            cy.get('#my-shopping-cart').find('.cart-item-number').should('have.contain', 1);
         });
 
         it('Updated material must still in dropdown', function () {
@@ -142,7 +134,6 @@ describe('Shopping Cart End To End Testing', function () {
 
         it('Open shopping cart page', function () {
             cy.visit(SHOPPING_CART_URL);
-            cy.pause(); // to give time to load completely the page
         });
 
         // it('Images must be correct', function () {
@@ -150,7 +141,7 @@ describe('Shopping Cart End To End Testing', function () {
         // });
 
         it('Default players must still empty', function () {
-            cy.get('#cart-items-el .cart-item[data-material-id="404"] .player-list tbody tr td:first-child')
+            cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .player-list tbody tr td:first-child')
                 .should('have.contain', "No players added");
         });
 
@@ -159,24 +150,281 @@ describe('Shopping Cart End To End Testing', function () {
                 .should('have.contain', 1);
         });
     });
+
+    describe('Cart item players testing', function () {
+        it('Default players in the modal must be empty', function () {
+            // show players modal
+            cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .view-all-players').click();
+
+            cy.get('.bootbox.all-players-modal .bootbox-body p')
+                .should('have.contain', "No players available");
+
+            cy.get('.bootbox.all-players-modal .modal-header .bootbox-close-button').click(); // close modal
+        });
+
+        it('Open add player modal', function () {
+            cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .player-list button.add-player').click();
+        });
+
+        describe('Add player testing', function () {
+            beforeEach(function() {
+                cy.get('.bootbox.add-player-modal form').as("add_player_form_el");
+            });
+
+            describe('Input value in last name field testing', function () {
+                it('Empty input for last name field must show error message indicate empty input is invalid.', function () {
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name field is required.")
+                    });
+                });
+
+                it('Input value less than 2 characters for last_name field must show error indicate the minimum characters is 2.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type('a'); // type 1 character
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name must be at least 2 characters.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').clear();
+                });
+
+                it('Input value greater than 50 characters for last_name field must show error indicate the maximum characters is 50.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type('a'.repeat(51)); // type greater than 50 characters
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may not be greater than 50 characters.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').clear();
+                });
+
+                it('Input numeric value for last_name field must show error indicate the numeric is invalid.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type('11111'); // type numeric value
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may only contain letters and spaces.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').clear();
+                });
+
+                it('Input special characters value for last_name field must show error indicate the special characters are invalid.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type("!@#$%^&*()"); // type numeric value
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may only contain letters and spaces.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').clear();
+                });
+
+                it('Valid input for last name field must remove error message.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type("Bar"); // type valid value
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-ok");
+                        cy.get(':input[name="last_name"]').next().next().should('not.exist');
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').clear();
+                });
+            });
+
+            describe('Input value in number field testing', function () {
+                it('Empty input for number field must show error message indicate empty input is invalid.', function () {
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number field is required.")
+                    });
+                });
+
+                it('Input string value for number field must show error indicate the string is invalid.', function () {
+                    // change the type of number field
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').invoke('attr', "type", "text");
+                        cy.get(':input[name="number"]').type('a'); // type string character
+                    });
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be a number.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+
+                it('Input special characters value for number field must show error indicate the special characters are invalid.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type("!@#$%^&*()_"); // type special characters
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be a number.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+
+                it('Input value less than 0 characters for number field must show error indicate the minimum characters is 0.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type("-1"); // type less than 0
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be at least 0.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+
+                it('Input value greater than 99 characters for number field must show error indicate the maximum characters is 99.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type(100); // type greater than 99
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number may not be greater than 99.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+
+                it('Input value that digit is greater than 2 characters for number field must show error indicate the digit must only 1 or 2.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type("000"); // type 3 digit
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be between 1 and 2 digits.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+
+                it('Valid input for number field must remove error message.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type(10); // type valid value
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-ok");
+                        cy.get(':input[name="number"]').next().next().should('not.exist');
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="number"]').clear();
+                });
+            });
+
+            describe('Input value in quantity field testing', function () {
+                it('Empty input for quantity field must show error message indicate empty input is invalid.', function () {
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity field is required.")
+                    });
+                });
+
+                it('Input string value for quantity field must show error indicate the string is invalid.', function () {
+                    // change the type of quantity field
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').invoke('attr', "type", "text");
+                        cy.get(':input[name="quantity"]').type('a'); // type string character
+                    });
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be a number.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').clear();
+                });
+
+                it('Input special characters value for quantity field must show error indicate the special characters are invalid.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').type("!@#$%^&*()_"); // type special characters
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be a number.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').clear();
+                });
+
+                it('Input value less than 1 characters for quantity field must show error indicate the minimum characters is 1.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').type("0"); // type less than 1
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be at least 1.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').clear();
+                });
+
+                it('Input value greater than 100 characters for quantity field must show error indicate the maximum characters is 100.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').type(101); // type greater than 100
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
+                        cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity may not be greater than 100.")
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').clear();
+                });
+
+                it('Valid input for quantity field must remove error message.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').type(1); // type valid value
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').within(function() {
+                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-ok");
+                        cy.get(':input[name="quantity"]').next().next().should('not.exist');
+                    });
+
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').clear();
+                });
+            });
+
+            describe('All fields are valid testing', function () {
+                it('Valid inputs must show message indicate player is added in current cart item.', function () {
+                    cy.get('@add_player_form_el').find(':input[name="last_name"]').type("Bar"); // type valid value
+                    cy.get('@add_player_form_el').find(':input[name="number"]').type(10); // type valid value
+                    cy.get('@add_player_form_el').find(':input[name="quantity"]').type(1); // type valid value
+
+                    cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
+
+                    cy.get('@add_player_form_el').prev().should('have.class', "alert")
+                    cy.get('@add_player_form_el').prev().should('have.contain', "Successfully add player in cart item")
+                });
+            });
+        });
+    });
 });
-
-// describe("Add player testing", function() {
-//     it("Clicking Add Player button must show Add Player Modal.", function() {
-//         cy.visit("http://dev.customizer.com/shopping-cart");
-
-//         cy.get('#cart-items-el .player-list .add-player').click();
-
-//         cy.get().should('exist');
-//     });
-
-//     // it("Invalid input must not save.", function() {
-//     //     cy.visit("http://dev.customizer.com/shopping-cart");
-
-//     //     cy.get('#cart-items-el')
-//     // });
-
-//     // it("Valid input must save.", function() {
-
-//     // });
-// });
