@@ -194,6 +194,7 @@ var Cart = {
 
         bootbox.dialog({
             title: "All Players",
+            className: "all-players-modal",
             message: tmpl({
                 players: cart_item.players,
                 all_player_sizes: all_player_sizes,
@@ -243,7 +244,7 @@ var Cart = {
                             last_name: last_name,
                             number: number,
                             price: parseFloat(size_price.price),
-                            quantity: parseInt(quantity)
+                            quantity: quantity
                         }, null, {
                             beforeSend: function() {
                                 $(':input', form.closest('.modal-content')).prop('disabled', true);
@@ -346,7 +347,7 @@ var Cart = {
                             ShoppingCart.cipa.updatePlayer(cart_item_id, player_id, {
                                 last_name: last_name,
                                 number: number,
-                                quantity: parseInt(quantity)
+                                quantity: quantity
                             }, function(response, textStatus, xhr) {
                                 if (response.success) {
                                     player.last_name = last_name;
