@@ -11783,7 +11783,10 @@ $(document).ready(function () {
                     item.name.indexOf('Pocket Cuff') > -1 ||
                     item.name.indexOf('Arm Cuff') > -1 ||
                     item.name.indexOf('Prolook') > -1 ||
-                    item.name.indexOf('Belt Loop') > -1;
+                    item.name.indexOf('Belt Loop') > -1 ||
+                    item.name.indexOf('Button') > -1 ||
+                    item.name.indexOf('Front Body Color') > -1 ||
+                    item.name.indexOf('Back Body Color') > -1;
             });
 
             if (ub.funcs.isSocks()) {

@@ -255,13 +255,18 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   color: #242424 !important; }
 
 .uk-grid-small.grid-tiny {
-  margin-left: -3px; }
+  margin-left: -6px; }
 
 .uk-grid-small.grid-tiny > * {
-  padding-left: 3px; }
+  padding-left: 6px; }
 
 .uk-grid-small.grid-tiny>.uk-grid-margin {
-  margin-top: 3px;
+  margin-top: 6px;
+}
+
+.uk-grid-small.grid-tiny.parts-container > .uk-first-column {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .uk-grid-small.grid-tiny-1 {
