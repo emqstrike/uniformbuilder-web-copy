@@ -63,6 +63,8 @@ JvBs3.prototype.highlight = function(element, error_text) {
 
   if ($('.help-block', form_group).length === 0) {
     $(element).next().after('<span class="help-block">'+error_text+'</span>');
+  } else {
+    $('.help-block', form_group).text(error_text);
   }
 };
 
