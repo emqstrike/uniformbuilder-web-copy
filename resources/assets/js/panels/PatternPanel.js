@@ -236,11 +236,11 @@ PatternPanel.prototype = {
             $(".uk-switcher .pattern-color-button-container").html("");
             $(".uk-switcher .pattern-color-button-container").html(render_pattern_colors);
 
-            $("ul.layer-container").html("");
-            $("ul.layer-container").html(render_pattern_layers);
+            $("ul.layer-container-pattern").html("");
+            $("ul.layer-container-pattern").html(render_pattern_layers);
 
-            $("ul.layer-container li.uk-active").removeClass("uk-active");
-            $("ul.layer-container li").first().addClass("uk-active");
+            $("ul.layer-container-pattern li.uk-active").removeClass("uk-active");
+            $("ul.layer-container-pattern li").first().addClass("uk-active");
 
             $("ul.pattern-color-main-container li.uk-active").removeClass('uk-active');
             $("ul.pattern-color-main-container li").first().addClass('uk-active');
@@ -253,7 +253,7 @@ PatternPanel.prototype = {
         var _this = this;
         $(".pattern-color-button-container").on('click', '.pattern-color-selector-button', function(event) {
             /* Act on the event */
-            var active_pattern_color_category = $("#modal-edit-palette-pattern ul.layer-container").find('li.uk-active').data("layer-id");
+            var active_pattern_color_category = $("#modal-edit-palette-pattern ul.layer-container-pattern").find('li.uk-active').data("layer-id");
             var category_modifier = $(this).data('modifier-category');
             var selected_color = $(".pattern-color-main-container li.uk-active").find('.active-pattern-color');
             selected_color.removeClass('active-pattern-color');

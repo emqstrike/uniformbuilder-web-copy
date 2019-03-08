@@ -76,13 +76,9 @@
 </script>
 
 <script type="text/mustache" id="m-no-piping-message">
-    <div id="no-piping-message" class="no-piping-message">
-        <div>
-            <h3 class="abrade-ultra-italic">Notice</h3>
-            <div class="abrade-book">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
-            </div>
-        </div>
+    <div class="uk-padding-small">
+        <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Notice</h5>
+            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Piping is not available for this uniform.</h6>
     </div>
 </script>
 

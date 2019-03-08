@@ -58,7 +58,8 @@
             @{{ /inserts }}
             @{{ ^inserts }}
                 <li>
-                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">No available insert</h5>
+                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Notice</h5>
+                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Inserts is not available for this uniform.</h6>
                 </li>
             @{{ /inserts }}
         </ul>

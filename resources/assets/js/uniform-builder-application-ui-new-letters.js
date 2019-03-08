@@ -1022,6 +1022,7 @@ $(function() {
                 'thumbnail': '/images/sidebar/' + j.thumbnail,
                 'id': j.id,
                 'code': j.code,
+                'title': j.code.replace(/_/g, " "),
                 'active': _settingsObject.accent_obj.id === j.id ? 'active' : '',
                 'activeCheck': _settingsObject.accent_obj.id === j.id ? '<i class="fa fa-check cp-fc-white fa-2x uk-overlay-primary" aria-hidden="true"></i>' : ''
             }

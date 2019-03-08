@@ -38,7 +38,7 @@
             </div>
             <div class="uk-width-1-1 uk-width-2-3@m uk-text-center">
                 <div>
-                    <ul class="uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark layer-container" uk-switcher uk-grid>
+                    <ul class="uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark layer-container-pattern" uk-switcher uk-grid>
                     </ul>
                     <ul class="uk-switcher uk-margin uk-padding-remove pattern-color-main-container">
                         <li class="pattern-color-main-container-1">

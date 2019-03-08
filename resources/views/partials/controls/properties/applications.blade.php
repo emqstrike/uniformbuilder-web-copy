@@ -52,7 +52,7 @@
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">@{{ title }}</h6>
     <div class="font-accent-container uk-grid-small grid-tiny uk-grid-match uk-child-width-1-5 uk-child-width-1-6@s uk-child-width-1-5@m con-select con-palettes" uk-grid>
         @{{#accentsData}}
-            <div>
+            <div uk-tooltip="title: @{{ title }}; pos: left;">
                 <button class="thumbnailContainer @{{ active }} uk-inline bgc-transparent box-palette btn-selection-choice" data-accent-id="@{{ id }}">
                     <div class="bdr-thin bdr-gray">
                         <img class="font-accent-thumbnail" src="@{{ thumbnail }}" uk-img>
@@ -87,13 +87,13 @@
 <!-- Start Slider Container -->
 <script type="text/mustache" id="m-slider-container">
     <div class="uk-padding-small uk-padding-remove-vertical">
-        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom"><span class="uk-margin-small-right icon-font-size"></span>Font Size</h6>
+        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom"><span class="uk-margin-small-right fa fa-font"></span>Font Size</h6>
         <div class="manipulator-type-container scale uk-padding uk-padding-remove-vertical">
             <div class="sc scale">
                 <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>
             </div>
         </div>
-        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom"><span class="uk-margin-small-right icon-move"></span>Position</h6>
+        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom"><span class="uk-margin-small-right fa fa-arrows"></span>Position</h6>
         <div class="manipulator-type-container move uk-padding uk-padding-remove-vertical" data-type="move">
             <div class="sc move">
                 <div id="move-slider-x" class="move x slider-control-move-x" data-id="@{{ code }}"></div>
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom"><span class="uk-margin-small-right icon-rotate"></span>Rotate</h6>
+        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom"><span class="uk-margin-small-right fa fa-undo"></span>Rotate</h6>
         <div class="uk-flex-center" uk-grid>
             <div class=" manipulator-type-container rotate">
                 <div class="sc rotate">
@@ -122,12 +122,12 @@
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-add"></span>Add application
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-view"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
             </div>
@@ -183,12 +183,12 @@
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-add"></span>Add application
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-view"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
             </div>
@@ -244,12 +244,12 @@
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-add"></span>Add application
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-view"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
             </div>
@@ -371,12 +371,12 @@
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
             <div class="uk-width-1-2">
                 <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right fa fa-add"></span>Add application
+                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                 </button>
             </div>
             <div class="uk-width-1-2">
                 <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize cancel-adding-application" type="button">
-                    <span class="uk-margin-small-right fa fa-cancel"></span>Cancel
+                    <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
                 </button>
             </div>
         </div>

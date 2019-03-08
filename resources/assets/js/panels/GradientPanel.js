@@ -39,8 +39,7 @@ GradientPanel.events = {
             $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
             $(".gradient-color-picker-1-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor1);
             $(".gradient-color-picker-2-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor2);
-            $("#gradient-change-color-modal").on('click', '.apply-gradient-color', GradientPanel.events.onApplyGradientColors);
-            $("#gradient-change-color-modal").on('click', '.close-gradient-modal', GradientPanel.events.onCloseGradientModal);
+            $("#modal-edit-palette-gradient").on('click', '.apply-gradient-color', GradientPanel.events.onApplyGradientColors);
             GradientPanel.events.is_init_events_called = 1;
         }
     },
@@ -125,7 +124,7 @@ GradientPanel.events = {
 
 
         // Gradient color picker
-        var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
+        var gradient_color_element = document.getElementById("m-tab-gradient-colors-uikit").innerHTML;
         // Add attribute
 
         // Render Layer Color 1
@@ -142,20 +141,20 @@ GradientPanel.events = {
             modifier: modifierTitle
         });
 
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html("");
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html("");
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-1-container").html(renderLayer1);
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html(renderLayer2);
+        $(".gradient-color-main-container li.gradient-color-main-container-1 .gradient-color-picker-1-container").html("");
+        $(".gradient-color-main-container li.gradient-color-main-container-2 .gradient-color-picker-2-container").html("");
+        $(".gradient-color-main-container li.gradient-color-main-container-1 .gradient-color-picker-1-container").html(renderLayer1);
+        $(".gradient-color-main-container li.gradient-color-main-container-2 .gradient-color-picker-2-container").html(renderLayer2);
 
-        $("#gradient-color-content .tab-content").find(".tab-pane.active").removeClass("active")
-        $("#gradient-color-content .tab-content").find(".tab-pane").first().addClass("active")
-        $(".gradient-main-container .tab-navigation ul").find("li.active").removeClass("active")
-        $(".gradient-main-container .tab-navigation ul").find("li").first().addClass("active")
+        $("ul.layer-container-gradient li.uk-active").removeClass("uk-active");
+        $("ul.layer-container-gradient li").first().addClass("uk-active");
 
-        $("#gradient-color-content .tab-content").find(".tab-pane").first()
+        $("ul.gradient-color-main-container li.uk-active").removeClass("uk-active");
+        $("ul.gradient-color-main-container li").first().addClass("uk-active");
+
         _.delay(function() {
-            var firstLayerContainer = $(".gradient-color-picker-1-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ firstLayer.colorCode +"']");
-            var secondLayerContainer = $(".gradient-color-picker-2-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ secondLayer.colorCode +"']");
+            var firstLayerContainer = $(".gradient-color-main-container-1 .gradient-color-picker-1-container .gradient-color-main-container .gradient-color-selector-button[data-color-code='"+ firstLayer.colorCode +"']");
+            var secondLayerContainer = $(".gradient-color-main-container-2 .gradient-color-picker-2-container .gradient-color-main-container .gradient-color-selector-button[data-color-code='"+ secondLayer.colorCode +"']");
             GradientPanel.events.checkModifier(firstLayerContainer, firstLayer.colorCode);
             firstLayerContainer.addClass('active-color-1');
             GradientPanel.events.checkModifier(secondLayerContainer, secondLayer.colorCode);
@@ -163,7 +162,9 @@ GradientPanel.events = {
         }, 500)
 
         GradientPanel.utilities.createGradientUI(gradientObjectSettings);
-        $('#gradient-change-color-modal').modal('show');
+        // $('#gradient-change-color-modal').modal('show');
+
+        UIkit.modal("#modal-edit-palette-gradient").show();
     },
 
     onSelectColor1: function() {
@@ -184,7 +185,7 @@ GradientPanel.events = {
             }
         });
 
-        var gradient_color_element = document.getElementById("m-gradient-color").innerHTML;
+        var gradient_color_element = document.getElementById("m-tab-gradient-colors-uikit").innerHTML;
         var render = Mustache.render(gradient_color_element, {
             colors: colors,
             layer: "Layer 2",
@@ -195,8 +196,8 @@ GradientPanel.events = {
         selected_color.html("");
         selected_color.removeClass('active-color-1');
 
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html("");
-        $("#gradient-change-color-modal #gradient-color-content .gradient-color-picker-2-container").html(render);
+        $(".gradient-color-main-container li.gradient-color-main-container-2 .gradient-color-picker-2-container").html("");
+        $(".gradient-color-main-container li.gradient-color-main-container-2 .gradient-color-picker-2-container").html(render);
 
         GradientPanel.utilities.setColorGradientPreview(gradientObjectSettings, colorObj, 1);
         GradientPanel.utilities.selectFirstSecondaryColor(gradientObjectSettings, colors[0], modifierObject);
@@ -261,14 +262,10 @@ GradientPanel.events = {
                 layerObject.colorObj = gradient.color
             }
         });
-        $('#gradient-change-color-modal').modal('hide');
+        
+        UIkit.modal("#modal-edit-palette-gradient").hide();
         GradientPanel.utilities.renderGradient(gradientObjectSettings, modifierObject.index);
     },
-
-    onCloseGradientModal: function () {
-        console.log("Cancel colors");
-        $('#gradient-change-color-modal').modal('hide');
-    }
 }
 
 GradientPanel.utilities = {
