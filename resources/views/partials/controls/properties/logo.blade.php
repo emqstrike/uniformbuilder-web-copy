@@ -1,25 +1,19 @@
 <script type="text/mustache" id="m-logo">
-    <div class="cp-padding-medium cp-padding-top-small" id="primary_option_logo">
-        <div class="logo-header">
-            <h4 class="cp-margin-remove cp-text-uppercase cp-text-bold abrade-ultra-italic">@{{ brand }} Logo</h4>
-            <h5 class="cp-text-uppercase cp-text-medium uk-margin-small">Choose Location</h5>
-        </div>
-        <div class="row logo-perspective-btn-container">
+    <div id="primary_option_logo" class="uk-padding-small uk-margin-remove">
+        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Richardson Logo</h5>
+        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-dark">Choose location</h6>
+        <ul class="uk-grid-small grid-tiny uk-margin-bottom bac-dark active-bgc-dark active-bdr-dark logo-perspective-btn-container" uk-grid>
             @{{ #logo_position }}
-                <div class="col-md-@{{ count }}">
-                    <button class="change-logo-button cp-width-1-1 cp-text-small logo-perspective-selector"
-                            data-position="@{{ position }}"
-                    >@{{ name }}</button>
-                </div>
+                <li class="uk-width-expand" data-position="@{{ position }}">
+                    <a href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize logo-perspective-selector">@{{ name }}</a>
+                </li>
             @{{ /logo_position }}
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="">
+        </ul>
+        <div class="uk-grid-small uk-flex-center" uk-grid>
+            <div class="uk-width-1-1 uk-width-2-3@s">
+                <div class="bdr-reg bdr-gray uk-text-center">
                     <div class="logo-preview" id="logo-preview"></div>
-                    <div class="col-md-6 col-md-offset-4 logo-image-loader" style="margin-top: 45px;">
-                        <span class="fa fa-spinner fa-spin" style="font-size: 10em"></span>
-                    </div>
+                    <div class="logo-image-loader uk-text-center" uk-spinner="ratio: 10"></div>
                 </div>
             </div>
         </div>

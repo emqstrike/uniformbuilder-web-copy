@@ -267,24 +267,15 @@ ModifierController.prototype = {
 
             }
 
-            var col_md = 0
-            if (logo_positions.length === 1) {
-                col_md = 12;
-            } else if (logo_positions.length === 2) {
-                col_md = 6;
-            } else if (logo_positions.length === 3) {
-                col_md = 4;
-            }
-
-            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions, col_md);
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
             var logo_panel = ub.modifierController.logo.getPanel();
             properties_panel.setBodyPanel(logo_panel);
 
             // Activate logo current position
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
 
             var image = ub.getThumbnailImage(ub.active_view + "_view");
+
             $("#logo-preview").css({
                 'background-image': "url("+ image +")"
             });

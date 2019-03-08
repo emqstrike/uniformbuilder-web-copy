@@ -9,12 +9,11 @@
  * - Mustache
  */
 
-function LogoPanel(element, logo_positions, count) {
+function LogoPanel(element, logo_positions) {
     this.panel = document.getElementById(element);
     this.data = {
         logo_position: logo_positions,
-        brand: ub.config.brand,
-        count: count
+        brand: ub.config.brand
     };
     this.bindEvents();
 }
@@ -32,12 +31,13 @@ LogoPanel.prototype = {
     },
 
     onClickLogoPerspective: function() {
-        var current_active_position = $("#primary_option_logo .logo-perspective-btn-container button.cp-button-active");
-        current_active_position.css('pointer-events', "auto");
-        var current_position = current_active_position.data("position");
-        current_active_position.removeClass('cp-button-active');
+        var current_position_element = $("ul.logo-perspective-btn-container").find("li.uk-active");
+        var current_position = current_position_element.data("position");
+        current_position_element.find("a").removeClass("uk-disabled");
+        current_position_element.removeClass('uk-active');
+
         var material_ops = null;
-        var new_position = $(this).data("position");
+        var new_position = $(this).parent().data("position");
 
         if (new_position.includes("front") || new_position.includes("chest")) {
             $('a.change-view[data-view="front"]').trigger('click');
@@ -63,11 +63,11 @@ LogoPanel.prototype = {
         LogoPanel.utilities.removeLogo(current_position);
         LogoPanel.utilities.addLogo(logoObject, _layerCount);
 
-        $(this).addClass('cp-button-active');
-        $(this).css('pointer-events', "none");
+        $(this).parent().addClass('uk-active');
+        $(this).addClass('uk-disabled');
 
         $("#logo-preview").hide();
-        $(".logo-image-loader").show();
+        $(".logo-image-loader").css('display', 'block');
 
         $("#logo-preview").css({
             'background-image': ""
@@ -80,7 +80,7 @@ LogoPanel.prototype = {
             });
 
             $("#logo-preview").show();
-            $(".logo-image-loader").hide();
+            $(".logo-image-loader").css('display', 'none');;
         }, 2000);
     },
 
