@@ -239,6 +239,7 @@ PatternPanel.prototype = {
             $("ul.layer-container").html("");
             $("ul.layer-container").html(render_pattern_layers);
 
+            $("ul.layer-container li.uk-active").removeClass("uk-active");
             $("ul.layer-container li").first().addClass("uk-active");
 
             $("ul.pattern-color-main-container li.uk-active").removeClass('uk-active');
