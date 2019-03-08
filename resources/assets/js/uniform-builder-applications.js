@@ -11786,7 +11786,9 @@ $(document).ready(function () {
                     item.name.indexOf('Belt Loop') > -1 ||
                     item.name.indexOf('Button') > -1 ||
                     item.name.indexOf('Front Body Color') > -1 ||
-                    item.name.indexOf('Back Body Color') > -1;
+                    item.name.indexOf('Back Body Color') > -1 ||
+                    item.name.indexOf('Side Insert Color') > -1 ||
+                    item.name.indexOf('Side Insert') > -1;
             });
 
             if (ub.funcs.isSocks()) {
