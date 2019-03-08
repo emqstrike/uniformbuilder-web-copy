@@ -88,7 +88,8 @@ $(document).ready(function() {
         $("#right-main-window.pane-main-window").css({
             'height': '600px',
             "background-color": "white",
-            "border": "1px solid #e6e6e6"
+            "border": "1px solid #e6e6e6",
+            "width": "500px"
         });;
 
         var richardson_footer = document.getElementById("m-richardson-footer");

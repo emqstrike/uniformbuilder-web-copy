@@ -341,7 +341,7 @@
         <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
             <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Part
         </h6>
-        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark parts-container" uk-grid>
+        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
                 @{{ #partsData }}
                     <div class="">
