@@ -1,72 +1,43 @@
-<div class="bootbox modal fade in" id="gradient-change-color-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-md" role="document" style="top: 50% !important; margin-top: -250px !important;">
-        <div class="modal-content cp-padding-large">
-            <div class="modal-header cp-bgc-light cp-text-center cp-border-none">
+<div id="modal-edit-palette-gradient" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Gradient Color</h6>
+        <div class="uk-grid-medium uk-flex-center" uk-grid>
+            <div class="uk-width-auto uk-width-1-3@m">
                 <div>
-                    <h4 class="modal-title cp-fc-black cp-text-uppercase" id="myModalLabel">Gradient Color</h4>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4 cp-padding-remove-left">
-                        <div class="gradient-preview">
-                            <canvas id="gradientPreview" class="gradientPreview"></canvas>
-                        </div>
+                    <div class="gradient-preview">
+                        <canvas id="gradientPreview" class="gradientPreview"></canvas>
                     </div>
-                    <div class="col-md-8 cp-padding-remove gradient-main-container">
-                        <div class="tab-navigation">
-                            <ul class="nav nav-tabs cp-border-none" role="tablist">
-                                <li role="presentation" class="active cp-float-none">
-                                    <div class="col-md-6 cp-padding-remove pattern-color-item cp-border cp-tab-button">
-                                        <a href="#gradient-color-picker-1"
-                                                aria-controls="gradient-color-picker-1"
-                                                role="tab" data-toggle="tab"
-                                                class="gradient-isActive cp-width-1-1 cp-tab-button col-md-6"
-                                        >
-                                            1
-                                        </a>
-                                    </div>
-                                </li>
-
-                                <li role="presentation" class="cp-float-none">
-                                    <div class="col-md-6 cp-padding-remove pattern-color-item cp-border cp-tab-button">
-                                        <a href="#gradient-color-picker-2"
-                                                aria-controls="gradient-color-picker-2"
-                                                role="tab" data-toggle="tab"
-                                                class="gradient-isActive cp-width-1-1 cp-tab-button col-md-6"
-                                        >
-                                            2
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-12 pattern-colorpicker-container cp-padding-remove">
-                            <div id="gradient-color-content">
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="gradient-color-picker-1" data-gradient-category="1">
-                                        <div class="gradient-color-picker-1-container">
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="gradient-color-picker-2" data-gradient-category="2">
-                                        <div class="gradient-color-picker-2-container">
-                                        </div>
-                                    </div>
+                </div>
+                <h6 class="uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase modal-pattern-name"></h6>
+            </div>
+            <div class="uk-width-1-1 uk-width-2-3@m uk-text-center">
+                <div>
+                    <ul class="uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark layer-container-gradient" uk-switcher uk-grid>
+                        <li class="uk-padding-remove"><a class="uk-width-1-1 padding-tiny-vertical uk-button-default fc-dark">1</a></li>
+                        <li class="uk-padding-remove"><a class="uk-width-1-1 padding-tiny-vertical uk-button-default fc-dark">2</a></li>
+                    </ul>
+                    <ul class="uk-switcher uk-margin uk-padding-remove gradient-color-main-container">
+                        <li class="gradient-color-main-container-1">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color gradient-color-picker-1-container" uk-grid>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12 cp-padding-remove-horizontal">
-                            <div class="row cp-margin-top-xs">
-                                <div class="col-md-6">
-                                    <button type="button" class="gradient-buttons col-md-6 piping-button cp-width-1-1 cp-text-uppercase apply-gradient-color">Done</button>
-                                </div>
-
-                                <div class="col-md-6 pattern-footer-button">
-                                    <button type="button" class="gradient-buttons piping-button cancel-application cp-width-1-1 cp-text-uppercase close-gradient-modal">Cancel</button>
+                        </li>
+                        <li class="gradient-color-main-container-2">
+                            <div class="con-select con-palettes">
+                                <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color gradient-color-picker-2-container" uk-grid>
                                 </div>
                             </div>
-                        </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uk-grid-small uk-grid-match uk-text-center footer-button" uk-grid>
+                    <div class="uk-width-1-2 uk-width-1-2@s">
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 apply-gradient-color" type="button">Done</button>
+                    </div>
+                    <div class="uk-width-1-2 uk-width-1-2@s">
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 uk-modal-close" type="button">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -74,22 +45,19 @@
     </div>
 </div>
 
-<script type="text/mustache" id="m-gradient-color">
-    <div class="gradient-color-main-container">
-        @{{ #colors }}
-            <div class="color_element cp-color-element-auto gradient-color-container-button">
-                <button
-                    class="grow change-color whitebtn cp-gradient-color-box gradient-color-selector-button"
-                    style="background-color: #@{{ hex_code }};"
-                    data-color-id="@{{ id }}"
-                    data-color-name="@{{ name }}"
-                    data-color-code="@{{ color_code }}"
-                    data-color-id="@{{ id }}"
-                    data-layer-name="@{{ layer }}"
-                    data-modifier="@{{ modifier }}"
-                >
-                </button>
-            </div>
-        @{{ /colors }}
-    </div>
+<script type="text/mustache" id="m-tab-gradient-colors-uikit">
+    @{{#colors}}
+        <div class="gradient-color-main-container" uk-tooltip="title: @{{ name }}; pos: left;">
+            <button class="uk-inline box-palette btn-selection-choice palette-color gradient-color-selector-button palette"
+                style="background-color: #@{{ hex_code }};"
+                data-color-id="@{{ id }}"
+                data-color-name="@{{ name }}"
+                data-color-code="@{{ color_code }}"
+                data-color-id="@{{ id }}"
+                data-layer-name="@{{ layer }}"
+                data-modifier="@{{ modifier }}"
+            >
+            </button>
+        </div>
+    @{{ /colors}}
 </script>

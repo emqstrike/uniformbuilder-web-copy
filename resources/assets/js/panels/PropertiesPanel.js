@@ -121,14 +121,11 @@ PropertiesPanel.prototype = {
     bindEvents: function() {
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
-        this.panels.patterns.onChangeColorPaternCategory();
-        this.panels.patterns.onSelectColorPerCategory();
-        this.panels.patterns.onApplyChanges();
-        this.panels.patterns.onClosePatternModal();
-
         if (PropertiesPanel.is_bind_events_called === 0) {
             this.panelTracker();
             this.panels.patterns.onOpenModalPatternModifier();
+            this.panels.patterns.onSelectColorPerCategory();
+            this.panels.patterns.onApplyChanges();
             PropertiesPanel.is_bind_events_called = 1;
         }
     },
@@ -179,7 +176,7 @@ PropertiesPanel.prototype = {
 
                     var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ _patternObject.id +"']");
                     if (pattern_container.length > 0) {
-                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal-button app-btn w-45' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
@@ -187,7 +184,7 @@ PropertiesPanel.prototype = {
 
                 if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
                     var gradientContainer = $(".pattern-main-container-"+ materialObject.code + " .gradient-container-button .gradient-selector-button[data-gradient-name='gradient']");
-                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal-button app-btn w-45' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
                     gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                     gradientContainer.addClass('active-pattern');
                 }
@@ -249,7 +246,7 @@ PropertiesPanel.prototype = {
 
                 if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
                 {
-                    if ($("#primary_options_container #parts-with-insert-container").length === 0) {
+                    if ($("#primary_options_container .inserts-container").length === 0) {
                         $('#property-modifiers-menu .menu-item-inserts').trigger('click');
                     }
                 }

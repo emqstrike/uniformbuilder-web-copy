@@ -32,7 +32,7 @@ FabricPanel.prototype = {
                         layer_level: JSON.stringify(FabricPanel.getLayerLevelByFabricId(fabric_info.id)),
 
                         thumbnail: fabric_info.thumbnail !== null ? fabric_info.thumbnail : pick_thumbnail,
-                        class_active: fabric_info.id == default_fabric_mo.fabric_id ? "active" : "",
+                        class_active: fabric_info.id == default_fabric_mo.fabric_id ? "uk-active" : "",
 
                         description_list: [
                             {description: fabric_info.material},
@@ -55,7 +55,7 @@ FabricPanel.events = {
 
     init: function() {
         if (!FabricPanel.events.is_events_init) {
-            $('#primary_options_container').on('click', '.fabric-layer .image-wrapper img', FabricPanel.events.onFabricLayerChange);
+            $('#primary_options_container').on('click', '#m-fabric-selection .pick-fabric', FabricPanel.events.onFabricLayerChange);
 
             FabricPanel.events.is_events_init = true;
         }
@@ -65,9 +65,8 @@ FabricPanel.events = {
         var layer_level = $(this).closest('.fabric-layer').data('layer-level');
 
         FabricPanel.changeFabricVisible(layer_level);
-
-        $('#primary_options_container .fabric-layer .image-wrapper img').removeClass('active');
-        $(this).addClass('active');
+        $("ul#m-fabrics li a.uk-active").removeClass('uk-active');
+        $(this).addClass('uk-active');
     }
 };
 

@@ -18,7 +18,7 @@ function PartPanel(element, parts) {
     this.isBindEvents = 0;
     this.items = {
         parts: this.parts,
-        patterns: _.sortBy(ub.data.patterns.items, "sortID")
+        patterns: ub.funcs.getPatternList()
     };
 }
 
