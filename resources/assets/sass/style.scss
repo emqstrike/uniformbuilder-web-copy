@@ -305,10 +305,9 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 
 .uk-tooltip {
   font-weight: bolder;
+  line-height: 0px;
+  padding: 18px 15px !important;
   border-radius: 0px;
-  padding: 50px 50px;
-  border-radius: 0px;
-  // line-height: 0px;
   display: block !important;
   background-color: $color-darkerGray;
   text-transform: uppercase;
@@ -336,7 +335,7 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 
 .uk-tooltip.uk-transform-origin-center-right {
   &:after {
-    margin-right: -14.9px !important;
+    margin-right: -15px !important;
     top: 50% !important;
     right: 0px;
     border-bottom: 18px solid transparent;
