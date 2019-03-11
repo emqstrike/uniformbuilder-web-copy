@@ -359,14 +359,11 @@ $(function() {
         });
 
         element.noUiSlider.on('update', function (values, handle) {
-
             if (!_flag) { _flag = true; return;}
 
             var _value = values[0];
             ub.funcs.updateScaleViaSlider(_settingsObject, _value);
-
         });
-
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {

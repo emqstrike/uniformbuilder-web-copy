@@ -23,7 +23,7 @@
                 <h4 class="uk-text-uppercase uk-text-bold uk-margin-remove uk-text-truncate abrade-ultra-italic">@{{ uniform_name }}</h4>
                 <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">@{{ application_type }}</h6>
             </div>
-            <a href="#" class="uk-button uk-button-small padding-tiny-vertical uk-text-bold bgc-red fc-light uk-text-uppercase bdr-thin bdr-dark btn-bt-0 uk-flex uk-flex-middle ">
+            <a href="javascript:void(0)" class="change-fabric uk-button uk-button-small padding-tiny-vertical uk-text-bold bgc-red fc-light uk-text-uppercase bdr-thin bdr-dark btn-bt-0 uk-flex uk-flex-middle ">
                 <span uk-icon="pencil"></span>
                 <span class="uk-visible@s uk-margin-small-left abrade-black">Change fabric</span>
             </a>
