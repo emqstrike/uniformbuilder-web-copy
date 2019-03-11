@@ -25,14 +25,21 @@ FabricPanel.prototype = {
                     var pick_thumbnail = "http://34.212.160.37/img/" + dummy_thumbnail[Math.floor(Math.random() * 3)] + ".jpg";
 
                     var fabric_info = fabric_mo.fabric_info;
+                    var active = null;
+                    if (typeof ub.current_material.settings.fabrics !== "undefined") {
+                        active = fabric_info.id == ub.current_material.settings.fabrics ? "uk-active" : "";
+                    } else {
+                        active = fabric_info.id == default_fabric_mo.fabric_id ? "uk-active" : "";
+                    }
 
                     return {
                         layer_title: fabric_info.material,
                         layer_level_category: FabricPanel.getLayerLevelText(fabric_mo.layer_level),
                         layer_level: JSON.stringify(FabricPanel.getLayerLevelByFabricId(fabric_info.id)),
+                        fabric_id: fabric_mo.fabric_id,
 
                         thumbnail: fabric_info.thumbnail !== null ? fabric_info.thumbnail : pick_thumbnail,
-                        class_active: fabric_info.id == default_fabric_mo.fabric_id ? "uk-active" : "",
+                        class_active: active,
 
                         description_list: [
                             {description: fabric_info.material},
@@ -63,6 +70,9 @@ FabricPanel.events = {
 
     onFabricLayerChange: function() {
         var layer_level = $(this).closest('.fabric-layer').data('layer-level');
+        var fabric_id = $(this).closest('.fabric-layer').data('fabric-id');
+
+        ub.current_material.settings.fabrics = fabric_id;
 
         FabricPanel.changeFabricVisible(layer_level);
         $("ul#m-fabrics li a.uk-active").removeClass('uk-active');
