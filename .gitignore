@@ -19,3 +19,6 @@ public/richardson/js/RichardsonIndex.js.map
 public/richardson/js/uniform-builder-richardson-data.js
 public/richardson/js/uniform-builder-richardson-data.js.map
 public/richardson/css/richardson-builder.css
+
+/cypress
+!/cypress/integration
