@@ -121,7 +121,7 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>
@@ -182,7 +182,7 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>
@@ -243,7 +243,7 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options" data-application-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
                     </button>
                 </div>

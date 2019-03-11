@@ -42,9 +42,6 @@ ColorPanel.prototype = {
             var color_code = $(this).data('color-label');
             var color = ub.funcs.getColorByColorCode(color_code);
 
-            console.log("Color Code", color)
-
-
             // Apply the color to the Canvas
             _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
 

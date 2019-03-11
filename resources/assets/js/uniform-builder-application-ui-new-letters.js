@@ -572,6 +572,7 @@ $(function() {
             var isPlayerName = i.application_type === "player_name" ? 'disabled' : '';
 
             var objStock = {
+                isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled' : '',
                 type: i.application.name.toUpperCase(),
                 defaultText: i.text,
                 code: i.code,
@@ -593,6 +594,7 @@ $(function() {
 
         // prepare data
         var templateData = {
+            isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
             title: "DECORATION LETTERS",
             type: "letters",
             applications: _appData
@@ -671,7 +673,8 @@ $(function() {
         var templateData = {
             title: "DECORATION NUMBERS",
             type: "numbers",
-            applications: _appData
+            applications: _appData,
+            isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : ''
         };
 
         // send to mustache
