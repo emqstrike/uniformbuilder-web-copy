@@ -21,5 +21,7 @@ public/richardson/js/uniform-builder-richardson-data.js.map
 public/richardson/css/richardson-builder.css
 public/richardson/css/richardson-builder.css.map
 
-/cypress
-!/cypress/integration
+/cypress/fixtures
+/cypress/integration/examples
+/cypress/plugins
+/cypress/support

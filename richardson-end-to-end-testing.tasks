@@ -1,0 +1,22 @@
+Richardson End to End Testing:
+  Test menu items:
+    ☐ Fabrics menu must be visible
+      ☐ Fabrics tab should display message indicate that this is not available
+
+    ☐ Base color menu must be visible
+      ☐ All colors below must be available in the front body
+        - Black, White, Red, Cardinal, Maroon, Purple, Navy Blue, Royal Blue, Gray, Charcoal Grey, Dark Green
+      ☐ All colors below must be available in the back body
+        - Black, White, Red, Cardinal, Maroon, Purple, Navy Blue, Royal Blue, Gray, Charcoal Grey, Dark Green
+        ☐ All patterns below must be available
+          - Blank, Trips Arrow, Check, Digital Camo, Lockdown, Upper Stripes Body, Camo, Thin Stripes, Shift Stripes, Fiber, Thick Stripes,
+          - Upper Stripes Sleeve, Diamond, Distressed, Pixel Fade Body, Pixel Fade Sleeve, Score, Quake, Thick-Thin Stripes, PinStripes
+    ☐ All colors below must be available in the sleeve
+        - Black, White, Red, Cardinal, Maroon, Purple, Navy Blue, Royal Blue, Gray, Charcoal Grey, Dark Green
+
+    ☐ Insert menu must be visible
+    ☐ Pipings menu must be visible
+    ☐ Decoration letters menu must be visible
+    ☐ Decoration numbers menu must be visible
+    ☐ Decoration menu must be visible
+    ☐ Richardson logo must be visible
