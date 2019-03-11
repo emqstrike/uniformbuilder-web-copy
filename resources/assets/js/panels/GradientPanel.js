@@ -36,7 +36,7 @@ GradientPanel.events = {
     init: function() {
         if (GradientPanel.events.is_init_events_called === 0) {
             $(".modifier_main_container").on('click', '.gradient-container-button .gradient-selector-button', GradientPanel.events.onSelect);
-            $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-gradient-modal-button', GradientPanel.events.onEditGradientColor);
+            $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-gradient-modal', GradientPanel.events.onEditGradientColor);
             $(".gradient-color-picker-1-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor1);
             $(".gradient-color-picker-2-container").on('click', '.gradient-color-main-container .gradient-color-selector-button', GradientPanel.events.onSelectColor2);
             $("#modal-edit-palette-gradient").on('click', '.apply-gradient-color', GradientPanel.events.onApplyGradientColors);
@@ -83,7 +83,7 @@ GradientPanel.events = {
             gradientObjectSettings.enabled = 1;
 
             // Add Check and Show edit gradient color button
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal-button app-btn w-45' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
             $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
         }

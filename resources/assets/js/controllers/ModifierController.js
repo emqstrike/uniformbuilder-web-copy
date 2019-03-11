@@ -48,23 +48,23 @@ ModifierController.prototype = {
 
     initControls: function() {
         // Set Tooltips Behavior
-        tippy('.tippy-menu-item', {
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end',
-            arrow: true
-        });
+        // tippy('.tippy-menu-item', {
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
 
-        // change pipings to random feeds if the item is sock
-        tippy('#property-modifiers-menu .menu-item-pipings', {
-            content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end',
-            arrow: true
-        });
+        // // change pipings to random feeds if the item is sock
+        // tippy('#property-modifiers-menu .menu-item-pipings', {
+        //     content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
     },
 
     bindEvents: function() {

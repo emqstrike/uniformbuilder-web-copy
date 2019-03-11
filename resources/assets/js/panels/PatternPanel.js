@@ -146,7 +146,7 @@ PatternPanel.prototype = {
 
                 if (blank.id !== _id) {
                     // Show edit pattern button
-                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal-button app-btn w-45' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
+                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                 }
 
                 $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
@@ -158,7 +158,7 @@ PatternPanel.prototype = {
 
     onOpenModalPatternModifier: function() {
         let _this = this;
-        $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-pattern-modal-button', function(event) {
+        $(".modifier_main_container").on('click', '.pattern-modal-selector-container .edit-pattern-modal', function(event) {
             event.preventDefault();
             // Get the current modifier index
             var _modifier_index = $(this).data('modifier-index');

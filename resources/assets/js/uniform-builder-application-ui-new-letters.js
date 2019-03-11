@@ -280,8 +280,8 @@ ApplicationPanel.events = {
         } else if ($(this).data('id') === "back") {
             // If BACK perspective is clicked
             // Remove class from the currently active PART then change it to BACK BODY
-            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
+            // $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+            // $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
             ApplicationPanel.events.showSideOptions(false, '')
         } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
             // If LEFT or RIGHT perspective is clicked,
@@ -319,7 +319,7 @@ ApplicationPanel.events = {
             $(".perspective-container").find('button[data-id="front"].perspective').trigger('click');
             ApplicationPanel.events.showSideOptions(false, '')
 
-        } else if ($(this).data('id') === "Back Body") {
+        } else if ($(this).data('id') === "Back Body"  || $(this).data('id') === "Bottom Panel") {
             // Change the active perspective to BACk
             $(".perspective-container").find('button[data-id="back"].perspective').trigger('click');
             ApplicationPanel.events.showSideOptions(false, '')
@@ -328,8 +328,6 @@ ApplicationPanel.events = {
         }
 
         var _left = _.find(ub.current_material.materials_options, {name: "Left " + part});
-
-        console.log(_left);
 
         if (typeof _left !== "undefined") {
             // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,

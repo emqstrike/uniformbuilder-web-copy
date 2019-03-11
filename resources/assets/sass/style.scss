@@ -306,7 +306,9 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 .uk-tooltip {
   font-weight: bolder;
   border-radius: 0px;
-  line-height: 15px;
+  padding: 50px 50px;
+  border-radius: 0px;
+  // line-height: 0px;
   display: block !important;
   background-color: $color-darkerGray;
   text-transform: uppercase;
