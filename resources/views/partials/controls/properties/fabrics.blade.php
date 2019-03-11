@@ -5,7 +5,7 @@
             <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose Base Fabric</h6>
             <ul id="m-fabrics" class="uk-list uk-margin-remove-vertical con-select con-palettes">
                 @{{ #fabric_layers }}
-                    <li class="fabric-layer" data-layer-level="@{{ layer_level }}">
+                    <li class="fabric-layer" data-layer-level="@{{ layer_level }}" data-fabric-id="@{{ fabric_id }}">
                         <a class="box-palette uk-link-reset btn-selection-choice pick-fabric @{{ class_active }}">
                             <div class="uk-grid-small uk-flex uk-text-left" uk-grid>
                                 <div class="uk-width-1-4">

@@ -144,6 +144,16 @@ $(document).ready(function() {
         });
     };
 
+    ub.funcs.handleOnChangeFabric = function () {
+        $(".richardson-header").on('click', '.change-fabric', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            if (!$('#property-modifiers-menu .menu-item-fabrics').hasClass('active')) {
+                $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
+            }
+        });
+    }
+
     ub.funcs.changeStage = function() {
         ub.current_modifier = 1;
         $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
@@ -156,6 +166,7 @@ $(document).ready(function() {
         ub.funcs.removeNavigationHeader();
         ub.funcs.setupRightPanelFooter();
         ub.funcs.changeStageBackgroundColor(0xffffff);
+        ub.funcs.handleOnChangeFabric();
 
 
         _.delay(function() {

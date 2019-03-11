@@ -7648,7 +7648,7 @@ $(document).ready(function () {
 
     // }
 
-    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {
+    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {    
 
         console.log('_applicationType===>', _applicationType);
 
@@ -11381,7 +11381,9 @@ $(document).ready(function () {
 
                 if (_settingsObject.application_type === "free") {
 
-                    ub.funcs.activateFreeApplication(locationCode);
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateFreeApplication(locationCode);
+                    }
 
                 }
                 else if (_settingsObject.application_type === "mascot") {
