@@ -167,6 +167,7 @@ $(document).ready(function() {
         ub.funcs.setupRightPanelFooter();
         ub.funcs.changeStageBackgroundColor(0xffffff);
         ub.funcs.handleOnChangeFabric();
+        RichardsonLogin.events.init();
 
 
         _.delay(function() {

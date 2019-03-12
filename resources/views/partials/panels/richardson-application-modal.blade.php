@@ -138,6 +138,32 @@
         </div>
     </div>
 </div>
-
-
 {{-- End Piping Modal --}}
+
+
+{{-- User Login --}}
+<div id="richardson-user-login" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">User Login</h6>
+        <div class="uk-grid uk-flex-center" uk-grid>
+            <form id="r-login" method="POST" action="#">
+                <label>Email address</label>
+                <div class="uk-margin-small">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input class="uk-input uk-form-width-large" type="email" name="email">
+                    </div>
+                </div>
+                <label>Password</label>
+                <div class="uk-margin-small">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                        <input class="uk-input uk-form-width-large" type="password" name="password">
+                    </div>
+                </div>
+                <button class="uk-button uk-button-default uk-text-capitalize submit-login" type="button">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- End User Login --}}

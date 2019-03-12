@@ -44,6 +44,7 @@ elixir(function(mix) {
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
+            'richardson/RichardsonLogin.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
 

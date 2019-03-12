@@ -64,9 +64,16 @@
                     </div>
                 </div>
                 <div class="uk-width-auto">
-                    <a href="#" class="uk-link-reset fc-red abrade-ultra-italic">User Login</a>
+                    <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic user-login">User Login</a>
                 </div>
             </div>
         </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="m-error-message">
+    <div class="uk-alert-danger uk-form-width-large" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p class="">@{{ message }}</p>
     </div>
 </script>
