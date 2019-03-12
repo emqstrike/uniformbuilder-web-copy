@@ -144,7 +144,7 @@ PatternPanel.prototype = {
                 // Empty the Edit pattern button
                 $(".edit-pattern-modal-container-"  + modifier_category).html("");
 
-                if (blank.id !== _id) {
+                if (blank.id.toString() !== _id.toString()) {
                     // Show edit pattern button
                     $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                 }

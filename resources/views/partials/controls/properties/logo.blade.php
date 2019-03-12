@@ -13,7 +13,7 @@
             <div class="uk-width-1-1 uk-width-2-3@s">
                 <div class="bdr-reg bdr-gray uk-text-center">
                     <div class="logo-preview" id="logo-preview"></div>
-                    <div class="logo-image-loader uk-text-center" uk-spinner="ratio: 10"></div>
+                    <div class="logo-image-loader uk-text-center" uk-spinner="ratio: 8"></div>
                 </div>
             </div>
         </div>
