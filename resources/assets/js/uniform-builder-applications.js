@@ -5892,17 +5892,19 @@ $(document).ready(function() {
         return _colors;
 
     };
+    ub.funcs.resetFlipStatus = function (_settingsObject){
+        var _flipped;
+        _.each (_settingsObject.application.views, function (view){
+            _flipped = view.application.flip = 0;
+        });
+    }
 
     ub.funcs.flipMascot = function (_settingsObject) {
-
         var _flipped;
-
         _.each (_settingsObject.application.views, function (view){
-
            if(typeof view.application.flip === "undefined") {
 
                 _flipped = view.application.flip = 1;
-
            }
            else {
 
@@ -5910,11 +5912,9 @@ $(document).ready(function() {
 
                     _flipped = view.application.flip = 1;
 
-
                 } else {
 
                     _flipped = view.application.flip = 0;
-
                 }
 
            }
@@ -6968,7 +6968,7 @@ $(document).ready(function() {
 
             $('span.flipButton').unbind('click');
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 ub.funcs.flipMascot(_settingsObject);
                 
@@ -7070,7 +7070,7 @@ $(document).ready(function() {
 
                 $('div.optionButton').on('click', function () {
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -8768,7 +8768,6 @@ $(document).ready(function() {
 
             $('span.apply-pattern').unbind('click');
             $('span.apply-pattern').on('click', function () {
-
                 ub.funcs.createPatternPopupApplications(ub.current_material.settings.applications[_id]);
 
             });
@@ -8799,7 +8798,7 @@ $(document).ready(function() {
             }
 
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
                 ub.funcs.pushOldState('vertical text', 'application', _settingsObject, {verticalText: _settingsObject.verticalText});
@@ -8912,9 +8911,8 @@ $(document).ready(function() {
                 $('div.applicationType').addClass('toggledApplicationType');
 
                 $('div.optionButton').on('click', function () {
-
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -11545,9 +11543,8 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {
-
             if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+            ub.funcs.resetFlipStatus(_settingsObject);
             var _type = $(this).data('type');
             _settingsObject.status = 'on';
 
