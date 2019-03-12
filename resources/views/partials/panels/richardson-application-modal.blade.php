@@ -144,6 +144,7 @@
 {{-- User Login --}}
 <div id="richardson-user-login" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
     <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
         <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">User Login</h6>
         <div class="uk-grid uk-flex-center" uk-grid>
             <form id="r-login" method="POST" action="#">
