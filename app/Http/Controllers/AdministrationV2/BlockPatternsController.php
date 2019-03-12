@@ -14,6 +14,7 @@ use App\Utilities\FileUploaderV2;
 use App\Utilities\Log;
 use App\Utilities\Random;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Webmozart\Json\JsonDecoder;
 use \Redirect;
 use \Session;
@@ -40,10 +41,24 @@ class BlockPatternsController extends Controller
 
     public function index()
     {
-        $block_patterns = $this->client->getBlockPatterns();
+        $filters = [];
+
+        if (Input::get('sport')) {
+            $filters['sport'] = Input::get('sport');
+        }
+
+        if (Input::get('gender')) {
+            $filters['gender'] = Input::get('gender');
+        }
+
+        $block_patterns = $this->client->getFiltered($filters);
+        
+        $uniformCategories = $this->uniformCategoriesClient->getUniformCategories();
 
         return view('administration-lte-2.master-pages.block-patterns.index', [
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'uniformCategories' => $uniformCategories,
+            'filters' => $filters,
         ]);
     }
 
