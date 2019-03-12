@@ -610,7 +610,8 @@ $(document).ready(function() {
             
             success: function (response) {
 
-                ub.funcs.reload();
+                // ub.funcs.reload();
+                console.log('FEEDBACK FORM', response);
 
             }
             
@@ -618,7 +619,7 @@ $(document).ready(function() {
 
     }
  
-    ub.funcs.feedbackFormFromOrder = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
+    ub.funcs.feedbackFormFromOrder = function (initMessage, imgFront, imgLeft, imgRight, imgBack, redirectLink) {
 
         // unbind before opening window
         window.onbeforeunload = null;
@@ -654,6 +655,8 @@ $(document).ready(function() {
             }
 
             $('div.feedback-form').remove();
+
+            window.location = redirectLink;
             
         });
 
@@ -751,12 +754,12 @@ $(document).ready(function() {
                     _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
                 }
 
-                ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
+                ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
 
                 // Go to view order details form after submission
-                setTimeout(function() {
-                    window.location = _viewOrderLink; }, 30000
-                );
+                // setTimeout(function() {
+                //     window.location = _viewOrderLink; }, 30000
+                // );
 
             }
             
@@ -1314,7 +1317,7 @@ $(document).ready(function() {
 
         ub.funcs.pushState({data: 'generate-pdf', title: 'Generate PDF', url: '?generate-pdf'});
 
-        var _bc = ub.current_material.settings;
+        // var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
 
         console.log('ub.funcs.prepareData() output=====>', _input);
@@ -1374,10 +1377,12 @@ $(document).ready(function() {
                     };
 
                     console.log('RUNNING REQUEST TO PDF SERVICE');
-                    var newPDF = ub.funcs.pdfService(true, _data);
+                    // var newPDF =
+
+                    ub.funcs.pdfService(true, _data);
                     ub.pdfService = {
                         preview_data: _data
-                    }
+                    };
 
                     // console.log('SENDING TO DISPLAY');
                     // ub.funcs.displayLinks(newPDF);
@@ -1444,13 +1449,20 @@ $(document).ready(function() {
                 else {
                     console.log('error: ');
                     console.log(response);
+                    $.smkAlert({
+                        text: '[ERROR]' + '\n\n' + '[' + response + ']' + '\n\n' + 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                        type: 'warning',
+                        permanent: true
+                    });
                 }
 
             },
             error: function(error) {
+                console.log('===error===', error);
                 $.smkAlert({
-                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
-                    type: 'warning'
+                    text: '[' + error + ']' + '\n\n' + 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                    type: 'warning',
+                    permanent: true
                 });
             }
 
