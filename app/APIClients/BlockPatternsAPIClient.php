@@ -33,6 +33,32 @@ class BlockPatternsAPIClient extends APIClient
         return $count;
     }
 
+    public function getFiltered($filters)
+    {
+        $sport = '';
+        $gender = '';
+
+        if (isset($filters['sport'])) {
+            $sport = '&sport=' . $filters['sport'];
+        }
+
+        if (isset($filters['gender']))
+        {
+            $gender = '&gender=' . $filters['gender'];
+        }
+
+        $response = $this->get('block_patterns/filtered?' . $sport . $gender);
+        $result = $this->decoder->decode($response->getBody());
+
+        $block_patterns = [];
+
+        if ($result->success) {
+            $block_patterns = $result->block_patterns;
+        }
+
+        return $block_patterns;
+    }
+
     public function getBlockPatterns()
     {
         $response = $this->get('block_patterns');

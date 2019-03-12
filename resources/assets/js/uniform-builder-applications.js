@@ -4462,11 +4462,9 @@ $(document).ready(function() {
         ub.funcs.activeStyle('colors');
 
         $('#color-wheel-container').fadeIn();
-
     }
 
     ub.funcs.deActivateColorPickers = function () {
-
         $('#color-wheel-container').hide();
 
     }
@@ -4561,9 +4559,8 @@ $(document).ready(function() {
     /// Interactive Applications 
 
     ub.funcs.deActivateApplications = function () {
-
+        ub.funcs.removeUnusedElement('div#changeApplicationUI');
         $('div#applicationUI').remove();
-
     }
 
     ub.funcs.centerFontPopup = function () {
@@ -5895,17 +5892,19 @@ $(document).ready(function() {
         return _colors;
 
     };
+    ub.funcs.resetFlipStatus = function (_settingsObject){
+        var _flipped;
+        _.each (_settingsObject.application.views, function (view){
+            _flipped = view.application.flip = 0;
+        });
+    }
 
     ub.funcs.flipMascot = function (_settingsObject) {
-
         var _flipped;
-
         _.each (_settingsObject.application.views, function (view){
-
            if(typeof view.application.flip === "undefined") {
 
                 _flipped = view.application.flip = 1;
-
            }
            else {
 
@@ -5913,11 +5912,9 @@ $(document).ready(function() {
 
                     _flipped = view.application.flip = 1;
 
-
                 } else {
 
                     _flipped = view.application.flip = 0;
-
                 }
 
            }
@@ -6144,7 +6141,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.initializeRotatePanel = function (_settingsObject, applicationType) {
-
         var _multiplier = 100;
         if (applicationType !== "mascot") { _multiplier = 10};
 
@@ -6972,32 +6968,28 @@ $(document).ready(function() {
 
             $('span.flipButton').unbind('click');
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 ub.funcs.flipMascot(_settingsObject);
                 
             });
 
             $('div.applicationType').on('click', function () {
+                var _status = $('div.toggle').data('status');
 
-                if ($('div#changeApplicationUI').length > 1) {
+                // Don't create change application UI is status is off
+                if (_status === 'off') { return; }
 
+                if ($('div#changeApplicationUI').length > 0) {
                     var _status = $('div#changeApplicationUI').data('status');
-
                     if (_status === 'visible') {
-
                         $('div#changeApplicationUI').hide().data('status', 'hidden');
                         $('div.applicationType').removeClass('toggledApplicationType');
-                        
                     } else {
-
                         $('div#changeApplicationUI').fadeIn().data('status', 'visible');
                         $('div.applicationType').addClass('toggledApplicationType');
-
                     }
-
                     return;
-
                 }
 
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
@@ -7073,13 +7065,12 @@ $(document).ready(function() {
                 _selected = '';
 
                 $('.modifier_main_container').append(_htmlBuilder);
-                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('div#changeApplicationUI').hide().fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
                 $('div.optionButton').on('click', function () {
-
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -7257,6 +7248,7 @@ $(document).ready(function() {
             if(_currentStatus === "on") {
                 s = 'off';
                 ub.funcs.deactivateMoveTool();
+                ub.funcs.removeUnusedElement('div#changeApplicationUI');
             }
             else {
                 s = 'on';
@@ -8776,7 +8768,6 @@ $(document).ready(function() {
 
             $('span.apply-pattern').unbind('click');
             $('span.apply-pattern').on('click', function () {
-
                 ub.funcs.createPatternPopupApplications(ub.current_material.settings.applications[_id]);
 
             });
@@ -8807,7 +8798,7 @@ $(document).ready(function() {
             }
 
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
                 ub.funcs.pushOldState('vertical text', 'application', _settingsObject, {verticalText: _settingsObject.verticalText});
@@ -8819,13 +8810,11 @@ $(document).ready(function() {
             /// End Vertical Text 
 
             $('div.applicationType').on('click', function () {
-
                 var _status = $('div.toggle').data('status');
 
                 // Don't create change application UI is status is off
                 if (_status === 'off') { return; }
-                
-                if ($('div#changeApplicationUI').length > 1) {
+                if ($('div#changeApplicationUI').length > 0) {
 
                     var _status = $('div#changeApplicationUI').data('status');
 
@@ -8917,14 +8906,13 @@ $(document).ready(function() {
                 _currentlySelectedType = '';
                 _selected = '';
 
-                $('.modifier_main_container').append(_htmlBuilder);
-                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('.modifier_main_container').append(_htmlBuilder)
+                $('div#changeApplicationUI').hide().fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
                 $('div.optionButton').on('click', function () {
-
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -9438,14 +9426,14 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-
+            console.log("toggle Option");
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
             if(_currentStatus === "on") {
                 s = 'off';
                 ub.funcs.deactivateMoveTool();
-                $('div#changeApplicationUI').remove();
+                ub.funcs.removeUnusedElement('div#changeApplicationUI');
             } else {
                 ub.funcs.activateMoveTool(application_id);
                 s = 'on';
@@ -11555,9 +11543,8 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {
-
             if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+            ub.funcs.resetFlipStatus(_settingsObject);
             var _type = $(this).data('type');
             _settingsObject.status = 'on';
 
@@ -12212,5 +12199,14 @@ $(document).ready(function() {
             ub.funcs.activateMoveTool(application.code);
         }
     }
+    
+    /// Remove unused elements
+    ub.funcs.removeUnusedElement  = function (elem) {
+        if ($(elem).length > 0){
+            $(elem).remove();
+        }
+    }
+
+    /// End remove unused elements
 
 });

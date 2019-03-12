@@ -22,7 +22,9 @@
                         <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/esports.svg"> eSports</a>
                         <ul class="dropdown-menu">
                             <h6 class="dropdown-header">eSports (Men)</h6>
-                            <li><a href="/styles/men/gamer-jersey" class="sport-link-icons">Gamer Jersey</a></li>
+                            <li><a href="/styles/men/gamer-polo-esports" class="sport-link-icons">Gamer Polos</a></li>
+                            <li><a href="/styles/men/gamer-hoodie-esports" class="sport-link-icons">Gamer Hoodies</a></li>
+                            <li><a href="/styles/men/gamer-jersey-esports" class="sport-link-icons">Gamer Jersey</a></li>
                         </ul>
                         </li>
                 
