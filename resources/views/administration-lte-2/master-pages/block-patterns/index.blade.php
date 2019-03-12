@@ -66,6 +66,14 @@
             display: block;
             margin-bottom: 5px;
         }
+
+        label {
+            margin-left: 10px;
+        }
+
+        .select2 {
+            margin-left: 10px;
+        }
     </style>
 @endsection
 
@@ -75,10 +83,43 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Block Patterns')
-                    <h1>Block Patterns</h1>
-                    <a href="{{ route('v1_add_block_pattern') }}" class="btn btn-flat btn-success btn-add-new">
-                        Add new block pattern
-                    </a>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h1>Block Patterns</h1>
+                            <a href="{{ route('v1_add_block_pattern') }}" class="btn btn-flat btn-success btn-add-new">
+                                Add new block pattern
+                            </a>
+                        </div>
+
+                        <div class="col-md-7 text-right">
+                            <div class="form-inline" style="margin-top: 45px;">
+                                <label>Sports</label>
+
+                                <select id="sportsFilter" class="form-control select2">
+                                    @foreach ($uniformCategories as $uniformCategory)
+                                        @if ($uniformCategory->name != '')
+                                            @if ((isset($filters['sport'])) && ($filters['sport'] == $uniformCategory->id))
+                                                <option value="{{ $uniformCategory->id }}" selected="selected">{{ $uniformCategory->name }}</option>
+                                            @else
+                                                <option value="{{ $uniformCategory->id }}">{{ $uniformCategory->name }}</option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </select>
+
+                                <label>Gender</label>
+                                <select id="genderFilter" class="form-control select2">
+                                    <option value="men" @if (isset($filters['gender']) && $filters['gender'] == 'men') selected="selected" @endif>Men</option>
+                                    <option value="women" @if (isset($filters['gender']) && $filters['gender'] == 'women') selected="selected" @endif>Women</option>
+                                </select>
+
+                                <button id="filterBlockPatterns" class="btn btn-success btn-flat">Filter</button>
+                                <button id="clearFilter" class="btn btn-default btn-flat">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div class="box-body">
@@ -220,6 +261,18 @@
                     hide: true
                 });
             @endif
+
+            $('#filterBlockPatterns').click(function() {
+                var sport = $('#sportsFilter').val();
+                var gender = $('#genderFilter').val();
+
+                var url = "{{ route('v1_block_patterns') }}/?sport=" + sport + "&gender=" + gender;
+                window.location.href = url;
+            });
+
+            $('#clearFilter').click(function() {
+                window.location.href = "{{ route('v1_block_patterns') }}";
+            });
         });
     </script>
 @endsection
