@@ -62,7 +62,7 @@ $(document).ready(function() {
 
         $("div#right-pane-column").css({
             "top": ub.config.isHeaderVisible ? '220px' : "100px",
-            "right": "50px"
+            "right": "100px"
         })
     };
 
@@ -86,9 +86,10 @@ $(document).ready(function() {
     ub.funcs.setupRightPanelFooter = function () {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
         $("#right-main-window.pane-main-window").css({
-            'height': '600px',
+            'height': '550px',
             "background-color": "white",
-            "border": "1px solid #e6e6e6"
+            "border": "1px solid #e6e6e6",
+            "width": "500px"
         });;
 
         var richardson_footer = document.getElementById("m-richardson-footer");
@@ -143,6 +144,16 @@ $(document).ready(function() {
         });
     };
 
+    ub.funcs.handleOnChangeFabric = function () {
+        $(".richardson-header").on('click', '.change-fabric', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            if (!$('#property-modifiers-menu .menu-item-fabrics').hasClass('active')) {
+                $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
+            }
+        });
+    }
+
     ub.funcs.changeStage = function() {
         ub.current_modifier = 1;
         $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
@@ -155,6 +166,7 @@ $(document).ready(function() {
         ub.funcs.removeNavigationHeader();
         ub.funcs.setupRightPanelFooter();
         ub.funcs.changeStageBackgroundColor(0xffffff);
+        ub.funcs.handleOnChangeFabric();
 
         SummaryPreviewPanel.events.init();
 

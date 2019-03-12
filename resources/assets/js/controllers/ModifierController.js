@@ -48,23 +48,23 @@ ModifierController.prototype = {
 
     initControls: function() {
         // Set Tooltips Behavior
-        tippy('.tippy-menu-item', {
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end',
-            arrow: true
-        });
+        // tippy('.tippy-menu-item', {
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
 
-        // change pipings to random feeds if the item is sock
-        tippy('#property-modifiers-menu .menu-item-pipings', {
-            content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end',
-            arrow: true
-        });
+        // // change pipings to random feeds if the item is sock
+        // tippy('#property-modifiers-menu .menu-item-pipings', {
+        //     content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
     },
 
     bindEvents: function() {
@@ -224,6 +224,8 @@ ModifierController.prototype = {
     letters: function() {
         ub.funcs.startNewApplicationLetters();
         ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);
@@ -232,6 +234,8 @@ ModifierController.prototype = {
     numbers: function() {
         ub.funcs.startNewApplicationNumbers();
         ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 6;
 
         $("#primary_options_container").scrollTo(0);
@@ -241,7 +245,8 @@ ModifierController.prototype = {
         ub.funcs.startNewApplication();
         ub.funcs.enableRichardsonNavigator();
         ub.current_modifier = 7;
-
+        ApplicationPanel.events.initGlobalEvents();
+        ApplicationMascotPanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 
@@ -262,24 +267,15 @@ ModifierController.prototype = {
 
             }
 
-            var col_md = 0
-            if (logo_positions.length === 1) {
-                col_md = 12;
-            } else if (logo_positions.length === 2) {
-                col_md = 6;
-            } else if (logo_positions.length === 3) {
-                col_md = 4;
-            }
-
-            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions, col_md);
+            ub.modifierController.logo = new LogoPanel("m-logo", logo_positions);
             var logo_panel = ub.modifierController.logo.getPanel();
             properties_panel.setBodyPanel(logo_panel);
 
             // Activate logo current position
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
 
             var image = ub.getThumbnailImage(ub.active_view + "_view");
+
             $("#logo-preview").css({
                 'background-image': "url("+ image +")"
             });

@@ -7648,7 +7648,7 @@ $(document).ready(function () {
 
     // }
 
-    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {
+    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {    
 
         console.log('_applicationType===>', _applicationType);
 
@@ -11384,7 +11384,9 @@ $(document).ready(function () {
 
                 if (_settingsObject.application_type === "free") {
 
-                    ub.funcs.activateFreeApplication(locationCode);
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateFreeApplication(locationCode);
+                    }
 
                 }
                 else if (_settingsObject.application_type === "mascot") {
@@ -11783,7 +11785,12 @@ $(document).ready(function () {
                     item.name.indexOf('Pocket Cuff') > -1 ||
                     item.name.indexOf('Arm Cuff') > -1 ||
                     item.name.indexOf('Prolook') > -1 ||
-                    item.name.indexOf('Belt Loop') > -1;
+                    item.name.indexOf('Belt Loop') > -1 ||
+                    item.name.indexOf('Button') > -1 ||
+                    item.name.indexOf('Front Body Color') > -1 ||
+                    item.name.indexOf('Back Body Color') > -1 ||
+                    item.name.indexOf('Side Insert Color') > -1 ||
+                    item.name.indexOf('Side Insert') > -1;
             });
 
             if (ub.funcs.isSocks()) {
