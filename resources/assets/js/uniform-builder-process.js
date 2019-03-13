@@ -1431,7 +1431,7 @@ $(document).ready(function() {
         $.ajax({
             async: async,
             data: JSON.stringify(_data),
-            url: "http://34.214.34.246/api/upload",
+            url: "https://34.214.34.246/api/upload",
             dataType: "json",
             type: "POST",
             crossDomain: true,
