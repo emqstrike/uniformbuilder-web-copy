@@ -42,7 +42,7 @@ function PropertiesPanel(
 PropertiesPanel.prototype = {
     constructor: PropertiesPanel,
 
-    initModifiers: function(palette_category) {
+    initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         _.map(this.modifiers, function(modifier) {
             var _modifier = ub.funcs.getModifierByIndex(modifier.index);
@@ -67,8 +67,14 @@ PropertiesPanel.prototype = {
 
             if (typeof _limitedColorSet === "undefined") {
                 // if dont have limited color set the team colors
-                var color_pallete = color_palette = ColorPalette.funcs.getConfigurationPerTab(palette_category);
-                modifier.colors = color_pallete;
+                var color_palette = null;
+                if (modifier.name.includes("Panel") || modifier.name.includes("Piping") || modifier.name.includes("Insert")) {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("insert");
+                } else {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("base");
+                }
+
+                modifier.colors = color_palette;
             }
 
             // Check if uniform has gradient
