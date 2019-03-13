@@ -1750,6 +1750,9 @@ $(document).ready(function () {
             ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
             ub.funcs.updateTagStyleCount();
 
+            // Init HSEL
+            ub.funcs.initHSELLogo();
+
         }
 
         ub.load_orders = function (obj, object_name){
@@ -7260,7 +7263,7 @@ $(document).ready(function () {
             });
 
            ub.funcs.prepFilters();
-                
+           
         }
 
         if (type === 'uniforms') {

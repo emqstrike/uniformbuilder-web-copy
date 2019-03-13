@@ -45,6 +45,9 @@ elixir(function(mix) {
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
 
+            // HSEL
+            'uniform-builder-hsel.js',
+
             'uniform-builder-dealership.js',
             'uniform-builder-data.js',
             'uniform-builder-ui-data.js',

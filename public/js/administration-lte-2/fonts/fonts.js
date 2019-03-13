@@ -2,8 +2,6 @@ $(document).ready(function(){
 
     var fontSizes = [];
 
-    // $('[data-toggle="tooltip"]').tooltip();
-    // $('table').tooltip({ selector: '[data-toggle="tooltip"]' });
     $('[data-toggle="tooltip"]').popover({
         html: true,
         trigger: 'hover',
@@ -15,7 +13,7 @@ $(document).ready(function(){
 
     $('.preview-button').on('click', function(event) {
         event.preventDefault();
-        
+
         text = $('#text-source').val();
         size = $('#size-source').val();
         $('#p-text').text(text);
