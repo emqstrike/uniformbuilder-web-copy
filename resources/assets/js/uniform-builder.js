@@ -6599,7 +6599,7 @@ $(document).ready(function () {
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
-
+ 
             $picker_item = $(this);
 
             var _picker_type = $(this).data('picker-type');
@@ -6726,6 +6726,13 @@ $(document).ready(function () {
         $('div#topbar > span.slink[data-picker-type="gender"]').unbind('click');
         $('div#topbar > span.slink[data-picker-type="gender"]').on('click', function () {
 
+            // Picker V2
+            if (ub.picker.isNew) {
+                $('.cd-filter .cd-close').trigger('click');
+                $('main.cd-main-content').css({'display':'none'});
+                ub.funcs.resetSecondaryBarFilter();
+            }
+
             $picker_item = $(this);
 
             var _picker_type = $(this).data('picker-type');
@@ -6830,7 +6837,6 @@ $(document).ready(function () {
         } else {
             $('span.slink[data-item="Sublimated"]').show();
         }
-
 
     }
 
@@ -7267,17 +7273,33 @@ $(document).ready(function () {
 
             var _sport = gender;
 
-            ub.funcs.prepareSecondaryBar(_sport, actualGender);
-
             var _sizeSec = _.size(items);
 
-            ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
-            ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
+            var template = '';
 
-            $('div.secondary-bar').fadeIn();
-            $('div.secondary-bar').css('margin-top', "0px");
+            if (!ub.picker.isNew) {
 
-            var template = $('#m-picker-items-uniforms').html();
+                template = $('#m-picker-items-uniforms').html()
+
+                ub.funcs.prepareSecondaryBar(_sport, actualGender);
+
+                ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
+                ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
+
+                $('div.secondary-bar').fadeIn();
+                $('div.secondary-bar').css('margin-top', "0px");
+
+            } else {
+
+                ub.funcs.prepareSecondaryBarV2(_sport, actualGender);
+
+                template = $('#m-picker-items-uniforms-v2').html()
+
+                $('main.cd-main-content').css({'display':'block'});
+
+                $scrollerElement = $('section#picker-items-container ul');
+
+            }
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
 
@@ -7483,9 +7505,13 @@ $(document).ready(function () {
             });
 
             if (typeof fromTertiary !== 'boolean') {
+
+                if (!ub.picker.isNew) {
             
-                ub.funcs.updateTertiaryBar(items, gender);
-                ub.funcs.updateQuarternaryBar(items, gender);
+                    ub.funcs.updateTertiaryBar(items, gender);
+                    ub.funcs.updateQuarternaryBar(items, gender);
+
+                }
 
             }
 
@@ -7680,7 +7706,14 @@ $(document).ready(function () {
 
             });
 
-            $(window).scrollTop(0);
+            $(window).scrollTop(1);
+
+            if (ub.picker.isNew) {
+                
+                ub.funcs.resetSecondaryBarFilter();
+
+                $('div#main-picker-scroller').fadeOut().html('');
+            }
 
         }
 

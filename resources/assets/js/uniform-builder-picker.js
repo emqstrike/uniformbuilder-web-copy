@@ -175,11 +175,13 @@ $(document).ready(function () {
 		if (ub.config.picker_version == 'NEW') {
 			ub.picker.isNew = true;
 		}
+
+		// ub.funcs.triggerUpperLowerFilter();
     }
 
-    ub.funcs.initPicker();
-
     ub.funcs.prepareSecondaryBarV2 = function (sport, gender) {
+
+    	ub.funcs.hidePrimaryBarFilter();
 
     	$('a.picker-slink[data-type="upper"]').show();
     	$('a.picker-slink[data-type="lower"]').show();
@@ -187,6 +189,11 @@ $(document).ready(function () {
         var labels = ub.data.secondaryBarLabelsV2.getLabel(sport);
 
         if (typeof labels != "undefined") {
+
+        	// Women Tennis lower label is SKORTS
+        	if (_.isEqual(sport, 'Tennis') && _.isEqual(gender, 'women')) {
+        		labels.lowerLabel = 'Skorts';
+        	}
 
             if (labels.type == "upper") {
 
@@ -212,5 +219,35 @@ $(document).ready(function () {
 
 
     }
+
+    ub.funcs.triggerUpperLowerFilter = function () {
+    	$('.cd-tab-filter li').on('click', function(event){
+			//detect which tab filter item was selected
+			var selected_filter = $(event.target).data('type');
+
+			if (selected_filter == 'upper') {
+				$('li.upper').fadeIn();
+				$('li.lower').fadeOut();
+			} else if (selected_filter == 'lower') {
+				$('li.lower').fadeIn();
+				$('li.upper').fadeOut();
+			} else {
+				$('li.upper').fadeIn();
+				$('li.lower').fadeIn();
+			}
+		});
+    }
+
+    ub.funcs.resetSecondaryBarFilter = function () {
+    	$('a.picker-slink.selected').removeClass('selected');
+    	$('li.filter a[data-type="all"]').addClass('selected');
+    	$('li.filter a[data-type="all"]').trigger('click');
+    }
+
+    ub.funcs.hidePrimaryBarFilter = function () {
+    	$('div#topbar').hide();
+    }
+
+    ub.funcs.initPicker();
 
 });

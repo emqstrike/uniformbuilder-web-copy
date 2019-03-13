@@ -223,9 +223,9 @@ xtab-filter
   }
   .cd-tab-filter a.selected {
     background: transparent;
-    color: #41307c;
+    color: #000;
     /* create border bottom using box-shadow property */
-    box-shadow: inset 0 -2px 0 #41307c;
+    box-shadow: inset 0 -2px 0 #000;
   }
   .cd-tab-filter.is-open ul li {
     display: inline-block;
@@ -258,7 +258,7 @@ xgallery
 }
 .cd-gallery li {
   margin-bottom: 1.6em;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);*/
   display: none;
 }
 .cd-gallery li.gap {
@@ -294,7 +294,7 @@ xgallery
 }
 @media only screen and (min-width: 1170px) {
   .cd-gallery {
-    padding: 50px 2%;
+    padding: 50px 7%;
     float: right;
     -webkit-transition: width 0.3s;
     -moz-transition: width 0.3s;

@@ -76,10 +76,10 @@ jQuery(document).ready(function($){
 	    },
 	    callbacks: {
 	    	onMixStart: function(){
-	    		$('.cd-fail-message').fadeOut(200);
+	    		$('.cd-fail-message').fadeOut(1000);
 	    	},
 	      	onMixFail: function(){
-	      		$('.cd-fail-message').fadeIn(200);
+	      		$('.cd-fail-message').fadeIn(1000);
 	    	}
 	    }
 	});
@@ -101,13 +101,14 @@ jQuery(document).ready(function($){
 	  	// Delay function invoked to make sure user stopped typing
 	  	delay(function(){
 	    	inputText = $(".cd-filter-content input[type='search']").val().toLowerCase();
+	    	var exemptions = ['upper', 'lower', 'sublimated', 'tackle_twill'];
 	   		// Check to see if input field is empty
 	    	if ((inputText.length) > 0) {            
 	      		$('.mix').each(function() {
 		        	var $this = $(this);
 		        
 		        	// add item to be filtered out if input text matches items inside the title   
-		        	if($this.attr('class').toLowerCase().match(inputText)) {
+		        	if($this.attr('class').toLowerCase().match(inputText) && !_.contains(exemptions, inputText)) {
 		          		$matching = $matching.add(this);
 		        	} else {
 		          		// removes any previously matched item

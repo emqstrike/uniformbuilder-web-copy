@@ -10,6 +10,7 @@
 
         window.ub.config = {
             brand: "{{ env('BRAND') }}",
+            picker_version: "{{ env('PICKER_VERSION') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",

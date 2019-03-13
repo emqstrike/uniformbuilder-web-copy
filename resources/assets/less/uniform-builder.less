@@ -2981,6 +2981,110 @@ div.quarternary-bar  {
     }
 }
 
+li.mix {
+
+    div.main-picker-items {
+        
+        height: 520px;
+        pointer: cursor;
+        
+        span.main-picker-item-caption {
+            color: rgb(30, 30, 30);
+            width: 100%;
+            height: 30px;
+            display: block;
+            opacity: 0.8;
+            transition: all 0.2s ease-in-out 0s;
+            text-align: center;
+            font-size: 1.1em;
+            font-family: Gotham-Book;
+            margin-top: 0px;
+            text-transform: uppercase;
+            position: absolute;
+
+            strong.type > b {
+                background-color: #e7e7e7;
+                color: #3d3d3d;
+                display: inline-block;
+                padding: 3px 7px;
+                margin: 10px auto 0;
+                font-size: .8em;
+                text-transform: uppercase;
+                font-family: Gotham-Book;
+            }
+
+        }
+
+        img {
+            height: auto;
+            margin-bottom: 30px;
+            z-index: 2;
+        }
+
+        img.left {
+            display: none;
+        }
+
+        div.favorite {
+            position: absolute;
+            font-size: 0.7em;
+            background-color: #acacac;
+            color: @ubBlack;
+            padding: 5px;
+            width: 70%;
+            text-align: center;
+            z-index: 1;
+            margin-top: -210px;
+            display: none;
+            margin-left: 15%;
+            margin-right: 15%;
+        }
+
+    }
+
+    div.main-picker-items:hover {
+        img.left {
+            display: block;
+        }
+
+        img.front {
+            display: none;
+        }
+
+        span.main-picker-item-caption > strong.type > b {
+            background-color: #1e1e1e;
+            color: #fff;
+            font-family: Gotham-Book;
+        }
+    }
+
+}
+
+li.filter {
+    
+    a {
+        color: #a39a9a;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #000;
+    }
+
+    a.selected {
+        text-decoration: none;
+    }
+    
+    a.selected:active {
+        color: #000;
+    }
+}
+
+a.cd-filter-trigger:hover {
+    color: #000;
+    text-decoration: none;
+}
+
 input#search_field {
 
     color: @light-border;
