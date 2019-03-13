@@ -306,12 +306,15 @@ ModifierController.scrollToOptions = function (application_type, application_id)
         $('#property-modifiers-menu .menu-item-applications').trigger('click')
     }
 
-    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
+    _.delay(function() {
+        $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
+    }, 500);
 
+    console.log("dkjashdksahdsajd");
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {
-    $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
+    $('.modifier_main_container').find($('li[data-application-id=' + application_id + '].applicationUIBlockNew')).remove();
 }
 
 ModifierController.dropdownLinks = function() {

@@ -1965,6 +1965,8 @@ $(document).ready(function () {
 
         $('body').mouseup(function () {
 
+            console.log("Application", application);
+
             if (ub.funcs.popupTest()) {
                 return;
             }
@@ -1995,12 +1997,7 @@ $(document).ready(function () {
                 } else {
                     // Check if scrolling UI is active
                     if (ub.data.useScrollingUI) {
-                        $("#primary_options_container").scrollTo(0, { duration: 0 });
-                        $("#parts-with-insert-container").hide();
-                        $(".parts-container").hide();
-                        ub.funcs.activeStyle('layers');
                         ModifierController.scrollToOptions(application.type, _id);
-
                     } else {
                         ub.funcs.activateMascots(_id);
                     }
