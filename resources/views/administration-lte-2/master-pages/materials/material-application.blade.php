@@ -7,6 +7,26 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
     <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
+
+    <style>
+        #app-controls td,
+        #app-controls th {
+            border: none;
+            padding: 0;
+        }
+
+        .select2-container--open .select2-dropdown--above {
+            z-index: 999999;
+        }
+
+        .select2-container .select2-selection--single {
+            height: auto !important;
+        }
+
+        .app-default-mascot {
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('custom-styles')
@@ -23,6 +43,8 @@
                     <div class="box-header">
                         <div class="col-md-12">
                             @section('page-title', 'Material Options')
+
+                            @include('administration.partials.flash-message')
 
                             <h1>Material Application ID: {{ $materialOption->id }}</h1>
                             <h4>Edit: {{ $materialOption->name }}</h4>
@@ -198,6 +220,20 @@
                                                         <tbody class="front-applications">
                                                         </tbody>
                                                     </table>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6" style="margin-top: 20px;">
+                                                        <div class="form-inline">
+                                                            <input type="text" id="app_template_name" class="form-control" placeholder="Template Name.">
+                                                            <a href="#" class="btn btn-flat btn-primary" id="save_app_template">
+                                                            <span class="glyphicon glyphicon-save"></span> Save as Template</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 text-right" style="margin-top: 20px;">
+                                                        <input type="submit" class="btn btn-flat btn-success save-applications-button" value="Save">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

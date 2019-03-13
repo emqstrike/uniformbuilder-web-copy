@@ -257,10 +257,10 @@ class MaterialsOptionsController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return back()->with('message', $response->message);
+            return redirect()->route('v1_material_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
+            return redirect()->route('v1_material_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
 

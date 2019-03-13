@@ -122,6 +122,8 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'applications_properties' => $applications_properties
         ];
+
+
 // dd(json_encode($data));
         $response = null;
         if (!empty($materialOptionId))
