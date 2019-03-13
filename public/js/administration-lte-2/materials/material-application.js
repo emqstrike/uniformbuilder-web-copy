@@ -1554,6 +1554,8 @@ $(document).ready(function() {
 
                         var description = mascot.category + ' [ ' + c + ' ]';
 
+                        $(mascot_id).append("<option value='' data-image='' data-description=''>None</option>");
+
                         var option = "<option value='" + mascot.id + "' data-image='" + mascot.icon + "' data-description='" + description + "' selected='selected'>";
                             option += mascot.name
                             option += "</option>";
@@ -1563,7 +1565,8 @@ $(document).ready(function() {
                         $(mascot_id).select2({
                             width: '300px',
                             templateResult: formatState,
-                            templateSelection: formatState
+                            templateSelection: formatState,
+                            minimumResultsForSearch: -1
                         });
                     }
                 });
@@ -3619,6 +3622,8 @@ $(".dd-selected-value").click(function(){
 
                 mascotDropdown.find('option').remove();
 
+                mascotDropdown.append("<option value='' data-image='' data-description=''>None</option>");
+
                 for (var index = 0; index < data.mascots.length; index++) {
                     var mascot = data.mascots[index];
 
@@ -3632,7 +3637,8 @@ $(".dd-selected-value").click(function(){
                 mascotDropdown.select2({
                     width: '300px',
                     templateResult: formatState,
-                    templateSelection: formatState
+                    templateSelection: formatState,
+                    minimumResultsForSearch: -1
                 });
 
                 mascotDropdown.change(function() {
