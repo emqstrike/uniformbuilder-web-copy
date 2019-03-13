@@ -423,7 +423,7 @@ PipingPanel.isValidToProcessPipings = function() {
     var is_valid = false;
 
     if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
-        if (_.size(ub.current_material.settings.pipings) !== 0) {
+        if (_.size(ub.current_material.material.pipings) !== 0) {
             is_valid = true;
         }
     }

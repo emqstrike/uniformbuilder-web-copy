@@ -10,13 +10,12 @@
  * - Mustache
  */
 
-function PartPanel(element, parts) {
+function PartPanel(element, parts, inserts) {
     this.panel = document.getElementById(element);
     this.parts = parts;
-    this.colors = new ColorPanel(null),
-    this.patterns = new PatternPanel(null),
-    this.isBindEvents = 0;
+    this.inserts = inserts;
     this.items = {
+        inserts: this.inserts,
         parts: this.parts,
         patterns: ub.funcs.getPatternList()
     };
@@ -28,27 +27,5 @@ PartPanel.prototype = {
     getPanel: function() {
         var rendered = Mustache.render(this.panel.innerHTML, this.items);
         return rendered;
-    },
-
-    onSelect: function() {
-        $(".color-main-container .color-container-button").on('click', '.color-selector-button', function(event) {
-            var color = $(this).data('color-name');
-
-            $(this).html('<span class="fa fa-check fa-2x cp-fc-black"></span>');
-            $(this).addClass('active-color');
-            console.log(color)
-        });
-    },
-
-    // Set Pattern Tooltips
-    setTooltips: function() {
-        if ($('.tippy-pattern-name').length) {
-            // Tooltip for panels
-            tippy('.tippy-pattern-name', {
-                delay: 0,
-                size: 'large',
-                animation: 'shift-away'
-            });
-        }
     }
 }

@@ -70,7 +70,6 @@ ModifierController.prototype = {
     bindEvents: function() {
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
-        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
         $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
@@ -143,8 +142,8 @@ ModifierController.prototype = {
 
         // New Properties Object
         var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-        propertiesPanel.initModifiers("base");
-        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
+        propertiesPanel.initModifiers();
+        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts, propertiesPanel.inserts);
 
         var part_panel = ub.modifierController.controllers.parts.getPanel();
         propertiesPanel.setBodyPanel(part_panel);
@@ -155,28 +154,6 @@ ModifierController.prototype = {
         GradientPanel.events.init();
 
         ub.current_modifier = 2;
-
-        $("#primary_options_container").scrollTo(0);
-        ub.funcs.enableRichardsonNavigator();
-    },
-
-    inserts: function() {
-        ub.modifierController.clearControls();
-        ub.funcs.activeStyle('colors');
-
-        // New Properties Object
-        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-        propertiesPanel.initModifiers("insert");
-        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
-
-        var insert_panel = ub.modifierController.controllers.inserts.getPanel();
-        propertiesPanel.setBodyPanel(insert_panel);
-        propertiesPanel.setDefaultColorsPatterns();
-
-        // Bind Events
-        propertiesPanel.bindEvents();
-
-        ub.current_modifier = 3;
 
         $("#primary_options_container").scrollTo(0);
         ub.funcs.enableRichardsonNavigator();
@@ -217,7 +194,7 @@ ModifierController.prototype = {
             properties_panel.setBodyPanel(piping_panel);
         }
 
-        ub.current_modifier = 4;
+        ub.current_modifier = 3;
         ub.funcs.enableRichardsonNavigator();
     },
 
@@ -226,7 +203,7 @@ ModifierController.prototype = {
         ub.funcs.enableRichardsonNavigator();
         ApplicationPanel.events.init();
         ApplicationPanel.events.initGlobalEvents();
-        ub.current_modifier = 5;
+        ub.current_modifier = 4;
 
         $("#primary_options_container").scrollTo(0);
     },
@@ -236,7 +213,7 @@ ModifierController.prototype = {
         ub.funcs.enableRichardsonNavigator();
         ApplicationPanel.events.init();
         ApplicationPanel.events.initGlobalEvents();
-        ub.current_modifier = 6;
+        ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);
     },
@@ -244,7 +221,7 @@ ModifierController.prototype = {
     applications: function() {
         ub.funcs.startNewApplication();
         ub.funcs.enableRichardsonNavigator();
-        ub.current_modifier = 7;
+        ub.current_modifier = 6;
         ApplicationPanel.events.initGlobalEvents();
         ApplicationMascotPanel.events.init();
         $("#primary_options_container").scrollTo(0);
@@ -289,12 +266,12 @@ ModifierController.prototype = {
             properties_panel.setBodyPanel(render);
         }
 
-        ub.current_modifier = 8;
+        ub.current_modifier = 7;
         $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
     }
 };
 
-ModifierController.scrollToOptions = function (application_type, application_id) {
+ModifierController.scrollToOptions = function (application_type, application_id, application_code) {
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if ((application_type === "team_name" || application_type === "player_name") && ! $('#property-modifiers-menu .menu-item-letters').hasClass('active')) {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
@@ -307,12 +284,15 @@ ModifierController.scrollToOptions = function (application_type, application_id)
         $('#property-modifiers-menu .menu-item-applications').trigger('click')
     }
 
-    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'), { duration: 1000 })
+    _.delay(function() {
+        $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
+    }, 500);
 
+    ub.funcs.activateMoveTool(application_code);
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {
-    $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
+    $('.modifier_main_container').find($('li[data-application-id=' + application_id + '].applicationUIBlockNew')).remove();
 }
 
 ModifierController.dropdownLinks = function() {

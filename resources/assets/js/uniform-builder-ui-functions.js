@@ -109,7 +109,7 @@ $(document).ready(function() {
         $("#right-pane-column .richardson-footer").on('click', '.richardson-onNext', function(event) {
             event.preventDefault();
             var current_modifier = ub.current_modifier;
-            var total_modifier = 8;
+            var total_modifier = 7;
 
             if (ub.current_modifier !== total_modifier) {
                 if (current_modifier >= 1) {

@@ -1,6 +1,6 @@
 <script type="text/mustache" id="m-logo">
     <div id="primary_option_logo" class="uk-padding-small uk-margin-remove">
-        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Richardson Logo</h5>
+        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Brand</h5>
         <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-dark">Choose location</h6>
         <ul class="uk-grid-small grid-tiny uk-margin-bottom bac-dark active-bgc-dark active-bdr-dark logo-perspective-btn-container" uk-grid>
             @{{ #logo_position }}
