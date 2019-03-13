@@ -1501,6 +1501,10 @@ $(document).ready(function () {
 
         };
 
+        sprite.mouseup = sprite.mouseup = function (interactionData) {
+            ub.funcs.activateApplicationsLetters(application.code);
+        }
+
     }
 
 
