@@ -26,7 +26,7 @@ class CartController extends Controller
         $cart_token = \Session::get('cart_token');
         $cart = Cart::findByToken($cart_token);
 
-        return view('shopping-cart.cart', compact('sizes_json', 'cart'));
+        return view('shopping-cart.cart', compact('cart'));
     }
 
     public function createUserViaCart(Request $request)
