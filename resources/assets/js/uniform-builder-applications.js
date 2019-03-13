@@ -1172,13 +1172,9 @@ $(document).ready(function () {
 
                         }
                     });
-
                 }
-
                 ub.funcs.activateMoveTool(application.code);
-
             }
-
         };
 
         sprite.mousemove = sprite.mousemove = function (interactionData) {
@@ -1261,8 +1257,8 @@ $(document).ready(function () {
                         ub.updateApplicationSpecsPanel(_application.code);
 
                         if (ub.data.useScrollingUI) {
-                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
-                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
+                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 99));
+                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 99));
 
                             if(val_x < 1) {
                                 val_x = 1;
@@ -1411,11 +1407,8 @@ $(document).ready(function () {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
-
                     }
-
                 });
-
             }
 
             var this_data = this.interactionData.data;
@@ -1965,8 +1958,6 @@ $(document).ready(function () {
 
         $('body').mouseup(function () {
 
-            console.log("Application", application);
-
             if (ub.funcs.popupTest()) {
                 return;
             }
@@ -1989,7 +1980,7 @@ $(document).ready(function () {
                 if (application.type !== "mascot" && application.type !== "logo") {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id);
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -1997,7 +1988,7 @@ $(document).ready(function () {
                 } else {
                     // Check if scrolling UI is active
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id);
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateMascots(_id);
                     }
@@ -11390,7 +11381,7 @@ $(document).ready(function () {
 
                     if (ub.data.useScrollingUI) {
                         // Trigger click on tab
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateMascots(locationCode);
                     }
@@ -11398,7 +11389,7 @@ $(document).ready(function () {
                 } else {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }

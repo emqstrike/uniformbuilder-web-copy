@@ -246,22 +246,14 @@ PropertiesPanel.prototype = {
                 ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
-                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                var _obj = _.find(ub.data.modifierLabels, {fullname: _result.toString()});
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
-                {
-                    if ($("#primary_options_container .inserts-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-inserts').trigger('click');
-                    }
+                if ($("#primary_options_container ul.parts-container").length === 0) {
+                    $('#property-modifiers-menu .menu-item-parts').trigger('click');
                 }
-                else
-                {
-                    if ($("#primary_options_container .parts-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-parts').trigger('click');
-                    }
-                }
+
                 _this.activePanelbyIndex(_index);
             }
             else

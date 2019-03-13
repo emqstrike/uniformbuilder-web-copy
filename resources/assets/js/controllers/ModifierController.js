@@ -70,7 +70,6 @@ ModifierController.prototype = {
     bindEvents: function() {
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
-        // $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
         $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
@@ -159,28 +158,6 @@ ModifierController.prototype = {
         $("#primary_options_container").scrollTo(0);
         ub.funcs.enableRichardsonNavigator();
     },
-
-    // inserts: function() {
-    //     ub.modifierController.clearControls();
-    //     ub.funcs.activeStyle('colors');
-
-    //     // New Properties Object
-    //     var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-    //     propertiesPanel.initModifiers("insert");
-    //     ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
-
-    //     var insert_panel = ub.modifierController.controllers.inserts.getPanel();
-    //     propertiesPanel.setBodyPanel(insert_panel);
-    //     propertiesPanel.setDefaultColorsPatterns();
-
-    //     // Bind Events
-    //     propertiesPanel.bindEvents();
-
-    //     ub.current_modifier = 3;
-
-    //     $("#primary_options_container").scrollTo(0);
-    //     ub.funcs.enableRichardsonNavigator();
-    // },
 
     pipings: function() {
         if (ub.funcs.popupsVisible()) { return; }
@@ -294,7 +271,7 @@ ModifierController.prototype = {
     }
 };
 
-ModifierController.scrollToOptions = function (application_type, application_id) {
+ModifierController.scrollToOptions = function (application_type, application_id, application_code) {
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if (application_type === "team_name" || application_type === "player_name") {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
@@ -310,7 +287,7 @@ ModifierController.scrollToOptions = function (application_type, application_id)
         $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
     }, 500);
 
-    console.log("dkjashdksahdsajd");
+    ub.funcs.activateMoveTool(application_code);
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {

@@ -95,7 +95,7 @@ ApplicationPanel.events = {
         }
     },
 
-    onKeyPressApplicationText: function() {
+    onKeyPressApplicationText: function(e) {
         var _val = $(this).val();
         var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
@@ -595,7 +595,7 @@ $(function() {
         // prepare data
         var templateData = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-            title: "DECORATION LETTERS",
+            title: "Names",
             type: "letters",
             applications: _appData
         };
@@ -671,7 +671,7 @@ $(function() {
 
         // prepare data
         var templateData = {
-            title: "DECORATION NUMBERS",
+            title: "NUMBERS",
             type: "numbers",
             applications: _appData,
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : ''
