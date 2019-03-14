@@ -1,6 +1,7 @@
 $(document).ready(function() {
-
-    $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+    $('.slide-zoomout').animate({ 
+        'zoom': 0.45 
+    }, 400);
 
     var material = {};
     var materialOptions = {};
@@ -17,17 +18,17 @@ $(document).ready(function() {
             cursor: 'http://findicons.com/files/icons/2625/google_plus_interface_icons/128/rotate.png'
         },
         mr: {
-            action: function( e, target ) {
-                target.set( {
+            action: function(e, target) {
+                target.set({
                     left: 200
-                } );
+                });
                 canvas.renderAll();
             }
-         }
+        }
     });
 
-    canvasFront.setWidth( 496 );
-    canvasFront.setHeight( 550 );
+    canvasFront.setWidth(496);
+    canvasFront.setHeight(550);
     var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
@@ -58,56 +59,29 @@ $(document).ready(function() {
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
 
-    console.log(window.tailsweeps);
-
-    // START
-    $(".edit-material-option-info").each(function(i) {
-        var default_color_code = $(this).data('material-option-default-color');
-        var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
-        console.log(default_color_code);
-        var uc_default_color_code = default_color_code.toUpperCase();
-
-        var dcc_item = _.find(window.colors, function (o) { return o.color_code == uc_default_color_code; });
-        var default_color_name = dcc_item.name;
-        var default_color_hex = dcc_item.hex_code;
-
-        var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
-        var sublimated_default_color_name = sdcc_item.name;
-        console.log(dcc_item);
-
-        $(this).attr('data-material-option-default-color-name', default_color_name);
-        $(this).attr('data-material-option-sublimated-default-color-name', sublimated_default_color_name);
-
-        $(this).parent().find('.color-preview-pill').html('#'+default_color_hex);
-        $(this).parent().find('.color-preview-pill').css('background-color', '#'+default_color_hex);
-    });
-    // END
-
-
     var accentObject= [];
+
     jQuery.each(accents, function(index, item) {
-    var layers = (item.accent_properties).slice(1, -1);
-    layers =jQuery.parseJSON(layers);
-    accent = {
-              "name" : item.name,
-              "id": item.secondary_id,
-              "layers": layers.length,
-              "thumbnail" : item.thumbnail_path,
-              }
+        var layers = (item.accent_properties).slice(1, -1);
+        layers =jQuery.parseJSON(layers);
 
-     accentObject.push(accent);
+        accent = {
+            "name" : item.name,
+            "id": item.secondary_id,
+            "layers": layers.length,
+            "thumbnail" : item.thumbnail_path,
+        }
 
-
+        accentObject.push(accent);
     });
-    window.accents=accentObject;
 
-
-
-
+    window.accents = accentObject;
 
     var colors_dropdown = generateColorsDropdown();
-    function generateColorsDropdown(color_code){
+
+    function generateColorsDropdown(color_code) {
         var colors_dropdown = '';
+
         $.each(window.colors, function( key, value ) {
             if( color_code == value.color_code){
                 colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
@@ -115,12 +89,14 @@ $(document).ready(function() {
                 colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
             }
         });
+
         return colors_dropdown;
     }
 
-    function generateTeamColorsIDDropdown(id){
+    function generateTeamColorsIDDropdown(id) {
         var team_colors_id_dropdown = '<option value="">None</option>';
         var ctr = 1;
+
         while( ctr <= 10 ){
             if( ctr == id){
                 team_colors_id_dropdown += '<option value="' + ctr + '" selected>' + ctr + '</option>';
@@ -129,6 +105,7 @@ $(document).ready(function() {
             }
             ctr++;
         }
+
         return team_colors_id_dropdown;
     }
 
@@ -145,7 +122,6 @@ $(document).ready(function() {
                 window.current_pattern_properties[x].team_color_id = $(this).val();
                 x++;
             });
-            console.log( JSON.stringify(window.current_pattern_properties) );
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
@@ -157,7 +133,6 @@ $(document).ready(function() {
                 window.current_pattern_properties[x].default_color = $(this).val();
                 x++;
             });
-            console.log( JSON.stringify(window.current_pattern_properties) );
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
@@ -172,45 +147,36 @@ $(document).ready(function() {
     }
 
     function loadPatternLayers(id, loaded_pattern){
-        console.log('ID: ' + id + ", LP: " + loaded_pattern);
-
         var tcids = '<option value="">None</option>';
 
         if(loaded_pattern == 1){
-            console.log('IF');
             var pval = $('#pattern_properties').val();
-            console.log('VALUE: ' + pval);
             var xstring = "";
+
             if( pval.charAt(pval.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = pval.substring(0, pval.length - 1);
             } else {
                 xstring = pval;
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
             if( xstring.charAt(xstring.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = xstring.substring(0, xstring.length - 1);
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
-            console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
 
             window.current_pattern_properties = pattern_props;
-            console.log('PATTERN_PROPS' + pattern_props);
             var x = 1;
+
             $.each(pattern_props, function(i, item) {
-                console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
                 var label = '<b>Layer #<b>' + x;
                 var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
@@ -224,14 +190,13 @@ $(document).ready(function() {
                 x++;
             });
         } else {
-            console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
                     var pattern_props = JSON.parse( item.pattern_properties );
                     window.current_pattern_properties = pattern_props;
                     var x = 1;
+
                     $.each(pattern_props, function(i, item) {
-                        console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var tcid = generateTeamColorsIDDropdown(item.team_color_id);
                         var label = '<b>Layer #</b>' + x;
@@ -248,23 +213,23 @@ $(document).ready(function() {
                 }
             });
         }
-        console.log('P Props> ' + JSON.stringify(window.current_pattern_properties));
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
-    $(document).on('keyup', '.app-pattern-properties', function() {
+    $(document).on('change', '.app-pattern-properties', function() {
         var id = $(this).parent().find('.app-def-pattern').val();
         var props = $(this).val();
         var pattern_loaded = 0;
 
         //set blank pattern for existing applications
-        if( props == undefined || props == 'undefined' || props == "" || props == null ) {
+        if (props == undefined || props == 'undefined' || props == "" || props == null) {
             $(this).parent().find('.app-def-pattern').val(33);
             id = 33;
         }
         else {
             pattern_loaded = 1;
         }
+        
         loadAppPatternLayers($(this), id, pattern_loaded);
     });
 
@@ -283,7 +248,6 @@ $(document).ready(function() {
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].team_color_id = $(this).parent().find(".app-layer-team-color-id.layer"+x).val();
             }
-            // console.log( JSON.stringify(window.app_current_pattern_properties) );
             $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
         });
     }
@@ -296,7 +260,6 @@ $(document).ready(function() {
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].default_color = $(this).parent().find(".app-layer-default-color.layer"+x).val();
             }
-            // console.log( JSON.stringify(window.app_current_pattern_properties) );
             $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
         });
     }
@@ -311,45 +274,35 @@ $(document).ready(function() {
     }
 
     function loadAppPatternLayers(thisObj, id, loaded_pattern){
-        console.log('ID: ' + id + ", LP: " + loaded_pattern);
-
         var tcids = '<option value="">None</option>';
 
         if(loaded_pattern == 1){
-            console.log('IF');
             var pval = thisObj.parent().find('.app-pattern-properties').val();
-            console.log('VALUE: ' + pval);
+
             var xstring = "";
             if( pval.charAt(pval.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = pval.substring(0, pval.length - 1);
             } else {
                 xstring = pval;
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
             if( xstring.charAt(xstring.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = xstring.substring(0, xstring.length - 1);
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
-            console.log('STRING >>>>> ' + xstring);
             var app_pattern_props = JSON.parse( xstring );
-            console.log(app_pattern_props);
             window.app_current_pattern_properties = app_pattern_props;
-            console.log('PATTERN_PROPS' + app_pattern_props);
             var x = 1;
+
             $.each(app_pattern_props, function(i, item) {
-                console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
                 var label = '<b>Layer #</b>' + x;
                 var select = ' <select class="app-layer-default-color layer' + x + '">' + colors + '</select>';
@@ -362,14 +315,12 @@ $(document).ready(function() {
                 x++;
             });
         } else {
-            console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
                     var app_pattern_props = JSON.parse( item.pattern_properties );
                     window.app_current_pattern_properties = app_pattern_props;
                     var x = 1;
                     $.each(app_pattern_props, function(i, item) {
-                        console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var tcid = generateTeamColorsIDDropdown(item.team_color_id);
                         var label = '<b>Layer #</b>' + x;
@@ -385,22 +336,14 @@ $(document).ready(function() {
                 }
             });
         }
-        console.log('App P Props> ' + JSON.stringify(window.app_current_pattern_properties));
         thisObj.parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
     }
 
-    $('.btn-fix-app').on('click', function(){
-        console.log( canvasFront.item(0) );
-    });
-
     $('.confirm_no').on('click', function(){
-
         window.location.reload(true);
-
     });
 
     $('.add-point').on('click', function(){
-
         var pointsCount = canvas.getObjects('circle').length;
         var linesCount = canvas.getObjects('line').length;
         var l = linesCount - 1;
@@ -438,7 +381,6 @@ $(document).ready(function() {
     });
 
     $('#material-option-bounding-box-top').on('dblclick', function(e){
-
         var pointsCount = canvas.getObjects('circle').length;
         var linesCount = canvas.getObjects('line').length;
         var l = linesCount - 1;
@@ -478,25 +420,9 @@ $(document).ready(function() {
         updateCoordinates();
     });
 
-    var controls_state = 0;
-    $('#app-controls').hide();
 
     $(document).on('click', '.update-applications-json', function() {
         updateApplicationsJSON();
-    });
-
-    $(document).on('click', '#app_controls_button', function() {
-        if( controls_state == 0 ){
-            $('#app-controls').fadeIn();
-            $(this).text('Hide Controls');
-            controls_state = 1;
-            console.log('toggle if');
-        } else{
-            $('#app-controls').fadeOut();
-            $(this).text('Show Controls');
-            controls_state = 0;
-            console.log('toggle else');
-        }
     });
 
     var application_number = 0;
@@ -541,7 +467,6 @@ $(document).ready(function() {
     function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
-            console.log(i);
             if(0<i){
                 $(this).find(".remove-row").show();
 
@@ -580,7 +505,6 @@ $(document).ready(function() {
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
         var font_size = 30;
-        console.log("Font: "+font);
         $(this).css('font-family', font);
         $(this).css('font-size', font_size);
 
@@ -604,7 +528,6 @@ $(document).ready(function() {
     });
 
     $('.app-rotation-flip').on('click', function(){
-        console.log('FLIP ADD');
         var id = $(this).data('id');
         flipApplication(id);
     });
@@ -628,6 +551,8 @@ $(document).ready(function() {
     }
 
     $('#add_front_application').mousedown(function() {
+        $('.app-default-mascot').ddslick('destroy');
+
         var default_item = $('#front-default-item').val();
         var default_name_raw = $('#application_name').val();
         var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
@@ -719,7 +644,7 @@ $(document).ready(function() {
         var style                   = 'margin-right: 5px';
         var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
-        var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var delete_application      = '<a href="#" class="btn btn-flat btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-flat btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
         var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
@@ -748,7 +673,7 @@ $(document).ready(function() {
         var custom_scale_y          = '<input type="text" style="' + style + '" class="app-custom-scale-y" value="0" size="4">';
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
 
-        var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
+        var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-flat btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -757,7 +682,6 @@ $(document).ready(function() {
             if (default_item != items_arr[i]) {
                 select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
             }
-
         }
 
         select_append += "</select>";
@@ -819,34 +743,12 @@ $(document).ready(function() {
             item['layers'] = c ;
         });
 
-        mascotsData = window.mascots;
-
-        var mascot_class = '.app-default-mascot';
-
-        $(mascot_class).ddslick({
-            data: mascotsData,
-            width: 250,
-            height: 300,
-            imagePosition: "left",
-            selectText: "Select Mascot",
-            onSelected: function(data) {
-                var rowIndex = data.original[0].outerHTML;
-                rowIndex = $.parseHTML(rowIndex);
-                rowIndex = $(rowIndex).data("id");
-
-                if ($('.app-def-item').eq(rowIndex).val()=="mascot") {
-                    accentMascotSelect(data,"mascot",rowIndex);
-                }
-            },
-        });
-
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
             item['description'] = 'Accent';
             item['imageSrc'] = item.thumbnail;
-            console.log(item.secondary_id);
         });
 
         var accentsData = window.accents;
@@ -859,7 +761,6 @@ $(document).ready(function() {
             imagePosition: "left",
             selectText: "Select Accent",
             onSelected: function (data) {
-               console.log(data);
                 var rowIndex = data.original[0].outerHTML;
                 rowIndex = $.parseHTML(rowIndex);
                 rowIndex = $(rowIndex).data("id");
@@ -909,7 +810,6 @@ $(document).ready(function() {
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
-                console.log('FLIP ADD');
                 var id = $(this).data('id');
                 flipApplication(id);
             });
@@ -930,8 +830,6 @@ $(document).ready(function() {
                 return $(this).data('message');
             }
         });
-
-        console.timeEnd('cache');
     });
 
 
@@ -987,7 +885,6 @@ $(document).ready(function() {
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     }
     catch(err) {
-        console.log(err.message);
     }
 
     try {
@@ -999,7 +896,6 @@ $(document).ready(function() {
         });
     }
     catch(err) {
-        console.log(err.message);
     }
 
     // window.materialOptionSettings = null;
@@ -1023,7 +919,6 @@ $(document).ready(function() {
 
     $('#front-default-item').change(function(){
         var def_name = $(this).find("option:selected").text();
-        console.log(def_name);
         $('#application_name').val(def_name);
     });
 
@@ -1103,7 +998,6 @@ $(document).ready(function() {
                     elem2.attr('src',this.result);
                     elem2.data('img',this.result);
 
-                    console.log('change file: '+this.result);
                     $(this).parent().siblings().find('.mo-name').val(this.result);
                 }
             }
@@ -1241,9 +1135,6 @@ $(document).ready(function() {
         $('.material-option-id').val(material.option.id);
         $('.material-id').val(material.id);
 
-        console.log('MO ID: '+material.option.id);
-        console.log('MAT ID: '+material.option.material_id);
-
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
 
@@ -1264,8 +1155,6 @@ $(document).ready(function() {
         } else {
             $('#is-blend').attr('checked', 'unchecked');
         }
-
-        // console.log('B prop val >>'+$('.b-prop').val());
 
         if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
             canvas.clear();
@@ -1301,30 +1190,28 @@ $(document).ready(function() {
         $(".save-applications").trigger("click");
     });
 
-    $('.material-option-applications').on('click', function(){
+    initializeMaterialApplication();
+    function initializeMaterialApplication() {
         application_number = 0;
         material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name'),
-            brand: $(this).data('material-brand'),
-            front_shape: ($(this).data('material-front-shape')),
-            back_shape: ($(this).data('material-back-shape')),
-            left_shape: ($(this).data('material-left-shape')),
-            right_shape: ($(this).data('material-right-shape')),
+            id: $('#applications_form').data('material-id'),
+            name: $('#applications_form').data('material-name'),
+            brand: $('#applications_form').data('material-brand'),
             option: {
-                id: $(this).data('material-option-id'),
-                name: $(this).data('material-option-name'),
-                type: $(this).data('material-option-setting-type'),
-                code: $(this).data('material-option-setting-code'),
-                path: $(this).data('material-option-path'),
-                perspective: $(this).data('material-option-perspective'),
-                applications_properties: ($(this).data('material-option-applications-properties')),
-                highlights: ($(this).data('material-highlights-path')),
-                guide: ($(this).data('material-option-guide'))
+                id: $('#applications_form').data('material-option-id'),
+                name: $('#applications_form').data('material-option-name'),
+                type: $('#applications_form').data('material-option-setting-type'),
+                code: $('#applications_form').data('material-option-setting-code'),
+                path: $('#applications_form').data('material-option-path'),
+                perspective: $('#applications_form').data('material-option-perspective'),
+                applications_properties: ($('#applications_form').data('material-option-applications-properties')),
+                highlights: ($('#applications_form').data('material-highlights-path')),
+                guide: ($('#applications_form').data('material-option-guide'))
             }
         };
 
         $('.a-prop').prop("value", material.option.applications_properties);
+        
         var va_prop_val = $('.a-prop').val();
         if($('.a-prop').val() != "\"{}\""){
             va_prop_val = $('.a-prop').val();
@@ -1333,13 +1220,12 @@ $(document).ready(function() {
 
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
-        $('#app_option_id').val($(this).data('material-option-id'));
+
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
-        $("#shape-guide").css("background-image", "url("+material.option.guide+")");
-        // $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
-        $("#shape-view").css("background-image", "url("+material.option.highlights+")");
-        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $("#shape-guide").css("background-image", "url(" + material.option.guide + ")");
+        $("#shape-view").css("background-image", "url(" + material.option.highlights + ")");
+        $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
         $('#app-material-brand').val(material.brand);
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications point
@@ -1348,6 +1234,7 @@ $(document).ready(function() {
         var apps = material.option.applications_properties;
         apps = apps.substring(1, apps.length-1);
         var app_properties = JSON.parse(apps);
+
         appendApplications(app_properties);
 
         if($('.a-prop').val() != "\"{}\""){
@@ -1386,307 +1273,22 @@ $(document).ready(function() {
                 return $(this).data('message');
             }
         });
-    });
+    }
 
-
-
-    $('.edit-material-option-info').on('click', function(){
-        $('#pattern_layers_OC').html('');
-        var pattern_loaded = 0;
-
-        application_number = 0;
-        material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name'),
-            brand: $(this).data('material-brand'),
-            front_shape: ($(this).data('material-front-shape')),
-            back_shape: ($(this).data('material-back-shape')),
-            left_shape: ($(this).data('material-left-shape')),
-            right_shape: ($(this).data('material-right-shape')),
-            uniform_category: ($(this).data('material-uniform-category')),
-            block_pattern_options: $('#material_neck_option').val(),
-            option: {
-                id: $(this).data('material-option-id'),
-                name: $(this).data('material-option-name'),
-                part_type: $(this).data('material-option-part-type'),
-                origin: $(this).data('material-option-origin'),
-                layer_level: $(this).data('material-option-layer-level'),
-                default_color: $(this).data('material-option-default-color'),
-                sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
-                default_color_name: $(this).data('material-option-default-color-name'),
-                sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
-                type: $(this).data('material-option-setting-type'),
-                team_color_id: $(this).data('material-option-team-color-id'),
-                group_id: $(this).data('material-option-group-id'),
-                code: $(this).data('material-option-setting-code'),
-                asset_target: $(this).data('material-option-asset-target'),
-                path: $(this).data('material-option-path'),
-                perspective: $(this).data('material-option-perspective'),
-                colors: $(this).data('material-option-colors'),
-                gradients: $(this).data('material-option-gradients'),
-                blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
-                allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
-                allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
-                allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
-                default_asset: ($(this).data('material-option-default-asset') == 'yes') ? true : false,
-                boundary_properties: ($(this).data('material-option-boundary-properties')),
-                applications_properties: ($(this).data('material-option-applications-properties')),
-                highlights: ($(this).data('material-highlights-path')),
-                pattern_id: ($(this).data('pattern-id')),
-                pattern_properties: ($(this).data('pattern-properties')),
-                default_display: ($(this).data('default-display')),
-                build_type: ($(this).data('build-type')),
-                pattern_opacity: ($(this).data('pattern-opacity')),
-                fabric_id: ($(this).data('default-fabric')),
-            }
-        };
-        console.log('TESTER' + material.option.pattern_properties);
-        console.log('asset target' + material.option.asset_target);
-        $('#pattern_properties').val(material.option.pattern_properties);
-
-        if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
-            pattern_loaded = 1;
-        }
-
-        var build_type_dropdown = '<option value="">None</option>';
-        var build_types = ["twill", "sublimated", "infused"];
-        build_types.forEach(function(entry) {
-            console.log(entry);
-            if(entry == material.option.build_type){
-                build_type_dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
-            } else {
-                build_type_dropdown += '<option value="'+entry+'">'+entry+'</option>';
-            }
-        });
-        console.log(build_type_dropdown);
-        $(".build-type").append(build_type_dropdown);
-
-        $('.material-id').prop("value", material.id);
-        $('.material-option-id').prop("value", material.option.id);
-        $('#material-option-name').val(material.option.name);
-        $('#saved-part-type').val(material.option.part_type);
-        $('#saved-part-type').text(material.option.part_type);
-        $('#saved-part-type').attr('selected','selected');
-        $('#group_id').val(material.option.group_id);
-        $('#saved-setting-type').val(material.option.type);
-        $('#saved-setting-type').text(material.option.type);
-        $('#saved-setting-type').attr('selected','selected');
-        $('#saved-origin').val(material.option.origin);
-        $('#saved-origin').text(material.option.origin);
-        $('#saved-origin').attr('selected','selected');
-
-        $('.saved-default-color').val(material.option.default_color);
-        $('.saved-default-color').text(material.option.default_color_name);
-        $('.saved-default-color').attr('selected','selected');
-
-        $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
-        $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
-        $('#saved-sublimated-default-color').attr('selected','selected');
-
-        $('#saved-perspective').val(material.option.perspective);
-        $('#saved-perspective').text(material.option.perspective + " View");
-        $('#saved-perspective').attr('selected','selected');
-
-        if(material.option.pattern_opacity == null || material.option.pattern_opacity == "" || material.option.pattern_opacity == undefined) {
-            $('#pattern-opacity').val(100);
-        } else {
-            $('#pattern-opacity').val(material.option.pattern_opacity);
-        }
-
-        $('#is_blend').prop('checked', false);
-        $('#allow_pattern').prop('checked', false);
-        $('#allow_gradient').prop('checked', false);
-        $('#allow_color').prop('checked', false);
-        $('#default_asset').prop('checked', false);
-
-        if(material.option.blend){
-            $('#is_blend').prop('checked','checked');
-        }
-        if(material.option.allow_pattern){
-            $('#allow_pattern').prop('checked','checked');
-        }
-        if(material.option.allow_gradient){
-            $('#allow_gradient').prop('checked','checked');
-        }
-        if(material.option.allow_color){
-            $('#allow_color').prop('checked','checked');
-        }
-
-        if (material.option.default_asset) {
-            $('#default_asset').prop('checked','checked');
-        }
-
-        var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-        var team_color_id_options = '<option value="">None</option>';
-
-        id_nums.forEach(function(entry) {
-            id = entry;
-            if(id == material.option.team_color_id){
-                team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
-            } else {
-                team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
-            }
-        });
-        $('#team_color_id').html('');
-        $('#team_color_id').append(team_color_id_options);
-
-        $('.b-prop').prop("value", material.option.boundary_properties);
-        $('.a-prop').prop("value", material.option.applications_properties);
-        var va_prop_val = $('.a-prop').val();
-        if($('.a-prop').val() != "\"{}\""){
-            va_prop_val = $('.a-prop').val();
-            $('.a-prop').prop("value", va_prop_val);
-        }
-
-        var perspective = material.option.perspective;
-        var material_option_shape;
-        if(perspective == 'front') {
-            material_option_shape = material.front_shape;
-        } else if(perspective == 'back') {
-            material_option_shape = material.back_shape;
-        } else if(perspective == 'left') {
-            material_option_shape = material.left_shape;
-        } else if(perspective == 'right') {
-            material_option_shape = material.right_shape;
-        }
-
-        if(material.option.highlights != null){
-            material_option_shape = material.option.highlights;
-        }
-
-        $("#shape-view").css("background-image", "url("+material_option_shape+")");
-        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
-        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-        $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
-        checkNameLength();
-
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-        $("#file-src").prop("src", material.option.path);
-        $("#layer-level").prop("value", material.option.layer_level);
-
-        if (material.option.blend) {
-            $('#is-blend').attr('checked', 'checked');
-        } else {
-            $('#is-blend').attr('checked', 'unchecked');
-        }
-
-        var fabric_dropdown = '<option value="0">None</option>';
-
-        $.each(window.fabrics, function(i, fabric) {
-            if(fabric.id == material.option.fabric_id) {
-                fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
-            } else {
-                fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
-            }
-        });
-
-        var patterns_dropdown = '';
-        var patterns_dropdown_bpomatch = '<option value="0">None</option>';
-        var patterns_dropdown_nobpomatch = '<option value="0">None</option>';
-        var ctr = 0;
-        var escaped_material_uc = material.uniform_category.replace("(", "\\(");
-        escaped_material_uc = escaped_material_uc.replace(")", "\\)");
-        var myStr = '^.*'+escaped_material_uc+'.*$';
-        var regexstr = new RegExp(myStr);
-        console.log('REGEX STR');
-        console.log(regexstr);
-        var escaped_material_bpo = material.block_pattern_options;
-        var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
-        var regexBPO = new RegExp(strBlockPatternOptions);
-        try {
-            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
-            $.each(active_patterns, function(i, item) {
-                var sports = item.sports;
-                var block_pattern_o = item.block_pattern_options;
-                if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                        }
-                    }
-                    else if(item.asset_target == material.option.asset_target  && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
-                        ctr++;
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                        }
-                    }
-                }
-            });
-        if (ctr>0) {
-            patterns_dropdown = patterns_dropdown_bpomatch;
-        }
-        else {
-            patterns_dropdown = patterns_dropdown_nobpomatch;
-        }
-            console.log('Material Option Pattern ID: '+material.option.pattern_id);
-            loadPatternLayers(material.option.pattern_id, pattern_loaded);
-        }
-        catch(err) {
-            console.log(err.message);
-        }
-
-        var team_color_id_dropdown = '<option value="">None</option>';
-        var tid = 1;
-        while(tid <= 10){
-            team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
-            tid++;
-        }
-
-        $('#default_fabric').html('');
-        $('#default_fabric').append( fabric_dropdown );
-
-        $('#default_pattern').html('');
-        $('#default_pattern').append( patterns_dropdown );
-
-        var default_displays = ["color", "pattern"];
-        var default_display_options = "";
-
-        default_displays.forEach(function(entry) {
-
-            var cEntry = entry.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-                return letter.toUpperCase();
-            });
-
-            if( material.option.default_display == entry ){
-                default_display_options += "<option value="+entry+" selected>"+cEntry+"</option>";
-            } else {
-                default_display_options += "<option value="+entry+">"+cEntry+"</option>";
-            }
-        });
-
-        $('#default_display').html('');
-        $('#default_display').append( default_display_options );
-
-        $('#saved-part-type').attr('selected',true);
-        $('#saved-setting-type').attr('selected',true);
-        $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-info-modal .material-id').val(material.id);
-        $('#save-material-option-info-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-info-modal').modal('show');
-
-    });
-
-
-
-    function appendApplications(app_properties){
-        // console.log(app_properties);
-
+    function appendApplications(app_properties) {
         var dividend = 2;
 
-        for(c = 0; c < Object.keys(app_properties).length; c++){
+        for (c = 0; c < Object.keys(app_properties).length; c++) {
 
-            var l = 'layer'+c;
+            var l = 'layer' + c;
             var mascot_offset = 4;
             var app_prop_id = app_properties[l].id;
             var app_prop_type = app_properties[l].type;
 
             // break loop if there's no data, to prevent error: Cheat
-            if(!app_properties[l].id){ break; }
+            if (! app_properties[l].id) { 
+                break; 
+            }
 
             var fill = '#e3e3e3';
             var height = app_properties[l].height / dividend;
@@ -1695,8 +1297,8 @@ $(document).ready(function() {
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 3;
-            var app_type_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 5.2;
+            var app_id_font_size = (( app_properties[l].topRight.x / dividend ) - (app_properties[l].topLeft.x / dividend)) / 3;
+            var app_type_font_size = (( app_properties[l].topRight.x / dividend ) - (app_properties[l].topLeft.x / dividend)) / 5.2;
             var group_left = app_properties[l].topLeft.x / dividend;
             var group_top = app_properties[l].topLeft.y / dividend;
 
@@ -1705,7 +1307,7 @@ $(document).ready(function() {
             var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
             var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
-            // if(
+
             group.lockUniScaling = true;
             group.lockScalingX = true;
             group.lockScalingY = true;
@@ -1715,12 +1317,11 @@ $(document).ready(function() {
                     cornerSize: 15,
                     cornerShape: 'rect',
                     cornerBackgroundColor: 'blue'
-                    // cornerPadding: 5
                 },
                 tl: {
-                    // icon: 'http://52.39.10.209/rotate.svg'
                 }
             });
+
             group.setControlsVisibility({
                 mt: false,
                 mb: false,
@@ -1730,12 +1331,13 @@ $(document).ready(function() {
                 br: false,
                 bl: false
             });
+
             group.hasRotatingPoint = false;
             group.setCoords();
             canvasFront.add(group);
 
 
-            if(app_properties[l].appCustomScale === '' || app_properties[l].appCustomScale === null || app_properties[l].appCustomScale === 'undefined' || app_properties[l].appCustomScale === undefined) {
+            if (app_properties[l].appCustomScale === '' || app_properties[l].appCustomScale === null || app_properties[l].appCustomScale === 'undefined' || app_properties[l].appCustomScale === undefined) {
                 var appCustomScaleX = 0;
                 var appCustomScaleY = 0;
             } else {
@@ -1744,20 +1346,20 @@ $(document).ready(function() {
             }
 
 
-            if(app_properties[l].id != null){
-
+            if (app_properties[l].id != null) {
                 var style                   = 'margin-right: 5px';
                 var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
-                var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
-                var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
-                var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
-                var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
+                var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="' + c + '" name="application_id" value="' + app_properties[l].id + '" size="3">';
+                var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="' + c + '"class="app-def-name" value="' + app_properties[l].name + '">';
+                var delete_application      = '<a href="#" class="btn btn-flat btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-flat btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
+                var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="' + app_properties[l].rotation + '" size="3">';
                 var ix = ( app_properties[l].pivot.x ) / dividend;
                 var iy = ( app_properties[l].pivot.y ) / dividend;
-                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
-                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
+                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="' + ix + '" size="4">';
+                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='  + iy + ' size="4">';
 
                 var checked = "checked";
+
                 var primary_checked     = "",
                     logo_checked        = "",
                     team_name_checked   = "",
@@ -1790,22 +1392,28 @@ $(document).ready(function() {
                 var default_mascot      = '<input type="textbox" class="mascotFilter"><select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
                 var default_tailsweep   = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
+                
                 var app_font = "";
+
+                var selectedMascotID = app_properties[l].defaultMascot;
+
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
                 }
+
                 var app_text = "";
                 if(app_properties[l].hasOwnProperty('defaultText')){
                     app_text = app_properties[l].defaultText;
                 }
+
                 var app_number = "";
                 if(app_properties[l].hasOwnProperty('defaultNumber')){
                     app_number = app_properties[l].defaultNumber;
                 }
 
-
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
                 var app_material_brand = $('#app-material-brand').val();
+
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
                         if(app_font == window.fonts[i].id ){
@@ -1829,13 +1437,14 @@ $(document).ready(function() {
                 var current_bp_options = $('#material_neck_option').val();
 
                 var input_patterns = _.filter(window.patterns, function(pattern) {
-                var sport = JSON.parse(pattern.sports);
-                var asset_target = pattern.asset_target;
-                var bp_options = pattern.block_pattern_options;
-                var sportOk = _.contains(sport, current_sport);
-                var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
+                    var sport = JSON.parse(pattern.sports);
+                    var asset_target = pattern.asset_target;
+                    var bp_options = pattern.block_pattern_options;
+                    var sportOk = _.contains(sport, current_sport);
+                    var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
                     return (sportOk && optionsOk && asset_target === current_asset_target);
                 });
+
                 // set BLANK pattern for existing
                 if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
                     app_properties[l].appDefPattern = 33;
@@ -1867,16 +1476,16 @@ $(document).ready(function() {
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
                 select_append           += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
-                for(var i = 0; i<items_arr.length; i++) {
 
+                for(var i = 0; i<items_arr.length; i++) {
                     if(app_properties[l].type != items_arr[i]) {
                         select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
                     }
-
                 }
+
                 select_append += "</select>";
 
-                var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
+                var flip = "<a href='#' data-id='" + c + "' class='btn btn-flat btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
                 var fields = [
                     delete_application,
@@ -1918,55 +1527,55 @@ $(document).ready(function() {
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
-                $.each(window.mascots, function(i, item) {
-                    item['text'] = item.name;
-                    item['value'] = item.id;
-                    if( app_properties[l].defaultMascot == item.id ){
-                        item['selected'] = true;
-                    } else {
-                        item['selected'] = false;
-                    }
-                    var c = 0;
-                    var xdata = JSON.parse(item.layers_properties);
-                    $.each(xdata, function(i, item) {
-                        c++;
-                    });
-                    item['description'] = item.category + ' [ ' + c + ' ]';
-                    item['imageSrc'] = item.icon;
-                    item['layers'] = c ;
-
-                });
-
                 var mascotsData = window.mascots;
-                var mascot_class = '.default_mascot_'+c;
-                var mascot_id = '#default_mascot_'+c;
-                var amv_class = '.amv'+c;
-                var amv_id = '#amv'+c;
-                var id_beta = 'amv'+c;
-                $(mascot_id).ddslick({
-                    data: mascotsData,
-                    width: 250,
-                    height: 300,
-                    imagePosition: "left",
-                    selectText: "Select Mascot",
-                    onSelected: function (data) {
+                var mascot_class = '.default_mascot_' + c;
+                var mascot_id = '#default_mascot_' + c;
+                var amv_class = '.amv' + c;
+                var amv_id = '#amv' + c;
+                var id_beta = 'amv' + c;
 
+                var getMascotByIDurl = "//" + api_host + "/api/mascot/" + selectedMascotID;
+                $.ajax({
+                    url: getMascotByIDurl,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data) {
+                        var mascot = data.mascot.mascot;
+                        var layerProperties = JSON.parse(mascot.layers_properties);
 
-                    var rowIndex = data.original[0].outerHTML;
-                    rowIndex = $.parseHTML(rowIndex);
-                    rowIndex = $(rowIndex).data("id");
+                        var index = 0;
 
-                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
-                        accentMascotSelect(data,"mascot",rowIndex);
-                    }
+                        $.each(layerProperties, function(i, item) {
+                            index++;
+                        });
 
+                        var description = mascot.category + ' [ ' + c + ' ]';
+
+                        $(mascot_id).append("<option value='' data-image='' data-description=''>None</option>");
+
+                        var option = "<option value='" + mascot.id + "' data-image='" + mascot.icon + "' data-description='" + description + "' selected='selected'>";
+                            option += mascot.name
+                            option += "</option>";
+
+                        $(mascot_id).append(option);
+
+                        $(mascot_id).select2({
+                            width: '300px',
+                            templateResult: formatState,
+                            templateSelection: formatState,
+                            minimumResultsForSearch: -1
+                        });
                     }
                 });
+                
 
                 $.each(window.accents, function(i, item) {
-
                     item['text'] = item.name;
                     item['value'] = item.id;
+
                     if( app_properties[l].accents == item.id ){
                         item['selected'] = true;
                     } else {
@@ -1976,6 +1585,7 @@ $(document).ready(function() {
                     item['description'] = 'Accent';
                     item['imageSrc'] = item.thumbnail;
                 });
+
                 var accentsData = window.accents;
                 var accent_class = '.app-default-accent';
                 $(accent_class).ddslick({
@@ -1985,49 +1595,49 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
+                        var rowIndex = data.original[0].outerHTML;
+                        rowIndex = $.parseHTML(rowIndex);
+                        rowIndex = $(rowIndex).data("id");
 
-                    var rowIndex = data.original[0].outerHTML;
-                    rowIndex = $.parseHTML(rowIndex);
-                    rowIndex = $(rowIndex).data("id");
-
-                    if($('.app-def-item').eq(rowIndex).val()!="mascot"){
-
-                        accentMascotSelect(data,"accent",rowIndex);
-                    }
-
+                        if($('.app-def-item').eq(rowIndex).val()!="mascot"){
+                            accentMascotSelect(data,"accent",rowIndex);
+                        }
                     },
                 });
 
 
-                   $.each(window.mascots, function(i, item) {
+                $.each(window.mascots, function(i, item) {
                     item['text'] = item.name;
                     item['value'] = item.id;
+
                     if( app_properties[l].defaultMascot == item.id ){
                         item['selected'] = true;
                     } else {
                         item['selected'] = false;
                     }
+
                     var c = 0;
                     var xdata = JSON.parse(item.layers_properties);
                     $.each(xdata, function(i, item) {
                         c++;
                     });
+
                     item['description'] = item.category + ' [ ' + c + ' ]';
                     item['imageSrc'] = item.icon;
                     item['layers'] = c ;
-
                 });
 
                 $.each(window.tailsweeps, function(i, item) {
                     item['text'] = item.name;
                     item['value'] = item.id;
+
                     if( app_properties[l].tailsweeps == item.id ){
                         item['selected'] = true;
                     } else {
                         item['selected'] = false;
                     }
-
                 });
+
                 var tailsweepsData = window.tailsweeps;
                 var tailsweep_class = '.app-default-tailsweep';
                 $(tailsweep_class).ddslick({
@@ -2037,55 +1647,49 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Tailsweep",
                     onSelected: function (data) {
-
-
                     },
                 });
 
+                $(document).on("change",".accentLayerColors",function(){
+                    updateColorField(this);
+                });
 
-                    $(document).on("change",".accentLayerColors",function(){
-                        updateColorField(this);
-                    });
-                    function updateColorField(t){
+                function updateColorField(t) {
                     var colorCodeField="";
-                       $(t).parent(".colorSelection").find("select").each(function() {
 
-                            var colorCode = ($(this).find(":selected"))[0].outerHTML;
+                    $(t).parent(".colorSelection").find("select").each(function() {
+                        var colorCode = ($(this).find(":selected"))[0].outerHTML;
+                        colorCode =  $.parseHTML(colorCode);
+                        colorCode = $(colorCode).data("color-code");
+                        colorCodeField = colorCodeField +","+colorCode;
+                        $(this).css("background","#"+$(this).find(":selected").val());
+                    });
 
-                            colorCode =  $.parseHTML(colorCode);
-                            colorCode = $(colorCode).data("color-code");
-                            colorCodeField = colorCodeField +","+colorCode;
-                            $(this).css("background","#"+$(this).find(":selected").val());
-
-                        });
-                       $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
-
-                    }
+                    $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
+                }
 
                 $(document).on('change', '.app-def-item', function() {
                     if($(this).val() == "mascot"){
                         var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
+
                         if(selectedMascot == -1){
-
-                        $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
-                        $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
-
+                            $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
+                            $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
                         }
+
                         selectedMascot = selectedMascot.toString();
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
-
                     }else{
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
+
                         if(selectedAccent == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
-
                         }
+
                         selectedAccent = selectedAccent.toString();
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent });
-                     }
-
-
+                    }
                 });
 
 
@@ -2130,7 +1734,6 @@ $(document).ready(function() {
                 app_properties[l]['temp'] = {};
 
                 app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 3;
-                // app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
                 app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend );
 
                 thisGroup.centerPoint   = app_properties[l].temp;
@@ -2145,9 +1748,7 @@ $(document).ready(function() {
                 thisGroup.setCoords();
                 application_number++;
                 canvasFront.renderAll();
-            }
-            else{
-                // canvasFront.renderAll();
+            } else{
                 break;
             }
 
@@ -2166,14 +1767,10 @@ $(document).ready(function() {
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
             });
-            // canvasFront.renderAll();
         }
 
-        $('.app-pattern-properties').trigger('keyup');
-
+        $('.app-pattern-properties').trigger('change');
     }
-
-    // *** Applications Properties helpers
 
     function flashApplicationRow(e){
         var obj_id = e.target.get('id');
@@ -2223,9 +1820,6 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2271,10 +1865,6 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2285,19 +1875,13 @@ $(document).ready(function() {
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                        var elem = '.material-' + id;
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
+                        
                     }
                 }
             });
         }
-
     });
+    
     $(document).on('click', '.save_app_row_template', function(){
 
         updateApplicationsJSON();
@@ -2338,15 +1922,7 @@ $(document).ready(function() {
             "applications_properties": '"'+JSON.stringify(data)+'"'
         };
 
-        console.log(applications_properties);
-        console.log("data"+data);
         if($(this).attr('disabled') != 'disabled'){
-
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
-            console.log(myData);
-            console.log('"'+JSON.stringify(data)+'"');
 
             $.ajax({
                 url: url,
@@ -2377,7 +1953,6 @@ $(document).ready(function() {
     */
 
     $('.delete-material-option').on('click', function(){
-        console.log('DELETE');
         var id = $(this).data('material-option-id');
         var name = $(this).data('material-option-name');
         modalConfirm(
@@ -2409,7 +1984,7 @@ $(document).ready(function() {
             }
 
         });
-        console.log(checkedMaterialOptionsIDs);
+
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
@@ -2624,6 +2199,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 mascots = data['mascots'];
+                mascots = mascots.slice(1, 3); // return few mascots for testing to reduce loading time
                 if(typeof callback === "function") callback(mascots);
             }
         });
@@ -2668,7 +2244,6 @@ $(document).ready(function() {
     };
 
     $(document).on('change', '#block_pattern', function() {
-        console.log('Changed' + $(this).val());
     });
 
     $(document).on('change', '.app-id', function() {
@@ -2690,7 +2265,7 @@ $(document).ready(function() {
         if( va_prop_val == '"{}"' || va_prop_val == null ){
             va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
         }
-        console.log('VA_PROP_VAL' + va_prop_val);
+
         var output = va_prop_val.substring(1, va_prop_val.length-1);
         polyData = JSON.parse(output);
         loadPolygon(polyData);
@@ -3111,7 +2686,6 @@ $(document).ready(function() {
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
-        console.log("MOS: "+moProperties);
     }
 
     function updateCoordinatesXYR() {
@@ -3125,12 +2699,10 @@ $(document).ready(function() {
         var angle = thisGroup.getAngle();
         var newAngle = 360 - angle;
 
-        // console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
         try{
             thisGroup.setAngle(newAngle).setCoords();
             canvasFront.renderAll();
         } catch( err ){
-            console.log(err.message);
         }
 
     }
@@ -3178,7 +2750,6 @@ $(document).ready(function() {
         var x = 0;
         circles.forEach(function(entry) {
             var getCenterPoint = entry.getCenterPoint();
-            console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
             var groups = canvas.getObjects('group');
             if( x == 0 ){
@@ -3197,9 +2768,6 @@ $(document).ready(function() {
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
-        console.log('BPROPxs: '+boundaryProperties);
-
-        // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
     }
 
     // UPDATES - DETECTOR
@@ -3403,7 +2971,7 @@ try {
 
     });
 }
-catch(err) { console.log(err.message); }
+catch(err) {  }
 
     bindColorsSelect2();
     bindGradientsSelect2();
@@ -3418,7 +2986,6 @@ canvas.observe('object:rotating', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
@@ -3428,17 +2995,15 @@ canvas.observe('object:rotating', function (e) {
         x++;
     });
     coords.forEach(function(entry) {
-        console.log('Entry: '+entry['x']+', '+entry['y']);
+
     });
-    console.log(JSON.stringify(coords));
-    console.log("JSON"+canvas.toJSON());
+
     updateCoordinates();
     $('#pattern_angle').val(parseFloat(groups[0].getAngle().toFixed(2)));
 });
 
 canvas.observe('object:moving', function (e) {
     var p = e.target;
-    console.log('Moving ' + p.name);
 
     if (p.hasOwnProperty("text") === true) {
         //move text label to new circle location
@@ -3484,7 +3049,6 @@ canvas.observe('object:moving', function (e) {
             }
         }
     }
-    console.log(p.name + ' moved!');
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
     var groups = canvas.getObjects('group');
@@ -3492,7 +3056,6 @@ canvas.observe('object:moving', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        // console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
@@ -3501,32 +3064,27 @@ canvas.observe('object:moving', function (e) {
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
-    console.log(JSON.stringify(coords));
     updateCoordinates();
     });
 }
-catch(err) { console.log(err.message); }
+catch(err) {  }
 
 function loadPolygon(data){
-    console.log("PolyData >> "+JSON.stringify(data));
     var angle;
     canvas.clear();
     var z = 0;
     window.px = 0;
     window.py = 0;
-    // console.log('POLY TEST >> '+data[0].angle);
     $.each(data, function(i, item) {
         var xcoord = item.x / 2;
         var ycoord = item.y / 2;
 
         if( z == 0 && item.angle != undefined ){
-            console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
             if(item.px){
                 window.px = item.px / 2;
                 window.py = item.py / 2;
             }
-            console.log('PX > '+ window.px + 'PY > ' + window.py);
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -3548,21 +3106,18 @@ function loadPolygon(data){
 
         x++;
     });
-    console.log('Line Index: ' + lineIdx);
+
     loadCase = 1;
 
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     }
-    catch(err) { console.log(err.message); }
+    catch(err) { }
 
     if( window.px == 0 || window.px == null ){
-        console.log('IF');
         window.px = 453;
         window.py = 362;
     }
-
-    console.log('WIN PX' + window.px);
 
     var rect = new fabric.Rect({
         left: window.px,
@@ -3597,436 +3152,374 @@ function loadPolygon(data){
 $(".app-rotation").click(function(){
 
     sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
-    console.log(sampleAccents);
 });
 $(".dd-selected-value").click(function(){
 
     sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
-    console.log(sampleAccents);
 });
 
 
 
 
 
-function updateApplicationsJSON(){
-    var multiplier = 2;
-    applicationProperties = {};
-    cx = 0;
-    $(".app-rotation").each(function(i) {
+    function updateApplicationsJSON() {
+        var multiplier = 2;
+        applicationProperties = {};
+        cx = 0;
 
-        itemIdx = "layer"+$(this).data('id');
-        layer = $(this).data('id');
+        $(".app-rotation").each(function(i) {
+            itemIdx = "layer" + $(this).data('id');
+            layer = $(this).data('id');
 
-        var rotation_val = $(this).val();
+            var rotation_val = $(this).val();
 
-        thisGroup = canvasFront.item(layer);
-        applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
-        applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
-        applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
+            thisGroup = canvasFront.item(layer);
+            applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
+            applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
+            applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
 
-        isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
-        hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
-        hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
-        hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
-        hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
-        fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
-        uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
-        verticalText = $(this).parent().siblings('td').find("input[class=app-vertical-text]");
-        rotatedTailsweep = $(this).parent().siblings('td').find("input[class=app-rotated-tailsweep]");
+            isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
+            hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
+            hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
+            hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
+            hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
+            fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
+            uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+            verticalText = $(this).parent().siblings('td').find("input[class=app-vertical-text]");
+            rotatedTailsweep = $(this).parent().siblings('td').find("input[class=app-rotated-tailsweep]");
 
-        applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
-        applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
-        applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
+            applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
+            applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
+            applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
-        applicationColors = $(this).parent().siblings('td').find("input[class=app-colors]").val();
-        applicationAccents = $(this).parent().siblings('td').find(".dd-selected-value").val();
-        applicationMascot = $(this).parent().siblings('td.msc').find(".dd-selected-value").val();
-        applicationTailsweep = $(this).parent().siblings('td.tsc').find(".dd-selected-value").val();
+            applicationColors = $(this).parent().siblings('td').find("input[class=app-colors]").val();
+            applicationAccents = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationMascot = $(this).parent().siblings('td.msc').find(".app-default-mascot").val();
+            applicationTailsweep = $(this).parent().siblings('td.tsc').find(".dd-selected-value").val();
 
-        hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
-        inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
-        appOpacity = $(this).parent().siblings('td').find("input[class=app-opacity]").val();
-        appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
-        appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
-        appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
+            hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
+            inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
+            appOpacity = $(this).parent().siblings('td').find("input[class=app-opacity]").val();
+            appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
+            appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
+            appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
 
-        isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
+            isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
+            fontData = window.fontData;
 
-        console.log('ACCENT >>>>>>' + applicationAccents);
-        console.log('MASCOT >>>>>>' + applicationMascot);
-        console.log('TAILSWEEP >>>>>>' + applicationTailsweep);
-        fontData = window.fontData;
-
-        if(isPrimary.prop( "checked" )){
-            isPrimary = 1;
-        } else {
-            isPrimary = 0;
-        }
-
-        if(hasLogo.prop( "checked" )){
-            hasLogo = 1;
-        } else {
-            hasLogo = 0;
-        }
-
-        if(hasTeamName.prop( "checked" )){
-            hasTeamName = 1;
-        } else {
-            hasTeamName = 0;
-        }
-
-        if(hasPlayerName.prop( "checked" )){
-            hasPlayerName = 1;
-        } else {
-            hasPlayerName = 0;
-        }
-
-        if(verticalText.prop( "checked" )){
-            verticalText = 1;
-        } else {
-            verticalText = 0;
-        }
-
-        if(rotatedTailsweep.prop( "checked" )){
-            rotatedTailsweep = 1;
-        } else {
-            rotatedTailsweep = 0;
-        }
-
-        if(hasNumber.prop( "checked" )){
-            hasNumber = 1;
-        } else {
-            hasNumber = 0;
-        }
-
-        if(hasEmbellishment.prop( "checked" )){
-            hasEmbellishment = 1;
-        } else {
-            hasEmbellishment = 0;
-        }
-
-        if(isFlipped.prop( "checked" )){
-            isFlipped = 1;
-        } else {
-            isFlipped = 0;
-        }
-
-        var topLeftX = thisGroup.oCoords.tl.x * multiplier;
-        var topLeftY = thisGroup.oCoords.tl.y * multiplier;
-        var topRightX = thisGroup.oCoords.tr.x * multiplier;
-        var topRightY = thisGroup.oCoords.tr.y * multiplier;
-        var bottomLeftX = thisGroup.oCoords.bl.x * multiplier;
-        var bottomLeftY = thisGroup.oCoords.bl.y * multiplier;
-        var bottomRightX = thisGroup.oCoords.br.x * multiplier;
-        var bottomRightY = thisGroup.oCoords.br.y * multiplier;
-        var mascot_offset = 3;
-
-        canvas.renderAll();
-
-        applicationProperties[itemIdx] = {};
-        applicationProperties[itemIdx]['type'] = {};
-        applicationProperties[itemIdx]['name'] = {};
-        applicationProperties[itemIdx]['id'] = {};
-        applicationProperties[itemIdx]['layerOrder'] = {};
-        applicationProperties[itemIdx]['topLeft'] = {};
-        applicationProperties[itemIdx]['topLeft']['x'] = {};
-        applicationProperties[itemIdx]['topLeft']['y'] = {};
-        applicationProperties[itemIdx]['topRight'] = {};
-        applicationProperties[itemIdx]['topRight']['x'] = {};
-        applicationProperties[itemIdx]['topRight']['y'] = {};
-        applicationProperties[itemIdx]['bottomLeft'] = {};
-        applicationProperties[itemIdx]['bottomLeft']['x'] = {};
-        applicationProperties[itemIdx]['bottomLeft']['y'] = {};
-        applicationProperties[itemIdx]['bottomRight'] = {};
-        applicationProperties[itemIdx]['bottomRight']['x'] = {};
-        applicationProperties[itemIdx]['bottomRight']['y'] = {};
-        applicationProperties[itemIdx]['isPrimary'] = {};
-        applicationProperties[itemIdx]['hasLogo'] = {};
-        applicationProperties[itemIdx]['hasTeamName'] = {};
-        applicationProperties[itemIdx]['hasPlayerName'] = {};
-        applicationProperties[itemIdx]['hasNumber'] = {};
-        applicationProperties[itemIdx]['fontSizes'] = {};
-        applicationProperties[itemIdx]['uniformSizes'] = {};
-        applicationProperties[itemIdx]['verticalText'] = {};
-        applicationProperties[itemIdx]['rotatedTailsweep'] = {};
-
-        applicationProperties[itemIdx]['defaultMascot'] = {};
-        applicationProperties[itemIdx]['defaultFont'] = {};
-        applicationProperties[itemIdx]['defaultText'] = {};
-        applicationProperties[itemIdx]['defaultNumber'] = {};
-
-        applicationProperties[itemIdx]['mascotData'] = {};
-        applicationProperties[itemIdx]['fontData'] = {};
-
-        applicationProperties[itemIdx]['center'] = {};
-        applicationProperties[itemIdx]['colors'] = {};
-        applicationProperties[itemIdx]['accents'] = {};
-        applicationProperties[itemIdx]['tailsweeps'] = {};
-
-        applicationProperties[itemIdx]['hasEmbellishment'] = {};
-        applicationProperties[itemIdx]['inksoftDesignID'] = {};
-
-        applicationProperties[itemIdx]['appOpacity'] = {};
-        applicationProperties[itemIdx]['appDefPatternPosition'] = {};
-        applicationProperties[itemIdx]['appDefPattern'] = {};
-        applicationProperties[itemIdx]['appPatternProperties'] = {};
-
-        applicationProperties[itemIdx]['appCustomScale'] = {};
-
-        applicationProperties[itemIdx].type = applicationType;
-        applicationProperties[itemIdx].name = applicationName;
-        applicationProperties[itemIdx].id = applicationId;
-        // applicationProperties[itemIdx].layerOrder = applicationId;
-        applicationProperties[itemIdx].topLeft.x = topLeftX;
-        applicationProperties[itemIdx].topLeft.y = topLeftY;
-        applicationProperties[itemIdx].topRight.x = topRightX;
-        applicationProperties[itemIdx].topRight.y = topRightY;
-        applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
-        applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
-        applicationProperties[itemIdx].bottomRight.x = bottomRightX;
-        applicationProperties[itemIdx].bottomRight.y = bottomRightY;
-        applicationProperties[itemIdx].isPrimary = isPrimary;
-        applicationProperties[itemIdx].hasLogo = hasLogo;
-        applicationProperties[itemIdx].hasTeamName = hasTeamName;
-        applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
-        applicationProperties[itemIdx].hasNumber = hasNumber;
-        applicationProperties[itemIdx].fontSizes = fontSizes;
-        applicationProperties[itemIdx].uniformSizes = uniformSizes;
-        applicationProperties[itemIdx].verticalText = verticalText;
-        applicationProperties[itemIdx].rotatedTailsweep = rotatedTailsweep;
-
-        applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
-        applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
-
-        applicationProperties[itemIdx].appOpacity = appOpacity;
-        applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
-        applicationProperties[itemIdx].appDefPattern = appDefPattern;
-        applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
-
-        applicationProperties[itemIdx].appCustomScale.x = $(this).parent().siblings('td').find("input[class=app-custom-scale-x]").val();
-        applicationProperties[itemIdx].appCustomScale.y = $(this).parent().siblings('td').find("input[class=app-custom-scale-y]").val();
-
-        applicationProperties[itemIdx].isFlipped = isFlipped;
-
-        applicationProperties[itemIdx].defaultMascot = applicationMascot;
-
-        applicationProperties[itemIdx].defaultFont = applicationFont;
-        applicationProperties[itemIdx].defaultText = applicationText;
-        applicationProperties[itemIdx].defaultNumber = applicationNumber;
-
-        applicationProperties[itemIdx].colors = applicationColors;
-        applicationProperties[itemIdx].accents = applicationAccents;
-        applicationProperties[itemIdx].tailsweeps = applicationTailsweep;
-
-        applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * multiplier;
-        applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * multiplier;
-        applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * multiplier;
-        applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * multiplier;
-        applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * multiplier;
-        applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * multiplier;
-        applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * multiplier;
-        applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * multiplier;
-
-        applicationProperties[itemIdx].width = thisGroup.getWidth() * multiplier;
-        applicationProperties[itemIdx].height = thisGroup.getHeight() * multiplier;
-        applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
-        applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
-        applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
-        applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
-        applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
-        applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-
-        var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
-        var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
-
-        applicationProperties[itemIdx].center.x = ( tx + 3 ) * multiplier;
-        applicationProperties[itemIdx].center.y = ( ty ) * multiplier;
-
-        applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
-        applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
-        try{
-            if(cs == 1){
-                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
-                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
-                $(this).val(thisGroup.getAngle());
+            if (isPrimary.prop( "checked" )) {
+                isPrimary = 1;
             } else {
-                applicationProperties[itemIdx].rotation = rotation_val;
-                console.log("ROTATION VALUE: >>>> " + rotation_val);
-            }
-        } catch(err){
-            console.log(err.message);
-        }
-        cx++;
-        canvasFront.renderAll();
-    });
-
-    var appProperties = JSON.stringify(applicationProperties);
-    // console.log(appProperties);
-    appProperties = '"'+appProperties+'"';
-    $('#a-application-properties').val(appProperties);
-    window.ap = appProperties;
-
-    console.log("APP PROPS: "+window.ap);
-}
-
-
-function accentMascotSelect(data,accentMascot,rowIndex){
-
-    var layers;
-    var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
-    var colorCodeField="";
-
-    if(accentMascot == "accent"){
-
-        layers = ((data.selectedData).layers)-2;
-
-    }else{
-        layers = data.selectedData.layers;
-
-    }
-    for (var i = 0; i < layers; i++) {
-
-        if(colorCode[i]){
-            if(colorCodeField){
-                colorCodeField = colorCodeField +","+colorCode[i];
-            }else{
-                colorCodeField = colorCode[i];
+                isPrimary = 0;
             }
 
-        }else{
-
-            if(colorCodeField){
-                colorCodeField = colorCodeField +","+window.colors[0].color_code;
-            }else{
-                colorCodeField = window.colors[0].color_code;
+            if (hasLogo.prop("checked")) {
+                hasLogo = 1;
+            } else {
+                hasLogo = 0;
             }
-        }
-    }
-    $(".app-colors").eq(rowIndex).val(colorCodeField);
-    $(".colorSelection").eq(rowIndex).empty();
 
-    $.each(colorCodeField.split(','), function (intIndex, objValue) {
+            if (hasTeamName.prop("checked")) {
+                hasTeamName = 1;
+            } else {
+                hasTeamName = 0;
+            }
 
-        $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
-        jQuery.each(window.colors, function(index, item) {
-            $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+            if (hasPlayerName.prop("checked")) {
+                hasPlayerName = 1;
+            } else {
+                hasPlayerName = 0;
+            }
 
+            if (verticalText.prop("checked")) {
+                verticalText = 1;
+            } else {
+                verticalText = 0;
+            }
+
+            if(rotatedTailsweep.prop( "checked" )){
+                rotatedTailsweep = 1;
+            } else {
+                rotatedTailsweep = 0;
+            }
+
+            if(hasNumber.prop( "checked" )){
+                hasNumber = 1;
+            } else {
+                hasNumber = 0;
+            }
+
+            if(hasEmbellishment.prop( "checked" )){
+                hasEmbellishment = 1;
+            } else {
+                hasEmbellishment = 0;
+            }
+
+            if(isFlipped.prop( "checked" )){
+                isFlipped = 1;
+            } else {
+                isFlipped = 0;
+            }
+
+            var topLeftX = thisGroup.oCoords.tl.x * multiplier;
+            var topLeftY = thisGroup.oCoords.tl.y * multiplier;
+            var topRightX = thisGroup.oCoords.tr.x * multiplier;
+            var topRightY = thisGroup.oCoords.tr.y * multiplier;
+            var bottomLeftX = thisGroup.oCoords.bl.x * multiplier;
+            var bottomLeftY = thisGroup.oCoords.bl.y * multiplier;
+            var bottomRightX = thisGroup.oCoords.br.x * multiplier;
+            var bottomRightY = thisGroup.oCoords.br.y * multiplier;
+            var mascot_offset = 3;
+
+            canvas.renderAll();
+
+            applicationProperties[itemIdx] = {};
+            applicationProperties[itemIdx]['type'] = {};
+            applicationProperties[itemIdx]['name'] = {};
+            applicationProperties[itemIdx]['id'] = {};
+            applicationProperties[itemIdx]['layerOrder'] = {};
+            applicationProperties[itemIdx]['topLeft'] = {};
+            applicationProperties[itemIdx]['topLeft']['x'] = {};
+            applicationProperties[itemIdx]['topLeft']['y'] = {};
+            applicationProperties[itemIdx]['topRight'] = {};
+            applicationProperties[itemIdx]['topRight']['x'] = {};
+            applicationProperties[itemIdx]['topRight']['y'] = {};
+            applicationProperties[itemIdx]['bottomLeft'] = {};
+            applicationProperties[itemIdx]['bottomLeft']['x'] = {};
+            applicationProperties[itemIdx]['bottomLeft']['y'] = {};
+            applicationProperties[itemIdx]['bottomRight'] = {};
+            applicationProperties[itemIdx]['bottomRight']['x'] = {};
+            applicationProperties[itemIdx]['bottomRight']['y'] = {};
+            applicationProperties[itemIdx]['isPrimary'] = {};
+            applicationProperties[itemIdx]['hasLogo'] = {};
+            applicationProperties[itemIdx]['hasTeamName'] = {};
+            applicationProperties[itemIdx]['hasPlayerName'] = {};
+            applicationProperties[itemIdx]['hasNumber'] = {};
+            applicationProperties[itemIdx]['fontSizes'] = {};
+            applicationProperties[itemIdx]['uniformSizes'] = {};
+            applicationProperties[itemIdx]['verticalText'] = {};
+            applicationProperties[itemIdx]['rotatedTailsweep'] = {};
+
+            applicationProperties[itemIdx]['defaultMascot'] = {};
+            applicationProperties[itemIdx]['defaultFont'] = {};
+            applicationProperties[itemIdx]['defaultText'] = {};
+            applicationProperties[itemIdx]['defaultNumber'] = {};
+
+            applicationProperties[itemIdx]['mascotData'] = {};
+            applicationProperties[itemIdx]['fontData'] = {};
+
+            applicationProperties[itemIdx]['center'] = {};
+            applicationProperties[itemIdx]['colors'] = {};
+            applicationProperties[itemIdx]['accents'] = {};
+            applicationProperties[itemIdx]['tailsweeps'] = {};
+
+            applicationProperties[itemIdx]['hasEmbellishment'] = {};
+            applicationProperties[itemIdx]['inksoftDesignID'] = {};
+
+            applicationProperties[itemIdx]['appOpacity'] = {};
+            applicationProperties[itemIdx]['appDefPatternPosition'] = {};
+            applicationProperties[itemIdx]['appDefPattern'] = {};
+            applicationProperties[itemIdx]['appPatternProperties'] = {};
+
+            applicationProperties[itemIdx]['appCustomScale'] = {};
+
+            applicationProperties[itemIdx].type = applicationType;
+            applicationProperties[itemIdx].name = applicationName;
+            applicationProperties[itemIdx].id = applicationId;
+            // applicationProperties[itemIdx].layerOrder = applicationId;
+            applicationProperties[itemIdx].topLeft.x = topLeftX;
+            applicationProperties[itemIdx].topLeft.y = topLeftY;
+            applicationProperties[itemIdx].topRight.x = topRightX;
+            applicationProperties[itemIdx].topRight.y = topRightY;
+            applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
+            applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
+            applicationProperties[itemIdx].bottomRight.x = bottomRightX;
+            applicationProperties[itemIdx].bottomRight.y = bottomRightY;
+            applicationProperties[itemIdx].isPrimary = isPrimary;
+            applicationProperties[itemIdx].hasLogo = hasLogo;
+            applicationProperties[itemIdx].hasTeamName = hasTeamName;
+            applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
+            applicationProperties[itemIdx].hasNumber = hasNumber;
+            applicationProperties[itemIdx].fontSizes = fontSizes;
+            applicationProperties[itemIdx].uniformSizes = uniformSizes;
+            applicationProperties[itemIdx].verticalText = verticalText;
+            applicationProperties[itemIdx].rotatedTailsweep = rotatedTailsweep;
+
+            applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
+            applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
+
+            applicationProperties[itemIdx].appOpacity = appOpacity;
+            applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
+            applicationProperties[itemIdx].appDefPattern = appDefPattern;
+            applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
+
+            applicationProperties[itemIdx].appCustomScale.x = $(this).parent().siblings('td').find("input[class=app-custom-scale-x]").val();
+            applicationProperties[itemIdx].appCustomScale.y = $(this).parent().siblings('td').find("input[class=app-custom-scale-y]").val();
+
+            applicationProperties[itemIdx].isFlipped = isFlipped;
+
+            applicationProperties[itemIdx].defaultMascot = applicationMascot;
+
+            applicationProperties[itemIdx].defaultFont = applicationFont;
+            applicationProperties[itemIdx].defaultText = applicationText;
+            applicationProperties[itemIdx].defaultNumber = applicationNumber;
+
+            applicationProperties[itemIdx].colors = applicationColors;
+            applicationProperties[itemIdx].accents = applicationAccents;
+            applicationProperties[itemIdx].tailsweeps = applicationTailsweep;
+
+            applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * multiplier;
+            applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * multiplier;
+            applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * multiplier;
+            applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * multiplier;
+            applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * multiplier;
+            applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * multiplier;
+            applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * multiplier;
+            applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * multiplier;
+
+            applicationProperties[itemIdx].width = thisGroup.getWidth() * multiplier;
+            applicationProperties[itemIdx].height = thisGroup.getHeight() * multiplier;
+            applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
+            applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
+            applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+            applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
+            applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
+            applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+
+            var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
+            var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
+
+            applicationProperties[itemIdx].center.x = ( tx + 3 ) * multiplier;
+            applicationProperties[itemIdx].center.y = ( ty ) * multiplier;
+
+            applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
+            applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
+            try{
+                if(cs == 1){
+                    $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+                    $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+                    $(this).val(thisGroup.getAngle());
+                } else {
+                    applicationProperties[itemIdx].rotation = rotation_val;
+                }
+            } catch(err){
+
+            }
+            cx++;
+            canvasFront.renderAll();
         });
-        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
-            return $(this).data("color-code") == objValue;
-        }).prop('selected', true);
-        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).val())
 
-    })
+        var appProperties = JSON.stringify(applicationProperties);
+
+        appProperties = '"'+appProperties+'"';
+        $('#a-application-properties').val(appProperties);
+        window.ap = appProperties;
+    }
 
 
-}
+    function accentMascotSelect(data,accentMascot,rowIndex) {
+        var layers;
+        var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
+        var colorCodeField = "";
+
+        if (accentMascot == "accent") {
+            layers = ((data.selectedData).layers) - 2;
+        } else {
+            layers = data.layers;
+        }
+
+        for (var i = 0; i < layers; i++) {
+            if (colorCode[i]) {
+                if (colorCodeField) {
+                    colorCodeField = colorCodeField +","+colorCode[i];
+                } else {
+                    colorCodeField = colorCode[i];
+                }
+            } else { 
+                if (colorCodeField) {
+                    colorCodeField = colorCodeField + "," + window.colors[0].color_code;
+                } else {
+                    colorCodeField = window.colors[0].color_code;
+                }
+            }
+        }
+
+        $(".app-colors").eq(rowIndex).val(colorCodeField);
+        $(".colorSelection").eq(rowIndex).empty();
+
+        $.each(colorCodeField.split(','), function (intIndex, objValue) {
+            $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
+
+            jQuery.each(window.colors, function(index, item) {
+                $(".accentLayerColors").append( "<option value=" + item.hex_code + " data-color-code=" + item.color_code + " data-color-id=" + item.id + "style='background:#" + item.hex_code + "'>" + item.name + "</option>");
+            });
+
+            $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
+                return $(this).data("color-code") == objValue;
+            }).prop('selected', true);
+
+            $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).css("background","#" + $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).val())
+        });
+    }
 
     $(document).on('click', '.material-options-Checkbox,.multiple-options-Checkbox', function() {
-        console.log($(this).data("checkboxselected"));
-        console.log("click");
-        if($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             $($(this).data("checkboxselected")).prop('checked', true);
-        }else{
+        } else {
             $($(this).data("checkboxselected")).prop('checked', false);
-
         }
-
     });
+
     $(document).on('change', '.app-def-item', function() {
         var subject = $(this).val();
         subject = subject.replace(/_/g, ' ');
+
         function capitalizeFirstLetter(subject) {
             return subject.charAt(0).toUpperCase() + subject.slice(1);
         }
+
         subject = capitalizeFirstLetter(subject);
-        console.log($(".app-def-item").index( this ));
-        console.log(subject);
 
-        $(".app-def-name").eq($(".app-def-item").index( this )).val(subject);
-
-
-
+        $(".app-def-name").eq($(".app-def-item").index(this)).val(subject);
     });
-
 
     $(document).on('click', '.remove-row', function() {
         $(".options-row").eq($(".remove-row").index(this)).remove();
     });
 
-    $(document).on('change', '.mascotFilter', function() {
+    function bringingPointToFront() {
+        canvas.forEachObject(function(key,obj) {
+            var subjectName = "" + canvas.item(obj).name + "";
 
-                var filteredMascots=[];
-                var mascotValue = $(this).val();
+            // subjectName = jQuery.parseJSON( subjectName);
+            subjectName = subjectName.substring(0,4);
 
-                    jQuery.each(mascots, function(index, item) {
+            if (subjectName == "Line") {
+                // canvas.sendToBack(canvas.item(obj));
 
-                        if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
-                        {
-                            filteredMascots.push( index );
-
-                        }
-
-                    });
-
-                var mascotFilterIndex=$(".mascotFilter").index(this);
-                    if($(this).val()){
-
-                        $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
-                        jQuery.each(filteredMascots, function(index, item) {
-
-                            $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
-                        });
-                    }else{
-                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
-                    }
-
-               console.log(filteredMascots);
-        });
-
-    function bringingPointToFront(){
-        console.log('being to front');
-         canvas.forEachObject(function(key,obj){
-
-            var subjectName = ""+ canvas.item(obj).name +"";
-
-           // subjectName = jQuery.parseJSON( subjectName);
-           subjectName = subjectName.substring(0,4);
-
-            if ( subjectName == "Line" ) {
-
-            // canvas.sendToBack(canvas.item(obj));
-
-            console.log('line');
-             canvas.item(obj).evented = false;
-             canvas.item(obj).selectable = false;
-            } else if(subjectName != "unde") {
-            console.log('unde');
-               // canvas.sendToFront(canvas.item(obj));
-               canvas.item(obj).evented = true;
-             canvas.item(obj).selectable = true;
+                canvas.item(obj).evented = false;
+                canvas.item(obj).selectable = false;
+            } else if (subjectName != "unde") {
+                // canvas.sendToFront(canvas.item(obj));
+                canvas.item(obj).evented = true;
+                canvas.item(obj).selectable = true;
             }
 
            // canvas.item(obj).visible = false;
-
-
-      });
-            canvas.renderAll();
+        });
+        canvas.renderAll();
     }
 
 
 
-    $(document).on('click','select.load-boundaries-template',function(){
-
-
+    $(document).on('click','select.load-boundaries-template',function() {
         var str2 = $("#filter_boundary").val().toLowerCase();
-       str2 = str2.split(' ');
-       console.log(str2);
-        $( ".load-boundaries-template option" ).hide();
+        str2 = str2.split(' ');
 
-        $.each(str2, function( index, value ) {
-           $( ".load-boundaries-template option" ).each(function( index ) {
+        $(".load-boundaries-template option").hide();
+
+        $.each(str2, function(index, value) {
+           $(".load-boundaries-template option").each(function(index) {
               var str1 = $( this ).text().toLowerCase();
 
                 if(str1.indexOf(value) != -1){
@@ -4034,69 +3527,153 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                 }
             });
         });
-
-
     });
 
-     $(document).on('click','.load-applications-template',function(){
-        console.log($("#filter_app_template").val());
+    $(document).on('click','.load-applications-template',function() {
         var str2 = $("#filter_app_template").val();
-       str2 = str2.split(' ');
-       console.log(str2);
-        $( ".load-applications-template option" ).hide();
+        str2 = str2.split(' ');
+        
+        $(".load-applications-template option").hide();
 
-        $.each(str2, function( index, value ) {
-           $( ".load-applications-template option" ).each(function( index ) {
-              var str1 = $( this ).text().toLowerCase();
+        $.each(str2, function(index, value) {
+           $(".load-applications-template option").each(function(index) {
+                var str1 = $( this ).text().toLowerCase();
 
-                if(str1.indexOf(value) != -1){
+                if (str1.indexOf(value) != -1) {
                     $(this).show();
                 }
             });
         });
-
-
     });
-        $(document).on('click', '.app-default-font', function() {
+
+    $(document).on('click', '.app-default-font', function() {
         var Sports = $("#material_uniform_category").val();
         $(".app-default-font option").hide();
         $(this).find("option:first-child").show();
-        $( this ).find("option").each(function( index ) {
-         var stringSport = JSON.stringify($(this).data("sport"));
-         stringSport = "" +stringSport+ "";
-            if (stringSport.indexOf(Sports) > -1)
-                {
-                 $(this).show();
-                 console.log("");
-                }
+
+        $(this).find("option").each(function(index) {
+            var stringSport = JSON.stringify($(this).data("sport"));
+            stringSport = "" + stringSport + "";
+
+            if (stringSport.indexOf(Sports) > -1) {
+                $(this).show();
+            }
         });
     });
 
-    $('.export_material_prop').on('click', function(){
+    $('.export_material_prop').on('click', function() {
         var bp_id =   $('.export_block_pattern_id :selected').val();
         var material_prop = $('#material_props_data').text();
         var url = "//" + api_host + "/api/block_pattern/update";
         var data = JSON.stringify({id: bp_id, material_reference_properties: material_prop});
-        // console.log(data);
-         $.ajax({
-               url: url,
-               type: "POST",
-               data: data,
-               dataType: "json",
-               crossDomain: true,
-               contentType: 'application/json',
-               headers: {"accessToken": atob(headerValue)},
-               success: function(response){
-                   if (response.success) {
-                       new PNotify({
-                           title: 'Success',
-                           text: response.message,
-                           type: 'success',
-                           hide: true
-                       });
-                   }
-               }
-           });
-
+        
+        $.ajax({
+           url: url,
+           type: "POST",
+           data: data,
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response) {
+                if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                    });
+                }
+            }
+        });
     });
+
+    $(document).on('change', '.mascotFilter', function () {
+        keyword = $(this).val();
+        var mascotDropdown = $(this).next('.app-default-mascot');
+
+        var url = "//" + api_host + "/api/mascots/get_mascot_by_name_or_code/" + keyword;
+
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data) {
+                $.each(data.mascots, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    item['selected'] = false;
+
+                    var c = 0;
+
+                    var xdata = JSON.parse(item.layers_properties);
+
+                    $.each(xdata, function(i, item) {
+                        c++;
+                    });
+
+                    item['description'] = item.category + ' [ ' + c + ' ]';
+                    item['imageSrc'] = item.icon;
+                    item['layers'] = c ;
+                });
+
+                mascotDropdown.find('option').remove();
+
+                mascotDropdown.append("<option value='' data-image='' data-description=''>None</option>");
+
+                for (var index = 0; index < data.mascots.length; index++) {
+                    var mascot = data.mascots[index];
+
+                    var option = "<option value='" + mascot.value + "' data-image='" + mascot.imageSrc + "' data-description='" + mascot.description + "'>";
+                        option += mascot.text
+                        option += "</option>";
+
+                    mascotDropdown.append(option);
+                }
+
+                mascotDropdown.select2({
+                    width: '300px',
+                    templateResult: formatState,
+                    templateSelection: formatState,
+                    minimumResultsForSearch: -1
+                });
+
+                mascotDropdown.change(function() {
+                    var id = $(this).val();
+                    var rowIndex = $(this).data('id');
+
+                    var mascotData = data.mascots.filter(function(mascot) {
+                        return mascot.id == id;
+                    });
+
+                    accentMascotSelect(mascotData, 'mascot', rowIndex);
+                });
+            }
+        });
+    });
+
+    function formatState(state) {
+        var element = $(state.element);
+
+        if (! state.id) { 
+            return state.text; 
+        }
+
+        var html = `<div class="row">
+                        <div class="col-md-4">
+                            <img src="` + element.data('image') + `" style="width: 100%;">
+                        </div>
+
+                        <div class="col-md-8">
+                            <strong>` + state.text +`</strong><br> ` + element.data('description') + `
+                        </div>
+                    </div>`;
+
+        var $state = $(html);
+
+        return $state;
+    }
 });
