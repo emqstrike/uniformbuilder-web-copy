@@ -1299,18 +1299,6 @@ $(document).ready(function () {
                         // view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180.00;
 
-                        console.log("view.application.rotation", view.application.rotation);
-                        console.log("angleRadians", angleRadians);
-
-                        console.log("bum: ", (view.application.rotation * 5) / 18);
-
-                        var a = (view.application.rotation * 5) / 18;
-                        if (a < 0 && a > -60) {
-                            a += 60 + 40;
-                        }
-
-                        console.log(a);
-
                         move_point.rotation = angleRadians;
 
                         if (ub.config.uniform_application_type === "sublimated") {
