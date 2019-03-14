@@ -61,6 +61,21 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 2</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="block_pattern_option_2">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 3</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="block_pattern_option_3">
+                                </div>
+                            </div>
+
                             <hr>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Inch in Pixels</label>
