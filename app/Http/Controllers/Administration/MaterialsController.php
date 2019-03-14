@@ -536,7 +536,9 @@ class MaterialsController extends Controller
             'reversible_pair_id' => $reversible_pair_id,
             'reversible_type' => $reversible_type,
             'model_number' => $request->input('model_number'),
-            'retain_settings_from_saved_design' => $retain_settings
+            'retain_settings_from_saved_design' => $retain_settings,
+            'block_pattern_option_2' => $request->input('block_pattern_option_2'),
+            'block_pattern_option_3' => $request->input('block_pattern_option_3')
         ];
         try {
             // Thumbnail Files
