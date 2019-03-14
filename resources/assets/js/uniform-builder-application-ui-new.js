@@ -301,7 +301,14 @@ $(function() {
         }
 
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var rotation = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var computedRotation = (rotation / Math.PI) * 180.00;
+
+        var _start = 0;
+        var _start = (computedRotation * 5) / 18;
+        if (_start < 0 && _start > -60) {
+            _start += 60 + 40;
+        }
 
         $(element).roundSlider({
             sliderType: "min-range",
@@ -314,7 +321,6 @@ $(function() {
             drag: function (args) {
 
                 if (!_flag) { _flag = true; return;}
-                console.log('ARGS=======>', args.value);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
