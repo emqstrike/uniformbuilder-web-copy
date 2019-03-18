@@ -160,15 +160,15 @@ describe('Shopping Cart End To End Testing', function () {
 
     /* Cart item players testing */
     describe('Cart item players testing', function () {
-        it('Default players in the modal must be empty', function () {
-            // show players modal
-            cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .view-all-players').click();
+        // it('Default players in the modal must be empty', function () {
+        //     // show players modal
+        //     cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .view-all-players').click();
 
-            cy.get('.bootbox.all-players-modal .bootbox-body p')
-                .should('have.contain', "No players available");
+        //     cy.get('.bootbox.all-players-modal .bootbox-body p')
+        //         .should('have.contain', "No players available");
 
-            cy.get('.bootbox.all-players-modal .modal-header .bootbox-close-button').click(); // close modal
-        });
+        //     cy.get('.bootbox.all-players-modal .modal-header .bootbox-close-button').click(); // close modal
+        // });
 
         it('Open add player modal', function () {
             cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .player-list button.add-player').click();
@@ -186,7 +186,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name field is required.")
                     });
                 });
@@ -196,7 +195,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name must be at least 2 characters.")
                     });
 
@@ -208,7 +206,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may not be greater than 50 characters.")
                     });
 
@@ -220,7 +217,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may only contain letters and spaces.")
                     });
 
@@ -232,7 +228,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="last_name"]').next().next().should('have.contain', "The last name may only contain letters and spaces.")
                     });
 
@@ -244,7 +239,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="last_name"]').next().should('have.class', "glyphicon-ok");
                         cy.get(':input[name="last_name"]').next().next().should('not.exist');
                     });
 
@@ -258,7 +252,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number field is required.")
                     });
                 });
@@ -273,7 +266,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be a number.")
                     });
 
@@ -286,7 +278,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be a number.")
                     });
 
@@ -299,7 +290,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be at least 0.")
                     });
 
@@ -312,7 +302,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number may not be greater than 99.")
                     });
 
@@ -325,7 +314,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="number"]').next().next().should('have.contain', "The number must be between 1 and 2 digits.")
                     });
 
@@ -337,7 +325,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="number"]').next().should('have.class', "glyphicon-ok");
                         cy.get(':input[name="number"]').next().next().should('not.exist');
                     });
 
@@ -351,7 +338,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity field is required.")
                     });
                 });
@@ -366,7 +352,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be a number.")
                     });
 
@@ -379,7 +364,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be a number.")
                     });
 
@@ -392,7 +376,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity must be at least 1.")
                     });
 
@@ -405,7 +388,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-remove");
                         cy.get(':input[name="quantity"]').next().next().should('have.contain', "The quantity may not be greater than 100.")
                     });
 
@@ -417,7 +399,6 @@ describe('Shopping Cart End To End Testing', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
 
                     cy.get('@add_player_form_el').within(function() {
-                        cy.get(':input[name="quantity"]').next().should('have.class', "glyphicon-ok");
                         cy.get(':input[name="quantity"]').next().next().should('not.exist');
                     });
 

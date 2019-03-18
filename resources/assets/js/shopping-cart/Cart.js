@@ -251,6 +251,7 @@ var Cart = {
                             },
 
                             success: function(response) {
+                                console.log(response);
                                 if (response.success) {
 
                                     if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
