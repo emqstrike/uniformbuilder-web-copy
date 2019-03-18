@@ -6,10 +6,13 @@ describe('Shopping Cart End To End Testing', function () {
 
     Cypress.Cookies.debug(true);
 
+    /* Preserver XSRF-TOKEN and laravel_session every test */
     beforeEach(function() {
         Cypress.Cookies.preserveOnce("XSRF-TOKEN", "laravel_session");
     });
 
+
+    /* Checking default cart content */
     describe('Checking default cart content', function () {
         it("Open material id "+ MATERIAL_ID, function() {
             cy.visit(URL);
@@ -34,6 +37,7 @@ describe('Shopping Cart End To End Testing', function () {
         });
     });
 
+    /* Adding current material to cart */
     describe('Adding current material to cart', function () {
         it('Cart item number must be 1 after the process of add to cart', function() {
             cy.get('#left-side-toolbar .cart-btn').click(); // click add to cart button
@@ -58,6 +62,7 @@ describe('Shopping Cart End To End Testing', function () {
         });
     });
 
+    /* Checking shopping cart page */
     describe('Checking shopping cart page', function () {
         // var img_front_temp;
 
@@ -83,6 +88,7 @@ describe('Shopping Cart End To End Testing', function () {
         });
     });
 
+    /* Updating item to cart */
     describe('Updating item to cart', function () {
         it("Open material id "+ MATERIAL_ID + " again", function() {
             cy.visit(URL);
@@ -129,6 +135,7 @@ describe('Shopping Cart End To End Testing', function () {
         // });
     });
 
+    /* Checking shopping cart page again */
     describe('Checking shopping cart page again', function () {
         // var img_front_temp;
 
@@ -151,6 +158,7 @@ describe('Shopping Cart End To End Testing', function () {
         });
     });
 
+    /* Cart item players testing */
     describe('Cart item players testing', function () {
         it('Default players in the modal must be empty', function () {
             // show players modal
@@ -166,11 +174,13 @@ describe('Shopping Cart End To End Testing', function () {
             cy.get('#cart-items-el .cart-item[data-material-id="'+MATERIAL_ID+'"] .player-list button.add-player').click();
         });
 
+        /* Add player testing */
         describe('Add player testing', function () {
             beforeEach(function() {
                 cy.get('.bootbox.add-player-modal form').as("add_player_form_el");
             });
 
+            /* Input value in last name field testing */
             describe('Input value in last name field testing', function () {
                 it('Empty input for last name field must show error message indicate empty input is invalid.', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
@@ -242,6 +252,7 @@ describe('Shopping Cart End To End Testing', function () {
                 });
             });
 
+            /* Input value in number field testing */
             describe('Input value in number field testing', function () {
                 it('Empty input for number field must show error message indicate empty input is invalid.', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
@@ -334,6 +345,7 @@ describe('Shopping Cart End To End Testing', function () {
                 });
             });
 
+            /* Input value in quantity field testing */
             describe('Input value in quantity field testing', function () {
                 it('Empty input for quantity field must show error message indicate empty input is invalid.', function () {
                     cy.get('.bootbox.add-player-modal .modal-footer button[data-bb-handler="ok"]').click();
@@ -413,6 +425,7 @@ describe('Shopping Cart End To End Testing', function () {
                 });
             });
 
+            /* All fields are valid testing */
             describe('All fields are valid testing', function () {
                 it('Valid inputs must show message indicate player is added in current cart item.', function () {
                     cy.get('@add_player_form_el').find(':input[name="last_name"]').type("Bar"); // type valid value

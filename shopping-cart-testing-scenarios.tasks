@@ -32,33 +32,34 @@ Shopping Cart Testing Scenarios:
   - Cart item players testing
    ✔ Default players in the modal must be empty @done (19-03-08 14:50)
 
-   - Input value in last name field testing
-     ✔ Empty input for last name field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
-     ✔ Input value less than 2 characters for last_name field must show error indicate the minimum characters is 2. @done (19-03-08 14:50)
-     ✔ Input value greater than 50 characters for last_name field must show error indicate the maximum characters is 50. @done (19-03-08 14:50)
-     ✔ Input numeric value for last_name field must show error indicate the numeric is invalid. @done (19-03-08 14:50)
-     ✔ Input special characters value for last_name field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
-     ✔ Valid input for last name field must remove error message. @done (19-03-08 14:50)
+   - Add player testing
+     - Input value in last name field testing
+       ✔ Empty input for last name field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+       ✔ Input value less than 2 characters for last_name field must show error indicate the minimum characters is 2. @done (19-03-08 14:50)
+       ✔ Input value greater than 50 characters for last_name field must show error indicate the maximum characters is 50. @done (19-03-08 14:50)
+       ✔ Input numeric value for last_name field must show error indicate the numeric is invalid. @done (19-03-08 14:50)
+       ✔ Input special characters value for last_name field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+       ✔ Valid input for last name field must remove error message. @done (19-03-08 14:50)
 
-   - Input value in number field testing
-     ✔ Empty input for number field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
-     ✔ Input string value for number field must show error indicate the string is invalid. @done (19-03-08 14:50)
-     ✔ Input special characters value for number field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
-     ✔ Input value less than 0 characters for number field must show error indicate the minimum characters is 0. @done (19-03-08 14:50)
-     ✔ Input value greater than 99 characters for number field must show error indicate the maximum characters is 99. @done (19-03-08 14:50)
-     ✔ Input value that digit is greater than 2 characters for number field must show error indicate the digit must only 1 or 2. @done (19-03-08 14:50)
-     ✔ Valid input for number field must remove error message. @done (19-03-08 14:50)
+     - Input value in number field testing
+       ✔ Empty input for number field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+       ✔ Input string value for number field must show error indicate the string is invalid. @done (19-03-08 14:50)
+       ✔ Input special characters value for number field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+       ✔ Input value less than 0 characters for number field must show error indicate the minimum characters is 0. @done (19-03-08 14:50)
+       ✔ Input value greater than 99 characters for number field must show error indicate the maximum characters is 99. @done (19-03-08 14:50)
+       ✔ Input value that digit is greater than 2 characters for number field must show error indicate the digit must only 1 or 2. @done (19-03-08 14:50)
+       ✔ Valid input for number field must remove error message. @done (19-03-08 14:50)
 
-   - Input value in quantity field testing
-     ✔ Empty input for quantity field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
-     ✔ Input string value for quantity field must show error indicate the string is invalid. @done (19-03-08 14:50)
-     ✔ Input special characters value for quantity field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
-     ✔ Input value less than 1 characters for quantity field must show error indicate the minimum characters is 1. @done (19-03-08 14:50)
-     ✔ Input value greater than 100 characters for quantity field must show error indicate the maximum characters is 100. @done (19-03-08 14:50)
-     ✔ Valid input for quantity field must remove error message. @done (19-03-08 14:50)
+     - Input value in quantity field testing
+       ✔ Empty input for quantity field must show error message indicate empty input is invalid. @done (19-03-08 14:50)
+       ✔ Input string value for quantity field must show error indicate the string is invalid. @done (19-03-08 14:50)
+       ✔ Input special characters value for quantity field must show error indicate the special characters are invalid. @done (19-03-08 14:50)
+       ✔ Input value less than 1 characters for quantity field must show error indicate the minimum characters is 1. @done (19-03-08 14:50)
+       ✔ Input value greater than 100 characters for quantity field must show error indicate the maximum characters is 100. @done (19-03-08 14:50)
+       ✔ Valid input for quantity field must remove error message. @done (19-03-08 14:50)
 
-   - All fields are valid testing
-     ✔ Valid inputs must show message indicate player is added in current cart item. @done (19-03-08 14:50)
+     - All fields are valid testing
+       ✔ Valid inputs must show message indicate player is added in current cart item. @done (19-03-08 14:50)
 
 
 // stop here muna
