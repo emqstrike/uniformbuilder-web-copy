@@ -241,7 +241,7 @@ $(document).ready(function() {
             // Match Series
             {
                 block_pattern: 'Match Series',
-                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                neck_options: ['Jersey (M)', 'Jersey (W)', 'Short (W)', 'Short (M)'],
                 material_option: 'Pro-Dry',
                 valid_colors: [
                     'B',
@@ -252,7 +252,7 @@ $(document).ready(function() {
             // Match Series
             {
                 block_pattern: 'Champion Series',
-                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                neck_options: ['Jersey (M)', 'Jersey (W)', 'Short (W)', 'Short (M)'],
                 material_option: 'Pro-Dry',
                 valid_colors: [
                     'B',
@@ -263,7 +263,7 @@ $(document).ready(function() {
             //Premier Series
             {
                 block_pattern: 'Premier Series',
-                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                neck_options: ['Jersey (M)', 'Jersey (W)', 'Short (W)', 'Short (M)'],
                 material_option: 'Pro-Dry',
                 valid_colors: [
                     'B',
