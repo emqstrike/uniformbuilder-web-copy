@@ -18,6 +18,7 @@ use App\APIClients\ReversibleGroupsAPIClient;
 use App\APIClients\UniformCategoriesAPIClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\MaterialRequest;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
 use App\Utilities\Log;
@@ -172,7 +173,7 @@ class MaterialsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
         $materialName = $request->input('name');
         $materialId = $request->input('material_id');
