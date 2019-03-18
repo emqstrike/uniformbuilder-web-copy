@@ -6611,6 +6611,12 @@ $(document).ready(function () {
 
             if (_picker_type === 'gender') { return; }
 
+            if (ub.picker.isNew) {
+                $('a.picker-slink[data-type="upper"]').parent().attr('data-gender', _gender);
+                $('a.picker-slink[data-type="lower"]').parent().attr('data-gender', _gender);
+                $('a.picker-slink[data-type="all"]').parent().attr('data-gender', _gender);
+            }
+
             if (_picker_type === 'sports') {
 
                 var itemExcemptions = ['Apparel', 'eSports'];
@@ -7277,6 +7283,10 @@ $(document).ready(function () {
 
             var template = '';
 
+            ub.tempItems = ub.funcs.sortPickerItems(items);
+
+            ub.tempItems = ub.funcs.addFilterObject(ub.tempItems);
+
             if (!ub.picker.isNew) {
 
                 template = $('#m-picker-items-uniforms').html()
@@ -7300,8 +7310,6 @@ $(document).ready(function () {
                 $scrollerElement = $('section#picker-items-container ul');
 
             }
-
-            ub.tempItems = ub.funcs.sortPickerItems(items);
 
             var data = {
 

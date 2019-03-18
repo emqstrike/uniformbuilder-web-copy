@@ -1,8 +1,15 @@
 $(document).ready(function () {
 
+	// flag for picker v2
 	ub.picker = {
 		isNew: false
 	}
+
+	// filter flag
+	ub.filtersV2 = {
+		primary: 'All',
+		secondary: 'All'
+	};
 
 	ub.data.secondaryBarLabelsV2 = {
 
@@ -176,7 +183,7 @@ $(document).ready(function () {
 			ub.picker.isNew = true;
 		}
 
-		// ub.funcs.triggerUpperLowerFilter();
+		ub.funcs.triggerUpperLowerFilter();
     }
 
     ub.funcs.prepareSecondaryBarV2 = function (sport, gender) {
@@ -224,17 +231,7 @@ $(document).ready(function () {
     	$('.cd-tab-filter li').on('click', function(event){
 			//detect which tab filter item was selected
 			var selected_filter = $(event.target).data('type');
-
-			if (selected_filter == 'upper') {
-				$('li.upper').fadeIn();
-				$('li.lower').fadeOut();
-			} else if (selected_filter == 'lower') {
-				$('li.lower').fadeIn();
-				$('li.upper').fadeOut();
-			} else {
-				$('li.upper').fadeIn();
-				$('li.lower').fadeIn();
-			}
+			ub.funcs.setV2PrimaryFilter(selected_filter);
 		});
     }
 
@@ -246,6 +243,42 @@ $(document).ready(function () {
 
     ub.funcs.hidePrimaryBarFilter = function () {
     	$('div#topbar').hide();
+    }
+
+    ub.funcs.sideBarFilterBlockPatternSelectOption = function () {
+    	var blockPatterns = _blockPatternsCollection;
+
+    	$('#cd-block-pattern option:gt(0)').remove();
+    	_.each(blockPatterns, function(block) {
+    		$('#cd-block-pattern')
+			.append($("<option></option>")
+			.attr("value", "."+block.item.toHyphenCase())
+			.text(block.alias)); 
+    	});
+    }
+
+    ub.funcs.addFilterObject = function (object) {
+    	return _.each(object, function(obj) {
+    		// fv2 = filter version 2
+    		obj.block_pattern_fv2 = obj.block_pattern.toHyphenCase();
+    		if (obj.is_blank != 0) {
+    			var blank = 'Blank Styles'.toHyphenCase();
+    			obj.block_pattern_fv2_blank = blank;
+    		}
+
+    		if (obj.is_favorite) {
+    			var favorite = 'Favorites'.toHyphenCase();
+    			obj.block_pattern_fv2_favorite = favorite;
+    		}
+    	});
+    }
+
+    ub.funcs.setV2PrimaryFilter = function (type) {
+    	ub.filtersV2.primary = type;
+    }
+
+    ub.funcs.setV2SecondaryFilter = function (type) {
+    	ub.filtersV2.secondary = type;
     }
 
     ub.funcs.initPicker();

@@ -101,14 +101,13 @@ jQuery(document).ready(function($){
 	  	// Delay function invoked to make sure user stopped typing
 	  	delay(function(){
 	    	inputText = $(".cd-filter-content input[type='search']").val().toLowerCase();
-	    	var exemptions = ['upper', 'lower', 'sublimated', 'tackle_twill'];
 	   		// Check to see if input field is empty
 	    	if ((inputText.length) > 0) {            
 	      		$('.mix').each(function() {
 		        	var $this = $(this);
 		        
 		        	// add item to be filtered out if input text matches items inside the title   
-		        	if($this.attr('class').toLowerCase().match(inputText) && !_.contains(exemptions, inputText)) {
+		        	if($this.attr('data-name').toLowerCase().match(inputText)) {
 		          		$matching = $matching.add(this);
 		        	} else {
 		          		// removes any previously matched item
