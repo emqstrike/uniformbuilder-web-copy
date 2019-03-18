@@ -238,6 +238,50 @@ $(document).ready(function() {
                     'FLG',
                 ]
             },
+            // Match Series
+            {
+                block_pattern: 'Match Series',
+                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                material_option: 'Pro-Dry',
+                valid_colors: [
+                    'B',
+                    'W',
+                    'GR',
+                ]
+            },
+            // Match Series
+            {
+                block_pattern: 'Champion Series',
+                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                material_option: 'Pro-Dry',
+                valid_colors: [
+                    'B',
+                    'W',
+                    'GR',
+                ]
+            },
+            //Premier Series
+            {
+                block_pattern: 'Premier Series',
+                neck_options: ['Jersey (M)', 'Jersey (W)'],
+                material_option: 'Pro-Dry',
+                valid_colors: [
+                    'B',
+                    'W',
+                    'GR',
+                ]
+            },
+            //Goalie
+            {
+                block_pattern: 'Goalie',
+                neck_options: ['Goalie (M)', 'Goalie (W)'],
+                material_option: 'Pro-Dry',
+                valid_colors: [
+                    'B',
+                    'W',
+                    'GR',
+                ]
+            },
         ],
 
         getLimitedColorSet: function (materialOption) {
