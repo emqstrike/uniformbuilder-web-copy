@@ -301,7 +301,14 @@ $(function() {
         }
 
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var rotation = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var computedRotation = (rotation / Math.PI) * 180.00;
+
+        var _start = 0;
+        var _start = (computedRotation * 5) / 18;
+        if (_start < 0 && _start > -60) {
+            _start += 60 + 40;
+        }
 
         $(element).roundSlider({
             sliderType: "min-range",
@@ -314,7 +321,6 @@ $(function() {
             drag: function (args) {
 
                 if (!_flag) { _flag = true; return;}
-                console.log('ARGS=======>', args.value);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
@@ -482,13 +488,12 @@ $(function() {
     ub.funcs.colorsSelection = function (id, _title) {
 
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
-
         var _colorBlock = '';
         var _html = '';
 
         if (_settingsObject.application_type === 'mascot') {
-
-            if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
+            var mascotID = ub.current_material.settings.applications[id].mascot.id;
+            if (mascotID !== "1039") {
 
                 _html += '<div class="colorSelectionContainer">';
                 _html += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
@@ -571,7 +576,6 @@ $(function() {
     ub.funcs.createColorBlock = function (_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
 
         var _html = '';
-        // var _teamColors = ub.current_material.settings.team_colors;
         var _teamColors = undefined;
 
         if (ub.funcs.isTackleTwill()) {
@@ -587,12 +591,11 @@ $(function() {
         }
 
         _teamColors = _.sortBy(_teamColors, "order");
-        // _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
         _html += '<li>'
         _html += '<div class="con-select con-palettes">'
         _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color" uk-grid>'
-        _.each(_teamColors, function (_color) {
 
+        _.each(_teamColors, function (_color) {
             var _checkMark = '';
             var _class = '';
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
@@ -607,9 +610,6 @@ $(function() {
             _html += _checkMark;
             _html += '</button>';
             _html += '</div>';
-
-            // _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '"  data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
-
         });
 
         _html += '</div>';
