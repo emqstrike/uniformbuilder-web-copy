@@ -42,7 +42,7 @@ function PropertiesPanel(
 PropertiesPanel.prototype = {
     constructor: PropertiesPanel,
 
-    initModifiers: function(palette_category) {
+    initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         _.map(this.modifiers, function(modifier) {
             var _modifier = ub.funcs.getModifierByIndex(modifier.index);
@@ -67,8 +67,24 @@ PropertiesPanel.prototype = {
 
             if (typeof _limitedColorSet === "undefined") {
                 // if dont have limited color set the team colors
-                var color_pallete = color_palette = ColorPalette.funcs.getConfigurationPerTab(palette_category);
-                modifier.colors = color_pallete;
+                var color_palette = null;
+                if (modifier.name.includes("Panel") || modifier.name.includes("Piping") || modifier.name.includes("Insert")) {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("insert");
+                } else {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("base");
+                }
+
+                modifier.colors = color_palette;
+            }
+
+            // Check if uniform has gradient
+            if (typeof ub.data.gradients !== "undefined" && _.size(ub.data.gradients) > 0) {
+                var gradientObject = _.find(ub.data.gradients, {name: modifier.fullname});
+                if (typeof gradientObject !== "undefined") {
+                    modifier.hasGradient = true;
+                } else {
+                    modifier.hasGradient = false;
+                }
             }
         });
     },
@@ -111,14 +127,11 @@ PropertiesPanel.prototype = {
     bindEvents: function() {
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
-        this.panels.patterns.onChangeColorPaternCategory();
-        this.panels.patterns.onSelectColorPerCategory();
-        this.panels.patterns.onApplyChanges();
-        this.panels.patterns.onClosePatternModal();
-
         if (PropertiesPanel.is_bind_events_called === 0) {
             this.panelTracker();
             this.panels.patterns.onOpenModalPatternModifier();
+            this.panels.patterns.onSelectColorPerCategory();
+            this.panels.patterns.onApplyChanges();
             PropertiesPanel.is_bind_events_called = 1;
         }
     },
@@ -131,6 +144,8 @@ PropertiesPanel.prototype = {
         _.map(_this.modifiers, function(index) {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
+            var gradientObject = materialObject.gradient;
+            var modifierObject = _.find(ub.data.modifierLabels, {fullname: materialObject.code});
 
             if (typeof materialObject !== "undefined")
             {
@@ -167,10 +182,17 @@ PropertiesPanel.prototype = {
 
                     var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ _patternObject.id +"']");
                     if (pattern_container.length > 0) {
-                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal-button' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'>Edit Pattern Color</button>");
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
+                }
+
+                if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                    var gradientContainer = $(".pattern-main-container-"+ materialObject.code + " .gradient-container-button .gradient-selector-button[data-gradient-name='gradient']");
+                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+                    gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                    gradientContainer.addClass('active-pattern');
                 }
             }
 
@@ -185,6 +207,36 @@ PropertiesPanel.prototype = {
                 return;
             }
 
+            if (ub.status.fullView.getStatus()) {
+                if (ub.status.fullViewZoom.getStatus()) {
+                    // Turn Off Full View Zoom
+                    ub.funcs.resetZoom();
+                    ub.status.fullViewZoom.setStatus(false, undefined);
+                } else {
+                    // Zoom View Depending on the area that was clicked
+                    ub.funcs.resetZoom();
+                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                    if (typeof _view !== "undefined") {
+                        ub.funcs.hideViews();
+                        ub.funcs.zoomView(_view);
+                    }
+                    ub.status.fullViewZoom.setStatus(true, _view);
+                }
+                return;
+            }
+
+            if (ub.zoom) {
+                ub.zoom_off();
+                return;
+            }
+
+            ub.funcs.hideVisiblePopups();
+
+            if (typeof ub.activeApplication !== "undefined") {
+                return;
+            }
+
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
@@ -194,21 +246,12 @@ PropertiesPanel.prototype = {
                 ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
-                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                var _obj = _.find(ub.data.modifierLabels, {fullname: _result.toString()});
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
-                {
-                    if ($("#primary_options_container #parts-with-insert-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-inserts').trigger('click');
-                    }
-                }
-                else
-                {
-                    if ($("#primary_options_container .parts-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-parts').trigger('click');
-                    }
+                if ($("#primary_options_container ul.parts-container").length === 0) {
+                    $('#property-modifiers-menu .menu-item-parts').trigger('click');
                 }
 
                 _this.activePanelbyIndex(_index);

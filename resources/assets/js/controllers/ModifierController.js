@@ -48,27 +48,28 @@ ModifierController.prototype = {
 
     initControls: function() {
         // Set Tooltips Behavior
-        tippy('.tippy-menu-item', {
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end'
-        });
+        // tippy('.tippy-menu-item', {
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
 
-        // change pipings to random feeds if the item is sock
-        tippy('#property-modifiers-menu .menu-item-pipings', {
-            content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
-            delay: 0,
-            size: 'large',
-            animation: 'shift-away',
-            placement: 'left-end'
-        });
+        // // change pipings to random feeds if the item is sock
+        // tippy('#property-modifiers-menu .menu-item-pipings', {
+        //     content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
+        //     delay: 0,
+        //     size: 'large',
+        //     animation: 'shift-away',
+        //     placement: 'left-end',
+        //     arrow: true
+        // });
     },
 
     bindEvents: function() {
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
         $('#property-modifiers-menu .menu-item-parts').on('click', this.parts);
-        $('#property-modifiers-menu .menu-item-inserts').on('click', this.inserts);
         $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
@@ -130,6 +131,9 @@ ModifierController.prototype = {
 
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         propertiesPanel.setBodyPanel(fabric_panel);
+
+        ub.current_modifier = 1;
+        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },
 
     parts: function(_this) {
@@ -138,8 +142,8 @@ ModifierController.prototype = {
 
         // New Properties Object
         var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-        propertiesPanel.initModifiers("base");
-        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts);
+        propertiesPanel.initModifiers();
+        ub.modifierController.controllers.parts = new PartPanel('m-parts', propertiesPanel.parts, propertiesPanel.inserts);
 
         var part_panel = ub.modifierController.controllers.parts.getPanel();
         propertiesPanel.setBodyPanel(part_panel);
@@ -147,27 +151,12 @@ ModifierController.prototype = {
 
         // Bind Events
         propertiesPanel.bindEvents();
+        GradientPanel.events.init();
+
+        ub.current_modifier = 2;
 
         $("#primary_options_container").scrollTo(0);
-    },
-
-    inserts: function() {
-        ub.modifierController.clearControls();
-        ub.funcs.activeStyle('colors');
-
-        // New Properties Object
-        var propertiesPanel = new PropertiesPanel('#primary_options_container', this.brand);
-        propertiesPanel.initModifiers("insert");
-        ub.modifierController.controllers.inserts = new InsertPanel('m-inserts', propertiesPanel.inserts);
-
-        var insert_panel = ub.modifierController.controllers.inserts.getPanel();
-        propertiesPanel.setBodyPanel(insert_panel);
-        propertiesPanel.setDefaultColorsPatterns();
-
-        // Bind Events
-        propertiesPanel.bindEvents();
-
-        $("#primary_options_container").scrollTo(0);
+        ub.funcs.enableRichardsonNavigator();
     },
 
     pipings: function() {
@@ -204,18 +193,38 @@ ModifierController.prototype = {
             piping_panel = ub.modifierController.controllers.pipings.getNoPipingPanel();
             properties_panel.setBodyPanel(piping_panel);
         }
+
+        ub.current_modifier = 3;
+        ub.funcs.enableRichardsonNavigator();
     },
 
     letters: function() {
         ub.funcs.startNewApplicationLetters();
+        ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
+        ub.current_modifier = 4;
+
+        $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
         ub.funcs.startNewApplicationNumbers();
+        ub.funcs.enableRichardsonNavigator();
+        ApplicationPanel.events.init();
+        ApplicationPanel.events.initGlobalEvents();
+        ub.current_modifier = 5;
+
+        $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
         ub.funcs.startNewApplication();
+        ub.funcs.enableRichardsonNavigator();
+        ub.current_modifier = 6;
+        ApplicationPanel.events.initGlobalEvents();
+        ApplicationMascotPanel.events.init();
+        $("#primary_options_container").scrollTo(0);
     },
 
     logo: function() {
@@ -240,10 +249,10 @@ ModifierController.prototype = {
             properties_panel.setBodyPanel(logo_panel);
 
             // Activate logo current position
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").addClass('cp-button-active');
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container button[data-position='"+ current_position.position +"']").css('pointer-events', "none");
+            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
 
             var image = ub.getThumbnailImage(ub.active_view + "_view");
+
             $("#logo-preview").css({
                 'background-image': "url("+ image +")"
             });
@@ -256,10 +265,13 @@ ModifierController.prototype = {
             var render = Mustache.render(panel.innerHTML);
             properties_panel.setBodyPanel(render);
         }
+
+        ub.current_modifier = 7;
+        $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
     }
 };
 
-ModifierController.scrollToOptions = function (application_type, application_id) {
+ModifierController.scrollToOptions = function (application_type, application_id, application_code) {
     // Check if clicked application is TEAM NAME or PLAYER NAME,
     if (application_type === "team_name" || application_type === "player_name") {
         $('#property-modifiers-menu .menu-item-letters').trigger('click')
@@ -271,12 +283,15 @@ ModifierController.scrollToOptions = function (application_type, application_id)
         $('#property-modifiers-menu .menu-item-applications').trigger('click')
     }
 
-    $('.modifier_main_container').scrollTo($('div[data-application-id=' + application_id + '].applicationUIBlock'))
+    _.delay(function() {
+        $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
+    }, 500);
 
+    ub.funcs.activateMoveTool(application_code);
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {
-    $('.modifier_main_container').find($('div[data-application-id=' + application_id + '].applicationUIBlock')).remove();
+    $('.modifier_main_container').find($('li[data-application-id=' + application_id + '].applicationUIBlockNew')).remove();
 }
 
 ModifierController.dropdownLinks = function() {

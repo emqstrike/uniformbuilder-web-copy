@@ -38,17 +38,18 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
+            <div class="customizer-uniform-information">
+                <div id="uniform_name"></div>
+                <div id="uniform-price-youth"></div>
+                <div id="uniform-price-adult"></div>
+                <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
+                <div id="saved_design_name"></div>
 
-            <div id="uniform_name"></div>
-            <div id="uniform-price-youth"></div>
-            <div id="uniform-price-adult"></div>
-            <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
-            <div id="saved_design_name"></div>
+                <div id="order-status"></div>
 
-            <div id="order-status"></div>
-
-            <div id="return-to-customizer">
-                <button id="button-return-to-customizer">Return to Customizer</button>
+                <div id="return-to-customizer">
+                    <button id="button-return-to-customizer">Return to Customizer</button>
+                </div>
             </div>
 
             <div id="top-left-side-toolbar">
@@ -88,14 +89,14 @@
 @section('right-pane')
 
     <div id="property-modifiers-menu" class="hidden">
-        <a href="#" class="group-pane tippy-menu-item group-1 menu-item-fabrics" data-tippy-content="FABRICS" data-item="fabrics">1</a>
-        <a href="#" class="group-pane tippy-menu-item group-2 menu-item-parts" data-tippy-content="PARTS" data-item="parts">2</a>
-        <a href="#" class="group-pane tippy-menu-item group-3 menu-item-inserts" data-tippy-content="INSERTS" data-item="inserts">3</a>
-        <a href="#" class="group-pane group-4 menu-item-pipings">4</a>
-        <a href="#" class="group-pane tippy-menu-item group-5 menu-item-letters" data-tippy-content="LETTERS" data-item="letters">5</a>
-        <a href="#" class="group-pane tippy-menu-item group-6 menu-item-numbers" data-tippy-content="NUMBERS" data-item="numbers">6</a>
-        <a href="#" class="group-pane tippy-menu-item group-7 menu-item-applications" data-tippy-content="APPLICATIONS" data-item="applications">7</a>
-        <a href="#" class="group-pane tippy-menu-item group-8 menu-item-logo" data-tippy-content="LOGO" data-item="logo">8</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-1 menu-item-fabrics" uk-tooltip="title: Fabrics; pos: left;" data-item="fabrics">1</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-2 menu-item-parts" uk-tooltip="title: Colors; pos: left;" data-item="parts">2</a>
+        {{-- <a href="#" class="group-pane abrade-ultra tippy-menu-item group-3 menu-item-inserts" uk-tooltip="title: Inserts; pos: left;" data-item="inserts">3</a> --}}
+        <a href="#" class="group-pane abrade-ultra group-3 menu-item-pipings" uk-tooltip="title: Pipings; pos: left;">3</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-4 menu-item-letters" uk-tooltip="title: Names; pos: left;" data-item="letters">4</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-5 menu-item-numbers" uk-tooltip="title: Numbers; pos: left;" data-item="numbers">5</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-6 menu-item-applications" uk-tooltip="title: Logos; pos: left;" data-item="applications">6</a>
+        <a href="#" class="group-pane abrade-ultra tippy-menu-item group-7 menu-item-logo" uk-tooltip="title: Brand; pos: left;" data-item="logo">7</a>
     </div>
 
     <div id="right-pane" class="pane">
@@ -250,6 +251,10 @@
 
             @include('partials.panels.randomFeeds')
 
+            @if(env("BRAND") === "Richardson")
+                @include('partials.panels.richardson-application-modal')
+            @endif
+
         </div>
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
@@ -379,7 +384,15 @@
         </div>
 
         -->
-
+        {{-- Modal for Richardson Application List --}}
     </div>
+    {{-- Hide main contain if the brand is richardson --}}
+    <script type="text/javascript">
+        window.brand_env = '{{ env('BRAND') }}';
+
+        if (brand_env === "Richardson") {
+            document.getElementById("main_container").style.display = "none";
+        }
+    </script>
 
 @endsection('right-pane')

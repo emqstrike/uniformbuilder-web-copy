@@ -1172,13 +1172,9 @@ $(document).ready(function () {
 
                         }
                     });
-
                 }
-
                 ub.funcs.activateMoveTool(application.code);
-
             }
-
         };
 
         sprite.mousemove = sprite.mousemove = function (interactionData) {
@@ -1261,8 +1257,8 @@ $(document).ready(function () {
                         ub.updateApplicationSpecsPanel(_application.code);
 
                         if (ub.data.useScrollingUI) {
-                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
-                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
+                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 99));
+                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 99));
 
                             if(val_x < 1) {
                                 val_x = 1;
@@ -1302,18 +1298,6 @@ $(document).ready(function () {
 
                         // view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180.00;
-
-                        console.log("view.application.rotation", view.application.rotation);
-                        console.log("angleRadians", angleRadians);
-
-                        console.log("bum: ", (view.application.rotation * 5) / 18);
-
-                        var a = (view.application.rotation * 5) / 18;
-                        if (a < 0 && a > -60) {
-                            a += 60 + 40;
-                        }
-
-                        console.log(a);
 
                         move_point.rotation = angleRadians;
 
@@ -1375,10 +1359,12 @@ $(document).ready(function () {
                         ub.updateApplicationSpecsPanel(_application.code);
 
                         var _start;
+                        var _multiplier = 100;
                         if (application_type !== "mascot") {
 
                             _start = (10 * application_obj.scale.x) / 3;
                             _start = _start / 100;
+                            _multiplier = 10;
 
                         } else {
 
@@ -1388,7 +1374,7 @@ $(document).ready(function () {
                         }
 
                         if (ub.data.useScrollingUI) {
-                            var val = Math.abs(Math.round((application_obj.scale.x * 100 )/ 3));
+                            var val = Math.abs(Math.round((application_obj.scale.x * _multiplier)/ 3));
 
                             if(val < 1) {
                                 val = 1;
@@ -1409,11 +1395,8 @@ $(document).ready(function () {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
-
                     }
-
                 });
-
             }
 
             var this_data = this.interactionData.data;
@@ -1505,6 +1488,10 @@ $(document).ready(function () {
             /// End Hot Spot
 
         };
+
+        sprite.mouseup = sprite.mouseup = function (interactionData) {
+            ub.funcs.activateApplicationsLetters(application.code);
+        }
 
     }
 
@@ -1985,7 +1972,7 @@ $(document).ready(function () {
                 if (application.type !== "mascot" && application.type !== "logo") {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id);
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -1993,12 +1980,7 @@ $(document).ready(function () {
                 } else {
                     // Check if scrolling UI is active
                     if (ub.data.useScrollingUI) {
-                        $("#primary_options_container").scrollTo(0, { duration: 0 });
-                        $("#parts-with-insert-container").hide();
-                        $(".parts-container").hide();
-                        ub.funcs.activeStyle('layers');
-                        ModifierController.scrollToOptions(application.type, _id);
-
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateMascots(_id);
                     }
@@ -7646,7 +7628,7 @@ $(document).ready(function () {
 
     // }
 
-    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {
+    ub.funcs.selectApplicationTypeLocation =  function (_id, _applicationType, _validApplicationTypes) {    
 
         console.log('_applicationType===>', _applicationType);
 
@@ -11382,14 +11364,16 @@ $(document).ready(function () {
 
                 if (_settingsObject.application_type === "free") {
 
-                    ub.funcs.activateFreeApplication(locationCode);
+                    if (!ub.data.useScrollingUI) {
+                        ub.funcs.activateFreeApplication(locationCode);
+                    }
 
                 }
                 else if (_settingsObject.application_type === "mascot") {
 
                     if (ub.data.useScrollingUI) {
                         // Trigger click on tab
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateMascots(locationCode);
                     }
@@ -11397,7 +11381,7 @@ $(document).ready(function () {
                 } else {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -11781,7 +11765,12 @@ $(document).ready(function () {
                     item.name.indexOf('Pocket Cuff') > -1 ||
                     item.name.indexOf('Arm Cuff') > -1 ||
                     item.name.indexOf('Prolook') > -1 ||
-                    item.name.indexOf('Belt Loop') > -1;
+                    item.name.indexOf('Belt Loop') > -1 ||
+                    item.name.indexOf('Button') > -1 ||
+                    item.name.indexOf('Front Body Color') > -1 ||
+                    item.name.indexOf('Back Body Color') > -1 ||
+                    item.name.indexOf('Side Insert Color') > -1 ||
+                    item.name.indexOf('Side Insert') > -1;
             });
 
             if (ub.funcs.isSocks()) {
@@ -13496,6 +13485,10 @@ $(document).ready(function () {
                 break;
 
             case 'logos':
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                break;
+
+            case 'gradients':
                 _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
                 break;
 

@@ -32,8 +32,6 @@ ColorPanel.prototype = {
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
 
-            console.log("Modifier: ", modifier_category);
-
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
             selected_color.html("");
@@ -41,8 +39,8 @@ ColorPanel.prototype = {
             _this.addCheckOnSelectedColor($(this), colorLabel);
 
             // Retrieve Color Object
-            var color_id = $(this).data('color-id');
-            var color = _.find(ub.funcs.getBaseColors(), {id: color_id.toString()});
+            var color_code = $(this).data('color-label');
+            var color = ub.funcs.getColorByColorCode(color_code);
 
             // Apply the color to the Canvas
             _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
@@ -119,7 +117,6 @@ ColorPanel.prototype = {
             if (previousColor.length > 0) {
                 previousColor.removeClass('active-color');
                 previousColor.html("");
-                console.log("Remove active color");
             }
 
             // Get matching color button
@@ -140,7 +137,7 @@ ColorPanel.prototype = {
 
     addCheckOnSelectedColor: function(element, colorLabel)
     {
-        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white"></span>');
+        element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-fc-white cp-check-color-font-size"></span>');
         element.addClass('active-color');
 
         if (colorLabel === 'W'

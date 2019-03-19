@@ -44,6 +44,7 @@ elixir(function(mix) {
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
+            'richardson/RichardsonLogin.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
 
@@ -108,6 +109,7 @@ elixir(function(mix) {
             'panels/NumberPanel.js',
             'panels/RandomFeedPanel.js',
             'panels/LogoPanel.js',
+            'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
 
@@ -134,6 +136,9 @@ elixir(function(mix) {
 
     mix.scripts("shopping-cart/UBCart.js", "public/js/shopping-cart/ub-cart.js");
 
+    mix.scripts('richardson/RichardsonIndex.js', 'public/richardson/js/RichardsonIndex.js')
+       .scripts('richardson/uniform-builder-richardson-data.js', 'public/richardson/js/uniform-builder-richardson-data.js')
+
     mix.less(
         [
             // Third-party
@@ -146,7 +151,8 @@ elixir(function(mix) {
             'application-ui-new.less',
             'application-ui-new-letters.less',
             'application-ui-new-numbers.less',
-            'application-ui-new-fabrics.less'
+            'application-ui-new-fabrics.less',
+            'tippy-tooltip.less'
         ],
 
         // Result
@@ -154,4 +160,9 @@ elixir(function(mix) {
     );
 
     mix.sass('shopping-cart.scss', 'public/css/shopping-cart.css');
+    mix.sass([
+        'style.scss'
+    ],
+
+    'public/richardson/css/richardson-builder.css');
 });

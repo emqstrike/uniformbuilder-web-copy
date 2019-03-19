@@ -111,7 +111,12 @@ $(document).ready(function () {
     ub.funcs.getPatternList = function () {
 
         var _sport = ub.current_material.material.uniform_category;
-        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID');
+        var brand = ub.current_material.material.brand;
+
+        var patterns = _.filter(ub.data.patterns.items, {
+            active: "1",
+            brand: brand
+        });
 
         // _patternList = _.filter(_patternList, function (pattern) {
 
@@ -124,24 +129,18 @@ $(document).ready(function () {
         // });
 
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
-
-             _patternList = _.filter(_patternList, function (pattern) {
-
+             patterns = _.filter(patterns, function (pattern) {
                 return _.contains(pattern.blockPatternOptions, ub.neckOption) || pattern.name === "Blank" ;
-
             });
-
         }
 
-        return _patternList;
-
+        return _.sortBy(patterns, 'sortID');
     }
 
 
     // Set Color of the Actual Sprite in the stage
     //ub.funcs.ui.setMaterialOptionPatternColor = function (ub.active_part, _colorOBJ, layerID, _patternObj) {
     ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
-
         var _materialOption     = materialOption;
         var _colorOBJ           = colorOBJ;
         var _layerID            = layerID;
@@ -764,6 +763,7 @@ $(document).ready(function () {
         if ($('div#primaryPatternPopup').length === 0) {
 
             var _patternList = ub.funcs.getPatternList();
+
 
             var data = {
                 label: 'Choose Patterns: ',

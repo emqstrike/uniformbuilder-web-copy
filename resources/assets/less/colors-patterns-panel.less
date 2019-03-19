@@ -1,5 +1,13 @@
+.cp-padding-xs {
+    padding: 5px !important;
+}
+
 .cp-padding-small {
     padding: 15px !important;
+}
+
+.cp-padding-tiny {
+    padding: 10px !important;
 }
 
 .cp-padding-medium {
@@ -23,9 +31,25 @@
     padding-bottom: 0 !important;
 }
 
+.cp-padding-remove-bottom {
+    padding-bottom: 0 !important;
+}
+
 .cp-padding-remove-horizontal {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.cp-padding-remove-right {
+    padding-right: 0 !important;
+}
+
+.cp-padding-remove-left {
+    padding-left: 0 !important;
+}
+
+.cp-padding-right-medium {
+    padding-right: 25px !important;
 }
 
 .cp-margin-small {
@@ -48,6 +72,10 @@
     margin-top: 25px !important;
 }
 
+.cp-margin-top-xs {
+    margin-top: 15px !important;
+}
+
 .cp-margin-remove-top {
     margin-top: 0 !important;
 }
@@ -57,11 +85,19 @@
 }
 
 .cp-new-color-box {
-    width: 45px !important;
-    height: 25px !important;
-    border-radius: 0px !important;
-    border-width: thin !important;
+    width: 35px !important;
+    height: 35px !important;
     padding: 5px !important;
+    border: 1px solid #aaaaaa !important;
+    margin-right: 3px !important;
+}
+
+.cp-gradient-color-box {
+    width: 35px !important;
+    height: 35px !important;
+    padding: 5px !important;
+    border: 1px solid #aaaaaa !important;
+    margin-right: 5px !important;
 }
 
 .cp-text-uppercase {
@@ -72,30 +108,64 @@
     color: #ffffff !important;
 }
 
+.cp-fc-darkGray {
+    color: #6c6c6c !important;
+}
+
+.cp-bgc-darkerGray {
+    background-color: #606060 !important;
+}
+
+.cp-fc-red {
+    color: #e32139 !important;
+}
+
 .cp-fc-black {
     color: #222222 !important;
 }
 
 .cp-text-medium {
-    font-size: 15px;
+    font-size: 15px !important;
 }
 
 .cp-text-center {
     text-align: center !important;
 }
 
+.cp-text-decoration-none {
+    text-decoration: none !important;
+}
+
 .edit-pattern-modal-button {
-    width: 150px !important;
+    background-color: white !important;
     padding: 10px !important;
-    font-size: 12px !important;
-    color: black !important;
+    border: 1px solid #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.edit-gradient-modal-button {
+    background-color: white !important;
+    padding: 10px !important;
+    border: 1px solid #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.change-logo-button {
+    background-color: white !important;
+    padding: 10px !important;
+    border: 1px solid #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
 }
 
 .edit-piping-modal-button {
-    width: 150px !important;
+    background-color: white !important;
     padding: 10px !important;
-    font-size: 12px !important;
-    color: black !important;
+    border: 1px solid #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
 }
 
 .cp-width-1-1 {
@@ -103,9 +173,9 @@
 }
 
 .cp-button-active {
-    background-color: #333 !important;
-    color: #ffff !important;
-    text-decoration: none !important;
+    background-color: #343434 !important;
+    color: #eee !important;
+    border: 1px solid #343434 !important;
 }
 
 .cp-margin-right-small {
@@ -122,6 +192,8 @@
     padding: 10px;
     color: black;
     text-decoration: none !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
 }
 
 .cp-color-check {
@@ -153,6 +225,9 @@
     padding-left: 20px;
 }
 
+.cp-padding-left-p35 {
+    padding-left: 35px !important;
+}
 .cp-padding-left-small {
     padding-left: 10px !important;
 }
@@ -183,9 +258,15 @@
 }
 
 .cp-pattern-check-medium {
-    padding-top: 3px !important;
+    padding-top: 8px !important;
     font-size: 14pt !important;
     color: #ffffff !important;
+}
+
+.cp-piping-check-medium {
+    padding-top: 0px !important;
+    font-size: 14pt !important;
+    color: #ffffff;
 }
 
 .cp-add-cursor-no-drop {
@@ -203,6 +284,11 @@
 .cp-check-colors {
     color: #3d3d3d !important;
     text-shadow: 1px 1px #d7d7d7 !important;
+    font-size: 14pt !important;
+}
+
+.cp-check-color-font-size {
+    font-size: 14pt !important;
 }
 
 .cp-off-button {
@@ -210,11 +296,13 @@
     background-color: #acacac;
     width: 120px !important;
     font-size: 20px !important;
-    color: #e3e3e3 !important
+    color: #e3e3e3 !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
 }
 
 .piping-preview {
-    height: 320px;
+    height: 120px;
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -225,7 +313,7 @@
 }
 
 .logo-preview {
-    height: 300px;
+    height: 250px;
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -237,4 +325,199 @@
 
 .cp-border {
     border: 1px solid #e6e6e6 !important;
+}
+
+.cp-width-small {
+    width: 150px;
+}
+
+.cp-width-xs {
+    width: 60px;
+}
+
+.cp-bgc-light {
+    background-color: #eee !important;
+}
+
+.cp-border-black {
+    border-color: #333 !important;
+}
+
+
+.richardson-footer {
+    float: left;
+    display: block;
+    width: 500px;
+    overflow: hidden;
+}
+
+.cp-color-element-auto {
+    width: auto !important;
+    height: auto !important;
+    padding-left: 0px !important;
+    padding-bottom: 3px !important;
+}
+
+
+.richardson-arrow-left {
+    padding-left: 25px !important;
+}
+
+.cp-remove-border-vertical {
+    border-bottom:  0 !important;
+    border-top: 0 !important;
+}
+
+
+.richardson-button {
+    width: auto !important;
+    font-size: 80% !important;
+    margin: 0 !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.w-35 {
+    width: 35% !important;
+}
+
+.cp-padding-horizontal-tiny {
+    padding-right: 10px !important;
+    padding-left: 15px !important;
+}
+
+
+// Richardson Piping
+.piping-button {
+    background-color: white !important;
+    padding: 10px !important;
+    border: 1px solid #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.piping-button.active {
+    background-color: #333 !important;
+    color: #eee !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.piping-container {
+    padding-right: 0 !important;
+    padding-left: 7px !important;
+}
+
+.piping-size-button-container {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+// Gradient
+.gradient-main-container .active a.gradient-isActive {
+    background-color: #343434 !important;
+    color: #eee !important;
+    border: 1px solid #343434 !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+// Richardson Pattern
+
+.pattern-footer-button {
+    padding-left: 0 !important;
+    padding-right: 20px !important;
+    font-family: Abrade-Book !important;
+    font-size: 14px !important;
+}
+
+.pattern-colorpicker-container {
+    padding-left: 7px !important;
+    padding-right: 0 !important;
+}
+
+.generic-canvas {
+    background-color: #ffffff;
+}
+
+
+div.debug-panel {
+    span {
+        color: black !important;
+    }
+
+    .body {
+        color: black !important;
+    }
+
+    .contents {
+        color: black !important;
+    }
+}
+
+// Application
+.cp-border-bottom {
+    border-bottom: 1px solid #e5e5e5 !important;
+}
+
+#application-list-modal {
+    .modal-footer {
+        button {
+            color: #333 !important;
+            border: 1px solid #e5e5e5 !important;
+            padding: 5px !important;
+            background-color: #fff !important;
+            width: 100% !important;
+            font-family: Abrade-Book !important;
+            font-size: 14px !important;
+        }
+    }
+
+    .application-list-body {
+        max-height: 250px !important;
+        overflow: auto;
+    }
+
+    ul.application-list li:hover {
+        background-color: #e6e6e6 !important;
+        cursor: move !important;
+    }
+}
+
+.applicationUIBlock {
+    button.change-free-app {
+        background-color: #ffffff !important;
+        border: 1px solid #dddddd !important;
+        padding: 5px !important;
+        width: 100% !important;
+        font-family: Abrade-Book !important;
+        font-size: 14px !important;
+    }
+}
+
+.cp-text-large {
+    font-size: 20px !important;
+}
+
+.abrade-book {
+    font-family: Abrade-Book;
+}
+
+div.options_panel div.options_panel_header {
+    background-color: #eee;
+    padding: 15px !important;
+}
+
+
+span.number-circle {
+    background: #e32139;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em;
 }

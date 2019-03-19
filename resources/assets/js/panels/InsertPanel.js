@@ -15,7 +15,7 @@ function InsertPanel(element, inserts) {
     this.inserts = inserts;
     this.items = {
         inserts: this.inserts,
-        patterns: _.sortBy(ub.data.patterns.items, "sortID")
+        patterns: ub.funcs.getPatternList()
     };
 }
 

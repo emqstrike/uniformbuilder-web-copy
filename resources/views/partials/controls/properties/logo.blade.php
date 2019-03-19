@@ -1,25 +1,19 @@
 <script type="text/mustache" id="m-logo">
-    <div class="cp-padding-medium cp-padding-top-small" id="primary_option_logo">
-        <div class="logo-header">
-            <h3 class="cp-fc-white cp-margin-remove cp-text-uppercase cp-text-bold">@{{ brand }} Logo</h3>
-            <p class="cp-text-uppercase cp-fc-white cp-text-medium cp-padding-small cp-padding-remove-horizontal cp-margin-remove">Choose Location</p>
-        </div>
-        <div class="row logo-perspective-btn-container">
+    <div id="primary_option_logo" class="uk-padding-small uk-margin-remove">
+        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Brand</h5>
+        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-dark">Choose location</h6>
+        <ul class="uk-grid-small grid-tiny uk-margin-bottom bac-dark active-bgc-dark active-bdr-dark logo-perspective-btn-container" uk-grid>
             @{{ #logo_position }}
-                <div class="col-md-6">
-                    <button class="cp-width-1-1 cp-tab-button cp-border-none cp-text-medium logo-perspective-selector"
-                            data-position="@{{ position }}"
-                    >@{{ name }}</button>
-                </div>
+                <li class="uk-width-expand" data-position="@{{ position }}">
+                    <a href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize logo-perspective-selector">@{{ name }}</a>
+                </li>
             @{{ /logo_position }}
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="">
+        </ul>
+        <div class="uk-grid-small uk-flex-center" uk-grid>
+            <div class="uk-width-1-1 uk-width-2-3@s">
+                <div class="bdr-reg bdr-gray uk-text-center">
                     <div class="logo-preview" id="logo-preview"></div>
-                    <div class="col-md-6 col-md-offset-4 logo-image-loader" style="margin-top: 45px;">
-                        <span class="fa fa-spinner fa-spin" style="font-size: 10em"></span>
-                    </div>
+                    <div class="logo-image-loader uk-text-center" uk-spinner="ratio: 8"></div>
                 </div>
             </div>
         </div>
@@ -27,14 +21,8 @@
 </script>
 
 <script type="text/mustache" id="m-no-logo-message">
-    <div id="m-no-logo-message" class="m-no-logo-message cp-padding-medium cp-padding-remove-vertical">
-        <h3 class="cp-fc-white">Notice</h3>
-        <div class="cp-fc-white">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, atque ad dolor architecto, corporis repudiandae eveniet ducimus deleniti minus ab libero quibusdam, voluptates ipsam aut fugit nostrum quas esse, perferendis!
-        </div>
-
-        <div class="cp-padding-top-small">
-            <div class="cp-off-button">OFF</div>
-        </div>
+    <div class="uk-padding-small">
+        <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Notice</h5>
+        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">R-logo is not available for this uniform.</h6>
     </div>
 </script>

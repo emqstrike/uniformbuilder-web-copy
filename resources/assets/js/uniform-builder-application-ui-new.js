@@ -3,59 +3,56 @@
 
 "use strict";
 
-$(function() {
+function ApplicationMascotPanel() {
 
-    var ub = window.ub;
-    var util =  window.util;
+};
 
-/*
-                      _
-                     | |
-  _____   _____ _ __ | |_ ___
- / _ \ \ / / _ \ '_ \| __/ __|
-|  __/\ V /  __/ | | | |_\__ \
- \___| \_/ \___|_| |_|\__|___/
+ApplicationMascotPanel.events = {
+    is_init: 0,
 
-*/
-
-    // on click mascot and embellishments group #7
-    $('#new-toolbar > .group-7').on('click', function () {
-        console.log('GROUP 7 CLICKED===>');
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active').siblings().removeClass("active");
-            ub.funcs.startNewApplication();
+    init: function() {
+        var _this = this;
+        if (ApplicationMascotPanel.events.is_init === 0) {
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .flip-mascot', _this.onFlipMascot);
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .view-application', _this.onShowMascot);
+            $('#primary_options_container').on('click', '.applicationUIBlockNew .hide-application', _this.onHideMascot);
+            $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
+            ApplicationMascotPanel.events.is_init = 1;
         }
-    });
+    },
 
-    // on click flip
-    $('#primary_options_container').on('click', '.flipBtn', function () {
-        var dataId = $(this).attr('data-id');
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+    onFlipMascot: function() {
+        var code = $(this).data("application-code").toString();
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: code});
         ub.funcs.flipMascot(_settingsObject);
 
-        $(this).toggleClass('active');
-    });
+        $(this).toggleClass('uk-active');
+    },
 
-    // on click view slidersContainer
-    $('#primary_options_container').on('click', '.view-sliders', function () {
-        $(this).addClass('active');
-        $(this).next().removeClass('active');
-        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').fadeIn();
-    });
+    onShowMascot: function() {
+        $(this).addClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find(".hide-application").removeClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').show();
+        // Disable image
+        $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("on", application_id);
+    },
 
-    // on click hide slidersContainer
-    $('#primary_options_container').on('click', '.hide-sliders', function () {
-        $(this).addClass('active');
-        $(this).prev().removeClass('active');
-        $(this).closest('.applicationUIBlock').find('.slidersContainer, .colorSelectionContainer').hide();
-    });
+    onHideMascot: function() {
+        $(this).addClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find(".view-application").removeClass('uk-active');
+        $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').hide();
+        $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        ub.funcs.manipulateApplicationByStatus("off", application_id);
+        ub.funcs.deactivateMoveTool();
+    },
 
-    // on click color item type mascot
-    $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', function () {
-
+    onChangeMascotColor: function() {
         // changing active color
-        $(this).parent().find('span').removeClass('activeColorItem').html('');
-        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+        $(this).parent().parent().find('button').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size"></span>');
 
         // proceed
         var dataId = $(this).attr('data-id');
@@ -69,17 +66,13 @@ $(function() {
 
 
         var _oldVal = {
-
             layerNo: _layer_no,
             color: _settingsObject.color_array[_layer_no - 1],
             applicationCode: _settingsObject.code,
-
         };
 
         if (_temp !== 'undo') {
-
             ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
-
         }
 
         ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject);
@@ -97,87 +90,39 @@ $(function() {
 
         // On Crew Socks, only change the color of the matching side if its the same mascot id
         if (typeof _matchingSettingsObject !== "undefined") {
-
             if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) {
-
                 _processMatchingSide = false;
-
             }
 
             if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-
                 if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) {
                     _processMatchingSide = true;
                 }
-
             }
-
         }
 
         if (typeof _matchingID !== "undefined") {
-
             if (_processMatchingSide) {
-
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
-
             }
-
         }
+    }
+}
 
-    });
+$(function() {
 
-    // on click color item type accent
-    $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', function () {
+    var ub = window.ub;
+    var util =  window.util;
 
-        // changing active color
-        $(this).parent().find('span').removeClass('activeColorItem').html('');
-        $(this).addClass('activeColorItem').html('<i class="fa fa-check" aria-hidden="true"></i>');
+    /*
+      __                  _   _
+     / _|                | | (_)
+    | |_ _   _ _ __   ___| |_ _  ___  _ __  ___
+    |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+    | | | |_| | | | | (__| |_| | (_) | | | \__ \
+    |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
 
-        // proceed
-        var dataId = $(this).attr('data-id');
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
-
-        var _layer_no = $(this).data('layer-no');
-        var _color_code = $(this).data('color-code');
-        var _layer_name = $(this).data('layer-name');
-        var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-        var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
-
-        _layer.default_color = _colorObj.hex_code;
-        _settingsObject.color_array[_layer_no - 1] = _colorObj;
-
-        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj, 'accent');
-
-        var _matchingID;
-        var _matchingSide;
-
-        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
-
-        if (typeof _matchingID !== "undefined") {
-
-            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-
-            _layer.default_color = _colorObj.hex_code;
-            _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-
-            ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-        }
-
-    });
-
-/*
-
-  __                  _   _
- / _|                | | (_)
-| |_ _   _ _ __   ___| |_ _  ___  _ __  ___
-|  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
-| | | |_| | | | | (__| |_| | (_) | | | \__ \
-|_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
-
- */
+     */
 
     ub.funcs.startNewApplication = function () {
 
@@ -208,7 +153,8 @@ $(function() {
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
                     viewPrint: i.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
-                    sliderContainer: ub.funcs.sliderContainer(i.code)
+                    sliderContainer: ub.funcs.sliderContainer(i.code),
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objCustom);
             } else if (i.application_type === 'mascot') {
@@ -221,7 +167,8 @@ $(function() {
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(i.code),
                     colorPicker: true,
-                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS')
+                    colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
+                    status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
                 };
                 _appData.push(objStock);
             }
@@ -229,31 +176,38 @@ $(function() {
 
         // prepare data
         var props = {
+            isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
+            title: "LOGOS",
+            type: "mascots",
             applications: _appData
         };
 
-        console.log('_filteredApplications===>', _filteredApplications);
-        console.log('props===>', props);
-
-        // send to mustache
-        
-        // add the "Add Application" button
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', 'mascots');
-        $('.modifier_main_container').append(_htmlBuilder);
-
-        _htmlBuilder = ub.utilities.buildTemplateString('#m-application-ui-block', props);
+        _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-mascot-uikit', props);
 
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
+
+        _.map(_appData, function(application) {
+            if (application.application_type !== "free") {
+                if (application.status) {
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').show();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+                } else {
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').hide();
+                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+                }
+            }
+        });
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('mascots');
         }
         // initializer
         ub.funcs.initializer();
-
-
-
     };
 
     ub.funcs.initializer = function () {
@@ -298,8 +252,8 @@ $(function() {
                 // Marker that applications has been initialized
                 $(this).addClass('init')
             }
-            $(this).find('.noUi-value-large').first().html('Down');
-            $(this).find('.noUi-value-large').last().html('Up');
+            $(this).find('.noUi-value-large').first().html('Up');
+            $(this).find('.noUi-value-large').last().html('Down');
         });
 
         // slider rotate
@@ -347,7 +301,14 @@ $(function() {
         }
 
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var rotation = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+        var computedRotation = (rotation / Math.PI) * 180.00;
+
+        var _start = 0;
+        var _start = (computedRotation * 5) / 18;
+        if (_start < 0 && _start > -60) {
+            _start += 60 + 40;
+        }
 
         $(element).roundSlider({
             sliderType: "min-range",
@@ -360,13 +321,10 @@ $(function() {
             drag: function (args) {
 
                 if (!_flag) { _flag = true; return;}
-                console.log('ARGS=======>', args.value);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
-
         });
-
     };
 
     ub.funcs.initScalePanel = function (element, _settingsObject, applicationType) {
@@ -407,14 +365,11 @@ $(function() {
         });
 
         element.noUiSlider.on('update', function (values, handle) {
-
             if (!_flag) { _flag = true; return;}
 
             var _value = values[0];
             ub.funcs.updateScaleViaSlider(_settingsObject, _value);
-
         });
-
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
@@ -542,8 +497,8 @@ $(function() {
             if (ub.current_material.settings.applications[id].mascot.id !== "1039") {
 
                 _html += '<div class="colorSelectionContainer">';
-                _html += '<h4 class="app-letters-subtitle">'+_title+'</h4>';
-                _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+                _html += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
+                _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>';
 
                 _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
@@ -553,7 +508,7 @@ $(function() {
                     if (typeof _color !== 'undefined') {
 
                         // adding tabs
-                        _html += '<li><a href="#tab-' + id + '-' + layer.layer_number + '" data-toggle="tab">' + 'Color ' + layer.layer_number + '</a></li>';
+                        _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.layer_number + '</a></li>';
 
                         // building separated color blocks
                         _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'mascots');
@@ -565,9 +520,9 @@ $(function() {
                 });
 
                 _html += '</ul>';
-                    _html += '<div class="tab-content">';
-                        _html += _colorBlock;
-                    _html += '</div>';
+                _html += '<ul class="uk-switcher uk-margin uk-padding-remove">'
+                _html += _colorBlock;
+                _html += '</ul>';
                 _html += '</div>';
 
             }
@@ -575,8 +530,8 @@ $(function() {
         } else {
 
             _html += '<div class="colorSelectionContainer">';
-            _html += '<h5 class="app-letters-subtitle">'+_title+'</h5>';
-            _html += '<ul class="nav nav-tabs nav-justified color-selection-tab">';
+            _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+_title+'</h6>';
+            _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>'
 
             _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -592,22 +547,15 @@ $(function() {
 
                 // Use default color if team color is short
                 if (typeof _color === "undefined") {
-
                     _hexCode = layer.default_color;
                     _color = ub.funcs.getColorObjByHexCode(_hexCode);
-
                     ub.utilities.error('Undefined color found here!!!');
-
                 }
 
                 if (typeof _color !== 'undefined') {
-
-                    // adding tabs
-                    _html += '<li><a href="#tab-' + id + '-' + layer.layer_no + '" data-toggle="tab">' + layer.name + '</a></li>';
-
+                    _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.name + '</a></li>';
                     // building separated color blocks
                     _colorBlock += ub.funcs.createColorBlock(id, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
-
                 } else {
                     util.error('Hex Code: ' + _hexCode + ' not found!');
                 }
@@ -615,9 +563,9 @@ $(function() {
             });
 
             _html += '</ul>';
-                _html += '<div class="tab-content">';
-                    _html += _colorBlock;
-                _html += '</div>';
+            _html += '<ul class="uk-switcher uk-margin uk-padding-remove">'
+            _html += _colorBlock;
+            _html += '</ul>';
             _html += '</div>';
 
         }
@@ -645,25 +593,35 @@ $(function() {
         }
 
         _teamColors = _.sortBy(_teamColors, "order");
-        _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade">';
-            _.each(_teamColors, function (_color) {
+        // _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
+        _html += '<li>'
+        _html += '<div class="con-select con-palettes">'
+        _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color" uk-grid>'
+        _.each(_teamColors, function (_color) {
 
-                var _checkMark = '&nbsp;';
-                var _class = '';
+            var _checkMark = '';
+            var _class = '';
+            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
 
-                if (activeColorCode === _color.color_code) {
-                    _checkMark = '<i class="fa fa-check" aria-hidden="true"></i>';
-                    _class = 'activeColorItem';
-                }
+            if (activeColorCode === _color.color_code) {
+                _checkMark = '<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size" style="color:#' + _colorObj.forecolor + ';"></span>';
+                _class = 'activeColorItem';
+            }
 
-                var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-                _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
+            _html += '<div uk-tooltip="title:' + _colorObj.name + '; pos: left;">';
+            _html += '<button class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+            _html += _checkMark;
+            _html += '</button>';
+            _html += '</div>';
 
-            });
+            // _html += '<span data-id="' + _id + '" class="colorItem ' + _class + '"  data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">' + _checkMark + '</span>';
+
+        });
+
         _html += '</div>';
+        _html += '</div>';
+        _html += '</li>';
 
         return _html;
-
     };
-
 });

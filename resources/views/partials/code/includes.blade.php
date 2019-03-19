@@ -46,3 +46,8 @@
 <script src="{{$asset_storage}}/bootstrap-waitingfor/bootstrap-waitingfor.js"></script>
 <script src="{{$asset_storage}}/js/shopping-cart/api/cart-item-api.js"></script>
 <script src="{{$asset_storage}}/js/shopping-cart/ub-cart.js"></script>
+
+@if(env("BRAND") === "Richardson")
+    <script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit-icons.js?v={{$asset_version}}"></script>
+@endif
