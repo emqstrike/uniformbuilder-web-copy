@@ -162,7 +162,6 @@ GradientPanel.events = {
         }, 500)
 
         GradientPanel.utilities.createGradientUI(gradientObjectSettings);
-        // $('#gradient-change-color-modal').modal('show');
 
         UIkit.modal("#modal-edit-palette-gradient").show();
     },
@@ -688,7 +687,7 @@ GradientPanel.utilities = {
     },
 
     selectFirstSecondaryColor: function(gradientObjectSettings, colorObject, modifier) {
-        var secondLayerContainer = $(".gradient-color-picker-2-container .gradient-color-main-container .gradient-color-container-button .gradient-color-selector-button[data-color-code='"+ colorObject.color_code +"']");
+        var secondLayerContainer = $(".gradient-color-main-container-2 .gradient-color-main-container button[data-color-code='"+ colorObject.color_code +"'].gradient-color-selector-button");
         GradientPanel.events.checkModifier(secondLayerContainer, colorObject.color_code);
         secondLayerContainer.addClass('active-color-2');
 
