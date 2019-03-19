@@ -13017,7 +13017,6 @@ $(document).ready(function () {
         });
 
         ub.funcs.activateLayer(application_id);
-
     };
 
     ub.funcs.gotoFirstApplication = function () {

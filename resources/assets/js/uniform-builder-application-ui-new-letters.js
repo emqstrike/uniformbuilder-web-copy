@@ -347,8 +347,8 @@ ApplicationPanel.events = {
         var _part = $('.parts-container button.part.uk-active').data('id');
         var _type = $('.design-type-container button.design-type-button.uk-active').data('type');
         var _side = $('.side-container button.side.uk-active').data('id');
-
-        ub.funcs.newApplication(_perspective, _part, _type, _side);
+        // ub.funcs.newApplication(_perspective, _part, _type, _side);
+        ApplicationPanel.funcs.addNewApplication(_perspective, _part, _type, _side);
 
         $(".container-add-view-application").show();
         $(".modifier_main_container .add-application-block").html("");
@@ -544,6 +544,301 @@ ApplicationPanel.events = {
         var application_type = $(this).data("application-type");
 
         $("#primary_options_container").scrollTo('li.applicationUIBlockNew[data-application-id="'+ location +'"]', {duration: 700});
+    }
+}
+
+ApplicationPanel.funcs = {
+    addNewApplication: function(perspective, part, type, side) {
+        var _pha = _.find(ub.data.placeHolderApplications, {perspective: perspective});
+        var _phaSettings = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
+        var _part = part;
+        var _sport = ub.current_material.material.uniform_category;
+        var _blockPattern = ub.current_material.material.block_pattern;
+        var _primaryView = ub.funcs.getPrimaryView(_phaSettings.application);
+        var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
+
+        var _withPlaceholderOverrides = false; // Placeholder overrides set on the backend
+        var _perspectiveMarkForDeletion = undefined;
+
+        // Process Uniforms with Extra Layer
+        if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
+            var _extra = ub.objects[perspective + '_view']['extra'];
+            if (typeof _extra === "undefined") {
+                ub.utilities.error('Extra Layer not detected!');
+            }
+
+            if (typeof _extra !== "undefined") {
+                var whiteList = ['Body', 'Front Body', 'Back Body', 'Body Left', 'Body Right'];
+                if (_.contains(whiteList, _part)) {
+                    _part = 'Extra';
+                }
+            }
+        }
+
+        var _exempted = ub.data.applicationProjectionExemptions.isExempted(perspective, part, ub.config.sport);
+        // For Cowls, etc which uses a non-standard primary perspectives
+        if (_exempted.isExempted) {
+            var _primaryViewFound = _.find(_phaSettings.application.views, {perspective: _exempted.result.primary});
+            if (typeof _primaryViewFound !== "undefined") {
+                _primaryViewFound.application.isPrimary = 1;
+                _primaryViewObject = _primaryViewFound;
+                _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+                    var _ok = view.perspective !== "left" && view.perspective !== "right" && (_primaryView === "front") ? view.perspective === "back" : view.perspective === "front";
+                    return _ok;
+                });
+            }
+            ub.funcs.setActiveView('front');
+        }
+
+        // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
+        if (typeof side !== "undefined" && side !== "na") {
+            _part = side.toTitleCase() + " " + _part;
+        }
+
+        // Set Mascots Only for now on Socks
+        _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+        _.each(_phaSettings.application.views, function (_perspectiveView) {
+            var _perspective = _perspectiveView.perspective;
+            // Get Center of Polygon
+            var _cx = ub.funcs.getCentoid(_perspective, _part);
+            // CX Override
+            if (typeof _cx !== "undefined") {
+                _perspectiveView.application.center = _cx;
+                _perspectiveView.application.pivot = _cx;
+            }
+
+            if (typeof _perspectiveView !== "undefined") {
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
+                if (typeof _overrides !== "undefined") {
+                    _withPlaceholderOverrides = true;
+                    _perspectiveView.application.rotation = _overrides.rotation;
+                    _perspectiveView.application.center = _overrides.position;
+                    _perspectiveView.application.pivot = _overrides.position;
+                } else {
+                    // If has a placeholder override but this particular view has none set delete
+                    if (_withPlaceholderOverrides) {
+                        _perspectiveMarkForDeletion = _perspectiveView.perspective;
+                    }
+                }
+            }
+        });
+
+        if (typeof _perspectiveMarkForDeletion !== "undefined") {
+            _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+                return view.perspective !== _perspectiveMarkForDeletion;
+            });
+        }
+
+        _.each(_phaSettings.application.views, function (_perspectiveView) {
+            // Get Center of Polygon
+            var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
+            var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
+
+            // CX Override
+            if (typeof _cx !== "undefined" && typeof _overrides === "undefined") {
+                _perspectiveView.application.center = _cx;
+                _perspectiveView.application.pivot = _cx;
+            }
+
+            // Uniform Perspective
+            if (typeof _perspectiveView !== "undefined" && typeof _overrides === "undefined") {
+                if (parseInt(_perspectiveView.application.isPrimary) !== 1) {
+                    var _bounds = ub.funcs.getBoundaries(_perspectiveView.perspective, _part, false);
+                    var _overrideX = undefined;
+
+                    if (_primaryView === "front") {
+                        if (typeof _bounds !== "undefined") {
+                            if (_perspectiveView.perspective === "left") {
+                                _overrideX = _bounds.minMax.minX;
+                            }
+                            if (_perspectiveView.perspective === "right") {
+                                _overrideX = _bounds.minMax.maxX;
+                            }
+                        }
+                    }
+
+                    if (_primaryView === "back") {
+                        if (typeof _bounds !== "undefined") {
+                            if (_perspectiveView.perspective === "left") {
+                                _overrideX = _bounds.minMax.maxX;
+                            }
+                            if (_perspectiveView.perspective === "right") {
+                                _overrideX = _bounds.minMax.minX;
+                            }
+                        }
+                    }
+
+                    if (_primaryView === "right") {
+                        if (typeof _bounds !== "undefined") {
+                            if (_perspectiveView.perspective === "front") {
+                                _overrideX = _bounds.minMax.minX;
+                            }
+                            if (_perspectiveView.perspective === "back") {
+                                _overrideX = _bounds.minMax.maxX;
+                            }
+                        }
+                    }
+
+                    if (_primaryView === "left") {
+                        if (typeof _bounds !== "undefined") {
+                            if (_perspectiveView.perspective === "front") {
+                                _overrideX = _bounds.minMax.maxX;
+                            }
+                            if (_perspectiveView.perspective === "back") {
+                                _overrideX = _bounds.minMax.minX;
+                            }
+                        }
+                    }
+                    _perspectiveView.application.position = {x: _overrideX, y: _primaryViewObject.application.center.x};
+                    _perspectiveView.application.center = {x: _overrideX, y: _primaryViewObject.application.center.y};
+                }
+            }
+        });
+
+        var _newID = ub.funcs.getNewCustomID();
+        var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
+
+        _newID = _newID;
+        _newIDStr = _newID.toString();
+
+        _newApplication.code = _newIDStr;
+        _newApplication.application.id = _newIDStr;
+        _newApplication.configurationSource = "Added";
+
+        _newApplication.zIndex = ub.funcs.getNewZIndex();
+
+        if (ub.data.placeHolderOverrideSports.isValid(ub.sport)) {
+            var _tmp = [];
+            _.each(_newApplication.application.views, function (view) {
+                view.application.id = _newIDStr;
+                // For Socks push only the primary perspective
+                if (ub.funcs.isSocks()) {
+                    if (view.application.isPrimary === 1) {
+                        _tmp.push(view);
+                    }
+                } else {
+                    _tmp.push(view);
+                }
+            });
+            _newApplication.application.views = _tmp;
+        }
+
+        var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+        if (_withBodyLeftRight) {
+            if (_part === "Body Left") {
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "right";
+                });
+            }
+
+            if (_part === "Body Right") {
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "left";
+                });
+            }
+        }
+
+        // Cinch Sack doens't have a left and right perspective
+        if (ub.sport === "Cinch Sack (Apparel)") {
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.perspective !== "left" && view.perspective !== "right";
+            });
+        }
+
+        var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
+
+        if (_isSingleView) {
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.application.isPrimary === 1;
+            });
+        }
+
+        ub.current_material.settings.applications[_newIDStr] = _newApplication;
+        _newApplication.application.layer = _part;
+
+        if (typeof ub.data.applications_transformed[_part] !== 'undefined') {
+            ub.data.applications_transformed[_part][_newIDStr] = _newApplication.application;
+            _newApplication.application.layer = _part;
+        } else {
+            if (typeof ub.data.applications_transformed["Body Panel Color"] !== 'undefined') {
+                _newApplication.application.layer = "Body Panel Color";
+                ub.data.applications_transformed["Body Panel Color"][_newIDStr] = _newApplication.application;
+            }
+        }
+
+        ub.data.applications_transformed_one_dimensional[_newIDStr] = _newApplication.application;
+        // ub.funcs.renderLocations(_newIDStr);
+        ApplicationPanel.funcs.renderLocation(_newIDStr, type);
+        ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
+        ub.funcs.updateLayerTool();
+
+        $('div.optionButton[data-type="' + type + '"]').trigger('click');
+
+        $.smkAlert({
+            text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer',
+            type: 'success',
+            time: 10,
+            marginTop: '90px'
+        });
+
+        // Initialize New Embellishment Popup
+        if (type === "embellishments") {
+            _newApplication.font_size = _newApplication.size;
+
+            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                is.loadDesigner(undefined, _newIDStr);
+            } else {
+                ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
+            }
+        }
+    },
+
+
+    renderLocation: function(locationCode, type) {
+        var _locations = ub.current_material.settings.applications;
+
+        _.each(_locations, function (location) {
+            _.each(location.application.views, function (view, index) {
+                var _perspective = view.perspective + '_view';
+                var _viewObject = ub.objects[_perspective];
+
+                // If object already exists continue
+                if (typeof _viewObject['locations_' + location.code] === "object") {
+                    return;
+                }
+
+                var _x = view.application.center.x;
+                var _y = view.application.center.y;
+                var _sprite = ub.funcs.createLocationSprite(location.code);
+                _viewObject['locations_' + location.code] = _sprite;
+                _sprite.position.x = _x;
+                _sprite.position.y = _y;
+                _sprite.zIndex = -(ub.funcs.generateZindex('locations')) + (index * -1);
+                ub[_perspective].addChild(_sprite);
+                ub.updateLayersOrder(ub[_perspective]);
+                ub.funcs.createClickableMarkers(_sprite, _viewObject, location.code, view.perspective);
+            });
+        });
+
+        if (typeof locationCode !== "undefined") {
+            ApplicationPanel.funcs.activateFreeApplication(locationCode, type);
+        }
+    },
+
+
+    activateFreeApplication: function(application_id, type) {
+        if (ub.funcs.popupsVisible()) {
+            return true;
+        }
+        if (!ub.funcs.okToStart()) {
+            return;
+        }
+        var _id = application_id.toString();
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+        ub.funcs.changeApplicationType(_settingsObject, type);
+        _settingsObject.status = 'on';
+        ub.funcs.activateLayer(application_id);
     }
 }
 

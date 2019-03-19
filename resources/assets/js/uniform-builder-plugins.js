@@ -1188,6 +1188,16 @@
 
     $.ub.create_mascot = function (input_object) {
 
+        if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
+            var _teamColors = undefined;
+
+            if (ub.funcs.isTackleTwill()) {
+                _teamColors = objectType === "mascots" ? ub.data.secondaryColorPalette: ub.data.firstColorPalette;
+            } else {
+                _teamColors = ub.data.secondaryColorPalette;
+            }
+        }
+
         var sprite;
         var application = input_object.application;
         var mascot = input_object.mascot;
@@ -1274,10 +1284,25 @@
 
         _.each(mascot.layers_properties, function(layer, index) {
             var colorObj = ub.funcs.getColorByColorCode(layer.default_color);
-
             var mascot_layer = ub.pixi.new_sprite(layer.filename);
-            mascot_layer.tint = parseInt(colorObj.hex_code, 16);
-            mascot_obj.layers_properties[index].color = mascot_layer.tint;
+
+            if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
+                var checkColor = _.find(_teamColors, {color_code: colorObj.color_code});
+
+                if (typeof checkColor !== "undefined") {
+                    mascot_layer.tint = parseInt(colorObj.hex_code, 16);
+                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
+                } else {
+                    mascot_layer.tint = parseInt(_teamColors[1].hex_code, 16);
+                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
+                    mascot_obj.layers_properties[index].default_color = _teamColors[1].color_code;
+                }
+
+            } else {
+                mascot_layer.tint = parseInt(colorObj.hex_code, 16);
+                mascot_obj.layers_properties[index].color = mascot_layer.tint;
+            }
+
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
@@ -1288,7 +1313,6 @@
             if (typeof settings_obj.alpha === "number") {
                 mascot_layer.alpha = settings_obj.alpha;
             }
-
         });
 
         container.scale = new PIXI.Point(0.15, 0.15);

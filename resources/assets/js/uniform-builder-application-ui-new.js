@@ -106,6 +106,22 @@ ApplicationMascotPanel.events = {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);
             }
         }
+    },
+
+    isFlip: function(application_id) {
+        var applicationSettings = ub.funcs.getApplicationSettings(application_id);
+        var isFlip = undefined;
+
+        if (applicationSettings.application_type === "mascot" || applicationSettings.application_type === "embellishments") {
+            var views = applicationSettings.application.views[0];
+            if (views.application.flip === 1) {
+                isFlip = true;
+            } else {
+                isFlip = false;
+            }
+        }
+
+        return isFlip;
     }
 }
 
@@ -187,19 +203,23 @@ $(function() {
         // output to page
         $('.modifier_main_container').append(_htmlBuilder);
 
-        _.map(_appData, function(application) {
-            if (application.application_type !== "free") {
-                if (application.status) {
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').show();
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+        _.map(_appData, function(index) {
+            if (index.application_type !== "free") {
+                if (index.status) {
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').show();
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
                 } else {
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').hide();
-                    $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').hide();
+                    $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
                 }
+            }
+
+            if (ApplicationMascotPanel.events.isFlip(index.code)) {
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("a.flip-mascot").addClass('uk-active');
             }
         });
 
