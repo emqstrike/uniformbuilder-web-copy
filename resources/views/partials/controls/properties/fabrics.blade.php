@@ -1,8 +1,7 @@
 <script type="x-tmpl-mustache" id="fabric-tmpl">
     <div id="m-fabric-selection" class="uk-padding-small">
+        <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Fabric</h5>
         @{{ #fabrics_data }}
-            <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Fabric</h5>
-
             @{{ #types }}
                 <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose @{{ fabric_type }} Fabric</h6>
 
