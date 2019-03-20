@@ -6851,15 +6851,14 @@ $(document).ready(function () {
 
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
-
-        var _sorted = _.sortBy(items, function (item) { 
-
+        var _sorted = _.sortBy(items, function (item) {
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
-
+            
             // Blank styles goes to the bottom ...
             if (parseInt(item.is_blank) === 1) { _weight += 1000; }
-
+            // Move materials with USA name to the last under Basketball category only
+            if ((item.uniform_category === "Basketball") && (item.neck_option.indexOf('USA') >= 0)){_weight += 100;}
             // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
             // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
             if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
