@@ -1189,13 +1189,7 @@
     $.ub.create_mascot = function (input_object) {
 
         if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
-            var _teamColors = undefined;
-
-            if (ub.funcs.isTackleTwill()) {
-                _teamColors = objectType === "mascots" ? ub.data.secondaryColorPalette: ub.data.firstColorPalette;
-            } else {
-                _teamColors = ub.data.secondaryColorPalette;
-            }
+            var _teamColors = ub.data.secondaryColorPalette;
         }
 
         var sprite;
@@ -1330,39 +1324,28 @@
         sprite.scale                = scale_settings;
 
         /// Set Colors
+        var children = container.children;
 
-            var children = container.children;
+        if(typeof settings.applications[application.id] !== 'undefined') { color_array = settings.applications[application.id].color_array; }
 
-            if(typeof settings.applications[application.id] !== 'undefined') { color_array = settings.applications[application.id].color_array; }    
+        children.reverse();
 
-            children.reverse();
+        _.each(children, function (child, index) {
+            if(color_array !== ''){
+                var array = ub.current_material.settings.applications[application.id].color_array;
+                var color_array_size = _.size(array);
+                var code = ub.current_material.settings.applications[application.id].color_array[index];
 
-            _.each(children, function (child, index) {
-
-                if(color_array !== ''){
-
-                    var array = ub.current_material.settings.applications[application.id].color_array;
-                    var color_array_size = _.size(array);
-                    var code = ub.current_material.settings.applications[application.id].color_array[index];
-
-                    if (typeof code !== 'undefined') { 
-                        child.tint = parseInt(code.hex_code, 16); 
-
-                        ///
-                        var _hexCode = (child.tint).toString(16);
-                        var _paddedHex = util.padHex(_hexCode, 6);
-                        if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
-                            ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
-                        }
-                        
-                        ///
-
+                if (typeof code !== 'undefined') {
+                    child.tint = parseInt(code.hex_code, 16);
+                    var _hexCode = (child.tint).toString(16);
+                    var _paddedHex = util.padHex(_hexCode, 6);
+                    if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                     }
-
                 }
-
-            });
-     
+            }
+        });
         /// End Set Colors
 
         return sprite;

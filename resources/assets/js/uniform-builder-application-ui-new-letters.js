@@ -2325,6 +2325,7 @@ $(function() {
         var _matchingID = undefined;
         var _processMatchingSide = true;
         var _matchingSettingsObject = undefined;
+        var _settingsObject = ub.funcs.getApplicationSettings(application_id)
 
         _matchingID = ub.data.matchingIDs.getMatchingID(application_id);
 

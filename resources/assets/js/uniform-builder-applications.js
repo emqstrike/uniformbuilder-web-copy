@@ -8994,9 +8994,7 @@ $(document).ready(function () {
 
                     ub.funcs.setAppSize(_matchingID, _size);
                     ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
-
                 }
-
             }
 
             ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
