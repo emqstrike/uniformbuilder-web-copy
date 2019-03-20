@@ -30,23 +30,28 @@ $(document).ready(function() {
         ub.left_view.visible = true;
         ub.right_view.visible = true;
 
+        var front = ub.getThumbnailImage("front_view");
+        var back = ub.getThumbnailImage("back_view");
+        var left = ub.getThumbnailImage("left_view");
+        var right = ub.getThumbnailImage("right_view");
+
         // Setup perspective
         var perspectives = [
             {
                 "perspective": "front",
-                "image": ub.getThumbnailImage("front_view")
+                "image": front
             },
             {
                 "perspective": "back",
-                "image": ub.getThumbnailImage("back_view")
+                "image": back
             },
             {
                 "perspective": "left",
-                "image": ub.getThumbnailImage("left_view")
+                "image": left
             },
             {
                 "perspective": "right",
-                "image": ub.getThumbnailImage("right_view")
+                "image": right
             }
         ];
 
@@ -72,7 +77,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.handlePerspectiveEvent = function() {
-        $("div#left-side-toolbar .perspective").on('click', '.change-perspective-button', function(event) {
+        $("div#left-side-toolbar ").on('click', '.perspective .change-perspective-button', function(event) {
             event.preventDefault();
             /* Act on the event */
             var view = $(this).data('perspective');
@@ -204,4 +209,41 @@ $(document).ready(function() {
         return category;
     }
 
+    ub.funcs.richardsonLeftPanelAutoUpdate = function() {
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+        // Setup perspective
+        var front = ub.getThumbnailImage("front_view");
+        var back = ub.getThumbnailImage("back_view");
+        var left = ub.getThumbnailImage("left_view");
+        var right = ub.getThumbnailImage("right_view");
+
+        var perspectives = [
+           {
+               "perspective": "front",
+               "image": front
+           },
+           {
+               "perspective": "back",
+               "image": back
+           },
+           {
+               "perspective": "left",
+               "image": left
+           },
+           {
+               "perspective": "right",
+               "image": right
+           }
+        ];
+
+        var template = document.getElementById("m-left-panel-toolbar");
+        var rendered_template = Mustache.render(template.innerHTML, {perspectives: perspectives});
+        $("div#left-side-toolbar").html("");
+        $("div#left-side-toolbar").html(rendered_template);
+
+        console.log("Updating Uniform Thumbnail")
+    }
 })

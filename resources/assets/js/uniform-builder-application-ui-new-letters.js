@@ -278,10 +278,8 @@ ApplicationPanel.events = {
             ApplicationPanel.events.showSideOptions(false, '')
 
         } else if ($(this).data('id') === "back") {
-            // If BACK perspective is clicked
-            // Remove class from the currently active PART then change it to BACK BODY
-            // $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            // $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
+            // If BACK perspective is clicked;
+            $(".parts-container button.part").first().addClass('uk-active')
             ApplicationPanel.events.showSideOptions(false, '')
         } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
             // If LEFT or RIGHT perspective is clicked,
