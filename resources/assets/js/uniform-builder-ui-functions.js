@@ -161,7 +161,6 @@ $(document).ready(function() {
 
     ub.funcs.changeStage = function() {
         ub.current_modifier = 1;
-        $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
 
         $("div#left-side-toolbar").html("")
         $("div.customizer-uniform-information").html("");
@@ -176,6 +175,7 @@ $(document).ready(function() {
 
 
         _.delay(function() {
+            $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
             $("#main_container").css({
