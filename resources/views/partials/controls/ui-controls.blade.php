@@ -577,7 +577,7 @@
 
         @{{#picker_items}}
             
-            <li class="mix @{{type}} @{{block_pattern_fv2}} @{{block_pattern_fv2_blank}} @{{block_pattern_fv2_favorite}} @{{uniform_application_type}}" data-name="@{{name}}">
+            <li class="mix @{{type}} @{{block_pattern_fv2}} @{{block_pattern_fv2_blank}} @{{block_pattern_fv2_favorite}} @{{neck_option_fv2}} @{{uniform_application_type}}" data-name="@{{name}}">
 
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
 
@@ -623,6 +623,26 @@
         <li class="gap"></li>
 
     </script>
+
+    <script type="text/mustache" id="m-filter-v2-neck-options">
+
+        <li>
+            <input class="filter" data-filter="" type="radio" name="radioButton" id="" checked="">
+            <label class="radio-label" for="radio1">All</label>
+        </li>
+
+        @{{#neck_options}}
+
+            <li>
+                <input class="filter" data-filter=".@{{item}}" type="radio" name="radioButton" id="">
+                <label class="radio-label" for="@{{item}}">@{{alias}}</label>
+            </li>
+
+        @{{/neck_options}}
+
+    </script>
+
+    <!-- end version 2 -->
 
 <!-- End Uniforms Pickers -->
 

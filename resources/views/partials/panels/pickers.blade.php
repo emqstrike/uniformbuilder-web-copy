@@ -23,7 +23,7 @@
         </div>
 
         <!-- Picker version 2 -->
-        <main class="cd-main-content" style="display: none">
+        <main class="cd-main-content">
 
             <div class="cd-tab-filter-wrapper">
                 <div class="cd-tab-filter">
@@ -31,7 +31,7 @@
                         <li class="placeholder"> 
                             <a data-type="all" href="#0">All</a> <!-- selected option on mobile -->
                         </li> 
-                        <li class="filter"><a class="selected" href="javascript:void(0)" data-type="all">All</a></li>
+                        <li class="filter"><a class="selected picker-slink" href="javascript:void(0)" data-type="all">All</a></li>
                         <li class="filter" data-filter=".upper"><a class="picker-slink" href="javascript:void(0)" data-type="upper">Jersey</a></li>
                         <li class="filter" data-filter=".lower"><a class="picker-slink" href="javascript:void(0)" data-type="lower">Pants</a></li>
                     </ul> <!-- cd-filters -->
@@ -59,12 +59,12 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" data-filter="" type="radio" name="" id="" checked>
+                                <input class="filter" type="radio" name="genderButton" id="" checked>
                                 <label class="radio-label" for="men">Men</label>
                             </li>
 
                             <li>
-                                <input class="filter" data-filter="" type="radio" name="" id="">
+                                <input class="filter" type="radio" name="genderButton" id="">
                                 <label class="radio-label" for="women">Women</label>
                             </li>
 
@@ -82,7 +82,7 @@
                         
                         <div class="cd-filter-content">
                             <div class="cd-select cd-filters">
-                                <select class="filter" name="" id="selectSport">
+                                <select name="" id="selectSport">
                                     <option value="">Choose an option</option>
                                     <option value=".option1">Option 1</option>
                                     <option value=".option2">Option 2</option>
@@ -100,22 +100,22 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" data-filter="" type="radio" name="uniformApplicationTypeButton" id="all" checked>
+                                <input class="filter uniform-application-type" data-filter="" type="radio" name="uniformApplicationTypeButton" data-type="all" checked>
                                 <label class="radio-label" for="all">All</label>
                             </li>
 
                             <li>
-                                <input class="filter" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" id="tackle_twill">
+                                <input class="filter uniform-application-type" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" data-type="tackle_twill">
                                 <label class="radio-label" for="tackle_twill">Tacke Twill</label>
                             </li>
 
                             <li>
-                                <input class="filter" data-filter=".sublimated" type="radio" name="uniformApplicationTypeButton" id="sublimated">
+                                <input class="filter uniform-application-type" data-filter=".sublimated" type="radio" name="uniformApplicationTypeButton" data-type="sublimated">
                                 <label class="radio-label" for="sublimated">Sublimated</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->
-                    <!-- end Gender -->
+                    <!-- end Application Type -->
 
                     <!-- Block Pattern -->
                     <div class="cd-filter-block">
@@ -124,7 +124,7 @@
                         <div class="cd-filter-content">
                             <div class="cd-select cd-filters">
                                 <select class="filter" name="blockPatternSelect" id="cd-block-pattern">
-                                    <option value="">All</option>
+                                    <option value="" data-item="all">All</option>
                                 </select>
                             </div> <!-- cd-select -->
                         </div> <!-- cd-filter-content -->
@@ -135,62 +135,23 @@
                     <div class="cd-filter-block">
                         <h4>Option</h4>
 
-                        <ul class="cd-filter-content cd-filters list">
+                        <!-- <ul class="cd-filter-content cd-filters list" id="neck-options">
                             <li>
-                                <input class="filter" data-filter="" type="radio" name="radioButton" id="radio1" checked>
+                                <input class="filter" data-filter="" type="radio" name="radioButton" id="radio1" checked="">
                                 <label class="radio-label" for="radio1">All</label>
                             </li>
+                        </ul> -->
 
-                            <li>
-                                <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                                <label class="radio-label" for="radio2">Choice 2</label>
-                            </li>
+                        <!-- For select option implementation -->
+                        <div class="cd-filter-content">
+                            <div class="cd-select cd-filters">
+                                <select class="filter" name="neckOptionSelect" id="cd-neck-pattern">
+                                    <option value="" data-item="all">All</option>
+                                </select>
+                            </div> 
+                        </div> 
+                        <!-- end select option implementation -->
 
-                            <li>
-                                <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                                <label class="radio-label" for="radio3">Choice 3</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                                <label class="radio-label" for="radio2">Choice 2</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                                <label class="radio-label" for="radio3">Choice 3</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                                <label class="radio-label" for="radio2">Choice 2</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                                <label class="radio-label" for="radio3">Choice 3</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                                <label class="radio-label" for="radio2">Choice 2</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                                <label class="radio-label" for="radio3">Choice 3</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                                <label class="radio-label" for="radio2">Choice 2</label>
-                            </li>
-
-                            <li>
-                                <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                                <label class="radio-label" for="radio3">Choice 3</label>
-                            </li>
-                        </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->
                     <!-- end Option -->
 

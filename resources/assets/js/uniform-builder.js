@@ -6611,12 +6611,6 @@ $(document).ready(function () {
 
             if (_picker_type === 'gender') { return; }
 
-            if (ub.picker.isNew) {
-                $('a.picker-slink[data-type="upper"]').parent().attr('data-gender', _gender);
-                $('a.picker-slink[data-type="lower"]').parent().attr('data-gender', _gender);
-                $('a.picker-slink[data-type="all"]').parent().attr('data-gender', _gender);
-            }
-
             if (_picker_type === 'sports') {
 
                 var itemExcemptions = ['Apparel', 'eSports'];
@@ -6677,6 +6671,14 @@ $(document).ready(function () {
 
                 }
                 
+            }
+
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                ub.funcs.setV2Gender(_gender);
+                ub.funcs.setV2SportCategory(_item);
+
             }
 
         });
@@ -7285,21 +7287,21 @@ $(document).ready(function () {
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
 
-            ub.tempItems = ub.funcs.addFilterObject(ub.tempItems);
-
             if (!ub.picker.isNew) {
-
-                template = $('#m-picker-items-uniforms').html()
 
                 ub.funcs.prepareSecondaryBar(_sport, actualGender);
 
                 ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
                 ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
 
+                template = $('#m-picker-items-uniforms').html()
+
                 $('div.secondary-bar').fadeIn();
                 $('div.secondary-bar').css('margin-top', "0px");
 
             } else {
+
+                ub.tempItems = ub.funcs.addFilterObject(ub.tempItems);
 
                 ub.funcs.prepareSecondaryBarV2(_sport, actualGender);
 
