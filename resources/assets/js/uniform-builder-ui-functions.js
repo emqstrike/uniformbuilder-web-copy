@@ -45,6 +45,8 @@ $(document).ready(function() {
     ub.funcs.handlePerspectiveEvent = function() {
         $("div#left-side-toolbar").on('click', '.perspective .change-perspective-button', function(event) {
             event.preventDefault();
+            $(".perspective a.active").removeClass('active');
+            $(this).addClass("active")
             /* Act on the event */
             var view = $(this).data('perspective');
             if (ub.active_view !== view) {
@@ -207,6 +209,7 @@ $(document).ready(function() {
                 var rendered_template = Mustache.render(template.innerHTML, {perspectives: e.data});
                 $("div#left-side-toolbar").html("");
                 $("div#left-side-toolbar").html(rendered_template);
+                $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
                 console.log("Updating Uniform Thumbnail via worker")
             }
         } else {
@@ -239,6 +242,7 @@ $(document).ready(function() {
             var rendered_template = Mustache.render(template.innerHTML, {perspectives: perspectives});
             $("div#left-side-toolbar").html("");
             $("div#left-side-toolbar").html(rendered_template);
+            $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
             console.log("Updating Uniform Thumbnail")
         }
     }
