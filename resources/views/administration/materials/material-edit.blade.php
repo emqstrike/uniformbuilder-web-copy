@@ -56,6 +56,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
+                                <input type="hidden" id="existing_block_pattern" value="{{ $material->block_pattern_id }}">
                                 <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern_id">
                                 </select>
                             </div>
@@ -721,7 +722,7 @@
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script src="/underscore/underscore.js"></script>
-<script>
+<script type="text/javascript">
 $( document ).ready(function() {
 
     $('.autosized').autosize({append: "\n"});
@@ -783,7 +784,6 @@ $( document ).ready(function() {
             }
         });
         strResult = JSON.stringify(sizes);
-        console.log( strResult );
         $('#sizes').val( '"' + strResult + '"' );
     }
 
@@ -806,7 +806,6 @@ $( document ).ready(function() {
 
     function saveEditor(){
         window.mce = tinyMCE.activeEditor.getContent();
-        console.log('MCE: ' + window.mce);
         $('#description').val(window.mce);
     }
 
@@ -833,7 +832,7 @@ $( document ).ready(function() {
     }
 
     var sport = null;
-    var block_pattern_id = $('#block_pattern_id').val();
+    var block_pattern_id = $('#existing_block_pattern').val();
     var existing_neck_option = $('#existing_neck_option').val();
 
     $(document).on('change', '.uniform-category', function() {
@@ -841,50 +840,31 @@ $( document ).ready(function() {
         var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
             $( '#block_pattern_id' ).html('');
             $.each(x, function(i, item) {
-                var block_pattern_id = $('#block_pattern_id').val();
                 if( block_pattern_id == item.id ){
-
-                    console.log(block_pattern_id);
-                $('#block_pattern_id' ).append( '<option value="' + item.id + '" selected>' + item.name + '</option>' );
+                    $('#block_pattern_id' ).append( '<option value="' + item.id + '" selected>' + item.name + '</option>' );
                 }
                 else {
-                    console.log('else');
-                $('#block_pattern_id' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
+                    $('#block_pattern_id' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
                 }
             });
         $('#block_pattern_id').trigger('change');
     });
 
-    $.each(window.block_patterns, function(i, item) {
-        if( item.id == block_pattern_id ) {
-            window.neck_options = JSON.parse(item.neck_options);
-            $.each(window.neck_options, function(i, item) {
-                if( existing_neck_option == item.name ) {
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
-                } else {
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                }
-            });
-        }
-    });
-
     $(document).on('change', '#block_pattern_id', function() {
-
         var id = $(this).val();
-
         $( '#neck_option' ).html('');
+        var filtered_block_pattern = _.find(window.block_patterns, function( bp ) {
+            return bp.id == id;
+        });
+        var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
+        $.each(filtered_neck_options, function(i, item) {
 
-        $.each(window.block_patterns, function(i, item) {
-            if( item.id == id ){
-                window.neck_options = JSON.parse(item.neck_options);
-                $.each(window.neck_options, function(i, item) {
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                });
+            if (item.name == existing_neck_option) {
+                $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+            } else {
+                $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
             }
         });
-
     });
 
     $('.uniform-category').trigger('change');
