@@ -1974,8 +1974,11 @@ $(document).ready(function () {
         var _set = [];
         var _app = view.application;
 
+        // disable `number` and `player_name` for Sublimated Socks
+        var isNotSocks = !ub.funcs.isSocks();
+
         if (_app.hasLogo === 1 || ub.funcs.isSublimated()) { _set.push ('logo'); }
-        if (_app.hasNumber === 1 || ub.funcs.isSublimated()) { _set.push ('number'); }
+        if (_app.hasNumber === 1 || ub.funcs.isSublimated() && isNotSocks) { _set.push ('number'); }
         if (_app.hasPlayerName === 1 || ub.funcs.isSublimated()) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1 || ub.funcs.isSublimated()) { _set.push ('team_name'); }
         if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }

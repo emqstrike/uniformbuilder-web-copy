@@ -10963,7 +10963,6 @@ $(document).ready(function() {
 
                 // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
-                $('span.optionButton[data-type="player_name"]').hide();
 
             }
 
