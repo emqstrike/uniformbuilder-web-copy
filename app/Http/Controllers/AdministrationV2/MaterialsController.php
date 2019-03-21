@@ -18,6 +18,7 @@ use App\APIClients\ReversibleGroupsAPIClient;
 use App\APIClients\UniformCategoriesAPIClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\MaterialRequest;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
 use App\Utilities\Log;
@@ -172,7 +173,7 @@ class MaterialsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
         $materialName = $request->input('name');
         $materialId = $request->input('material_id');
@@ -303,7 +304,9 @@ class MaterialsController extends Controller
             'reversible_pair_id' => $reversible_pair_id,
             'reversible_type' => $reversible_type,
             'model_number' => $request->input('model_number'),
-            'retain_settings_from_saved_design' => $retain_settings
+            'retain_settings_from_saved_design' => $retain_settings,
+            'block_pattern_option_2' => $request->input('block_pattern_option_2'),
+            'block_pattern_option_3' => $request->input('block_pattern_option_3'),
         ];
 
         try {

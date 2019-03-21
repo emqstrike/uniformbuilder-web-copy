@@ -42,6 +42,8 @@
                 load: "{{ isset($styles) ? $styles : false }}",
                 gender: "{{ isset($gender) ? $gender : undefined }}",
                 sport: "{{ isset($sport) ? $sport : null }}",
+                // HSEL ONLY
+                isFromHSEL: "{{ isset($isFromHSEL) ? $isFromHSEL : false }}"
             },
             @endif
 

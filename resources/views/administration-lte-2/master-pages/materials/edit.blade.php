@@ -9,6 +9,8 @@
                     <div class="panel-heading">Edit Material</div>
 
                     <div class="panel-body">
+                        @include('administration.partials.validation-error')
+                        
                         <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='edit-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
@@ -63,6 +65,20 @@
                                 <input type="hidden" id="existing_neck_option" value="{{ $material->neck_option }}">
                                     <select class="form-control material-neck-option" name="neck_option" id="neck_option">
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 2</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="block_pattern_option_2" value="{{ $material->block_pattern_option_2 }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 3</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="block_pattern_option_3" value="{{ $material->block_pattern_option_3 }}">
                                 </div>
                             </div>
 

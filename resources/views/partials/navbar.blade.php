@@ -22,7 +22,9 @@
                         <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/esports.svg"> eSports</a>
                         <ul class="dropdown-menu">
                             <h6 class="dropdown-header">eSports (Men)</h6>
-                            <li><a href="/styles/men/gamer-jersey" class="sport-link-icons">Gamer Jersey</a></li>
+                            <li><a href="/styles/men/gamer-polo-esports" class="sport-link-icons">Gamer Polos</a></li>
+                            <li><a href="/styles/men/gamer-hoodie-esports" class="sport-link-icons">Gamer Hoodies</a></li>
+                            <li><a href="/styles/men/gamer-jersey-esports" class="sport-link-icons">Gamer Jersey</a></li>
                         </ul>
                         </li>
                 
@@ -76,7 +78,7 @@
                     <li class="divider"></li>
                     <h6 class="dropdown-header">About Us</h6>
                     <li><a href="http://www.prolook.com" target="_new"><i class="fa fa-globe" aria-hidden="true"></i> Official Prolook Website</a></li>
-                    <li><a href="http://blog.prolook.com/" target="_new"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
+                    <li><a href="https://www.prolook.com/social/" target="_new"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
                     <li><a href="http://www.prolook.com/contact/" target="_new"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact Us</a></li>
 
                     <li class="divider"></li>

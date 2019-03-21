@@ -45,6 +45,10 @@ $(document).ready(function() {
             };
 
             var _sizesObject = _.find(ub.data.applicationSizes.configurations, {uniform_application_type: ub.config.uniform_application_type});
+
+            // exit if undefined
+            if (typeof _sizesObject === 'undefined') {return;}
+
             var _applicationTypes = _sizesObject.parsedProperties;
             var _applicationTypeResults = _.filter(_applicationTypes, {type: applicationType});
             var _locationResults = _.filter(_applicationTypeResults, function (applicationResult) {

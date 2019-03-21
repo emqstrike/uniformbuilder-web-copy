@@ -91,6 +91,10 @@
 </style>
 
 @yield('styles')
+<style type="text/css">
+    @yield('custom-styles')
+</style>
+
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
 <body class="skin-black sidebar-mini sidebar-collapse">

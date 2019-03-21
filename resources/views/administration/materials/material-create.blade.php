@@ -11,16 +11,7 @@
 
                 </div>
                 <div class="panel-body col-md-8">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/add" enctype="multipart/form-data" id='create-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -70,6 +61,20 @@
                             <div class="col-md-8">
                                 <select class="form-control material-neck-option" name="neck_option" id="neck_option">
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern Option 2</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="block_pattern_option_2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern Option 3</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="block_pattern_option_3">
                             </div>
                         </div>
 <hr>

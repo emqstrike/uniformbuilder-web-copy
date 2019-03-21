@@ -36,7 +36,12 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}/{product_id?}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
-Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
+Route::get('/styles/{gender}/{sport?}/{org?}', 'UniformBuilderController@styles');
+
+//Stand Alone Saved Designs Page
+Route::get('saved_design/login', 'AdministrationV2\SavedDesignsController@loginForm')->name('saved_designs_login_form');
+Route::post('saved_design/login', 'AdministrationV2\SavedDesignsController@savedDesignsLogin')->name('saved_designs_stand_alone_login');
+Route::get('saved_designs/{currentPage?}', ['middleware' => 'accessSavedDesigns', 'uses' => 'AdministrationV2\SavedDesignsController@standAlone'])->name('saved_designs_stand_alone');
 
 // Utilities
 Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
@@ -184,6 +189,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('material_option/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@saveApplications'])->name('v1_save_applications');
             Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@store'])->name('v1_save_material_option_info');
             Route::post('material_option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@saveBoundary'])->name('v1_save_bounding_box');
+            Route::get('material_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@getMaterialApplication'])->name('v1_material_application');
 
             Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
 
@@ -584,6 +590,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     // Style Requests
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index'])->name('style_requests');
     Route::get('approved_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@approvedIndex'])->name('approved_style_requests');
+    Route::get('styles_on_customizer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesOnCustomizer'])->name('styles_on_customizer');
     Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer'])->name('style_viewer');
     Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats'])->name('styles_stats');
 

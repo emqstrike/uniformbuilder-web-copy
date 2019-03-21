@@ -48,12 +48,16 @@
                 <div class="box-header">
                     @section('page-title', 'Logo Requests')
 
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <h1>Logo Requests</h1>
                     </div>
 
-                    <div class="col-md-8 text-right">
+                    <div class="col-md-10 text-right">
                         <div class="form-inline" style="position: relative; top: 25px;">
+                            <label>Search ID:</label>
+
+                            <input type="number" id="id-filter" class="form-control" @if (isset($filters['id'])) value="{{ $filters['id'] }}" @endif>
+
                             <label>Origin</label>
                             <select id="origins-filter" class="form-control select2">
                                 <option value="all">All</option>
@@ -298,12 +302,13 @@
     <script>
         $(document).ready(function() {
             $('#filter-logo-requests').click(function() {
+                var id = $('#id-filter').val();
                 var origin = $('#origins-filter').val();
                 var type = $('#types-filter').val();
                 var client = $('#client-filter').val();
                 var status = $('#status-filter').val();
 
-                var url = "{{ route('v1_logo_requests') }}?origin=" + origin + "&type=" + type + "&client_name=" + client + "&status=" + status;
+                var url = "{{ route('v1_logo_requests') }}?id=" + id + "&origin=" + origin + "&type=" + type + "&client_name=" + client + "&status=" + status;
                 window.location.href = url;
             });
 

@@ -4716,11 +4716,11 @@ div.header-container.main {
     /* End Generic Popup */
 
     /* applicationUI */
-
+        
         div#changeApplicationUI {
-
+            z-index: 500;
             position: absolute;
-            margin-top: -400px;
+            top: 20%;
             background-color: #808080;
             width: 500px;
             height: 390px;
@@ -4732,7 +4732,7 @@ div.header-container.main {
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
-
+            
             div.closeApplicationChanger {
 
                 color: #000000;
@@ -4785,6 +4785,7 @@ div.header-container.main {
             }
 
         }
+       
 
     /* Pipings UI */ 
 
@@ -8924,6 +8925,14 @@ div.header-container.main {
 
                     }
 
+                    tr {
+                        td {
+                            text-align: center;
+                            border: solid 1px #acacac;
+                            padding: 7px;
+                        }
+                    }
+
                     tr.saved-order-row {
 
                         td {
@@ -11635,8 +11644,30 @@ span.load-line.awesomeness {
     }
 }
 
-
 /* End verbiage  */
+.saved-designs-list .pagination .active a {
+    background: #3d3d3d !important;
+    border-color: #3d3d3d !important;
+}
+
+.order-list .pagination .active a {
+    background: #3d3d3d !important;
+    border-color: #3d3d3d !important;
+}
+
+
+// HSEL
+.hsel-logo {
+    width: 160px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 65px;
+}
+
+#hsel-logo {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
 
 /* Custom Artwork Requests */
 

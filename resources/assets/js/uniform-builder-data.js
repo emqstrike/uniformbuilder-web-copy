@@ -2200,7 +2200,7 @@ $(document).ready(function() {
             },
             { 
                 name: "Tech Tee (eSports)",
-                alias: "gamer-jersey",
+                alias: "gamer-jersey-esports",
             },
 
         ],
@@ -10356,7 +10356,16 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'SFN Jogger (Apparel)',
                 sublimatedPart: 'Extra',
-            }
+            },
+            {
+                sport: 'Polo (eSports)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Hoodie (eSports)',
+                sublimatedPart: 'Extra',
+            },
+
         ],
 
         get: function (sport) {
@@ -11183,6 +11192,17 @@ ub.funcs.fontOffSets = [
                 type: 'upper',
                 lowerLabel: ' Jersey',
             },
+            {
+                sport: 'Polo (eSports)',
+                type: 'upper',
+                lowerLabel: ' Jersey',
+            },
+            {
+                sport: 'Hoodie (eSports)',
+                type: 'upper',
+                lowerLabel: ' Jersey',
+            },
+            
         ],
         getLabel: function (sport) {
 
@@ -11332,6 +11352,14 @@ ub.funcs.fontOffSets = [
         // eSports Uniform
         {
             sport: 'Tech Tee (eSports)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Polo (eSports)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Hoodie (eSports)',
             filters: ['All'],
         }
           
@@ -11927,9 +11955,18 @@ ub.funcs.fontOffSets = [
             },
             // eSports
             {
-                shortCode: 'gamer-jersey',
+                shortCode: 'gamer-jersey-esports',
                 urlAlias: 'Tech Tee (eSports)',
-                // thumbFilename: '',
+                gender: ['men',],
+            },
+            {
+                shortCode: 'gamer-polo-esports',
+                urlAlias: 'Polo (eSports)',
+                gender: ['men',],
+            },
+            {
+                shortCode: 'gamer-hoodie-esports',
+                urlAlias: 'Hoodie (eSports)',
                 gender: ['men',],
             },
         ],

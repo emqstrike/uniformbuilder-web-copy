@@ -1,30 +1,31 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\FileUploaderV2;
-use App\Utilities\Random;
-use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
+use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\BlockPatternsAPIClient;
+use App\APIClients\BoundariesAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FactoriesAPIClient;
-use App\APIClients\GradientsAPIClient;
-use App\APIClients\ApplicationsAPIClient;
-use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
-use App\APIClients\BlockPatternsAPIClient;
-use App\APIClients\MaterialsOptionsAPIClient;
-use App\APIClients\PriceItemTemplatesAPIClient;
-use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\GradientsAPIClient;
 use App\APIClients\ItemSizesAPIClient;
-use App\APIClients\ReversibleGroupsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
+use App\APIClients\MaterialsOptionsAPIClient;
+use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\PriceItemTemplatesAPIClient;
+use App\APIClients\ReversibleGroupsAPIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Http\Requests\MaterialRequest;
+use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Session;
+use \Redirect;
 
 class MaterialsController extends Controller
 {
@@ -403,7 +404,7 @@ class MaterialsController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
         $materialName = $request->input('name');
         $materialId = $request->input('material_id');
@@ -536,7 +537,9 @@ class MaterialsController extends Controller
             'reversible_pair_id' => $reversible_pair_id,
             'reversible_type' => $reversible_type,
             'model_number' => $request->input('model_number'),
-            'retain_settings_from_saved_design' => $retain_settings
+            'retain_settings_from_saved_design' => $retain_settings,
+            'block_pattern_option_2' => $request->input('block_pattern_option_2'),
+            'block_pattern_option_3' => $request->input('block_pattern_option_3')
         ];
         try {
             // Thumbnail Files

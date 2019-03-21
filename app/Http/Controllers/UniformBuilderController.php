@@ -305,6 +305,7 @@ class UniformBuilderController extends Controller
             $params['styles'] = $config['styles'];
             $params['sport'] = $config['sport'];
             $params['gender'] = $config['gender'];
+            $params['isFromHSEL'] = isset($config['hsel']) ? true : false;
 
         }
 
@@ -523,7 +524,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null)
+    public function styles($gender = null, $sport = null, $org = null)
     {
         $config = [
             'styles' => true,
@@ -531,8 +532,16 @@ class UniformBuilderController extends Controller
             'gender' => $gender,
         ];
 
-        return $this->showBuilder($config);
+        // For HSEL
+        if (!is_null($org)) {
+            if ($org === "HSEL") {
+                $config['hsel'] = true;
+            } else {
+                abort(404);
+            }
+        }
 
+        return $this->showBuilder($config);
     }
 
     public function loadDesignSetRender(Request $request, $designSetId = null, $materialId = null)
