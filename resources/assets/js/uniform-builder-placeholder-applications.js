@@ -104,7 +104,7 @@ $(document).ready(function () {
             {
                 sport: "Socks (Apparel)",
                 part: 'Sublimated',
-                validTypes: ["logo", "team_name", "embellishments"],
+                validTypes: ["logo", "team_name", "embellishments", "player_name"],
             },
             {
                 sport: "Default",
