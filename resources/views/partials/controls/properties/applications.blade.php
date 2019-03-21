@@ -121,12 +121,12 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
                     </button>
                 </div>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
@@ -182,12 +182,12 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
                     </button>
                 </div>
                 <div class="uk-width-1-2">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
@@ -243,12 +243,12 @@
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
                     </button>
                 </div>
                 <div class="uk-width-1-2">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize view-application-list" data-type="@{{ type }}" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list" data-type="@{{ type }}" type="button">
                         <span class="uk-margin-small-right fa fa-eye"></span>View all application
                     </button>
                 </div>
@@ -345,7 +345,7 @@
             @{{ #part }}
                 @{{ #partsData }}
                     <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize part" data-id="@{{ name }}">@{{ name }}</button>
+                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize part" data-id="@{{ name }}">@{{ alias }}</button>
                     </div>
                 @{{ /partsData }}
             @{{ /part }}
@@ -371,7 +371,7 @@
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
             <div class="uk-width-1-2">
                 <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add application
+                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
                 </button>
             </div>
             <div class="uk-width-1-2">

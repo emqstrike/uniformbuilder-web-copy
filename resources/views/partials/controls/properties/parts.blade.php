@@ -3,14 +3,14 @@
         <ul class="parts-container uk-list uk-list-large uk-list-divider uk-padding-small">
             @{{ #parts }}
                 <li class="panel-index-@{{ index }}">
-                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ name }}</h5>
+                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ alias }}</h5>
                     <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</h6>
 
                     <div class="con-select con-palettes w-btn-toggle">
                         <h6 class="uk-margin-small uk-margin-remove-horizontal uk-text-uppercase">Color</h6>
                         <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-color conAutoSelect color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" uk-grid>
                             @{{#colors}}
-                                <div class="color-container-button" uk-tooltip="title: @{{ name }}; pos: left;">
+                                <div class="color-container-button">
                                     <button class="uk-inline box-palette btn-selection-choice palette-color color-selector-button palette"
                                         style="background-color: #@{{ hex_code }};"
                                         data-color-id="@{{ id }}"
@@ -18,6 +18,7 @@
                                         data-color-label="@{{ color_code }}"
                                         data-color-id="@{{ id }}"
                                         data-modifier-category="@{{ fullname }}"
+                                        uk-tooltip="title: @{{ name }}; pos: left;"
                                     >
                                     </button>
                                 </div>
@@ -58,7 +59,7 @@
             @{{ /parts }}
             @{{ #inserts }}
                 <li class="panel-index-@{{ index }}">
-                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ name }}</h5>
+                    <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ alias }}</h5>
                     <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose Color @{{#hasPattern}} / Pattern @{{/hasPattern}}</h6>
 
                     <div class="con-select con-palettes w-btn-toggle">

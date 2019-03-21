@@ -177,7 +177,7 @@ $(function() {
         // prepare data
         var props = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-            title: "LOGOS",
+            title: "logos",
             type: "mascots",
             applications: _appData
         };

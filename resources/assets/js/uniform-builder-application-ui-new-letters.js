@@ -246,8 +246,9 @@ ApplicationPanel.events = {
     showAddApplicationBlock: function() {
         $(".container-add-view-application").hide();
         var type = $(this).data("application-type");
+        var title = $(this).data("application-title").toLowerCase();
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', type);
+        var _htmlBuilder = ub.funcs.getNewApplicationContainer(title, type);
         $(".modifier_main_container .add-application-block").html("");
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
@@ -591,7 +592,7 @@ $(function() {
         // prepare data
         var templateData = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-            title: "Names",
+            title: "names",
             type: "letters",
             applications: _appData
         };
@@ -667,7 +668,7 @@ $(function() {
 
         // prepare data
         var templateData = {
-            title: "NUMBERS",
+            title: "numbers",
             type: "numbers",
             applications: _appData,
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : ''
@@ -1080,11 +1081,11 @@ $(function() {
             } else if (_designType === 'mascots') {
                 types.push({
                     type: 'mascot',
-                    name: 'Stock Mascot',
+                    name: 'Stock',
                 });
                 types.push({
                     type: 'embellishments',
-                    name: 'Custom Mascot',
+                    name: 'Custom',
                 });
                 isShow = true;
             }
