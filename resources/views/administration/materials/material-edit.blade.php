@@ -41,15 +41,23 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Category</label>
+                            <div class="col-md-6">
+                                <select name='uniform_category_id' class="form-control uniform-category">
+                                @foreach ($uniform_categories as $category)
+                                    @if ($category->active)
+                                    <option value='{{ $category->id }}'@if($material->uniform_category_id == $category->id) selected="selected"@endif>{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
+                                <input type="hidden" id="existing_block_pattern" value="{{ $material->block_pattern_id }}">
                                 <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern_id">
-                                    <option value="">None</option>
-                                    @foreach ($block_patterns as $block_pattern)
-                                        @if ($block_pattern->active)
-                                        <option value='{{ $block_pattern->id }}' @if($block_pattern->id == $material->block_pattern_id) selected="selected"@endif>{{ $block_pattern->name }}</option>
-                                        @endif
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -62,7 +70,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern Option 2</label>
                             <div class="col-md-8">
@@ -76,14 +83,14 @@
                                 <input type="text" class="form-control" name="block_pattern_option_3" value="{{ $material->block_pattern_option_3 }}">
                             </div>
                         </div>
-<hr>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Inch in Pixels</label>
                             <div class="col-md-6">
                                 <input type="number" class="form-control" step="any" name="one_inch_in_px" value="{{ $material->one_inch_in_px }}">
                             </div>
                         </div>
-<hr>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Debug Mode</label>
                             <div class="col-md-6">
@@ -118,7 +125,7 @@
                                 <input type="text" class="form-control material-style-group" name="style_group" value="{{ $material->style_group }}">
                             </div>
                         </div>
-<hr>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Item ID</label>
                             <div class="col-md-6">
@@ -130,19 +137,6 @@
                             <label class="col-md-4 control-label">Price Item Code</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control material-price-item-code" name="price_item_code" value="{{ $material->price_item_code }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Uniform Category</label>
-                            <div class="col-md-6">
-                                <select name='uniform_category_id' class="form-control uniform-category">
-                                @foreach ($uniform_categories as $category)
-                                    @if ($category->active)
-                                    <option value='{{ $category->id }}'@if($material->uniform_category_id == $category->id) selected="selected"@endif>{{ $category->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
                             </div>
                         </div>
 
@@ -290,7 +284,7 @@
                             </div>
                         </div>
 
-@if (env('BUILDER_APPROACH') == '3D')
+                        @if (env('BUILDER_APPROACH') == '3D')
                         <div class="form-group">
                             <label class="col-md-4 control-label">Base Material File</label>
                             <div class="col-md-6 material">
@@ -322,7 +316,7 @@
                                 <img src="{{ $material->highlight_path }}" width="100px" height="100px">
                             </div>
                         </div>
-@elseif (env('BUILDER_APPROACH') == '2D')
+                        @elseif (env('BUILDER_APPROACH') == '2D')
                         <div class="form-group">
                             <label class="col-md-4 control-label">Front View File</label>
                             <div class="col-md-6 front-view">
@@ -475,7 +469,7 @@
                                 @endif
                             </div>
                         </div>
-@endif
+                    @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail File</label>
@@ -627,7 +621,7 @@
                                 </select>
                             </div>
                         </div>
-                        <textarea id="item_sizes_string" style="display:none;""> {{$item_sizes_string}} </textarea>
+                        <textarea id="item_sizes_string" style="display:none;"> {{$item_sizes_string}} </textarea>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Qx Sizing Config</label>
                             <div class="col-md-6">
@@ -727,7 +721,8 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>
+<script src="/underscore/underscore.js"></script>
+<script type="text/javascript">
 $( document ).ready(function() {
 
     $('.autosized').autosize({append: "\n"});
@@ -789,7 +784,6 @@ $( document ).ready(function() {
             }
         });
         strResult = JSON.stringify(sizes);
-        console.log( strResult );
         $('#sizes').val( '"' + strResult + '"' );
     }
 
@@ -812,7 +806,6 @@ $( document ).ready(function() {
 
     function saveEditor(){
         window.mce = tinyMCE.activeEditor.getContent();
-        console.log('MCE: ' + window.mce);
         $('#description').val(window.mce);
     }
 
@@ -838,40 +831,43 @@ $( document ).ready(function() {
         });
     }
 
-    var block_pattern_id = $('#block_pattern_id').val();
+    var sport = null;
+    var block_pattern_id = $('#existing_block_pattern').val();
     var existing_neck_option = $('#existing_neck_option').val();
 
-    $.each(window.block_patterns, function(i, item) {
-        if( item.id == block_pattern_id ){
-            window.neck_options = JSON.parse(item.neck_options);
-            $.each(window.neck_options, function(i, item) {
-                if( existing_neck_option == item.name ){
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
-                } else {
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+    $(document).on('change', '.uniform-category', function() {
+        sport = $('.uniform-category').val();
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
+            $( '#block_pattern_id' ).html('');
+            $.each(x, function(i, item) {
+                if( block_pattern_id == item.id ){
+                    $('#block_pattern_id' ).append( '<option value="' + item.id + '" selected>' + item.name + '</option>' );
+                }
+                else {
+                    $('#block_pattern_id' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
                 }
             });
-        }
+        $('#block_pattern_id').trigger('change');
     });
 
     $(document).on('change', '#block_pattern_id', function() {
-
         var id = $(this).val();
-
         $( '#neck_option' ).html('');
+        var filtered_block_pattern = _.find(window.block_patterns, function( bp ) {
+            return bp.id == id;
+        });
+        var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
+        $.each(filtered_neck_options, function(i, item) {
 
-        $.each(window.block_patterns, function(i, item) {
-            if( item.id == id ){
-                window.neck_options = JSON.parse(item.neck_options);
-                $.each(window.neck_options, function(i, item) {
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                });
+            if (item.name == existing_neck_option) {
+                $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+            } else {
+                $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
             }
         });
-
     });
+
+    $('.uniform-category').trigger('change');
 
     $('.delete-material-image').on('click', function(e){
         e.preventDefault();
