@@ -1490,7 +1490,10 @@ $(document).ready(function () {
         };
 
         sprite.mouseup = sprite.mouseup = function (interactionData) {
-            ub.funcs.activateApplicationsLetters(application.code);
+            var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
+            if (element.length !== 0) {
+                ub.funcs.activateApplicationsLetters(application.code);
+            }
         }
 
     }
