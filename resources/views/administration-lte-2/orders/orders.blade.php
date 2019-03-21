@@ -60,7 +60,7 @@
                                 <option value="1" @if($test_order == 1) selected="selected"@endif>Yes</option>
                             </select>
 
-                            <button class="btn btn-success btn-sm btn-flat submit-selected-order-to-edit">Send selected orders to edit</button>
+                            <button class="btn btn-success btn-sm btn-flat submit-selected-order-to-edit" disabled="disabled">Send selected orders to edit</button>
                         </div>
                     </div>
 
@@ -77,6 +77,7 @@
                                 <th id="select-filter">Test Order</th>
                                 <th>FOID</th>
                                 <th>Assigned Sales Rep</th>
+                                <th>Status</th>
                                 <th>Date Submitted</th>
                                 <th class="col-md-1"></th>
                             </tr>
@@ -118,7 +119,18 @@
                                 {{ $order->rep_email or '' }}
                             </td>
 
+                            <td>
+                                @if ($order->factory_order_id)
+                                    Completed
+                                @elseif ($order->status == 'pending')
+                                    Pending
+                                @else
+                                    New
+                                @endif    
+                            </td>
+
                             <td class="td-order-date-submitted">{{ $order->created_at }}</td>
+
                             <td class="col-md-1">
                                 @if (! $order->factory_order_id)
                                     @if ($order->deleted_at)
@@ -1316,6 +1328,16 @@
                 $('#note-modal').modal('show');
             });
 
+            $('.select-order-checkbox').change(function() {
+                var count = $(".select-order-checkbox:checked").length;
+                
+                if (count > 0) {
+                    $('.submit-selected-order-to-edit').attr('disabled', false);
+                } else {
+                    $('.submit-selected-order-to-edit').attr('disabled', true);
+                }
+            });
+
             $('.submit-selected-order-to-edit').click(function() {
                 var orders = [];
 
@@ -1342,9 +1364,8 @@
                         contentType: 'application/json',
                         headers: {"accessToken": atob(headerValue)},
                         success: function(response) {
-                            if (response.success == true) {
-                                location.reload();
-                            }
+                            console.log(response);
+                            location.reload();
                         }
                     });
                 }
