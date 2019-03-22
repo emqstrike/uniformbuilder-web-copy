@@ -858,7 +858,6 @@ $( document ).ready(function() {
         });
         var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
         $.each(filtered_neck_options, function(i, item) {
-
             if (item.name == existing_neck_option) {
                 $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
             } else {
