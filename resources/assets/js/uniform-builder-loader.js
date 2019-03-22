@@ -3,8 +3,6 @@ $(document).ready(function() {
 
 	ub.loadCategories = function (categories) {
 
-        console.log('categories: ', categories);
-
 		ub.displayDoneAt('Categories loaded.');
 
         var _one = 1;

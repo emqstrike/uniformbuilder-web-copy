@@ -59,12 +59,12 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" type="radio" name="genderButton" id="" checked>
+                                <input class="filter" type="radio" name="genderButton" checked>
                                 <label class="radio-label" for="men">Men</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="genderButton" id="">
+                                <input class="filter" type="radio" name="genderButton">
                                 <label class="radio-label" for="women">Women</label>
                             </li>
 
@@ -82,18 +82,18 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton" id="" checked>
-                                <label class="radio-label" for="men">Sports</label>
+                                <input class="filter" type="radio" name="uniformTypeButton" checked>
+                                <label class="radio-label" for="sports">Sports</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton" id="">
-                                <label class="radio-label" for="women">Apparel</label>
+                                <input class="filter" type="radio" name="uniformTypeButton">
+                                <label class="radio-label" for="apparel">Apparel</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton" id="">
-                                <label class="radio-label" for="women">eSports</label>
+                                <input class="filter" type="radio" name="uniformTypeButton">
+                                <label class="radio-label" for="esports">eSports</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->

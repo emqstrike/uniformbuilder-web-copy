@@ -314,8 +314,8 @@ $(document).ready(function () {
 
     ub.funcs.resetSecondaryBarFilter = function () {
     	$('a.picker-slink.selected').removeClass('selected');
-    	$('li.filter a[data-type="all"]').addClass('selected');
-    	$('li.filter a[data-type="all"]').trigger('click');
+    	$('li.filter a.picker-slink[data-type="all"]').addClass('selected');
+    	$('li.filter a.picker-slink[data-type="all"]').trigger('click');
     }
 
     ub.funcs.hidePrimaryBarFilter = function () {
@@ -636,6 +636,7 @@ $(document).ready(function () {
 
         if (fromBlockPatternSelectOption) {
             ub.funcs.sideBarFilterBlockPatternSelectOption();
+            ub.funcs.sideBarFilterNeckOptionSelectOption();
         }
 
     }
