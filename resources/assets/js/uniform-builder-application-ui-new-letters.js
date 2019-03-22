@@ -276,26 +276,14 @@ ApplicationPanel.events = {
             // Remove class from the currently active PART then change it to FRONT BODY
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
             $(".parts-container").find('button[data-id="Front Body"].part').addClass('uk-active')
-            ApplicationPanel.events.showSideOptions(false, '')
-
         } else if ($(this).data('id') === "back") {
-            ApplicationPanel.events.showSideOptions(false, '')
+            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+            $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
         } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
             // If LEFT or RIGHT perspective is clicked,
             var activePart = $(".parts-container").find('button.part.uk-active');
-            var parts = ['Front Body', 'Back Body'];
-            // If currently active PART is Front/Back Body,
-            if (parts.includes(activePart.data('id'))) {
-                // Change the active PART to SLEEVE
-                activePart.removeClass('uk-active')
-                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
-            }
-
-            if (activePart.length === 0) {
-                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
-            }
-            // Show options for Sleeves, Side Panel, and Sleeve Insert
-            ApplicationPanel.events.showSideOptions(true, $(this).data('id'));
+            activePart.removeClass('uk-active')
+            $(".parts-container").find('button[data-id="Sleeve"][data-perspective="'+ view +'"].part').addClass('uk-active');
         }
 
         if (ub.active_view !== view) {
@@ -309,27 +297,16 @@ ApplicationPanel.events = {
     onSelectPart: function() {
         $(".parts-container").find("button.uk-active").removeClass('uk-active');
         var part = $(this).data("id");
+        console.log(part)
         $(this).addClass('uk-active');
 
-        if ($(this).data('id') === "Front Body") {
-            // Change the active perspective to FRONT
+        if (part === "Front Body") {
             $(".perspective-container").find('button[data-id="front"].perspective').trigger('click');
-            ApplicationPanel.events.showSideOptions(false, '')
-
-        } else if ($(this).data('id') === "Back Body"  || $(this).data('id') === "Bottom Panel") {
-            // Change the active perspective to BACk
+        } else if (part === "Back Body") {
             $(".perspective-container").find('button[data-id="back"].perspective').trigger('click');
-            ApplicationPanel.events.showSideOptions(false, '')
-        } else{
-            ApplicationPanel.events.showSideOptions(false, '')
-        }
-
-        var _left = _.find(ub.current_material.materials_options, {name: "Left " + part});
-
-        if (typeof _left !== "undefined") {
-            // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
-            var activePerspective = $(".perspective-container").find('button.perspective.uk-active');
-            $(".perspective-container").find('button[data-id="left"].perspective').trigger('click');
+        } else if (part === "Sleeve") {
+            var perspective = $(this).data("perspective");
+            $(".perspective-container").find('button[data-id="' + perspective + '"].perspective').trigger('click');
         }
     },
 
@@ -345,7 +322,10 @@ ApplicationPanel.events = {
         var _perspective = $('.perspective-container button.perspective.uk-active').data('id');
         var _part = $('.parts-container button.part.uk-active').data('id');
         var _type = $('.design-type-container button.design-type-button.uk-active').data('type');
-        var _side = $('.side-container button.side.uk-active').data('id');
+        var _side;
+        if (_part === "Sleeve") {
+            _side = $('.parts-container button.part.uk-active').data("perspective");
+        }
 
         ub.funcs.newApplication(_perspective, _part, _type, _side);
 
@@ -386,18 +366,6 @@ ApplicationPanel.events = {
             _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
 
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-        }
-    },
-
-    showSideOptions: function (show, id) {
-        if (show) {
-            $(".add-new-application-block").find('.sideOptions').removeClass('hide')
-            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
-            $(".add-new-application-block").find('.sideOptions button[data-id="' + id + '"].side').addClass('uk-active')
-        } else {
-            $(".add-new-application-block").find('.sideOptions').addClass('hide')
-            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
-            $(".add-new-application-block").find('.sideOptions button[data-id="na"].side').addClass('uk-active')
         }
     },
     // Application List
@@ -1057,6 +1025,18 @@ $(function() {
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
         var _htmlBuilder = '';
+        // Check if has sleeve
+        var hasSleeve = _.find(ub.funcs.getFreeFormLayers(), {name: "Sleeve"});
+        
+        // Disregard Sleeve
+        var parts = _.filter(ub.funcs.getFreeFormLayers(), function(index) {
+            if (index.name !== "Sleeve") {
+                return index;
+            }
+        });
+
+        console.log(parts)
+
         if (! ub.funcs.isTackleTwill()) {
             var types = [];
             var isShow;
@@ -1098,7 +1078,8 @@ $(function() {
                 perspective: true,
                 part: true,
                 side: true,
-                partsData: ub.funcs.getFreeFormLayers(),
+                partsData: parts,
+                hasSleeve: hasSleeve.length === 0 ? false : true,
                 isShow: isShow,
                 type: _designType
             }

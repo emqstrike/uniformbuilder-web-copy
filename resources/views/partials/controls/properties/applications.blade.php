@@ -348,6 +348,18 @@
                         <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize part" data-id="@{{ name }}">@{{ alias }}</button>
                     </div>
                 @{{ /partsData }}
+                @{{ #hasSleeve }}
+                    <div class="">
+                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize part"
+                        data-id="Sleeve"
+                        data-perspective="left">Left Sleeve</button>
+                    </div>
+                    <div class="">
+                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize part"
+                        data-id="Sleeve"
+                        data-perspective="right">Right Sleeve</button>
+                    </div>
+                @{{ /hasSleeve }}
             @{{ /part }}
         </div>
 
