@@ -9465,28 +9465,7 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
-                    ub.user.firstName = obj.firstName;
-                    ub.user.lastName = obj.lastName;
-
-                    var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
-
-                    $.ajax({
-                        
-                        url: _url,
-                        type: "PATCH",
-                        data: JSON.stringify(_postData),
-                        datatype: "json",
-                        crossDomain: true,
-                        contentType: "applicatin/json",
-                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-
-                        success: function(response) {
-                            window.location.href = '/my-profile';
-                        }
-
-                    });
-
+                    $('span.update-profile').removeAttr('disabled');
                 }
                 
             });
@@ -9531,6 +9510,7 @@ $(document).ready(function () {
                     repID: _repID,
 
                 });
+    
 
             });
 
