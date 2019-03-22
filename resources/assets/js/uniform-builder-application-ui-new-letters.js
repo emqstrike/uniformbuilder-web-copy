@@ -1879,7 +1879,10 @@ $(function() {
             appBlock.replaceWith(_htmlBuilder);
         }
 
-        setTimeout(function () { $('.modifier_main_container').scrollTo($('li[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 200)
+        setTimeout(function () { 
+            $('.modifier_main_container').scrollTo($('li.new-application-container'));
+            $(".new-application-container button.show-add-application-options").trigger("click");
+        }, 200)
 
         /// Applications Color Events
 
