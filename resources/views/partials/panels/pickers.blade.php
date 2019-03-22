@@ -76,6 +76,29 @@
                     </div> <!-- cd-filter-block -->
                     <!-- end Gender -->
 
+                    <!-- Gender -->
+                    <div class="cd-filter-block">
+                        <h4>Uniform Type</h4>
+
+                        <ul class="cd-filter-content cd-filters list">
+                            <li>
+                                <input class="filter" type="radio" name="uniformTypeButton" id="" checked>
+                                <label class="radio-label" for="men">Sports</label>
+                            </li>
+
+                            <li>
+                                <input class="filter" type="radio" name="uniformTypeButton" id="">
+                                <label class="radio-label" for="women">Apparel</label>
+                            </li>
+
+                            <li>
+                                <input class="filter" type="radio" name="uniformTypeButton" id="">
+                                <label class="radio-label" for="women">eSports</label>
+                            </li>
+                        </ul> <!-- cd-filter-content -->
+                    </div> <!-- cd-filter-block -->
+                    <!-- end Gender -->
+
                     <!-- Sports -->
                     <div class="cd-filter-block">
                         <h4>Sports</h4>
