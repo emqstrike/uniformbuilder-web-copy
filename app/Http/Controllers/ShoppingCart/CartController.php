@@ -40,8 +40,7 @@ class CartController extends Controller
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
-            'logged_in_token' => "abcde" // erase this after
+            'password' => bcrypt($request->get('password'))
         ]);
 
         if ($user instanceof User)
