@@ -111,7 +111,7 @@
                             <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
                             <td class="td-assigned-sales-rep">
                                 @if (! $order->factory_order_id)
-                                    <select class="form-control rep-id" name="rep-id">
+                                    <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
                                     </select>
                                 @endif
