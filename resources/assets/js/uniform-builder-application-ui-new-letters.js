@@ -33,8 +33,12 @@ ApplicationPanel.events = {
         if (ApplicationPanel.events.init_global_events === 0) {
             // For adding of Application
             $("#primary_options_container").on('click', '.new-application-container .show-add-application-options', _this.showAddApplicationBlock);
+            // Add another account
+            $("#primary_options_container").on('click', '.add-another-application-container .add-another-application', _this.showAddAnotherApplication);
             // Cancel Adding
             $("#primary_options_container").on('click', '.add-new-application-block .cancel-adding-application', _this.onCancelAddApplication);
+            // Cancel Adding another account
+            $("#primary_options_container").on('click', '.add-another-application-container .cancel-adding-another-application', _this.onCancelAddAnotherApplication);
             // On Add Application
             $("#primary_options_container").on('click', '.add-new-application-block .add-new-application', _this.onAddNewApplication);
             // On Select Design type
@@ -53,6 +57,29 @@ ApplicationPanel.events = {
             $("#application-list-modal").on('click', 'li.layer', _this.onClickApplicationLayer);
             ApplicationPanel.events.init_global_events = 1;
         }
+    },
+
+    showAddAnotherApplication: function() {
+        $(".container-add-another-view-application").hide();
+        $(".container-add-view-application").show();
+        var title = $(this).data("application-title");
+        var type = $(this).data("application-type");
+        
+        var data = ub.funcs.getNewApplicationContainer(title, type);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-another-application', data);
+
+        $(".modifier_main_container .add-another-application-block").html("");
+        $(".modifier_main_container .add-application-block").html("");
+        $(".modifier_main_container .add-another-application-block").html(_htmlBuilder);
+
+        // Activate first button
+        $(".design-type-container button.design-type-button").first().addClass("uk-active");
+        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
+    },
+
+    onCancelAddAnotherApplication: function() {
+        $(".container-add-another-view-application").show();
+        $(".modifier_main_container .add-another-application-block").html("");
     },
 
     onViewApplicationOptions: function() {
@@ -245,10 +272,14 @@ ApplicationPanel.events = {
 
     showAddApplicationBlock: function() {
         $(".container-add-view-application").hide();
+        $(".container-add-another-view-application").show();
         var type = $(this).data("application-type");
         var title = $(this).data("application-title").toLowerCase();
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer(title, type);
+        var data = ub.funcs.getNewApplicationContainer(title, type);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', data);
+
+        $(".modifier_main_container .add-another-application-block").html("");
         $(".modifier_main_container .add-application-block").html("");
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
@@ -1024,7 +1055,7 @@ $(function() {
 
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
-        var _htmlBuilder = '';
+        var templateData
         // Check if has sleeve
         var hasSleeve = _.find(ub.funcs.getFreeFormLayers(), {name: "Sleeve"});
         
@@ -1034,8 +1065,6 @@ $(function() {
                 return index;
             }
         });
-
-        console.log(parts)
 
         if (! ub.funcs.isTackleTwill()) {
             var types = [];
@@ -1083,20 +1112,16 @@ $(function() {
                 isShow: isShow,
                 type: _designType
             }
-
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData);
         } else {
-            var templateData = {
+            templateData = {
                 isTwill: true,
                 title: _title,
                 disabled: 'disabled',
                 type: _designType
             };
-
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData)
         }
 
-        return _htmlBuilder;
+        return templateData;
     }
 
     ub.funcs.activateApplicationsMascots = function (application_id) {
@@ -1881,7 +1906,7 @@ $(function() {
 
         setTimeout(function () { 
             $('.modifier_main_container').scrollTo($('li.new-application-container'));
-            $(".new-application-container button.show-add-application-options").trigger("click");
+            $(".add-another-application-container button.add-another-application").trigger("click");
         }, 200)
 
         /// Applications Color Events
