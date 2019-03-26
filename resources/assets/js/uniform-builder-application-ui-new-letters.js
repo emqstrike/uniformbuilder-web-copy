@@ -626,6 +626,10 @@ $(function() {
                 }
             }
         });
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
+        }
     };
 
     ub.funcs.startNewApplicationNumbers = function () {
@@ -701,6 +705,10 @@ $(function() {
                 }
             }
         });
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
+        }
     }
 
     ub.funcs.activateApplicationsLetters = function (application_id) {
@@ -1897,15 +1905,14 @@ $(function() {
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container ul.application-container').append(_htmlBuilder);
-            console.log("appblock 0")
         } else {
             // Existing application
-            console.log("appblock !0")
             appBlock.replaceWith(_htmlBuilder);
         }
 
         setTimeout(function () { 
             $('.modifier_main_container').scrollTo($('li.new-application-container'));
+            $(".add-another-application-container").show();
             $(".add-another-application-container button.add-another-application").trigger("click");
         }, 200)
 

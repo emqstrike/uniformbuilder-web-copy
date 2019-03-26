@@ -206,6 +206,10 @@ $(function() {
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('mascots');
         }
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
+        }
         // initializer
         ub.funcs.initializer();
     };

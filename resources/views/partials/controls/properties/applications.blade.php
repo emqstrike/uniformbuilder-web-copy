@@ -179,7 +179,7 @@
         <li class="add-another-application-container">
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
                 <div class="uk-width-1-1 uk-flex-center">
-                    <button class="uk-button uk-button-small uk-width-1-2 uk-button-default uk-text-capitalize add-another-application" data-application-type="letters" data-application-title="letter" type="button">
+                    <button class="uk-button uk-button-small uk-width-1-2 uk-button-default uk-text-capitalize add-another-application" data-application-type="letters" data-application-title="name" type="button">
                         <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add another name
                     </button>
                 </div>
@@ -188,6 +188,7 @@
             </div>
         </li>
     </ul>
+    
 </script>
 
 <script type="text/mustache" id="m-applications-numbers-uikit">
@@ -645,12 +646,12 @@
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
             <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice add-new-application" type="button">
+                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate btn-selection-choice add-new-application" type="button">
                     <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add Another @{{ title }}
                 </button>
             </div>
             <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize cancel-adding-another-application" type="button">
+                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate cancel-adding-another-application" type="button">
                     <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
                 </button>
             </div>
