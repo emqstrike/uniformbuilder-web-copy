@@ -1911,7 +1911,7 @@ $(function() {
         }
 
         setTimeout(function () { 
-            $('.modifier_main_container').scrollTo($('li.new-application-container'));
+            $('.modifier_main_container').scrollTo($('li[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew'));
             $(".add-another-application-container").show();
             $(".add-another-application-container button.add-another-application").trigger("click");
         }, 200)
