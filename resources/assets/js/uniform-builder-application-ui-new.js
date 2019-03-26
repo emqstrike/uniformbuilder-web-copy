@@ -130,7 +130,6 @@ $(function() {
 
         // clear contents
         $('#mod_primary_panel > .modifier_main_container').empty();
-        $('.modifier_main_container').scrollTop(0);
 
         // get applications and filter
         var _Applications = ub.current_material.settings.applications;
@@ -144,7 +143,6 @@ $(function() {
 
         // getting only data that i need
         _.map(_filteredApplications, function (i) {
-
             if (i.application_type === 'embellishments') {
                 var objCustom = {
                     thumbnail: i.embellishment.thumbnail,

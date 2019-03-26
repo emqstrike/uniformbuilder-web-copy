@@ -1976,7 +1976,7 @@ $(document).ready(function () {
                     if (ub.data.useScrollingUI) {
                         ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
-                        ub.funcs.activateApplications(application.code);
+                        ub.funcs.activateApplications(_settingsObject.code);
                     }
 
                 } else {
@@ -5085,7 +5085,7 @@ $(document).ready(function () {
 
     ub.funcs.changeSize = function (size, settingsObj) {
 
-        var _id = settingsObj.code;
+        var _id = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
 
         settingsObj.font_size = parseFloat(size);
@@ -8856,6 +8856,8 @@ $(document).ready(function () {
 
             var _applicationType = 'mascot';
             var _mascotID = '181';
+
+            if (ub.current_material.material.brand === "richardson") { _mascotID = '1584'; }
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -12452,11 +12454,14 @@ $(document).ready(function () {
 
                         var _partToMakeActive =  $perspective.text().toTitleCase();
 
+                        var partCount = 0; 
+
                         $('div.part-container span').each(function() {
                             
                             var part = $(this).text();
 
-                            if (part.indexOf(_partToMakeActive) !== -1) {
+                            if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                partCount++;
                                 _partToMakeActive = part;
                             }
 
@@ -12999,11 +13004,7 @@ $(document).ready(function () {
         _htmlBuilder += "</div>";
         _deactivated = '';
 
-        if (ub.data.useScrollingUI) {
-            $('.modifier_main_container').html(_htmlBuilder);
-        } else {
-            $('.modifier_main_container').append(_htmlBuilder);
-        }
+        $('.modifier_main_container').append(_htmlBuilder);
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {
