@@ -45,7 +45,7 @@ class CartItemPlayerController extends Controller
                     'size' => $cart_item_player->size,
                     'last_name' => $cart_item_player->last_name,
                     'number' => $cart_item_player->number,
-                    'price' => (int) $cart_item_player->price,
+                    'price' => (float) $cart_item_player->price,
                     'quantity' => (int) $cart_item_player->quantity
                 ]
             ] :

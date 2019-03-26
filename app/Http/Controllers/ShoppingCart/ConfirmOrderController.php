@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ShoppingCart;
 
 use App\Auth\Auth;
+use App\CurrencyConversion\CommonCurrency;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\ShoppingCart\Cart;
@@ -17,7 +18,10 @@ class ConfirmOrderController extends Controller
         $billing_information = $user->billing_information;
         $shipping_information = $user->shipping_information;
 
-        return view('shopping-cart.confirm-order', compact('client_information', 'billing_information', 'shipping_information'));
+        $currency_code_used = config("customizer.currency_code_used");
+        $currentCurrency = CommonCurrency::getCurrency($currency_code_used);
+
+        return view('shopping-cart.confirm-order', compact('client_information', 'billing_information', 'shipping_information', 'currentCurrency'));
     }
 
     public function confirmOrder()

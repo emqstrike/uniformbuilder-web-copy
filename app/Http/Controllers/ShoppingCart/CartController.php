@@ -4,6 +4,8 @@ namespace App\Http\Controllers\ShoppingCart;
 
 use App\APIClients\UsersAPIClient;
 use App\Auth\Auth;
+use App\CurrencyConversion\CommonCurrency;
+use App\CurrencyConversion\CurrencyConversion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\ShoppingCart\CreateUserViaCartRequest;
@@ -26,7 +28,12 @@ class CartController extends Controller
         $cart_token = \Session::get('cart_token');
         $cart = Cart::findByToken($cart_token);
 
-        return view('shopping-cart.cart', compact('cart'));
+        $currency_code_used = config("customizer.currency_code_used");
+
+        $current_rate = CurrencyConversion::currentConversionRate($currency_code_used);
+        $currentCurrency = CommonCurrency::getCurrency($currency_code_used);
+
+        return view('shopping-cart.cart', compact("cart", "current_rate", "currentCurrency"));
     }
 
     public function createUserViaCart(Request $request)

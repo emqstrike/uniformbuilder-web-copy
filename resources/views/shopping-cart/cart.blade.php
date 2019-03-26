@@ -247,7 +247,7 @@
                 <% _.each(all_player_sizes, function(size) { %>
                     <% var selected_players = _.filter(players, {size: size}) %>
                     <li role="presentation" class="<%= all_player_sizes[0] == size ? 'active' : '' %>">
-                        <a href="#size-<%= size.replace(/(\s)/g, "-").replace(/(\(|\))/g, "") %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency + selected_players[0].price.toFixed(2) %></a>
+                        <a href="#size-<%= size.replace(/(\s)/g, "-").replace(/(\(|\))/g, "") %>" aria-controls="tab" role="tab" data-toggle="tab"><%= size %> - <%= currency_symbol + selected_players[0].price %></a>
                     </li>
                 <% }); %>
             </ul>
@@ -293,7 +293,7 @@
             <% if (typeof sizes.adult !== "undefined") { %>
                 <optgroup label="Adult">
                     <% _.each(sizes.adult, function(size) { %>
-                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency + size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: (size.msrp * currency.rate).toFixed(2)}) %>'><%= size.size %> - <%= currency.symbol + (size.msrp * currency.rate).toFixed(2) %></option>
                     <% }); %>
                 </optgroup>
             <% } %>
@@ -301,7 +301,7 @@
             <% if (typeof sizes.youth !== "undefined") { %>
                 <optgroup label="Youth">
                     <% _.each(sizes.youth, function(size) { %>
-                        <option value='<%= JSON.stringify({size: size.size, price: size.msrp}) %>'><%= size.size %> - <%= currency + size.msrp %></option>
+                        <option value='<%= JSON.stringify({size: size.size, price: (size.msrp * currency.rate).toFixed(2)}) %>'><%= size.size %> - <%= currency.symbol + (size.msrp * currency.rate).toFixed(2) %></option>
                     <% }); %>
                 </optgroup>
             <% } %>
@@ -333,7 +333,12 @@
 
 <script type="text/javascript">
 window.cart = {
-    api_host: "{{ config('customizer.api_host') }}"
+    api_host: "{{ config('customizer.api_host') }}",
+    current_rate: "{{ $current_rate }}",
+    current_currency: {
+        rate: "{{ $current_rate }}",
+        symbol: "{{ $currentCurrency->symbol_native }}"
+    }
 };
 </script>
 <script type="text/javascript" src="/js/shopping-cart/cart.js"></script>

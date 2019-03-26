@@ -1,4 +1,8 @@
 /**
+ * Required global object
+ * - confirmOrder
+ *     - current_currency_symbol
+ *
  * File dependencies
  * - public/js/shopping-cart/shopping-cart.js
  */
@@ -14,7 +18,7 @@ var ConfirmOrder = {
 
             order_list.append(tmpl({
                 orders: ConfirmOrder.cart_items,
-                currency: "$"
+                currency: confirmOrder.current_currency_symbol
             }));
 
             var total_items_fee = _.pluck(ConfirmOrder.cart_items, "total_price").reduce(function(n1, n2) { return n1 + n2; });
@@ -55,7 +59,7 @@ var ConfirmOrder = {
             message: tmpl({
                 players: cart_item.players,
                 all_player_sizes: all_player_sizes,
-                currency: "$"
+                currency: confirmOrder.current_currency_symbol
             }),
             size: "large"
         });

@@ -2,6 +2,10 @@
  * Required global object
  * - cart
  *     - api_host
+ *     - current_rate
+ *     - current_currency
+ *         - rate
+ *         - symbol
  *
  * File dependencies
  * - public/js/shopping-cart/shopping-cart.js
@@ -118,7 +122,10 @@ var Cart = {
                 var tmpl = _.template($('#sizes-tmpl').html());
                 input_parent.append(tmpl({
                     sizes: pricing.properties,
-                    currency: "$"
+                    currency: {
+                        symbol: cart.current_currency.symbol,
+                        rate: cart.current_currency.rate
+                    }
                 }));
 
                 var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());
@@ -198,7 +205,7 @@ var Cart = {
             message: tmpl({
                 players: cart_item.players,
                 all_player_sizes: all_player_sizes,
-                currency: "$"
+                currency_symbol: cart.current_currency.symbol
             }),
             size: "large"
         });
@@ -300,7 +307,7 @@ var Cart = {
 
         addPlayerBootbox.on("shown.bs.modal", function() {
             $('.add-player-modal form :input[name="last_name"]').focus();
-        })
+        });
     },
 
     onEditPlayer: function() {

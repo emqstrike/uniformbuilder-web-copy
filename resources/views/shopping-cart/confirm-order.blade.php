@@ -268,6 +268,9 @@
 </script>
 
 <script type="text/javascript">
+    window.confirmOrder = {
+        current_currency_symbol: "{{ $currentCurrency->symbol_native }}"
+    };
 </script>
 <script type="text/javascript" src="/js/shopping-cart/confirm-order.js"></script>
 @endsection
