@@ -136,4 +136,16 @@ class MaterialsOptionsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function getMaterialOption($id)
+    {
+        $response = $this->get('material_option/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success) {
+            return $result->material_option;
+        }
+        
+        return null;
+    }
 }

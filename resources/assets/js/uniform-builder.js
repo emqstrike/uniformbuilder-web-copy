@@ -1974,8 +1974,11 @@ $(document).ready(function () {
         var _set = [];
         var _app = view.application;
 
+        // disable `number` and `player_name` for Sublimated Socks
+        var isNotSocks = !ub.funcs.isSocks();
+
         if (_app.hasLogo === 1 || ub.funcs.isSublimated()) { _set.push ('logo'); }
-        if (_app.hasNumber === 1 || ub.funcs.isSublimated()) { _set.push ('number'); }
+        if (_app.hasNumber === 1 || ub.funcs.isSublimated() && isNotSocks) { _set.push ('number'); }
         if (_app.hasPlayerName === 1 || ub.funcs.isSublimated()) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1 || ub.funcs.isSublimated()) { _set.push ('team_name'); }
         if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }
@@ -6852,15 +6855,14 @@ $(document).ready(function () {
 
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
-
-        var _sorted = _.sortBy(items, function (item) { 
-
+        var _sorted = _.sortBy(items, function (item) {
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
-
+            
             // Blank styles goes to the bottom ...
             if (parseInt(item.is_blank) === 1) { _weight += 1000; }
-
+            // Move materials with USA name to the last under Basketball category only
+            if ((item.uniform_category === "Basketball") && (item.neck_option.indexOf('USA') >= 0)){_weight += 100;}
             // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
             // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
             if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
