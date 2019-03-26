@@ -1,5 +1,4 @@
 function RichardsonSkin() {
-
 }
 
 RichardsonSkin.init = function() {
@@ -78,16 +77,17 @@ RichardsonSkin.events = {
 
 RichardsonSkin.funcs = {
     setupSkin: function(color) {
-        this.setupFooter();
         this.enableRichardsonNavigator();
         this.removeSpecialModifier()
         this.setupRightPanelHeader();
         this.removeNavigationHeader();
         var _this = this;
+        
         _.delay(function() {
             $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
             _this.changeStageBackgroundColor(color);
             _this.setupSidePanelToolbar();
+            _this.setupFooter();
 
             // Bind events
             RichardsonLogin.events.init();
@@ -97,12 +97,6 @@ RichardsonSkin.funcs = {
 
     setupFooter: function() {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
-        $("#right-main-window.pane-main-window").css({
-            'height': '550px',
-            "background-color": "white",
-            "border": "1px solid #e6e6e6",
-            "width": "500px"
-        });;
 
         var richardson_footer = document.getElementById("m-richardson-footer");
         var render_footer = Mustache.render(richardson_footer.innerHTML);
