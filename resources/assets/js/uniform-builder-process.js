@@ -1427,11 +1427,12 @@ $(document).ready(function() {
     ub.funcs.pdfService = function (async, _data) {
 
         var pdfLink = null;
+        // https://34.214.34.246/api/upload
 
         $.ajax({
             async: async,
             data: JSON.stringify(_data),
-            url: "https://34.214.34.246/api/upload",
+            url: "https://pdf-generator.prolook.com/api/upload",
             dataType: "json",
             type: "POST",
             crossDomain: true,
