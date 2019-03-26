@@ -112,6 +112,12 @@ elixir(function(mix) {
             'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
+            'panels/application/LetterPanel.js',
+            'panels/application/NumbersPanel.js',
+            'panels/application/MascotPanel.js',
+            'panels/application/NewApplicationPanel.js',
+            'panels/application/ApplicationUtilities.js',
+            'panels/application/ApplicationEvent.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',

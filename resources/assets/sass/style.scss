@@ -480,6 +480,11 @@ img.custom-logo-upload-preview {
   background-repeat: no-repeat;
 }
 
+// Force to #FFF if W color code
+button[data-color-name="White"].palette {
+  background-color: #ffffff !important;
+}
+
 
 @media screen and (min-width: 640px) {
 

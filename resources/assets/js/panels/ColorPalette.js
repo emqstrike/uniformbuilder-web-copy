@@ -75,6 +75,6 @@ ColorPalette.funcs = {
             }
         }
 
-        return colors;
+        return _.sortBy(colors, 'order');
     }
 }

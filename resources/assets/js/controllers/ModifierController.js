@@ -204,31 +204,25 @@ ModifierController.prototype = {
     },
 
     letters: function() {
-        ub.funcs.startNewApplicationLetters();
+        LetterPanel.init();
         ub.funcs.enableRichardsonNavigator();
-        ApplicationPanel.events.init();
-        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 4;
 
         $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
-        ub.funcs.startNewApplicationNumbers();
+        NumbersPanel.init();
         ub.funcs.enableRichardsonNavigator();
-        ApplicationPanel.events.init();
-        ApplicationPanel.events.initGlobalEvents();
         ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
-        ub.funcs.startNewApplication();
+        MascotPanel.init();
         ub.funcs.enableRichardsonNavigator();
         ub.current_modifier = 6;
-        ApplicationPanel.events.initGlobalEvents();
-        ApplicationMascotPanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 
