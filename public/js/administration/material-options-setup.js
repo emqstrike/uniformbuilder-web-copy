@@ -63,7 +63,7 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.default-color', function() {
-        console.log('changed default color');
+        $(this).val($(this).val().toUpperCase());
         var color = $(this).val();
         var perspective = $(this).data('perspective');
         var name = $(this).data('name').toLowerCase();
