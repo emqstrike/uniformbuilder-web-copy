@@ -1,45 +1,58 @@
-function NewApplicationPanel() {
-	
-}
+/**
+ * NewApplicationPanel.js
+ * - handler for the adding new application
+ * @since March 26, 2019
+ * @author 
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
+ *
+ * Requirements:
+ * - jQuery
+ * - Mustache
+ *
+ * Usage:
+ *  For adding of new application
+ */
+
+function NewApplicationPanel() {}
 
 NewApplicationPanel.events = {
-	isInit: true,
+    isInit: true,
 
-	init: function() {
-		var _this = this;
-		if (NewApplicationPanel.events.isInit) {
-			// For adding of Application
-			$("#primary_options_container").on('click', '.new-application-container .show-add-application-options', _this.showAddApplicationBlock);
-			// Add another account
-			$("#primary_options_container").on('click', '.add-another-application-container .add-another-application', _this.showAddAnotherApplication);
-			// Cancel Adding
-			$("#primary_options_container").on('click', '.add-new-application-block .cancel-adding-application', _this.onCancelAddApplication);
-			// Cancel Adding another account
-			$("#primary_options_container").on('click', '.add-another-application-container .cancel-adding-another-application', _this.onCancelAddAnotherApplication);
-			// On Add Application
-			$("#primary_options_container").on('click', '.add-new-application-block .add-new-application', _this.onAddNewApplication);
-			// On Select Design type
-			$("#primary_options_container").on('click', '.design-type-container .design-type-button', _this.onSelectDesignType);
-			// On Select Perpective
-			$("#primary_options_container").on('click', '.perspective-container .perspective', _this.onSelectPerspective);
-			//On Select Uniform Part
-			$("#primary_options_container").on('click', '.parts-container .part', _this.onSelectPart);
-			// On Select part side
-			$("#primary_options_container").on('click', '.side-container .side', _this.onSelectPartSide);
+    init: function() {
+        var _this = this;
+        if (NewApplicationPanel.events.isInit) {
+            // For adding of Application
+            $("#primary_options_container").on('click', '.new-application-container .show-add-application-options', _this.showAddApplicationBlock);
+            // Add another account
+            $("#primary_options_container").on('click', '.add-another-application-container .add-another-application', _this.showAddAnotherApplication);
+            // Cancel Adding
+            $("#primary_options_container").on('click', '.add-new-application-block .cancel-adding-application', _this.onCancelAddApplication);
+            // Cancel Adding another account
+            $("#primary_options_container").on('click', '.add-another-application-container .cancel-adding-another-application', _this.onCancelAddAnotherApplication);
+            // On Add Application
+            $("#primary_options_container").on('click', '.add-new-application-block .add-new-application', _this.onAddNewApplication);
+            // On Select Design type
+            $("#primary_options_container").on('click', '.design-type-container .design-type-button', _this.onSelectDesignType);
+            // On Select Perpective
+            $("#primary_options_container").on('click', '.perspective-container .perspective', _this.onSelectPerspective);
+            //On Select Uniform Part
+            $("#primary_options_container").on('click', '.parts-container .part', _this.onSelectPart);
+            // On Select part side
+            $("#primary_options_container").on('click', '.side-container .side', _this.onSelectPartSide);
 
-			// View Application List
-			$("#primary_options_container").on('click', '.view-application-list', _this.onViewApplicationList);
-			// Remove Application
-			$("#application-list-modal").on('click', '.remove-application-button', _this.removeApplicationOnList);
-			// Show location marker
-			$("#application-list-modal").on('click', '.show-location-markers', _this.onShowLocationMarker);
-			// On click on application
-			$("#application-list-modal").on('click', 'li.layer', _this.onClickApplicationLayer);
-			NewApplicationPanel.events.isInit = false;
-		}
-	},
+            // View Application List
+            $("#primary_options_container").on('click', '.view-application-list', _this.onViewApplicationList);
+            // Remove Application
+            $("#application-list-modal").on('click', '.remove-application-button', _this.removeApplicationOnList);
+            // Show location marker
+            $("#application-list-modal").on('click', '.show-location-markers', _this.onShowLocationMarker);
+            // On click on application
+            $("#application-list-modal").on('click', 'li.layer', _this.onClickApplicationLayer);
+            NewApplicationPanel.events.isInit = false;
+        }
+    },
 
-	showAddAnotherApplication: function() {
+    showAddAnotherApplication: function() {
         $(".container-add-another-view-application").hide();
         $(".container-add-view-application").show();
         var title = $(this).data("application-title");

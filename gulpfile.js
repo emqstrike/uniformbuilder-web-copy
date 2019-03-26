@@ -93,10 +93,6 @@ elixir(function(mix) {
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
             'uniform-builder-ui-functions.js',
-
-            'uniform-builder-application-ui-new.js',
-            'uniform-builder-application-ui-new-letters.js',
-
             'models/Accent.js',
 
             // Custom Panels

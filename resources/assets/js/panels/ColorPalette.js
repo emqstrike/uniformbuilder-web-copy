@@ -1,9 +1,4 @@
-
-
-function ColorPalette () {
-
-}
-
+function ColorPalette () {}
 
 ColorPalette.funcs = {
 

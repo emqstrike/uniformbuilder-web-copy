@@ -2,7 +2,9 @@
  * PropertiesPanel.js
  * - handler for the properties panel
  * @since October 16, 2018
- * @author Romack Natividad <romack@qstrike.com>
+ * @author 
+ * - Romack Natividad <romack@qstrike.com>
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
  *
  * Requirements:
  * - jQuery
