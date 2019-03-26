@@ -11,7 +11,8 @@ $(document).ready(function () {
 		secondary: 'all',
         tertiary: 'all',
         gender: '',
-        sportCategory: '',
+        sport: '',
+        uniformType: '',
         items: []
 	};
 
@@ -277,6 +278,8 @@ $(document).ready(function () {
 
             var blockPattern = $(this).find(':selected').data('item');
 
+            ub.filtersV2.tertiary = blockPattern.toString();
+
             if (blockPattern === "all") {
 
                 _newSet = ub.filtersV2.items;
@@ -312,6 +315,16 @@ $(document).ready(function () {
         });
     }
 
+    ub.funcs.triggerGenderTypeFilter = function () {
+        $('li input.gender-type[type=radio]').on('change', function (event) {
+            var gender = $(event.target).data('gender');
+            var uniformType = $('li input.uniform-type[name="uniformTypeButton"]:checked').data('category');
+
+            console.log('gender: ', gender);
+            console.log('uniformType: ', uniformType);
+        });
+    }
+
     ub.funcs.resetSecondaryBarFilter = function () {
     	$('a.picker-slink.selected').removeClass('selected');
     	$('li.filter a.picker-slink[data-type="all"]').addClass('selected');
@@ -320,6 +333,25 @@ $(document).ready(function () {
 
     ub.funcs.hidePrimaryBarFilter = function () {
     	$('div#topbar').hide();
+    }
+
+    ub.funcs.getActiveSportByGender = function () {
+        var sports = ub.data.activeSports.items;
+
+        var _one = 1;
+        if (window.ub.config.toString) { _one = "1"; }
+
+        // return _.filter(sports, function (sport) {
+        //     if (ub.filtersV2.gender == 'men') {
+        //         sport.active_male === _one && sport.active_type === 'active' && sport.thumbnail_male.length > 0 && sport.type === ub.filtersV2.
+        //     } else {
+
+        //     }
+        // });
+    }
+
+    ub.funcs.setSideBarSportFilter = function () {
+        $('#cd-block-pattern option:gt(0)').remove();
     }
 
     ub.funcs.sideBarFilterBlockPatternSelectOption = function () {
@@ -412,8 +444,12 @@ $(document).ready(function () {
         ub.filtersV2.gender = gender.toLowerCase();
     }
 
-    ub.funcs.setV2SportCategory = function (sport) {
-        ub.filtersV2.sportCategory = sport;
+    ub.funcs.setV2Sport = function (sport) {
+        ub.filtersV2.sport = sport;
+    }
+
+    ub.funcs.setV2UniformType = function (type) {
+        ub.filtersV2.uniformType = type;
     }
 
     ub.funcs.getPrimaryFilterItems = function (type) {

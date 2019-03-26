@@ -59,12 +59,12 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" type="radio" name="genderButton" checked>
+                                <input class="filter gender-type" type="radio" name="genderButton" data-gender="men" checked>
                                 <label class="radio-label" for="men">Men</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="genderButton">
+                                <input class="filter gender-type" type="radio" name="genderButton" data-gender="women">
                                 <label class="radio-label" for="women">Women</label>
                             </li>
 
@@ -82,17 +82,17 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton" checked>
+                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="sports" checked>
                                 <label class="radio-label" for="sports">Sports</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton">
+                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="apparel">
                                 <label class="radio-label" for="apparel">Apparel</label>
                             </li>
 
                             <li>
-                                <input class="filter" type="radio" name="uniformTypeButton">
+                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="esports">
                                 <label class="radio-label" for="esports">eSports</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
@@ -105,12 +105,8 @@
                         
                         <div class="cd-filter-content">
                             <div class="cd-select cd-filters">
-                                <select name="" id="selectSport">
-                                    <option value="">Choose an option</option>
-                                    <option value=".option1">Option 1</option>
-                                    <option value=".option2">Option 2</option>
-                                    <option value=".option3">Option 3</option>
-                                    <option value=".option4">Option 4</option>
+                                <select name="sportSelect" id="cd-sport">
+                                    <option value="">Choose sport</option>
                                 </select>
                             </div> <!-- cd-select -->
                         </div> <!-- cd-filter-content -->

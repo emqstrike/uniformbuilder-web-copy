@@ -6676,8 +6676,11 @@ $(document).ready(function () {
             // Version 2 FILTER
             if (ub.picker.isNew) {
 
+                var uniformType = _.find(ub.data.activeSports.items, {name: _item}).type;
+
                 ub.funcs.setV2Gender(_gender);
-                ub.funcs.setV2SportCategory(_item);
+                ub.funcs.setV2Sport(_item);
+                ub.funcs.setV2UniformType(uniformType);
                 ub.funcs.resetSecondaryBarFilter();
 
             }

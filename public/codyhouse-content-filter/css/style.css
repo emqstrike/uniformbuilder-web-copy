@@ -461,7 +461,7 @@ xcustom form elements
   cursor: pointer;
 }
 .no-touch .cd-filter-block h4:hover {
-  color: #41307c;
+  color: #000;
 }
 .cd-filter-block h4::before {
   /* arrow */
