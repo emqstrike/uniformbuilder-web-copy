@@ -33,8 +33,12 @@ ApplicationPanel.events = {
         if (ApplicationPanel.events.init_global_events === 0) {
             // For adding of Application
             $("#primary_options_container").on('click', '.new-application-container .show-add-application-options', _this.showAddApplicationBlock);
+            // Add another account
+            $("#primary_options_container").on('click', '.add-another-application-container .add-another-application', _this.showAddAnotherApplication);
             // Cancel Adding
             $("#primary_options_container").on('click', '.add-new-application-block .cancel-adding-application', _this.onCancelAddApplication);
+            // Cancel Adding another account
+            $("#primary_options_container").on('click', '.add-another-application-container .cancel-adding-another-application', _this.onCancelAddAnotherApplication);
             // On Add Application
             $("#primary_options_container").on('click', '.add-new-application-block .add-new-application', _this.onAddNewApplication);
             // On Select Design type
@@ -53,6 +57,29 @@ ApplicationPanel.events = {
             $("#application-list-modal").on('click', 'li.layer', _this.onClickApplicationLayer);
             ApplicationPanel.events.init_global_events = 1;
         }
+    },
+
+    showAddAnotherApplication: function() {
+        $(".container-add-another-view-application").hide();
+        $(".container-add-view-application").show();
+        var title = $(this).data("application-title");
+        var type = $(this).data("application-type");
+        
+        var data = ub.funcs.getNewApplicationContainer(title, type);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-another-application', data);
+
+        $(".modifier_main_container .add-another-application-block").html("");
+        $(".modifier_main_container .add-application-block").html("");
+        $(".modifier_main_container .add-another-application-block").html(_htmlBuilder);
+
+        // Activate first button
+        $(".design-type-container button.design-type-button").first().addClass("uk-active");
+        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
+    },
+
+    onCancelAddAnotherApplication: function() {
+        $(".container-add-another-view-application").show();
+        $(".modifier_main_container .add-another-application-block").html("");
     },
 
     onViewApplicationOptions: function() {
@@ -245,9 +272,14 @@ ApplicationPanel.events = {
 
     showAddApplicationBlock: function() {
         $(".container-add-view-application").hide();
+        $(".container-add-another-view-application").show();
         var type = $(this).data("application-type");
+        var title = $(this).data("application-title").toLowerCase();
 
-        var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION', type);
+        var data = ub.funcs.getNewApplicationContainer(title, type);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', data);
+
+        $(".modifier_main_container .add-another-application-block").html("");
         $(".modifier_main_container .add-application-block").html("");
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
@@ -275,30 +307,14 @@ ApplicationPanel.events = {
             // Remove class from the currently active PART then change it to FRONT BODY
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
             $(".parts-container").find('button[data-id="Front Body"].part').addClass('uk-active')
-            ApplicationPanel.events.showSideOptions(false, '')
-
         } else if ($(this).data('id') === "back") {
-            // If BACK perspective is clicked
-            // Remove class from the currently active PART then change it to BACK BODY
-            // $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            // $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
-            ApplicationPanel.events.showSideOptions(false, '')
+            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+            $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
         } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
             // If LEFT or RIGHT perspective is clicked,
             var activePart = $(".parts-container").find('button.part.uk-active');
-            var parts = ['Front Body', 'Back Body'];
-            // If currently active PART is Front/Back Body,
-            if (parts.includes(activePart.data('id'))) {
-                // Change the active PART to SLEEVE
-                activePart.removeClass('uk-active')
-                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
-            }
-
-            if (activePart.length === 0) {
-                $(".parts-container").find('button[data-id="Sleeve"].part').addClass('uk-active');
-            }
-            // Show options for Sleeves, Side Panel, and Sleeve Insert
-            ApplicationPanel.events.showSideOptions(true, $(this).data('id'));
+            activePart.removeClass('uk-active')
+            $(".parts-container").find('button[data-id="Sleeve"][data-perspective="'+ view +'"].part').addClass('uk-active');
         }
 
         if (ub.active_view !== view) {
@@ -312,27 +328,16 @@ ApplicationPanel.events = {
     onSelectPart: function() {
         $(".parts-container").find("button.uk-active").removeClass('uk-active');
         var part = $(this).data("id");
+        console.log(part)
         $(this).addClass('uk-active');
 
-        if ($(this).data('id') === "Front Body") {
-            // Change the active perspective to FRONT
+        if (part === "Front Body") {
             $(".perspective-container").find('button[data-id="front"].perspective').trigger('click');
-            ApplicationPanel.events.showSideOptions(false, '')
-
-        } else if ($(this).data('id') === "Back Body"  || $(this).data('id') === "Bottom Panel") {
-            // Change the active perspective to BACk
+        } else if (part === "Back Body") {
             $(".perspective-container").find('button[data-id="back"].perspective').trigger('click');
-            ApplicationPanel.events.showSideOptions(false, '')
-        } else{
-            ApplicationPanel.events.showSideOptions(false, '')
-        }
-
-        var _left = _.find(ub.current_material.materials_options, {name: "Left " + part});
-
-        if (typeof _left !== "undefined") {
-            // If SLEEVE, SIDE PANEL, or SLEEVE INSERT is clicked,
-            var activePerspective = $(".perspective-container").find('button.perspective.uk-active');
-            $(".perspective-container").find('button[data-id="left"].perspective').trigger('click');
+        } else if (part === "Sleeve") {
+            var perspective = $(this).data("perspective");
+            $(".perspective-container").find('button[data-id="' + perspective + '"].perspective').trigger('click');
         }
     },
 
@@ -348,7 +353,10 @@ ApplicationPanel.events = {
         var _perspective = $('.perspective-container button.perspective.uk-active').data('id');
         var _part = $('.parts-container button.part.uk-active').data('id');
         var _type = $('.design-type-container button.design-type-button.uk-active').data('type');
-        var _side = $('.side-container button.side.uk-active').data('id');
+        var _side;
+        if (_part === "Sleeve") {
+            _side = $('.parts-container button.part.uk-active').data("perspective");
+        }
 
         ub.funcs.newApplication(_perspective, _part, _type, _side);
 
@@ -389,18 +397,6 @@ ApplicationPanel.events = {
             _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
 
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-        }
-    },
-
-    showSideOptions: function (show, id) {
-        if (show) {
-            $(".add-new-application-block").find('.sideOptions').removeClass('hide')
-            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
-            $(".add-new-application-block").find('.sideOptions button[data-id="' + id + '"].side').addClass('uk-active')
-        } else {
-            $(".add-new-application-block").find('.sideOptions').addClass('hide')
-            $(".add-new-application-block").find('.sideOptions .side.uk-active').removeClass('uk-active')
-            $(".add-new-application-block").find('.sideOptions button[data-id="na"].side').addClass('uk-active')
         }
     },
     // Application List
@@ -595,7 +591,7 @@ $(function() {
         // prepare data
         var templateData = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-            title: "Names",
+            title: "names",
             type: "letters",
             applications: _appData
         };
@@ -630,6 +626,10 @@ $(function() {
                 }
             }
         });
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
+        }
     };
 
     ub.funcs.startNewApplicationNumbers = function () {
@@ -671,7 +671,7 @@ $(function() {
 
         // prepare data
         var templateData = {
-            title: "NUMBERS",
+            title: "numbers",
             type: "numbers",
             applications: _appData,
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : ''
@@ -705,6 +705,10 @@ $(function() {
                 }
             }
         });
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
+        }
     }
 
     ub.funcs.activateApplicationsLetters = function (application_id) {
@@ -1059,7 +1063,17 @@ $(function() {
 
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
-        var _htmlBuilder = '';
+        var templateData
+        // Check if has sleeve
+        var hasSleeve = _.find(ub.funcs.getFreeFormLayers(), {name: "Sleeve"});
+        
+        // Disregard Sleeve
+        var parts = _.filter(ub.funcs.getFreeFormLayers(), function(index) {
+            if (index.name !== "Sleeve") {
+                return index;
+            }
+        });
+
         if (! ub.funcs.isTackleTwill()) {
             var types = [];
             var isShow;
@@ -1084,11 +1098,11 @@ $(function() {
             } else if (_designType === 'mascots') {
                 types.push({
                     type: 'mascot',
-                    name: 'Stock Mascot',
+                    name: 'Stock',
                 });
                 types.push({
                     type: 'embellishments',
-                    name: 'Custom Mascot',
+                    name: 'Custom',
                 });
                 isShow = true;
             }
@@ -1101,24 +1115,21 @@ $(function() {
                 perspective: true,
                 part: true,
                 side: true,
-                partsData: ub.funcs.getFreeFormLayers(),
+                partsData: parts,
+                hasSleeve: hasSleeve.length === 0 ? false : true,
                 isShow: isShow,
                 type: _designType
             }
-
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData);
         } else {
-            var templateData = {
+            templateData = {
                 isTwill: true,
                 title: _title,
                 disabled: 'disabled',
                 type: _designType
             };
-
-            _htmlBuilder = ub.utilities.buildTemplateString('#m-add-new-application', templateData)
         }
 
-        return _htmlBuilder;
+        return templateData;
     }
 
     ub.funcs.activateApplicationsMascots = function (application_id) {
@@ -1894,14 +1905,16 @@ $(function() {
         if (appBlock.length === 0) {
             // New application
             $('.modifier_main_container ul.application-container').append(_htmlBuilder);
-            console.log("appblock 0")
         } else {
             // Existing application
-            console.log("appblock !0")
             appBlock.replaceWith(_htmlBuilder);
         }
 
-        setTimeout(function () { $('.modifier_main_container').scrollTo($('li[data-application-id=' + _settingsObject.code + '].applicationUIBlockNew')) }, 200)
+        setTimeout(function () { 
+            $('.modifier_main_container').scrollTo($('li[data-application-id="' + _settingsObject.code + '"].applicationUIBlockNew'));
+            $(".add-another-application-container").show();
+            $(".add-another-application-container button.add-another-application").trigger("click");
+        }, 200)
 
         /// Applications Color Events
 

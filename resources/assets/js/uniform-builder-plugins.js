@@ -1187,6 +1187,9 @@
 
 
     $.ub.create_mascot = function (input_object) {
+        if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
+            var _teamColors = ub.data.secondaryColorPalette;
+        }
 
         var sprite;
         var application = input_object.application;
@@ -1251,33 +1254,41 @@
         // }
 
         if (ub.styleValues.mascotScales.hasValues()) {
-
             var _result = ub.styleValues.mascotScales.getScale(settings_obj.size);
 
             if(typeof _result === "undefined") {
-
-                // Use Defaults if theres no record 
+                // Use Defaults if theres no record
                 if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
-
                     var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
-
-                    ub.utilities.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                    ub.utilities.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');
                     scale_settings = _scaleSettings.scale;
-
-                } 
-
+                }
             }
 
             scale_settings = _result;
-
         }
 
         _.each(mascot.layers_properties, function(layer, index) {
+            var colorObject = ub.funcs.getColorByColorCode(layer.default_color);
 
             var mascot_layer = ub.pixi.new_sprite(layer.filename);
+            if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
+                var checkColor = _.find(_teamColors, {color_code: colorObject.color_code});
 
-            mascot_layer.tint = parseInt(layer.default_color,16);
-            mascot_obj.layers_properties[index].color = mascot_layer.tint; 
+                if (typeof checkColor !== "undefined") {
+                    mascot_layer.tint = parseInt(colorObject.hex_code, 16);
+                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
+                } else {
+                    mascot_layer.tint = parseInt(_teamColors[1].hex_code, 16);
+                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
+                    mascot_obj.layers_properties[index].default_color = _teamColors[1].color_code;
+                }
+
+            } else {
+                mascot_layer.tint = parseInt(colorObject.hex_code, 16);
+                mascot_obj.layers_properties[index].color = mascot_layer.tint;
+            }
+
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
@@ -1290,9 +1301,9 @@
             }
 
         });
-        
+
         container.scale = new PIXI.Point(0.15, 0.15);
-        
+
         sprite = container;
 
         ub.current_material.containers[application.id] = {};

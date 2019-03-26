@@ -45,6 +45,11 @@ PropertiesPanel.prototype = {
     initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         _.map(this.modifiers, function(modifier) {
+            if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
+                modifier.alias = modifier.name.replace(" Body", "");
+            } else {
+                modifier.alias = modifier.name;
+            }
             var _modifier = ub.funcs.getModifierByIndex(modifier.index);
             var _names = ub.funcs.ui.getAllNames(_modifier.name);
             var titleNameFirstMaterial = _names[0].toTitleCase();

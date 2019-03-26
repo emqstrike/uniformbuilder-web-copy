@@ -25,35 +25,6 @@ $(document).ready(function() {
     };
 
     ub.funcs.setupSidePanelToolbar = function() {
-        ub.front_view.visible = true;
-        ub.back_view.visible = true;
-        ub.left_view.visible = true;
-        ub.right_view.visible = true;
-
-        // Setup perspective
-        var perspectives = [
-            {
-                "perspective": "front",
-                "image": ub.getThumbnailImage("front_view")
-            },
-            {
-                "perspective": "back",
-                "image": ub.getThumbnailImage("back_view")
-            },
-            {
-                "perspective": "left",
-                "image": ub.getThumbnailImage("left_view")
-            },
-            {
-                "perspective": "right",
-                "image": ub.getThumbnailImage("right_view")
-            }
-        ];
-
-        var template = document.getElementById("m-left-panel-toolbar");
-        var rendered_template = Mustache.render(template.innerHTML, {perspectives: perspectives});
-        $("div#left-side-toolbar").html(rendered_template);
-
         // Add CSS in left side toolbar
         $("div#left-side-toolbar").css({
             "top": ub.config.isHeaderVisible ? '220px' : "100px",
@@ -72,8 +43,10 @@ $(document).ready(function() {
     }
 
     ub.funcs.handlePerspectiveEvent = function() {
-        $("div#left-side-toolbar .perspective").on('click', '.change-perspective-button', function(event) {
+        $("div#left-side-toolbar").on('click', '.perspective .change-perspective-button', function(event) {
             event.preventDefault();
+            $(".perspective a.active").removeClass('active');
+            $(this).addClass("active")
             /* Act on the event */
             var view = $(this).data('perspective');
             if (ub.active_view !== view) {
@@ -156,7 +129,6 @@ $(document).ready(function() {
 
     ub.funcs.changeStage = function() {
         ub.current_modifier = 1;
-        $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
 
         $("div#left-side-toolbar").html("")
         $("div.customizer-uniform-information").html("");
@@ -171,6 +143,7 @@ $(document).ready(function() {
 
 
         _.delay(function() {
+            $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
             ub.funcs.setupSidePanelToolbar();
             ub.funcs.handlePerspectiveEvent();
             $("#main_container").css({
@@ -204,4 +177,73 @@ $(document).ready(function() {
         return category;
     }
 
+    ub.funcs.richardsonLeftPanelAutoUpdate = function() {
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+
+        if (Worker) {
+            var worker = new Worker('/workers/image-worker.js');
+            worker.postMessage([
+                {
+                    image: ub.getThumbnailImage("front_view"),
+                    perspective: "front"
+                },
+                {
+                    image: ub.getThumbnailImage("back_view"),
+                    perspective: "back"
+                },
+                {
+                    image: ub.getThumbnailImage("left_view"),
+                    perspective: "left"
+                },
+                {
+                    image: ub.getThumbnailImage("right_view"),
+                    perspective: "right"
+                },
+            ]);
+
+            worker.onmessage = function(e) {
+                var template = document.getElementById("m-left-panel-toolbar");
+                var rendered_template = Mustache.render(template.innerHTML, {perspectives: e.data});
+                $("div#left-side-toolbar").html("");
+                $("div#left-side-toolbar").html(rendered_template);
+                $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
+                console.log("Updating Uniform Thumbnail via worker")
+            }
+        } else {
+            // Setup perspective
+            var front = ub.getThumbnailImage("front_view");
+            var back = ub.getThumbnailImage("back_view");
+            var left = ub.getThumbnailImage("left_view");
+            var right = ub.getThumbnailImage("right_view");
+
+            var perspectives = [
+               {
+                   "perspective": "front",
+                   "image": front
+               },
+               {
+                   "perspective": "back",
+                   "image": back
+               },
+               {
+                   "perspective": "left",
+                   "image": left
+               },
+               {
+                   "perspective": "right",
+                   "image": right
+               }
+            ];
+
+            var template = document.getElementById("m-left-panel-toolbar");
+            var rendered_template = Mustache.render(template.innerHTML, {perspectives: perspectives});
+            $("div#left-side-toolbar").html("");
+            $("div#left-side-toolbar").html(rendered_template);
+            $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
+            console.log("Updating Uniform Thumbnail")
+        }
+    }
 })

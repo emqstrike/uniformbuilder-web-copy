@@ -179,7 +179,7 @@ $(function() {
         // prepare data
         var props = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-            title: "LOGOS",
+            title: "logos",
             type: "mascots",
             applications: _appData
         };
@@ -207,6 +207,10 @@ $(function() {
 
         if (ub.funcs.isTackleTwill()) {
             ub.funcs.getFreeApplicationsContainer('mascots');
+        }
+
+        if (_appData.length === 0) {
+            $(".add-another-application-container").hide();
         }
         // initializer
         ub.funcs.initializer();

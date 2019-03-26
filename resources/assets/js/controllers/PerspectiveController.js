@@ -16,6 +16,8 @@ function PerspectiveController() {}
 
 PerspectiveController.prototype.setPerspective = function(perspective) {
     $('a.change-view[data-view="' + perspective + '"]').trigger('click');
+    $("#left-side-toolbar .perspective a.active").removeClass("active");
+    $("#left-side-toolbar .perspective a[data-perspective='"+ perspective +"']").addClass("active");
 }
 
 PerspectiveController.prototype.front = function() {
