@@ -39,7 +39,7 @@ elixir(function(mix) {
             'uniform-builder-functions.js',
 
             // Brand Specific
-            'uniform-builder-application-ui-new.js',
+            //'uniform-builder-application-ui-new.js',
 
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
