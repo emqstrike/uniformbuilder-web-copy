@@ -6612,7 +6612,7 @@ $(document).ready(function () {
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
- 
+
             $picker_item = $(this);
 
             var _picker_type = $(this).data('picker-type');
@@ -6645,14 +6645,23 @@ $(document).ready(function () {
 
             if (_picker_type === 'uniforms') {
 
-                ub.funcs.fadeOutElements();
-                $('body').removeClass('pickers-enabled');
+                var legacyPicker = !ub.picker.isNew;
+                if (legacyPicker) {
 
-                $('#main-picker-container').hide();
-                $('.header-container').removeClass('forceHide');
+                    ub.funcs.fadeOutElements();
+                    $('body').removeClass('pickers-enabled');
 
+                    $('#main-picker-container').hide();
+                    $('.header-container').removeClass('forceHide');
 
-                window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                    window.location.href = window.ub.config.host + '/builder/0/' + _id;
+
+                } else {
+                    _item = _.find(ub.materials, {name: _item}).uniform_category;
+
+                    var url = '/builder/0/' + _id;
+                    window.open(url, '_blank');
+                }
 
             }
 
