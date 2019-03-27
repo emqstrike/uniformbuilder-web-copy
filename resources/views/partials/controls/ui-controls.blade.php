@@ -526,6 +526,8 @@
 
 <!-- Uniforms Picker -->
 
+    <!-- version 1 -->
+
     <script type="text/mustache" id="m-picker-items-uniforms">
 
         @{{#picker_items}}
@@ -568,6 +570,79 @@
         @{{/picker_items}}
 
     </script>
+
+    <!-- version 2 -->
+
+    <script type="text/mustache" id="m-picker-items-uniforms-v2">
+
+        @{{#picker_items}}
+            
+            <li class="mix @{{type}} @{{block_pattern_fv2}} @{{block_pattern_fv2_blank}} @{{block_pattern_fv2_favorite}} @{{neck_option_fv2}} @{{uniform_application_type}}" data-name="@{{name}}">
+
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
+
+                <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption"> 
+                    <span class="type"></span>
+                    <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
+                    <span class="calculatedPrice">@{{calculatedPrice}}</span>
+                    <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
+                        Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
+                    </span>
+                    <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
+                        Youth now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+                    
+                    <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                    </span>
+
+                    <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+                    <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                    <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                    <div class="price_item_template_name">@{{price_item_template_name}}</div>
+                    <div class="material_id">@{{id}}</div>
+
+                </span> 
+
+            </div>
+
+        </li>
+
+        @{{/picker_items}}
+
+        <li class="gap"></li>
+        <li class="gap"></li>
+        <li class="gap"></li>
+
+    </script>
+
+    <script type="text/mustache" id="m-filter-v2-neck-options">
+
+        <li>
+            <input class="filter" data-filter="" type="radio" name="radioButton" id="" checked="">
+            <label class="radio-label" for="radio1">All</label>
+        </li>
+
+        @{{#neck_options}}
+
+            <li>
+                <input class="filter" data-filter=".@{{item}}" type="radio" name="radioButton" id="">
+                <label class="radio-label" for="@{{item}}">@{{alias}}</label>
+            </li>
+
+        @{{/neck_options}}
+
+    </script>
+
+    <!-- end version 2 -->
 
 <!-- End Uniforms Pickers -->
 
