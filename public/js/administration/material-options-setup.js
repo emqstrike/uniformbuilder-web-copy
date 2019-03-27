@@ -91,8 +91,8 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.tcid', function() {
-        console.log('changed tcid');
         var number = $(this).val();
+        var color = $(this).parent().parent().find('.default-color').val();
         var perspective = $(this).data('perspective');
         var name = $(this).data('name').toLowerCase();
         $(".tcid").each(function(i) {
@@ -100,6 +100,14 @@ $(document).ready(function() {
                 $(this).fadeOut();
                 $(this).fadeIn();
                 $(this).val(number);
+            }
+        });
+        //Auto set TCID for same color
+        $(".default-color").each(function(i) {
+            if( $(this).val() == color ){
+                $(this).parent().parent().find('.tcid').fadeOut();
+                $(this).parent().parent().find('.tcid').fadeIn();
+                $(this).parent().parent().find('.tcid').val(number);
             }
         });
     });
