@@ -92,11 +92,6 @@ elixir(function(mix) {
             // Teamstore
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
-            'uniform-builder-ui-functions.js',
-
-            'uniform-builder-application-ui-new.js',
-            'uniform-builder-application-ui-new-letters.js',
-
             'models/Accent.js',
 
             // Custom Panels
@@ -112,6 +107,13 @@ elixir(function(mix) {
             'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
+            'panels/RichardsonSkin.js',
+            'panels/application/LetterPanel.js',
+            'panels/application/NumbersPanel.js',
+            'panels/application/MascotPanel.js',
+            'panels/application/NewApplicationPanel.js',
+            'panels/application/ApplicationUtilities.js',
+            'panels/application/ApplicationEvent.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',

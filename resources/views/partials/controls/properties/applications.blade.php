@@ -1,7 +1,4 @@
-<!-- Application UI Block - LETTERS -->
-<script type="text/mustache" id="add-new-application-letters">
-</script>
-
+<!-- View application layers -->
 <script type="text/mustache" id="m-application-layer-list">
     @{{ #applications }}
         <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-application-type="@{{ type }}" data-zindex="6">
@@ -25,6 +22,7 @@
         </div>
     @{{ /applications }}
 </script>
+<!-- End View application layers -->
 
 <!-- Font Styles -->
 <script type="text/mustache" id="m-font-styles-container">
@@ -115,6 +113,7 @@
 </script>
 <!-- End Slider Container  -->
 
+<!-- Application Letter Block -->
 <script type="text/mustache" id="m-applications-letters-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
@@ -188,9 +187,10 @@
             </div>
         </li>
     </ul>
-    
 </script>
+<!-- End Application Letter Block -->
 
+<!-- Application Number Block -->
 <script type="text/mustache" id="m-applications-numbers-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
@@ -265,7 +265,9 @@
         </li>
     </ul>
 </script>
+<!-- End Application Number Block -->
 
+<!-- Application Mascot Block -->
 <script type="text/mustache" id="m-applications-mascot-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
@@ -329,21 +331,23 @@
         @{{ /applications }}
     </ul>
     <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-vertical">
-            <li></li>
-            <li class="add-another-application-container">
-                <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
-                    <div class="uk-width-1-1 uk-flex-center">
-                        <button class="uk-button uk-button-small uk-width-1-2 uk-button-default uk-text-capitalize add-another-application" data-application-type="mascots" data-application-title="logo" type="button">
-                            <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add another logo
-                        </button>
-                    </div>
+        <li></li>
+        <li class="add-another-application-container">
+            <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
+                <div class="uk-width-1-1 uk-flex-center">
+                    <button class="uk-button uk-button-small uk-width-1-2 uk-button-default uk-text-capitalize add-another-application" data-application-type="mascots" data-application-title="logo" type="button">
+                        <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add another logo
+                    </button>
                 </div>
-                <div class="add-another-application-block">
-                </div>
-            </li>
-        </ul>
+            </div>
+            <div class="add-another-application-block">
+            </div>
+        </li>
+    </ul>
 </script>
+<!-- End Application Mascot Block -->
 
+<!-- Reiniatialize Application -->
 <script type="text/mustache" id="m-reinit-application">
     @{{ #applications }}
         <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
@@ -469,7 +473,9 @@
         </li>
     @{{ /applications }}
 </script>
+<!-- End Reiniatialize Application -->
 
+<!-- Add New Application -->
 <script type="text/mustache" id="m-add-new-application">
     <div class="add-new-application-block">
         <div class="@{{ ^isShow }} uk-hidden @{{ /isShow }}">
@@ -563,7 +569,9 @@
         </div>
     </div>
 </script>
+<!-- End Add New Application -->
 
+<!-- Add Another Application -->
 <script type="text/mustache" id="m-add-another-application">
     <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Another @{{ title }}</h5>
     <div class="add-new-application-block">
@@ -658,3 +666,4 @@
         </div>
     </div>
 </script>
+<!-- End Add Another Application -->

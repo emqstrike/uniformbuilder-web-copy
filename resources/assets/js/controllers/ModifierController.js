@@ -36,7 +36,6 @@ function ModifierController(element, brand) {
         logo: {}
     };
     // Setup
-    this.initControls();
     this.bindEvents();
     this.enable();
 
@@ -45,27 +44,6 @@ function ModifierController(element, brand) {
 
 ModifierController.prototype = {
     constructor: ModifierController,
-
-    initControls: function() {
-        // Set Tooltips Behavior
-        // tippy('.tippy-menu-item', {
-        //     delay: 0,
-        //     size: 'large',
-        //     animation: 'shift-away',
-        //     placement: 'left-end',
-        //     arrow: true
-        // });
-
-        // // change pipings to random feeds if the item is sock
-        // tippy('#property-modifiers-menu .menu-item-pipings', {
-        //     content: ub.funcs.isSocks() ? "RANDOM FEED" : "PIPINGS",
-        //     delay: 0,
-        //     size: 'large',
-        //     animation: 'shift-away',
-        //     placement: 'left-end',
-        //     arrow: true
-        // });
-    },
 
     bindEvents: function() {
         $('#property-modifiers-menu .menu-item-fabrics').on('click', this.fabrics);
@@ -93,16 +71,7 @@ ModifierController.prototype = {
     },
 
     updateLeftPanel: function() {
-        ub.funcs.richardsonLeftPanelAutoUpdate();
-    },
-
-    clearPartsAndInsert: function() {
-        $("#primary_options_colors").css('display', 'none');
-        $("#primary_options_colors").html("");
-    },
-
-    activateColorAndPatternPanel: function() {
-        var panel = new PropertiesPanel('#primary_options_container', this.brand);
+        RichardsonSkin.funcs.perspectiveThumbnailAutoUpdate();
     },
 
     enable: function() {
@@ -161,7 +130,7 @@ ModifierController.prototype = {
         ub.current_modifier = 2;
 
         $("#primary_options_container").scrollTo(0);
-        ub.funcs.enableRichardsonNavigator();
+        RichardsonSkin.funcs.enableRichardsonNavigator();
     },
 
     pipings: function() {
@@ -199,36 +168,30 @@ ModifierController.prototype = {
             properties_panel.setBodyPanel(piping_panel);
         }
 
+        RichardsonSkin.funcs.enableRichardsonNavigator();
         ub.current_modifier = 3;
-        ub.funcs.enableRichardsonNavigator();
     },
 
     letters: function() {
-        ub.funcs.startNewApplicationLetters();
-        ub.funcs.enableRichardsonNavigator();
-        ApplicationPanel.events.init();
-        ApplicationPanel.events.initGlobalEvents();
+        LetterPanel.init();
+        RichardsonSkin.funcs.enableRichardsonNavigator();
         ub.current_modifier = 4;
 
         $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
-        ub.funcs.startNewApplicationNumbers();
-        ub.funcs.enableRichardsonNavigator();
-        ApplicationPanel.events.init();
-        ApplicationPanel.events.initGlobalEvents();
+        NumbersPanel.init();
+        RichardsonSkin.funcs.enableRichardsonNavigator();
         ub.current_modifier = 5;
 
         $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
-        ub.funcs.startNewApplication();
-        ub.funcs.enableRichardsonNavigator();
+        MascotPanel.init();
+        RichardsonSkin.funcs.enableRichardsonNavigator();
         ub.current_modifier = 6;
-        ApplicationPanel.events.initGlobalEvents();
-        ApplicationMascotPanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 
