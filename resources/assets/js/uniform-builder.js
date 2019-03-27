@@ -6709,7 +6709,6 @@ $(document).ready(function () {
                 ub.funcs.setV2Gender(_gender);
                 ub.funcs.setV2Sport(_item);
                 ub.funcs.setV2UniformType(uniformType);
-                ub.funcs.resetSecondaryBarFilter();
                 ub.funcs.setSideBarSportFilter();
 
             }
