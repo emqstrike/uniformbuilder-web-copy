@@ -8855,9 +8855,10 @@ $(document).ready(function () {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _mascotID = '181'; 
 
-            if (ub.current_material.material.brand === "richardson") { _mascotID = '1584'; }
+            if (ub.current_material.material.brand === "richardson") { _mascotID = '1584'; }   
+
             var _size;
 
             ub.funcs.deActivateApplications();
