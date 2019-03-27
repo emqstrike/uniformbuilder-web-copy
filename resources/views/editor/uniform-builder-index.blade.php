@@ -251,6 +251,7 @@
 
             @include('partials.panels.randomFeeds')
 
+            <!-- Richardson Modals file -->
             @if(env("BRAND") === "Richardson")
                 @include('partials.panels.richardson-application-modal')
             @endif
