@@ -155,7 +155,7 @@ $( document ).ready(function() {
     String.prototype.toHyphenCase = function () {
 
         var fullStringValue = this.toString();
-        var returnValue     = fullStringValue.split(' ').join('-').toLowerCase();
+        var returnValue     = fullStringValue.replace(/[\*\^\'\!\(\)]/g, '').split(' ').join('-').toLowerCase();
 
         return returnValue;
 

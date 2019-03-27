@@ -82,17 +82,17 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="sports" checked>
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="sports" checked>
                                 <label class="radio-label" for="sports">Sports</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="apparel">
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="apparel">
                                 <label class="radio-label" for="apparel">Apparel</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-category" type="radio" name="uniformCategoryButton" data-category="esports">
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="esports">
                                 <label class="radio-label" for="esports">eSports</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
