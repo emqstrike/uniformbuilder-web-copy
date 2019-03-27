@@ -104,10 +104,14 @@ $(document).ready(function() {
         });
         //Auto set TCID for same color
         $(".default-color").each(function(i) {
-            if( $(this).val() == color ){
-                $(this).parent().parent().find('.tcid').fadeOut();
-                $(this).parent().parent().find('.tcid').fadeIn();
-                $(this).parent().parent().find('.tcid').val(number);
+            if( $(this).val() == color ) {
+                var part_name = $(this).parent().parent().find('.name').val();
+                if (part_name != 'Highlights' && part_name != 'Shadows' && part_name != 'Body' && part_name != 'Extra') {
+                    $(this).parent().parent().find('.tcid').fadeOut();
+                    $(this).parent().parent().find('.tcid').fadeIn();
+                    $(this).parent().parent().find('.tcid').val(number);
+                }
+
             }
         });
     });
