@@ -28,6 +28,8 @@ $(document).ready(function () {
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
             ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
+            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
@@ -124,8 +126,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
-            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
 
@@ -679,6 +679,15 @@ $(document).ready(function () {
                 // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
                 $('span.perspective[data-id="left"]').text('Inside');
                 $('span.perspective[data-id="right"]').text('Outside');
+
+                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
+                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
+                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+
+                    $('span.perspective[data-id="left"]').text('Outside');
+                    $('span.perspective[data-id="right"]').text('Inside');
+                }
             }
 
         }
@@ -1728,15 +1737,28 @@ $(document).ready(function () {
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
-                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
+                    (material.uniform_category === "SFN Jogger (Apparel)") ||
+                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+
+                    var tempLeftThumbnail = material.thumbnail_path_left;
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
+
+                    if (material.block_pattern === "Hockey Sock") {
+                        material.thumbnail_path_left = tempLeftThumbnail;
+                    }
+
                 }
 
                 if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-   
+
+                if (material.uniform_category === "Tech Tee (eSports)") {
+                    material.thumbnail_path_left = material.thumbnail_path_back;
+                }
+                
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
@@ -2527,6 +2549,8 @@ $(document).ready(function () {
                 e.setting_type === 'mesh_shadows' || 
                 e.setting_type === 'static_layer') { return; }
 
+            if (typeof e.code === "undefined") { return; }
+
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {
@@ -2537,7 +2561,6 @@ $(document).ready(function () {
 
             }
 
-            if (typeof e.code === "undefined") { return; }
 
             if (typeof e.code !== 'undefined') {
                 
@@ -6294,7 +6317,8 @@ $(document).ready(function () {
         var views = ub.data.views;
         var _rotationAngle = 0;
         var _extra         = {};
-        var _positiion     = {x: 0, y: 0};
+        // var _positiion     = {x: 0, y: 0};
+        var _positiion = position;
         target_name        = util.toTitleCase(target_name);
 
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
@@ -6396,6 +6420,12 @@ $(document).ready(function () {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
+            var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
+
+            if (_soPattern.dirty) {
+                _p.position = position;
+            }
+            
             _p.anchor = {x: 0.5, y: 0.5};
             _p.pivot = {x: 0.5, y: 0.5};
 
@@ -6633,13 +6663,19 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
+                var itemExcemptions = ['Apparel', 'eSports'];
 
-                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (!_.contains(itemExcemptions, _item)) {
 
-                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+                    if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
+                    if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
 
+                    var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+                    if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+
+                }
+                
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
@@ -7175,7 +7211,7 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
 
         ub.funcs.fadeOutElements();
 
@@ -7243,8 +7279,9 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: items,
                 apparel: _apparel,
+                esports: esports,
             }
-            
+
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
             _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
@@ -7959,10 +7996,12 @@ $(document).ready(function () {
 
         ub.funcs.prepPickers();
 
-        var _apparel = _.find(ub.data.apparel, {gender: sport});
+        // var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
+        var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
+        var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -8004,7 +8043,17 @@ $(document).ready(function () {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
-        } else if (_availableForUnisex)  {
+        } else if (sport === "eSports") {
+            $(window).scrollTop(0);
+            var esports = _.find(ub.data.esports, {gender: gender});
+            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (sport === "Apparel") {
+            $(window).scrollTop(0);
+            var apparel = _.find(ub.data.apparel, {gender: gender});
+            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (_availableForUnisex) {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
