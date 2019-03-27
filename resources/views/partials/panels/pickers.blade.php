@@ -176,10 +176,10 @@
 
                 </form>
 
-                <a href="#0" class="cd-close">Close</a>
+                <a href="javascript:void(0)" class="cd-close">Close</a>
             </div> <!-- cd-filter -->
 
-            <a href="#0" class="cd-filter-trigger">Filters</a>
+            <a href="javascript:void(0)" class="cd-filter-trigger">Filters</a>
 
         </main> <!-- cd-main-content -->
         <!-- end Picker version 2 -->
