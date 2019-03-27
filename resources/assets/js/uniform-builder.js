@@ -9465,9 +9465,12 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-                    $('span.update-profile').removeAttr('disabled');
+                    $('button.update-profile').removeAttr('disabled');
+                    $("#myProfileAlert").fadeIn(500, function(){
+                        $("#myProfileAlert").delay(3000).fadeOut(500);
+                    });
+                    
                 }
-                
             });
 
         };
@@ -9490,8 +9493,8 @@ $(document).ready(function () {
             var markup = Mustache.render(template, data);
             $container.html(markup);
 
-            $('span.update-profile').unbind('click');
-            $('span.update-profile').on('click', function () {
+            $('button.update-profile').unbind('click');
+            $('#myProfile').submit(function () {
 
                 var _firstName = $('input[name="first-name"]').val();
                 var _lastName = $('input[name="last-name"]').val();
@@ -9510,7 +9513,7 @@ $(document).ready(function () {
                     repID: _repID,
 
                 });
-    
+                return false;
 
             });
 
