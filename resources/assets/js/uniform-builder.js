@@ -147,6 +147,19 @@ $(document).ready(function () {
             var _gender = ub.data.urlAlias.getAlias(ub.config.styles.gender);
             var _sport = ub.data.urlAlias.getAlias(ub.config.styles.sport);
 
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                var uniformType = _.find(ub.data.activeSports.items, {code: _sport.shortCode}).type;
+
+                ub.funcs.setV2Gender(_gender.shortCode);
+                ub.funcs.setV2Sport(_sport.urlAlias);
+                ub.funcs.setV2UniformType(uniformType);
+                ub.funcs.resetSecondaryBarFilter();
+                ub.funcs.setSideBarSportFilter();
+
+            }
+
             ub.funcs.directLinks(_gender.urlAlias, _sport.urlAlias);
 
         }
