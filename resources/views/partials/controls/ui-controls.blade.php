@@ -579,7 +579,7 @@
             
             <li class="mix @{{type}} @{{block_pattern_fv2}} @{{block_pattern_fv2_blank}} @{{block_pattern_fv2_favorite}} @{{neck_option_fv2}} @{{uniform_application_type}}" data-name="@{{name}}">
 
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
+            <div class="main-picker-items grow @{{sport}}" data-gender="@{{gender}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
 
                 <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
