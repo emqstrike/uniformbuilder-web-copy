@@ -75,12 +75,19 @@ PipingPanel.events = {
         var size = $(this).data('size');
         var piping_type = piping_el.data('piping-type');
 
+        console.log(piping_type, size);
+
 
         $(".piping-sizes-buttons", piping_el).removeClass("uk-active");
         $(this).addClass("uk-active");
 
         if (size === "none") {
             PipingPanel.disablePiping(piping_type)
+
+            if (piping_type.includes("Left Sleeve Piping 1 inch Up")) {
+                LogoPanel.utilities.resetRLogoPosition();
+            }
+
             return;
         }
 
@@ -136,12 +143,25 @@ PipingPanel.events = {
     onPipingColorButtonClick: function(e) {
         var piping_el = $(this).closest('.piping-item');
         var active_size_type = $('.sizes .piping-sizes-buttons.uk-active', piping_el).data('type');
+        var size = $('.sizes .piping-sizes-buttons.uk-active', piping_el).data("size");
+        var value = $(this).data('value');
 
         $(".piping-colors-buttons", piping_el).removeClass("uk-active");
         $(this).addClass("uk-active");
 
-        var value = $(this).data('value');
-        var size = $(this).data('size');
+
+        if (active_size_type.includes("Left Sleeve Piping 1 inch Up")) {
+            LogoPanel.utilities.offsetRLogo(size, value);
+        } else {
+            var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
+            if (typeof leftSleeve1inch !== "undefined") {
+                if (leftSleeve1inch.enabled === 0 || value !== 3 || leftSleeve1inch.size !== "1/2") {
+                    LogoPanel.utilities.resetRLogoPosition();
+                }
+            } else {
+                LogoPanel.utilities.resetRLogoPosition();
+            }
+        }
 
         var piping_type = piping_el.data('piping-type');
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
