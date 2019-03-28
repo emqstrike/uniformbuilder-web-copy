@@ -37,6 +37,7 @@ MascotPanel.init = function () {
         if (i.application_type === 'embellishments') {
             var objCustom = {
                 thumbnail: i.embellishment.thumbnail,
+                application_type: i.application_type,
                 type: 'CUSTOM LOGO',
                 code: i.code,
                 perspective: i.application.views[0].perspective,
@@ -51,6 +52,7 @@ MascotPanel.init = function () {
         } else if (i.application_type === 'mascot') {
             var objStock = {
                 thumbnail: i.mascot.icon,
+                application_type: i.application_type,
                 type: 'STOCK MASCOT',
                 code: i.code,
                 perspective: i.application.views[0].perspective,
@@ -78,19 +80,25 @@ MascotPanel.init = function () {
     // output to page
     $('.modifier_main_container').append(_htmlBuilder);
 
-    _.map(_appData, function(application) {
-        if (application.application_type !== "free") {
-            if (application.status) {
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').show();
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+    _.map(_appData, function(index) {
+        if (index.application_type !== "free") {
+            if (index.status) {
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').show();
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('a.flip-mascot').show();
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
             } else {
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('.mascot-options-container').hide();
-                $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').hide();
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('a.flip-mascot').hide();
+                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
             }
+        }
+        
+        if (ub.funcs.isFlippedApplication(index.code)) {
+            $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] .flip-mascot').addClass("uk-active");
         }
     });
 
@@ -136,6 +144,7 @@ MascotPanel.events = {
         $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').show();
         // Disable image
         $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
+        $(this).closest('.applicationUIBlockNew').find('a.flip-mascot').show();
         var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         ub.funcs.manipulateApplicationByStatus("on", application_id);
     },
@@ -145,6 +154,7 @@ MascotPanel.events = {
         $(this).closest('.applicationUIBlockNew').find(".view-application").removeClass('uk-active');
         $(this).closest('.applicationUIBlockNew').find('.mascot-options-container').hide();
         $(this).closest('.applicationUIBlockNew').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
+        $(this).closest('.applicationUIBlockNew').find('a.flip-mascot').hide();
         var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         ub.funcs.manipulateApplicationByStatus("off", application_id);
         ub.funcs.deactivateMoveTool();

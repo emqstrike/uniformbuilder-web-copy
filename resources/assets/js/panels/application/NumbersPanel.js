@@ -31,6 +31,7 @@ NumbersPanel.init = function () {
     _.map(_filteredApplications, function (i) {
         var objStock = {
             type: i.application.name.toUpperCase(),
+            application_type: i.application_type,
             defaultText: i.text,
             code: i.code,
             perspective: i.application.views[0].perspective,
@@ -68,7 +69,7 @@ NumbersPanel.init = function () {
     }
 
     // initialize and Bind Events
-    ub.funcs.setupApplicationSettings(_appData);
+    ub.funcs.setupApplicationSettings(_Applications);
     ub.funcs.initializer();
     ApplicationEvent.events.init();
     NewApplicationPanel.events.init();

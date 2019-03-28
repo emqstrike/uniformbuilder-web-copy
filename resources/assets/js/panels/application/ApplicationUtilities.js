@@ -1688,4 +1688,15 @@ $(function() {
             $(".add-another-application-container").hide();
         }
     }
+
+
+    ub.funcs.isFlippedApplication = function (code) {
+        var _applicationObject = ub.funcs.getApplicationSettings(code);
+        var flipped = _applicationObject.application.views[0].application.flip;
+        if (flipped === 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 });
