@@ -18,11 +18,16 @@ function LogoPanel(element, logo_positions) {
     this.bindEvents();
 }
 
+LogoPanel.isInit = true;
+
 LogoPanel.prototype = {
     constructor: LogoPanel,
 
     init: function() {
-        $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+        if (LogoPanel.isInit) {
+            $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+            LogoPanel.isInit = false;
+        }
     },
 
     getPanel: function() {
@@ -50,6 +55,13 @@ LogoPanel.prototype = {
         } else if (new_position.includes("left") || new_position.includes("sleeve")) {
             $('a.change-view[data-view="left"]').trigger('click');
             material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
+        }
+
+        if (new_position === "left_sleeve_logo") {
+            var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
+            if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
+                _.delay(function(){LogoPanel.utilities.offsetRLogo(leftSleeve1inch.size, leftSleeve1inch.numberOfColors);}, 1000)
+            }
         }
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
@@ -136,7 +148,6 @@ LogoPanel.utilities = {
     },
 
     processLogo: function() {
-
         if (!util.isNullOrUndefined(ub.data.logos))
         {
             _.each(ub.data.logos, function(logo) {
@@ -481,6 +492,54 @@ LogoPanel.utilities = {
             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
         }
     },
+
+    offsetRLogo: function(size, color) {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = -(ub.current_material.material.one_inch_in_px * eval(size) * color);
+
+                                console.log(logo.position.y)
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    resetRLogoPosition: function() {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = 0;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
 };
 
 LogoPanel.colors = {

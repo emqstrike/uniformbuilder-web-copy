@@ -6,7 +6,6 @@ $(document).ready(function () {
         /// Initialize Uniform Builder
 
         window.ub.initialize = function () {
-
             // ub.utilities.maintenanceMessage();
             ub.errorCodes.prepareShortcuts();
 
@@ -43,7 +42,8 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand.toLowerCase() + '/';
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
