@@ -106,7 +106,7 @@ $(document).ready(function() {
         $(".default-color").each(function(i) {
             if( $(this).val() == color ) {
                 var part_name = $(this).parent().parent().find('.name').val();
-                if (part_name != 'Highlights' && part_name != 'Shadows' && part_name != 'Body' && part_name != 'Extra') {
+                if (part_name != 'Highlights' && part_name != 'Shadows' && part_name != 'Body' && part_name != 'Extra' && !(part_name.match(/Static.*/)) ) {
                     $(this).parent().parent().find('.tcid').fadeOut();
                     $(this).parent().parent().find('.tcid').fadeIn();
                     $(this).parent().parent().find('.tcid').val(number);
