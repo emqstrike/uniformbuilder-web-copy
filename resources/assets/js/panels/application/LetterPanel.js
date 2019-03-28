@@ -34,6 +34,7 @@ LetterPanel.init = function() {
 
         var objStock = {
             isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled' : '',
+            application_type: i.application_type,
             type: i.application.name.toUpperCase(),
             defaultText: i.text,
             code: i.code,
@@ -75,7 +76,7 @@ LetterPanel.init = function() {
     }
 
     // initializer
-    ub.funcs.setupApplicationSettings(_appData);
+    ub.funcs.setupApplicationSettings(_Applications);
     ub.funcs.initializer();
     ApplicationEvent.events.init();
     NewApplicationPanel.events.init();

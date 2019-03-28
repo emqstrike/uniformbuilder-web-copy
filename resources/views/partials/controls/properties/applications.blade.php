@@ -173,7 +173,7 @@
             </li>
         @{{ /applications }}
     </ul>
-    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-vertical">
+    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-top">
         <li></li>
         <li class="add-another-application-container">
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
@@ -250,7 +250,7 @@
             </li>
         @{{ /applications }}
     </ul>
-    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-vertical">
+    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-top">
         <li></li>
         <li class="add-another-application-container">
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
@@ -330,7 +330,7 @@
             </li>
         @{{ /applications }}
     </ul>
-    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-vertical">
+    <ul class="uk-list uk-list-divider uk-padding-small uk-margin-remove uk-padding-remove-top">
         <li></li>
         <li class="add-another-application-container">
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-another-view-application uk-grid uk-grid-stack" uk-grid="">
