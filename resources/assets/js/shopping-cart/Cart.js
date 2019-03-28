@@ -205,13 +205,18 @@ var Cart = {
     },
 
     onAddPlayer: function() {
-        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
-        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+        var cart_item_el = $(this).closest('.cart-item');
+        var cart_item_id = cart_item_el.data('cart-item-id');
+
+        var material_id = cart_item_el.data('material-id');
 
         var form_tmpl = _.template($('#form-tmpl').html());
         var player_row_tmpl = _.template($('#player-row-tmpl').html());
 
-        var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());
+        var size_el = $(':input[name="size"]', cart_item_el);
+        var size_price = JSON.parse(size_el.val());
+        var pricing_age = $(":selected", size_el).parent().attr('label').toLowerCase();
+
         var player_list_el = $('.player-list tbody', cart_item_el);
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
@@ -244,7 +249,10 @@ var Cart = {
                             last_name: last_name,
                             number: number,
                             price: parseFloat(size_price.price),
-                            quantity: quantity
+                            quantity: quantity,
+
+                            material_id: material_id,
+                            pricing_age: pricing_age
                         }, null, {
                             beforeSend: function() {
                                 $(':input', form.closest('.modal-content')).prop('disabled', true);
@@ -278,6 +286,12 @@ var Cart = {
                                     var errors = xhr.responseJSON;
                                     var error_keys = Object.keys(errors);
 
+                                    // reload the page when user trying to (change/hack) the default price
+                                    if (typeof errors.price !== "undefined") {
+                                        alert("Looks like you change the default price. Click OK to reload the page.");
+                                        location.reload();
+                                    }
+
                                     $.each($(':input', form), function(index, el) {
                                         var field = $(el).attr('name');
 
@@ -304,8 +318,8 @@ var Cart = {
     },
 
     onEditPlayer: function() {
-        var cart_item_id = $(this).closest('.cart-item').data('cart-item-id');
-        var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+        var cart_item_el = $(this).closest('.cart-item');
+        var cart_item_id = cart_item_el.data('cart-item-id');
 
         var _this = $(this);
         var player_id = $(this).data('id');
@@ -388,8 +402,8 @@ var Cart = {
             if (yes) {
                 _this.button('loading');
 
-                var cart_item_id = _this.closest('.cart-item').data('cart-item-id');
-                var cart_item_el = $('#cart-items-el .cart-item[data-cart-item-id="'+cart_item_id+'"]');
+                var cart_item_el = _this.closest('.cart-item');
+                var cart_item_id = cart_item_el.data('cart-item-id');
 
                 var player_id = _this.data('id');
                 var size_price = JSON.parse($(':input[name="size"]', cart_item_el).val());

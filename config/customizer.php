@@ -20,5 +20,12 @@ return [
 
     ],
 
-    'test_orders' => filter_var(env('TEST_ORDERS', true), FILTER_VALIDATE_BOOLEAN)
+    'test_orders' => filter_var(env('TEST_ORDERS', true), FILTER_VALIDATE_BOOLEAN),
+
+    'currency_code_used' => env("CURRENCY_CODE_USED"),
+
+    'pricing_ages' => [
+        "adult",
+        "youth"
+    ]
 ];
