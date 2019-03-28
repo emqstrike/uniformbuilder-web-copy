@@ -115,6 +115,9 @@
                                         <td class="td-buttons">
                                             <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-primary">Edit</a>
                                             <a href="{{ route('v1_view_material_option', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-default">Material Options</a>
+                                            <a href="{{ $material->styles_pdf }}" target="_blank" class="btn btn-sm btn-flat btn-default @if(! $material->styles_pdf) disabled @endif">
+                                                <i class="fa fa-download"></i>
+                                            </a>
                                             <a href="{{ route('v1_materials_options_setup', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                                                 <span class="glyphicon glyphicon-cog"></span>
                                             </a>
