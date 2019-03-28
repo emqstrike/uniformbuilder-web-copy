@@ -93,9 +93,7 @@ $(document).ready(function() {
                 $(this).fadeIn();
                 $(this).val(0);
                 $(this).parent().parent().find('.tcid').val('');
-                $(this).parent().parent().find('.tcid').prop('disabled', true);
                 $(this).parent().parent().find('.group-id').val('');
-                $(this).parent().parent().find('.group-id').prop('disabled', true);
             }
         });
 
