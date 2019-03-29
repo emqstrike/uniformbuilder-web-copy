@@ -103,6 +103,7 @@ RichardsonLogin.events = {
                     UIkit.modal("#richardson-user-login").hide();
                     $(".richardson-footer .user-login").hide();
                     RichardsonSkin.funcs.setupFooter();
+                    RichardsonSaveDesign.events.init();
                 } else {
                     $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
                     $("#r-login input[name='email']").addClass('uk-form-danger')

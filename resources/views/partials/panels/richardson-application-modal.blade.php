@@ -172,9 +172,9 @@
 
 {{-- User Login --}}
 <div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
-    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div class="uk-modal-dialog uk-width-2-3 uk-modal-body uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Saved Design</h3>
+        <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h3>
     </div>
 </div>
 {{-- End User Login --}}

@@ -57,8 +57,8 @@
                             <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkGray fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic">
                                 Finish / View &nbsp;Summary
                             </a>
-                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic saved-uniform">
-                                Saved Design
+                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">
+                                Save Design
                             </a>
                         </div>
                     </div>
