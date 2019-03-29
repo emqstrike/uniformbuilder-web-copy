@@ -2,7 +2,10 @@
 
 namespace App\ShoppingCart;
 
+use App\ShoppingCart\BillingInformation;
 use App\ShoppingCart\Cart;
+use App\ShoppingCart\ClientInformation;
+use App\ShoppingCart\ShippingInformation;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -15,22 +18,22 @@ class User extends Model implements AuthenticatableContract
 
     public function carts()
     {
-        return $this->hasMany("App\ShoppingCart\Cart");
+        return $this->hasMany(Cart::class);
     }
 
     public function client_information()
     {
-        return $this->hasOne("App\ShoppingCart\ClientInformation");
+        return $this->hasOne(ClientInformation::class);
     }
 
     public function billing_information()
     {
-        return $this->hasOne("App\ShoppingCart\BillingInformation");
+        return $this->hasOne(BillingInformation::class);
     }
 
     public function shipping_information()
     {
-        return $this->hasOne("App\ShoppingCart\ShippingInformation");
+        return $this->hasOne(ShippingInformation::class);
     }
 
     public function getId()

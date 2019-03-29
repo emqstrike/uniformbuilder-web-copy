@@ -122,6 +122,19 @@ class CartItemPlayerController extends Controller
      */
     public function delete(Request $request, CartItemPlayer $cartItemPlayer)
     {
+        $cart_token = $request->get('cart_token');
+        $cart = Cart::findByToken($cart_token);
+
+        $cart_item_ids = $cart->cart_items->pluck("id")->toArray();
+
+        if (!in_array($cartItemPlayer->cart_item->id, $cart_item_ids))
+        {
+            return response()->json([
+                'success' => false,
+                'message' => "Cannot delete player if you are not the owner."
+            ]);
+        }
+
         $is_deleted = $cartItemPlayer->delete();
 
         return response()->json(

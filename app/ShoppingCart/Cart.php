@@ -2,6 +2,7 @@
 
 namespace App\ShoppingCart;
 
+use App\ShoppingCart\CartItem;
 use App\ShoppingCart\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -17,12 +18,12 @@ class Cart extends Model
 
     public function cart_items()
     {
-        return $this->hasMany("App\ShoppingCart\CartItem");
+        return $this->hasMany(CartItem::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\ShoppingCart\User');
+        return $this->belongsTo(User::class);
     }
 
     /**

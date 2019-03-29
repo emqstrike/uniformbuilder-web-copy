@@ -25,7 +25,7 @@ class RedirectIfInvalidCartItem
 
             $is_valid = true;
             foreach ($cart_items as $cart_item) {
-                if ($cart_item->cartItemPlayers->isEmpty())
+                if ($cart_item->cart_item_players->isEmpty())
                 {
                     $is_valid = false;
                     break;

@@ -2,6 +2,8 @@
 
 namespace App\ShoppingCart;
 
+use App\ShoppingCart\Cart;
+use App\ShoppingCart\CartItemPlayer;
 use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
@@ -10,12 +12,12 @@ class CartItem extends Model
 
     public function cart()
     {
-        return $this->belongsTo('App\ShoppingCart\Cart');
+        return $this->belongsTo(Cart::class);
     }
 
-    public function cartItemPlayers()
+    public function cart_item_players()
     {
-        return $this->hasMany('App\ShoppingCart\CartItemPlayer');
+        return $this->hasMany(CartItemPlayer::class);
     }
 
     public function images()

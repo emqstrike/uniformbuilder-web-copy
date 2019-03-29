@@ -38,9 +38,6 @@ class CartItemPlayerRequest extends Request
                     'material_id' => "required|numeric",
                     'pricing_age' => "required|valid_pricing_age"
                 ];
-
-            case "DELETE":
-                
         }
     }
 }

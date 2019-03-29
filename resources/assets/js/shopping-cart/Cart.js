@@ -537,18 +537,23 @@ var Cart = {
                 var players = cart_item.players;
 
                 ShoppingCart.cipa.deletePlayer(cart_item_id, player_id, function(response, textStatus, xhr) {
-                    cart_item.players = _.reject(players, {id: parseInt(player_id)});
+                    if (response.success) {
+                        cart_item.players = _.reject(players, {id: parseInt(player_id)});
 
-                    if (cart_item.players.length < players.length) {
-                        console.log("removed!");
+                        if (cart_item.players.length < players.length) {
+                            console.log("removed!");
 
-                        _this.closest('tr').fadeOut();
+                            _this.closest('tr').fadeOut();
 
-                        if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
-                            $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
+                            if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
+                                $('.player-list tbody', cart_item_el).html('<tr><td colspan="5">No players added</td></tr>');
+                            }
+                        } else {
+                            console.log("not remove!");
                         }
                     } else {
-                        console.log("not remove!");
+                        alert(response.message);
+                        location.reload();
                     }
                 });
             }

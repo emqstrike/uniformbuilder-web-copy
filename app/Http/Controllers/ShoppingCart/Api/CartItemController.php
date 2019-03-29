@@ -209,7 +209,7 @@ class CartItemController extends Controller
     public function deleteToCart(Request $request, $cart_item_id)
     {
         $cartItem = CartItem::find($cart_item_id);
-        $cartItem->cartItemPlayers()->delete();
+        $cartItem->cart_item_players()->delete();
         $is_deleted = $cartItem->delete();
 
         return response()->json(
@@ -240,7 +240,7 @@ class CartItemController extends Controller
             return $cartItem->id != $cart_item_id;
         })->first();
 
-        $is_deleted = $toBeDeleteCartItem->cartItemPlayers()->delete() && $toBeDeleteCartItem->delete();
+        $is_deleted = $toBeDeleteCartItem->cart_item_players()->delete() && $toBeDeleteCartItem->delete();
 
         return response()->json(
             $is_deleted ?
