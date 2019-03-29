@@ -18,7 +18,7 @@
     @{{ /applications }}
     @{{ ^applications }}
         <div class="cp-text-center">
-            <h4 class="cp-padding-small cp-padding-remove-horizontal cp-margin-remove">No application</h4>
+            <h4 class="cp-padding-small cp-padding-remove-horizontal cp-margin-remove">No Decoration</h4>
         </div>
     @{{ /applications }}
 </script>
@@ -126,7 +126,7 @@
                 </div>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all decoration 
                     </button>
                 </div>
             </div>
@@ -203,7 +203,7 @@
                 </div>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list app-letters-button" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all decoration 
                     </button>
                 </div>
             </div>
@@ -280,7 +280,7 @@
                 </div>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize view-application-list" data-type="@{{ type }}" type="button">
-                        <span class="uk-margin-small-right fa fa-eye"></span>View all application
+                        <span class="uk-margin-small-right fa fa-eye"></span>View all decoration 
                     </button>
                 </div>
             </div>

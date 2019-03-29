@@ -825,6 +825,8 @@ $(function() {
 
             var _layerNo = index + 1;
 
+            console.log(_layerNo)
+
             if (_layerNo > _noOfLayers) {
                 return;
             }
