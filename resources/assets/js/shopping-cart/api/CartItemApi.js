@@ -47,7 +47,7 @@ CartItemApi.prototype = {
      * @return {void}
      */
     addToCart: function(data, callback) {
-        $.post("/api/shopping-cart/cart-items/add-to-cart", $.extend(data, this.cartPermit), callback);
+        $.post("/api/shopping-cart/cart-items/add-to-cart", $.extend({}, data, this.cartPermit), callback);
     },
 
     /**
@@ -61,7 +61,7 @@ CartItemApi.prototype = {
      * @return {void}
      */
     updateItem: function(cart_item_id, data, callback) {
-        var params = $.extend(data, this.cartPermit, {_method: "PUT"});
+        var params = $.extend({}, data, this.cartPermit, {_method: "PUT"});
 
         $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update", params, callback);
     },
@@ -78,7 +78,7 @@ CartItemApi.prototype = {
     updateImage: function(cart_item_id, image, perspective, callback) {
         var image_obj = {};
         image_obj[perspective + "_image"] = image;
-        var params = $.extend(image_obj, this.cartPermit, {_method: "PUT"});
+        var params = $.extend({}, image_obj, this.cartPermit, {_method: "PUT"});
 
         $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/update-"+perspective+"-image", params, callback);
     },
@@ -91,7 +91,7 @@ CartItemApi.prototype = {
      * @return {void}
      */
     deleteToCart: function(cart_item_id, callback) {
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", $.extend(this.cartPermit, {_method: "DELETE"}), callback);
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/delete-to-cart", $.extend({}, this.cartPermit, {_method: "DELETE"}), callback);
     },
 
     /**
@@ -102,6 +102,6 @@ CartItemApi.prototype = {
      * @return {void}
      */
     retainItem: function(cart_item_id, callback) {
-        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/retain-item", $.extend(this.cartPermit, {_method: "POST"}), callback);
+        $.post("/api/shopping-cart/cart-items/"+cart_item_id+"/retain-item", $.extend({}, this.cartPermit, {_method: "POST"}), callback);
     }
 };

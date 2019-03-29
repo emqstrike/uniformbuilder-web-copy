@@ -31,7 +31,7 @@ CartItemPlayerApi.prototype = {
      * @return {void}
      */
     addPlayer: function(cart_item_id, data, callback, ajaxObject) {
-        var params = $.extend(
+        var params = $.extend({},
             this.cartPermit,
             {cart_item_id: cart_item_id},
             data
@@ -42,7 +42,7 @@ CartItemPlayerApi.prototype = {
         if (typeof ajaxObject === "undefined") {
             $.post(url, params, callback);
         } else {
-            $.ajax(_.extend({
+            $.ajax($.extend({}, {
                 url: url,
                 type: "POST",
                 dataType: 'JSON',
@@ -63,7 +63,7 @@ CartItemPlayerApi.prototype = {
      * @return {void}
      */
     updatePlayer: function(cart_item_id, player_id, data, callback, ajaxObject) {
-        var params = $.extend(
+        var params = $.extend({},
             this.cartPermit,
             {cart_item_id: cart_item_id},
             data,
@@ -75,7 +75,7 @@ CartItemPlayerApi.prototype = {
         if (typeof ajaxObject === "undefined") {
             $.post(url, params, callback);
         } else {
-            $.ajax(_.extend({
+            $.ajax($.extend({}, {
                 url: url,
                 type: "POST",
                 dataType: 'JSON',
@@ -91,7 +91,8 @@ CartItemPlayerApi.prototype = {
      * @return void
      */
     deletePlayer: function(cart_item_id, player_id, callback) {
-        var params = $.extend(
+        console.log(this.cartPermit);
+        var params = $.extend({},
             this.cartPermit,
             {cart_item_id: cart_item_id},
             {_method: "DELETE"}
