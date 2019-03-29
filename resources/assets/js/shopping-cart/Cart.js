@@ -15,6 +15,7 @@ var Cart = {
     ma: null,
 
     addPlayerValidationObj: null,
+    editPlayerValidationObj: null,
 
     init: function() {
         Cart.ma = new MaterialApi(cart.api_host);
@@ -82,6 +83,41 @@ var Cart = {
     initAddPlayerValidation: function(form_selector, options) {
         var jvBs3 = new JvBs3(form_selector, options);
         Cart.addPlayerValidationObj = jvBs3.validate(
+            // rules
+            {
+                last_name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 50,
+                    regex: /^[a-zA-Z\s]+$/i
+                },
+                number: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    max: 99,
+                    rangelength: [1, 2]
+                },
+                quantity: {
+                    required: true,
+                    number: true,
+                    min: 1,
+                    max: 100
+                }
+            },
+
+            // messages
+            {
+                last_name: {
+                    regex: "Please input only letters."
+                }
+            }
+        );
+    },
+
+    initEditPlayerValidation: function(form_selector, options) {
+        var jvBs3 = new JvBs3(form_selector, options);
+        Cart.editPlayerValidationObj = jvBs3.validate(
             // rules
             {
                 last_name: {
@@ -334,6 +370,18 @@ var Cart = {
                                     $(':input', form.closest('.modal-content')).prop('disabled', false);
                                 }, 1000);
                             }
+                        },
+
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                var errors = xhr.responseJSON;
+
+                                // if user try to change/hack the default product price
+                                if (typeof errors.price !== "undefined") {
+                                    alert("Looks like you modify the default price of items. The system will force to load automatically.");
+                                    location.reload();
+                                }
+                            }
                         }
                     });
 
@@ -355,13 +403,21 @@ var Cart = {
         var cart_item_el = $(this).closest('.cart-item');
         var cart_item_id = cart_item_el.data('cart-item-id');
 
+        var material_id = cart_item_el.data('material-id');
+
         var _this = $(this);
         var player_id = $(this).data('id');
         var form_tmpl = _.template($('#form-tmpl').html());
 
+        var size_el = $(':input[name="size"]', cart_item_el);
+        var size_price = JSON.parse(size_el.val());
+        var pricing_age = $(":selected", size_el).parent().attr('label').toLowerCase();
+
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
         var player = _.find(cart_item.players, {id: parseInt(player_id)});
+
+        var editPlayerForm;
 
         var editPlayerBootbox = bootbox.dialog({
             title: "Edit Player",
@@ -371,6 +427,7 @@ var Cart = {
                 quantity: player.quantity
             }),
             closeButton: false,
+            className: "edit-player-modal",
 
             buttons: {
                 cancel: {
@@ -382,22 +439,44 @@ var Cart = {
                     label: '<span class="glyphicon glyphicon-saved"></span> Update Player',
                     className: "btn-success",
                     callback: function() {
-                        var el = $(this);
+                        editPlayerForm.submit();
+                        return false;
+                    }
+                }
+            }
+        });
 
-                        var last_name = $(':input[name="last_name"]', el).val(),
-                            number = $(':input[name="number"]', el).val(),
-                            quantity = $(':input[name="quantity"]', el).val();
+        editPlayerBootbox.on("shown.bs.modal", function() {
+            editPlayerForm = $('.edit-player-modal form');
+            $(':input[name="last_name"]', editPlayerForm).focus();
 
-                        if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
-                            editPlayerBootbox.modal('hide');
+            $('.form-group > label').addClass("control-label");
+            Cart.initEditPlayerValidation(editPlayerForm, {
+                submitHandler: function(form) {
+                    var last_name = $(':input[name="last_name"]', form).val(),
+                        number = $(':input[name="number"]', form).val(),
+                        quantity = $(':input[name="quantity"]', form).val();
 
-                            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+                    if (!_.isEmpty(last_name) && !_.isEmpty(number) && !_.isEmpty(quantity)) {
+                        editPlayerBootbox.modal('hide');
 
-                            ShoppingCart.cipa.updatePlayer(cart_item_id, player_id, {
-                                last_name: last_name,
-                                number: number,
-                                quantity: quantity
-                            }, function(response, textStatus, xhr) {
+                        bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+
+                        ShoppingCart.cipa.updatePlayer(cart_item_id, player_id, {
+                            size: size_price.size,
+                            last_name: last_name,
+                            number: number,
+                            price: parseFloat(size_price.price),
+                            quantity: quantity,
+
+                            material_id: material_id,
+                            pricing_age: pricing_age
+                        }, null, {
+                            beforeSend: function() {
+                                $(':input', form.closest('.modal-content')).prop('disabled', true);
+                            },
+
+                            success: function(response) {
                                 if (response.success) {
                                     player.last_name = last_name;
                                     player.number = number;
@@ -418,14 +497,35 @@ var Cart = {
                                 }
 
                                 bootbox.hideAll();
-                            });
-                        } else {
-                            console.log("invalid input");
-                            return false;
-                        }
+                            },
+
+                            error: function(xhr) {
+                                if (xhr.status === 422) {
+                                    var errors = xhr.responseJSON;
+
+                                    // if user try to change/hack the default product price
+                                    if (typeof errors.price !== "undefined") {
+                                        alert("Looks like you modify the default price of items. The system will force to load automatically.");
+                                        location.reload();
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        console.log("invalid input");
                     }
+
+                    return false;
                 }
-            }
+            });
+        });
+
+        editPlayerBootbox.on("shown.bs.modal", function() {
+            $('.add-player-modal form :input[name="last_name"]').focus();
+        });
+
+        editPlayerBootbox.on("hide.bs.modal", function() {
+            Cart.editPlayerValidationObj.destroy();
         });
     },
 

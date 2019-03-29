@@ -37,11 +37,13 @@ CartItemPlayerApi.prototype = {
             data
         );
 
+        var url = "/api/shopping-cart/cart-item-players/add";
+
         if (typeof ajaxObject === "undefined") {
-            $.post("/api/shopping-cart/cart-item-players/add", params, callback);
+            $.post(url, params, callback);
         } else {
             $.ajax(_.extend({
-                url: "/api/shopping-cart/cart-item-players/add",
+                url: url,
                 type: "POST",
                 dataType: 'JSON',
                 data: params
@@ -60,7 +62,7 @@ CartItemPlayerApi.prototype = {
      * @param {function} callback
      * @return {void}
      */
-    updatePlayer: function(cart_item_id, player_id, data, callback) {
+    updatePlayer: function(cart_item_id, player_id, data, callback, ajaxObject) {
         var params = $.extend(
             this.cartPermit,
             {cart_item_id: cart_item_id},
@@ -68,7 +70,18 @@ CartItemPlayerApi.prototype = {
             {_method: "PUT"}
         );
 
-        $.post("/api/shopping-cart/cart-item-players/"+player_id+"/update", params, callback);
+        var url = "/api/shopping-cart/cart-item-players/"+player_id+"/update";
+
+        if (typeof ajaxObject === "undefined") {
+            $.post(url, params, callback);
+        } else {
+            $.ajax(_.extend({
+                url: url,
+                type: "POST",
+                dataType: 'JSON',
+                data: params
+            }, ajaxObject));
+        }
     },
 
     /**
