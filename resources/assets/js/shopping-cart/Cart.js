@@ -14,6 +14,8 @@ var Cart = {
     cart_items: [],
     ma: null,
 
+    addPlayerValidationObj: null,
+
     init: function() {
         Cart.ma = new MaterialApi(cart.api_host);
 
@@ -75,6 +77,41 @@ var Cart = {
                 $('#cart-items-el').html('<div class="col-md-12">Failed to fetch cart items.</div>');
             }
         });
+    },
+
+    initAddPlayerValidation: function(form_selector, options) {
+        var jvBs3 = new JvBs3(form_selector, options);
+        Cart.addPlayerValidationObj = jvBs3.validate(
+            // rules
+            {
+                last_name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 50,
+                    regex: /^[a-zA-Z\s]+$/i
+                },
+                number: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    max: 99,
+                    rangelength: [1, 2]
+                },
+                quantity: {
+                    required: true,
+                    number: true,
+                    min: 1,
+                    max: 100
+                }
+            },
+
+            // messages
+            {
+                last_name: {
+                    regex: "Please input only letters."
+                }
+            }
+        );
     },
 
     loadPlayers: function(cart_item_id, size) {
@@ -228,6 +265,8 @@ var Cart = {
 
         var cart_item = _.find(Cart.cart_items, {cart_item_id: cart_item_id});
 
+        var addPlayerForm;
+
         var addPlayerBootbox = bootbox.dialog({
             title: "Add Player",
             message: form_tmpl(),
@@ -244,75 +283,7 @@ var Cart = {
                     label: '<span class="glyphicon glyphicon-saved"></span> Add Player',
                     className: "btn-primary",
                     callback: function() {
-                        var form = $(this).find('.bootbox-body form');
-                        var jvBs3 = new JvBs3(form);
-
-                        var last_name = $(':input[name="last_name"]', form).val(),
-                            number = $(':input[name="number"]', form).val(),
-                            quantity = $(':input[name="quantity"]', form).val();
-
-                        ShoppingCart.cipa.addPlayer(cart_item_id, {
-                            size: size_price.size,
-                            last_name: last_name,
-                            number: number,
-                            price: parseFloat(size_price.price),
-                            quantity: quantity,
-
-                            material_id: material_id,
-                            pricing_age: pricing_age
-                        }, null, {
-                            beforeSend: function() {
-                                $(':input', form.closest('.modal-content')).prop('disabled', true);
-                            },
-
-                            success: function(response) {
-                                console.log(response);
-                                if (response.success) {
-
-                                    if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
-                                        player_list_el.html("");
-                                    }
-
-                                    cart_item.players.push(response.data);
-                                    var tr_num = $('tr', player_list_el).length;
-                                    player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, response.data)));
-
-                                    form.before('<div class="alert alert-success"><p>'+response.message+'</p></div>');
-
-                                    _.delay(function() {
-                                        addPlayerBootbox.modal('hide');
-                                        $(':input', form.closest('.modal-content')).prop('disabled', false);
-                                    }, 1000);
-                                }
-                            },
-
-                            error: function(xhr) {
-                                $(':input', form.closest('.modal-content')).prop('disabled', false);
-
-                                if (xhr.status === 422) {
-                                    var errors = xhr.responseJSON;
-                                    var error_keys = Object.keys(errors);
-
-                                    // reload the page when user trying to (change/hack) the default price
-                                    if (typeof errors.price !== "undefined") {
-                                        alert("Looks like you change the default price. Click OK to reload the page.");
-                                        location.reload();
-                                    }
-
-                                    $.each($(':input', form), function(index, el) {
-                                        var field = $(el).attr('name');
-
-                                        // error found
-                                        if (error_keys.indexOf(field) !== -1) {
-                                            jvBs3.highlight($(':input[name="'+field+'"]', form), errors[field][0]);
-                                        } else {
-                                            jvBs3.unhighlight($(':input[name="'+field+'"]', form));
-                                        }
-                                    });
-                                }
-                            }
-                        });
-
+                        addPlayerForm.submit();
                         return false;
                     }
                 }
@@ -320,7 +291,63 @@ var Cart = {
         });
 
         addPlayerBootbox.on("shown.bs.modal", function() {
+            addPlayerForm = $('.add-player-modal form');
+            $(':input[name="last_name"]', addPlayerForm).focus();
+
+            $('.form-group > label').addClass("control-label");
+            Cart.initAddPlayerValidation(addPlayerForm, {
+                submitHandler: function(form) {
+                    var last_name = $(':input[name="last_name"]', form).val(),
+                        number = $(':input[name="number"]', form).val(),
+                        quantity = $(':input[name="quantity"]', form).val();
+
+                    ShoppingCart.cipa.addPlayer(cart_item_id, {
+                        size: size_price.size,
+                        last_name: last_name,
+                        number: number,
+                        price: parseFloat(size_price.price),
+                        quantity: quantity,
+
+                        material_id: material_id,
+                        pricing_age: pricing_age
+                    }, null, {
+                        beforeSend: function() {
+                            $(':input', form.closest('.modal-content')).prop('disabled', true);
+                        },
+
+                        success: function(response) {
+                            console.log(response);
+                            if (response.success) {
+
+                                if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
+                                    player_list_el.html("");
+                                }
+
+                                cart_item.players.push(response.data);
+                                var tr_num = $('tr', player_list_el).length;
+                                player_list_el.append(player_row_tmpl(_.extend({index: tr_num + 1}, response.data)));
+
+                                $(form).before('<div class="alert alert-success"><p>'+response.message+'</p></div>');
+
+                                _.delay(function() {
+                                    addPlayerBootbox.modal('hide');
+                                    $(':input', form.closest('.modal-content')).prop('disabled', false);
+                                }, 1000);
+                            }
+                        }
+                    });
+
+                    return false;
+                }
+            });
+        });
+
+        addPlayerBootbox.on("shown.bs.modal", function() {
             $('.add-player-modal form :input[name="last_name"]').focus();
+        });
+
+        addPlayerBootbox.on("hide.bs.modal", function() {
+            Cart.addPlayerValidationObj.destroy();
         });
     },
 

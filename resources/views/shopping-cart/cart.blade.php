@@ -32,8 +32,11 @@
 @section('scripts')
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/bootbox/bootbox.min.js"></script>
+<script type="text/javascript" src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="/jquery-validation/add-methods.js"></script>
+<script type="text/javascript" src="/jquery-validation/JvBs3.js"></script>
+
 <script type="text/javascript" src="/js/shopping-cart/api/material-api.js"></script>
-<script type="text/javascript" src="/js/shopping-cart/helpers/jv-bs3.js"></script>
 
 <script type="text/template" id="duplicate-items-tmpl">
     <div id="duplicate-items-container">
