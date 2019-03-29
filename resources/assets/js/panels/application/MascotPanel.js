@@ -106,7 +106,7 @@ MascotPanel.init = function () {
         ub.funcs.getFreeApplicationsContainer('mascots');
     }
 
-    if (_appData.length === 0) {
+    if (_appData.length === 0 || ub.funcs.isTackleTwill()) {
         $(".add-another-application-container").hide();
     }
     

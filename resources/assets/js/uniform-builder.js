@@ -53,12 +53,12 @@ $(document).ready(function () {
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
                 ub.current_material.fabrics = ub.config.api_host + '/api/fabrics/';
 
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);

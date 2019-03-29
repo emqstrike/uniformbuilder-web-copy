@@ -1187,10 +1187,6 @@
 
 
     $.ub.create_mascot = function (input_object) {
-        if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
-            var _teamColors = ub.data.secondaryColorPalette;
-        }
-
         var sprite;
         var application = input_object.application;
         var mascot = input_object.mascot;
@@ -1270,25 +1266,7 @@
 
         _.each(mascot.layers_properties, function(layer, index) {
             var colorObject = ub.funcs.getColorByColorCode(layer.default_color);
-
             var mascot_layer = ub.pixi.new_sprite(layer.filename);
-            if (ub.data.useScrollingUI && typeof ub.data.useScrollingUI !== "undefined") {
-                var checkColor = _.find(_teamColors, {color_code: colorObject.color_code});
-
-                if (typeof checkColor !== "undefined") {
-                    mascot_layer.tint = parseInt(colorObject.hex_code, 16);
-                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
-                } else {
-                    mascot_layer.tint = parseInt(_teamColors[1].hex_code, 16);
-                    mascot_obj.layers_properties[index].color = mascot_layer.tint;
-                    mascot_obj.layers_properties[index].default_color = _teamColors[1].color_code;
-                }
-
-            } else {
-                mascot_layer.tint = parseInt(colorObject.hex_code, 16);
-                mascot_obj.layers_properties[index].color = mascot_layer.tint;
-            }
-
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
