@@ -532,7 +532,7 @@ var Cart = {
     onDeletePlayer: function() {
         var _this = $(this);
 
-        bootbox.confirm("Delete the player?", function(yes) {
+        var deletePlayerBootbox = bootbox.confirm("Delete the player?", function(yes) {
             if (yes) {
                 _this.button('loading');
 
@@ -562,6 +562,12 @@ var Cart = {
                 });
             }
         });
+
+        deletePlayerBootbox.on("show.bs.modal", function() {
+            console.log("summon");
+            _this.blur();
+        });
+        deletePlayerBootbox.modal("show");
     },
 
     onDeleteItemToCart: function(e) {
