@@ -98,9 +98,13 @@ RichardsonSkin.funcs = {
     setupFooter: function() {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
 
-        var richardson_footer = document.getElementById("m-richardson-footer");
-        var render_footer = Mustache.render(richardson_footer.innerHTML);
+        var user = ub.user;
 
+        var richardson_footer = document.getElementById("m-richardson-footer");
+        var render_footer = Mustache.render(richardson_footer.innerHTML, {user: user});
+        if ($("#right-pane-column .richardson-footer").length !== 0) {
+            $("#right-pane-column .richardson-footer").remove();
+        }
         $("div#right-pane-column").append(render_footer);
         $(".richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },
