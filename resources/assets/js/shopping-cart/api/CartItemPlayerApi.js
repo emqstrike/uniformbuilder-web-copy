@@ -91,7 +91,6 @@ CartItemPlayerApi.prototype = {
      * @return void
      */
     deletePlayer: function(cart_item_id, player_id, callback) {
-        console.log(this.cartPermit);
         var params = $.extend({},
             this.cartPermit,
             {cart_item_id: cart_item_id},

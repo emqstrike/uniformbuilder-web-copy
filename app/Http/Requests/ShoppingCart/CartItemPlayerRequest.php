@@ -26,14 +26,8 @@ class CartItemPlayerRequest extends Request
         $method = app("request")->method();
 
         switch (strtoupper($method)) {
-            case 'POST':
-            case 'PUT':
-                $material_id = $this->get('material_id');
-                $pricing_age = $this->get('pricing_age');
-                $size = $this->get('size');
-                $price = $this->get('price');
-                $quantity = !empty($this->get('quantity')) ? $this->get('quantity') : 1;
-
+            case "POST":
+            case "PUT":
                 return [
                     'size' => "required",
                     'last_name' => "required|min:2|max:50|alpha_spaces",
@@ -41,10 +35,12 @@ class CartItemPlayerRequest extends Request
                     'quantity' => "required|numeric|min:1|max:100",
                     'cart_item_id' => "required|numeric",
 
-                    'price' => "required|valid_price:{$material_id},{$pricing_age},{$size}," . ($price/$quantity),
                     'material_id' => "required|numeric",
                     'pricing_age' => "required|valid_pricing_age"
                 ];
+
+            case "DELETE":
+                
         }
     }
 }

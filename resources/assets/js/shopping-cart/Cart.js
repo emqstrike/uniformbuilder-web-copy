@@ -369,18 +369,9 @@ var Cart = {
                                     addPlayerBootbox.modal('hide');
                                     $(':input', form.closest('.modal-content')).prop('disabled', false);
                                 }, 1000);
-                            }
-                        },
-
-                        error: function(xhr) {
-                            if (xhr.status === 422) {
-                                var errors = xhr.responseJSON;
-
-                                // if user try to change/hack the default product price
-                                if (typeof errors.price !== "undefined") {
-                                    alert("Looks like you modify the default price of items. The system will force to load automatically.");
-                                    location.reload();
-                                }
+                            } else {
+                                alert(response.message);
+                                location.reload();
                             }
                         }
                     });

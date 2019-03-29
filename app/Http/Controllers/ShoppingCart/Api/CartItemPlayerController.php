@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ShoppingCart\Api;
 
+use App\CurrencyConversion\CurrencyConversion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\ShoppingCart\CartItemPlayerRequest;
@@ -26,6 +27,20 @@ class CartItemPlayerController extends Controller
      */
     public function add(CartItemPlayerRequest $request)
     {
+        $material_id = $request->get('material_id');
+        $pricing_age = $request->get('pricing_age');
+        $size = $request->get('size');
+        $price = $request->get('price');
+        $quantity = !empty($request->get('quantity')) ? $request->get('quantity') : 1;
+
+        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, ($price/$quantity)))
+        {
+            return response()->json([
+                'success' => false,
+                'message' => "Looks like you modify the default price of items. The system will force to load automatically."
+            ]);
+        }
+
         $cart_item_player = CartItemPlayer::create([
             'size' => $request->get('size'),
             'last_name' => $request->get('last_name'),
@@ -67,6 +82,20 @@ class CartItemPlayerController extends Controller
      */
     public function update(CartItemPlayerRequest $request, CartItemPlayer $cartItemPlayer)
     {
+        $material_id = $request->get('material_id');
+        $pricing_age = $request->get('pricing_age');
+        $size = $request->get('size');
+        $price = $request->get('price');
+        $quantity = !empty($request->get('quantity')) ? $request->get('quantity') : 1;
+
+        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, ($price/$quantity)))
+        {
+            return response()->json([
+                'success' => false,
+                'message' => "Looks like you modify the default price of items. The system will force to load automatically."
+            ]);
+        }
+
         $cartItemPlayer->last_name = $request->get('last_name');
         $cartItemPlayer->number = $request->get('number');
         $cartItemPlayer->quantity = $request->get('quantity');

@@ -94,7 +94,6 @@ return [
 
     'email_not_exist' => "Email is already exists.",
     'alpha_spaces' => "The :attribute may only contain letters and spaces.",
-    'valid_price' => "Price is invalid",
     'valid_pricing_age' => "Pricing age is invalid",
 
     /*
