@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jquery-validation": "^1.19.0",
     "uikit": "^3.0.3"
   }
 }
