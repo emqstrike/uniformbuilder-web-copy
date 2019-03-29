@@ -76,7 +76,7 @@ LetterPanel.init = function() {
     }
 
     // initializer
-    ub.funcs.setupApplicationSettings(_Applications);
+    ub.funcs.setupApplicationSettings(_appData);
     ub.funcs.initializer();
     ApplicationEvent.events.init();
     NewApplicationPanel.events.init();
