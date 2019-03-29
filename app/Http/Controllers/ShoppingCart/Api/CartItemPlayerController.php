@@ -4,8 +4,7 @@ namespace App\Http\Controllers\ShoppingCart\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Http\Requests\ShoppingCart\AddPlayerRequest;
-use App\Http\Requests\ShoppingCart\EditPlayerRequest;
+use App\Http\Requests\ShoppingCart\CartItemPlayerRequest;
 use App\ShoppingCart\Cart;
 use App\ShoppingCart\CartItem;
 use App\ShoppingCart\CartItemPlayer;
@@ -25,7 +24,7 @@ class CartItemPlayerController extends Controller
      * - price
      * - quantity
      */
-    public function add(AddPlayerRequest $request)
+    public function add(CartItemPlayerRequest $request)
     {
         $cart_item_player = CartItemPlayer::create([
             'size' => $request->get('size'),
@@ -66,7 +65,7 @@ class CartItemPlayerController extends Controller
      * - number
      * - quantity
      */
-    public function update(EditPlayerRequest $request, CartItemPlayer $cartItemPlayer)
+    public function update(CartItemPlayerRequest $request, CartItemPlayer $cartItemPlayer)
     {
         $cartItemPlayer->last_name = $request->get('last_name');
         $cartItemPlayer->number = $request->get('number');
