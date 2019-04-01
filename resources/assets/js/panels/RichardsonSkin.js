@@ -9,7 +9,7 @@ RichardsonSkin.init = function() {
     RichardsonSkin.funcs.setupSkin(0xffffff);
     if (ub.page === "saved-design") {
         $("#top-left-side-toolbar").css("width", "235px");
-        $("#top-left-side-toolbar").append('<button class="load-design uk-button padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize">Customize this uniform</button>');
+        $("#top-left-side-toolbar").append('<button class="customize-uniform uk-button padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize">Customize this uniform</button>');
     }
 }
 
@@ -23,6 +23,9 @@ RichardsonSkin.events = {
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onNext', _this.onNextPanel);
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onPrevious', _this.onPreviousPanel);
             $(".richardson-header").on('click', '.change-fabric', _this.onChangeFabric);
+            if (ub.page === "saved-design") {
+                $("#left-pane-column").on('click', '#top-left-side-toolbar .customize-uniform', _this.onCustomize);
+            }
             RichardsonSkin.events.isInit = false;
         }
 
@@ -78,8 +81,12 @@ RichardsonSkin.events = {
             var perspective = new PerspectiveController();
             perspective.setPerspective(view)
         }
-    }
+    },
 
+    onCustomize: function() {
+        $("#left-pane-column #top-left-side-toolbar .customize-uniform").hide();
+        ub.funcs.restoreUI()
+    }
 }
 
 RichardsonSkin.funcs = {
