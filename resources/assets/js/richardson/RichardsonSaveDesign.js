@@ -16,11 +16,21 @@ RichardsonSaveDesign.events = {
 
 
     onClickSaveDesign: function() {
-        RichardsonSaveDesign.events.showSaveDesgin();
-        $(".uniform-thumbnail-container").addClass("uk-hidden");
-        $(".save-design-buttons").addClass("uk-hidden");
-        $(".saving-please-wait").addClass("uk-hidden");
-        $('.save-design-loading').fadeIn();
+        if (RichardsonSaveDesign.events.isUniformChange()) {
+            RichardsonSaveDesign.events.showSaveDesgin();
+            $(".uniform-thumbnail-container").addClass("uk-hidden");
+            $(".save-design-buttons").addClass("uk-hidden");
+            $(".saving-please-wait").addClass("uk-hidden");
+            $('.save-design-loading').fadeIn();
+            console.log("Uniform is change")
+        } else {
+            $(".uniform-thumbnail-container").removeClass("uk-hidden");
+            $(".save-design-buttons").removeClass("uk-hidden");
+            $(".saving-please-wait").addClass("uk-hidden");
+            $('.save-design-loading').fadeOut();
+
+            console.log("Uniform is not change")
+        }
         UIkit.modal("#richardson-saved-design").show();
     },
 
@@ -42,6 +52,15 @@ RichardsonSaveDesign.events = {
             back_view: "",
             left_view: "",
             right_view: ""
+        }
+
+        if (typeof ub.current_material.settings.previousThumbnails === "undefined") {
+            ub.current_material.settings.previousThumbnails = {
+                front_view: "",
+                back_view: "",
+                left_view: "",
+                right_view: "",
+            }
         }
 
         ub.funcs.removeLocations();
@@ -161,6 +180,7 @@ RichardsonSaveDesign.events = {
 
     uploadThumbnailSaveDesign: function(view) {
         var _dataUrl = ub.getThumbnailImage(view);
+        ub.current_material.settings.previousThumbnails[view] = _dataUrl;
 
         $.ajaxSetup({
             headers: {
@@ -193,5 +213,22 @@ RichardsonSaveDesign.events = {
                 }
             }
         });
+    },
+
+    // Check if the uniform has been modified
+    isUniformChange: function() {
+        if (typeof ub.current_material.settings.previousThumbnails === "undefined") {
+            return true;
+        } else {
+            var isChangeFront = ub.current_material.settings.previousThumbnails["front_view"] !== ub.getThumbnailImage("front_view");
+            var isChangeBack = ub.current_material.settings.previousThumbnails["back_view"] !== ub.getThumbnailImage("back_view");
+            var isChangeLeft = ub.current_material.settings.previousThumbnails["left_view"] !== ub.getThumbnailImage("left_view");
+            var isChangeRight = ub.current_material.settings.previousThumbnails["right_view"] !== ub.getThumbnailImage("right_view");
+            var isChangeThumbnails = false;
+
+            var isChangeThumbnails = isChangeFront || isChangeBack || isChangeLeft || isChangeRight;
+
+            return isChangeThumbnails;
+        }
     }
 }
