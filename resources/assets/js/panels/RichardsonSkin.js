@@ -22,6 +22,10 @@ RichardsonSkin.events = {
             $(".richardson-header").on('click', '.change-fabric', _this.onChangeFabric);
             RichardsonSkin.events.isInit = false;
         }
+
+        if (ub.user) {
+            RichardsonSaveDesign.events.init();
+        }
     },
 
     onNextPanel: function() {
