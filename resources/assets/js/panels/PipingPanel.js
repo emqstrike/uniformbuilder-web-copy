@@ -151,7 +151,22 @@ PipingPanel.events = {
 
 
         if (active_size_type.includes("Left Sleeve Piping 1 inch Up")) {
-            LogoPanel.utilities.offsetRLogo(size, value);
+            if (ub.data.disableLogoLeftSleeve) {
+                var logoObject = LogoPanel.utilities.getActiveRLogo();
+                var positions = LogoPanel.utilities.getAvailablePosition(logoObject.position);
+                
+                if (logoObject.position.includes("sleeve")) {
+                    var _layerCount = 0;
+                    if (positions[0].layer1) { _layerCount +=1 };
+                    if (positions[0].layer2) { _layerCount +=1 };
+                    if (positions[0].layer3) { _layerCount +=1 };
+
+                    LogoPanel.utilities.addLogo(positions[0], _layerCount);
+                    LogoPanel.utilities.removeLogo(logoObject.position);
+                }
+            } else {
+                LogoPanel.utilities.offsetRLogo(size, value);
+            }
         } else {
             var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
             if (typeof leftSleeve1inch !== "undefined") {
@@ -492,6 +507,16 @@ PipingPanel.disablePiping = function(piping_type) {
         var matching_side = ub.funcs.getMatchingSide(piping_type);
         PipingPanel.removePiping(matching_side);
     }
+}
+
+PipingPanel.hasLeftSleeve1Inch = function() {
+    var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
+
+    if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
+        return true;
+    }
+
+    return false;
 }
 
 PipingPanel.renderLayer = function(size) {
