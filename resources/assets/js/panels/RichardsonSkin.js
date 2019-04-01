@@ -142,6 +142,7 @@ RichardsonSkin.funcs = {
         ub.back_view.visible = true;
         ub.left_view.visible = true;
         ub.right_view.visible = true;
+        ub.funcs.deactivateMoveTool();
 
         if (Worker) {
             var worker = new Worker('/workers/image-worker.js');
@@ -203,7 +204,6 @@ RichardsonSkin.funcs = {
             $("div#left-side-toolbar").html("");
             $("div#left-side-toolbar").html(rendered_template);
             $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
-            console.log("Updating Uniform Thumbnail")
         }
     },
 

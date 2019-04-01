@@ -3,7 +3,7 @@
         <div class="modal-content cp-padding-remove">
             <div class="modal-header cp-bgc-light cp-text-center">
                 <div>
-                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">All Application(s)</h4>
+                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">All Decoration(s)</h4>
                 </div>
             </div>
             <div class="modal-body application-list-body cp-padding-medium cp-padding-remove-vertical">

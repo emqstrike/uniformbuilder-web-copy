@@ -69,7 +69,7 @@ NumbersPanel.init = function () {
     }
 
     // initialize and Bind Events
-    ub.funcs.setupApplicationSettings(_Applications);
+    ub.funcs.setupApplicationSettings(_appData);
     ub.funcs.initializer();
     ApplicationEvent.events.init();
     NewApplicationPanel.events.init();
