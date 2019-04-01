@@ -12,5 +12,25 @@
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
             isHeaderVisible: "{{ env('HEADER_VISIBLE') }}"
         };
+
+        @if (Session::get('isLoggedIn'))
+
+            window.ub.user = {
+                id: {{ Session::get('userId') }},
+                fullname: "{{ Session::get('fullname') }}",
+                firstName: "{{ Session::get('firstName') }}",
+                lastName: "{{ Session::get('lastName') }}",
+                email: "{{ Session::get('email') }}",
+                zip: "{{ Session::get('zip') }}",
+                state: "{{ Session::get('state') }}",
+                defaultRepID: "{{ Session::get('default_rep_id') }}",
+                headerValue: "{{ base64_encode(Session::get('accessToken')) }}",
+            };
+
+            window.ub.valid = {{ Session::get('userId') }};
+
+        @else
+            window.ub.user = false;
+        @endif
     });
 </script>

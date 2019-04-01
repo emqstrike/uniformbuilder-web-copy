@@ -3,11 +3,14 @@ function RichardsonSkin() {
 
 RichardsonSkin.init = function() {
     ub.current_modifier = 1;
-
     $("div#left-side-toolbar").html("")
     $("div.customizer-uniform-information").html("");
     $("p.verbiage-text").addClass('cp-fc-black');
     RichardsonSkin.funcs.setupSkin(0xffffff);
+    if (ub.page === "saved-design") {
+        $("#top-left-side-toolbar").css("width", "235px");
+        $("#top-left-side-toolbar").append('<button class="load-design uk-button padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize">Customize this uniform</button>');
+    }
 }
 
 RichardsonSkin.events = {
