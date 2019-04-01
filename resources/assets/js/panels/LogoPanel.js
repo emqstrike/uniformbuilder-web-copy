@@ -26,6 +26,7 @@ LogoPanel.prototype = {
     init: function() {
         if (LogoPanel.isInit) {
             $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+            $(".modifier_main_container").on('click', '.disable-left-sleeve input[type=checkbox]', this.onClickDisableLeftSleeve);
             LogoPanel.isInit = false;
         }
     },
@@ -94,6 +95,14 @@ LogoPanel.prototype = {
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
         }, 2000);
+    },
+
+    onClickDisableLeftSleeve: function() {
+        if (this.checked == false) {
+            ub.data.disableLogoLeftSleeve = false;
+        } else {
+            ub.data.disableLogoLeftSleeve = true;
+        }
     },
 
     bindEvents: function() {
