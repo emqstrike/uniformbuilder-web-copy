@@ -17,6 +17,9 @@
                 </div>
             </div>
         </div>
+        <p class="cp-fc-black uk-text-small uk-text-capitalize disable-left-sleeve">
+            <input class="uk-checkbox" type="checkbox"> Disable Left Sleeve Location
+        </p>
     </div>
 </script>
 
