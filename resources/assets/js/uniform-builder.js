@@ -8500,7 +8500,7 @@ $(document).ready(function () {
 
                                 select.append( '<option value="'+d+'">'+d+'</option>' )
                             } );
-                        } );
+                        });
                         $(".data-table-filter-hide select").hide();                      
                         $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
                         $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );

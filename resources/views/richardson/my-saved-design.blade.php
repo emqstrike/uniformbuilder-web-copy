@@ -19,6 +19,14 @@
                 <tbody class="my-designs-list">
 
                 </tbody>
+                <tfoot>
+                    <td></td>
+                    <td class="data-table-filter-hide"></td>
+                    <td></td>
+                    <td class="data-table-filter-hide"></td>
+                    <td class="data-table-filter-hide"></td>
+                    <td class="data-table-filter-hide"></td>
+                </tfoot>
             </table>
 
             <div class="uk-child-width-1-1 my-designs-list-loading uk-flex uk-flex-center uk-text-center" uk-grid>
@@ -33,6 +41,7 @@
 </div>
 
 @include("richardson.includes.richardson-init-code")
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/moment/moment.js"></script>
 <script type="text/javascript" src="/richardson/js/MySavedDesign.js"></script>
 <script type="text/mustache" id="m-richardson-my-saved-design">
