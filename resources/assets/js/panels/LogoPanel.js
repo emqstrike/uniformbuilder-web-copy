@@ -99,9 +99,9 @@ LogoPanel.prototype = {
 
     onClickDisableLeftSleeve: function() {
         if (this.checked == false) {
-            ub.data.disableLogoLeftSleeve = false;
+            ub.current_material.settings.disableLogoLeftSleeve = false;
         } else {
-            ub.data.disableLogoLeftSleeve = true;
+            ub.current_material.settings.disableLogoLeftSleeve = true;
         }
     },
 
@@ -345,6 +345,14 @@ LogoPanel.utilities = {
             }
 
             LogoPanel.utilities.renderLogo(_result, logo.numberOfLayers);
+            
+            if (PipingPanel.hasLeftSleeve1Inch() && logo.position === "left_sleeve_logo") {
+                var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
+                if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
+                    _.delay(function(){LogoPanel.utilities.offsetRLogo(leftSleeve1inch.size, leftSleeve1inch.numberOfColors);}, 500);
+                }
+            }
+
         });
     },
 

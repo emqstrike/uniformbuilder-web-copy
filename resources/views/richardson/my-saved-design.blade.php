@@ -61,16 +61,16 @@
             <td>
                 <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center" uk-grid>
                     <div>
-                        <img src="@{{ low_res_front_thumbnail }}" data-file="@{{front_thumbnail}}">
+                        <img class="uk-height-small" src="@{{ low_res_front_thumbnail }}" data-file="@{{front_thumbnail}}">
                     </div>
                     <div>
-                        <img src="@{{ low_res_back_thumbnail }}" data-file="@{{back_thumbnail}}">
+                        <img class="uk-height-small" src="@{{ low_res_back_thumbnail }}" data-file="@{{back_thumbnail}}">
                     </div>
                     <div>
-                        <img src="@{{ low_res_left_thumbnail }}" data-file="@{{left_thumbnail}}">
+                        <img class="uk-height-small" src="@{{ low_res_left_thumbnail }}" data-file="@{{left_thumbnail}}">
                     </div>
                     <div>
-                        <img src="@{{ low_res_right_thumbnail }}" data-file="@{{right_thumbnail}}">
+                        <img class="uk-height-small" src="@{{ low_res_right_thumbnail }}" data-file="@{{right_thumbnail}}">
                     </div>
                 </div>
             </td>

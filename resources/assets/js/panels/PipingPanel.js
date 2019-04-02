@@ -151,7 +151,7 @@ PipingPanel.events = {
 
 
         if (active_size_type.includes("Left Sleeve Piping 1 inch Up")) {
-            if (ub.data.disableLogoLeftSleeve) {
+            if (ub.current_material.settings.disableLogoLeftSleeve) {
                 var logoObject = LogoPanel.utilities.getActiveRLogo();
                 var positions = LogoPanel.utilities.getAvailablePosition(logoObject.position);
                 

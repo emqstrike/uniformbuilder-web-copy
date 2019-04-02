@@ -196,16 +196,16 @@
             </div>
             <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center uniform-thumbnail-container uk-hidden" uk-grid>
                 <div class="front_view">
-                    <img class="bdr-reg bdr-gray" src="">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
                 </div>
                 <div class="back_view">
-                    <img class="bdr-reg bdr-gray" src="">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
                 </div>
                 <div class="right_view">
-                    <img class="bdr-reg bdr-gray" src="">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
                 </div>
                 <div class="left_view">
-                    <img class="bdr-reg bdr-gray" src="">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
                 </div>
             </div>
             <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>

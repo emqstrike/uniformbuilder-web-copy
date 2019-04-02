@@ -219,7 +219,7 @@ ModifierController.prototype = {
             // Activate logo current position
             $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
 
-            if (ub.data.disableLogoLeftSleeve) {
+            if (ub.current_material.settings.disableLogoLeftSleeve) {
                 if (PipingPanel.hasLeftSleeve1Inch()) {
                     $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='left_sleeve_logo']").addClass('uk-disabled bgc-light');
                 }

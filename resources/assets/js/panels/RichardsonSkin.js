@@ -10,6 +10,10 @@ RichardsonSkin.init = function() {
     if (ub.page === "saved-design") {
         $("#top-left-side-toolbar").css("width", "235px");
         $("#top-left-side-toolbar").append('<button class="customize-uniform uk-button padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize">Customize this uniform</button>');
+
+        if (!ub.user) {
+            $("#left-pane-column #top-left-side-toolbar .customize-uniform").hide();
+        }
     }
 }
 
