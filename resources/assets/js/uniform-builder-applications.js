@@ -11671,7 +11671,7 @@ $(document).ready(function () {
 
     ub.funcs.deleteLocation = function (locationID) {
 
-        ub.funcs.activateBody();
+        // ub.funcs.activateBody();
 
         var _appSettings = ub.current_material.settings.applications[locationID];
 
@@ -11711,7 +11711,7 @@ $(document).ready(function () {
         ub.tools.activeTool.deactivate();
         ub.funcs.updateLayerTool();
 
-        ub.funcs.gotoFirstMaterialOption();
+        // ub.funcs.gotoFirstMaterialOption();
         $('body').css('cursor', 'auto');
 
     };

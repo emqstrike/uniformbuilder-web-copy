@@ -136,7 +136,16 @@
 
         @{{ #applications }}
             <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{ perspective }} view) #@{{ code }}</h5>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand">
+                        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                    </div>
+                    <div class="uk-width-auto">
+                        <div class="uk-text-right">
+                            <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark toggleApplicationContainer" uk-grid>
                     <div class="uk-width-1-2">
                         <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice view-letters-opt">View</button>
@@ -213,7 +222,16 @@
 
         @{{ #applications }}
             <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{ perspective }} view) #@{{ code }}</h5>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand">
+                        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                    </div>
+                    <div class="uk-width-auto">
+                        <div class="uk-text-right">
+                            <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark toggleApplicationContainer" uk-grid>
                     <div class="uk-width-1-2">
                         <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice view-letters-opt">View</button>
@@ -290,7 +308,16 @@
 
         @{{ #applications }}
             <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand">
+                        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                    </div>
+                    <div class="uk-width-auto">
+                        <div class="uk-text-right">
+                            <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="con-en-disable-me uk-grid-small" uk-grid>
                     <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
                         <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove">
@@ -351,7 +378,16 @@
 <script type="text/mustache" id="m-reinit-application">
     @{{ #applications }}
         <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{ perspective }} view) #@{{ code }}</h5>
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-expand">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                </div>
+                <div class="uk-width-auto">
+                    <div class="uk-text-right">
+                        <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                    </div>
+                </div>
+            </div>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice view-letters-opt uk-active">View</button>
@@ -392,7 +428,16 @@
 <script type="text/mustache" id="m-reinit-application-numbers">
     @{{ #applications }}
         <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{ perspective }} view) #@{{ code }}</h5>
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-expand">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                </div>
+                <div class="uk-width-auto">
+                    <div class="uk-text-right">
+                        <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                    </div>
+                </div>
+            </div>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>
                 <div class="uk-width-1-2">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice view-letters-opt uk-active">View</button>
@@ -433,7 +478,16 @@
 <script type="text/mustache" id="m-reinit-application-mascots">
     @{{ #applications }}
         <li class="applicationUIBlockNew" data-application-id="@{{ code }}">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-expand">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold fc-darker"><span class=" uk-text-uppercase abrade-ultra-italic">@{{ type }}</span> (@{{perspective}} view) #@{{code}}</h5>
+                </div>
+                <div class="uk-width-auto">
+                    <div class="uk-text-right">
+                        <a href="javascript:void(0)" class="cp-fc-black remove-decoration"><span uk-icon="icon: close;"></span></a>
+                    </div>
+                </div>
+            </div>
             <div class="con-en-disable-me uk-grid-small" uk-grid>
                 <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
                     <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove">

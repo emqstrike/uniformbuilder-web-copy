@@ -32,6 +32,7 @@ ApplicationEvent.events = {
             $("#primary_options_container").on('click', 'a.fontStyleLeft, a.fontStyleRight', _this.onChangeFontStyle);
             $("#primary_options_container").on('click', '.change-free-app', _this.onChangeFreeApplication);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', _this.onChangeAccentColor);
+            $("#primary_options_container").on('click', '.remove-decoration', _this.onRemoveDecoration);
             ApplicationEvent.events.isInit = false;
         }
     },
@@ -242,4 +243,16 @@ ApplicationEvent.events = {
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
         }
     },
+
+    onRemoveDecoration: function() {
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        var applicationSettings = ub.funcs.getApplicationSettings(application_id);
+        
+        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.type + ' #' + applicationSettings.code + '?').then(function() {
+            $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).fadeOut();
+            ub.funcs.deleteLocation(applicationSettings.code);
+        }, function () {
+            console.log('Rejected.')
+        });
+    }
 }
