@@ -36,14 +36,14 @@
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
             orderCode: "{{ isset($order_code) ? $order_code : 'none' }}",
             orderIDParent: "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}",
+            // HSEL ONLY
+            isFromHSEL: "{{ isset($isFromHSEL) ? $isFromHSEL : false }}",
 
             @if (isset($styles))
             styles: {
                 load: "{{ isset($styles) ? $styles : false }}",
                 gender: "{{ isset($gender) ? $gender : undefined }}",
                 sport: "{{ isset($sport) ? $sport : null }}",
-                // HSEL ONLY
-                isFromHSEL: "{{ isset($isFromHSEL) ? $isFromHSEL : false }}"
             },
             @endif
 
