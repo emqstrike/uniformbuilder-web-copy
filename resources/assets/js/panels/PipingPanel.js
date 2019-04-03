@@ -221,10 +221,20 @@ PipingPanel.events = {
         var layerHTML = PipingPanel.renderLayer(number_of_colors);
         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(type);
 
+        var layers = [];
+        _.each(_pipingSettingsObject.layers, function(layer) {
+            layers.push({
+                layer_no: layer.layer,
+                colorObject: layer.colorObj
+            });
+        });
+
+        console.log(layers)
+
         if (typeof _pipingSettingsObject !== "undefined") {
             PipingPanel.saveTempColors({
                 name: type,
-                layers: _pipingSettingsObject.layers
+                layers: layers
             });
         }
 
@@ -478,11 +488,6 @@ PipingPanel.renderLayer = function(size) {
     return _html;
 }
 
-
-PipingPanel.changeColorInSettings = function() {
-
-}
-
 PipingPanel.saveTempColors = function(data) {
     var find = _.find(PipingPanel.tempColors, {name: data.name});
 
@@ -497,10 +502,9 @@ PipingPanel.changeTempColor = function(type, layer, colorObject) {
     var temp = _.find(PipingPanel.tempColors, {name: type});
 
     if (typeof temp !== "undefined") {
-        var layer = _.find(temp.layers, {layer: parseInt(layer)});
+        var layer = _.find(temp.layers, {layer_no: parseInt(layer)});
         if (typeof layer !== "undefined") {
-            layer.colorCode = colorObject.color_code;
-            layer.colorObj = colorObject;
+            layer.colorObject = colorObject;
         }
     }
 }
@@ -512,13 +516,20 @@ PipingPanel.applyPipingColor = function (modifier, layers) {
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
         var _name = pipingObject.name;
 
+        var colorNumber = $('.piping-item[data-piping-modifier="'+ modifier +'"] .colors .piping-colors-buttons.uk-active').data("value");
+        var i = index + 1;
+
+        if (parseInt(colorNumber) < i) {
+            return;
+        }
+
         // Get Piping Settings object
         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
         if (typeof _pipingSettingsObject !== "undefined") {
-            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(layer.layer)});
+            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(layer.layer_no)});
             if (typeof _layer !== "undefined") {
-                _layer.colorCode = layer.colorCode;
-                _layer.colorObj = layer.colorObj;
+                _layer.colorCode = layer.colorObject.color_code;
+                _layer.colorObj = layer.colorObject;
             }
         }
 
@@ -540,18 +551,12 @@ PipingPanel.applyPipingColor = function (modifier, layers) {
             matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
             if (typeof matchingPipingSettingsObject !== "undefined")
             {
-                var _matchingLayer = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(layer.layer)});
+                var _matchingLayer = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(layer.layer_no)});
                 if (typeof _matchingLayer !== "undefined") {
-                    _matchingLayer.colorCode = layer.colorCode;
-                    _matchingLayer.colorObj = layer.colorObj;
+                    _matchingLayer.colorCode = layer.colorObject.color_code;
+                    _matchingLayer.colorObj = layer.colorObject;
                 }
             }
-        }
-
-        var colorNumber = $('.piping-item[data-piping-modifier="'+ modifier +'"] .colors .piping-colors-buttons.uk-active').data("value");
-        var i = index + 1;
-        if (parseInt(colorNumber) === i) {
-            return;
         }
     });
 };
@@ -565,7 +570,7 @@ PipingPanel.cancelPipingColor = function(modifier, layers) {
         var colorNumber = $('.piping-item[data-piping-modifier="'+ modifier +'"] .colors .piping-colors-buttons.uk-active').data("value");
         var i = index + 1;
 
-        if (parseInt(colorNumber) === i) {
+        if (parseInt(colorNumber) < i) {
             return;
         }
 
