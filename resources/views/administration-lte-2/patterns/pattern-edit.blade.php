@@ -471,18 +471,18 @@ $(document).ready(function(){
     }
 
     $(document).on('click', '.copy-sports', function() {
-        var option_val = $('.sports-val').val();
+        var sport_val = $('.sports-val').val();
         var input = $('#sports_text');
-        input.val(option_val);
+        input.val(sport_val);
         input.select();
         document.execCommand("copy");
     });
 
     $(document).on('click', '.load-sports', function() {
-        var option_val = $('#sports_text').val();
-        $('.sports-val').val(option_val);
-        var arr_option = option_val.split(',');
-        $('.sports').val(arr_option);
+        var sport_val = $('#sports_text').val();
+        $('.sports-val').val(sport_val);
+        var arr_sport = sport_val.split(',');
+        $('.sports').val(arr_sport);
         $('.sports').trigger('change');
     });
 
