@@ -53,25 +53,24 @@ NewApplicationPanel.events = {
     },
 
     showAddAnotherApplication: function() {
-        // $(".container-add-another-view-application").hide();
-        // $(".container-add-view-application").show();
-        // var title = $(this).data("application-title");
-        // var type = $(this).data("application-type");
+        $(".container-add-another-view-application").hide();
+        $(".container-add-view-application").show();
+        var title = $(this).data("application-title");
+        var type = $(this).data("application-type");
         
-        // var data = ub.funcs.getNewApplicationContainer(title, type);
-        // var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-another-application', data);
+        var data = ub.funcs.getNewApplicationContainer(title, type);
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-add-another-application', data);
 
-        // $(".modifier_main_container .add-another-application-block").html("");
-        // $(".modifier_main_container .add-application-block").html("");
-        // $(".modifier_main_container .add-another-application-block").html(_htmlBuilder);
+        $(".modifier_main_container .add-another-application-block").html("");
+        $(".modifier_main_container .add-application-block").html("");
+        $(".modifier_main_container .add-another-application-block").html(_htmlBuilder);
 
-        // $("#add-another-decoration-modal .uk-moda").html("");
-        // $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
+        $("#add-another-decoration-modal .uk-moda").html("");
+        $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
 
-        // // Activate first button
-        // $(".design-type-container button.design-type-button").first().addClass("uk-active");
-        // $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
-        UIkit.modal("#add-another-decoration-modal").show();
+        // Activate first button
+        $(".design-type-container button.design-type-button").first().addClass("uk-active");
+        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
     },
 
     onCancelAddAnotherApplication: function() {
