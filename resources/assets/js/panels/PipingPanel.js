@@ -42,8 +42,6 @@ PipingPanel.prototype = {
             };
         });
 
-        console.log(piping_set_items);
-
         this.set_items = {piping_set_items: piping_set_items};
     }
 };
@@ -73,9 +71,6 @@ PipingPanel.events = {
         var type = $(this).data('type');
         var size = $(this).data('size');
         var piping_type = piping_el.data('piping-type');
-
-        console.log(piping_type, size);
-
 
         $(".piping-sizes-buttons", piping_el).removeClass("uk-active");
         $(this).addClass("uk-active");

@@ -128,7 +128,7 @@
 
                 <div class="uk-grid-small uk-grid-match uk-text-center piping-footer-option-button" uk-grid>
                     <div class="uk-width-1-2 uk-width-1-2@s">
-                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 apply-piping-color" data-piping-type="" type="button">Done</button>
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 apply-piping-color" type="button">Done</button>
                     </div>
                     <div class="uk-width-1-2 uk-width-1-2@s">
                         <button class="uk-button uk-button-default uk-button-small uk-width-1-1 cancel-piping-color" type="button">Cancel</button>
