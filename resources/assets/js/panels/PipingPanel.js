@@ -229,8 +229,6 @@ PipingPanel.events = {
             });
         });
 
-        console.log(layers)
-
         if (typeof _pipingSettingsObject !== "undefined") {
             PipingPanel.saveTempColors({
                 name: type,
@@ -247,13 +245,14 @@ PipingPanel.events = {
 
         $("#piping-change-color .piping-name").html("");
         $("#piping-change-color .piping-name").html(type);
-        $("#piping-change-color .piping-footer-option-button button").attr('data-piping-type', type);
-        $("#piping-change-color .piping-footer-option-button button").attr('data-modifier', modifier);
 
-        //
-        var colors = ColorPalette.funcs.getConfigurationPerTab("piping");
+        ub.data.current_piping = {
+            type: type,
+            modifier: modifier
+        };
 
         // Render Mustache
+        var colors = ColorPalette.funcs.getConfigurationPerTab("piping");
         var pipping_colors_element = document.getElementById("m-tab-piping-colors-uikit");
         var render_piping_colors = Mustache.render(
             pipping_colors_element.innerHTML,
@@ -371,8 +370,8 @@ PipingPanel.events = {
     },
 
     onCancelEditPiping: function() {
-        var type = $(this).data("piping-type");
-        var modifier = $(this).data("modifier");
+        var type = ub.data.current_piping.type;
+        var modifier = ub.data.current_piping.modifier;
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(type);
 
         if (typeof pipingSettingsObject !== "undefined") {
@@ -383,8 +382,9 @@ PipingPanel.events = {
     },
 
     onApplyPipingColor: function() {
-        var type = $(this).data("piping-type");
-        var modifier = $(this).data("modifier");
+        var type = ub.data.current_piping.type;
+        var modifier = ub.data.current_piping.modifier;
+
         var temp = _.find(PipingPanel.tempColors, {name: type});
         if (typeof temp !== "undefined") {
             PipingPanel.applyPipingColor(modifier, temp.layers);
