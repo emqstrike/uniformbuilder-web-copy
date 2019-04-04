@@ -46,6 +46,7 @@ MascotPanel.init = function () {
                 viewPrint: i.embellishment.svg_filename,
                 slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
+                isEmbellishment: true,
                 status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             };
             _appData.push(objCustom);
@@ -61,6 +62,7 @@ MascotPanel.init = function () {
                 sliderContainer: ub.funcs.sliderContainer(i.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
+                isEmbellishment: true,
                 status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             };
             _appData.push(objStock);

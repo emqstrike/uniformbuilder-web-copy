@@ -3,11 +3,18 @@ function RichardsonSkin() {
 
 RichardsonSkin.init = function() {
     ub.current_modifier = 1;
-
     $("div#left-side-toolbar").html("")
     $("div.customizer-uniform-information").html("");
     $("p.verbiage-text").addClass('cp-fc-black');
     RichardsonSkin.funcs.setupSkin(0xffffff);
+    if (ub.page === "saved-design") {
+        $("#top-left-side-toolbar").css("width", "235px");
+        $("#top-left-side-toolbar").append('<button class="customize-uniform uk-button padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize">Customize this uniform</button>');
+
+        if (!ub.user) {
+            $("#left-pane-column #top-left-side-toolbar .customize-uniform").hide();
+        }
+    }
 }
 
 RichardsonSkin.events = {
@@ -20,7 +27,14 @@ RichardsonSkin.events = {
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onNext', _this.onNextPanel);
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onPrevious', _this.onPreviousPanel);
             $(".richardson-header").on('click', '.change-fabric', _this.onChangeFabric);
+            if (ub.page === "saved-design") {
+                $("#left-pane-column").on('click', '#top-left-side-toolbar .customize-uniform', _this.onCustomize);
+            }
             RichardsonSkin.events.isInit = false;
+        }
+
+        if (ub.user) {
+            RichardsonSaveDesign.events.init();
         }
     },
 
@@ -71,8 +85,12 @@ RichardsonSkin.events = {
             var perspective = new PerspectiveController();
             perspective.setPerspective(view)
         }
-    }
+    },
 
+    onCustomize: function() {
+        $("#left-pane-column #top-left-side-toolbar .customize-uniform").hide();
+        ub.funcs.restoreUI()
+    }
 }
 
 RichardsonSkin.funcs = {
@@ -98,9 +116,13 @@ RichardsonSkin.funcs = {
     setupFooter: function() {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
 
-        var richardson_footer = document.getElementById("m-richardson-footer");
-        var render_footer = Mustache.render(richardson_footer.innerHTML);
+        var user = ub.user;
 
+        var richardson_footer = document.getElementById("m-richardson-footer");
+        var render_footer = Mustache.render(richardson_footer.innerHTML, {user: user});
+        if ($("#right-pane-column .richardson-footer").length !== 0) {
+            $("#right-pane-column .richardson-footer").remove();
+        }
         $("div#right-pane-column").append(render_footer);
         $(".richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },

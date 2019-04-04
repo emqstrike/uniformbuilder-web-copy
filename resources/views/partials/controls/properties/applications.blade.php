@@ -117,7 +117,7 @@
 <script type="text/mustache" id="m-applications-letters-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
+            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Names</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
@@ -194,7 +194,7 @@
 <script type="text/mustache" id="m-applications-numbers-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
+            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Numbers</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
@@ -271,7 +271,7 @@
 <script type="text/mustache" id="m-applications-mascot-uikit">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove application-container">
         <li class="new-application-container">
-            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ title }}</h5>
+            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Logos</h5>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center container-add-view-application" uk-grid>
                 <div class="uk-width-1-2 ">
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize show-add-application-options @{{ isTackleTwill }}" data-application-type="@{{ type }}" data-application-title="@{{ title }}" type="button">
@@ -301,12 +301,14 @@
                     </div>
                     <div class="uk-width-1-2 uk-width-2-3@s uk-width-1-2@l uk-width-2-3@xl">
                         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-remove-bottom abrade-black">@{{ type }}</h6>
+                        @{{ #isEmbellishment }}
                         <div>
                             <a href="@{{ viewArtDetails }}" class="uk-text-small">View&nbsp;Art&nbsp;Details</a>
                         </div>
                         <div>
                             <a href="@{{ viewPrint }}" class="uk-text-small">View&nbsp;Print&nbsp;Ready&nbsp;File</a>
                         </div>
+                        @{{ /isEmbellishment }}
                     </div>
                 </div>
                 <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center uk-margin-top con-select con-toggle active-bgc-dark hide-show-button-container" uk-grid>
@@ -444,12 +446,14 @@
                 </div>
                 <div class="uk-width-1-2 uk-width-2-3@s uk-width-1-2@l uk-width-2-3@xl">
                     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-remove-bottom abrade-black">@{{ type }}</h6>
-                    <div>
-                        <a href="@{{ viewArtDetails }}" class="uk-text-small">View&nbsp;Art&nbsp;Details</a>
-                    </div>
-                    <div>
-                        <a href="@{{ viewPrint }}" class="uk-text-small">View&nbsp;Print&nbsp;Ready&nbsp;File</a>
-                    </div>
+                    @{{ #isEmbellishment }}
+                        <div>
+                            <a href="@{{ viewArtDetails }}" class="uk-text-small">View&nbsp;Art&nbsp;Details</a>
+                        </div>
+                        <div>
+                            <a href="@{{ viewPrint }}" class="uk-text-small">View&nbsp;Print&nbsp;Ready&nbsp;File</a>
+                        </div>
+                    @{{ /isEmbellishment }}
                 </div>
             </div>
             <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center uk-margin-top con-select con-toggle active-bgc-dark hide-show-button-container" uk-grid>
@@ -514,7 +518,7 @@
         </div>
 
         <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Part
+            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Location
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
