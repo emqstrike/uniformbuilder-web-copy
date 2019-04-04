@@ -13466,7 +13466,7 @@ $(document).ready(function () {
                 break;
 
             case 'logos':
-                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 200;
                 break;
 
             case 'gradients':

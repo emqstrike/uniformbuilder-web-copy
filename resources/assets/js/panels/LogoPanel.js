@@ -26,7 +26,6 @@ LogoPanel.prototype = {
     init: function() {
         if (LogoPanel.isInit) {
             $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
-            $(".modifier_main_container").on('click', '.disable-left-sleeve input[type=checkbox]', this.onClickDisableLeftSleeve);
             LogoPanel.isInit = false;
         }
     },
@@ -56,13 +55,6 @@ LogoPanel.prototype = {
         } else if (new_position.includes("left") || new_position.includes("sleeve")) {
             $('a.change-view[data-view="left"]').trigger('click');
             material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
-        }
-
-        if (new_position === "left_sleeve_logo") {
-            var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
-            if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
-                _.delay(function(){LogoPanel.utilities.offsetRLogo(leftSleeve1inch.size, leftSleeve1inch.numberOfColors);}, 1000)
-            }
         }
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
@@ -95,14 +87,6 @@ LogoPanel.prototype = {
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
         }, 2000);
-    },
-
-    onClickDisableLeftSleeve: function() {
-        if (this.checked == false) {
-            ub.current_material.settings.disableLogoLeftSleeve = false;
-        } else {
-            ub.current_material.settings.disableLogoLeftSleeve = true;
-        }
     },
 
     bindEvents: function() {
@@ -345,14 +329,6 @@ LogoPanel.utilities = {
             }
 
             LogoPanel.utilities.renderLogo(_result, logo.numberOfLayers);
-            
-            if (PipingPanel.hasLeftSleeve1Inch() && logo.position === "left_sleeve_logo") {
-                var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
-                if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
-                    _.delay(function(){LogoPanel.utilities.offsetRLogo(leftSleeve1inch.size, leftSleeve1inch.numberOfColors);}, 500);
-                }
-            }
-
         });
     },
 
