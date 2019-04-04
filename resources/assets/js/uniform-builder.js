@@ -6638,14 +6638,19 @@ $(document).ready(function () {
 
             if (_picker_type === 'uniforms') {
 
-                ub.funcs.fadeOutElements();
-                $('body').removeClass('pickers-enabled');
+                // ub.funcs.fadeOutElements();
+                // $('body').removeClass('pickers-enabled');
 
-                $('#main-picker-container').hide();
-                $('.header-container').removeClass('forceHide');
+                // $('#main-picker-container').hide();
+                // $('.header-container').removeClass('forceHide');
 
 
-                window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                // window.location.href = window.ub.config.host + '/builder/0/' + _id;
+
+                
+                // reopen the uniform in a new page
+                var url = '/builder/0/' + _id;
+                window.open(url, '_blank');
 
             }
 
