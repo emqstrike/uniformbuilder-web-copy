@@ -45,6 +45,7 @@ elixir(function(mix) {
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
             'richardson/RichardsonLogin.js',
+            'richardson/RichardsonSaveDesign.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
 
@@ -127,6 +128,7 @@ elixir(function(mix) {
 
     mix.scripts('richardson/RichardsonIndex.js', 'public/richardson/js/RichardsonIndex.js')
        .scripts('richardson/uniform-builder-richardson-data.js', 'public/richardson/js/uniform-builder-richardson-data.js')
+       .scripts('richardson/MySavedDesign.js', 'public/richardson/js/MySavedDesign.js')
 
     mix.less(
         [

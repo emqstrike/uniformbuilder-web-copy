@@ -51,7 +51,22 @@
                         </div>
                     </div>
                 </a>
-                <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                @{{ #user }}
+                    <div class="uk-width-1-1">
+                        <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
+                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkGray fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic">
+                                Finish / View &nbsp;Summary
+                            </a>
+                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">
+                                Save Design
+                            </a>
+                        </div>
+                    </div>
+                @{{ /user }}
+
+                @{{ ^user }}
+                    <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                @{{ /user }}
             </div>
 
             <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic" uk-grid>
@@ -64,7 +79,23 @@
                     </div>
                 </div>
                 <div class="uk-width-auto">
-                    <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic user-login">User Login</a>
+                    @{{ #user }}
+                        <div class="uk-inline">
+                            <button class="uk-button uk-button-default cp-border-none fc-red uk-text-capitalize" type="button">Welcome, @{{ user.firstName }}</button>
+                            <div class="uk-padding-small" uk-dropdown="pos: top-justify; mode: click">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li><a href="/richardson/my-saved-designs">My Saved Design</a></li>
+                                    <li><a href="/richardson/orders">My Orders</a></li>
+                                    <li><a href="/logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    @{{ /user }}
+                    @{{ ^user }}
+                        <div class="uk-width-auto">
+                            <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic user-login">User Login</a>
+                        </div>
+                    @{{ /user }}
                 </div>
             </div>
         </div>
