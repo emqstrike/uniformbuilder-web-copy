@@ -1075,6 +1075,7 @@ $(function() {
                     name: _settingsObject.mascot.name,
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                    isEmbellishment: false,
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
                 };
@@ -1090,6 +1091,7 @@ $(function() {
                     viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
                     viewPrint: _settingsObject.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
+                    isEmbellishment: true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
                 };
             }

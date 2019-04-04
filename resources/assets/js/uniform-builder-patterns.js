@@ -1557,6 +1557,10 @@ $(document).ready(function () {
 
         materialOption.pattern_id   = '33'; // Blank (web)
 
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            materialOption.pattern_id   = '318'; // Richardson (web)
+        }
+
         if (ub.config.asset_target === 'team_stores') { materialOption.pattern_id = '286'; } // Blank (Team Stores)
 
         var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
