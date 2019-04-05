@@ -105,9 +105,11 @@ class Cart extends Model
 
     public static function generateUniqueToken()
     {
-        if (!static::all()->isEmpty())
+        $allCarts = static::all();
+
+        if (!$allCarts->isEmpty())
         {
-            $cart_tokens = static::all()->pluck('token');
+            $cart_tokens = $allCarts->pluck('token');
 
             do {
                 $unique_token = uniqid(static::CART_TOKEN_PREFIX);
