@@ -263,8 +263,6 @@ ApplicationEvent.events = {
                 count = ub.funcs.countApplicationByApplicationType("numbers");
             }
 
-            console.log(count)
-
             if (typeof count.applications === "undefined") {
                 $(".add-another-application-container").hide();
             }
