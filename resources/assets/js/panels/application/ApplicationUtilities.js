@@ -320,7 +320,7 @@ $(function() {
         ub.funcs.afterActivateApplication(application_id);
 
         // codes from activateApplications were omitted from this point
-    }
+    };
 
     // Build template for font accent selection
     ub.funcs.fontAccentSelection = function (_settingsObject, _title) {
@@ -345,7 +345,7 @@ $(function() {
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-font-accents-container', templateData);
 
         return _htmlBuilder;
-    }
+    };
 
     // Build template for font style selection
     ub.funcs.fontStyleSelection = function (_settingsObject, _type) {
@@ -358,7 +358,7 @@ $(function() {
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-font-styles-container', templateData);
 
         return _htmlBuilder;
-    }
+    };
 
     // Build template for "Add New Application"
     ub.funcs.getNewApplicationContainer = function (_title, _designType) {
@@ -428,7 +428,7 @@ $(function() {
             };
         }
         return templateData;
-    }
+    };
 
     ub.funcs.activateApplicationsMascots = function (application_id) {
         if (ub.funcs.popupsVisible()) {
@@ -777,7 +777,7 @@ $(function() {
         }
 
         ub.funcs.initializer();
-    }
+    };
 
     ub.funcs.toggleApplicationOpts = function (application_id, status) {
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(application_id));
@@ -811,7 +811,7 @@ $(function() {
                 _settingsObj.status = "off";
             }
         });
-    }
+    };
 
     ub.funcs.activateMascotColors = function (application_id) {
         var _appSettings = ub.current_material.settings.applications[application_id];
@@ -852,7 +852,7 @@ $(function() {
                 }
             }
         }
-    }
+    };
 
     // Currently for Letters and Mascots only
     ub.funcs.activateApplicationsAll = function (application_id) {
@@ -1176,7 +1176,7 @@ $(function() {
         } else if (isLetters || isNumbers) {
             ub.funcs.afterActivateApplication(application_id);
         }
-    }
+    };
 
     ub.funcs.getFreeApplicationsContainer = function (activeTab) {
         var _freeData = [];
@@ -1253,7 +1253,7 @@ $(function() {
 
         // output to page
         $('.modifier_main_container ul.application-container').append(_htmlBuilder);
-    }
+    };
 
     ub.funcs.manipulateApplicationByStatus = function (status, application_id) {
         if (status === "on") {
@@ -1285,14 +1285,14 @@ $(function() {
                 ub.funcs.toggleApplication(_matchingID, status);
             }
         }
-    }
+    };
 
     ub.funcs.initializer = function () {
         // slider scale
         var scaleSliders = document.getElementsByClassName('slider-control-scale');
         $(scaleSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _settingsObject = ub.funcs.getApplicationSettings(dataId)
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initScalePanel(scaleSliders[i], _settingsObject, _applicationType);
             if (! $(this).hasClass('init')) {
@@ -1307,7 +1307,7 @@ $(function() {
         var moveXSliders = document.getElementsByClassName('slider-control-move-x');
         $(moveXSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _settingsObject = ub.funcs.getApplicationSettings(dataId)
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelX(moveXSliders[i],_settingsObject, _applicationType);
             if (! $(this).hasClass('init')) {
@@ -1322,7 +1322,7 @@ $(function() {
         var moveYSliders = document.getElementsByClassName('slider-control-move-y');
         $(moveYSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _settingsObject = ub.funcs.getApplicationSettings(dataId)
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initMovePanelY(moveYSliders[i],_settingsObject, _applicationType);
             if (! $(this).hasClass('init')) {
@@ -1337,7 +1337,7 @@ $(function() {
         var rotateSliders = document.getElementsByClassName('slider-control-rotate');
         $(rotateSliders).each(function(i) {
             var dataId = $(this).attr('data-id');
-            var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+            var _settingsObject = ub.funcs.getApplicationSettings(dataId)
             var _applicationType = _settingsObject.application_type;
             ub.funcs.initRotatePanel(rotateSliders[i], _settingsObject, _applicationType);
             if (! $(this).hasClass('init')) {
@@ -1682,7 +1682,7 @@ $(function() {
         if (applications.length === 0 || ub.funcs.isTackleTwill()) {
             $(".add-another-application-container").hide();
         }
-    }
+    };
 
 
     ub.funcs.isFlippedApplication = function (code) {
@@ -1693,5 +1693,25 @@ $(function() {
         } else {
             return false;
         }
+    };
+
+    ub.funcs.countApplicationByApplicationType = function(type) {
+        var count = _.countBy(ub.current_material.settings.applications, function(app) {
+            if (type === "letters") {
+                if (app.application_type === 'team_name' || app.application_type === 'player_name') {
+                    return "applications";
+                }
+            } else if (type === "numbers") {
+                if (app.application_type === 'front_number' || app.application_type === 'back_number' || app.application_type === 'sleeve_number') {
+                    return "applications";
+                }
+            } else if (type === "logos") {
+                if (app.application_type === 'mascot' || app.application_type === 'embellishments') {
+                    return "applications";
+                }
+            }
+        });
+
+        return count;
     }
 });

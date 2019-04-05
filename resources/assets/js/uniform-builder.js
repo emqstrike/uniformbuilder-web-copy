@@ -1097,40 +1097,31 @@ $(document).ready(function () {
                 
             }
 
-            var ok = typeof(ub.current_material.material) !== 'undefined' && 
-                     typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.current_material.fabrics) !== 'undefined' &&
-                     typeof(ub.data.colors) !== 'undefined' &&
-                     typeof(ub.data.patterns) !== 'undefined' &&
-                     typeof(ub.data.fonts) !== 'undefined' && 
-                     typeof(ub.data.mascots) !== 'undefined' && 
-                     typeof(ub.data.mascots_categories) !== 'undefined' &&
-                     typeof(ub.data.tagged_styles) !== 'undefined' &&
-                     typeof(ub.data.mascots_groups_categories) !== 'undefined';
-
+            var ok = typeof(ub.current_material.material) !== 'undefined' &&
+                    typeof(ub.current_material.materials_options) !== 'undefined' &&
+                    typeof(ub.current_material.fabrics) !== 'undefined' &&
+                    typeof(ub.data.colors) !== 'undefined' &&
+                    typeof(ub.data.patterns) !== 'undefined' && _.size(ub.data.patterns) !== 0 &&
+                    typeof(ub.data.fonts) !== 'undefined' && 
+                    typeof(ub.data.mascots) !== 'undefined' && _.size(ub.data.mascots) !== 0 && 
+                    typeof(ub.data.mascots_categories) !== 'undefined' &&
+                    typeof(ub.data.tagged_styles) !== 'undefined' &&
+                    typeof(ub.data.mascots_groups_categories) !== 'undefined';
             if (ok) {
-
                 ub.displayDoneAt('Loading assets completed');
                 ub.load_assets();
-
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
                 ub.utilities.info(' ');
-
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
-
                 ub.funcs.optimize();
-
                 ub.funcs.setupRetain();
-
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
-
             }
-            
         };
 
         ub.loader = function (url, object_name, cb) {
@@ -2054,7 +2045,6 @@ $(document).ready(function () {
             ub.funcs.moveToExtra(_application);
             
             _.each(_application.views, function (view) {
-        
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
                 var _colorArray         = view.application.colors.split(',');
                 var _outputColorArray   = []; 

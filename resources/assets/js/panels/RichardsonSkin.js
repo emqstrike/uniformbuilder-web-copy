@@ -251,9 +251,7 @@ RichardsonSkin.funcs = {
 
         var rendered = Mustache.render(template.innerHTML, data);
         $("div.options_panel_header").html(rendered);
-        console.log("dsasdsadsad", ub.current_material.material.name.length)
-        if (ub.current_material.material.name.length >= 40) {
-            console.log("dsasdsadsad", ub.current_material.material.name.length)
+        if (ub.current_material.material.name.length > 38) {
             $(".richardson-header .uniform-name").css("font-size", "12px");
         }
     },
