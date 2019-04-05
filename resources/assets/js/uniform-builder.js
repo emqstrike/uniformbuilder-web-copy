@@ -9466,7 +9466,7 @@ $(document).ready(function () {
 
                 success: function (response) {
                     $('button.update-profile').removeAttr('disabled');
-                    $("#myProfileAlert").fadeIn(500, function(){
+                    $("#myProfileAlert").removeClass('hidden').fadeIn(500, function(){
                         $("#myProfileAlert").delay(3000).fadeOut(500);
                     });
                     

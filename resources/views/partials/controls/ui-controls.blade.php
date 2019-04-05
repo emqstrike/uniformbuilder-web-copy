@@ -1749,7 +1749,7 @@
 
     <script type="text/mustache" id="m-profile-page">
     <form id="myProfile">
-        <div class="alert alert-success" id="myProfileAlert" role="alert">
+        <div class="alert alert-success hidden" id="myProfileAlert" role="alert">
             <strong>Success!</strong> Profile successfully updated!
         </div>
 
