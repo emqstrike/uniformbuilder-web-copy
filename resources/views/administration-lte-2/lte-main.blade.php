@@ -98,23 +98,22 @@
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
 <body class="skin-black sidebar-mini sidebar-collapse">
-<div class="wrapper">
+    <div id="application-container">
+        @yield('slidein-panel')
 
-    @include('administration-lte-2.lte-main-topbar')
 
-    @include('administration-lte-2.lte-side-menu')
-    <!-- =============================================== -->
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Main content -->
-    <section class="content">
-        @include('administration-lte-2.partials.breadcrumb')
-        @yield('content')
-    </section>
-    <!-- /.content -->
-  </div>
-</div>
+        <div id="panel" class="wrapper">
+            @include('administration-lte-2.lte-main-topbar')
+            @include('administration-lte-2.lte-side-menu')
+            
+            <div class="content-wrapper">
+                <section class="content">
+                    @include('administration-lte-2.partials.breadcrumb')
+                    @yield('content')
+                </section>
+            </div>
+        </div>
+    </div>
 
 <!-- Scripts -->
 @if (Session::get('accessToken'))

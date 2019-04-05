@@ -42,7 +42,6 @@ class BlockPatternsController extends Controller
     {
         $block_pattern = $this->client->getBlockPattern($id);
         $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
-
         return view('administration.block-patterns.block-pattern-edit', [
             'block_pattern' => $block_pattern,
             'uniform_categories' => $uniform_categories

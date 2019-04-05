@@ -1,60 +1,11 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <style>
-        .neck-option-placeholder-overrides {
-            resize: none;
-        }
+    <link rel="stylesheet" href="/css/administration-lte-2/block-patterns/edit.css">
+@endsection
 
-        .coordinating-colors-container,
-        .limited-colors-container {
-            margin-bottom: 25px;
-        }
-
-        .neck-option-alias,
-        .neck-option-name {
-            width: 130px !important;
-        }
-
-        .coordinating-colors-name,
-        .limited-colors-name,
-        .limited-color {
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        select.coordinating-colors {
-            width: 49%;
-        }
-
-        .limited-color-row .row {
-            min-width: 321px;
-        }
-
-        .limited-colors-container,
-        .coordinating-colors-container {
-            background: #eeeeee;
-            margin-bottom: 15px;
-            padding: 10px;
-        }
-
-        .part-and-fabrics .name {
-            width: 90% !important;
-        }
-
-        .part-and-fabrics span.select2 {
-            vertical-align: top;
-            width: 84% !important;
-        }
-
-        .select2-selection__choice {
-            color: #000000 !important;
-        }
-
-        .part-and-fabrics {
-            margin-bottom: 10px;
-        }
-    </style>
+@section('slidein-panel')
+    @include('administration-lte-2.master-pages.block-patterns.partials.edit-neck-option')
 @endsection
 
 @section('content')
@@ -234,16 +185,22 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Preview File</th>
-                                                <th>New File</th>
                                                 <th>Alias</th>
                                                 <th>Placeholder Overrides</th>
-                                                <th>Coordinating Colors</th>
-                                                <th>Limited Colors</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="layers-row-container" data-colors="{{ json_encode($colors) }}">
+
+                                        <tbody data-colors="{{ json_encode($colors) }}">
+                                            <tr v-for="item , index in neck_options">
+                                                <td>@{{ item.name }}</td>
+                                                <td>@{{ item.alias }}</td>
+                                                <td>@{{ item.placeholder_override }}</td>
+                                                <td>
+                                                    <button class="btn btn-xs btn-flat btn-primary" @click.prevent="editNeckOption(item)">Edit</button>
+                                                    <button class="btn btn-xs btn-flat btn-danger" @click.prevent="removeNeckOption(index)">Remove</button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -271,7 +228,14 @@
 @endsection
 
 @section('custom-scripts')
+    <script>
+        var data = {!! $block_pattern->neck_options !!};
+    </script>
+    
+    <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+    <script type="text/javascript" src="/bower_components/slideout.js/dist/slideout.min.js"></script>
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/block-patterns/edit-neck-option-vue.js"></script>
 @endsection
