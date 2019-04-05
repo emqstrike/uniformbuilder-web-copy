@@ -69,7 +69,6 @@ NewApplicationPanel.events = {
         $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
 
         // Activate first button
-        $(".design-type-container button.design-type-button").first().addClass("uk-active");
         $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
     },
 
@@ -92,7 +91,6 @@ NewApplicationPanel.events = {
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
         // Activate first button
-        $(".design-type-container button.design-type-button").first().addClass("uk-active");
         $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
     },
 
@@ -102,8 +100,18 @@ NewApplicationPanel.events = {
     },
 
     onSelectDesignType: function() {
-        $(".design-type-container").find("button.uk-active").removeClass('uk-active');
-        $(this).addClass('uk-active')
+        var _perspective = $('.perspective-container button.perspective.uk-active').data('id');
+        var _part = $('.parts-container button.part.uk-active').data('id');
+        var _type = $(this).data('type');
+        var _side;
+        if (_part === "Sleeve") {
+            _side = $('.parts-container button.part.uk-active').data("perspective");
+        }
+
+        ub.funcs.newApplication(_perspective, _part, _type, _side);
+
+        $(".container-add-view-application").show();
+        $(".modifier_main_container .add-application-block").html("");
     },
 
     onSelectPerspective: function() {

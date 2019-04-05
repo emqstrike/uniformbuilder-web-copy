@@ -536,23 +536,6 @@
 <!-- Add New Application -->
 <script type="text/mustache" id="m-add-new-application">
     <div class="add-new-application-block">
-        <div class="@{{ ^isShow }} uk-hidden @{{ /isShow }}">
-            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">
-                <span class="number-circle">1</span>&nbsp;Choose design type
-            </h6>
-            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
-                @{{ #designType }}
-                    @{{ #designTypeData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
-                                @{{ name }}
-                            </button>
-                        </div>
-                    @{{ /designTypeData }}
-                @{{ /designType }}
-            </div>
-        </div>
-
         <div class="uk-hidden">
             <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">2</span>&nbsp;Choose Perspective</h6>
             <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark perspective-container" uk-grid>
@@ -570,9 +553,8 @@
                 </div>
             </div>
         </div>
-
-        <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Location
+        <h6 uk-margin class="uk-margin-remove-top uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+            <span class="number-circle">1</span>&nbsp;Choose Location
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
@@ -596,33 +578,20 @@
             @{{ /part }}
         </div>
 
-        @{{#side}}
-            <div class="posContainer sideOptions hide app-letters-wrapper">
-                <h6 uk-margin class="uk-padding-small uk-padding-remove-right uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">&nbsp;Choose Side</h6>
-                <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark side-container" uk-grid>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="right">Right</button>
-                    </div>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="left">Left</button>
-                    </div>
-                </div>
-            </div>
-        @{{ /side }}
-
-        <h6 uk-margin class="uk-margin-medium-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}3@{{ /isShow }}@{{ ^isShow }}2@{{ /isShow }}</span>
-        </h6>
-        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
-                </button>
-            </div>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize cancel-adding-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
-                </button>
+        <div >
+            <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+                <span class="number-circle">2</span>&nbsp;Choose design type
+            </h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
+                @{{ #designType }}
+                    @{{ #designTypeData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
+                                @{{ name }}
+                            </button>
+                        </div>
+                    @{{ /designTypeData }}
+                @{{ /designType }}
             </div>
         </div>
     </div>
@@ -633,23 +602,6 @@
 <script type="text/mustache" id="m-add-another-application">
     <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Another @{{ title }}</h5>
     <div class="add-new-application-block">
-        <div class="@{{ ^isShow }} uk-hidden @{{ /isShow }}">
-            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">
-                <span class="number-circle">1</span>&nbsp;Choose design type
-            </h6>
-            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
-                @{{ #designType }}
-                    @{{ #designTypeData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
-                                @{{ name }}
-                            </button>
-                        </div>
-                    @{{ /designTypeData }}
-                @{{ /designType }}
-            </div>
-        </div>
-
         <div class="uk-hidden">
             <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">2</span>&nbsp;Choose Perspective</h6>
             <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark perspective-container" uk-grid>
@@ -667,9 +619,8 @@
                 </div>
             </div>
         </div>
-
-        <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Part
+        <h6 uk-margin class="uk-margin-remove-top uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+            <span class="number-circle">1</span>&nbsp;Choose Location
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
@@ -693,33 +644,20 @@
             @{{ /part }}
         </div>
 
-        @{{#side}}
-            <div class="posContainer sideOptions hide app-letters-wrapper">
-                <h6 uk-margin class="uk-padding-small uk-padding-remove-right uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">&nbsp;Choose Side</h6>
-                <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark side-container" uk-grid>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="right">Right</button>
-                    </div>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="left">Left</button>
-                    </div>
-                </div>
-            </div>
-        @{{ /side }}
-
-        <h6 uk-margin class="uk-margin-medium-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}3@{{ /isShow }}@{{ ^isShow }}2@{{ /isShow }}</span>
-        </h6>
-        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add Another @{{ title }}
-                </button>
-            </div>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate cancel-adding-another-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
-                </button>
+        <div >
+            <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+                <span class="number-circle">2</span>&nbsp;Choose design type
+            </h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
+                @{{ #designType }}
+                    @{{ #designTypeData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
+                                @{{ name }}
+                            </button>
+                        </div>
+                    @{{ /designTypeData }}
+                @{{ /designType }}
             </div>
         </div>
     </div>

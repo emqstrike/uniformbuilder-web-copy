@@ -115,6 +115,7 @@ elixir(function(mix) {
             'panels/application/NewApplicationPanel.js',
             'panels/application/ApplicationUtilities.js',
             'panels/application/ApplicationEvent.js',
+            'panels/application/InteropIsPanel.js',
 
             // Controllers or Switchers
             'controllers/PerspectiveController.js',

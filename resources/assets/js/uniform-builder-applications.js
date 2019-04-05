@@ -12171,20 +12171,23 @@ $(document).ready(function () {
         });
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") {
-
-            _newApplication.font_size = _newApplication.size;
-
-            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-
-                is.loadDesigner(undefined, _newIDStr);
-
-            } else {
-
-                ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
-
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            if (type === "embellishments" || type === "mascot") {
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    // is.loadDesigner(undefined, _newIDStr);
+                } else {
+                    // ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
+                }
             }
-
+        } else {
+            if (type === "embellishments") {
+                _newApplication.font_size = _newApplication.size;
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    is.loadDesigner(undefined, _newIDStr);
+                } else {
+                    ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
+                }
+            }
         }
 
     }
