@@ -6,7 +6,6 @@ $(document).ready(function () {
         /// Initialize Uniform Builder
 
         window.ub.initialize = function () {
-
             // ub.utilities.maintenanceMessage();
             ub.errorCodes.prepareShortcuts();
 
@@ -43,7 +42,7 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand.toLowerCase() + '/';
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
@@ -53,12 +52,12 @@ $(document).ready(function () {
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
                 ub.current_material.fabrics = ub.config.api_host + '/api/fabrics/';
 
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
@@ -2562,8 +2561,7 @@ $(document).ready(function () {
             }
 
 
-            if (typeof e.code !== 'undefined') {
-                
+            if (typeof e.code !== 'undefined') {                
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
@@ -2599,12 +2597,9 @@ $(document).ready(function () {
                         if (typeof e.pattern === "undefined") {
                             _patternLog += 'No Default Pattern is set for ' + _materialOption.name + ' using Blank.\n';
                             e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
-                        }
-                        
-                    }
-                    
+                        }   
+                    }   
                 }
-
             }
 
             ub.change_material_option_color16(e.code, e.color);
@@ -8517,7 +8512,7 @@ $(document).ready(function () {
 
                                 select.append( '<option value="'+d+'">'+d+'</option>' )
                             } );
-                        } );
+                        });
                         $(".data-table-filter-hide select").hide();                      
                         $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
                         $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );

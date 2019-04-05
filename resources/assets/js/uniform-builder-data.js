@@ -131,7 +131,7 @@ $(document).ready(function() {
     ub.stage.interactive            = true;
     ub.pCanvas                      = document.getElementById(ub.container_div);
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
-    ub.renderer.backgroundColor     = brand_env === "Richardson" ? 0xffffff : 0x61605e;
+    ub.renderer.backgroundColor     = 0x61605e;
 
     // var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     

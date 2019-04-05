@@ -12,7 +12,6 @@ $(document).ready(function () {
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;
-
     };
 
     ub.funcs.isCurrentSport = function (sport) {
@@ -1490,7 +1489,10 @@ $(document).ready(function () {
         };
 
         sprite.mouseup = sprite.mouseup = function (interactionData) {
-            ub.funcs.activateApplicationsLetters(application.code);
+            var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
+            if (element.length !== 0) {
+                ub.funcs.activateApplicationsLetters(application.code);
+            }
         }
 
     }
@@ -13464,7 +13466,7 @@ $(document).ready(function () {
                 break;
 
             case 'logos':
-                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 200;
                 break;
 
             case 'gradients':
