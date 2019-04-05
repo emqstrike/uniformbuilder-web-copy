@@ -248,7 +248,7 @@ ApplicationEvent.events = {
         var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         var applicationSettings = ub.funcs.getApplicationSettings(application_id);
         
-        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.type + ' #' + applicationSettings.code + '?').then(function() {
+        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.application.name + ' #' + applicationSettings.code + '?').then(function() {
             $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).fadeOut();
             ub.funcs.deleteLocation(applicationSettings.code);
         }, function () {
