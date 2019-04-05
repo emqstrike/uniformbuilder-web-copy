@@ -65,6 +65,9 @@ NewApplicationPanel.events = {
         $(".modifier_main_container .add-application-block").html("");
         $(".modifier_main_container .add-another-application-block").html(_htmlBuilder);
 
+        $("#add-another-decoration-modal .uk-moda").html("");
+        $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
+
         // Activate first button
         $(".design-type-container button.design-type-button").first().addClass("uk-active");
         $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');

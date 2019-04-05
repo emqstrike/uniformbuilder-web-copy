@@ -1,3 +1,4 @@
+
 <div class="bootbox modal fade in" id="application-list-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content cp-padding-remove">

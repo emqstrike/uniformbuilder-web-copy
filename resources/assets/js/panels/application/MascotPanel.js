@@ -62,7 +62,7 @@ MascotPanel.init = function () {
                 sliderContainer: ub.funcs.sliderContainer(i.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
-                isEmbellishment: true,
+                isEmbellishment: false,
                 status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             };
             _appData.push(objStock);
