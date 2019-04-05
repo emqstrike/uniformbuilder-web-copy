@@ -3255,6 +3255,18 @@ $(document).ready(function () {
                 current_object.name = name;
 
                 if (name === "highlights" || name === "shadows") {
+                    var fabric_type;
+
+                    switch(true) {
+                        case "highlights" == name:
+                        case "shadows" == name:
+                            fabric_type = "base";
+                            break;
+
+                        case name.includes("Insert"):
+                            fabric_type = "insert";
+                            break;
+                    }
 
                     ub.fabric.fabricCollections.push({
                         code: name,
@@ -3262,8 +3274,8 @@ $(document).ready(function () {
                         id: obj.layer_level,
                         perspective: obj.perspective,
                         obj: _sprite,
+                        type: fabric_type
                     });
-
                 }
                 
                 // Multiplied to negative one because
