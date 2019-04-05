@@ -127,12 +127,12 @@
                     </ul>
                 </div>
 
-                <div class="uk-grid-small uk-grid-match uk-text-center" uk-grid>
+                <div class="uk-grid-small uk-grid-match uk-text-center piping-footer-option-button" uk-grid>
                     <div class="uk-width-1-2 uk-width-1-2@s">
-                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 uk-modal-close" type="button">Done</button>
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 apply-piping-color" type="button">Done</button>
                     </div>
                     <div class="uk-width-1-2 uk-width-1-2@s">
-                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 uk-modal-close" type="button">Cancel</button>
+                        <button class="uk-button uk-button-default uk-button-small uk-width-1-1 cancel-piping-color" type="button">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,65 @@
                 </div>
                 <button class="uk-button uk-button-default uk-text-capitalize submit-login" type="button">Submit</button>
             </form>
+        </div>
+    </div>
+</div>
+{{-- End User Login --}}
+
+
+{{-- User Login --}}
+<div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-width-2-3 uk-modal-body uk-margin-auto-vertical">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-body">
+            <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h3>
+            <div class="uk-flex uk-flex-center">
+                <div class="uk-width-2-3">
+                    <form>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="form-stacked-text">Name</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="design-name" type="text" placeholder="Some text...">
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="form-stacked-text">Notes</label>
+                            <div class="uk-form-controls">
+                                <textarea class="uk-textarea" id="design-notes" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center uniform-thumbnail-container uk-hidden" uk-grid>
+                <div class="front_view">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
+                </div>
+                <div class="back_view">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
+                </div>
+                <div class="right_view">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
+                </div>
+                <div class="left_view">
+                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
+                </div>
+            </div>
+            <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
+                <div uk-spinner="ratio: 8">
+                </div>
+                <div>
+                    <p>Uploading images .... </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-modal-footer uk-text-right save-design-buttons uk-hidden">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary save" type="button">Save</button>
+        </div>
+        <div class="saving-please-wait uk-modal-footer uk-text-right uk-hidden">
+            <p>Please wait.... <span uk-spinner="ratio: .5"></span></p>
         </div>
     </div>
 </div>

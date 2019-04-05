@@ -57,13 +57,6 @@ LogoPanel.prototype = {
             material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
         }
 
-        if (new_position === "left_sleeve_logo") {
-            var leftSleeve1inch = ub.funcs.getPipingSettingsObject("Left Sleeve Piping 1 inch Up");
-            if (typeof leftSleeve1inch !== "undefined" && leftSleeve1inch.enabled !== 0) {
-                _.delay(function(){LogoPanel.utilities.offsetRLogo(leftSleeve1inch.size, leftSleeve1inch.numberOfColors);}, 1000)
-            }
-        }
-
         var logoObject = _.find(ub.data.logos, {position: new_position});
         var logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
         var _layerCount = 0;
@@ -229,25 +222,18 @@ LogoPanel.utilities = {
         var _logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
 
         _.each (ub.views, function (perspective) {
-
             var _perspectiveString = perspective + '_view';
-
             var _sprites = LogoPanel.utilities.createLogo(logoObject, _layerCount, perspective, _logoSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
-
                 if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
-
                     ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][logoObject.position]);
-
                 }
             }
 
             ub[_perspectiveString].addChild(_sprites);
             ub.objects[_perspectiveString][logoObject.position] = _sprites;
-
             ub.updateLayersOrder(ub[_perspectiveString]);
-
         });
     },
 
@@ -305,7 +291,7 @@ LogoPanel.utilities = {
 
             ub.current_material.settings.logos[position] = {
                 position: position,
-                enabled: 0,
+                enabled: 1,
                 numberOfLayers: 0,
                 layers: [
                     {
@@ -362,13 +348,12 @@ LogoPanel.utilities = {
     },
 
     addLogo: function(logoObject, _layerCount) {
-        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
-
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
 
+        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
         LogoPanel.utilities.reInitiateLogo();
     },
 
@@ -539,6 +524,26 @@ LogoPanel.utilities = {
                 });
             }
         }
+    },
+
+    getActiveRLogo: function () {
+        var logoObject = _.find(ub.current_material.settings.logos, {enabled: 1});
+        if (logoObject.length !== 0) {
+            return logoObject;
+        } else {
+            ub.utilities.error("No active R Logo");
+            return logoObject;
+        }
+    },
+
+    getAvailablePosition: function(filter) {
+        var positions = _.filter(ub.data.logos, function(logo) {
+            if (logo.position !== filter) {
+                return logo;
+            }
+        });
+
+        return positions;
     }
 };
 
