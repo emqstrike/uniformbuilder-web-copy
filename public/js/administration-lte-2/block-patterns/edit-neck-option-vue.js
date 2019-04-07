@@ -7,11 +7,6 @@ new Vue({
                 layer: '',
                 name: ''
             },
-            block_pattern_option_3: [],
-            block_pattern_option_3_item: {
-                layer: '',
-                name: ''
-            },
             neck_options: [data][0],
             neck_option: "",
             slideout: ""
@@ -29,7 +24,6 @@ new Vue({
     methods:{
         editNeckOption: function(neck_option) {
             this.block_pattern_option_2 = [];
-            this.block_pattern_option_3 = [];
 
             this.neck_option = neck_option;
             this.slideout.toggle();
@@ -42,17 +36,23 @@ new Vue({
             }
         },
         addBlockPatternOption2: function() {
+            let block_pattern_option_3 = [];
+            Vue.set(this.block_pattern_option_2_item, 'block_pattern_option_3', block_pattern_option_3);
             this.block_pattern_option_2.push(Vue.util.extend({}, this.block_pattern_option_2_item));
         },
         removeBlockPatternOption2: function(option_2_item) {
             this.block_pattern_option_2.splice(this.block_pattern_option_2.indexOf(option_2_item), 1);
         },
         addBlockPatternOption3: function(option_2_item) {
-            this.block_pattern_option_3.push(Vue.util.extend({}, this.block_pattern_option_3_item));
-            Vue.set(option_2_item, 'block_pattern_option_3', this.block_pattern_option_3);
+            let block_pattern_option_3_item = {
+                layer: '',
+                name: ''
+            };
+            
+            option_2_item.block_pattern_option_3.push(block_pattern_option_3_item);
         },
-        removeBlockPatternOption3: function(option_3_item) {
-            this.block_pattern_option_3.splice(this.block_pattern_option_3.indexOf(option_3_item), 1);
+        removeBlockPatternOption3: function(option_2_item, option_3_item) {
+            option_2_item.block_pattern_option_3.splice(option_2_item.block_pattern_option_3.indexOf(option_3_item), 1)
         },
     }
 });

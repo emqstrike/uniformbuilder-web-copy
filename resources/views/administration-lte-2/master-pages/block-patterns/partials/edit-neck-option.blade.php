@@ -63,7 +63,7 @@
 
                                         <div class="col-md-2">
                                             <label class="control-label">&nbsp;</label>
-                                            <button class="btn btn-flat btn-xs btn-danger" @click="removeBlockPatternOption3(option_3_item)">Remove</button>
+                                            <button class="btn btn-flat btn-xs btn-danger" @click="removeBlockPatternOption3(option_2_item, option_3_item )">Remove</button>
                                         </div>
                                     </div>
                                 </div>
