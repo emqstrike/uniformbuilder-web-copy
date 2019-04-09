@@ -1748,15 +1748,19 @@
 <!-- Profile -->
 
     <script type="text/mustache" id="m-profile-page">
+    <form id="myProfile">
+        <div class="alert alert-success hidden" id="myProfileAlert" role="alert">
+            <strong>Success!</strong> Profile successfully updated!
+        </div>
 
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}">
+            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>
         </div>
 
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}">
+            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>
         </div>
 
         <div class="form-group">
@@ -1814,7 +1818,7 @@
                         <div class="col-md-12">
 
                             <label for="state">State</label>
-                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" required>                                
+                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>                                
 
                         </div>
 
@@ -1865,9 +1869,9 @@
         <!-- End Row 2 -->
 
         <div class="form-group btn-footer">
-            <span class="btn update-profile">Update</span>
+            <button class="btn">Update</button>
         </div>
-
+    </form>
     </script>   
 
 <!-- End Profile -->
