@@ -668,24 +668,109 @@
 <script type="text/mustache" id="m-mascot-items">
     @{{ #embellishments }}
         <div class="mascot-item">
-            <a class="box-palette uk-link-reset btn-selection-choice uk-text-center">
+            <a class="box-palette uk-link-reset btn-selection-choice uk-text-center select-mascot-item"
+                data-design-id="@{{ design_id }}"
+                data-id="@{{ id }}"
+                data-design-name="@{{ design_name }}"
+                data-svg-filename="@{{ svg_filename }}"
+                data-filename="@{{ png_filename }}"
+            >
                 <div class="bgc-white uk-text-right">
                     <h6 class="bgc-dark fc-light uk-text-center uk-margin-remove padding-tiny-vertical uk-text-truncate">@{{ design_name }}</h6>
                     <div class="uk-inline">
                         <div class="uk-padding-small uk-padding-remove-bottom">
-                            <img src="@{{ png_filename }}" uk-img height="100px">
+                            <img src="@{{ png_filename }}" class="existing-mascot-item uk-height-small">
                         </div>
 
                         <div class="uk-position-cover choice-icon bdr-lightGray">
                             <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary"></span>
                         </div>
                     </div>
-                    <button class="uk-button uk-margin-small-right btn-delete btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-toggle="target: #modal-confirmation" uk-tooltip="title:Move to Archive; pos: left">
-                        <span class="icon-archive"></span>
+                    <button class="uk-button uk-margin-small-right btn-delete btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Archive; pos: left">
+                        <span class="fa fa-archive"></span>
                     </button>
                 </div>
             </a >
         </div>
     @{{ /embellishments }}
+</script>
+
+<script type="text/mustache" id="m-user-design-container">
+    @{{ #user }}
+        <div class="uk-grid-collapse uk-flex uk-flex-middle" uk-grid>
+            <div class="uk-width-1-2@s uk-width-1-3@m mascot-image-preview-container">
+                
+            </div>
+            <div class="uk-width-1-2@s uk-width-2-3@m uk-flex-first@s">
+                <nav class="uk-navbar-container uk-navbar-transparent uk-margin-top" uk-navbar>
+                    <div class="nav-overlay uk-navbar-left uk-padding-small uk-padding-remove-horizontal">
+                        <ul class="menu-tab-mascot uk-subnav uk-margin-remove uk-grid-small grid-tiny active-bgc-dark" uk-switcher uk-grid>
+                            <li>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="active">Active <span>(@{{ active }})</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="archive">Archive <span>(@{{ archive }})</span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="uk-navbar-right uk-padding-small uk-padding-remove-left uk-visible@m">
+                        <form class="uk-search uk-search-default search-mascot-form"> 
+                            <input class="uk-search-input" type="search" placeholder="Search...">
+                        </form>
+                        <span class="uk-margin-small-left icon-search"></span>
+                    </div>
+                    <div class="nav-overlay uk-navbar-right uk-padding-small uk-padding-remove-left uk-hidden@m">
+                        <a class="" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    </div>
+
+                    <div class="nav-overlay uk-navbar-left uk-flex-1 uk-padding-small" hidden>
+                        <div class="uk-width-expand">
+                            <form class="uk-search uk-search-navbar uk-width-1-1">
+                                <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                            </form>
+                        </div>
+                        <a class="" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    </div>
+                </nav>
+                <ul class="uk-switcher con-select">
+                    <li class="uk-active mascot-list-container">
+                        <div class="uk-margin-top uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-medium uk-overflow-auto">
+                            <div class="m-logo-active uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes mascot-container" uk-grid>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    @{{ /user }}
+    @{{ ^user }}
+        <div class="bgc-light uk-padding-small">
+            <div class="uk-text-center">
+                You have to log-in to use your previous art.
+            </div>
+        </div>
+    @{{ /user }}
+</script>
+
+<script type="text/mustache" id="m-mascot-preview">
+    <div class="con-preview-mascot">
+        <h4 class="uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove fc-darkGray abrade-ultra-italic">@{{ name }}</h4>
+        <p class="uk-text-center uk-margin-remove-top">
+            <a href="@{{ svg }}" class="uk-button uk-button-text uk-text-capitalize" target="_blank">Fullsize Preview</a>
+        </p>
+    </div>
+    <div class="uk-grid-collapse uk-flex-center" uk-grid>
+        <div class="uk-width-1-1 uk-width-2-3@s uk-text-center">
+            <div>
+                <img id="preview-existing-logo uk-height-medium" src="@{{ filename }}">
+            </div>
+            <a href="javascript:void(0)" 
+                class="uk-button uk-button-secondary uk-margin-top add-to-uniform"
+                data-design-id="@{{ design_id }}"
+            >Add to uniform</a>
+        </div>
+    </div>
 </script>
 <!-- End Existing Design -->

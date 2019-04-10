@@ -651,7 +651,8 @@ $(function() {
                 slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
-                colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
+                colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS'),
+                isEmbellishment: false,
             };
         
         } else if (_applicationType === "embellishments") {
@@ -667,7 +668,8 @@ $(function() {
                 viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
                 slider: ub.funcs.isTackleTwill() ? false : true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                isEmbellishment: true,
             };
         }
        
