@@ -246,8 +246,6 @@ var Cart = {
                                 location.reload();
                             }
                         });
-
-                        console.log(response.message);
                     } else {
                         bootbox.alert(response.message);
                     }
@@ -352,7 +350,6 @@ var Cart = {
                         },
 
                         success: function(response) {
-                            console.log(response);
                             if (response.success) {
 
                                 if (_.filter(cart_item.players, {size: size_price.size}).length == 0) {
@@ -560,7 +557,6 @@ var Cart = {
         });
 
         deletePlayerBootbox.on("show.bs.modal", function() {
-            console.log("summon");
             _this.blur();
         });
         deletePlayerBootbox.modal("show");

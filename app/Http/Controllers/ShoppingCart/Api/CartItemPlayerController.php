@@ -33,7 +33,7 @@ class CartItemPlayerController extends Controller
         $price = $request->get('price');
         $quantity = !empty($request->get('quantity')) ? $request->get('quantity') : 1;
 
-        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, ($price/$quantity)))
+        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, $price))
         {
             return response()->json([
                 'success' => false,
@@ -42,11 +42,11 @@ class CartItemPlayerController extends Controller
         }
 
         $cart_item_player = CartItemPlayer::create([
-            'size' => $request->get('size'),
+            'size' => $size,
             'last_name' => $request->get('last_name'),
             'number' => $request->get('number'),
-            'price' => $request->get('price'),
-            'quantity' => $request->get('quantity'),
+            'price' => $price,
+            'quantity' => $quantity,
             'cart_item_id' => $request->get('cart_item_id')
         ]);
 
@@ -57,11 +57,11 @@ class CartItemPlayerController extends Controller
                 'message' => "Successfully add player in cart item",
                 'data' => [
                     'id' => $cart_item_player->id,
-                    'size' => $cart_item_player->size,
+                    'size' => $size,
                     'last_name' => $cart_item_player->last_name,
                     'number' => $cart_item_player->number,
-                    'price' => (float) $cart_item_player->price,
-                    'quantity' => (int) $cart_item_player->quantity
+                    'price' => (float) $price,
+                    'quantity' => (int) $quantity
                 ]
             ] :
             [
@@ -88,7 +88,7 @@ class CartItemPlayerController extends Controller
         $price = $request->get('price');
         $quantity = !empty($request->get('quantity')) ? $request->get('quantity') : 1;
 
-        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, ($price/$quantity)))
+        if (!CurrencyConversion::validPrice($material_id, $pricing_age, $size, $price))
         {
             return response()->json([
                 'success' => false,
@@ -98,7 +98,7 @@ class CartItemPlayerController extends Controller
 
         $cartItemPlayer->last_name = $request->get('last_name');
         $cartItemPlayer->number = $request->get('number');
-        $cartItemPlayer->quantity = $request->get('quantity');
+        $cartItemPlayer->quantity = $quantity;
 
         $is_updated = $cartItemPlayer->save();
 

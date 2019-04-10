@@ -25,7 +25,7 @@ class CurrencyConversion extends Model
         return 1;
     }
 
-    public static function validPrice($material_id, $pricing_age, $size, $base_price)
+    public static function validPrice($material_id, $pricing_age, $size, $price)
     {
         $apiClient = new MaterialsAPIClient;
         $material = $apiClient->getMaterial($material_id);
@@ -40,10 +40,8 @@ class CurrencyConversion extends Model
 
         if (isset($pricing[$price_key]['msrp']))
         {
-            \Log::debug("msrp"  . number_format($pricing[$price_key]['msrp'] * $current_rate, 2));
-
             $msrp = $pricing[$price_key]['msrp'];
-            return number_format($base_price, 2) === number_format($msrp * $current_rate, 2);
+            return number_format($price, 2) === number_format($msrp * $current_rate, 2);
         }
 
         \Log::debug("Error: 'msrp' is not define in pricing object.");
