@@ -81,6 +81,7 @@ select.coordinating-colors {
     display: none;
     min-height: 100vh;
     overflow-y: scroll;
+    padding-bottom: 30px;
     position: fixed;
     top: 0;
     width: 1200px;
@@ -123,4 +124,15 @@ select.coordinating-colors {
     background: #ffffff;
     margin-top: 30px;
     padding: 30px;
+}
+
+.panel-overlay {
+    background: rgba(0, 0, 0, .5);
+    height: 100%;
+    left: 0px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 99999;
 }

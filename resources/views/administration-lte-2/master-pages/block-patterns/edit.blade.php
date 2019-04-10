@@ -21,7 +21,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/{{ env('ENDPOINT_VERSION') }}/block_pattern/update" enctype="multipart/form-data" id='edit-block-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="block_pattern_id" value="{{ $block_pattern->id }}">
-                        <input type="hidden" name="neck_options" id="neck_options" value="{{ $block_pattern->neck_options }}">
+                        <input type="hidden" name="neck_options" id="neck_options" :value="JSON.stringify(neck_options)">
                         <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         <div class="form-group">

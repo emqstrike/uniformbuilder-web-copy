@@ -1,4 +1,4 @@
-<div id="menu" class="edit-neck-option-container">
+<div id="menu" ref="menu" class="edit-neck-option-container">
     <div class="container">
         <div class="col-md-12">
             <h3>Edit Neck Option</h3>
@@ -73,8 +73,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <button id="update-neck-option" class="btn btn-flat btn-primary" @click="updateNeckOption()">Update neck option</button>
+            <div class="form-inline">
+                <button id="update-neck-option" class="btn btn-sm btn-flat btn-primary" @click="updateNeckOption()">Update neck option</button>
+                <button id="update-neck-option" class="btn btn-sm btn-flat btn-danger" @click="closePanel()" style="display: inline-block">Cancel</button>
             </div>
         </div>
     </div>

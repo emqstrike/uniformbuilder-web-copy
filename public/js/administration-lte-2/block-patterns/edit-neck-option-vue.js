@@ -9,7 +9,8 @@ new Vue({
             },
             neck_options: [data][0],
             neck_option: "",
-            slideout: ""
+            slideout: "",
+            is_showing: false
         }
     },
     mounted: function() {
@@ -23,11 +24,22 @@ new Vue({
     },
     methods:{
         editNeckOption: function(neck_option, index) {
-            this.block_pattern_option_2 = [];
+            if (neck_option.hasOwnProperty('block_pattern_option_2')) {
+                if (neck_option.block_pattern_option_2.length > 0) {
+                    this.block_pattern_option_2 = neck_option.block_pattern_option_2;
+                }
+            } else {
+                this.block_pattern_option_2 = [];
+            }
 
             this.neck_option = neck_option;
             Vue.set(this.neck_option, 'index', index);
             this.slideout.toggle();
+            this.is_showing = true;
+
+            this.$nextTick(function() {
+                this.$refs.menu.scrollTop = 0;
+            });
         },
         removeNeckOption: function(index) {
             let remove = confirm('Are you sure you want to remove this neck option?');
@@ -58,6 +70,20 @@ new Vue({
         updateNeckOption: function() {
             Vue.set(this.neck_option, 'block_pattern_option_2', this.block_pattern_option_2);
             this.neck_options[this.neck_option.index] = this.neck_option;
+
+            new PNotify({
+                title: 'Neck option updated',
+                type: 'success',
+                hide: true,
+                delay: 500
+            });
+
+            this.slideout.toggle();
+            this.is_showing = false;
+        },
+        closePanel: function() {
+            this.slideout.toggle();
+            this.is_showing = false;
         }
     }
 });
