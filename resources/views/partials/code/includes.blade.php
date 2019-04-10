@@ -44,3 +44,9 @@
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
+
+<!-- CD content filter -->
+<!-- <script src="{{$asset_storage}}/codyhouse-content-filter/js/jquery-2.1.1.js?v={{$asset_version}}"></script> -->
+<script src="{{$asset_storage}}/codyhouse-content-filter/js/jquery.mixitup.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/codyhouse-content-filter/js/main.js?v={{$asset_version}}"></script> <!-- Resource jQuery -->
+<!-- end CD content filter -->

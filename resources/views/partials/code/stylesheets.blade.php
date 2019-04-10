@@ -3,6 +3,12 @@
     <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <!-- End Fonts -->
 
+    <!-- CD content filter -->
+    <link rel="stylesheet" href="{{$asset_storage}}/codyhouse-content-filter/css/reset.css?v={{$asset_version}}">
+    <link rel="stylesheet" href="{{$asset_storage}}/codyhouse-content-filter/css/style.css?v={{$asset_version}}">
+    <script src="{{$asset_storage}}/codyhouse-content-filter/js/modernizr.js?v={{$asset_version}}"></script>
+    <!-- end CD content filter -->
+
     <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css?v={{$asset_version}}">
