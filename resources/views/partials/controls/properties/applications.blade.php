@@ -663,3 +663,29 @@
     </div>
 </script>
 <!-- End Add Another Application -->
+
+<!-- Existing Design -->
+<script type="text/mustache" id="m-mascot-items">
+    @{{ #embellishments }}
+        <div class="mascot-item">
+            <a class="box-palette uk-link-reset btn-selection-choice uk-text-center">
+                <div class="bgc-white uk-text-right">
+                    <h6 class="bgc-dark fc-light uk-text-center uk-margin-remove padding-tiny-vertical uk-text-truncate">@{{ design_name }}</h6>
+                    <div class="uk-inline">
+                        <div class="uk-padding-small uk-padding-remove-bottom">
+                            <img src="@{{ png_filename }}" uk-img height="100px">
+                        </div>
+
+                        <div class="uk-position-cover choice-icon bdr-lightGray">
+                            <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary"></span>
+                        </div>
+                    </div>
+                    <button class="uk-button uk-margin-small-right btn-delete btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-toggle="target: #modal-confirmation" uk-tooltip="title:Move to Archive; pos: left">
+                        <span class="icon-archive"></span>
+                    </button>
+                </div>
+            </a >
+        </div>
+    @{{ /embellishments }}
+</script>
+<!-- End Existing Design -->

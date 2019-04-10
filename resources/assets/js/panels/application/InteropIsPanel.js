@@ -95,8 +95,8 @@ InteropIsPanel.funcs = {
             DesignCategoryID: "1000004"
         };
 
-        if ($(".inksoft-loader.existing-design #embed-inksoft iframe").length === 0) {
-            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.existing-design #embed-inksoft"));
+        if ($(".inksoft-loader.create #embed-inksoft iframe").length === 0) {
+            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft"));
         }
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
@@ -196,6 +196,27 @@ InteropIsPanel.funcs = {
         if ($(".inksoft-loader.upload #embed-inksoft-upload iframe").length === 0) {
             launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         }
+        UIkit.modal("#select-mascot-inksoft-modal").show();
+    },
+
+    loadExistingDesign: function(settingsObj) {
+        ub.status.embellishmentPopupVisible = false;
+        ub.is.settingsObj = undefined;
+
+        ub.is.settingsObj = settingsObj;
+        ub.status.embellishmentPopupVisible = true;
+
+        var _items = _.sortBy(is.embellishments.userItems, function(item) {
+            return parseInt(item.id);
+        });
+        
+        var data = {
+            embellishments: _items.reverse(),
+        }
+
+        var render = _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-items', data);
+        $("#select-mascot-inksoft-modal .mascot-container").html("");
+        $("#select-mascot-inksoft-modal .mascot-container").html(render);
         UIkit.modal("#select-mascot-inksoft-modal").show();
     }
 }
