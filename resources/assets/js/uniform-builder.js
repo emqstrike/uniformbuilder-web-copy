@@ -151,9 +151,14 @@ $(document).ready(function () {
             if (ub.picker.isNew) {
 
                 var uniformType = _.find(ub.data.activeSports.items, {code: _sport.shortCode}).type;
+                var sport = _sport.urlAlias;
+                var gender = _gender.shortCode;
 
-                ub.funcs.setV2Gender(_gender.shortCode);
-                ub.funcs.setV2Sport(_sport.urlAlias);
+                if (_sport.urlAlias === 'Football') { sport = 'Football 2017'; }
+                if (_sport.urlAlias === 'Wrestling') { sport = 'Wrestling 2018'; }
+
+                ub.funcs.setV2Gender(gender);
+                ub.funcs.setV2Sport(sport);
                 ub.funcs.setV2UniformType(uniformType);
                 ub.funcs.resetSecondaryBarFilter();
                 ub.funcs.setSideBarSportFilter();

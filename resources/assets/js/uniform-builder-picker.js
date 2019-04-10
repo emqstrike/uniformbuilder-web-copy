@@ -13,8 +13,8 @@ $(document).ready(function () {
         gender: '',
         sport: '',
         uniformType: '',
-        items: []
-	};
+        items: [],
+	}
 
 	ub.data.secondaryBarLabelsV2 = {
 
@@ -250,7 +250,7 @@ $(document).ready(function () {
 
             items = ub.funcs.getPrimaryFilterItems(type);
 
-            ub.funcs.blockPatternCollections(items);
+            ub.funcs.blockPatternCollections(items, true);
 
             ub.filtersV2.items = items;
 
@@ -268,7 +268,7 @@ $(document).ready(function () {
 
             items = ub.funcs.getSecondaryFilterItems(type);
 
-            ub.funcs.blockPatternCollections(items);
+            ub.funcs.blockPatternCollections(items, true);
 
             ub.filtersV2.items = items;
 
@@ -419,13 +419,13 @@ $(document).ready(function () {
     	$('div#topbar').hide();
     }
 
-    ub.funcs.getActiveSportByGender = function (uniformType, gender='') {
+    ub.funcs.getActiveSportByGender = function (uniformType, gender) {
         var sports = ub.data.activeSports.items;
 
         var _one = 1;
         if (window.ub.config.toString) { _one = "1"; }
 
-        var gender = (gender.length > 0) ? gender : ub.filtersV2.gender;
+        var gender = (typeof gender !== 'undefined') ? gender : ub.filtersV2.gender;
         return _.filter(sports, function (sport) {
             if (gender == 'men') {
                 return sport.active_male === _one && sport.active_type === 'active' && sport.thumbnail_male.length > 0 && sport.type === uniformType
@@ -436,7 +436,7 @@ $(document).ready(function () {
     }
 
     ub.funcs.setSideBarSportFilter = function () {
-        var activeSports = ub.funcs.getActiveSportByGender(ub.filtersV2.uniformType);
+        var activeSports = ub.funcs.getActiveSportByGender(ub.filtersV2.uniformType, undefined);
 
         $('#cd-sport option:gt(0)').remove();
 
@@ -711,7 +711,7 @@ $(document).ready(function () {
         return items;
     }
 
-    ub.funcs.blockPatternCollections = function (items, fromBlockPatternSelectOption=true) {
+    ub.funcs.blockPatternCollections = function (items, fromBlockPatternSelectOption) {
 
         var _blockPatterns = [];
         var itemsWOUpper = items;
