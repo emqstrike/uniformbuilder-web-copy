@@ -74,7 +74,7 @@
             </div>
 
             <div class="form-group">
-                <button id="update-neck-option" class="btn btn-flat btn-primary">Update neck option</button>
+                <button id="update-neck-option" class="btn btn-flat btn-primary" @click="updateNeckOption()">Update neck option</button>
             </div>
         </div>
     </div>

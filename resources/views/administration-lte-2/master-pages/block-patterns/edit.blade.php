@@ -195,9 +195,9 @@
                                             <tr v-for="item , index in neck_options">
                                                 <td>@{{ item.name }}</td>
                                                 <td>@{{ item.alias }}</td>
-                                                <td>@{{ item.placeholder_override }}</td>
+                                                <td>@{{ item.placeholder_overrides }}</td>
                                                 <td>
-                                                    <button class="btn btn-xs btn-flat btn-primary" @click.prevent="editNeckOption(item)">Edit</button>
+                                                    <button class="btn btn-xs btn-flat btn-primary" @click.prevent="editNeckOption(item, index)">Edit</button>
                                                     <button class="btn btn-xs btn-flat btn-danger" @click.prevent="removeNeckOption(index)">Remove</button>
                                                 </td>
                                             </tr>

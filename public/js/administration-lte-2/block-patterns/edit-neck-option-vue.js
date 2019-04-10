@@ -22,10 +22,11 @@ new Vue({
         });
     },
     methods:{
-        editNeckOption: function(neck_option) {
+        editNeckOption: function(neck_option, index) {
             this.block_pattern_option_2 = [];
 
             this.neck_option = neck_option;
+            Vue.set(this.neck_option, 'index', index);
             this.slideout.toggle();
         },
         removeNeckOption: function(index) {
@@ -54,5 +55,9 @@ new Vue({
         removeBlockPatternOption3: function(option_2_item, option_3_item) {
             option_2_item.block_pattern_option_3.splice(option_2_item.block_pattern_option_3.indexOf(option_3_item), 1)
         },
+        updateNeckOption: function() {
+            Vue.set(this.neck_option, 'block_pattern_option_2', this.block_pattern_option_2);
+            this.neck_options[this.neck_option.index] = this.neck_option;
+        }
     }
 });

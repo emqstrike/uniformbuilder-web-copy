@@ -12,7 +12,7 @@
             brand: "{{ env('BRAND') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
-            api_host: "https://{{ env('API_HOST') }}",
+            api_host: "http://{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
 
