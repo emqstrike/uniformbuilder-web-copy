@@ -112,7 +112,15 @@ ModifierController.prototype = {
         // }
 
         // pipings
-        if (this.controllers.pipings.set_items.piping_set_items.length === 0) {
+        if (ub.funcs.isSocks()) { // display random feeds
+            if (this.controllers.pipings.set_items.piping_set_items.length === 0) {
+                $('.menu-item-pipings', tabs_el).remove();
+            }
+        } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
+            if (this.controllers.pipings.set_items.random_feed_set_items.length === 0) {
+                $('.menu-item-pipings', tabs_el).remove();
+            }
+        } else {
             $('.menu-item-pipings', tabs_el).remove();
         }
 
