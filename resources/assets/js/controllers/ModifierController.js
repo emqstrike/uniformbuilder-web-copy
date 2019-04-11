@@ -105,12 +105,7 @@ ModifierController.prototype = {
 
             $('.menu-item-parts', tabs_el).remove();
         }
-
-        // inserts
-        // if () {
-        //     $('.menu-item-inserts', tabs_el).remove();
-        // }
-
+        
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             if (this.controllers.pipings.set_items.piping_set_items.length === 0) {
@@ -123,21 +118,6 @@ ModifierController.prototype = {
         } else {
             $('.menu-item-pipings', tabs_el).remove();
         }
-
-        // letters
-        // if () {
-        //     $('.menu-item-letters', tabs_el).remove();
-        // }
-
-        // numbers
-        // if () {
-        //     $('.menu-item-numbers', tabs_el).remove();
-        // }
-
-        // applications
-        // if () {
-        //     $('.menu-item-applications', tabs_el).remove();
-        // }
 
         // logo
         if (typeof ub.data.logos === "undefined" || ub.data.logos.length < 1) {
