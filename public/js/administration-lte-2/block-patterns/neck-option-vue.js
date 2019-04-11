@@ -8,7 +8,7 @@ new Vue({
                 layer: '',
                 name: ''
             },
-            neck_options: [data][0],
+            neck_options: data,
             neck_option: "",
             slideout: "",
             is_panel_showing: false
@@ -33,6 +33,7 @@ new Vue({
                 alias: '',
                 placeholder_overrides: ''
             }
+
             this.showPanel(neck_option, index);
         },
         editNeckOption: function(neck_option, index) {

@@ -5,7 +5,7 @@
 @endsection
 
 @section('slidein-panel')
-    @include('administration-lte-2.master-pages.block-patterns.partials.edit-neck-option')
+    @include('administration-lte-2.master-pages.block-patterns.partials.neck-option')
 @endsection
 
 @section('content')
@@ -21,7 +21,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/{{ env('ENDPOINT_VERSION') }}/block_pattern/update" enctype="multipart/form-data" id='edit-block-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="block_pattern_id" value="{{ $block_pattern->id }}">
-                        <input type="hidden" name="neck_options" id="neck_options" :value="JSON.stringify(neck_options)">
+                        <input type="hidden" name="neck_options" :value="JSON.stringify(neck_options)">
                         <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         <div class="form-group">
@@ -176,11 +176,11 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label class="col-md-1 control-label">Block Pattern Options
-                                <div>
-                                    <a class="btn btn-flat btn-primary btn-xs" @click="addNeckOption()">
-                                        <i class="fa fa-plus"></i> Add Neck Option
-                                    </a>
-                                </div>
+                                    <div>
+                                        <a class="btn btn-flat btn-primary btn-xs" @click="addNeckOption()">
+                                            <i class="fa fa-plus"></i> Add Neck Option
+                                        </a>
+                                    </div>
                                 </label>
                                 <div class="col-md-11">
                                     <table class="table table-bordered">
@@ -193,7 +193,7 @@
                                             </tr>
                                         </thead>
 
-                                        <tbody data-colors="{{ json_encode($colors) }}">
+                                        <tbody>
                                             <tr v-for="item , index in neck_options">
                                                 <td>@{{ item.name }}</td>
                                                 <td>@{{ item.alias }}</td>
@@ -231,7 +231,7 @@
 
 @section('custom-scripts')
     <script>
-        var data = {!! $block_pattern->neck_options !!};
+        var data = [{!! $block_pattern->neck_options !!}][0];
     </script>
     
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
@@ -239,5 +239,5 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
-    <script type="text/javascript" src="/js/administration-lte-2/block-patterns/edit-neck-option-vue.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/block-patterns/neck-option-vue.js"></script>
 @endsection

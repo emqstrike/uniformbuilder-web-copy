@@ -77,7 +77,8 @@
 
             <div class="form-inline">
                 <button id="update-neck-option" class="btn btn-sm btn-flat btn-primary" @click="updateNeckOption()">
-                    <span>Update neck option</span>
+                    <span v-if="action == 'edit'">Update neck option</span>
+                    <span v-else>Save neck option</span>
                 </button>
                 <button id="update-neck-option" class="btn btn-sm btn-flat btn-danger" @click="closePanel()" style="display: inline-block">Cancel</button>
             </div>
