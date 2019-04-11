@@ -177,7 +177,9 @@
                             <div class="col-md-12">
                                 <label class="col-md-1 control-label">Block Pattern Options
                                 <div>
-                                    <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
+                                    <a class="btn btn-flat btn-primary btn-xs" @click="addNeckOption()">
+                                        <i class="fa fa-plus"></i> Add Neck Option
+                                    </a>
                                 </div>
                                 </label>
                                 <div class="col-md-11">

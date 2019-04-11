@@ -1,7 +1,9 @@
 <div id="menu" ref="menu" class="edit-neck-option-container">
     <div class="container">
         <div class="col-md-12">
-            <h3>Edit Neck Option</h3>
+            <h3 v-if="action == 'edit'">Edit Neck Option</h3>
+            <h3 v-else>Add Neck Option</h3>
+
             <div class="form-group">
                 <label class="control-label">Name</label>
                 <input type="text" id="neck-option-name" class="form-control" v-model="neck_option.name">
@@ -74,7 +76,9 @@
             </div>
 
             <div class="form-inline">
-                <button id="update-neck-option" class="btn btn-sm btn-flat btn-primary" @click="updateNeckOption()">Update neck option</button>
+                <button id="update-neck-option" class="btn btn-sm btn-flat btn-primary" @click="updateNeckOption()">
+                    <span>Update neck option</span>
+                </button>
                 <button id="update-neck-option" class="btn btn-sm btn-flat btn-danger" @click="closePanel()" style="display: inline-block">Cancel</button>
             </div>
         </div>

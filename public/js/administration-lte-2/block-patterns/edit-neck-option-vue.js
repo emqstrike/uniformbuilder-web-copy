@@ -2,6 +2,7 @@ new Vue({
     el: '#application-container',
     data: function() {
         return {
+            action: '',
             block_pattern_option_2: [],
             block_pattern_option_2_item: {
                 layer: '',
@@ -10,7 +11,7 @@ new Vue({
             neck_options: [data][0],
             neck_option: "",
             slideout: "",
-            is_showing: false
+            is_panel_showing: false
         }
     },
     mounted: function() {
@@ -23,23 +24,20 @@ new Vue({
         });
     },
     methods:{
-        editNeckOption: function(neck_option, index) {
-            if (neck_option.hasOwnProperty('block_pattern_option_2')) {
-                if (neck_option.block_pattern_option_2.length > 0) {
-                    this.block_pattern_option_2 = neck_option.block_pattern_option_2;
-                }
-            } else {
-                this.block_pattern_option_2 = [];
+        addNeckOption: function() {
+            this.action = 'add';
+            let index = Object.keys(this.neck_options).length + 1;
+
+            let neck_option = {
+                name: '',
+                alias: '',
+                placeholder_overrides: ''
             }
-
-            this.neck_option = neck_option;
-            Vue.set(this.neck_option, 'index', index);
-            this.slideout.toggle();
-            this.is_showing = true;
-
-            this.$nextTick(function() {
-                this.$refs.menu.scrollTop = 0;
-            });
+            this.showPanel(neck_option, index);
+        },
+        editNeckOption: function(neck_option, index) {
+            this.action = 'edit';
+            this.showPanel(neck_option, index);
         },
         removeNeckOption: function(index) {
             let remove = confirm('Are you sure you want to remove this neck option?');
@@ -71,19 +69,45 @@ new Vue({
             Vue.set(this.neck_option, 'block_pattern_option_2', this.block_pattern_option_2);
             this.neck_options[this.neck_option.index] = this.neck_option;
 
+            let title = null;
+
+            if (this.action == 'edit') {
+                title = "Neck option updated";
+            } else if (this.action == 'add') {
+                title = "Neck option added";
+            }
+
             new PNotify({
-                title: 'Neck option updated',
+                title: title,
                 type: 'success',
                 hide: true,
                 delay: 500
             });
 
             this.slideout.toggle();
-            this.is_showing = false;
+            this.is_panel_showing = false;
         },
         closePanel: function() {
             this.slideout.toggle();
-            this.is_showing = false;
+            this.is_panel_showing = false;
+        },
+        showPanel: function(neck_option, index) {
+            if (neck_option.hasOwnProperty('block_pattern_option_2')) {
+                if (neck_option.block_pattern_option_2.length > 0) {
+                    this.block_pattern_option_2 = neck_option.block_pattern_option_2;
+                }
+            } else {
+                this.block_pattern_option_2 = [];
+            }
+
+            this.neck_option = neck_option;
+            Vue.set(this.neck_option, 'index', index);
+            this.slideout.toggle();
+            this.is_panel_showing = true;
+
+            this.$nextTick(function() {
+                this.$refs.menu.scrollTop = 0;
+            });
         }
     }
 });

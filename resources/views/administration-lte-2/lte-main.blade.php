@@ -103,7 +103,7 @@
 
 
         <div id="panel" class="wrapper">
-            <div v-show="is_showing" class="panel-overlay"></div>
+            <div v-show="is_panel_showing" class="panel-overlay"></div>
             @include('administration-lte-2.lte-main-topbar')
             @include('administration-lte-2.lte-side-menu')
             
