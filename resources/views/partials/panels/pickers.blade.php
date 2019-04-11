@@ -125,7 +125,7 @@
 
                             <li>
                                 <input class="filter uniform-application-type" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" id="tackleTwillRadioButton" data-type="tackle_twill">
-                                <label class="radio-label" for="tackleTwillRadioButton">Tacke Twill</label>
+                                <label class="radio-label" for="tackleTwillRadioButton">Tackle Twill</label>
                             </li>
 
                             <li>
