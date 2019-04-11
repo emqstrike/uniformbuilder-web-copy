@@ -667,7 +667,7 @@
 <!-- Existing Design -->
 <script type="text/mustache" id="m-mascot-items">
     @{{ #embellishments }}
-        <div class="mascot-item">
+        <div class="mascot-item" data-id="@{{ id }}">
             <a class="box-palette uk-link-reset btn-selection-choice uk-text-center select-mascot-item"
                 data-design-id="@{{ design_id }}"
                 data-id="@{{ id }}"
@@ -686,9 +686,26 @@
                             <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary"></span>
                         </div>
                     </div>
-                    <button class="uk-button uk-margin-small-right btn-delete btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Archive; pos: left">
-                        <span class="fa fa-archive"></span>
-                    </button>
+                    @{{ #archived }}
+                        <button class="uk-button uk-margin-small-right btn-restore bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Active; pos: left" 
+                            data-type="restore"
+                            data-design-id="@{{ design_id }}"
+                            data-id="@{{ id }}"
+                            data-design-name="@{{ design_name }}"
+                        >
+                            <span uk-icon="icon: refresh"></span>
+                        </button>
+                    @{{ /archived }}
+                    @{{ ^archived }}
+                        <button class="uk-button uk-margin-small-right btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Archive; pos: left" 
+                            data-type="archive"
+                            data-design-id="@{{ design_id }}"
+                            data-id="@{{ id }}"
+                            data-design-name="@{{ design_name }}"
+                        >
+                            <span class="fa fa-archive"></span>
+                        </button>
+                    @{{ /archived }}
                 </div>
             </a >
         </div>
@@ -774,3 +791,4 @@
     </div>
 </script>
 <!-- End Existing Design -->
+

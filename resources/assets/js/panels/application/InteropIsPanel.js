@@ -11,6 +11,7 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".mascot-item .select-mascot-item", that.onClickMascotItem);
             $(".inksoft-existing-design").on("keyup", ".search-mascot-form input", _.debounce(that.onSearchMascot, 500));
             $(".inksoft-existing-design").on("click", ".add-to-uniform", that.onAddMascotOnUniform);
+            $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
         }
 
         that.isInit = false;
@@ -91,7 +92,20 @@ InteropIsPanel.events = {
         }
 
         UIkit.modal("#select-mascot-inksoft-modal").hide();
-    }
+    },
+
+    onChangeMascotStatus: function() {
+        var type = $(this).data("type");
+        var design_id = $(this).data("design-id");
+        var design_name = $(this).data("design-name");
+        var id = $(this).data("id");
+
+        if (type === "archive") {
+            InteropIsPanel.funcs.updateMascotStatus(1, id, design_id, type);
+        } else {
+            InteropIsPanel.funcs.updateMascotStatus(0, id, design_id, type);
+        }
+    },
 }
 
 InteropIsPanel.funcs = {
@@ -289,10 +303,12 @@ InteropIsPanel.funcs = {
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
-    loadExistingDesign: function(settingsObj) {
+    loadExistingDesign: function(settingsObj, settings = false) {
         ub.status.embellishmentPopupVisible = false;
-        ub.is.settingsObj = settingsObj;
         ub.status.embellishmentPopupVisible = true;
+        if (typeof settingsObj !== "undefined") {
+            ub.is.settingsObj = settingsObj;
+        }
 
         this.updateEmbellishmentListArchived(function() {
             var embellishments = _.sortBy(is.embellishments.userItems, function(item) {
@@ -326,10 +342,54 @@ InteropIsPanel.funcs = {
         });
     },
 
+    updateEmbellishmentList: function(cb) {
+        ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/active';
+        ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+            // Save data
+            is.embellishments.userItems = response;
+            
+            if(typeof cb !== "undefined") {
+                cb();
+            }
+        });
+    },
+
     renderMascots: function(data) {
         var renderMascots = ub.utilities.buildTemplateString('#m-mascot-items', {embellishments: data});
         $("#select-mascot-inksoft-modal .mascot-container").html("");
         $("#select-mascot-inksoft-modal .mascot-container").html(renderMascots);
         $(".inksoft-existing-design .mascot-item .select-mascot-item").first().trigger("click");
-    }
+    },
+
+    updateMascotStatus: function(status, id, designID, type) {
+        var that = this;
+        var _postData = {
+            "archived": status,
+            "id": id,
+            "design_id": designID,
+        }
+
+        $.ajax({
+            url: ub.endpoints.getFullUrlString('updateCustomArtwork'),
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response) {
+                if (type === "archive") {
+                    that.updateEmbellishmentList(function() {
+                        that.renderMascots(is.embellishments.userItems);
+                        $(".inksoft-existing-design .menu-tab-mascot .menu-tab-button[data-type='active']").addClass("uk-active")
+                    });
+                } else {
+                    that.updateEmbellishmentListArchived(function() {
+                        that.renderMascots(is.embellishments.userItemsArchived);
+                        $(".inksoft-existing-design .menu-tab-mascot .menu-tab-button[data-type='archive']").addClass("uk-active")
+                    });
+                }
+            }     
+        });
+    },
 }

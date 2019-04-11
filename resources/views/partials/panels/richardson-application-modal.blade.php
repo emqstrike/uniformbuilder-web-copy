@@ -232,7 +232,7 @@
 <!-- {{-- End User Login --}} -->
 
 <!-- Mascot Select -->
-<div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false">
+<div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
     <div class="uk-modal-dialog uk-modal-body">
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -245,12 +245,7 @@
             </li>
             <li>
                 <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize">
-                    <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Select <span class="uk-visible@s">from libraries</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize">
-                    <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: plus-circle"></span>Create <span class="uk-visible@s">a custom logo</span>
+                    <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Create Design/Design libraries</span>
                 </a>
             </li>
             <li>
@@ -262,12 +257,6 @@
         <hr>
         <ul class="uk-switcher uk-margin">
             <li class="inksoft-existing-design">
-            </li>
-            <li class="inksoft-loader libraries">
-                <div class="uk-flex uk-flex-center">
-                    <div id="embed-inksoft-libraries">
-                    </div>
-                </div>
             </li>
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">
@@ -285,3 +274,4 @@
     </div>
 </div>
 <!-- End Mascot Select -->
+
