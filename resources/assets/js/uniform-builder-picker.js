@@ -337,10 +337,14 @@ $(document).ready(function () {
             });
 
             // Women does not have `esport` uniform type
-            $('li input.gender-type[data-gender="women"]').prop('disabled', false);
-            $('li input.uniform-type[data-category="esports"]').prop('disabled', false);
+            $('li input.gender-type[data-gender="women"]').prop('disabled', false).css('cursor', 'pointer');
+            $('li input.uniform-type[data-category="esports"]').prop('disabled', false).css('cursor', 'pointer');
+            ub.funcs.changeCursorType('li label.women-label', 'pointer');
+            ub.funcs.changeCursorType('li label.esports-label', 'pointer');
             if (gender === 'women') {
-                $('li input.uniform-type[data-category="esports"]').prop('disabled', true);
+                $('li input.uniform-type[data-category="esports"]').prop('disabled', true).css('cursor', 'not-allowed');
+                ub.funcs.changeCursorType('li label.esports-label', 'not-allowed');
+
             }
 
         });
@@ -366,14 +370,18 @@ $(document).ready(function () {
             });
 
             // Women does not have `esport` uniform type
-            $('li input.uniform-type[data-category="esports"]').prop('disabled', false);
+            $('li input.uniform-type[data-category="esports"]').prop('disabled', false).css('cursor', 'pointer');
+            ub.funcs.changeCursorType('li label.esports-label', 'pointer');
             if (gender === 'women') {
-                $('li input.uniform-type[data-category="esports"]').prop('disabled', true);
+                $('li input.uniform-type[data-category="esports"]').prop('disabled', true).css('cursor', 'not-allowed');
+                ub.funcs.changeCursorType('li label.esports-label', 'not-allowed');
             }
 
-            $('li input.gender-type[data-gender="women"]').prop('disabled', false);
+            $('li input.gender-type[data-gender="women"]').prop('disabled', false).css('cursor', 'pointer');
+            ub.funcs.changeCursorType('li label.women-label', 'pointer');
             if (uniformType === 'esports') {
-                $('li input.gender-type[data-gender="women"]').prop('disabled', true);
+                $('li input.gender-type[data-gender="women"]').prop('disabled', true).css('cursor', 'not-allowed');
+                ub.funcs.changeCursorType('li label.women-label', 'not-allowed');
             }
         });
     }
@@ -577,6 +585,10 @@ $(document).ready(function () {
     ub.funcs.setActiveUniformTypeOnSideBar = function () {
         $('li input.uniform-type[name="uniformTypeButton"]:checked').prop('checked', false);
         $('li input.uniform-type[data-category="'+ub.filtersV2.uniformType+'"]').prop('checked', true);
+    }
+
+    ub.funcs.changeCursorType = function (element, cursorType) {
+        $(element).css('cursor', cursorType);
     }
 
     ub.funcs.getPrimaryFilterItems = function (type) {

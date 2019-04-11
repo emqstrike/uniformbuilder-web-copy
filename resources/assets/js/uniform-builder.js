@@ -150,12 +150,13 @@ $(document).ready(function () {
             // Version 2 FILTER
             if (ub.picker.isNew) {
 
-                var uniformType = _.find(ub.data.activeSports.items, {code: _sport.shortCode}).type;
                 var sport = _sport.urlAlias;
                 var gender = _gender.shortCode;
 
                 if (_sport.urlAlias === 'Football') { sport = 'Football 2017'; }
                 if (_sport.urlAlias === 'Wrestling') { sport = 'Wrestling 2018'; }
+
+                var uniformType = _.find(ub.data.activeSports.items, {name: sport}).type;
 
                 ub.funcs.setV2Gender(gender);
                 ub.funcs.setV2Sport(sport);
