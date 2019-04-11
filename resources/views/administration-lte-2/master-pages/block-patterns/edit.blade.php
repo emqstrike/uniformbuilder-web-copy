@@ -235,7 +235,7 @@
     </script>
     
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
-    <script type="text/javascript" src="/bower_components/slideout.js/dist/slideout.min.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/slideout.js"></script>
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-patterns/block-patterns.js"></script>
