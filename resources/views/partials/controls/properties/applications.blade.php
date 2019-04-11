@@ -710,6 +710,13 @@
             </a >
         </div>
     @{{ /embellishments }}
+    @{{ ^embellishments }}
+        <div class="uk-flex uk-flex-center">
+            <div class="uk-text-center uk-padding-small">
+                <p>No logo available</p>
+            </div>
+        </div>
+    @{{ /embellishments }}
 </script>
 
 <script type="text/mustache" id="m-user-design-container">
@@ -723,10 +730,10 @@
                     <div class="nav-overlay uk-navbar-left uk-padding-small uk-padding-remove-horizontal">
                         <ul class="menu-tab-mascot uk-subnav uk-margin-remove uk-grid-small grid-tiny active-bgc-dark" uk-switcher uk-grid>
                             <li>
-                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="active">Active <span>(@{{ active }})</span></a>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="active">Active <span class="count-active">(@{{ active }})</span></a>
                             </li>
                             <li>
-                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="archive">Archive <span>(@{{ archive }})</span></a>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="archive">Archive <span class="count-archive"></span></a>
                             </li>
                         </ul>
                     </div>
@@ -753,8 +760,10 @@
                 <ul class="uk-switcher con-select">
                     <li class="uk-active mascot-list-container">
                         <div class="uk-margin-top uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-medium uk-overflow-auto">
-                            <div class="m-logo-active uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes mascot-container" uk-grid>
-
+                            <div class="uk-text-center mascot-list-loader">
+                                <span uk-spinner="ratio: 4.5"></span>
+                            </div>
+                            <div class="m-logo-active uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes mascot-container uk-hidden" uk-grid>
                             </div>
                         </div>
                     </li>

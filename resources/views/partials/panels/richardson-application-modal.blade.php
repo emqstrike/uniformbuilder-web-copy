@@ -237,19 +237,19 @@
     <div class="uk-modal-dialog uk-modal-body">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <h5 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Custom logo</h5>
-        <ul class="modal-menu-mascot uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark" uk-switcher>
+        <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark" uk-switcher>
             <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="existing">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Select <span class="uk-visible@s">from existing design</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="create">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Create Design/Design libraries</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="upload">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: cloud-upload"></span>Upload <span class="uk-visible@s">your own logo file</span>
                 </a>
             </li>

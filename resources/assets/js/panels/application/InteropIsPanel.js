@@ -12,22 +12,53 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("keyup", ".search-mascot-form input", _.debounce(that.onSearchMascot, 500));
             $(".inksoft-existing-design").on("click", ".add-to-uniform", that.onAddMascotOnUniform);
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
+            $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
         }
 
         that.isInit = false;
     },
 
+    onChangeTab: function() {
+        var type = $(this).data("type");
+
+        if (type === "existing") {
+            InteropIsPanel.funcs.loadExistingDesign()
+        } else if (type === "create") {
+            InteropIsPanel.funcs.loadDesigner()
+        } else if (type === "upload") {
+            InteropIsPanel.funcs.loadDesignerUpload()
+        }
+    },
+
     onFilterExistingDesign: function() {
         var type = $(this).data("type");
         var embellishments = undefined;
+        $(".inksoft-existing-design .mascot-list-container .mascot-list-loader").removeClass("uk-hidden");
+        $(".inksoft-existing-design .mascot-list-container .mascot-container").addClass("uk-hidden");
 
         if (type === "active") {
-            embellishments = is.embellishments.userItems;
+            InteropIsPanel.funcs.updateEmbellishmentList(function() {
+                embellishments = is.embellishments.userItems;
+                InteropIsPanel.funcs.renderMascots(embellishments);
+                $(".inksoft-existing-design .mascot-list-container .mascot-list-loader").addClass("uk-hidden");
+                $(".inksoft-existing-design .mascot-list-container .mascot-container").removeClass("uk-hidden");
+                // Update Count
+                $(".inksoft-existing-design .menu-tab-mascot .count-active").html("");
+                $(".inksoft-existing-design .menu-tab-mascot .count-active").html("(" +_.size(embellishments) + ")");
+                $(".inksoft-existing-design .menu-tab-mascot .count-archive").html("");
+            });
         } else if (type === "archive") {
-            embellishments = is.embellishments.userItemsArchived
-        }
+            InteropIsPanel.funcs.updateEmbellishmentListArchived(function() {
+                embellishments = is.embellishments.userItemsArchived
+                InteropIsPanel.funcs.renderMascots(embellishments);
+                $(".inksoft-existing-design .mascot-list-container .mascot-list-loader").addClass("uk-hidden");
+                $(".inksoft-existing-design .mascot-list-container .mascot-container").removeClass("uk-hidden");
 
-        InteropIsPanel.funcs.renderMascots(embellishments);
+                $(".inksoft-existing-design .menu-tab-mascot .count-archive").html("");
+                $(".inksoft-existing-design .menu-tab-mascot .count-archive").html("(" + _.size(embellishments) + ")");
+                $(".inksoft-existing-design .menu-tab-mascot .count-active").html("");
+            });
+        }
     },
 
     onClickMascotItem: function() {
@@ -200,9 +231,8 @@ InteropIsPanel.funcs = {
             DesignCategoryID: "1000004"
         };
 
-        if ($(".inksoft-loader.create #embed-inksoft-create iframe").length === 0) {
-            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
-        }
+        $(".inksoft-loader.create #embed-inksoft-create").html("")
+        launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -297,9 +327,8 @@ InteropIsPanel.funcs = {
             DesignCategoryID: "1000004"
         };
         
-        if ($(".inksoft-loader.upload #embed-inksoft-upload iframe").length === 0) {
-            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
-        }
+        $(".inksoft-loader.upload #embed-inksoft-upload").html("");
+        launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -309,6 +338,9 @@ InteropIsPanel.funcs = {
         if (typeof settingsObj !== "undefined") {
             ub.is.settingsObj = settingsObj;
         }
+
+        $(".inksoft-existing-design .mascot-list-container .mascot-list-loader").removeClass("uk-hidden");
+        $(".inksoft-existing-design .mascot-list-container .mascot-container").addClass("uk-hidden");
 
         this.updateEmbellishmentListArchived(function() {
             var embellishments = _.sortBy(is.embellishments.userItems, function(item) {
@@ -325,11 +357,16 @@ InteropIsPanel.funcs = {
             $("#select-mascot-inksoft-modal .inksoft-existing-design").html("");
             $("#select-mascot-inksoft-modal .inksoft-existing-design").html(renderContainer);
 
+
             // Bind Events
             InteropIsPanel.events.init();
             InteropIsPanel.funcs.renderMascots(embellishments);
-            UIkit.modal("#select-mascot-inksoft-modal").show();
+
+            $(".inksoft-existing-design .mascot-list-container .mascot-container").removeClass("uk-hidden");
+            $(".inksoft-existing-design .mascot-list-container .mascot-list-loader").addClass("uk-hidden");
         });
+
+        UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
     updateEmbellishmentListArchived: function(cb) {
@@ -355,7 +392,7 @@ InteropIsPanel.funcs = {
     },
 
     renderMascots: function(data) {
-        var renderMascots = ub.utilities.buildTemplateString('#m-mascot-items', {embellishments: data});
+        var renderMascots = ub.utilities.buildTemplateString('#m-mascot-items', {embellishments: data.reverse()});
         $("#select-mascot-inksoft-modal .mascot-container").html("");
         $("#select-mascot-inksoft-modal .mascot-container").html(renderMascots);
         $(".inksoft-existing-design .mascot-item .select-mascot-item").first().trigger("click");
@@ -382,11 +419,17 @@ InteropIsPanel.funcs = {
                     that.updateEmbellishmentList(function() {
                         that.renderMascots(is.embellishments.userItems);
                         $(".inksoft-existing-design .menu-tab-mascot .menu-tab-button[data-type='active']").addClass("uk-active")
+                        // Update Count
+                        $(".inksoft-existing-design .menu-tab-mascot .count-active").html("");
+                        $(".inksoft-existing-design .menu-tab-mascot .count-active").html("(" +_.size(is.embellishments.userItems) + ")");
                     });
                 } else {
                     that.updateEmbellishmentListArchived(function() {
                         that.renderMascots(is.embellishments.userItemsArchived);
-                        $(".inksoft-existing-design .menu-tab-mascot .menu-tab-button[data-type='archive']").addClass("uk-active")
+                        $(".inksoft-existing-design .menu-tab-mascot .menu-tab-button[data-type='archive']").addClass("uk-active");
+                        // Update Count
+                        $(".inksoft-existing-design .menu-tab-mascot .count-archive").html("");
+                        $(".inksoft-existing-design .menu-tab-mascot .count-archive").html("(" + _.size(is.embellishments.userItemsArchived) + ")");
                     });
                 }
             }     
