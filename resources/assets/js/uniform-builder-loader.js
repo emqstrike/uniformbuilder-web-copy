@@ -13,7 +13,10 @@ $(document).ready(function() {
             youthSports,
             menApparel,
             womenApparel,
-            youthApparel;
+            youthApparel,
+            meneSports,
+            womeneSports,
+            youtheSports;
 
         menSports = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'sports', 
@@ -24,6 +27,13 @@ $(document).ready(function() {
 
        	menApparel = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'apparel', 
+                        active: _one,
+                        active_male: _one,
+                        active_type: 'active'
+                    });
+
+        meneSports = ub.funcs.menActiveSportsApparel(categories, {
+                        type: 'esports', 
                         active: _one,
                         active_male: _one,
                         active_type: 'active'
@@ -43,6 +53,13 @@ $(document).ready(function() {
                         active_type: 'active'
                     });
 
+        womeneSports = ub.funcs.womenActiveSportsApparel(categories, {
+                        type: 'esports', 
+                        active: _one,
+                        active_female: _one,
+                        active_type: 'active'
+                    });
+
        	youthSports = ub.funcs.youthActiveSportsApparel(categories, {
                         type: 'sports', 
                         active: _one,
@@ -52,6 +69,13 @@ $(document).ready(function() {
 
        	youthApparel = ub.funcs.youthActiveSportsApparel(categories, {
                         type: 'apparel', 
+                        active: _one,
+                        active_youth: _one,
+                        active_type: 'active'
+                    });
+
+        youtheSports = ub.funcs.youthActiveSportsApparel(categories, {
+                        type: 'esports', 
                         active: _one,
                         active_youth: _one,
                         active_type: 'active'
@@ -96,6 +120,73 @@ $(document).ready(function() {
                 sports: ub.funcs.youthSortOrder(youthApparel)
             }
         ];
+
+        ub.data.esports = [
+            {
+                gender: 'Men',
+                sports: ub.funcs.menSortOrder(meneSports)
+            },
+            {
+                gender: 'Women',
+                sports: ub.funcs.womenSortOrder(womeneSports)
+            },
+            {
+                gender: 'Youth',
+                sports: ub.funcs.youthSortOrder(youtheSports)
+            }
+        ];
+
+        ub.data.sportsCategory = {
+            
+            esports: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'eSports',
+                            'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: []
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ],
+
+            apparel: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Apparel',
+                            'thumbnail_male': '/images/main-ui/pickers/hoodie.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Apparel',
+                            'thumbnail_female': '/images/main-ui/pickers/hoodie.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ]
+
+        };
 
 	}
 

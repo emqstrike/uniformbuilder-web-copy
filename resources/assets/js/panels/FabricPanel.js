@@ -26,8 +26,11 @@ FabricPanel.prototype = {
             // mos = material options
             var fabric_mos = FabricPanel.getUniqueFabrics(fabric_type);
 
+            console.log("fabric_mos: ", fabric_mos);
+
             if (!_.isEmpty(fabric_mos)) {
                 var fabric_layer = FabricPanel.buildFabricLayer(fabric_type, fabric_mos);
+                console.log("fabric_layer: ", fabric_layer);
 
                 this.fabrics.fabrics_data.push({
                     types: {
@@ -79,6 +82,8 @@ FabricPanel.getFabricMaterialOptions = function(fabric_type, default_asset, enab
     enabled_fabric_info = typeof(enabled_fabric_info) !== "undefined" ? enabled_fabric_info : false;
 
     var fabric_material_options = _.filter(ub.current_material.materials_options, function (mo) {
+        console.log("mo: ", mo);
+        console.log('mo.name.includes("Insert"): ', mo.name.includes("Insert"));
 
         switch(fabric_type) {
             case FabricPanel.FABRIC_BASE_TYPE:

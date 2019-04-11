@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // Pattern Data
     ub.patterns = {};
     ub.patterns.patternOffset = {
@@ -251,6 +250,9 @@ $(document).ready(function () {
         var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
         $svgPath.trigger('click');
 
+        // Hide Position Slider
+        $('span.irs').hide();
+
 
     };
 
@@ -274,6 +276,9 @@ $(document).ready(function () {
             $('div.patternPreviewContainer').fadeIn();
 
             ub.funcs.updateColorLabel('EDIT COLORS');
+
+            // Show Position Slider
+            $('span.irs').show()
 
         }
 
@@ -992,11 +997,20 @@ $(document).ready(function () {
             _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
 
         }
+
+        // Slider
+        _htmlBuilder += "<br /><br />";
+        _htmlBuilder += '<input type="text" id="part-pattern-slider" value="" />';
+
+        // End Slider 
         
         _htmlBuilder     += "</div>";
 
         $('div#randomFeedsUI').hide();
         $('.modifier_main_container').append(_htmlBuilder);
+
+        ub.funcs.setupPartPatternSlider(inputPattern, materialOption);
+
 
         _.each(_patternObj.layers, function (layer) {
 
@@ -1117,6 +1131,7 @@ $(document).ready(function () {
         }
 
     };
+
     ub.data.previewContainer    = {};
     ub.data.previewCanvas       = {};
     ub.data.patternToolTip      = {};
@@ -1232,7 +1247,7 @@ $(document).ready(function () {
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
         
-        canvas.setHeight(300);
+        canvas.setHeight(250);
         canvas.setWidth(300);
 
         _.each(_patternObj.layers, function (layer) {
@@ -1300,7 +1315,7 @@ $(document).ready(function () {
         var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
         var group   = new fabric.Group([ text, bg ], {
           left: 28,
-          top: 254,
+          top: 200,
         });
 
         var group   = new fabric.Group([bg], {

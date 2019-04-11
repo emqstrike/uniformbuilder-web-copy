@@ -1,5 +1,62 @@
 @extends('administration-lte-2.lte-main')
 
+@section('styles')
+    <style>
+        .neck-option-placeholder-overrides {
+            resize: none;
+        }
+
+        .coordinating-colors-container,
+        .limited-colors-container {
+            margin-bottom: 25px;
+        }
+
+        .neck-option-alias,
+        .neck-option-name {
+            width: 130px !important;
+        }
+
+        .coordinating-colors-name,
+        .limited-colors-name,
+        .limited-color {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        select.coordinating-colors {
+            width: 49%;
+        }
+
+        .limited-color-row .row {
+            min-width: 321px;
+        }
+
+        .limited-colors-container,
+        .coordinating-colors-container {
+            background: #eeeeee;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+
+        .part-and-fabrics .name {
+            width: 90% !important;
+        }
+
+        .part-and-fabrics span.select2 {
+            vertical-align: top;
+            width: 84% !important;
+        }
+
+        .select2-selection__choice {
+            color: #000000 !important;
+        }
+
+        .part-and-fabrics {
+            margin-bottom: 10px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="content">
         <div class="row">
@@ -14,6 +71,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="block_pattern_id" value="{{ $block_pattern->id }}">
                         <input type="hidden" name="neck_options" id="neck_options" value="{{ $block_pattern->neck_options }}">
+                        <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern Name</label>
@@ -78,26 +136,115 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">
+                                Parts and Fabrics
+
+                                <div>
+                                    <button class="btn btn-flat btn-primary clone-parts-and-fabrics btn-xs">
+                                        <i class="fa fa-plus"></i> Add Parts and Fabrics
+                                    </button>
+                                </div>
+                            </label>
+
+                            <div id="part-and-fabrics-container" class="col-md-6">
+                                @if ($block_pattern->parts_fabrics)
+                                    @foreach (json_decode($block_pattern->parts_fabrics, true) as $key => $part_fabric)
+                                        <div class="part-and-fabrics">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-inline">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control name" name="part_name[]" value="{{ $part_fabric['name'] }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-5">
+                                                    <div class="form-inline">
+                                                        <label>Fabrics</label>
+                                                        <input type="hidden" name="part_fabrics[]" class="part-fabrics-field" value="{{ implode(',', $part_fabric['fabric_ids']) }}">
+
+                                                        <select class="fabrics fabric-1" multiple="multiple">
+                                                            @foreach ($fabrics as $fabric)
+                                                                @if (in_array($fabric['id'], $part_fabric['fabric_ids']))
+                                                                    <option value="{{ $fabric['id'] }}" selected="selected">{{ $fabric['text'] }}</option>
+                                                                @else
+                                                                    <option value="{{ $fabric['id'] }}">{{ $fabric['text'] }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                @if ($key == 0)
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                            <span class="fa fa-minus"></span>
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric">
+                                                            <span class="fa fa-minus"></span>
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="part-and-fabrics">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-inline">
+                                                    <label>Name</label>
+                                                    <input type="text" class="form-control name" name="part_name[]">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <div class="form-inline">
+                                                    <label>Fabrics</label>
+                                                    <input type="hidden" name="part_fabrics[]" class="part-fabrics-field">
+
+                                                    <select class="fabrics" multiple="multiple"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <button class="btn btn-xs btn-flat btn-danger remove-parts-and-fabric" style="display: none;">
+                                                    <span class="fa fa-minus"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="col-md-2 control-label">Block Pattern Options
+                                <label class="col-md-1 control-label">Block Pattern Options
                                 <div>
                                     <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
                                 </div>
                                 </label>
-                                <div class="col-md-8">
+                                <div class="col-md-11">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th >Name</th>
+                                                <th>Name</th>
                                                 <th>Preview File</th>
                                                 <th>New File</th>
                                                 <th>Alias</th>
                                                 <th>Placeholder Overrides</th>
+                                                <th>Coordinating Colors</th>
+                                                <th>Limited Colors</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="layers-row-container"></tbody>
+                                        <tbody id="layers-row-container" data-colors="{{ json_encode($colors) }}">
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

@@ -305,6 +305,7 @@ class MaterialsController extends Controller
             'model_number' => $request->input('model_number'),
             'retain_settings_from_saved_design' => $retain_settings
         ];
+
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');

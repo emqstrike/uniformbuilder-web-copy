@@ -141,7 +141,11 @@
                         @endforeach
                     </select>
                 </div>
-
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Default Fabric:</label>
+                    <select class="form-control default-fabric" name="fabric_id" id="default_fabric">
+                    </select>
+                </div>
                 <div class="col-md-12">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Default Pattern:</label>
                     <select class="form-control default-pattern" name="pattern_id" id="default_pattern">
