@@ -17,9 +17,7 @@ npm-debug.log
 /cypress/support/
 
 /public/node_modules
-public/richardson/js/RichardsonIndex.js
-public/richardson/js/RichardsonIndex.js.map
-public/richardson/js/uniform-builder-richardson-data.js
-public/richardson/js/uniform-builder-richardson-data.js.map
+public/richardson/js/
 public/richardson/css/richardson-builder.css
 public/richardson/css/richardson-builder.css.map
+public/richardson/js

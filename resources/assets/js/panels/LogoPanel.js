@@ -18,11 +18,16 @@ function LogoPanel(element, logo_positions) {
     this.bindEvents();
 }
 
+LogoPanel.isInit = true;
+
 LogoPanel.prototype = {
     constructor: LogoPanel,
 
     init: function() {
-        $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+        if (LogoPanel.isInit) {
+            $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+            LogoPanel.isInit = false;
+        }
     },
 
     getPanel: function() {
@@ -136,7 +141,6 @@ LogoPanel.utilities = {
     },
 
     processLogo: function() {
-
         if (!util.isNullOrUndefined(ub.data.logos))
         {
             _.each(ub.data.logos, function(logo) {
@@ -218,25 +222,18 @@ LogoPanel.utilities = {
         var _logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
 
         _.each (ub.views, function (perspective) {
-
             var _perspectiveString = perspective + '_view';
-
             var _sprites = LogoPanel.utilities.createLogo(logoObject, _layerCount, perspective, _logoSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
-
                 if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
-
                     ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][logoObject.position]);
-
                 }
             }
 
             ub[_perspectiveString].addChild(_sprites);
             ub.objects[_perspectiveString][logoObject.position] = _sprites;
-
             ub.updateLayersOrder(ub[_perspectiveString]);
-
         });
     },
 
@@ -294,7 +291,7 @@ LogoPanel.utilities = {
 
             ub.current_material.settings.logos[position] = {
                 position: position,
-                enabled: 0,
+                enabled: 1,
                 numberOfLayers: 0,
                 layers: [
                     {
@@ -351,13 +348,12 @@ LogoPanel.utilities = {
     },
 
     addLogo: function(logoObject, _layerCount) {
-        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
-
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
 
+        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
         LogoPanel.utilities.reInitiateLogo();
     },
 
@@ -481,6 +477,74 @@ LogoPanel.utilities = {
             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
         }
     },
+
+    offsetRLogo: function(size, color) {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = -(ub.current_material.material.one_inch_in_px * eval(size) * color);
+
+                                console.log(logo.position.y)
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    resetRLogoPosition: function() {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = 0;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    getActiveRLogo: function () {
+        var logoObject = _.find(ub.current_material.settings.logos, {enabled: 1});
+        if (logoObject.length !== 0) {
+            return logoObject;
+        } else {
+            ub.utilities.error("No active R Logo");
+            return logoObject;
+        }
+    },
+
+    getAvailablePosition: function(filter) {
+        var positions = _.filter(ub.data.logos, function(logo) {
+            if (logo.position !== filter) {
+                return logo;
+            }
+        });
+
+        return positions;
+    }
 };
 
 LogoPanel.colors = {

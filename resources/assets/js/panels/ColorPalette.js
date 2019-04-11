@@ -1,9 +1,4 @@
-
-
-function ColorPalette () {
-
-}
-
+function ColorPalette () {}
 
 ColorPalette.funcs = {
 
@@ -75,6 +70,6 @@ ColorPalette.funcs = {
             }
         }
 
-        return colors;
-    }
+        return _.sortBy(colors, 'order');
+    },
 }

@@ -48,4 +48,8 @@ Route::group(['prefix' => 'richardson'], function () {
         // return $uniform_id;
         return view("richardson.customize", compact('uniform_id'));
     });
+
+    Route::get("/my-saved-designs", function() {
+        return view("richardson.my-saved-design");
+    });
 });

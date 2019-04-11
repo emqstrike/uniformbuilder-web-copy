@@ -47,7 +47,7 @@
 
 <script type="text/mustache" id="m-tab-gradient-colors-uikit">
     @{{#colors}}
-        <div class="gradient-color-main-container" uk-tooltip="title: @{{ name }}; pos: left;">
+        <div class="gradient-color-main-container">
             <button class="uk-inline box-palette btn-selection-choice palette-color gradient-color-selector-button palette"
                 style="background-color: #@{{ hex_code }};"
                 data-color-id="@{{ id }}"
@@ -56,6 +56,7 @@
                 data-color-id="@{{ id }}"
                 data-layer-name="@{{ layer }}"
                 data-modifier="@{{ modifier }}"
+                uk-tooltip="title: @{{ name }}; pos: left;"
             >
             </button>
         </div>
