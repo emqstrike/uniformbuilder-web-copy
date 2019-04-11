@@ -59,13 +59,13 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter gender-type" type="radio" name="genderButton" data-gender="men" checked>
-                                <label class="radio-label" for="men">Men</label>
+                                <input class="filter gender-type" type="radio" name="genderButton" id="menRadioButton" data-gender="men" checked>
+                                <label class="radio-label" for="menRadioButton">Men</label>
                             </li>
 
                             <li>
-                                <input class="filter gender-type" type="radio" name="genderButton" data-gender="women">
-                                <label class="radio-label" for="women">Women</label>
+                                <input class="filter gender-type" type="radio" name="genderButton" id="womenRadioButton" data-gender="women">
+                                <label class="radio-label women-label" for="womenRadioButton">Women</label>
                             </li>
 
                             <!-- <li>
@@ -82,18 +82,18 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="sports" checked>
-                                <label class="radio-label" for="sports">Sports</label>
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" id="sportsRadioButton" data-category="sports" checked>
+                                <label class="radio-label" for="sportsRadioButton">Sports</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="apparel">
-                                <label class="radio-label" for="apparel">Apparel</label>
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" id="apparelRadioButton" data-category="apparel">
+                                <label class="radio-label" for="apparelRadioButton">Apparel</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" data-category="esports">
-                                <label class="radio-label" for="esports">eSports</label>
+                                <input class="filter uniform-type" type="radio" name="uniformTypeButton" id="esportsRadioButton" data-category="esports">
+                                <label class="radio-label esports-label" for="esportsRadioButton">eSports</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->
@@ -119,18 +119,18 @@
 
                         <ul class="cd-filter-content cd-filters list">
                             <li>
-                                <input class="filter uniform-application-type" data-filter="" type="radio" name="uniformApplicationTypeButton" data-type="all" checked>
-                                <label class="radio-label" for="all">All</label>
+                                <input class="filter uniform-application-type" data-filter="" type="radio" name="uniformApplicationTypeButton" id="allRadioButton" data-type="all" checked>
+                                <label class="radio-label" for="allRadioButton">All</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-application-type" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" data-type="tackle_twill">
-                                <label class="radio-label" for="tackle_twill">Tacke Twill</label>
+                                <input class="filter uniform-application-type" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" id="tackleTwillRadioButton" data-type="tackle_twill">
+                                <label class="radio-label" for="tackleTwillRadioButton">Tacke Twill</label>
                             </li>
 
                             <li>
-                                <input class="filter uniform-application-type" data-filter=".sublimated" type="radio" name="uniformApplicationTypeButton" data-type="sublimated">
-                                <label class="radio-label" for="sublimated">Sublimated</label>
+                                <input class="filter uniform-application-type" data-filter=".sublimated" type="radio" name="uniformApplicationTypeButton" id="sublimatedRadioButton" data-type="sublimated">
+                                <label class="radio-label" for="sublimatedRadioButton">Sublimated</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->
