@@ -108,11 +108,11 @@ ModifierController.prototype = {
         
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
-            if (this.controllers.pipings.set_items.piping_set_items.length === 0) {
+            if (this.controllers.pipings.set_items.random_feed_set_items.length === 0) {
                 $('.menu-item-pipings', tabs_el).remove();
             }
         } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
-            if (this.controllers.pipings.set_items.random_feed_set_items.length === 0) {
+            if (this.controllers.pipings.set_items.piping_set_items.length === 0) {
                 $('.menu-item-pipings', tabs_el).remove();
             }
         } else {
