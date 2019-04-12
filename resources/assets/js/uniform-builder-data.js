@@ -11194,17 +11194,17 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Polo (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Hoodie (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             
         ],

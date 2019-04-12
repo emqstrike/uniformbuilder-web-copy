@@ -156,17 +156,17 @@ $(document).ready(function () {
             {
                 sport: 'Tech Tee (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Polo (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Hoodie (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             
         ],
@@ -206,24 +206,24 @@ $(document).ready(function () {
 
         var labels = ub.data.secondaryBarLabelsV2.getLabel(sport);
 
-        if (typeof labels != "undefined") {
+        if (typeof labels !== "undefined") {
 
         	// Women Tennis lower label is SKORTS
         	if (_.isEqual(sport, 'Tennis') && _.isEqual(gender, 'women')) {
         		labels.lowerLabel = 'Skorts';
         	}
 
-            if (labels.type == "upper") {
+            if (labels.type === "upper") {
 
             	$('a.picker-slink[data-type="upper"]').html(labels.upperLabel);
             	$('a.picker-slink[data-type="lower"]').hide();
 
-            } else if (labels.type == "lower") {
+            } else if (labels.type === "lower") {
                 
                 $('a.picker-slink[data-type="upper"]').hide();
                 $('a.picker-slink[data-type="lower"]').html(labels.lowerLabel);
 
-            } else if (labels.type == "both") {
+            } else if (labels.type === "both") {
 
                 $('a.picker-slink[data-type="upper"]').html(labels.upperLabel);
                 $('a.picker-slink[data-type="lower"]').html(labels.lowerLabel);
@@ -333,7 +333,6 @@ $(document).ready(function () {
                 .attr("value", sport.name)
                 .attr("data-item", sport.name)
                 .text(sportName));
-
             });
 
             // Women does not have `esport` uniform type
@@ -344,7 +343,6 @@ $(document).ready(function () {
             if (gender === 'women') {
                 $('li input.uniform-type[data-category="esports"]').prop('disabled', true).css('cursor', 'not-allowed');
                 ub.funcs.changeCursorType('li label.esports-label', 'not-allowed');
-
             }
 
         });
