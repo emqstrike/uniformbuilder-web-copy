@@ -156,17 +156,17 @@ $(document).ready(function () {
             {
                 sport: 'Tech Tee (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Polo (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Hoodie (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             
         ],
@@ -188,6 +188,9 @@ $(document).ready(function () {
 			ub.picker.isNew = true;
 		}
 
+        // prevent enter key submit on search input
+        ub.funcs.preventEnterKeyPress();
+
         ub.funcs.triggerGenderTypeFilter();
         ub.funcs.triggerUniformTypeFilter();
 
@@ -195,6 +198,15 @@ $(document).ready(function () {
         ub.funcs.triggerSportFilter();
         ub.funcs.triggerUniformApplicationTypeFilter();
         ub.funcs.triggerBlockPatternFilter();
+    }
+
+    ub.funcs.preventEnterKeyPress = function () {
+        $('form .cd-filter-content input').keydown(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
     }
 
     ub.funcs.prepareSecondaryBarV2 = function (sport, gender) {
@@ -206,24 +218,24 @@ $(document).ready(function () {
 
         var labels = ub.data.secondaryBarLabelsV2.getLabel(sport);
 
-        if (typeof labels != "undefined") {
+        if (typeof labels !== "undefined") {
 
         	// Women Tennis lower label is SKORTS
         	if (_.isEqual(sport, 'Tennis') && _.isEqual(gender, 'women')) {
         		labels.lowerLabel = 'Skorts';
         	}
 
-            if (labels.type == "upper") {
+            if (labels.type === "upper") {
 
             	$('a.picker-slink[data-type="upper"]').html(labels.upperLabel);
             	$('a.picker-slink[data-type="lower"]').hide();
 
-            } else if (labels.type == "lower") {
+            } else if (labels.type === "lower") {
                 
                 $('a.picker-slink[data-type="upper"]').hide();
                 $('a.picker-slink[data-type="lower"]').html(labels.lowerLabel);
 
-            } else if (labels.type == "both") {
+            } else if (labels.type === "both") {
 
                 $('a.picker-slink[data-type="upper"]').html(labels.upperLabel);
                 $('a.picker-slink[data-type="lower"]').html(labels.lowerLabel);
@@ -333,7 +345,6 @@ $(document).ready(function () {
                 .attr("value", sport.name)
                 .attr("data-item", sport.name)
                 .text(sportName));
-
             });
 
             // Women does not have `esport` uniform type
@@ -344,7 +355,6 @@ $(document).ready(function () {
             if (gender === 'women') {
                 $('li input.uniform-type[data-category="esports"]').prop('disabled', true).css('cursor', 'not-allowed');
                 ub.funcs.changeCursorType('li label.esports-label', 'not-allowed');
-
             }
 
         });
@@ -407,6 +417,9 @@ $(document).ready(function () {
                 items = _.filter(ub.materials, {uniform_category: sport, gender: gender });
             }
 
+            $('input.uniform-application-type[data-type="all"]').prop('checked', true);
+            ub.funcs.showKnittedOnApplicationTypeOption(sport);
+
             ub.funcs.setV2Gender(gender);
             ub.funcs.setV2Sport(sport);
             ub.funcs.setV2UniformType(uniformType);
@@ -444,6 +457,9 @@ $(document).ready(function () {
     }
 
     ub.funcs.setSideBarSportFilter = function () {
+
+        ub.funcs.showKnittedOnApplicationTypeOption(ub.filtersV2.sport);
+
         var activeSports = ub.funcs.getActiveSportByGender(ub.filtersV2.uniformType, undefined);
 
         $('#cd-sport option:gt(0)').remove();
@@ -456,14 +472,24 @@ $(document).ready(function () {
             .attr("value", sport.name)
             .attr("data-item", sport.name)
             .text(sportName));
-
-
         });
         
         $('#cd-sport option[data-item="'+ub.filtersV2.sport+'"]').attr('selected', 'selected');
         ub.funcs.setActiveGenderTypeOnSideBar();
         ub.funcs.setActiveUniformTypeOnSideBar();
         
+    }
+
+    ub.funcs.showKnittedOnApplicationTypeOption = function (sport) {
+        if (sport === 'Socks (Apparel)') {
+            $('li#uat-knitted').css('display', 'block');
+            $('li#uat-sublimated').css('display', 'block');
+            $('li#uat-tackle-twill').css('display', 'none');
+        } else {
+            $('li#uat-tackle-twill').css('display', 'block');
+            $('li#uat-sublimated').css('display', 'block');
+            $('li#uat-knitted').css('display', 'none');
+        }
     }
 
     ub.funcs.sideBarFilterBlockPatternSelectOption = function () {
