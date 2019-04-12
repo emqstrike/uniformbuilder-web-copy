@@ -13,9 +13,15 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".add-to-uniform", that.onAddMascotOnUniform);
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
+            $(".upload-tutorial-container").on("click", ".close-tutorial", that.onCloseTutorial);
         }
 
         that.isInit = false;
+    },
+
+    onCloseTutorial: function() {
+        $(".inksoft-loader.upload .upload-tutorial-container").addClass("uk-hidden");
+        console.log("askjdhaskdshakdhsaj")
     },
 
     onChangeTab: function() {
@@ -329,10 +335,6 @@ InteropIsPanel.funcs = {
         $(".inksoft-loader.upload #embed-inksoft-upload").html("");
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         UIkit.modal("#select-mascot-inksoft-modal").show();
-        $(".inksoft-loader.upload .upload-tutorial-container").removeClass("uk-hidden");
-        _.delay(function() {
-            $(".inksoft-loader.upload .upload-tutorial-container").addClass("uk-hidden");
-        }, 3000)
     },
 
     loadExistingDesign: function(settingsObj, settings = false) {

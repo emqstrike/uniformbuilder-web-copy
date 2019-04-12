@@ -774,7 +774,7 @@
     @{{ ^user }}
         <div class="bgc-light uk-padding-small">
             <div class="uk-text-center">
-                You have to log-in to use your previous art.
+                You have to log-in to use your previous logo.
             </div>
         </div>
     @{{ /user }}
