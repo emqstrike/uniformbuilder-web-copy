@@ -31,9 +31,9 @@ InteropIsPanel.events = {
             if (type === "existing") {
                 InteropIsPanel.funcs.loadExistingDesign()
             } else if (type === "create") {
-                InteropIsPanel.funcs.loadDesigner(false, applicationObject.code)
+                InteropIsPanel.funcs.loadDesigner(undefined, applicationObject.code)
             } else if (type === "upload") {
-                InteropIsPanel.funcs.loadDesignerUpload(false, applicationObject.code)
+                InteropIsPanel.funcs.loadDesignerUpload(undefined, applicationObject.code)
             }
         } else {
             ub.utilities.error("Cannot find current application");
@@ -150,7 +150,7 @@ InteropIsPanel.events = {
 }
 
 InteropIsPanel.funcs = {
-    loadDesigner: function(designID, applicationID) {
+    loadDesigner: function(designID, applicationID, create = true) {
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",

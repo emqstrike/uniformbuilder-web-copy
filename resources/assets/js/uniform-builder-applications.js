@@ -12190,8 +12190,8 @@ $(document).ready(function () {
         // Initialize New Embellishment Popup
         if (ub.config.brand.toLowerCase() === "richardson") {
             if (type === "embellishments" || type === "mascot") {
+                ub.data.currentApplication = _newApplication;
                 if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                    ub.data.currentApplication = _newApplication;
                     InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
                 } else {
                     InteropIsPanel.funcs.loadExistingDesign(_newApplication);
