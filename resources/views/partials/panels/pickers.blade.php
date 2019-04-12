@@ -123,14 +123,19 @@
                                 <label class="radio-label" for="allRadioButton">All</label>
                             </li>
 
-                            <li>
+                            <li id="uat-tackle-twill">
                                 <input class="filter uniform-application-type" data-filter=".tackle_twill" type="radio" name="uniformApplicationTypeButton" id="tackleTwillRadioButton" data-type="tackle_twill">
                                 <label class="radio-label" for="tackleTwillRadioButton">Tackle Twill</label>
                             </li>
 
-                            <li>
+                            <li id="uat-sublimated">
                                 <input class="filter uniform-application-type" data-filter=".sublimated" type="radio" name="uniformApplicationTypeButton" id="sublimatedRadioButton" data-type="sublimated">
                                 <label class="radio-label" for="sublimatedRadioButton">Sublimated</label>
+                            </li>
+
+                            <li id="uat-knitted" style="display: none">
+                                <input class="filter uniform-application-type" data-filter=".knitted" type="radio" name="uniformApplicationTypeButton" id="knittedRadioButton" data-type="knitted">
+                                <label class="radio-label" for="knittedRadioButton">Knitted</label>
                             </li>
                         </ul> <!-- cd-filter-content -->
                     </div> <!-- cd-filter-block -->

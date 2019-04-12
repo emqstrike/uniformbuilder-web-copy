@@ -7351,6 +7351,8 @@ $(document).ready(function () {
 
             }
 
+            if (typeof gender === 'undefined') { return; }
+
             var data = {
 
                 sport: gender,

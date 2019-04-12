@@ -407,6 +407,9 @@ $(document).ready(function () {
                 items = _.filter(ub.materials, {uniform_category: sport, gender: gender });
             }
 
+            $('input.uniform-application-type[data-type="all"]').prop('checked', true);
+            ub.funcs.showKnittedOnApplicationTypeOption(sport);
+
             ub.funcs.setV2Gender(gender);
             ub.funcs.setV2Sport(sport);
             ub.funcs.setV2UniformType(uniformType);
@@ -444,6 +447,9 @@ $(document).ready(function () {
     }
 
     ub.funcs.setSideBarSportFilter = function () {
+
+        ub.funcs.showKnittedOnApplicationTypeOption(ub.filtersV2.sport);
+
         var activeSports = ub.funcs.getActiveSportByGender(ub.filtersV2.uniformType, undefined);
 
         $('#cd-sport option:gt(0)').remove();
@@ -456,14 +462,24 @@ $(document).ready(function () {
             .attr("value", sport.name)
             .attr("data-item", sport.name)
             .text(sportName));
-
-
         });
         
         $('#cd-sport option[data-item="'+ub.filtersV2.sport+'"]').attr('selected', 'selected');
         ub.funcs.setActiveGenderTypeOnSideBar();
         ub.funcs.setActiveUniformTypeOnSideBar();
         
+    }
+
+    ub.funcs.showKnittedOnApplicationTypeOption = function (sport) {
+        if (sport === 'Socks (Apparel)') {
+            $('li#uat-knitted').css('display', 'block');
+            $('li#uat-sublimated').css('display', 'block');
+            $('li#uat-tackle-twill').css('display', 'none');
+        } else {
+            $('li#uat-tackle-twill').css('display', 'block');
+            $('li#uat-sublimated').css('display', 'block');
+            $('li#uat-knitted').css('display', 'none');
+        }
     }
 
     ub.funcs.sideBarFilterBlockPatternSelectOption = function () {
