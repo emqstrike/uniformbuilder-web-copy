@@ -326,10 +326,13 @@ InteropIsPanel.funcs = {
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
-        
         $(".inksoft-loader.upload #embed-inksoft-upload").html("");
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         UIkit.modal("#select-mascot-inksoft-modal").show();
+        $(".inksoft-loader.upload .upload-tutorial-container").removeClass("uk-hidden");
+        _.delay(function() {
+            $(".inksoft-loader.upload .upload-tutorial-container").addClass("uk-hidden");
+        }, 3000)
     },
 
     loadExistingDesign: function(settingsObj, settings = false) {

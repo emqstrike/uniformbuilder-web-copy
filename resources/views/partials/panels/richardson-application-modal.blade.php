@@ -265,8 +265,22 @@
                 </div>
             </li>
             <li class="inksoft-loader upload">
-                <div class="uk-flex uk-flex-center">
-                    <div id="embed-inksoft-upload">
+                <div class="uk-grid" uk-grid>
+                    <div class="uk-width-1-1 upload-tutorial-container uk-hidden">
+                        <div class="uk-flex uk-flex-center">
+                            <div>
+                                <div class="uk-pull-right">
+                                    <span uk-icon="icon: close"></span>
+                                </div>
+                                <img src="{{ $asset_storage }}/richardson/img/upload-me.png" uk-img style="position: absolute; height: 750px !important">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1">
+                        <div class="uk-flex uk-flex-center">
+                            <div id="embed-inksoft-upload">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </li>
