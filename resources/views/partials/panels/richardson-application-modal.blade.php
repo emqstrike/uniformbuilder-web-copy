@@ -255,7 +255,7 @@
             </li>
         </ul>
         <hr>
-        <ul class="uk-switcher uk-margin">
+        <ul class="uk-switcher uk-margin menu-mascot-content">
             <li class="inksoft-existing-design">
             </li>
             <li class="inksoft-loader create">

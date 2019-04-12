@@ -131,7 +131,6 @@ $(document).ready(function() {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
-
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
             Background: "",
@@ -372,6 +371,10 @@ $(document).ready(function() {
 
         $('#isModal').modal('hide');
         $('div#embeddedDesigner').html('');
+
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            UIkit.modal("#select-mascot-inksoft-modal").hide();
+        }
 
         ub.status.render.resumeRendering();
         window.ub.render_frames();
