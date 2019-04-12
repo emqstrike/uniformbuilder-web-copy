@@ -188,6 +188,9 @@ $(document).ready(function () {
 			ub.picker.isNew = true;
 		}
 
+        // prevent enter key submit on search input
+        ub.funcs.preventEnterKeyPress();
+
         ub.funcs.triggerGenderTypeFilter();
         ub.funcs.triggerUniformTypeFilter();
 
@@ -195,6 +198,15 @@ $(document).ready(function () {
         ub.funcs.triggerSportFilter();
         ub.funcs.triggerUniformApplicationTypeFilter();
         ub.funcs.triggerBlockPatternFilter();
+    }
+
+    ub.funcs.preventEnterKeyPress = function () {
+        $('form .cd-filter-content input').keydown(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
     }
 
     ub.funcs.prepareSecondaryBarV2 = function (sport, gender) {
