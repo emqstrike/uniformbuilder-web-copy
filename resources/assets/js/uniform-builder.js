@@ -2719,11 +2719,49 @@ $(document).ready(function () {
 
             }
 
-            if (typeof application_obj.patternID === "undefined") {
-                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
-                if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
-            }
             // Application Pattern
+            if (typeof application_obj.patternID === "undefined") {
+
+                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+                
+                var _calibration = 0;
+                var _patternObj;
+
+                // set pattern position
+                if (application_obj.withPattern && application_obj.patternID !== null) {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.patternID});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.patternConfigFromBackend.position.y += _calibration;
+
+                    }
+
+                    ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); 
+                }
+
+                // set pattern position for saved design uniform
+                if (typeof ub.config.savedDesignInfo !== "undefined" && typeof application_obj.pattern_settings !== 'undefined') {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.pattern_obj.id});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.pattern_settings.position.y += _calibration;
+
+                    }
+
+                }
+
+                
+            }
     
             // Application Opacity
             application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);

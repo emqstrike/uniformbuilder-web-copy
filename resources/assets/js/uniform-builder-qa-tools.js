@@ -50,7 +50,7 @@ $(document).ready(function () {
         
         ub.utilities.info('-------- Applications -------');
 
-        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position / Frontend".lpad(' ', 45) + "Position / Backend".lpad(' ', 45) + " Scale".lpad(' ', 46);
+        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position / Frontend".lpad(' ', 45) + "Position / Backend".lpad(' ', 45) + " Scale".lpad(' ', 46) + " Pattern Position".lpad(' ', 35);
 
         console.log(_headers);
 
@@ -63,6 +63,7 @@ $(document).ready(function () {
             var _primaryViewObjectScale = ""; var _scaleStr = "";
             var _primaryViewObjectPosition = ""; var _positionStr = "";
             var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
+            var _patternPosition = "";
 
             if (typeof app.custom_obj !== 'undefined') var _isCustomScale = app.custom_obj.active;
             
@@ -124,7 +125,11 @@ $(document).ready(function () {
             // See config instead 
             if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStrF.lpad(' ', 45) + _positionStrB.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
+            if (typeof app.pattern_settings !== "undefined" ) {
+                _patternPosition = (app.pattern_settings.position.y !== 0) ? app.pattern_settings.position.y : 'none';
+            }
+
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStrF.lpad(' ', 45) + _positionStrB.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45) + " " + _patternPosition.toString().lpad(' ', 32);
 
             ub.utilities.info(_str);
 
