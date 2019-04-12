@@ -486,6 +486,17 @@ button[data-color-name="White"].palette {
   background-color: #ffffff !important;
 }
 
+.existing-mascot-item {
+  height: 150px !important;
+}
+
+.mascot-item a.select-mascot-item.uk-active {
+  h6 {
+    background-color: $color-red;
+  }
+}
+
+
 #right-main-window.pane-main-window {
   height: 550px !important;
   background-color: white !important;

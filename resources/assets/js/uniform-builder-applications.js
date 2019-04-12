@@ -1109,6 +1109,23 @@ $(document).ready(function () {
 
                 ub.funcs.deleteLocation(_application.code);
                 if(ub.data.useScrollingUI) {
+                    var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
+                    var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
+                    var isNumbers = _application.application_type === "front_number" || _application.application_type === "back_number" || _application.application_type === "sleeve_number" ? true : false;
+
+                    var count;
+                    if (isLetters) {
+                        count = ub.funcs.countApplicationByApplicationType("letters");
+                    } else if (isMascots) {
+                        count = ub.funcs.countApplicationByApplicationType("logos");
+                    } else if (isNumbers) {
+                        count = ub.funcs.countApplicationByApplicationType("numbers");
+                    }
+
+                    if (typeof count.applications === "undefined") {
+                        $(".add-another-application-container").hide();
+                    }
+                    
                     ModifierController.deleteApplicationContainer(_application.code)
                 }
                 return;
@@ -12171,20 +12188,24 @@ $(document).ready(function () {
         });
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") {
-
-            _newApplication.font_size = _newApplication.size;
-
-            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-
-                is.loadDesigner(undefined, _newIDStr);
-
-            } else {
-
-                ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
-
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            if (type === "embellishments" || type === "mascot") {
+                ub.data.currentApplication = _newApplication;
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
+                } else {
+                    InteropIsPanel.funcs.loadExistingDesign(_newApplication);
+                }
             }
-
+        } else {
+            if (type === "embellishments") {
+                _newApplication.font_size = _newApplication.size;
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    is.loadDesigner(undefined, _newIDStr);
+                } else {
+                    ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
+                }
+            }
         }
 
     }

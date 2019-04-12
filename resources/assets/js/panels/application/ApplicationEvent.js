@@ -32,7 +32,6 @@ ApplicationEvent.events = {
             $("#primary_options_container").on('click', 'a.fontStyleLeft, a.fontStyleRight', _this.onChangeFontStyle);
             $("#primary_options_container").on('click', '.change-free-app', _this.onChangeFreeApplication);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', _this.onChangeAccentColor);
-            $("#primary_options_container").on('click', '.remove-decoration', _this.onRemoveDecoration);
             ApplicationEvent.events.isInit = false;
         }
     },
@@ -243,32 +242,4 @@ ApplicationEvent.events = {
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
         }
     },
-
-    onRemoveDecoration: function() {
-        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
-        var applicationSettings = ub.funcs.getApplicationSettings(application_id);
-        var isLetters = applicationSettings.application_type === "player_name" || applicationSettings.application_type === "team_name" ? true : false;
-        var isMascots = applicationSettings.application_type === "mascot" || applicationSettings.application_type === "embellishments" ? true : false;
-        var isNumbers = applicationSettings.application_type === "front_number" || applicationSettings.application_type === "back_number" || applicationSettings.application_type === "sleeve_number" ? true : false;
-        
-        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.application.name + ' #' + applicationSettings.code + '?').then(function() {
-            $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).remove();
-            ub.funcs.deleteLocation(applicationSettings.code);
-            var count;
-            if (isLetters) {
-                count = ub.funcs.countApplicationByApplicationType("letters");
-            } else if (isMascots) {
-                count = ub.funcs.countApplicationByApplicationType("logos");
-            } else if (isNumbers) {
-                count = ub.funcs.countApplicationByApplicationType("numbers");
-            }
-
-            if (typeof count.applications === "undefined") {
-                $(".add-another-application-container").hide();
-            }
-        
-        }, function () {
-            console.log('Rejected.') 
-        });
-    }
 }

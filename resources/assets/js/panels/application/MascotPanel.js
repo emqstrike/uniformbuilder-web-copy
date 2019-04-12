@@ -129,7 +129,21 @@ MascotPanel.events = {
             $('#primary_options_container').on('click', '.applicationUIBlockNew .view-application', _this.onShowMascot);
             $('#primary_options_container').on('click', '.applicationUIBlockNew .hide-application', _this.onHideMascot);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
+            $("#primary_options_container").on("click", ".applicationUIBlockNew .open-inksoft-editor", _this.onChangeEmbellishment);
             MascotPanel.events.is_init = false;
+        }
+    },
+
+    onChangeEmbellishment: function() {
+        console.log("adkabdkjsadkjsah");
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        var applicationObject = ub.funcs.getApplicationSettings(application_id)
+
+        if (typeof applicationObject !== "undefined") {
+            if (applicationObject.application_type === "embellishments") {
+                ub.data.currentApplication = applicationObject;
+                InteropIsPanel.funcs.loadDesigner(applicationObject.embellishment.design_id, application_id);
+            }
         }
     },
 

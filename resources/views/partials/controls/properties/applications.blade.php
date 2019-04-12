@@ -320,7 +320,7 @@
                 </div>
                 <div class="con-en-disable-me uk-grid-small" uk-grid>
                     <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
-                        <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove">
+                        <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove open-inksoft-editor">
                             <img class="uk-padding-small" src="@{{ thumbnail }}" style="min-width: 100% !important; min-height: 150px !important">
                         </button>
                         <a href="#" class="btn-open-modal-logo en-disable-me uk-link-reset">@{{ name }}</a>
@@ -492,7 +492,7 @@
             </div>
             <div class="con-en-disable-me uk-grid-small" uk-grid>
                 <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
-                    <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove">
+                    <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove open-inksoft-editor">
                         <img class="uk-padding-small" src="@{{ thumbnail }}" style="min-width: 100% !important; min-height: 150px !important">
                     </button>
                     <a href="#" class="btn-open-modal-logo en-disable-me uk-link-reset">@{{ name }}</a>
@@ -536,23 +536,6 @@
 <!-- Add New Application -->
 <script type="text/mustache" id="m-add-new-application">
     <div class="add-new-application-block">
-        <div class="@{{ ^isShow }} uk-hidden @{{ /isShow }}">
-            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">
-                <span class="number-circle">1</span>&nbsp;Choose design type
-            </h6>
-            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
-                @{{ #designType }}
-                    @{{ #designTypeData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
-                                @{{ name }}
-                            </button>
-                        </div>
-                    @{{ /designTypeData }}
-                @{{ /designType }}
-            </div>
-        </div>
-
         <div class="uk-hidden">
             <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">2</span>&nbsp;Choose Perspective</h6>
             <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark perspective-container" uk-grid>
@@ -570,9 +553,8 @@
                 </div>
             </div>
         </div>
-
-        <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Location
+        <h6 uk-margin class="uk-margin-remove-top uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+            <span class="number-circle">1</span>&nbsp;Choose Location
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
@@ -596,33 +578,20 @@
             @{{ /part }}
         </div>
 
-        @{{#side}}
-            <div class="posContainer sideOptions hide app-letters-wrapper">
-                <h6 uk-margin class="uk-padding-small uk-padding-remove-right uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">&nbsp;Choose Side</h6>
-                <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark side-container" uk-grid>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="right">Right</button>
-                    </div>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="left">Left</button>
-                    </div>
-                </div>
-            </div>
-        @{{ /side }}
-
-        <h6 uk-margin class="uk-margin-medium-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}3@{{ /isShow }}@{{ ^isShow }}2@{{ /isShow }}</span>
-        </h6>
-        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add @{{ title }}
-                </button>
-            </div>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-capitalize cancel-adding-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
-                </button>
+        <div >
+            <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+                <span class="number-circle">2</span>&nbsp;Choose design type
+            </h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
+                @{{ #designType }}
+                    @{{ #designTypeData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
+                                @{{ name }}
+                            </button>
+                        </div>
+                    @{{ /designTypeData }}
+                @{{ /designType }}
             </div>
         </div>
     </div>
@@ -633,23 +602,6 @@
 <script type="text/mustache" id="m-add-another-application">
     <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Another @{{ title }}</h5>
     <div class="add-new-application-block">
-        <div class="@{{ ^isShow }} uk-hidden @{{ /isShow }}">
-            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">
-                <span class="number-circle">1</span>&nbsp;Choose design type
-            </h6>
-            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
-                @{{ #designType }}
-                    @{{ #designTypeData }}
-                        <div class="">
-                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
-                                @{{ name }}
-                            </button>
-                        </div>
-                    @{{ /designTypeData }}
-                @{{ /designType }}
-            </div>
-        </div>
-
         <div class="uk-hidden">
             <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black"><span class="number-circle">2</span>&nbsp;Choose Perspective</h6>
             <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark perspective-container" uk-grid>
@@ -667,9 +619,8 @@
                 </div>
             </div>
         </div>
-
-        <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}2@{{ /isShow }}@{{ ^isShow }}1@{{ /isShow }}</span>&nbsp;Choose Part
+        <h6 uk-margin class="uk-margin-remove-top uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+            <span class="number-circle">1</span>&nbsp;Choose Location
         </h6>
         <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-1-2 uk-text-center con-select active-bgc-dark parts-container" uk-grid>
             @{{ #part }}
@@ -693,35 +644,160 @@
             @{{ /part }}
         </div>
 
-        @{{#side}}
-            <div class="posContainer sideOptions hide app-letters-wrapper">
-                <h6 uk-margin class="uk-padding-small uk-padding-remove-right uk-padding-remove-bottom uk-margin-small uk-margin-small-top uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">&nbsp;Choose Side</h6>
-                <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark side-container" uk-grid>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="right">Right</button>
-                    </div>
-                    <div class="">
-                        <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice side" data-id="left">Left</button>
-                    </div>
-                </div>
-            </div>
-        @{{ /side }}
-
-        <h6 uk-margin class="uk-margin-medium-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
-            <span class="number-circle">@{{ #isShow }}3@{{ /isShow }}@{{ ^isShow }}2@{{ /isShow }}</span>
-        </h6>
-        <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-text-center" uk-grid>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate btn-selection-choice add-new-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="plus-circle"></span>Add Another @{{ title }}
-                </button>
-            </div>
-            <div class="uk-width-1-2">
-                <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize uk-text-truncate cancel-adding-another-application" type="button">
-                    <span class="uk-margin-small-right" uk-icon="ban"></span>Cancel
-                </button>
+        <div >
+            <h6 uk-margin class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-small uk-margin-remove-horizontal uk-text-bold uk-text-uppercase fc-dark abrade-black">
+                <span class="number-circle">2</span>&nbsp;Choose design type
+            </h6>
+            <div class="cp-padding-medium uk-padding-remove-vertical uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-dark design-type-container" uk-grid>
+                @{{ #designType }}
+                    @{{ #designTypeData }}
+                        <div class="">
+                            <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice design-type-button" data-type="@{{ type }}">
+                                @{{ name }}
+                            </button>
+                        </div>
+                    @{{ /designTypeData }}
+                @{{ /designType }}
             </div>
         </div>
     </div>
 </script>
 <!-- End Add Another Application -->
+
+<!-- Existing Design -->
+<script type="text/mustache" id="m-mascot-items">
+    @{{ #embellishments }}
+        <div class="mascot-item" data-id="@{{ id }}">
+            <a class="box-palette uk-link-reset btn-selection-choice uk-text-center select-mascot-item"
+                data-design-id="@{{ design_id }}"
+                data-id="@{{ id }}"
+                data-design-name="@{{ design_name }}"
+                data-svg-filename="@{{ svg_filename }}"
+                data-filename="@{{ png_filename }}"
+            >
+                <div class="bgc-white uk-text-right">
+                    <h6 class="bgc-dark fc-light uk-text-center uk-margin-remove padding-tiny-vertical uk-text-truncate">@{{ design_name }}</h6>
+                    <div class="uk-inline">
+                        <div class="uk-padding-small uk-padding-remove-bottom">
+                            <img src="@{{ png_filename }}" class="existing-mascot-item uk-height-small">
+                        </div>
+
+                        <div class="uk-position-cover choice-icon bdr-lightGray">
+                            <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary"></span>
+                        </div>
+                    </div>
+                    @{{ #archived }}
+                        <button class="uk-button uk-margin-small-right btn-restore bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Active; pos: left" 
+                            data-type="restore"
+                            data-design-id="@{{ design_id }}"
+                            data-id="@{{ id }}"
+                            data-design-name="@{{ design_name }}"
+                        >
+                            <span uk-icon="icon: refresh"></span>
+                        </button>
+                    @{{ /archived }}
+                    @{{ ^archived }}
+                        <button class="uk-button uk-margin-small-right btn-archive bgc-transparent uk-padding-remove bdr-none" type="button" uk-tooltip="title:Move to Archive; pos: left" 
+                            data-type="archive"
+                            data-design-id="@{{ design_id }}"
+                            data-id="@{{ id }}"
+                            data-design-name="@{{ design_name }}"
+                        >
+                            <span class="fa fa-archive"></span>
+                        </button>
+                    @{{ /archived }}
+                </div>
+            </a >
+        </div>
+    @{{ /embellishments }}
+    @{{ ^embellishments }}
+        <div class="uk-flex uk-flex-center">
+            <div class="uk-text-center uk-padding-small">
+                <p>No logo available</p>
+            </div>
+        </div>
+    @{{ /embellishments }}
+</script>
+
+<script type="text/mustache" id="m-user-design-container">
+    @{{ #user }}
+        <div class="uk-grid-collapse uk-flex uk-flex-middle" uk-grid>
+            <div class="uk-width-1-2@s uk-width-1-3@m mascot-image-preview-container">
+                
+            </div>
+            <div class="uk-width-1-2@s uk-width-2-3@m uk-flex-first@s">
+                <nav class="uk-navbar-container uk-navbar-transparent uk-margin-top" uk-navbar>
+                    <div class="nav-overlay uk-navbar-left uk-padding-small uk-padding-remove-horizontal">
+                        <ul class="menu-tab-mascot uk-subnav uk-margin-remove uk-grid-small grid-tiny active-bgc-dark" uk-switcher uk-grid>
+                            <li>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="active">Active <span class="count-active">(@{{ active }})</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="uk-button uk-button-small uk-button-default padding-tiny-vertical uk-text-capitalize menu-tab-button" data-type="archive">Archive <span class="count-archive"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="uk-navbar-right uk-padding-small uk-padding-remove-left uk-visible@m">
+                        <form class="uk-search uk-search-default search-mascot-form"> 
+                            <input class="uk-search-input" type="search" placeholder="Search...">
+                        </form>
+                        <span class="uk-margin-small-left icon-search"></span>
+                    </div>
+                    <div class="nav-overlay uk-navbar-right uk-padding-small uk-padding-remove-left uk-hidden@m">
+                        <a class="" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    </div>
+
+                    <div class="nav-overlay uk-navbar-left uk-flex-1 uk-padding-small" hidden>
+                        <div class="uk-width-expand">
+                            <form class="uk-search uk-search-navbar uk-width-1-1">
+                                <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                            </form>
+                        </div>
+                        <a class="" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    </div>
+                </nav>
+                <ul class="uk-switcher con-select">
+                    <li class="uk-active mascot-list-container">
+                        <div class="uk-margin-top uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-medium uk-overflow-auto">
+                            <div class="uk-text-center mascot-list-loader">
+                                <span uk-spinner="ratio: 4.5"></span>
+                            </div>
+                            <div class="m-logo-active uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes mascot-container uk-hidden" uk-grid>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    @{{ /user }}
+    @{{ ^user }}
+        <div class="bgc-light uk-padding-small">
+            <div class="uk-text-center">
+                You have to log-in to use your previous logo.
+            </div>
+        </div>
+    @{{ /user }}
+</script>
+
+<script type="text/mustache" id="m-mascot-preview">
+    <div class="con-preview-mascot">
+        <h4 class="uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove fc-darkGray abrade-ultra-italic">@{{ name }}</h4>
+        <p class="uk-text-center uk-margin-remove-top">
+            <a href="@{{ svg }}" class="uk-button uk-button-text uk-text-capitalize" target="_blank">Fullsize Preview</a>
+        </p>
+    </div>
+    <div class="uk-grid-collapse uk-flex-center" uk-grid>
+        <div class="uk-width-1-1 uk-width-2-3@s uk-text-center">
+            <div>
+                <img id="preview-existing-logo uk-height-medium" src="@{{ filename }}">
+            </div>
+            <a href="javascript:void(0)" 
+                class="uk-button uk-button-secondary uk-margin-top add-to-uniform"
+                data-design-id="@{{ design_id }}"
+            >Add to uniform</a>
+        </div>
+    </div>
+</script>
+<!-- End Existing Design -->
+

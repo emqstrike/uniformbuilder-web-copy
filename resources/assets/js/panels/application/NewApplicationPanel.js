@@ -48,6 +48,8 @@ NewApplicationPanel.events = {
             $("#application-list-modal").on('click', '.show-location-markers', _this.onShowLocationMarker);
             // On click on application
             $("#application-list-modal").on('click', 'li.layer', _this.onClickApplicationLayer);
+            // Remove Application
+            $("#primary_options_container").on('click', '.applicationUIBlockNew .remove-decoration', _this.onRemoveDecoration);
             NewApplicationPanel.events.isInit = false;
         }
     },
@@ -69,7 +71,6 @@ NewApplicationPanel.events = {
         $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
 
         // Activate first button
-        $(".design-type-container button.design-type-button").first().addClass("uk-active");
         $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
     },
 
@@ -92,7 +93,6 @@ NewApplicationPanel.events = {
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
         // Activate first button
-        $(".design-type-container button.design-type-button").first().addClass("uk-active");
         $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
     },
 
@@ -102,8 +102,18 @@ NewApplicationPanel.events = {
     },
 
     onSelectDesignType: function() {
-        $(".design-type-container").find("button.uk-active").removeClass('uk-active');
-        $(this).addClass('uk-active')
+        var _perspective = $('.perspective-container button.perspective.uk-active').data('id');
+        var _part = $('.parts-container button.part.uk-active').data('id');
+        var _type = $(this).data('type');
+        var _side;
+        if (_part === "Sleeve") {
+            _side = $('.parts-container button.part.uk-active').data("perspective");
+        }
+
+        ub.funcs.newApplication(_perspective, _part, _type, _side);
+
+        $(".container-add-view-application").show();
+        $(".modifier_main_container .add-application-block").html("");
     },
 
     onSelectPerspective: function() {
@@ -315,5 +325,33 @@ NewApplicationPanel.events = {
         var application_type = $(this).data("application-type");
 
         $("#primary_options_container").scrollTo('li.applicationUIBlockNew[data-application-id="'+ location +'"]', {duration: 700});
+    },
+
+    onRemoveDecoration: function() {
+        var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
+        var applicationSettings = ub.funcs.getApplicationSettings(application_id);
+        var isLetters = applicationSettings.application_type === "player_name" || applicationSettings.application_type === "team_name" ? true : false;
+        var isMascots = applicationSettings.application_type === "mascot" || applicationSettings.application_type === "embellishments" ? true : false;
+        var isNumbers = applicationSettings.application_type === "front_number" || applicationSettings.application_type === "back_number" || applicationSettings.application_type === "sleeve_number" ? true : false;
+        
+        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.application.name + ' #' + applicationSettings.code + '?').then(function() {
+            $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).remove();
+            ub.funcs.deleteLocation(applicationSettings.code);
+            var count;
+            if (isLetters) {
+                count = ub.funcs.countApplicationByApplicationType("letters");
+            } else if (isMascots) {
+                count = ub.funcs.countApplicationByApplicationType("logos");
+            } else if (isNumbers) {
+                count = ub.funcs.countApplicationByApplicationType("numbers");
+            }
+
+            if (typeof count.applications === "undefined") {
+                $(".add-another-application-container").hide();
+            }
+        
+        }, function () {
+            console.log('Rejected.') 
+        });
     }
 }
