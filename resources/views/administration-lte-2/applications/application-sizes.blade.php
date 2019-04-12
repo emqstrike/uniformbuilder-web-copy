@@ -273,8 +273,10 @@ $(document).ready(function(){
             });
         window.app_type = type_elem;
         var type = '<td><select class="form-control app-type">'+window.app_type+'</select></td>';
-        var application_number ='<td><select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select></td>';
-        var size = '<td><select class="form-control app-size" multiple="multiple">'+app_sizes_options+'</select></td>';
+        var copy = '<a href="#" class="btn btn-primary btn-xs copy-size"><span class="glyphicon glyphicon-copy"></span></a>';
+        var paste = '<a href="#" class="btn btn-success btn-xs paste-size"><span class="glyphicon glyphicon-paste"></span></a>';
+        var size_text = `<input type="text" class="form-control size-text">`;var application_number ='<td><select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select></td>';
+        var size = '<td><select class="form-control app-size" multiple="multiple">'+app_sizes_options+'</select>'+ size_text + copy + paste+'</td>';
         var scale = '<td><input type="text" class="form-control app-scale"></td>';
         var def = '<td><select class="form-control app-def">'+app_default_elem+'</select></td>';
         var delete_row = '<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
@@ -287,6 +289,27 @@ $(document).ready(function(){
     $(document).on("click", ".delete-row", function(e){
             e.preventDefault();
             $(this).parent().parent().remove();
+    });
+
+    $(document).on("click", ".copy-size", function(e){
+            var size_val = $(this).parent().find('.app-size').val();
+            var input = $(this).parent().find('.size-text');
+            input.val(size_val);
+            input.select();
+            document.execCommand('copy');
+    });
+
+    $(document).on("click", ".paste-size", function(e){
+            var size_val = $(this).parent().find('.app-size');
+            var input = $(this).parent().find('.size-text');
+
+            // Set value of input to value in clipboard (paste)
+            navigator.clipboard.readText().then( function(text) {
+                input.val(text);
+                var arr_option = text.split(',');
+                size_val.val(arr_option);
+                size_val.trigger('change');
+            });
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
@@ -596,8 +619,11 @@ $(document).ready(function(){
                     });
                 window.app_type = type_elem;
             var type = '<td><select class="form-control app-type">'+window.app_type+'</select></td>';
+            var copy = '<a href="#" class="btn btn-primary btn-xs copy-size"><span class="glyphicon glyphicon-copy"></span></a>';
+            var paste = '<a href="#" class="btn btn-success btn-xs paste-size"><span class="glyphicon glyphicon-paste"></span></a>';
+            var size_text = `<input type="text" class="form-control size-text">`;
             var application_number = `<td><select class="form-control app-numbers `+app_num_class+`" multiple="multiple">`+app_numbers_options+`</select></td>`;
-            var size = `<td><select class="form-control app-size `+app_size_class+`" multiple="multiple">`+app_sizes_options+`</select></td>`;
+            var size = `<td><select class="form-control app-size `+app_size_class+`" multiple="multiple">`+app_sizes_options+`</select>`+ size_text + copy + paste+`</td>`;
             var scale = '<td><input type="text" class="form-control app-scale" value="'+app_scale+'"></td>';
             var def =  '<td><select class="form-control app-def '+app_def_class+'"></select></td>';
             var delete_row = '<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a></td>';
