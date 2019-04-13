@@ -432,29 +432,30 @@ LogoPanel.utilities = {
     reInitiateLogo: function() {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
         var current_active_logo = LogoPanel.utilities.getEnableLogo();
-        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, current_active_logo.position);
-        var material_ops = ub.funcs.getSettingsByMaterialOptionCode(configuration.parts);
+        var material_colors = this.fabricColors(current_active_logo.position);
 
-        console.log(material_ops);
-        
-        if (typeof material_ops !== "undefined") {
+        console.log(material_colors)
+
+        if (typeof material_colors !== "undefined") {
             if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
                 return;
             }
 
             if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
                 for (var i = 0; i < secondary_color.length; i++) {
-                    if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
-                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+                    if (_.contains(material_colors, secondary_color[i].color_code)) {
+                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "CG");
+                        console.log("Continue", secondary_color[i].color_code);
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
+                        console.log("secondary_color[i].color_code", secondary_color[i].color_code)
                         break;
                     }
                 }
             } else {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
             }
         } else {
             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
@@ -527,6 +528,19 @@ LogoPanel.utilities = {
         });
 
         return positions;
+    },
+
+    fabricColors: function(position) {
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
+        var color_codes = [];
+        _.each(configuration.parts, function(part) {
+            var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
+            if (typeof material_ops !== "undefined") {
+                color_codes.push(material_ops.colorObj.color_code);
+            }
+        });
+
+        return color_codes;
     }
 };
 
@@ -659,7 +673,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
             position: "back_center_tunnel",
-            parts: "tunnel",
+            parts: ["tunnel"],
             perspective: 'back'
         },
         {
@@ -671,43 +685,43 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Select Pant"],
             position: "front_left_hip",
-            parts: "base",
+            parts: ["base"],
             perspective: 'front'
         },
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "left_sleeve_logo",
-            parts: "right_sleeve",
+            parts: ["right_sleeve"],
             perspective: 'left'
         },
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "back_neck",
-            parts: "back_body",
+            parts: ["back_body"],
             perspective: 'back'
         },
         {
             blockPattern: ["PTS Hoodie"],
             position: "top_left_of_pocket",
-            parts: "pocket",
+            parts: ["pocket"],
             perspective: 'front'
         },
         {
             blockPattern: ["PTS Hoodie"],
             position: "back_neck",
-            parts: "back_upper_panel",
+            parts: ["back_upper_panel"],
             perspective: 'back'
         },
         {
             blockPattern: ["PTS Cage Jacket"],
             position: "left_sleeve_logo",
-            parts: "right_sleeve",
+            parts: ["right_sleeve", "right_sleeve_stripe_2", "right_sleeve_stripe_1"],
             perspective: 'left'
         },
         {
             blockPattern: ["PTS Cage Jacket"],
             position: "back_neck",
-            parts: "back_jersey",
+            parts: ["back_jersey"],
             perspective: 'back'
         },
     ],
