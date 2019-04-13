@@ -394,17 +394,12 @@ LogoPanel.utilities = {
     },
 
     initiateLogoColor: function(logoSettingsObject, color_code) {
-        console.log(color_code)
         if (color_code !== "W") {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
-
-            console.log("White")
         } else {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "CG");
-
-            console.log("Charcoal Gray")
         }
 
         if (logoSettingsObject.numberOfLayers !== 2) {
@@ -440,8 +435,10 @@ LogoPanel.utilities = {
         var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, current_active_logo.position);
         var material_ops = ub.funcs.getSettingsByMaterialOptionCode(configuration.parts);
 
+        console.log(material_ops);
+        
         if (typeof material_ops !== "undefined") {
-            if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
+            if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
                 LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
                 return;
             }
@@ -687,6 +684,30 @@ LogoPanel.configurations = {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "back_neck",
             parts: "back_body",
+            perspective: 'back'
+        },
+        {
+            blockPattern: ["PTS Hoodie"],
+            position: "top_left_of_pocket",
+            parts: "pocket",
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Hoodie"],
+            position: "back_neck",
+            parts: "back_upper_panel",
+            perspective: 'back'
+        },
+        {
+            blockPattern: ["PTS Cage Jacket"],
+            position: "left_sleeve_logo",
+            parts: "right_sleeve",
+            perspective: 'left'
+        },
+        {
+            blockPattern: ["PTS Cage Jacket"],
+            position: "back_neck",
+            parts: "back_jersey",
             perspective: 'back'
         },
     ],
