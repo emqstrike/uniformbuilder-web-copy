@@ -433,9 +433,7 @@ LogoPanel.utilities = {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
         var current_active_logo = LogoPanel.utilities.getEnableLogo();
         var material_colors = this.fabricColors(current_active_logo.position);
-
-        console.log(material_colors)
-
+        
         if (typeof material_colors !== "undefined" && _.size(material_colors) > 0) {
             if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
                 LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
@@ -446,11 +444,9 @@ LogoPanel.utilities = {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
                         LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
-                        console.log("continue", secondary_color[i].color_code)
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
-                        console.log("break", secondary_color[i].color_code)
                         break;
                     }
                 }
