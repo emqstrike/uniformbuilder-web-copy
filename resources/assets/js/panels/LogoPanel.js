@@ -43,19 +43,9 @@ LogoPanel.prototype = {
 
         var material_ops = null;
         var new_position = $(this).parent().data("position");
-
-        if (new_position.includes("front") || new_position.includes("chest")) {
-            $('a.change-view[data-view="front"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
-
-        } else if (new_position.includes("back")) {
-            $('a.change-view[data-view="back"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
-
-        } else if (new_position.includes("left") || new_position.includes("sleeve")) {
-            $('a.change-view[data-view="left"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
-        }
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, new_position);
+        
+        $('a.change-view[data-view="'+ configuration.perspective +'"]').trigger('click');
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
         var logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
@@ -86,7 +76,7 @@ LogoPanel.prototype = {
 
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
-        }, 2000);
+        }, 2500);
     },
 
     bindEvents: function() {
@@ -98,11 +88,6 @@ LogoPanel.prototype = {
 };
 
 LogoPanel.isBindEvents = 0;
-
-LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
-LogoPanel.excluded_lower = ['base', 'highlights', 'shadows'];
-LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
-LogoPanel.special_block_pattern = ["PTS Select Pant"];
 
 LogoPanel.init = function () {
     if (ub.current_material.material.logo_position !== null) {
@@ -363,7 +348,6 @@ LogoPanel.utilities = {
     },
 
     changeLogoColorByLayer: function(position, colorObj, layer_number) {
-
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
@@ -410,12 +394,17 @@ LogoPanel.utilities = {
     },
 
     initiateLogoColor: function(logoSettingsObject, color_code) {
+        console.log(color_code)
         if (color_code !== "W") {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
+
+            console.log("White")
         } else {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "CG");
+
+            console.log("Charcoal Gray")
         }
 
         if (logoSettingsObject.numberOfLayers !== 2) {
@@ -448,33 +437,30 @@ LogoPanel.utilities = {
     reInitiateLogo: function() {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
         var current_active_logo = LogoPanel.utilities.getEnableLogo();
-        var material_ops = null;
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, current_active_logo.position);
+        var material_ops = ub.funcs.getSettingsByMaterialOptionCode(configuration.parts);
 
-        if (current_active_logo.position.includes("front") || current_active_logo.position.includes("chest")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
-        } else if (current_active_logo.position.includes("back")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
-        } else if (current_active_logo.position.includes("left") || current_active_logo.position.includes("sleeve")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
-        }
+        if (typeof material_ops !== "undefined") {
+            if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+                return;
+            }
 
-        if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
-            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
-            return;
-        }
-
-        if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
-            for (var i = 0; i < secondary_color.length; i++) {
-                if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
-                    LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
-                    continue;
-                } else {
-                    LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
-                    break;
+            if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
+                for (var i = 0; i < secondary_color.length; i++) {
+                    if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
+                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+                        continue;
+                    } else {
+                        LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
+                        break;
+                    }
                 }
+            } else {
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
             }
         } else {
-            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
         }
     },
 
@@ -666,3 +652,53 @@ LogoPanel.colors = {
         return _.sortBy(color_sum, "count").reverse();
     }
 };
+
+LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_lower = ['base', 'highlights', 'shadows', ''];
+LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+LogoPanel.special_block_pattern = ["PTS Select Pant"];
+LogoPanel.configurations = {
+    items: [
+        {
+            blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
+            position: "back_center_tunnel",
+            parts: "tunnel",
+            perspective: 'back'
+        },
+        {
+            blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
+            position: "front_left_hip",
+            parts: "base",
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Select Pant"],
+            position: "front_left_hip",
+            parts: "base",
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
+            position: "left_sleeve_logo",
+            parts: "right_sleeve",
+            perspective: 'left'
+        },
+        {
+            blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
+            position: "back_neck",
+            parts: "back_body",
+            perspective: 'back'
+        },
+    ],
+
+    getConfiguration: function(block_pattern, position) {
+        var blockPatterns = _.filter(this.items, function(item) {
+            if (_.contains(item.blockPattern, block_pattern)) {
+                return item;
+            }
+        });
+
+        var configuration = _.find(blockPatterns, {position: position});
+        return configuration;
+    }
+}
