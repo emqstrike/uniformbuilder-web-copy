@@ -48,9 +48,21 @@ $(document).ready(function () {
 				if (e.keyCode) code = e.keyCode;
 				else if (e.which) code = e.which;
 				var character = String.fromCharCode(code).toLowerCase();
-				
 				if(code == 188) character=","; // If the user presses, when the type is onkeydown
 				if(code == 190) character="."; // If the user presses, when the type is onkeydown
+				
+				// For Richardson Zoom
+				if (code == 189) {
+					if (ub.zoom) {
+						ub.zoom_off();
+						return;
+					}
+				}
+
+				if (code === 187) {
+					ub.zoom_on();
+					return;
+				}
 
 				var keys = shortcut_combination.split("+");
 				// Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
@@ -162,7 +174,7 @@ $(document).ready(function () {
 						kp++;
 						modifiers.meta.wanted = true;
 					} else if(k.length > 1) { //If it is a special key
-						if(special_keys[k] == code) kp++;
+						if(special_keys[k] == code) console.log("asdsadasd"); kp++;
 						
 					} else if(opt['keycode']) {
 						if(opt['keycode'] == code) kp++;
@@ -251,7 +263,6 @@ $(document).ready(function () {
 		ub.shortcut.add("Alt+5", function () {
 			ub.funcs.enableAlternativeUI();
 		});
-		
 		// Dev Tools is at shift + alt,
 
 		// ub.shortcut.add("Shift+Alt+1", function () {
