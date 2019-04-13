@@ -436,7 +436,7 @@ LogoPanel.utilities = {
 
         console.log(material_colors)
 
-        if (typeof material_colors !== "undefined") {
+        if (typeof material_colors !== "undefined" && _.size(material_colors) > 0) {
             if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
                 LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
                 return;
@@ -445,12 +445,12 @@ LogoPanel.utilities = {
             if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
-                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "CG");
-                        console.log("Continue", secondary_color[i].color_code);
+                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
+                        console.log("continue", secondary_color[i].color_code)
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
-                        console.log("secondary_color[i].color_code", secondary_color[i].color_code)
+                        console.log("break", secondary_color[i].color_code)
                         break;
                     }
                 }
@@ -679,7 +679,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
             position: "front_left_hip",
-            parts: "base",
+            parts: ["base"],
             perspective: 'front'
         },
         {
