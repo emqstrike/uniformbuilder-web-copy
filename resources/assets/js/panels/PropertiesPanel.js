@@ -250,7 +250,6 @@ PropertiesPanel.prototype = {
 
             if (results.length > 0)
             {
-                ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
                 var _obj = _.find(ub.data.modifierLabels, {fullname: _result.toString()});
