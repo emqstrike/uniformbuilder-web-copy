@@ -74,6 +74,12 @@ LogoPanel.prototype = {
                 'background-image': "url("+ image +")"
             });
 
+            if (ub.config.blockPattern === "PTS Hoodie") {
+                $("#logo-preview").css({
+                    'background-position': "bottom"
+                });
+            }
+
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
         }, 2500);
@@ -473,8 +479,6 @@ LogoPanel.utilities = {
                             if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
                                 // Add Offset
                                 logo.position.y = -(ub.current_material.material.one_inch_in_px * eval(size) * color);
-
-                                console.log(logo.position.y)
                             }
                         }
                     }
@@ -705,7 +709,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Hoodie"],
             position: "back_neck",
-            parts: ["back_upper_panel"],
+            parts: ["back_upper_panel", "back_body"],
             perspective: 'back'
         },
         {

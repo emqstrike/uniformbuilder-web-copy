@@ -136,11 +136,26 @@ ModifierController.prototype = {
     enableDisableModifierMenu: function() {
         $('#property-modifiers-menu a').removeClass('active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
+        // Get Modifier number
         var modifier_number = $(this).data("modifier-number");
         ub.current_modifier = modifier_number;
 
+        var first = $("#property-modifiers-menu .menu-item").first();
+        var last = $("#property-modifiers-menu .menu-item").last();
+
         $(this).addClass('active');
         $(this).css('pointer-events', "none");
+
+        if (first.hasClass("active")) {
+            $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
+            $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
+        } else if (last.hasClass("active")) {
+            $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+            $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
+        } else {
+            $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+            $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
+        }
     },
 
     updateLeftPanel: function() {
@@ -172,8 +187,6 @@ ModifierController.prototype = {
     fabrics: function() {
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         ub.modifierController.propertiesPanel.setBodyPanel(fabric_panel);
-
-        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },
 
     parts: function(_this) {
@@ -189,7 +202,6 @@ ModifierController.prototype = {
         GradientPanel.events.init();
 
         $("#primary_options_container").scrollTo(0);
-        RichardsonSkin.funcs.enableRichardsonNavigator();
     },
 
     pipings: function() {
@@ -215,30 +227,21 @@ ModifierController.prototype = {
             PipingPanel.setInitialState();
         }
 
-        RichardsonSkin.funcs.enableRichardsonNavigator()
 
     },
 
     letters: function() {
         LetterPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator()
-
-
         $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
         NumbersPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator()
-
-
         $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
         MascotPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator()
-
         $("#primary_options_container").scrollTo(0);
     },
 
@@ -265,15 +268,18 @@ ModifierController.prototype = {
                     'background-image': "url("+ image +")"
                 });
 
+                if (ub.config.blockPattern === "PTS Hoodie") {
+                    $("#logo-preview").css({
+                        'background-position': "bottom"
+                    });
+                }
+
                 $("#logo-preview").show();
                 $(".logo-image-loader").hide();
             } else {
                 ub.utilities.error("No active Richardson Logo");
             }
         }
-
-        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
-        $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
     }
 };
 
