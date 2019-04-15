@@ -168,10 +168,14 @@ FabricPanel.buildFabricLayer = function(fabric_type, fabric_mos) {
 
         var default_fabric_mo = FabricPanel.getDefaultFabric(fabric_type);
 
-        if (typeof ub.current_material.settings.fabrics !== "undefined") {
-            active = fabric_info.id == ub.current_material.settings.fabrics ? "uk-active" : "";
+        if (typeof default_fabric_mo !== "undefined") {
+            if (typeof ub.current_material.settings.fabrics !== "undefined") {
+                active = fabric_info.id == ub.current_material.settings.fabrics ? "uk-active" : "";
+            } else {
+                active = fabric_info.id == default_fabric_mo.fabric_id ? "uk-active" : "";
+            }
         } else {
-            active = fabric_info.id == default_fabric_mo.fabric_id ? "uk-active" : "";
+            ub.utilities.info("No default fabric");
         }
 
         return {
