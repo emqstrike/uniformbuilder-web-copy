@@ -153,6 +153,9 @@ $(document).ready(function () {
             // Version 2 FILTER
             if (ub.picker.isNew) {
 
+                // exit if url is from HSEL
+                if (ub.config.isFromHSEL === "1") { return; }
+
                 var sport = _sport.urlAlias;
                 var gender = _gender.shortCode;
 

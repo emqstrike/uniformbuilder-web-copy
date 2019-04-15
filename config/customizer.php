@@ -18,6 +18,8 @@ return [
 
         'name' => env('VENDOR_NAME', 'ProLook'),
 
-    ]
+    ],
+
+    'customizer_host' => env('CUSTOMIZER_HOST')
 
 ];
