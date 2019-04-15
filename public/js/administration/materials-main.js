@@ -124,7 +124,9 @@ $(document).ready(function() {
 
         var xdata = table.rows( { filter : 'applied'} ).data();
         $.each(xdata, function(i, item) {
-            ids.push(item[0]);
+            var elem = new DOMParser().parseFromString(item[0], 'text/html');
+            var id = $(elem).find('a.material-id-link');
+            ids.push($(id)[0].innerHTML);
         });
 
         console.log(JSON.stringify(ids));
@@ -326,6 +328,11 @@ $(document).ready(function() {
     });
 
 
-
+    $(document).on('click','.material-id-link',function(e){
+        e.preventDefault();
+        var url = $(this).data('link');
+        var win = window.open(url, '_blank');
+        win.focus();
+    });
 
 });
