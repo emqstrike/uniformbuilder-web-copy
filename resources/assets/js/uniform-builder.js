@@ -6672,8 +6672,7 @@ $(document).ready(function () {
                 var url = '/builder/0/' + _id;
                 window.open(url, '_blank');
 
-                // Version 2 FILTER
-                if (ub.picker.isNew) { _item = _.find(ub.materials, {name: _item}).uniform_category; }
+                return;
 
             }
 

@@ -321,9 +321,6 @@ $(document).ready(function () {
             }
 
             ub.funcs.blockPatternCollections(_newSet, false);
-
-            // ub.funcs.sideBarFilterNeckOptionRadioButton();
-
             ub.funcs.sideBarFilterNeckOptionSelectOption();
 
         });
@@ -503,41 +500,6 @@ $(document).ready(function () {
             .attr("data-item", block.item)
 			.text(block.alias)); 
     	});
-    }
-
-    ub.funcs.sideBarFilterNeckOptionRadioButton = function () {
-        var neckOptions = _optionsCollection;
-        
-        // $('#neck-options li:gt(0)').remove();
-
-        var data = {
-            neck_options: neckOptions
-        }
-
-        var template = $('#m-filter-v2-neck-options').html();
-
-        var markup = Mustache.render(template, data);
-
-        $('#neck-options').html(markup).fadeIn();
-
-        $('#neck-options li').bind('click', function() {
-            $('.cd-tab-filter li').bind('click');
-        });
-        // $('.cd-tab-filter li').bind('click');
-
-        // var html = '';
-        // _.each(neckOptions, function(option) {
-            // html += '<li>';
-            // html += '<input class="filter" data-filter="'+"."+option.item+'" type="radio" name="radioButton" id="">';
-            // html += '<label class="radio-label" for="'+option.item+'">'+option.alias+'</label>';
-            // html += '</li>';
-
-        //     $('#neck-options li:first').parent().append(html).fadeIn();
-        // });
-
-        // $('#neck-options li:first').parent().append(html).fadeIn();
-
-        // console.log('neckOptions: ', neckOptions);
     }
 
     ub.funcs.sideBarFilterNeckOptionSelectOption = function () {
