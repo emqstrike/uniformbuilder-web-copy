@@ -3024,9 +3024,9 @@
 
             }
 
-            if (typeof _applicationSettings.pattern_settings !== "undefined" && _applicationSettings.pattern_settings.length > 0) {
+            if (typeof _applicationSettings.pattern_settings !== "undefined") {
 
-                _container.position.y = _applicationSettings.pattern_settings.position.y + _calibration;
+                _container.position.y = _applicationSettings.pattern_settings.position.y;
 
             } else {
 
