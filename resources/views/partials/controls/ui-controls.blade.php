@@ -624,24 +624,6 @@
 
     </script>
 
-    <script type="text/mustache" id="m-filter-v2-neck-options">
-
-        <li>
-            <input class="filter" data-filter="" type="radio" name="radioButton" id="" checked="">
-            <label class="radio-label" for="radio1">All</label>
-        </li>
-
-        @{{#neck_options}}
-
-            <li>
-                <input class="filter" data-filter=".@{{item}}" type="radio" name="radioButton" id="">
-                <label class="radio-label" for="@{{item}}">@{{alias}}</label>
-            </li>
-
-        @{{/neck_options}}
-
-    </script>
-
     <!-- end version 2 -->
 
 <!-- End Uniforms Pickers -->
