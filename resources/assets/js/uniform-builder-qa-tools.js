@@ -63,7 +63,7 @@ $(document).ready(function () {
             var _primaryViewObjectScale = ""; var _scaleStr = "";
             var _primaryViewObjectPosition = ""; var _positionStr = "";
             var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
-            var _patternPosition = "";
+            var _patternPosition = "none";
 
             if (typeof app.custom_obj !== 'undefined') var _isCustomScale = app.custom_obj.active;
             
