@@ -126,8 +126,6 @@ class MaterialsController extends Controller
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
 
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();
-
         $front_guide = null;
         $back_guide = null;
         $left_guide = null;
@@ -162,8 +160,7 @@ class MaterialsController extends Controller
             'front_guide' => $front_guide,
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
-            'right_guide' => $right_guide,
-            'block_patterns' => $block_patterns
+            'right_guide' => $right_guide
         ]);
     }
 
