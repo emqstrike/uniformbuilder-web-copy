@@ -164,6 +164,9 @@
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
+                    <a href="{{ $material->styles_pdf }}" target="_blank" class="btn btn-xs btn-default @if(! $material->styles_pdf) disabled @endif">
+                        <i class="fa fa-download"></i>
+                    </a>
         <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>

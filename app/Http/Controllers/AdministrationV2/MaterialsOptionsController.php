@@ -25,8 +25,8 @@ class MaterialsOptionsController extends Controller
     protected $fontClient;
 
     public function __construct(
-        APIClient $apiClient, 
-        MaterialsAPIClient $materialClient, 
+        APIClient $apiClient,
+        MaterialsAPIClient $materialClient,
         MaterialsOptionsAPIClient $materialOptionClient,
         ApplicationsAPIClient $applicationsClient,
         FontsAPIClient $fontClient
@@ -189,7 +189,7 @@ class MaterialsOptionsController extends Controller
             ];
             $ctr++;
         }
-        
+
         try {
             $materialOptionFiles = $request->file('mo_image');
             $ctr = 0;
@@ -432,7 +432,7 @@ class MaterialsOptionsController extends Controller
         $materialOption = $this->materialOptionClient->getMaterialOption($id);
         $options = $this->materialOptionClient->getByMaterialId($materialOption->material_id);
         $material = $this->materialClient->getMaterial($materialOption->material_id);
-
+        $guide = null;
         foreach ($options as $option) {
             if ($materialOption->perspective == $option->perspective) {
                 if ($option->name == 'Guide') {
@@ -442,12 +442,12 @@ class MaterialsOptionsController extends Controller
                 if ($option->setting_type == 'highlights') {
                     $highlightPath = $option->material_option_path;
                 }
-            } 
+            }
         }
 
         $applications = $this->applicationsClient->getApplications();
         $fonts = $this->fontClient->getFonts();
-        
+
         return view('administration-lte-2.master-pages.materials.material-application', compact(
             'materialOption',
             'material',

@@ -10365,6 +10365,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Hoodie (eSports)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Track and Field',
+                sublimatedPart: 'Extra',
+            },
 
         ],
 
@@ -11190,17 +11194,17 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Polo (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             {
                 sport: 'Hoodie (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
             
         ],
@@ -12338,7 +12342,8 @@ ub.funcs.fontOffSets = [
             'Volleyball',
             'Football 2017',
             'Football',
-            'Hockey'
+            'Hockey',
+            'Soccer',
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12365,7 +12370,8 @@ ub.funcs.fontOffSets = [
             'Yoga Pant (Apparel)',
             'Basketball',
             'SFN Jogger (Apparel)',
-            'Hockey'
+            'Hockey',
+            'Track and Field',
         ],
         isValid: function (uniformCategory) {
 

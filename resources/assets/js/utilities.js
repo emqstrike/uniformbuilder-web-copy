@@ -152,6 +152,15 @@ $( document ).ready(function() {
 
     };
 
+    String.prototype.toHyphenCase = function () {
+
+        var fullStringValue = this.toString();
+        var returnValue     = fullStringValue.replace(/[\*\^\'\!\/\(\)]/g, '').split(' ').join('-').toLowerCase();
+
+        return returnValue;
+
+    };
+
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();

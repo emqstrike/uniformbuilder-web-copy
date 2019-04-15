@@ -36,8 +36,11 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sports</label>
+                            <a class="btn btn-primary copy-sports btn-xs btn-flat">Copy Sports</a>
+                            <a class="btn btn-success load-sports btn-xs btn-flat">Load Sports</a>
                             <div class="col-md-6">
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $pattern->sports }}">
+                                <input type="text" class="sports-text pull-right" id="sports_text" name="sports_text">
                                 <select name="sports[]" class="form-control sports" multiple="multiple" required>
                                     @foreach ($categories as $category)
                                         @if ($category->active)
@@ -53,10 +56,14 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Target Block Pattern Option</label>
+                            <a class="btn btn-primary copy-options btn-xs btn-flat">Copy Options</a>
+                            <a class="btn btn-success load-options btn-xs btn-flat">Load Options</a>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $pattern->block_pattern_options }}">
+                                <input type="text" class="block-pattern-options-text pull-right" id="block_pattern_options_text" name="block_pattern_options_text">
                                 <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
                                 </select>
+
                             </div>
                         </div>
 
@@ -243,7 +250,6 @@ $(document).ready(function(){
         var block_pattern_options = [];
         if(sports != null){
             sports_arr = sports.split(",");
-            console.log(sports_arr);
             sports_arr.forEach(function(entry) {
                 var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
                 x.forEach(function(entry) {
@@ -321,7 +327,6 @@ $(document).ready(function(){
     $(".block-pattern-options").change(function() {
         $('#block_pattern_options_value').val($(this).val());
     });
-
     $('.block-pattern-options').val(bpos);
     $('.block-pattern-options').trigger('change');
 
@@ -464,6 +469,39 @@ $(document).ready(function(){
         var patternProperties = JSON.stringify(pattern_properties);
         $('#pattern_properties').val(patternProperties);
     }
+
+    $(document).on('click', '.copy-sports', function() {
+        var sport_val = $('.sports-val').val();
+        var input = $('#sports_text');
+        input.val(sport_val);
+        input.select();
+        document.execCommand("copy");
+    });
+
+    $(document).on('click', '.load-sports', function() {
+        var sport_val = $('#sports_text').val();
+        $('.sports-val').val(sport_val);
+        var arr_sport = sport_val.split(',');
+        $('.sports').val(arr_sport);
+        $('.sports').trigger('change');
+    });
+
+    $(document).on('click', '.copy-options', function() {
+        var option_val = $('.block-pattern-options-val').val();
+        var input = $('#block_pattern_options_text');
+        input.val(option_val);
+        input.select();
+        document.execCommand("copy");
+    });
+
+    $(document).on('click', '.load-options', function() {
+        var option_val = $('#block_pattern_options_text').val();
+        $('.block-pattern-options-val').val(option_val);
+        var arr_option = option_val.split(',');
+        $('.block-pattern-options').val(arr_option);
+        $('.block-pattern-options').trigger('change');
+    });
+
 });
 </script>
 @endsection

@@ -123,7 +123,16 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" >Brand</label>
+                            <div class="col-md-4">
+                                <select name="brand" class="form-control">
+                                    <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
+                                    <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                    <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-5 control-label">Sports</label>
                             <div class="col-md-4">
@@ -140,22 +149,13 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" >Brand</label>
-                            <div class="col-md-4">
-                                <select name="brand" class="form-control">
-                                    <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
-                                    <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
-                                    <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label class="col-md-5 control-label">Block Pattern</label>
+                            <a class="btn btn-primary copy-block btn-xs btn-flat">Copy Block Pattern</a>
+                            <a class="btn btn-success load-block btn-xs btn-flat">Load Block Pattern</a>
                             <div class="col-md-4">
                                 <input type="hidden" class="block-patterns-val" id="block_patterns_value" name="block_patterns_value" value="{{ $font->block_patterns }}">
+                                <input type="text" class="block-pattern-text pull-right" id="block_pattern_text" name="block_pattern_text">
                                 <select name="block_patterns[]" class="form-control block-patterns" multiple="multiple">
                                 </select>
                             </div>
@@ -1255,6 +1255,23 @@
 
             $('.block-patterns').select2().val(bps).trigger('change');
             $('.block-pattern-options').select2().val(bpos).trigger('change');
+
+
+            $(document).on('click', '.copy-block', function() {
+                var block_val = $('.block-patterns-val').val();
+                var input = $('#block_pattern_text');
+                input.val(block_val);
+                input.select();
+                document.execCommand("copy");
+             });
+
+            $(document).on('click', '.load-block', function() {
+                var block_val = $('#block_pattern_text').val();
+                $('.block-patterns-val').val(block_val);
+                var arr_option = block_val.split(',');
+                $('.block-patterns').val(arr_option);
+                $('.block-patterns').trigger('change');
+            });
         });
     </script>
 @endsection

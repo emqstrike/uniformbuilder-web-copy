@@ -78,21 +78,31 @@ $(document).ready(function() {
 
     $(document).on('change', '.allow-pattern', function() {
         console.log('changed allow pattern');
-        var color = $(this).val();
+        var pattern = $(this).val();
         var perspective = $(this).data('perspective');
         var name = $(this).data('name').toLowerCase();
         $(".allow-pattern").each(function(i) {
             if( $(this).data('perspective') != perspective && $(this).data('name').toLowerCase() == name ){
                 $(this).fadeOut();
                 $(this).fadeIn();
-                $(this).val(color);
+                $(this).val(pattern);
+            }
+            var part_name = $(this).parent().parent().find('.name').val();
+            if (part_name == 'Highlights' || part_name == 'Shadows' || part_name == 'Extra' || (part_name.match(/Static.*/)) ) {
+                $(this).fadeOut();
+                $(this).fadeIn();
+                $(this).val(0);
+                $(this).parent().parent().find('.tcid').val('');
+                $(this).parent().parent().find('.group-id').val('');
             }
         });
+
+
     });
 
     $(document).on('change', '.tcid', function() {
-        console.log('changed tcid');
         var number = $(this).val();
+        var color = $(this).parent().parent().find('.default-color').val();
         var perspective = $(this).data('perspective');
         var name = $(this).data('name').toLowerCase();
         $(".tcid").each(function(i) {
@@ -100,6 +110,18 @@ $(document).ready(function() {
                 $(this).fadeOut();
                 $(this).fadeIn();
                 $(this).val(number);
+            }
+        });
+        //Auto set TCID for same color
+        $(".default-color").each(function(i) {
+            if( $(this).val() == color ) {
+                var part_name = $(this).parent().parent().find('.name').val();
+                if (part_name != 'Highlights' && part_name != 'Shadows' && part_name != 'Body' && part_name != 'Extra' && !(part_name.match(/Static.*/)) ) {
+                    $(this).parent().parent().find('.tcid').fadeOut();
+                    $(this).parent().parent().find('.tcid').fadeIn();
+                    $(this).parent().parent().find('.tcid').val(number);
+                }
+
             }
         });
     });

@@ -120,13 +120,11 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
-
+        $material = $this->client->getMaterial($id);
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
-        $fonts = $this->fontClient->getFonts();
-
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
 
         $front_guide = null;
         $back_guide = null;
@@ -147,7 +145,6 @@ class MaterialsController extends Controller
             }
         }
 
-        $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
 
@@ -162,8 +159,7 @@ class MaterialsController extends Controller
             'front_guide' => $front_guide,
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
-            'right_guide' => $right_guide,
-            'block_patterns' => $block_patterns
+            'right_guide' => $right_guide
         ]);
     }
 
