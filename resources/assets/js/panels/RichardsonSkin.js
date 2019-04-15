@@ -40,18 +40,13 @@ RichardsonSkin.events = {
 
     onNextPanel: function() {
         var current_modifier = ub.current_modifier;
-        var total_modifier = 7;
+        var total_modifier = $("#property-modifiers-menu .menu-item").length;
 
         if (ub.current_modifier !== total_modifier) {
             if (current_modifier >= 1) {
                 ub.current_modifier++;
-                $('#property-modifiers-menu .group-' + ub.current_modifier).trigger('click');
-                $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
+                $('#property-modifiers-menu .menu-item[data-modifier-number="'  + ub.current_modifier +'"]').trigger('click');
             }
-        }
-
-        if (ub.current_modifier === total_modifier)  {
-            $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
         }
     },
 
@@ -61,12 +56,7 @@ RichardsonSkin.events = {
 
         if (ub.current_modifier !== modifier_limit) {
             ub.current_modifier--
-            $('#property-modifiers-menu .group-' + ub.current_modifier).trigger('click');
-            $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
-        }
-
-        if (ub.current_modifier === modifier_limit) {
-            $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
+            $('#property-modifiers-menu .menu-item[data-modifier-number="'  + ub.current_modifier +'"]').trigger('click');
         }
     },
 

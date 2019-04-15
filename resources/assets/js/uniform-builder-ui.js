@@ -52,8 +52,10 @@ $(document).ready(function () {
 
         if (type === 1) {
 
-            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-            ub.showModal('At least 2 Team Colors is required to proceed');
+            if (ub.config.brand !== "richardson") {
+                var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+                ub.showModal('At least 2 Team Colors is required to proceed');
+            }
                 
         } else {
 
