@@ -433,7 +433,7 @@ class MaterialsOptionsController extends Controller
         $options = $this->materialOptionClient->getByMaterialId($materialOption->material_id);
         $material = $this->materialClient->getMaterial($materialOption->material_id);
         $guide = null;
-        foreach ($optionsgit as $option) {
+        foreach ($options as $option) {
             if ($materialOption->perspective == $option->perspective) {
                 if ($option->name == 'Guide') {
                     $guide = $option->material_option_path;
