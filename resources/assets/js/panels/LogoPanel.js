@@ -540,8 +540,35 @@ LogoPanel.utilities = {
             }
         });
 
+        if (typeof configuration.pipings !== "undefined") {
+            _.each(configuration.pipings, function(piping) {
+                var pipingSettings = ub.funcs.getPipingSettingsObject(piping);
+                if (typeof pipingSettings !== "undefined") {
+                    if (pipingSettings.enabled === 1) {
+                        _.each(pipingSettings.layers, function(layer, index) {
+                            // End loop
+                            if (index + 1 > pipingSettings.numberOfColors) { return; }
+
+                            if (ub.config.option === "BSB V-Neck" && position === "back_neck") {
+                                if (pipingSettings.size === "1/4" ) {
+                                    if (layer.layer === 3) {
+                                        color_codes.push(layer.colorCode);
+                                    }
+                                }
+                            } else {
+                                if (layer.colorCode !== "none") {
+                                    if (!_.contains(color_codes, layer.colorCode)) {
+                                        color_codes.push(layer.colorCode);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
         return color_codes;
-    }
+    },
 };
 
 LogoPanel.colors = {
@@ -692,13 +719,15 @@ LogoPanel.configurations = {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "left_sleeve_logo",
             parts: ["right_sleeve"],
-            perspective: 'left'
+            perspective: 'left',
+            pipings: ["Left Sleeve Piping 1 inch Up"]
         },
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "back_neck",
             parts: ["back_body"],
-            perspective: 'back'
+            perspective: 'back',
+            pipings: ["Neck Piping"]
         },
         {
             blockPattern: ["PTS Hoodie"],

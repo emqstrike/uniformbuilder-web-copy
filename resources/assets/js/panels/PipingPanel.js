@@ -76,6 +76,9 @@ PipingPanel.events = {
 
         if (size === "none") {
             PipingPanel.disablePiping(piping_type)
+            if (typeof ub.data.logos !== "undefined") {
+                LogoPanel.utilities.reInitiateLogo();
+            }
             return;
         }
 
