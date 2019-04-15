@@ -149,11 +149,9 @@ ModifierController.prototype = {
         if (first.hasClass("active")) {
             $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
             $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
-            console.log("First Boossss")
         } else if (last.hasClass("active")) {
             $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
             $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
-            console.log("Last bossss")
         } else {
             $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
             $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
@@ -269,6 +267,12 @@ ModifierController.prototype = {
                 $("#logo-preview").css({
                     'background-image': "url("+ image +")"
                 });
+
+                if (ub.config.blockPattern === "PTS Hoodie") {
+                    $("#logo-preview").css({
+                        'background-position': "bottom"
+                    });
+                }
 
                 $("#logo-preview").show();
                 $(".logo-image-loader").hide();

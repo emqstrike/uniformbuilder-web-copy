@@ -74,6 +74,12 @@ LogoPanel.prototype = {
                 'background-image': "url("+ image +")"
             });
 
+            if (ub.config.blockPattern === "PTS Hoodie") {
+                $("#logo-preview").css({
+                    'background-position': "bottom"
+                });
+            }
+
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
         }, 2500);
@@ -705,7 +711,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Hoodie"],
             position: "back_neck",
-            parts: ["back_upper_panel"],
+            parts: ["back_upper_panel", "back_body"],
             perspective: 'back'
         },
         {
