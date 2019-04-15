@@ -135,7 +135,6 @@ MascotPanel.events = {
     },
 
     onChangeEmbellishment: function() {
-        console.log("adkabdkjsadkjsah");
         var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
         var applicationObject = ub.funcs.getApplicationSettings(application_id)
 
@@ -143,6 +142,13 @@ MascotPanel.events = {
             if (applicationObject.application_type === "embellishments") {
                 ub.data.currentApplication = applicationObject;
                 InteropIsPanel.funcs.loadDesigner(applicationObject.embellishment.design_id, application_id);
+            } else {
+                ub.data.currentApplication = applicationObject;
+                if (ub.user) {
+                    InteropIsPanel.funcs.loadExistingDesign(applicationObject);
+                } else {
+                    InteropIsPanel.funcs.loadDesigner(undefined, application_id);
+                }
             }
         }
     },

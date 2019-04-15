@@ -29,7 +29,7 @@ InteropIsPanel.events = {
 
         if (typeof applicationObject !== "undefined") {
             if (type === "existing") {
-                InteropIsPanel.funcs.loadExistingDesign()
+                InteropIsPanel.funcs.loadExistingDesign(applicationObject)
             } else if (type === "create") {
                 InteropIsPanel.funcs.loadDesigner(undefined, applicationObject.code)
             } else if (type === "upload") {
