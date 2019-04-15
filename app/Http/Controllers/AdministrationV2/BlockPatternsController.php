@@ -116,7 +116,8 @@ class BlockPatternsController extends Controller
             'uniform_category_id' => $uniformCategoryID,
             'placeholder_overrides' => $placeholderOverrides,
             'gender' => $request->input('gender'),
-            'alias' => $request->input('alias')
+            'alias' => $request->input('alias'),
+            'block_pattern_option_2' => $request->input('block_pattern_option_2')
         ];
 
         foreach ($request->part_name as $key => $value) {

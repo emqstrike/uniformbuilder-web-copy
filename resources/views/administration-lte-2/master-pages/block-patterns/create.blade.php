@@ -21,6 +21,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/{{ env('ENDPOINT_VERSION') }}/block_pattern/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="neck_options" :value="JSON.stringify(neck_options)">
+                        <input type="hidden" name="block_pattern_option_2" :value="JSON.stringify(block_pattern_option_2)">
                         <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         @include('administration.partials.flash-message')
@@ -176,6 +177,7 @@
 @section('custom-scripts')
     <script>
         var data = {}; // initialize data variable for vue
+        var block_pattern_option_2 = {};
     </script>
 
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>

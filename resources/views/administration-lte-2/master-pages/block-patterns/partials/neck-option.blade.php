@@ -25,7 +25,7 @@
                     <button class="btn btn-xs btn-flat btn-success" @click="addBlockPatternOption2()">Add option</button>
                 </label>
 
-                <div v-for="option_2_item, index in block_pattern_option_2">
+                <div v-for="option_2_item, index in current_block_pattern_option_2">
                     <div class="block-pattern-option-2">
                         <div class="row">
                             <div class="col-md-5">

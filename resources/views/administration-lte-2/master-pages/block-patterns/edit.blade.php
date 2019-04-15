@@ -22,6 +22,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="block_pattern_id" value="{{ $block_pattern->id }}">
                         <input type="hidden" name="neck_options" :value="JSON.stringify(neck_options)">
+                        <input type="hidden" name="block_pattern_option_2" :value="JSON.stringify(block_pattern_option_2)">
                         <input type="hidden" id="fabrics-list" value="{{ json_encode($fabrics) }}">
 
                         <div class="form-group">
@@ -232,6 +233,7 @@
 @section('custom-scripts')
     <script>
         var data = [{!! $block_pattern->neck_options !!}][0];
+        var block_pattern_option_2 = {!! $block_pattern->block_pattern_option !!}
     </script>
     
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>

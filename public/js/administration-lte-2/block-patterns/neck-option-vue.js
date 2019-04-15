@@ -3,11 +3,8 @@ new Vue({
     data: function() {
         return {
             action: '',
-            block_pattern_option_2: [],
-            block_pattern_option_2_item: {
-                layer: '',
-                name: ''
-            },
+            block_pattern_option_2: block_pattern_option_2,
+            current_block_pattern_option_2: [],
             neck_options: data,
             neck_option: "",
             slideout: "",
@@ -48,12 +45,16 @@ new Vue({
             }
         },
         addBlockPatternOption2: function() {
-            let block_pattern_option_3 = [];
-            Vue.set(this.block_pattern_option_2_item, 'block_pattern_option_3', block_pattern_option_3);
-            this.block_pattern_option_2.push(Vue.util.extend({}, this.block_pattern_option_2_item));
+            let block_pattern_option_2_item = {
+                layer: '',
+                name: '',
+                block_pattern_option_3: []
+            };
+
+            this.current_block_pattern_option_2.push(Vue.util.extend({}, block_pattern_option_2_item));
         },
         removeBlockPatternOption2: function(option_2_item) {
-            this.block_pattern_option_2.splice(this.block_pattern_option_2.indexOf(option_2_item), 1);
+            this.current_block_pattern_option_2.splice(this.current_block_pattern_option_2.indexOf(option_2_item), 1);
         },
         addBlockPatternOption3: function(option_2_item) {
             let block_pattern_option_3_item = {
@@ -67,16 +68,17 @@ new Vue({
             option_2_item.block_pattern_option_3.splice(option_2_item.block_pattern_option_3.indexOf(option_3_item), 1)
         },
         updateNeckOption: function() {
-            Vue.set(this.neck_option, 'block_pattern_option_2', this.block_pattern_option_2);
-            this.neck_options[this.neck_option.index] = this.neck_option;
-
             let title = null;
 
             if (this.action == 'edit') {
                 title = "Neck option updated";
             } else if (this.action == 'add') {
                 title = "Neck option added";
+
+                Vue.set(this.neck_options, this.neck_option.index, this.neck_option);
             }
+
+            Vue.set(this.block_pattern_option_2, this.neck_option.index, this.current_block_pattern_option_2);
 
             new PNotify({
                 title: title,
@@ -87,21 +89,22 @@ new Vue({
 
             this.slideout.toggle();
             this.is_panel_showing = false;
+            this.current_block_pattern_option_2 = [];
         },
         closePanel: function() {
             this.slideout.toggle();
             this.is_panel_showing = false;
+            this.current_block_pattern_option_2 = [];
         },
         showPanel: function(neck_option, index) {
-            if (neck_option.hasOwnProperty('block_pattern_option_2')) {
-                if (neck_option.block_pattern_option_2.length > 0) {
-                    this.block_pattern_option_2 = neck_option.block_pattern_option_2;
-                }
-            } else {
-                this.block_pattern_option_2 = [];
+            this.current_block_pattern_option_2 = [];
+
+            if (index in this.block_pattern_option_2) {
+                this.current_block_pattern_option_2 = this.block_pattern_option_2[index];
             }
 
             this.neck_option = neck_option;
+
             Vue.set(this.neck_option, 'index', index);
             this.slideout.toggle();
             this.is_panel_showing = true;
