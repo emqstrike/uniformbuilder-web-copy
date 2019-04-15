@@ -218,9 +218,9 @@ xtab-filter
     font-weight: 700;
     font-size: 1.3rem;
   }
-  .no-touch .cd-tab-filter a:hover {
+  /*.no-touch .cd-tab-filter a:hover {
     color: #41307c;
-  }
+  }*/
   .cd-tab-filter a.selected {
     background: transparent;
     color: #000;
@@ -514,7 +514,7 @@ xcustom form elements
 .cd-filter-block select:focus {
   outline: none;
   background-color: #ffffff;
-  border-color: #41307c;
+  border-color: #9a9a9a;
 }
 .cd-filter-block input[type='search'] {
   /* custom style for the search element */
@@ -626,8 +626,8 @@ xcustom form elements
 }
 .cd-filter-block input[type=radio]:checked + label::before,
 .cd-filter-block input[type=checkbox]:checked + label::before {
-  border-color: #41307c;
-  background-color: #41307c;
+  border-color: #272727;
+  background-color: #272727;
 }
 .cd-filter-block input[type=radio]:checked + label::after,
 .cd-filter-block input[type=checkbox]:checked + label::after {
