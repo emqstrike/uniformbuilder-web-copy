@@ -549,10 +549,20 @@ LogoPanel.utilities = {
                             // End loop
                             if (index + 1 > pipingSettings.numberOfColors) { return; }
 
-                            if (ub.config.option === "BSB V-Neck" && position === "back_neck") {
+                            if (ub.config.option === "BSB V-Neck" && position === "back_neck" && piping === "Neck Piping") {
                                 if (pipingSettings.size === "1/4" ) {
                                     if (layer.layer === 3) {
-                                        color_codes.push(layer.colorCode);
+                                        if (!_.contains(color_codes, layer.colorCode)) {
+                                            color_codes.push(layer.colorCode);
+                                        }
+                                    }
+                                }
+                            } else if (position === "left_sleeve_logo" && piping === "Left End of Sleeve Piping") {
+                                if (pipingSettings.size === "1/2" ) {
+                                    if (layer.layer === 3) {
+                                        if (!_.contains(color_codes, layer.colorCode)) {
+                                            color_codes.push(layer.colorCode);
+                                        }
                                     }
                                 }
                             } else {
@@ -720,7 +730,7 @@ LogoPanel.configurations = {
             position: "left_sleeve_logo",
             parts: ["right_sleeve"],
             perspective: 'left',
-            pipings: ["Left Sleeve Piping 1 inch Up"]
+            pipings: ["Left Sleeve Piping 1 inch Up", "Left End of Sleeve Piping"]
         },
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
