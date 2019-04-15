@@ -102,7 +102,6 @@ RichardsonSkin.funcs = {
         var _this = this;
         
         _.delay(function() {
-            $('#property-modifiers-menu .menu-item-fabrics').trigger("click");
             _this.changeStageBackgroundColor(color);
             _this.setupSidePanelToolbar();
             _this.setupFooter();

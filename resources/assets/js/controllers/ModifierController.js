@@ -126,6 +126,7 @@ ModifierController.prototype = {
 
         $('a', tabs_el).each(function(index, el) {
             $(el).text(index + 1);
+            $(el).attr("data-modifier-number", index + 1);
         });
 
         // click first menu item
@@ -135,6 +136,8 @@ ModifierController.prototype = {
     enableDisableModifierMenu: function() {
         $('#property-modifiers-menu a').removeClass('active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
+        var modifier_number = $(this).data("modifier-number");
+        ub.current_modifier = modifier_number;
 
         $(this).addClass('active');
         $(this).css('pointer-events', "none");
@@ -167,12 +170,9 @@ ModifierController.prototype = {
     },
 
     fabrics: function() {
-        console.log('Show Fabrics Panel');
-
         var fabric_panel = ub.modifierController.controllers.fabrics.getPanel();
         ub.modifierController.propertiesPanel.setBodyPanel(fabric_panel);
 
-        ub.current_modifier = 1;
         $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
     },
 
@@ -187,8 +187,6 @@ ModifierController.prototype = {
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();
         GradientPanel.events.init();
-
-        ub.current_modifier = 2;
 
         $("#primary_options_container").scrollTo(0);
         RichardsonSkin.funcs.enableRichardsonNavigator();
@@ -217,30 +215,30 @@ ModifierController.prototype = {
             PipingPanel.setInitialState();
         }
 
-        RichardsonSkin.funcs.enableRichardsonNavigator();
-        ub.current_modifier = 3;
+        RichardsonSkin.funcs.enableRichardsonNavigator()
+
     },
 
     letters: function() {
         LetterPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator();
-        ub.current_modifier = 4;
+        RichardsonSkin.funcs.enableRichardsonNavigator()
+
 
         $("#primary_options_container").scrollTo(0);
     },
 
     numbers: function() {
         NumbersPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator();
-        ub.current_modifier = 5;
+        RichardsonSkin.funcs.enableRichardsonNavigator()
+
 
         $("#primary_options_container").scrollTo(0);
     },
 
     applications: function() {
         MascotPanel.init();
-        RichardsonSkin.funcs.enableRichardsonNavigator();
-        ub.current_modifier = 6;
+        RichardsonSkin.funcs.enableRichardsonNavigator()
+
         $("#primary_options_container").scrollTo(0);
     },
 
@@ -248,42 +246,33 @@ ModifierController.prototype = {
         var logo_positions = ub.data.logos;
 
         if (typeof logo_positions !== "undefined" && logo_positions.length > 0) {
-            var current_position = _.find(ub.current_material.settings.logos, {enabled: 1});
-            if (current_position.position.includes("front") || current_position.position.includes("chest")) {
-                $('a.change-view[data-view="front"]').trigger('click');
-
-            } else if (current_position.position.includes("back")) {
-                $('a.change-view[data-view="back"]').trigger('click');
-
-            } else if (current_position.position.includes("left") || current_position.position.includes("sleeve")) {
-                $('a.change-view[data-view="left"]').trigger('click');
-            }
-
+            var current_position = LogoPanel.utilities.getActiveRLogo();
             var logo_panel = ub.modifierController.controllers.logo.getPanel();
             ub.modifierController.propertiesPanel.setBodyPanel(logo_panel);
-
-            // Activate logo current position
-            $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
-
-            if (ub.current_material.settings.disableLogoLeftSleeve) {
-                if (PipingPanel.hasLeftSleeve1Inch()) {
-                    $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='left_sleeve_logo']").addClass('uk-disabled bgc-light');
+            // Render Current location of Richardson logo
+            if (typeof current_position !== "undefined") {
+                var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, current_position.position);
+                if (typeof configuration !== "undefined") {
+                    $('a.change-view[data-view="'+ configuration.perspective +'"]').trigger('click');
                 }
 
-                $("#primary_option_logo .disable-left-sleeve input[type=checkbox]").prop("checked", "true");
+                // Activate logo current position
+                $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").addClass('uk-active');
+                $(".modifier_main_container #primary_option_logo .logo-perspective-btn-container li[data-position='"+ current_position.position +"']").find("a").addClass("uk-disabled");
+                var image = ub.getThumbnailImage(ub.active_view + "_view");
+
+                $("#logo-preview").css({
+                    'background-image': "url("+ image +")"
+                });
+
+                $("#logo-preview").show();
+                $(".logo-image-loader").hide();
+            } else {
+                ub.utilities.error("No active Richardson Logo");
             }
-
-            var image = ub.getThumbnailImage(ub.active_view + "_view");
-
-            $("#logo-preview").css({
-                'background-image': "url("+ image +")"
-            });
-
-            $("#logo-preview").show();
-            $(".logo-image-loader").hide();
         }
 
-        ub.current_modifier = 7;
+        $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
         $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
     }
 };
