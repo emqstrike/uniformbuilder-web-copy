@@ -479,8 +479,6 @@ LogoPanel.utilities = {
                             if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
                                 // Add Offset
                                 logo.position.y = -(ub.current_material.material.one_inch_in_px * eval(size) * color);
-
-                                console.log(logo.position.y)
                             }
                         }
                     }
