@@ -425,8 +425,15 @@ LogoPanel.utilities = {
                 LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "CG");
             }
 
-        } else {
+        } else if (color_code === "W") {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, "CG");
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
+
+            if (logoSettingsObject.numberOfLayers !== 2) {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "W");
+            }
+        } else {
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
 
             if (logoSettingsObject.numberOfLayers !== 2) {
@@ -450,6 +457,9 @@ LogoPanel.utilities = {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
                         LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
+                        if (_.contains(material_colors, "CG") && _.contains(material_colors, "W")) {
+                            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "R");
+                        }
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
@@ -728,7 +738,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "left_sleeve_logo",
-            parts: ["right_sleeve"],
+            parts: ["right_sleeve", "right_outer_sleeve_stripe_color", "right_sleeve_panel"],
             perspective: 'left',
             pipings: ["Left Sleeve Piping 1 inch Up", "Left End of Sleeve Piping"]
         },
