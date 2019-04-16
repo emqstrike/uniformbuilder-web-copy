@@ -549,7 +549,7 @@ $(document).ready(function () {
             };
 
             var markup = Mustache.render(template, data);
-            $('div.debug-panel > div.body').html(markup);
+            $('div.debug-panel div.body').html(markup);
 
         }
 

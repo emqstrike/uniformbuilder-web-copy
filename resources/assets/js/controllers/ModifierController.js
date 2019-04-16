@@ -94,7 +94,15 @@ ModifierController.prototype = {
         var tabs_el = $('#property-modifiers-menu');
 
         // fabrics
-        if (this.controllers.fabrics.fabrics.fabrics_data.length === 0) {
+        var fabric_types = _.pluck(this.controllers.fabrics.fabrics.fabrics_data, "types");
+        if (fabric_types.length > 0) {
+            fabric_types = _.pluck(fabric_types, "fabric_type");
+
+            // check if neither base nor insert is present
+            if (fabric_types.indexOf(FabricPanel.FABRIC_BASE_TYPE) === -1 || fabric_types.indexOf(FabricPanel.FABRIC_INSERT_TYPE) !== -1) {
+                $('.menu-item-fabrics', tabs_el).remove();
+            }
+        } else {
             $('.menu-item-fabrics', tabs_el).remove();
         }
 
@@ -105,7 +113,7 @@ ModifierController.prototype = {
 
             $('.menu-item-parts', tabs_el).remove();
         }
-        
+
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             if (this.controllers.pipings.set_items.random_feed_set_items.length === 0) {

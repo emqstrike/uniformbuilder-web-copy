@@ -50,6 +50,7 @@ $(document).ready(function () {
 				var character = String.fromCharCode(code).toLowerCase();
 				if(code == 188) character=","; // If the user presses, when the type is onkeydown
 				if(code == 190) character="."; // If the user presses, when the type is onkeydown
+				
 
 				var keys = shortcut_combination.split("+");
 				// Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
@@ -283,7 +284,23 @@ $(document).ready(function () {
 				$('a.footer-buttons.change-view[data-view="zoom"]').html('<i class="fa fa-arrows-alt" aria-hidden="true"></i><br /><span>Full View</span>');
 
 			}
-			
+
+
+			if (event.key  === "+" && event.shiftKey && event.altKey) {
+				if (ub.zoom) {
+					ub.zoom_off();
+				} else {
+					ub.zoom_on();
+				}
+				return;
+			}
+
+			if (event.key === "_" && event.shiftKey && event.altKey) {
+				if (ub.zoom) {
+					ub.zoom_off();
+				}
+				return;
+			}
 		});
 
 		$( "body" ).keyup(function( event ) {

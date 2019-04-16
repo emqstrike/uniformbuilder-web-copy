@@ -1,7 +1,6 @@
 function FabricPanel(element) {
     this.panel = document.getElementById(element);
     this.fabrics = {};
-    this.fabric_types = ["base", "insert"];
 
     FabricPanel.events.init();
 }
@@ -15,7 +14,7 @@ FabricPanel.prototype = {
     },
 
     setItems: function() {
-        var fabric_types = this.fabric_types;
+        var fabric_types = [FabricPanel.FABRIC_BASE_TYPE, FabricPanel.FABRIC_INSERT_TYPE];
 
         this.fabrics.fabrics_data = [];
 
