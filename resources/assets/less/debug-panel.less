@@ -1,94 +1,42 @@
 /* Debug Panel */
 
-    div.debug-panel {
-
+div.debug-panel {
+    div.loading-screen-container {
         position: absolute;
-        width: 850px;
-        height: 110px;
-        bottom: 0;
-        left: 120px;
-        background-color: none;
-        display: none;
-        padding: 7px;
-        z-index: 1000;
-        cursor: move;
-
-        div.title {
-
-            cursor: move;
-            margin-bottom: 7px;
-
-            span.close { float: right; padding: 3px;}
-            div.caption { 
-
-                width: 90%;
-                float: left; 
-                padding: 3px;
-
-                span.qoute {
-
-                    font-size: 1.2em;
-                    text-align: left;
-                    //color: #ffba00;
-                    color: white;
-
-                    span.author { text-align: right; }
-
-                }   
-
-            }
-
-        }
-
-        div.body {
-
-            font-size: 0.8em;
-            cursor: move;
-
-            div.rotation-container {
-
-                label { width: 70px; }
-                strong.number {
-
-                    width: 300px;
-                    display: inline-block;
-
-                }
-
-            }
-
-        }
-
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    div.debug-panel.pickersLoader {
-
-        position: absolute;
-        width: 850px;
-        height: 110px;
-        bottom: 0;
-        right: 10px;
-        left: unset;
-        background-color: none;
-        display: none;
-        padding: 7px;
-        z-index: 1000;
-        cursor: move;
-        
-        div.title {
-            div.caption { 
-                span.qoute {
-                    //color: #1a3a2f;
-                    color: white;
-                }   
-            }
-        }
-
+    div.football-loading img {
+        height: 100px !important;
     }
 
-    // div.debug-panel:hover {
-    //     color: white;
-    //     background-color: #3d3d3d;
-    // }
+    div.body {
+        position: absolute;
+        top: 58%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center !important;
+
+        .header {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+
+        .contents {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+    }
+
+    span {
+        color: #9c9c9c !important;
+        font-size: 12px;
+    }
+}
 
 /* End Debug Panel */

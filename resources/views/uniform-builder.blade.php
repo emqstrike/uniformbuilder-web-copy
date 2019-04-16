@@ -30,8 +30,13 @@
 
     @include('partials.navbar')
 
-    <div id="main_container" class="container">
+    <div>
+        <!-- Preview Panel -->
+        @include('partials.panels.debug-panel')
+        <!-- End Preview Panel -->
+    </div>
 
+    <div id="main_container" class="container">
         @include('partials.alert')
 
         <!-- Main Customizer Components -->
@@ -53,8 +58,7 @@
         <!-- End Order Process -->
 
     </div>
-
-
+    
     <!-- Pages -->
 
         <!-- TODO: These pages should have selective loading -->
@@ -123,12 +127,6 @@
     <!-- Preview Panel -->
     @include('partials.panels.preview-panel')
     <!-- End Preview Panel -->
-
-
-    <!-- Preview Panel -->
-    @include('partials.panels.debug-panel')
-    <!-- End Preview Panel -->
-
 
     <!-- Messages Panel -->
     @include('partials.panels.messages-panel')
