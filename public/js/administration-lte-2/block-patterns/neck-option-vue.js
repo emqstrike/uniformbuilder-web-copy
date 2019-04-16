@@ -4,9 +4,11 @@ new Vue({
         return {
             action: '',
             block_pattern_option_2: block_pattern_option_2,
+            current_block_pattern_option_2_cache: [],
             current_block_pattern_option_2: [],
             neck_options: data,
             neck_option: "",
+            neck_option_cache: [],
             slideout: "",
             is_panel_showing: false
         }
@@ -35,6 +37,12 @@ new Vue({
         },
         editNeckOption: function(neck_option, index) {
             this.action = 'edit';
+
+            if (neck_option.hasOwnProperty('alias') === false) {
+                Vue.set(neck_option, 'alias', '');
+            }
+
+            this.neck_option_cache = Object.assign({}, neck_option);
             this.showPanel(neck_option, index);
         },
         removeNeckOption: function(index) {

@@ -195,12 +195,12 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr v-for="item , index in neck_options">
-                                                <td>@{{ item.name }}</td>
-                                                <td>@{{ item.alias }}</td>
-                                                <td>@{{ item.placeholder_overrides }}</td>
+                                            <tr v-for="neck_option , index in neck_options">
+                                                <td>@{{ neck_option.name }}</td>
+                                                <td>@{{ neck_option.alias }}</td>
+                                                <td>@{{ neck_option.placeholder_overrides }}</td>
                                                 <td>
-                                                    <button class="btn btn-xs btn-flat btn-primary" @click.prevent="editNeckOption(item, index)">Edit</button>
+                                                    <button class="btn btn-xs btn-flat btn-primary" @click.prevent="editNeckOption(neck_option, index)">Edit</button>
                                                     <button class="btn btn-xs btn-flat btn-danger" @click.prevent="removeNeckOption(index)">Remove</button>
                                                 </td>
                                             </tr>
