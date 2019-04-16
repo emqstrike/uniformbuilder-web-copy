@@ -610,7 +610,8 @@ $(document).ready(function() {
             
             success: function (response) {
 
-                ub.funcs.reload();
+                // ub.funcs.reload();
+                console.log('FEEDBACK FORM', response);
 
             }
             
@@ -618,7 +619,7 @@ $(document).ready(function() {
 
     }
  
-    ub.funcs.feedbackFormFromOrder = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
+    ub.funcs.feedbackFormFromOrder = function (initMessage, imgFront, imgLeft, imgRight, imgBack, redirectLink) {
 
         // unbind before opening window
         window.onbeforeunload = null;
@@ -654,6 +655,8 @@ $(document).ready(function() {
             }
 
             $('div.feedback-form').remove();
+
+            window.location = redirectLink;
             
         });
 
@@ -710,6 +713,9 @@ $(document).ready(function() {
 
     ub.funcs.freeFeedbackForm();
 
+    var _viewOrderLink = '';
+    var _message = '';
+
     ub.funcs.postOrderData = function (data, url) {
 
         var _postData   = data;
@@ -731,25 +737,51 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
 
-                var _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
-                var _message = '';
+                _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
+                // var _message = '';
 
-                $('div#validate-order-form').remove();
-                $('span.processing').fadeOut();
+                // re run pdf service to update with order code
+                ub.pdfService.preview_data.orderId = response.order_code;
+                ub.pdfService.preview_data.searchKey = response.order_code;
+                console.log('UPDATED PREVIEW DATA', ub.pdfService.preview_data);
+                // ub.funcs.pdfService(true, ub.pdfService.preview_data);
 
-                _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
-
-                if (data.order.submitted === 0) {
-                    _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
-                }
-
-                ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
+                // $('div#validate-order-form').remove();
+                // $('span.processing').fadeOut();
+                // $('.order-dialog').fadeOut();
+                // $('.modal-backdrop').fadeOut();
+                //
+                // _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+                //
+                // if (data.order.submitted === 0) {
+                //     _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
+                // }
+                //
+                // ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
 
                 // Go to view order details form after submission
-                window.location = _viewOrderLink;
+                // setTimeout(function() {
+                //     window.location = _viewOrderLink; }, 30000
+                // );
 
             }
             
+        }).done(function() {
+
+            ub.funcs.pdfService(true, ub.pdfService.preview_data);
+
+            $('div#validate-order-form').remove();
+            $('span.processing').fadeOut();
+            $('.order-dialog').fadeOut();
+            $('.modal-backdrop').fadeOut();
+
+            _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+
+            if (data.order.submitted === 0) {
+                _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
+            }
+            ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
+
         });
 
     };
@@ -1049,8 +1081,9 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
+        // var _url = _linkTransformed;
 
-        $('iframe#pdfViewer').attr('src', _url)
+        $('iframe#pdfViewer').attr('src', _url);
         $('a.previewPDFLink').attr('href', _url);
 
         $('div#validate-order-form > span.processing').fadeOut();
@@ -1072,7 +1105,7 @@ $(document).ready(function() {
              if (ub.data.updateOrderFromCustomArtworkRequest) {
 
                 // ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
-
+                 console.log('===> submiting form with artwork status updated');
                     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
                     $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
@@ -1081,10 +1114,22 @@ $(document).ready(function() {
                 // });
 
             } else {
-
+                console.log('===> submiting form');
                 ub.funcs.submitOrderForm(ub.constants.order_actions.SUBMIT_ORDER);
                 $('span.submit-confirmed-order').html('Submitting Order...');
 
+                 var dialog = bootbox.dialog({
+                     title: 'Please wait while we submit your order. Thank You!',
+                     message: '<p class="text-center" style="font-size:30px;"><i class="fa fa-spin fa-spinner"></i> Loading...</p>',
+                     className: 'order-dialog',
+                     closeButton: false
+                 });
+
+                 dialog.init(function(){
+                     // setTimeout(function(){
+                     //     dialog.find('.bootbox-body').html('I was loaded after the dialog was shown!');
+                     // }, 3000);
+                 });
             }
             
         });
@@ -1099,6 +1144,19 @@ $(document).ready(function() {
             ub.funcs.submitOrderForm(ub.constants.order_actions.SAVE_ORDER);
             $('span.save-order').html('Saving Order...');
 
+            var dialog = bootbox.dialog({
+                title: 'Please wait while we save your order. Thank You!',
+                message: '<p class="text-center" style="font-size:30px;"><i class="fa fa-spin fa-spinner"></i> Loading...</p>',
+                className: 'order-dialog',
+                closeButton: false
+            });
+
+            dialog.init(function(){
+                // setTimeout(function(){
+                //     dialog.find('.bootbox-body').html('I was loaded after the dialog was shown!');
+                // }, 3000);
+            });
+
         });
 
     };
@@ -1108,7 +1166,7 @@ $(document).ready(function() {
     };
 
     // This is a dublicate of the Submit Order Form, refactor this
-    ub.funcs.prepareData = function () {
+        ub.funcs.prepareData = function () {
 
         var _notes                  = $('textarea#additional-notes').val();
         var _attachments            = [];
@@ -1278,64 +1336,162 @@ $(document).ready(function() {
 
         ub.funcs.pushState({data: 'generate-pdf', title: 'Generate PDF', url: '?generate-pdf'});
 
-        var _bc = ub.current_material.settings;
+        // var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
 
         console.log('ub.funcs.prepareData() output=====>', _input);
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
 
-        $.ajax({
-            data: JSON.stringify({builder_customizations: _input}),
-            url: ub.config.host + "/generateOrderForm",
-            dataType: "json",
-            type: "POST",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-        
-            success: function(response) {
+        // $.ajax({
+        //     data: JSON.stringify({builder_customizations: _input}),
+        //     url: ub.config.host + "/generateOrderForm",
+        //     dataType: "json",
+        //     type: "POST",
+        //     crossDomain: true,
+        //     contentType: 'application/json',
+        //     headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        //
+        //     success: function(response) {
+        //
+        //         if (response.success) {
+        //
+        //             console.log('OLD PDF LINK', response.filename);
 
-                if (response.success) {
+                    console.log('PROCESSING!!!');
 
-                    ub.funcs.displayLinks(response.filename);
+                    var bc = _input.order_items[0].builder_customizations;
+                    var order_items = _input.order_items[0];
+                    var stamp = moment(Date.now()).format();
 
+                    var _data = {
+                        selectedSource:"Prolook Customizer",
+                        selectedTemplate:"Prolook",
+                        searchKey:"preview-" + order_items.material_id + "-" + order_items.item_id + "-" + stamp.replace(/[:+]/g, "-"),
+                        thumbnails: bc.thumbnails,
+                        category: bc.uniform_category,
+                        fullName: "", // not used in any pdf service templates
+                        client: _input.order.client,
+                        orderId: "",
+                        foid:"",
+                        description: order_items.description,
+                        cutPdf: bc.cut_pdf,
+                        stylesPdf: bc.styles_pdf,
+                        roster: bc.roster,
+                        pipings: bc.pipings,
+                        createdDate: moment(Date.now()).format('YYYY/MM/DD'),
+                        notes: order_items.notes,
+                        sizeBreakdown: bc.size_breakdown,
+                        applications: bc.applications,
+                        sizingTable: bc.sizingTable,
+                        upper: bc.upper,
+                        lower: bc.hiddenBody,
+                        randomFeeds: bc.randomFeeds,
+                        legacyPDF:"", // display link if old pdf is generated
+                        applicationType: order_items.application_type
+                    };
+
+                    console.log('RUNNING REQUEST TO PDF SERVICE');
+                    // var newPDF =
+
+                    ub.funcs.pdfService(true, _data);
+                    ub.pdfService = {
+                        preview_data: _data
+                    };
+
+                    // console.log('SENDING TO DISPLAY');
+                    // ub.funcs.displayLinks(newPDF);
+
+                    // this is commented not used
                     // if (ub.config.orderArtworkStatus === "rejected") {
 
                     //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                     //     $('span.save-order').hide();
 
-                    // } 
+                    // }
 
-                    if (ub.data.updateOrderFromCustomArtworkRequest) {
 
-                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-                        $('span.save-order').hide();                        
 
-                    }
 
+        //             if (ub.data.updateOrderFromCustomArtworkRequest) {
+        //
+        //                 $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+        //                 $('span.save-order').hide();
+        //
+        //             }
+        //
+        //         }
+        //         else {
+        //             console.log('error: ');
+        //             console.log(response.message);
+        //         }
+        //
+        //     },
+        //     error: function(error) {
+        //         $.smkAlert({
+        //             text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+        //             type: 'warning'
+        //         });
+        //     }
+        //
+        // });
+
+
+    };
+
+    ub.funcs.pdfService = function (async, _data) {
+
+        var pdfLink = null;
+        // https://34.214.34.246/api/upload
+
+        $.ajax({
+            async: async,
+            data: JSON.stringify(_data),
+            url: "https://pdf-generator.prolook.com/api/upload",
+            dataType: "json",
+            type: "POST",
+            crossDomain: true,
+            contentType: 'application/json',
+            // headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function(response) {
+
+                if (response.success) {
+                    pdfLink = response.pdfUrl;
+
+                    console.log('SENDING TO DISPLAY');
+                    ub.funcs.displayLinks(pdfLink);
                 }
                 else {
                     console.log('error: ');
-                    console.log(response.message);
+                    console.log(response);
+                    $.smkAlert({
+                        text: '[ERROR]' + '\n\n' + '[' + response + ']' + '\n\n' + 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                        type: 'warning',
+                        permanent: true
+                    });
                 }
 
             },
             error: function(error) {
+                console.log('===error===', error);
                 $.smkAlert({
-                    text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
-                    type: 'warning'
+                    text: '[' + error + ']' + '\n\n' + 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                    type: 'warning',
+                    permanent: true
                 });
             }
-        
+
         });
 
+        // console.log('[pdfService] - PDF LINK IS', pdfLink);
 
-    }
+        // return pdfLink;
+    };
 
     ub.funcs.thumbnailsUploaded = function () {
 
@@ -1364,7 +1520,7 @@ $(document).ready(function() {
 
         });
 
-    }
+    };
 
     ub.funcs.validateOrderForm = function () {
 
@@ -1373,7 +1529,7 @@ $(document).ready(function() {
 
         ub.funcs.generatePDF();
 
-    }
+    };
 
     ub.funcs.duplicateClientInfo = function () {
 
@@ -1403,7 +1559,7 @@ $(document).ready(function() {
 
         }
 
-    }
+    };
 
     ub.funcs.setVal = function (name, val) {
 
@@ -1413,7 +1569,7 @@ $(document).ready(function() {
             $('input[name="' + name + '"]').val(val);    
         }
 
-    }
+    };
 
     ub.funcs.prepareOrderForm = function (orderInfo) {
 
