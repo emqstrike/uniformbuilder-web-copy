@@ -1,4 +1,3 @@
-
 <script type="text/mustache" id="m-piping-sidebar-new">
     <ul class="uk-list uk-list-large uk-list-divider uk-padding-small uk-margin-remove richardson-piping-ui">
         @{{ #piping_set_items }}
@@ -83,22 +82,24 @@
 </script>
 
 <script type="text/mustache" id="m-tab-piping-colors-uikit">
-    <div class="pattern-color-button-container" uk-tooltip="title: none; pos: left;">
+    <div class="pattern-color-button-container">
         <button class="uk-inline box-palette btn-selection-choice palette-color pattern-color-selector-button piping-color-selector-button none-color palette palette-blank"
             style="background-color: #ffff"
             data-modifier="@{{ modifier }}"
             data-color-code="none"
+            uk-tooltip="title: none; pos: left;"
         >
         </button>
     </div>
     @{{#colors}}
-        <div class="pattern-color-button-container" uk-tooltip="title: @{{ name }}; pos: left;">
+        <div class="pattern-color-button-container">
             <button class="uk-inline box-palette btn-selection-choice palette-color pattern-color-selector-button palette piping-color-selector-button"
                 style="background-color: #@{{ hex_code }};"
                 data-color-name="@{{ name}}"
                 data-color-code="@{{ color_code }}"
                 data-color-id="@{{ id }}"
                 data-modifier="@{{ modifier }}"
+                uk-tooltip="title: @{{ name }}; pos: left;"
             >
             </button>
         </div>

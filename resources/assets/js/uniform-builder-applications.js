@@ -12,7 +12,6 @@ $(document).ready(function () {
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;
-
     };
 
     ub.funcs.isCurrentSport = function (sport) {
@@ -1110,6 +1109,23 @@ $(document).ready(function () {
 
                 ub.funcs.deleteLocation(_application.code);
                 if(ub.data.useScrollingUI) {
+                    var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
+                    var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
+                    var isNumbers = _application.application_type === "front_number" || _application.application_type === "back_number" || _application.application_type === "sleeve_number" ? true : false;
+
+                    var count;
+                    if (isLetters) {
+                        count = ub.funcs.countApplicationByApplicationType("letters");
+                    } else if (isMascots) {
+                        count = ub.funcs.countApplicationByApplicationType("logos");
+                    } else if (isNumbers) {
+                        count = ub.funcs.countApplicationByApplicationType("numbers");
+                    }
+
+                    if (typeof count.applications === "undefined") {
+                        $(".add-another-application-container").hide();
+                    }
+                    
                     ModifierController.deleteApplicationContainer(_application.code)
                 }
                 return;
@@ -1172,13 +1188,9 @@ $(document).ready(function () {
 
                         }
                     });
-
                 }
-
                 ub.funcs.activateMoveTool(application.code);
-
             }
-
         };
 
         sprite.mousemove = sprite.mousemove = function (interactionData) {
@@ -1261,8 +1273,8 @@ $(document).ready(function () {
                         ub.updateApplicationSpecsPanel(_application.code);
 
                         if (ub.data.useScrollingUI) {
-                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 100));
-                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 100));
+                            var val_x = Math.abs(Math.round(_obj.position.x / ub.dimensions.width * 99));
+                            var val_y = Math.abs(Math.round(_obj.position.y / ub.dimensions.width * 99));
 
                             if(val_x < 1) {
                                 val_x = 1;
@@ -1302,18 +1314,6 @@ $(document).ready(function () {
 
                         // view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180.00;
-
-                        console.log("view.application.rotation", view.application.rotation);
-                        console.log("angleRadians", angleRadians);
-
-                        console.log("bum: ", (view.application.rotation * 5) / 18);
-
-                        var a = (view.application.rotation * 5) / 18;
-                        if (a < 0 && a > -60) {
-                            a += 60 + 40;
-                        }
-
-                        console.log(a);
 
                         move_point.rotation = angleRadians;
 
@@ -1411,11 +1411,8 @@ $(document).ready(function () {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
-
                     }
-
                 });
-
             }
 
             var this_data = this.interactionData.data;
@@ -1507,6 +1504,13 @@ $(document).ready(function () {
             /// End Hot Spot
 
         };
+
+        sprite.mouseup = sprite.mouseup = function (interactionData) {
+            var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
+            if (element.length !== 0) {
+                ub.funcs.activateApplicationsLetters(application.code);
+            }
+        }
 
     }
 
@@ -1987,7 +1991,7 @@ $(document).ready(function () {
                 if (application.type !== "mascot" && application.type !== "logo") {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id);
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -1995,12 +1999,7 @@ $(document).ready(function () {
                 } else {
                     // Check if scrolling UI is active
                     if (ub.data.useScrollingUI) {
-                        $("#primary_options_container").scrollTo(0, { duration: 0 });
-                        $("#parts-with-insert-container").hide();
-                        $(".parts-container").hide();
-                        ub.funcs.activeStyle('layers');
-                        ModifierController.scrollToOptions(application.type, _id);
-
+                        ModifierController.scrollToOptions(application.type, _id, application.code);
                     } else {
                         ub.funcs.activateMascots(_id);
                     }
@@ -11393,7 +11392,7 @@ $(document).ready(function () {
 
                     if (ub.data.useScrollingUI) {
                         // Trigger click on tab
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateMascots(locationCode);
                     }
@@ -11401,7 +11400,7 @@ $(document).ready(function () {
                 } else {
 
                     if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id);
+                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
@@ -11689,7 +11688,7 @@ $(document).ready(function () {
 
     ub.funcs.deleteLocation = function (locationID) {
 
-        ub.funcs.activateBody();
+        // ub.funcs.activateBody();
 
         var _appSettings = ub.current_material.settings.applications[locationID];
 
@@ -11729,7 +11728,7 @@ $(document).ready(function () {
         ub.tools.activeTool.deactivate();
         ub.funcs.updateLayerTool();
 
-        ub.funcs.gotoFirstMaterialOption();
+        // ub.funcs.gotoFirstMaterialOption();
         $('body').css('cursor', 'auto');
 
     };
@@ -12189,20 +12188,24 @@ $(document).ready(function () {
         });
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") {
-
-            _newApplication.font_size = _newApplication.size;
-
-            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-
-                is.loadDesigner(undefined, _newIDStr);
-
-            } else {
-
-                ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
-
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            if (type === "embellishments" || type === "mascot") {
+                ub.data.currentApplication = _newApplication;
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
+                } else {
+                    InteropIsPanel.funcs.loadExistingDesign(_newApplication);
+                }
             }
-
+        } else {
+            if (type === "embellishments") {
+                _newApplication.font_size = _newApplication.size;
+                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                    is.loadDesigner(undefined, _newIDStr);
+                } else {
+                    ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
+                }
+            }
         }
 
     }
@@ -13484,7 +13487,7 @@ $(document).ready(function () {
                 break;
 
             case 'logos':
-                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;
+                _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 200;
                 break;
 
             case 'gradients':

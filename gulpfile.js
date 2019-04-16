@@ -39,11 +39,13 @@ elixir(function(mix) {
             'uniform-builder-functions.js',
 
             // Brand Specific
-            'uniform-builder-application-ui-new.js',
+            //'uniform-builder-application-ui-new.js',
 
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
+            'richardson/RichardsonLogin.js',
+            'richardson/RichardsonSaveDesign.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
 
@@ -91,11 +93,6 @@ elixir(function(mix) {
             // Teamstore
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
-            'uniform-builder-ui-functions.js',
-
-            'uniform-builder-application-ui-new.js',
-            'uniform-builder-application-ui-new-letters.js',
-
             'models/Accent.js',
 
             // Custom Panels
@@ -111,6 +108,14 @@ elixir(function(mix) {
             'panels/GradientPanel.js',
             'panels/FabricPanel.js',
             'panels/ColorPalette.js',
+            'panels/RichardsonSkin.js',
+            'panels/application/LetterPanel.js',
+            'panels/application/NumbersPanel.js',
+            'panels/application/MascotPanel.js',
+            'panels/application/NewApplicationPanel.js',
+            'panels/application/ApplicationUtilities.js',
+            'panels/application/ApplicationEvent.js',
+            'panels/application/InteropIsPanel.js',
             'panels/SummaryPreviewPanel.js',
 
             // Controllers or Switchers
@@ -125,6 +130,7 @@ elixir(function(mix) {
 
     mix.scripts('richardson/RichardsonIndex.js', 'public/richardson/js/RichardsonIndex.js')
        .scripts('richardson/uniform-builder-richardson-data.js', 'public/richardson/js/uniform-builder-richardson-data.js')
+       .scripts('richardson/MySavedDesign.js', 'public/richardson/js/MySavedDesign.js')
 
     mix.less(
         [

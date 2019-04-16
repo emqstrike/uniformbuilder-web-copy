@@ -18,11 +18,16 @@ function LogoPanel(element, logo_positions) {
     this.bindEvents();
 }
 
+LogoPanel.isInit = true;
+
 LogoPanel.prototype = {
     constructor: LogoPanel,
 
     init: function() {
-        $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+        if (LogoPanel.isInit) {
+            $(".modifier_main_container").on('click', '#primary_option_logo .logo-perspective-btn-container .logo-perspective-selector', this.onClickLogoPerspective);
+            LogoPanel.isInit = false;
+        }
     },
 
     getPanel: function() {
@@ -38,19 +43,9 @@ LogoPanel.prototype = {
 
         var material_ops = null;
         var new_position = $(this).parent().data("position");
-
-        if (new_position.includes("front") || new_position.includes("chest")) {
-            $('a.change-view[data-view="front"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
-
-        } else if (new_position.includes("back")) {
-            $('a.change-view[data-view="back"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
-
-        } else if (new_position.includes("left") || new_position.includes("sleeve")) {
-            $('a.change-view[data-view="left"]').trigger('click');
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
-        }
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, new_position);
+        
+        $('a.change-view[data-view="'+ configuration.perspective +'"]').trigger('click');
 
         var logoObject = _.find(ub.data.logos, {position: new_position});
         var logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
@@ -79,9 +74,15 @@ LogoPanel.prototype = {
                 'background-image': "url("+ image +")"
             });
 
+            if (ub.config.blockPattern === "PTS Hoodie") {
+                $("#logo-preview").css({
+                    'background-position': "bottom"
+                });
+            }
+
             $("#logo-preview").show();
             $(".logo-image-loader").css('display', 'none');;
-        }, 2000);
+        }, 2500);
     },
 
     bindEvents: function() {
@@ -93,11 +94,6 @@ LogoPanel.prototype = {
 };
 
 LogoPanel.isBindEvents = 0;
-
-LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
-LogoPanel.excluded_lower = ['base', 'highlights', 'shadows'];
-LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
-LogoPanel.special_block_pattern = ["PTS Select Pant"];
 
 LogoPanel.init = function () {
     if (ub.current_material.material.logo_position !== null) {
@@ -136,7 +132,6 @@ LogoPanel.utilities = {
     },
 
     processLogo: function() {
-
         if (!util.isNullOrUndefined(ub.data.logos))
         {
             _.each(ub.data.logos, function(logo) {
@@ -218,25 +213,18 @@ LogoPanel.utilities = {
         var _logoSettingsObject = LogoPanel.utilities.getLogoSettingsObject(logoObject.position);
 
         _.each (ub.views, function (perspective) {
-
             var _perspectiveString = perspective + '_view';
-
             var _sprites = LogoPanel.utilities.createLogo(logoObject, _layerCount, perspective, _logoSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
-
                 if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
-
                     ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][logoObject.position]);
-
                 }
             }
 
             ub[_perspectiveString].addChild(_sprites);
             ub.objects[_perspectiveString][logoObject.position] = _sprites;
-
             ub.updateLayersOrder(ub[_perspectiveString]);
-
         });
     },
 
@@ -294,7 +282,7 @@ LogoPanel.utilities = {
 
             ub.current_material.settings.logos[position] = {
                 position: position,
-                enabled: 0,
+                enabled: 1,
                 numberOfLayers: 0,
                 layers: [
                     {
@@ -351,13 +339,12 @@ LogoPanel.utilities = {
     },
 
     addLogo: function(logoObject, _layerCount) {
-        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
-
         if (typeof(ub.current_material.settings.logos[logoObject.position]) !== "undefined") {
             ub.current_material.settings.logos[logoObject.position].enabled = 1;
             ub.current_material.settings.logos[logoObject.position].numberOfLayers = _layerCount;
         }
 
+        LogoPanel.utilities.renderLogo(logoObject, _layerCount);
         LogoPanel.utilities.reInitiateLogo();
     },
 
@@ -367,7 +354,6 @@ LogoPanel.utilities = {
     },
 
     changeLogoColorByLayer: function(position, colorObj, layer_number) {
-
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][position];
@@ -439,8 +425,15 @@ LogoPanel.utilities = {
                 LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "CG");
             }
 
-        } else {
+        } else if (color_code === "W") {
             LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, "CG");
+            LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
+
+            if (logoSettingsObject.numberOfLayers !== 2) {
+                LogoPanel.utilities.changeGutterColor(logoSettingsObject.position, "W");
+            }
+        } else {
+            LogoPanel.utilities.changeBackgroundColor(logoSettingsObject.position, color_code);
             LogoPanel.utilities.changeLogoColor(logoSettingsObject.position, "W");
 
             if (logoSettingsObject.numberOfLayers !== 2) {
@@ -452,34 +445,149 @@ LogoPanel.utilities = {
     reInitiateLogo: function() {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
         var current_active_logo = LogoPanel.utilities.getEnableLogo();
-        var material_ops = null;
+        var material_colors = this.fabricColors(current_active_logo.position);
+        
+        if (typeof material_colors !== "undefined" && _.size(material_colors) > 0) {
+            if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
+                return;
+            }
 
-        if (current_active_logo.position.includes("front") || current_active_logo.position.includes("chest")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("front_body")
-        } else if (current_active_logo.position.includes("back")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("back_body");
-        } else if (current_active_logo.position.includes("left") || current_active_logo.position.includes("sleeve")) {
-            material_ops = ub.funcs.getSettingsByMaterialOptionCode("left_sleeve");
-        }
-
-        if (_.includes(ub.config.blockPattern, LogoPanel.special_block_pattern)) {
-            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
-            return;
-        }
-
-        if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
-            for (var i = 0; i < secondary_color.length; i++) {
-                if (secondary_color[i].color_code === material_ops.colorObj.color_code) {
-                    LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
-                    continue;
-                } else {
-                    LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
-                    break;
+            if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
+                for (var i = 0; i < secondary_color.length; i++) {
+                    if (_.contains(material_colors, secondary_color[i].color_code)) {
+                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
+                        if (_.contains(material_colors, "CG") && _.contains(material_colors, "W")) {
+                            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "R");
+                        }
+                        continue;
+                    } else {
+                        LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
+                        break;
+                    }
                 }
+            } else {
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
             }
         } else {
-            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, material_ops.colorObj.color_code);
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
         }
+    },
+
+    offsetRLogo: function(size, color) {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = -(ub.current_material.material.one_inch_in_px * eval(size) * color);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    resetRLogoPosition: function() {
+        if (typeof ub.data.logos !== "undefined") {
+            var that = this;
+            var logoObject = that.getEnableLogo();
+
+            if (logoObject.position.includes("left_sleeve")) {
+                _.each (ub.views, function (perspective) {
+                    var _perspectiveString = perspective + '_view';
+                    if (typeof ub.objects[_perspectiveString] !== "undefined") {
+                        if (typeof ub.objects[_perspectiveString][logoObject.position] !== "undefined") {
+                            var logo = ub.objects[_perspectiveString][logoObject.position];
+
+                            if (typeof logo.position !== "undefined" && typeof logo.position === "object") {
+                                // Add Offset
+                                logo.position.y = 0;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    getActiveRLogo: function () {
+        var logoObject = _.find(ub.current_material.settings.logos, {enabled: 1});
+        if (logoObject.length !== 0) {
+            return logoObject;
+        } else {
+            ub.utilities.error("No active R Logo");
+            return logoObject;
+        }
+    },
+
+    getAvailablePosition: function(filter) {
+        var positions = _.filter(ub.data.logos, function(logo) {
+            if (logo.position !== filter) {
+                return logo;
+            }
+        });
+
+        return positions;
+    },
+
+    fabricColors: function(position) {
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
+        var color_codes = [];
+        _.each(configuration.parts, function(part) {
+            var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
+            if (typeof material_ops !== "undefined") {
+                color_codes.push(material_ops.colorObj.color_code);
+            }
+        });
+
+        if (typeof configuration.pipings !== "undefined") {
+            _.each(configuration.pipings, function(piping) {
+                var pipingSettings = ub.funcs.getPipingSettingsObject(piping);
+                if (typeof pipingSettings !== "undefined") {
+                    if (pipingSettings.enabled === 1) {
+                        _.each(pipingSettings.layers, function(layer, index) {
+                            // End loop
+                            if (index + 1 > pipingSettings.numberOfColors) { return; }
+
+                            if (ub.config.option === "BSB V-Neck" && position === "back_neck" && piping === "Neck Piping") {
+                                if (pipingSettings.size === "1/4" ) {
+                                    if (layer.layer === 3) {
+                                        if (!_.contains(color_codes, layer.colorCode)) {
+                                            color_codes.push(layer.colorCode);
+                                        }
+                                    }
+                                }
+                            } else if (position === "left_sleeve_logo" && piping === "Left End of Sleeve Piping") {
+                                if (pipingSettings.size === "1/2" ) {
+                                    if (layer.layer === 3) {
+                                        if (!_.contains(color_codes, layer.colorCode)) {
+                                            color_codes.push(layer.colorCode);
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (layer.colorCode !== "none") {
+                                    if (!_.contains(color_codes, layer.colorCode)) {
+                                        color_codes.push(layer.colorCode);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        return color_codes;
     },
 };
 
@@ -602,3 +710,79 @@ LogoPanel.colors = {
         return _.sortBy(color_sum, "count").reverse();
     }
 };
+
+LogoPanel.excluded_upper = ['body', 'front_body', 'back_body', 'left_body', 'right_body', 'highlights', 'shadows', 'extra', 'static'];
+LogoPanel.excluded_lower = ['base', 'highlights', 'shadows', ''];
+LogoPanel.valid_colors = ["CG", "W", "R", "RB", "NB", "G", "O", "M", "DG"];
+LogoPanel.special_block_pattern = ["PTS Select Pant"];
+LogoPanel.configurations = {
+    items: [
+        {
+            blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
+            position: "back_center_tunnel",
+            parts: ["tunnel"],
+            perspective: 'back'
+        },
+        {
+            blockPattern: ["PTS Pro Select Pant", "PTS Signature Pant"],
+            position: "front_left_hip",
+            parts: ["base"],
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Select Pant"],
+            position: "front_left_hip",
+            parts: ["base"],
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
+            position: "left_sleeve_logo",
+            parts: ["right_sleeve", "right_outer_sleeve_stripe_color", "right_sleeve_panel"],
+            perspective: 'left',
+            pipings: ["Left Sleeve Piping 1 inch Up", "Left End of Sleeve Piping"]
+        },
+        {
+            blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
+            position: "back_neck",
+            parts: ["back_body"],
+            perspective: 'back',
+            pipings: ["Neck Piping"]
+        },
+        {
+            blockPattern: ["PTS Hoodie"],
+            position: "top_left_of_pocket",
+            parts: ["pocket"],
+            perspective: 'front'
+        },
+        {
+            blockPattern: ["PTS Hoodie"],
+            position: "back_neck",
+            parts: ["back_upper_panel", "back_body"],
+            perspective: 'back'
+        },
+        {
+            blockPattern: ["PTS Cage Jacket"],
+            position: "left_sleeve_logo",
+            parts: ["right_sleeve", "right_sleeve_stripe_2", "right_sleeve_stripe_1"],
+            perspective: 'left'
+        },
+        {
+            blockPattern: ["PTS Cage Jacket"],
+            position: "back_neck",
+            parts: ["back_jersey"],
+            perspective: 'back'
+        },
+    ],
+
+    getConfiguration: function(block_pattern, position) {
+        var blockPatterns = _.filter(this.items, function(item) {
+            if (_.contains(item.blockPattern, block_pattern)) {
+                return item;
+            }
+        });
+
+        var configuration = _.find(blockPatterns, {position: position});
+        return configuration;
+    }
+}

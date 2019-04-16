@@ -52,8 +52,10 @@ $(document).ready(function () {
 
         if (type === 1) {
 
-            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-            ub.showModal('At least 2 Team Colors is required to proceed');
+            if (ub.config.brand !== "richardson") {
+                var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+                ub.showModal('At least 2 Team Colors is required to proceed');
+            }
                 
         } else {
 
@@ -114,8 +116,7 @@ $(document).ready(function () {
     ub.zoom_on = function (override) { 
 
         if (typeof override === 'undefined') {
-            if (ub.status.onText) { return; }
-            if(!ub.states.canDoubleClick) { return; }    
+            if (ub.status.onText) { return; }  
         }
 
         ub.funcs.resetHighlights();
@@ -245,7 +246,7 @@ $(document).ready(function () {
 
             if (ub.config.brand.toLowerCase() == 'richardson') {
                 ub.modifierController = new ModifierController('#property-modifiers-menu', ub.config.brand);
-                ub.funcs.changeStage();
+                RichardsonSkin.init();
             } else {
                 if (typeof ub.modifierController !== 'undefined') {
                     ub.modifierController.disable();

@@ -2,7 +2,9 @@
  * PropertiesPanel.js
  * - handler for the properties panel
  * @since October 16, 2018
- * @author Romack Natividad <romack@qstrike.com>
+ * @author 
+ * - Romack Natividad <romack@qstrike.com>
+ * - Aron Joshua Bagtas <aaron@qstrike.com>
  *
  * Requirements:
  * - jQuery
@@ -42,9 +44,14 @@ function PropertiesPanel(
 PropertiesPanel.prototype = {
     constructor: PropertiesPanel,
 
-    initModifiers: function(palette_category) {
+    initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         _.map(this.modifiers, function(modifier) {
+            if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
+                modifier.alias = modifier.name.replace(" Body", "");
+            } else {
+                modifier.alias = modifier.name;
+            }
             var _modifier = ub.funcs.getModifierByIndex(modifier.index);
             var _names = ub.funcs.ui.getAllNames(_modifier.name);
             var titleNameFirstMaterial = _names[0].toTitleCase();
@@ -67,8 +74,14 @@ PropertiesPanel.prototype = {
 
             if (typeof _limitedColorSet === "undefined") {
                 // if dont have limited color set the team colors
-                var color_pallete = color_palette = ColorPalette.funcs.getConfigurationPerTab(palette_category);
-                modifier.colors = color_pallete;
+                var color_palette = null;
+                if (modifier.name.includes("Panel") || modifier.name.includes("Piping") || modifier.name.includes("Insert")) {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("insert");
+                } else {
+                    color_palette = ColorPalette.funcs.getConfigurationPerTab("base");
+                }
+
+                modifier.colors = color_palette;
             }
 
             // Check if uniform has gradient
@@ -237,25 +250,16 @@ PropertiesPanel.prototype = {
 
             if (results.length > 0)
             {
-                ub.states.canDoubleClick = true;
                 var _match = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_', 'left_');
-                var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                var _obj = _.find(ub.data.modifierLabels, {fullname: _result.toString()});
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if (_match.includes("insert") || _match.includes("piping") || _match.includes("panel"))
-                {
-                    if ($("#primary_options_container .inserts-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-inserts').trigger('click');
-                    }
+                if ($("#primary_options_container ul.parts-container").length === 0) {
+                    $('#property-modifiers-menu .menu-item-parts').trigger('click');
                 }
-                else
-                {
-                    if ($("#primary_options_container .parts-container").length === 0) {
-                        $('#property-modifiers-menu .menu-item-parts').trigger('click');
-                    }
-                }
+
                 _this.activePanelbyIndex(_index);
             }
             else

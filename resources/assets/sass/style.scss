@@ -3,6 +3,7 @@
 @import "colors";
 @import "palette";
 @import "font-style";
+@import "datatable-custom";
 
 .abrade-black {
   font-family: Abrade-Black !important;
@@ -474,6 +475,34 @@ img.custom-logo-upload-preview {
   }
 }
 
+
+.palette-pattern {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+}
+
+// Force to #FFF if W color code
+button[data-color-name="White"].palette {
+  background-color: #ffffff !important;
+}
+
+.existing-mascot-item {
+  height: 150px !important;
+}
+
+.mascot-item a.select-mascot-item.uk-active {
+  h6 {
+    background-color: $color-red;
+  }
+}
+
+
+#right-main-window.pane-main-window {
+  height: 550px !important;
+  background-color: white !important;
+  border: 1px solid #e6e6e6 !important;
+  width: 500px !important;
+}
 
 @media screen and (min-width: 640px) {
 
