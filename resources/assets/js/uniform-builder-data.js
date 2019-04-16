@@ -12344,6 +12344,7 @@ ub.funcs.fontOffSets = [
             'Football',
             'Hockey',
             'Soccer',
+            'Track and Field',
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
