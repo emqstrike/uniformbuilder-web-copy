@@ -80,7 +80,7 @@
                     <span v-if="action == 'edit'">Update neck option</span>
                     <span v-else>Save neck option</span>
                 </button>
-                <button id="update-neck-option" class="btn btn-sm btn-flat btn-danger" @click="closePanel()" style="display: inline-block">Cancel</button>
+                <button id="update-neck-option" class="btn btn-sm btn-flat btn-danger" @click="closePanel(neck_option, block_pattern_option_2[neck_option.index])" style="display: inline-block">Cancel</button>
             </div>
         </div>
     </div>

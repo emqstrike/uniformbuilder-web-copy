@@ -43,6 +43,13 @@ new Vue({
             }
 
             this.neck_option_cache = Object.assign({}, neck_option);
+
+            if (this.block_pattern_option_2.hasOwnProperty(index)) {
+                this.current_block_pattern_option_2_cache = JSON.parse(JSON.stringify(this.block_pattern_option_2[index]));
+            } else {
+                this.current_block_pattern_option_2_cache = Object.assign({}, this.block_pattern_option_2[index]);
+            }
+
             this.showPanel(neck_option, index);
         },
         removeNeckOption: function(index) {
@@ -100,7 +107,13 @@ new Vue({
             this.is_panel_showing = false;
             this.current_block_pattern_option_2 = [];
         },
-        closePanel: function() {
+        closePanel: function(neck_option, current_block_pattern_option_2) {
+            Object.assign(neck_option, this.neck_option_cache);
+
+            if (this.block_pattern_option_2.hasOwnProperty(this.neck_option.index)) {
+                this.block_pattern_option_2[this.neck_option.index] = Object.values(this.current_block_pattern_option_2_cache);
+            }
+
             this.slideout.toggle();
             this.is_panel_showing = false;
             this.current_block_pattern_option_2 = [];
