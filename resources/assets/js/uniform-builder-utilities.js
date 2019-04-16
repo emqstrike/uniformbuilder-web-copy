@@ -252,13 +252,13 @@ $(document).ready(function() {
             var _nameString;
             
             if (str === 'Rendering awesomeness ...') {
-
-                /// Hide loading after .5 sec done
-                setTimeout(function () { 
-                    // sloadingDialog.modal('hide');
-                    $('div.debug-panel').fadeOut();
-                }, 500);
-
+                ub.funcs.addFunctionToAfterloadList(function() {
+                    /// Hide loading after .5 sec done
+                    setTimeout(function () { 
+                        $('div.debug-panel').fadeOut();
+                    }, 500);
+                });
+                
                 _line = str + " <strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
                 _class = 'awesomeness';
 
