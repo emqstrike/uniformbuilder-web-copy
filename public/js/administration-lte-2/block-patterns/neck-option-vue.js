@@ -42,6 +42,7 @@ new Vue({
 
             if (remove == true) {
                 this.$delete(this.neck_options, index);
+                this.$delete(this.block_pattern_option_2, index);
             }
         },
         addBlockPatternOption2: function() {
