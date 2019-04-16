@@ -46,14 +46,17 @@ $(document).ready(function() {
     window.mascots = null;
     window.patterns = null;
 
+    var temp_category= $('#material_uniform_category').val();
+    var temp_brand  = $('#material_brand').val();
+
     var lineIdx = 0;
     var loadCase = 0;
     var coords = [];
 
     getColors(function(colors){ window.colors = colors; });
-    getFonts(function(fonts){ window.fonts = fonts; });
+    getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
-    getPatterns(function(patterns){ window.patterns = patterns; });
+    getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
@@ -695,7 +698,7 @@ $(document).ready(function() {
             var bp_options = pattern.block_pattern_options;
             var sportOk = _.contains(sport, current_sport);
             var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
-            
+
             return (sportOk && optionsOk && asset_target === current_asset_target);
         });
 
@@ -2595,9 +2598,9 @@ $(document).ready(function() {
         });
     }
 
-    function getFonts(callback){
-        var mascots;
-        var url = "//" + api_host + "/api/fonts";
+    function getFonts(temp_category, temp_brand, callback){
+        var fonts;
+        var url = "//" + api_host + "/api/fonts/filter/"+temp_category+"/"+temp_brand;
         $.ajax({
             url: url,
             async: false,
@@ -2607,6 +2610,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 fonts = data['fonts'];
+                console.log(fonts);
                 if(typeof callback === "function") callback(fonts);
             }
         });
@@ -2629,9 +2633,9 @@ $(document).ready(function() {
         });
     }
 
-    function getPatterns(callback){
+    function getPatterns(temp_brand, callback){
         var patterns;
-        var url = "//" + api_host + "/api/patterns";
+        var url = "//" + api_host + "/api/patterns/"+temp_brand;
         $.ajax({
             url: url,
             async: false,

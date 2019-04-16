@@ -74,7 +74,7 @@
                                 @forelse ($materials as $material)
                                     <tr>
                                         <td class="m-id-val">
-                                            {{ $material->id }}
+                                            <a href="#" class="material-id-link" data-link="{{ config('customizer.customizer_host').'/builder/0/'.$material->id }}">{{ $material->id }}</a>
                                         </td>
                                         <td>
                                             {{ $material->name }}
