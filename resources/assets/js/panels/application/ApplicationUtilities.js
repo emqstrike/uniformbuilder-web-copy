@@ -415,7 +415,7 @@ $(function() {
                 part: true,
                 side: true,
                 partsData: parts,
-                hasSleeve: hasSleeve.length === 0 ? false : true,
+                hasSleeve: typeof hasSleeve !== "undefined" ? hasSleeve.length === 0 ? false : true : false,
                 isShow: isShow,
                 type: _designType
             }
