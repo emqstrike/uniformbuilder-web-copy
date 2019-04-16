@@ -31,7 +31,11 @@ InteropIsPanel.events = {
             if (type === "existing") {
                 InteropIsPanel.funcs.loadExistingDesign(applicationObject)
             } else if (type === "create") {
-                InteropIsPanel.funcs.loadDesigner(undefined, applicationObject.code)
+                if (applicationObject.application_type === "embellishments") {
+                    InteropIsPanel.funcs.loadDesigner(applicationObject.embellishment.design_id, applicationObject.code);
+                } else {
+                    InteropIsPanel.funcs.loadDesigner(undefined, applicationObject.code);
+                }
             } else if (type === "upload") {
                 InteropIsPanel.funcs.loadDesignerUpload(undefined, applicationObject.code)
             }
