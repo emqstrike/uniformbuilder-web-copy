@@ -713,6 +713,9 @@ $(document).ready(function() {
 
     ub.funcs.freeFeedbackForm();
 
+    var _viewOrderLink = '';
+    var _message = '';
+
     ub.funcs.postOrderData = function (data, url) {
 
         var _postData   = data;
@@ -734,27 +737,27 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
 
-                var _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
-                var _message = '';
+                _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
+                // var _message = '';
 
                 // re run pdf service to update with order code
                 ub.pdfService.preview_data.orderId = response.order_code;
                 ub.pdfService.preview_data.searchKey = response.order_code;
                 console.log('UPDATED PREVIEW DATA', ub.pdfService.preview_data);
-                ub.funcs.pdfService(false, ub.pdfService.preview_data);
+                // ub.funcs.pdfService(true, ub.pdfService.preview_data);
 
-                $('div#validate-order-form').remove();
-                $('span.processing').fadeOut();
-                $('.order-dialog').fadeOut();
-                $('.modal-backdrop').fadeOut();
-
-                _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
-
-                if (data.order.submitted === 0) {
-                    _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
-                }
-
-                ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
+                // $('div#validate-order-form').remove();
+                // $('span.processing').fadeOut();
+                // $('.order-dialog').fadeOut();
+                // $('.modal-backdrop').fadeOut();
+                //
+                // _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+                //
+                // if (data.order.submitted === 0) {
+                //     _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
+                // }
+                //
+                // ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
 
                 // Go to view order details form after submission
                 // setTimeout(function() {
@@ -763,6 +766,22 @@ $(document).ready(function() {
 
             }
             
+        }).done(function() {
+
+            ub.funcs.pdfService(true, ub.pdfService.preview_data);
+
+            $('div#validate-order-form').remove();
+            $('span.processing').fadeOut();
+            $('.order-dialog').fadeOut();
+            $('.modal-backdrop').fadeOut();
+
+            _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+
+            if (data.order.submitted === 0) {
+                _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
+            }
+            ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, _viewOrderLink);
+
         });
 
     };
