@@ -2,9 +2,11 @@ jQuery(document).ready(function($){
 	//open/close lateral filter
 	$('.cd-filter-trigger').on('click', function(){
 		triggerFilter(true);
+		$('a.cd-filter-trigger').css('background', 'transparent url("/codyhouse-content-filter/img/cd-icon-filter-white.svg") no-repeat');
 	});
 	$('.cd-filter .cd-close').on('click', function(){
 		triggerFilter(false);
+		$('a.cd-filter-trigger').css('background', 'transparent url("/codyhouse-content-filter/img/cd-icon-filter-black.svg") no-repeat');
 	});
 
 	function triggerFilter($bool) {

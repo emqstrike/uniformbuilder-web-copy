@@ -2323,7 +2323,7 @@
             </div>
 
             <br />
-            <label>3. Which part do you want to add the application on?</label>
+            <label>2. Which part do you want to add the application on?</label>
 
             <div class="part-container">
 
