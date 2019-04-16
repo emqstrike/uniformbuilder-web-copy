@@ -2600,7 +2600,7 @@ $(document).ready(function() {
 
     function getFonts(temp_category, temp_brand, callback){
         var fonts;
-        var url = "//" + api_host + "/api/fonts/filter/"+temp_category+"/"+temp_brand;
+        var url = "//" + api_host + "/api/fonts/minified/"+temp_category+"/"+temp_brand;
         $.ajax({
             url: url,
             async: false,
