@@ -155,14 +155,14 @@
                 <div class="uk-margin-small">
                     <div class="uk-inline">
                         <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input class="uk-input uk-form-width-large" type="email" name="email">
+                        <input class="uk-input uk-form-width-large" type="email" name="email" />
                     </div>
                 </div>
                 <label>Password</label>
                 <div class="uk-margin-small">
                     <div class="uk-inline">
                         <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                        <input class="uk-input uk-form-width-large" type="password" name="password">
+                        <input class="uk-input uk-form-width-large" type="password" name="password" />
                     </div>
                 </div>
                 <button class="uk-button uk-button-default uk-text-capitalize submit-login" type="button">Submit</button>
@@ -173,7 +173,7 @@
 <!-- {{-- End User Login --}} -->
 
 
-<!-- {{-- User Login --}} -->
+<!-- {{-- User Saved Desing --}} -->
 <div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
     <div class="uk-modal-dialog uk-width-2-3 uk-modal-body uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -229,7 +229,7 @@
         </div>
     </div>
 </div>
-<!-- {{-- End User Login --}} -->
+<!-- {{-- End User Saved Desing --}} -->
 
 <!-- Mascot Select -->
 <div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
@@ -293,8 +293,6 @@
 </div>
 <!-- End Mascot Select -->
 
-
-{{-- End Piping Modal --}}
 <div id="richardson-summary-preview" class="uk-modal-container" uk-modal="esc-close: false; bg-close: false;">
     <div class="uk-modal-dialog uk-modal-body">
         <button class="uk-modal-close-outside" type="button" uk-close></button>

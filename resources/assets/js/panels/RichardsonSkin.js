@@ -97,8 +97,9 @@ RichardsonSkin.funcs = {
             _this.setupFooter();
 
             // Bind events
-            RichardsonLogin.events.init();
             RichardsonSkin.events.init();
+            SummaryPreviewPanel.events.init();
+            RichardsonLogin.events.init();
         }, 2000) 
     },
 

@@ -9,7 +9,6 @@ RichardsonLogin.events = {
             $(".richardson-footer").on('click', '.user-login', RichardsonLogin.events.onClickLogin);
             $("#richardson-user-login").on('click', '.submit-login', RichardsonLogin.events.handleUserLogin);
             $("#richardson-user-login").on('keyup', 'input[name="password"]', function(event) {
-                event.preventDefault();
                 /* Act on the event */
                 if ($(this).hasClass('uk-form-danger')) {
                     $(this).removeClass('uk-form-danger');
@@ -23,7 +22,6 @@ RichardsonLogin.events = {
             });
 
             $("#richardson-user-login").on('keyup', 'input[name="email"]', function(event) {
-                event.preventDefault();
                 /* Act on the event */
                 if ($(this).hasClass('uk-form-danger')) {
                     $(this).removeClass('uk-form-danger');

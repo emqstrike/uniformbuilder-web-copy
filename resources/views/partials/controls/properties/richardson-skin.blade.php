@@ -50,9 +50,7 @@
                 @{{ #user }}
                     <div class="uk-width-1-1">
                         <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
-                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkGray fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic">
-                                Finish / View &nbsp;Summary
-                            </a>
+                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkGray fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
                             <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">
                                 Save Design
                             </a>
@@ -61,9 +59,9 @@
                 @{{ /user }}
 
                 @{{ ^user }}
-                    <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                    <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
                 @{{ /user }}
-                <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
+                
             </div>
 
             <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic uk-flex uk-flex-right" uk-grid>
