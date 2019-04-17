@@ -109,10 +109,8 @@ $(document).ready(function() {
         //     ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
         // }
 
-        if (typeof ub.current_material.material.brand !== 'undefined') {
-            var _brand = ub.current_material.material.brand;
-            ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
-        }
+        var _brand = ub.current_material.material.brand;
+        ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
 
     };
 

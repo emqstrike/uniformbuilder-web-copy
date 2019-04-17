@@ -43,6 +43,12 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+
+                // optimize fonts consumption on the api
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
+
+                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
                 ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
@@ -53,6 +59,9 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
@@ -72,17 +81,7 @@ $(document).ready(function () {
 
                 // Hidden Bodies
                 ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
-                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);
-
-                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
-                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-
-                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
-                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-
-                // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
-                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);  
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -109,6 +108,7 @@ $(document).ready(function () {
                 ub.afterLoadScripts();
 
             }
+
 
             if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
 
@@ -1060,6 +1060,15 @@ $(document).ready(function () {
 
             }
 
+            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
+            if (object_name === 'fonts') { ub.funcs.processFonts(); }
+            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+            if (object_name === 'colors') { ub.funcs.prepareColors(); }
+            if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
             if (object_name === 'colors_sets') { 
                 
                 var isThreadColor = true;
@@ -1096,24 +1105,15 @@ $(document).ready(function () {
                 
             }
 
-            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
-            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-            if (object_name === 'colors') { ub.funcs.prepareColors(); }
-            if (object_name === 'fonts') { ub.funcs.processFonts(); }
-            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
-            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
-            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
-            if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
-
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.data.colors) !== 'undefined' && _.size(ub.data.colors) > 0 &&
-                     typeof(ub.data.patterns) !== 'undefined' && _.size(ub.data.patterns) > 0 &&
-                     typeof(ub.data.fonts) !== 'undefined' && _.size(ub.data.fonts) > 0 &&
-                     typeof(ub.data.mascots) !== 'undefined' && _.size(ub.data.mascots) > 0 &&
-                     typeof(ub.data.mascots_categories) !== 'undefined' && _.size(ub.data.mascots_categories) > 0 &&
-                     typeof(ub.data.tagged_styles) !== 'undefined' && _.size(ub.data.tagged_styles) > 0 &&
-                     typeof(ub.data.mascots_groups_categories) !== 'undefined' && _.size(ub.data.mascots_groups_categories) > 0;
+                     typeof(ub.data.colors) !== 'undefined' &&
+                     typeof(ub.data.patterns) !== 'undefined' &&
+                     typeof(ub.data.fonts) !== 'undefined' && 
+                     typeof(ub.data.mascots) !== 'undefined' && 
+                     typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.tagged_styles) !== 'undefined' &&
+                     typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
 
@@ -1866,7 +1866,7 @@ $(document).ready(function () {
             if (ub.render !== "1" && ub.status.fullView.getStatus()) {
                 ub.funcs.setVisibleView('front');    
             } else {
-                _hold = 4000;
+                _hold = 3000;
             }
             
             setTimeout(function () {
