@@ -660,12 +660,12 @@ $(function() {
 
             var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
             objMascot = {
-                thumbnail: _settingsObject.embellishment.thumbnail,
+                thumbnail: _settingsObject.embellishment.png_filename,
                 type: 'CUSTOM LOGO',
                 code: _settingsObject.code,
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.embellishment.name,
-                viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
+                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
                 slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
@@ -1083,12 +1083,12 @@ $(function() {
                 _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
                 objMascot = {
-                    thumbnail: _settingsObject.embellishment.thumbnail,
+                    thumbnail: _settingsObject.embellishment.png_filename,
                     type: 'CUSTOM LOGO',
                     code: _settingsObject.code,
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.embellishment.name,
-                    viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id,
+                    viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                     viewPrint: _settingsObject.embellishment.svg_filename,
                     slider: ub.funcs.isTackleTwill() ? false : true,
                     isEmbellishment: true,

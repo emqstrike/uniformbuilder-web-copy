@@ -80,7 +80,7 @@
                     @{{ /user }}
                     @{{ ^user }}
                         <div class="uk-width-auto">
-                            <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic user-login">User Login</a>
+                            <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic uk-text-middle user-login"><span uk-icon="icon: user"></span>&nbsp;User Login</a>
                         </div>
                     @{{ /user }}
                 </div>

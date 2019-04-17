@@ -55,13 +55,13 @@ SummaryPreviewPanel.events = {
             "hiddenBody": ub.current_material.settings.hiddenBody,
             "randomFeeds": ub.funcs.isSocks() ? ub.current_material.settings.randomFeeds: "",
             "legacyPDF":"",
-            "applicationType": ub.config.uniform_application_type
+            "applicationType": ub.config.uniform_application_type,
         }
 
-        var url = "http://34.214.34.246/api/upload";
 
         $(".pdf-iframe-container .pdf-iframe").prop('src', '');
 
+        var url = "https://pdf-generator.prolook.com/api/upload";
         $.ajax({
             url: url,
             type: "POST",

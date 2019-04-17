@@ -36,13 +36,13 @@ MascotPanel.init = function () {
     _.map(_filteredApplications, function (i) {
         if (i.application_type === 'embellishments') {
             var objCustom = {
-                thumbnail: i.embellishment.thumbnail,
+                thumbnail: i.embellishment.png_filename,
                 application_type: i.application_type,
                 type: 'CUSTOM LOGO',
                 code: i.code,
                 perspective: i.application.views[0].perspective,
                 name: i.embellishment.name,
-                viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
+                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + i.embellishment.design_id,
                 viewPrint: i.embellishment.svg_filename,
                 slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
