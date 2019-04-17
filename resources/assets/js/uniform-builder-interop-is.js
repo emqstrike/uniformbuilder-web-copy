@@ -410,7 +410,9 @@ $(document).ready(function() {
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            headers: {
+                "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
+            },
             success: function (response) { 
                 ub.funcs.updateEmbellishmentList();
             }
@@ -496,6 +498,9 @@ $(document).ready(function() {
             dataType: "json",
             processData: false,
             crossDomain: true,
+            headers: {
+                "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
+            },
             success: function (response) {
                 var data = response.Data;
                 if (response.OK) {
@@ -542,6 +547,9 @@ $(document).ready(function() {
             dataType: "json",
             processData: false,
             crossDomain: true,
+            headers: {
+                "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
+            },
             success: function (response) {
                 if (response.OK) {
                     ub.data.embellismentDetails.setStatus('designDetails', response.Data);

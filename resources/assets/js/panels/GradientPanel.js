@@ -595,8 +595,8 @@ GradientPanel.utilities = {
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
 
-        canvas.setHeight(150);
-        canvas.setWidth(150);
+        canvas.setHeight(200);
+        canvas.setWidth(200);
 
         _.each(gradientSettings.layers.slice(0).reverse(), function (layer) {
 

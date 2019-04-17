@@ -36,7 +36,7 @@ MascotPanel.init = function () {
     _.map(_filteredApplications, function (i) {
         if (i.application_type === 'embellishments') {
             var objCustom = {
-                thumbnail: i.embellishment.thumbnail,
+                thumbnail: i.embellishment.png_filename,
                 application_type: i.application_type,
                 type: 'CUSTOM LOGO',
                 code: i.code,

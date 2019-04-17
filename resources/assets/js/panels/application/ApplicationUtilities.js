@@ -660,7 +660,7 @@ $(function() {
 
             var _embellishmentSidebar = ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
             objMascot = {
-                thumbnail: _settingsObject.embellishment.thumbnail,
+                thumbnail: _settingsObject.embellishment.png_filename,
                 type: 'CUSTOM LOGO',
                 code: _settingsObject.code,
                 perspective: _settingsObject.application.views[0].perspective,
@@ -1083,7 +1083,7 @@ $(function() {
                 _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
                 objMascot = {
-                    thumbnail: _settingsObject.embellishment.thumbnail,
+                    thumbnail: _settingsObject.embellishment.png_filename,
                     type: 'CUSTOM LOGO',
                     code: _settingsObject.code,
                     perspective: _settingsObject.application.views[0].perspective,
