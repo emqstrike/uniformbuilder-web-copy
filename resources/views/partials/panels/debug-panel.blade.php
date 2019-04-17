@@ -5,7 +5,7 @@
                 <img src="{{$asset_storage}}/images/main-ui/down/Baseball-Icon-3.gif">
             </div>
         </div>
-        <div class="body">
+        <div class="body uk-padding-small">
         </div>
     </div>
 </div>

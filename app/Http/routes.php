@@ -43,7 +43,11 @@ Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderControll
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
 // Utilities
-Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+if (env("BRAND") === "Richardson") {
+    Route::get('/utilities/preview-logo-information/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+} else {
+    Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+}
 
 Route::group([
     'prefix' => 'teamstore'

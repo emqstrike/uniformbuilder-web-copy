@@ -157,7 +157,6 @@ $(document).ready(function() {
                 return word.replace(word[0], word[0].toUpperCase());
             }).join(' ');
         }
-
     };
 
     /// Benchmarks
@@ -260,12 +259,12 @@ $(document).ready(function() {
                     }, 500);
                 });
                 
-                _line = str + " <strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
+                _line = str + " <span class='time'>" +  ub.getElapsedTime() + ' secs.</span>';  
                 _class = 'awesomeness';
 
             } else {
 
-                _line = '[<strong class="light">' + ub.getElapsedTime() + ' sec.</strong> ]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
+                _line = '[<span class="time">' + ub.getElapsedTime() + ' sec.</span> ]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
 
             }
 

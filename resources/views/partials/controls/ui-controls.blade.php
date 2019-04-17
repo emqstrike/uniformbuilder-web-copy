@@ -3206,12 +3206,11 @@
 <script type="text/mustache" id="m-debug-panel-contents">
 
     <div class="header">
-        @{{{materialName}}}
+        <p class="uk-margin-remove">@{{{ materialName }}}</p>
     </div>
 
     <div class="contents">
-        @{{{content}}} <br />
-        @{{{title}}}
+        <p class="uk-margin-remove">@{{{ content }}} @{{{ title }}}</p>
     </div>
 
 </script>

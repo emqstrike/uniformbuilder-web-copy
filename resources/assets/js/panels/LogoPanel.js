@@ -449,7 +449,7 @@ LogoPanel.utilities = {
         
         if (typeof material_colors !== "undefined" && _.size(material_colors) > 0) {
             if (_.contains(LogoPanel.special_block_pattern, ub.config.blockPattern)) {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
                 return;
             }
 

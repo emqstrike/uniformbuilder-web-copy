@@ -8859,7 +8859,9 @@ $(document).ready(function () {
             $('span.design-name').html(a.design_name);
             $('em.filename').html(_filename);
 
-            _.each(a.design_details.Data.Canvases[0].Elements, function (f) {
+            var elements = typeof a.design_details.Data !== "undefined" ? a.design_details.Data.Canvases[0].Elements : a.design_details.Canvases[0].Elements;
+
+            _.each(elements, function (f) {
             
                 if (typeof f.Colors === "object") {
             
@@ -8948,8 +8950,8 @@ $(document).ready(function () {
             
             }); 
 
+            $('div.debug-panel').hide();
             $('div.embellishmentInfo').html(_html);
-
             $('div.mainPreviewLink').fadeIn();
             $('h3.header').fadeIn();
 
