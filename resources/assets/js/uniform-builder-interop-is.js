@@ -1,31 +1,26 @@
 $(document).ready(function() {
-
     // Utilities
 
-        ub.funcs.updateEmbellishmentList = function (cb) {
+    ub.funcs.updateEmbellishmentList = function (cb) {
+        ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/active';
+        ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+            is.embellishments.userItems = response;
+            if(typeof cb !== "undefined") { cb(); }
+            $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
+            $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives');
 
-            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/active';
-            ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
-                is.embellishments.userItems = response;
-                if(typeof cb !== "undefined") { cb(); }
-                $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
-                $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives');
+        });
+    }
 
-            });
-          
-        }
-
-        ub.funcs.updateEmbellishmentListArchived = function (cb) {
-
-            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/archived';
-            ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
-                is.embellishments.userItemsArchived = response;
-                if(typeof cb !== "undefined") { cb(); }
-                $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives (' + _.size(is.embellishments.userItemsArchived) + ')')
-                $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active');
-            });
-
-        }
+    ub.funcs.updateEmbellishmentListArchived = function (cb) {
+        ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/archived';
+        ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+            is.embellishments.userItemsArchived = response;
+            if(typeof cb !== "undefined") { cb(); }
+            $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives (' + _.size(is.embellishments.userItemsArchived) + ')')
+            $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active');
+        });
+    }
 
     // End Utilities
 
@@ -118,17 +113,13 @@ $(document).ready(function() {
             return _.first(this.items);
 
         }
-
     };
 
     window.is.getDefaultEmbellishment = function () {
-
-        var defaultEmbellishement
-
+        var defaultEmbellishement;
     }
 
     window.is.loadDesigner = function (designID, applicationID) {
-
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -217,7 +208,6 @@ $(document).ready(function() {
             EmbedType: "iframe",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
-
         };
 
         launchDesigner('HTML5DS', flashvars, document.getElementById("embeddedDesigner"));
@@ -231,23 +221,16 @@ $(document).ready(function() {
         var _isModalVisible = $('#isModal').is(':visible');
 
         if (_isModalVisible) {
-
            window.is.closeDesignStudio();
-
         } else {
-
             $('#isModal').modal('show');
             ub.status.render.stopRendering();
-
         }
-
     };
 
     window.is.loadDesignerUpload = function (designID, applicationID) {
-
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
-
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
             Background: "",
@@ -334,7 +317,6 @@ $(document).ready(function() {
             EmbedType: "iframe",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
-
         };
 
         launchDesigner('HTML5DS', flashvars, document.getElementById("embeddedDesigner"));
@@ -348,27 +330,19 @@ $(document).ready(function() {
         var _isModalVisible = $('#isModal').is(':visible');
 
         if (_isModalVisible) {
-
            window.is.closeDesignStudio();
-
         } else {
-
             $('#isModal').modal('show');
             ub.status.render.stopRendering();
-
         }
-
     };
 
     $('span.art-btn').unbind('click');
     $('span.art-btn, div#cancel-art').on('click', function () {
-
        window.is.loadDesigner();
-
     });
 
     window.is.closeDesignStudio = function () {
-
         $('#isModal').modal('hide');
         $('div#embeddedDesigner').html('');
 
@@ -378,7 +352,6 @@ $(document).ready(function() {
 
         ub.status.render.resumeRendering();
         window.ub.render_frames();
-
     }
 
     window.is.openDesignEdit = function (storeId, userId, designId, artId, storeAdmin) {
@@ -410,12 +383,10 @@ $(document).ready(function() {
     ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ };
 
     ub.funcs.createNewEmbellishmentData = function (obj) {
-
         var _postData;
         var _url = ub.endpoints.getFullUrlString('createNewEmbellishmentData');
 
         _postData = {
-
             design_id: obj.designSummary.DesignID,
             design_name: obj.designSummary.Name,
             user_id: (typeof ub.user.id !== "undefined") ? ub.user.id : 2, 
@@ -430,11 +401,9 @@ $(document).ready(function() {
             is_public: 0,
             status: 'In Development',
             archived: 0,
-
         };
 
         $.ajax({
-            
             url: _url,
             type: "POST", 
             data: JSON.stringify(_postData),
@@ -445,13 +414,10 @@ $(document).ready(function() {
             success: function (response) { 
                 ub.funcs.updateEmbellishmentList();
             }
-            
         });
-
     }
 
     window.is.isMessage = function (designID, applicationID, skipCreate) {
-
         ub.data.embellismentDetails = {
             designSummary: {},
             designSummaryLoaded: false, 
@@ -459,26 +425,23 @@ $(document).ready(function() {
             designDetailsLoaded: false,
 
             setStatus: function (varName, value) {
-
                 ub.data.embellismentDetails[varName] = value;
                 ub.data.embellismentDetails[varName + 'Loaded'] = true;
 
                 if (typeof skipCreate === "undefined") {
-                    if (this.designSummaryLoaded && this.designDetailsLoaded) { ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails); }
+                    if (this.designSummaryLoaded && this.designDetailsLoaded) {
+                        ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
+                    }
                 }
-                
             }
-
         }
 
         window.is.closeDesignStudio();
         ub.funcs.getDesignSummary(designID, applicationID);
         ub.funcs.getDesignDetails(designID, applicationID);
-
     }
 
     window.is.addDesignToUniform = function (response, applicationID) {
-
         if (typeof ub.objects.front_view.decal_1 !== "undefined") {
             ub.front_view.removeChild(ub.objects.front_view.decal_1);
             delete ub.objects.front_view.decal_1;
@@ -516,12 +479,11 @@ $(document).ready(function() {
         }
 
         ub.updateLayersOrder(ub['front_view']);
-
     }
 
     ub.funcs.getDesignSummary = function (designID, applicationID) {
-
-        var _url = 'https://stores.inksoft.com/GetDesignSummary/80974/' + designID;
+        // var _url = 'https://stores.inksoft.com/GetDesignSummary/80974/' + designID;
+        var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignSummary?DesignId='+ designID +'&GetNotes=false&Format=JSON&GetColors=false&GetRegions=false';
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
 
         _settingsObject.application_type = 'embellishments';
@@ -529,75 +491,74 @@ $(document).ready(function() {
         _settingsObject.status = 'on';
 
         $.ajax({
-            
             url: _url,
             type: "GET", 
             dataType: "json",
+            processData: false,
             crossDomain: true,
             success: function (response) {
+                var data = response.Data;
+                if (response.OK) {
+                    var _embellishmentOBJ = {
+                        id: 2,
+                        design_id: designID,
+                        name: data.Name,
+                        user_id: typeof ub.user !== "undefined" ? ub.user.id : -1,
+                        png_filename: ub.data.inkSoftBaseURL + data.Canvases[0].PngRelativeUrl,
+                        svg_filename: ub.data.inkSoftBaseURL + data.Canvases[0].SvgRelativeUrl,
+                        thumbnail: ub.data.inkSoftBaseURL + data.Canvases[0].ThumbnailRelativeUrl,
+                        design_summary: JSON.stringify(data),
+                        design_details: "",
+                        category: "Defaults", // Use this category for all the default embellishments when it will be moved to the backend
+                        type: "user_design",
+                        is_public: "1",
+                        created_by_user_id: "43",
+                        status: "Final Approval OK",
+                        comments: "",
+                        update_history: "",
+                        first_name: "Arthur",
+                        last_name: "Abogadil",
+                        cfirst_name: "Jared",
+                        clast_name: "Blanchard",
+                    };
 
-                var _embellishmentOBJ = {
-
-                    id: 2,
-                    design_id: designID,
-                    name: response.Name,
-                    user_id: typeof ub.user !== "undefined" ? ub.user.id : -1,
-                    png_filename: ub.data.inkSoftBaseURL + response.Canvases[0].PngRelativeUrl,
-                    svg_filename: ub.data.inkSoftBaseURL + response.Canvases[0].SvgRelativeUrl,
-                    thumbnail: ub.data.inkSoftBaseURL + response.Canvases[0].ThumbnailRelativeUrl,
-                    design_summary: JSON.stringify(response),
-                    design_details: "",
-                    category: "Defaults", // Use this category for all the default embellishments when it will be moved to the backend
-                    type: "user_design",
-                    is_public: "1",
-                    created_by_user_id: "43",
-                    status: "Final Approval OK",
-                    comments: "",
-                    update_history: "",
-                    first_name: "Arthur",
-                    last_name: "Abogadil",
-                    cfirst_name: "Jared",
-                    clast_name: "Blanchard",
-
-                };
-
-                _settingsObject.embellishment = _embellishmentOBJ;
-                ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment); 
-                ub.data.embellismentDetails.setStatus('designSummary', response);
-
+                    _settingsObject.embellishment = _embellishmentOBJ;
+                    ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
+                    ub.data.embellismentDetails.setStatus('designSummary', data);
+                } else {
+                    console.log("Design is not available");
+                }
             }
-            
         });
-
     }
 
     ub.funcs.getDesignDetails = function (designID, applicationID) {
-
-        var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignDetail?designId=' + designID + '&Format=JSON';
+        var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignDetail?designId='+ designID +'&Format=JSON';
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
         
         $.ajax({
-            
             url: _url,
             type: "GET",
             dataType: "json",
+            processData: false,
             crossDomain: true,
             success: function (response) {
-                
-                ub.data.embellismentDetails.setStatus('designDetails', response);
+                if (response.OK) {
+                    ub.data.embellismentDetails.setStatus('designDetails', response.Data);
 
-                if (typeof _settingsObject.embellishment === "undefined") { _settingsObject.embellishment = {}; }
+                    if (typeof _settingsObject.embellishment === "undefined") {
+                        _settingsObject.embellishment = {};
+                    }
+                    _settingsObject.embellishment.design_details = response.Data;
 
-                _settingsObject.embellishment.design_details = response;
-
+                } else {
+                    console.log("Design is not available");
+                }
             }
-            
         });
-
     }
 
     ub.funcs.update_application_embellishments = function (application, embellishment, options) {
-
         var settings = ub.current_material.settings;
         var application_embellishment_code = application.id + '_' + embellishment.id;
         var scale_settings;
@@ -649,12 +610,11 @@ $(document).ready(function() {
         } else {
             ub.funcs.activateEmbellishments(application.id);
         }
-        ub.funcs.updateLayerTool();
 
+        ub.funcs.updateLayerTool();
     };
 
     ub.funcs.extractEmbellishmentColors = function (applicationID) {
-
         var _applicationObj = ub.funcs.getSettingsObject(applicationID);
         var _embellishmentObj = _applicationObj.embellishment;
         var _designSummary = '';
@@ -662,11 +622,9 @@ $(document).ready(function() {
         if (_embellishmentObj.design_summary !== "")  {
             _designSummary = JSON.parse(_embellishmentObj.design_summary);
         }
-
     }
 
     ub.funcs.activateEmbellishments = function (application_id) {
-
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
@@ -683,13 +641,11 @@ $(document).ready(function() {
         }
 
         if (ub.funcs.isBitFieldOn()) {
-
             var _marker = _.find(ub.data.markerBitField, {value: true});
 
             if (_marker.code.toString() !== application_id.toString()) {
                 return;
             }
-
         }
 
         $('div#changeApplicationUI').remove();
@@ -1495,12 +1451,10 @@ $(document).ready(function() {
         
         // Is this needed ??? 
         // ub.funcs.afterActivateMascots(_id);
-
     }
 
     // ub.status.embellishmentPopupVisible = false;
     ub.funcs.createEmbellishmentPopup = function (applicationType, mascot, settingsObj) {
-
         var mascot_category = undefined;
         var mascots_group_category = undefined;
 
@@ -1861,23 +1815,18 @@ $(document).ready(function() {
                 }
 
             }
-            
         /// End After load Events
-
     }
 
     ub.funcs.afterLoadEmbellishments = function () {
-
         if (ub.config.uniform_application_type === "sublimated") {
             $('span.add-art').addClass('sublimated');
         } else {
             $('span.add-art').addClass('non-sublimated');
         }
-
     }
 
     ub.funcs.changeEmbellishmentFromPopup = function (mascotId, settingsObj, source) {
-
         if (typeof source === "undefined") {
 
             ub.funcs.pushOldState('change mascot', 'application', settingsObj, { mascotID: settingsObj.mascot.id });
@@ -1917,458 +1866,419 @@ $(document).ready(function() {
         $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
         $popup.remove();
         ub.status.mascotPopupVisible = false;
-
     }
 
     $('span.add-art').unbind('click');
     $('span.add-art').on('click', function () {
+    // Guard Expression for non-sublimated styles 
+    //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
 
-       // Guard Expression for non-sublimated styles 
-       //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
-
-        if (ub.config.uniform_application_type !== "knitted" && ub.config.uniform_application_type !== "sublimated") {
-    
+    if (ub.config.uniform_application_type !== "knitted" && ub.config.uniform_application_type !== "sublimated") {
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',
                 message: 'Create Art / Upload File (embellishments) is currently enabled for sublimated styles only.',
                 size: 'medium',
             });
-
             return;
-
         }
 
         ub.funcs.deActivateZoom();
         ub.funcs.addLocation(true);
-
     });
 
 
     // Embellishment Popup
 
-        ub.funcs.bindEmbellishmentEvents = function () {
+    ub.funcs.bindEmbellishmentEvents = function () {
+        Tipped.create('div.archive');
+        Tipped.create('div.restore');
+        Tipped.create('span.archives');
 
-            Tipped.create('div.archive');
-            Tipped.create('div.restore');
-            Tipped.create('span.archives');
+        $('div.embellishmentPopupResults > div.item').hover(
+            function() {
+                $( this ).find('div.name').addClass('pullUp');
+            }, function() {
+                $( this ).find('div.name').removeClass('pullUp');
+            }
+        );
 
-            $('div.embellishmentPopupResults > div.item').hover(
-                function() {
-                    $( this ).find('div.name').addClass('pullUp');
-                }, function() {
-                    $( this ).find('div.name').removeClass('pullUp');
+        $('div.embellishmentPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('id');
+            var _filename = $(this).data('filename');
+            var _svgFilename = $(this).data('svg-filename');
+            var _designID = $(this).data('design-id');
+            var _designName = $(this).data('design-name');
+
+            $('div.item').removeClass('active');
+            $(this).addClass('active');
+
+            $('span.id').html(_id);
+            $('span.name').html(_designName);
+            $('span.filename').html(_filename);
+            $('a.previewLink').attr('href',_svgFilename);
+            $('img.preview').attr('src',_filename);
+
+            $('span.add-to-uniform').data('id', _id);
+            $('span.add-to-uniform').data('design-id', _designID);
+
+            $('span.add-to-uniform').unbind('click');
+            $('span.add-to-uniform').on('click', function () {
+
+                var _settingsObject = ub.is.settingsObj;
+                var _matchingID = undefined;
+
+                is.isMessage(_designID, _settingsObject.code, true);
+                _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    is.isMessage(_designID, _matchingID, true);
+
                 }
-            );
-
-            $('div.embellishmentPopupResults > div.item').on('click', function () {
-
-                var _id = $(this).data('id');
-                var _filename = $(this).data('filename');
-                var _svgFilename = $(this).data('svg-filename');
-                var _designID = $(this).data('design-id');
-                var _designName = $(this).data('design-name');
-
-                $('div.item').removeClass('active');
-                $(this).addClass('active');
-
-                $('span.id').html(_id);
-                $('span.name').html(_designName);
-                $('span.filename').html(_filename);
-                $('a.previewLink').attr('href',_svgFilename);
-                $('img.preview').attr('src',_filename);
-
-                $('span.add-to-uniform').data('id', _id);
-                $('span.add-to-uniform').data('design-id', _designID);
-
-                $('span.add-to-uniform').unbind('click');
-                $('span.add-to-uniform').on('click', function () {
-
-                    var _settingsObject = ub.is.settingsObj;
-                    var _matchingID = undefined;
-
-                    is.isMessage(_designID, _settingsObject.code, true);
-                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
-
-                    if (typeof _matchingID !== "undefined") {
-
-                        var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                        is.isMessage(_designID, _matchingID, true);
-
-                    }
-
-                    $embellishmentPopup.remove();
-
-                });
-
-            });
-
-            ub.funcs.centerAccentPopup();
-
-            $('div.close-popup').unbind('click');
-            $('div.close-popup').on('click', function () {
-
-                ub.popup = $embellishmentPopup;
 
                 $embellishmentPopup.remove();
-                ub.status.embellishmentPopupVisible = false;
 
             });
 
-            $embellishmentPopup.bind('clickoutside', function () {
+        });
 
-                var _status = $(this).data('status');
+        ub.funcs.centerAccentPopup();
 
-                if (_status === 'hidden') {
+        $('div.close-popup').unbind('click');
+        $('div.close-popup').on('click', function () {
 
-                    $(this).data('status', 'visible');
-                    return;
+            ub.popup = $embellishmentPopup;
 
-                }
+            $embellishmentPopup.remove();
+            ub.status.embellishmentPopupVisible = false;
 
-                $(this).data('status', 'hidden');
-                $(this).hide();
-                $(this).remove();
+        });
 
-                ub.status.embellishmentPopupVisible = false;
+        $embellishmentPopup.bind('clickoutside', function () {
 
-            });
+            var _status = $(this).data('status');
 
-            // Tabs
+            if (_status === 'hidden') {
 
-            $('ul.embellishment-tabs > li').unbind('click');
-            $('ul.embellishment-tabs > li').on('click', function () {
+                $(this).data('status', 'visible');
+                return;
 
-                var _type = $(this).data('type');
+            }
 
-                $('ul.embellishment-tabs > li').removeClass('active');
-                $(this).addClass('active');
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
 
-                if (_type === "create") {
-                    $embellishmentPopup.remove();
-                    is.loadDesigner(undefined, ub.is.settingsObj.code);
-                }
+            ub.status.embellishmentPopupVisible = false;
 
-                if (_type === "upload") {
-                    $embellishmentPopup.remove();
-                    is.loadDesignerUpload(undefined, ub.is.settingsObj.code);
-                }
+        });
 
-            });
+        // Tabs
 
-            // Search
+        $('ul.embellishment-tabs > li').unbind('click');
+        $('ul.embellishment-tabs > li').on('click', function () {
 
-            $('input.search-bar').unbind('keyup');
-            $('input.search-bar').on('keyup', function () {
+            var _type = $(this).data('type');
 
-                var _text = $('input.search-bar').val();
-                var _type = $('span.active-archive-tab.focus').data('type');
-                var _results = [];
-                var _sourceItems = is.embellishments.userItems;
-                var _templateID ='#m-embellishment-popup-update-items';
+            $('ul.embellishment-tabs > li').removeClass('active');
+            $(this).addClass('active');
 
-                if (_type !== "active") { 
-                    _sourceItems = is.embellishments.userItemsArchived; 
-                    _templateID = '#m-embellishment-popup-update-items-restore';
-                }
+            if (_type === "create") {
+                $embellishmentPopup.remove();
+                is.loadDesigner(undefined, ub.is.settingsObj.code);
+            }
 
-                if (_text.length > 0) { 
+            if (_type === "upload") {
+                $embellishmentPopup.remove();
+                is.loadDesignerUpload(undefined, ub.is.settingsObj.code);
+            }
 
-                    _results = _.filter(_sourceItems, function (item) {
+        });
 
-                        var _designName = item.design_name.toLowerCase();
-                        var _input = _text.toLowerCase();
+        // Search
 
-                        return _designName.indexOf(_input) !== -1;
+        $('input.search-bar').unbind('keyup');
+        $('input.search-bar').on('keyup', function () {
 
-                    });
+            var _text = $('input.search-bar').val();
+            var _type = $('span.active-archive-tab.focus').data('type');
+            var _results = [];
+            var _sourceItems = is.embellishments.userItems;
+            var _templateID ='#m-embellishment-popup-update-items';
 
-                } else {
+            if (_type !== "active") { 
+                _sourceItems = is.embellishments.userItemsArchived; 
+                _templateID = '#m-embellishment-popup-update-items-restore';
+            }
 
-                    _results = _sourceItems;
+            if (_text.length > 0) { 
 
-                }
+                _results = _.filter(_sourceItems, function (item) {
 
-                _htmlString = ub.utilities.buildTemplateString(_templateID, { myEmbellishments: _results });
+                    var _designName = item.design_name.toLowerCase();
+                    var _input = _text.toLowerCase();
 
-                $('div.embellishmentPopupResults').html(_htmlString);
-                ub.funcs.bindEmbellishmentEvents();
-                $('div.item').first().trigger('click');
+                    return _designName.indexOf(_input) !== -1;
 
-            });
-
-            // Archive Item
-
-            $('span.archives').unbind('click');
-            $('span.archives').on('click', function () {
-            });
-
-            ub.funcs.updateActiveStatus = function (type, id, designID) {
-
-                var _postData = {
-                    "archived": type === "archive" ? '1' : '0',
-                    "id": id,
-                    "design_id": designID,
-                }
-
-                $.ajax({
-                    url: ub.endpoints.getFullUrlString('updateCustomArtwork'),
-                    type: "POST", 
-                    data: JSON.stringify(_postData),
-                    dataType: "json",
-                    crossDomain: true,
-                    contentType: 'application/json',
-                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-                    success: function (response) {
-
-                        if (type === "archive") {
-                            ub.funcs.updateUserItemsActive();
-                        } else {
-                            ub.funcs.updateUserItemsArchived();
-                        }
-                        
-                    }     
                 });
-
-            }
-
-            $('div.archive, div.restore').unbind('click');
-            $('div.archive, div.restore').on('click', function () {
-
-                var _id = $(this).data('id');
-                var _designID = $(this).data('design-id');
-                var _designName = $(this).data('design-name');
-                var _type = $(this).data('type');
-
-                if (_type === "archive") {
-
-                    bootbox.confirm("Are you sure you want to archive " + _designName + "?<br /><br /> <em style='font-size: 0.9em;'>Archiving designs removes it on the default list so that your design list will not be cluttered. You can still view your archived designs by clicking the [Archives] button at the top right corner of this popup.</em>", function (result) { 
-                        if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
-                    });
-
-                }
-
-                if (_type === "restore") {
-
-                    bootbox.confirm("Are you sure you want to restore " + _designName + "?", function (result) { 
-                        if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
-                    });
-
-                }
-
-            });
-
-            $('span.active-archive-tab').unbind('click');
-            $('span.active-archive-tab').on('click', function () {
-
-                var _type = $(this).data('type');
-                var _placeholderText = 'Search Active Designs';
-
-                $('span.active-archive-tab').removeClass('focus');
-                $(this).addClass('focus');
-                $('div.embellishmentPopupResults').html('');
-
-                if (_type === "archived") { 
-                    ub.funcs.updateUserItemsArchived(); 
-                    _placeholderText = "Search Archived Designs";
-                }
-
-                if (_type === "active") { ub.funcs.updateUserItemsActive(); }
-                $('input.search-bar').attr('placeholder', _placeholderText);
-
-            });
-
-        };
-
-        ub.funcs.updateUserItemsActive = function (settingsObj) {
-
-            $('div.embellishmentPopupResults').html(
-                ub.utilities.buildTemplateString('#m-loading-animation', {})
-            );
-
-            $('div.main-content').addClass('loading');
-
-            ub.funcs.updateEmbellishmentList(function (settingsObj) {
-
-                var _items;
-                var _htmlString;
-
-                $('div.main-content').removeClass('loading');
-                $('div.embellishmentPopupResults').hide();
-
-                _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
-                _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items', { myEmbellishments: _items });
-
-                $('div.embellishmentPopupResults').html(_htmlString);
-                ub.funcs.bindEmbellishmentEvents();
-                $('div.embellishmentPopupResults').fadeIn();
-
-            });
-
-            return;
-
-        };
-
-        ub.funcs.updateUserItemsArchived = function (settingsObj) {
-
-            $('div.embellishmentPopupResults').html(
-                ub.utilities.buildTemplateString('#m-loading-animation', {})
-            );
-
-            $('div.main-content').addClass('loading');
-
-            ub.funcs.updateEmbellishmentListArchived(function (settingsObj) {
-
-                var _items;
-                var _htmlString;
-
-                $('div.main-content').removeClass('loading');
-                $('div.embellishmentPopupResults').hide();
-
-                _items = _.sortBy(is.embellishments.userItemsArchived, function(item) { return parseInt(item.id); });
-                _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items-restore', { myEmbellishments: _items });
-
-                $('div.embellishmentPopupResults').html(_htmlString);
-                ub.funcs.bindEmbellishmentEvents();
-                $('div.embellishmentPopupResults').fadeIn();
-
-            });
-
-            return;
-
-        };
-
-        ub.status.embellishmentPopupVisible = false;
-        ub.is.settingsObj = undefined;
-        ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
-
-            ub.is.settingsObj = settingsObj;
-            ub.status.embellishmentPopupVisible = true;
-
-            var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
-            var template = $('#m-embellishment-popup').html();
-            var data = { myEmbellishments: _items.reverse(), }
-            var markup = Mustache.render(template, data);
-
-            $('body').append(markup);
-
-            $embellishmentPopup = $('div#primaryEmbellishmentPopup');
-            $embellishmentPopup.fadeIn();
-
-            ub.funcs.bindEmbellishmentEvents();
-
-            // Trigger First Item
-            $('span.active-archive-tab.active').addClass('focus');
-            $('div.item').first().trigger('click');
-            $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
-
-        }
-
-    // End Embellishment Popup
-
-        ub.funcs.changeCustomMascotSize = function (size, settingsObj, source) {
-
-            var _id = settingsObj.id;
-            ub.funcs.removeApplicationByID(_id);
-
-            if (typeof source === "undefined") {
-
-                var oldScale = undefined;
-
-                if (typeof settingsObj.oldScale !== "undefined") {
-                    oldScale = settingsObj.oldScale;   
-                }
-
-                ub.funcs.pushOldState('change custom mascot size', 'application', settingsObj, { size: settingsObj.size, oldScale: oldScale });
-
-            }
-
-            settingsObj.size = parseFloat(size);
-            settingsObj.font_size = parseFloat(size);
-
-            ub.funcs.update_application_embellishments(settingsObj.application, settingsObj.embellishment); 
-
-        }
-
-        /*
-        * @desc add embellishment custom scale of ub.styleValue.embellishmentScales
-        * @param settingObj (object) - application settings
-        * @param appId (string) - application ID
-        */
-        ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray = function (settingsObj, appId) {
-
-            var views = settingsObj.application.views;
-
-            var appIdStr = appId.toString();
-            var fontSizeStr = settingsObj.font_size.toString();
-
-            var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
-
-            _.each(views, function(view) {
-
-                if (typeof view.application.appCustomScale !== 'undefined') {
-
-                    var scale = parseFloat(view.application.appCustomScale.x);
-                        scale = scale.toString();
-
-                    if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
-                        || typeof settingsObj.bestfit_obj === 'undefined') { 
-
-                            embellishmentScales.push({
-                                appId: appIdStr,
-                                size: fontSizeStr,
-                                scale: scale
-                            }); 
-
-                    }
-
-                }
-
-            });
-
-        }
-
-        /*
-        * @desc process the x and y scale of the application
-        * @param settingObj (object) - application settings
-        * @return scale (object) - e.g. {x: 1, y: 1}
-        */
-        ub.funcs.processScale = function (settingsObj) {
-
-            var settingsObj = settingsObj;
-
-            var scale;
-
-            var embellishmentScales = ub.styleValues.embellishmentScales;
-
-            if (typeof settingsObj.custom_obj === 'undefined' || settingsObj.scale_type === 'custom') {
-
-                var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
-
-                if (typeof custom !== 'undefined' && custom.scale !== '0') {
-                    
-                    scale = { x: custom.scale, y: custom.scale };
-
-                    settingsObj.custom_obj = {
-                        scale: scale,
-                        fontSize: custom.size,
-                        active: true
-                    };
-
-                } else {
-
-                    scale = embellishmentScales.getScale(settingsObj.size);
-                    
-                }
 
             } else {
 
-                scale = embellishmentScales.getScale(settingsObj.size);
-                settingsObj.custom_obj.active = false;
+                _results = _sourceItems;
 
             }
 
-            return scale;
+            _htmlString = ub.utilities.buildTemplateString(_templateID, { myEmbellishments: _results });
+
+            $('div.embellishmentPopupResults').html(_htmlString);
+            ub.funcs.bindEmbellishmentEvents();
+            $('div.item').first().trigger('click');
+        });
+
+        // Archive Item
+
+        $('span.archives').unbind('click');
+        $('span.archives').on('click', function () {
+        });
+
+        ub.funcs.updateActiveStatus = function (type, id, designID) {
+
+            var _postData = {
+                "archived": type === "archive" ? '1' : '0',
+                "id": id,
+                "design_id": designID,
+            }
+
+            $.ajax({
+                url: ub.endpoints.getFullUrlString('updateCustomArtwork'),
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    if (type === "archive") {
+                        ub.funcs.updateUserItemsActive();
+                    } else {
+                        ub.funcs.updateUserItemsArchived();
+                    }
+                    
+                }     
+            });
 
         }
 
+        $('div.archive, div.restore').unbind('click');
+        $('div.archive, div.restore').on('click', function () {
+
+            var _id = $(this).data('id');
+            var _designID = $(this).data('design-id');
+            var _designName = $(this).data('design-name');
+            var _type = $(this).data('type');
+
+            if (_type === "archive") {
+
+                bootbox.confirm("Are you sure you want to archive " + _designName + "?<br /><br /> <em style='font-size: 0.9em;'>Archiving designs removes it on the default list so that your design list will not be cluttered. You can still view your archived designs by clicking the [Archives] button at the top right corner of this popup.</em>", function (result) { 
+                    if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
+                });
+
+            }
+
+            if (_type === "restore") {
+
+                bootbox.confirm("Are you sure you want to restore " + _designName + "?", function (result) { 
+                    if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
+                });
+
+            }
+
+        });
+
+        $('span.active-archive-tab').unbind('click');
+        $('span.active-archive-tab').on('click', function () {
+
+            var _type = $(this).data('type');
+            var _placeholderText = 'Search Active Designs';
+
+            $('span.active-archive-tab').removeClass('focus');
+            $(this).addClass('focus');
+            $('div.embellishmentPopupResults').html('');
+
+            if (_type === "archived") { 
+                ub.funcs.updateUserItemsArchived(); 
+                _placeholderText = "Search Archived Designs";
+            }
+
+            if (_type === "active") { ub.funcs.updateUserItemsActive(); }
+            $('input.search-bar').attr('placeholder', _placeholderText);
+
+        });
+    };
+
+    ub.funcs.updateUserItemsActive = function (settingsObj) {
+        $('div.embellishmentPopupResults').html(
+            ub.utilities.buildTemplateString('#m-loading-animation', {})
+        );
+
+        $('div.main-content').addClass('loading');
+
+        ub.funcs.updateEmbellishmentList(function (settingsObj) {
+
+            var _items;
+            var _htmlString;
+
+            $('div.main-content').removeClass('loading');
+            $('div.embellishmentPopupResults').hide();
+
+            _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+            _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items', { myEmbellishments: _items });
+
+            $('div.embellishmentPopupResults').html(_htmlString);
+            ub.funcs.bindEmbellishmentEvents();
+            $('div.embellishmentPopupResults').fadeIn();
+
+        });
+
+        return;
+    };
+
+    ub.funcs.updateUserItemsArchived = function (settingsObj) {
+        $('div.embellishmentPopupResults').html(
+            ub.utilities.buildTemplateString('#m-loading-animation', {})
+        );
+
+        $('div.main-content').addClass('loading');
+
+        ub.funcs.updateEmbellishmentListArchived(function (settingsObj) {
+
+            var _items;
+            var _htmlString;
+
+            $('div.main-content').removeClass('loading');
+            $('div.embellishmentPopupResults').hide();
+
+            _items = _.sortBy(is.embellishments.userItemsArchived, function(item) { return parseInt(item.id); });
+            _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items-restore', { myEmbellishments: _items });
+
+            $('div.embellishmentPopupResults').html(_htmlString);
+            ub.funcs.bindEmbellishmentEvents();
+            $('div.embellishmentPopupResults').fadeIn();
+
+        });
+
+        return;
+    };
+
+    ub.status.embellishmentPopupVisible = false;
+    ub.is.settingsObj = undefined;
+    ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
+        ub.is.settingsObj = settingsObj;
+        ub.status.embellishmentPopupVisible = true;
+
+        var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+        var template = $('#m-embellishment-popup').html();
+        var data = { myEmbellishments: _items.reverse(), }
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $embellishmentPopup = $('div#primaryEmbellishmentPopup');
+        $embellishmentPopup.fadeIn();
+
+        ub.funcs.bindEmbellishmentEvents();
+
+        // Trigger First Item
+        $('span.active-archive-tab.active').addClass('focus');
+        $('div.item').first().trigger('click');
+        $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
+    }
+
+    // End Embellishment Popup
+
+    ub.funcs.changeCustomMascotSize = function (size, settingsObj, source) {
+        var _id = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        if (typeof source === "undefined") {
+
+            var oldScale = undefined;
+
+            if (typeof settingsObj.oldScale !== "undefined") {
+                oldScale = settingsObj.oldScale;   
+            }
+
+            ub.funcs.pushOldState('change custom mascot size', 'application', settingsObj, { size: settingsObj.size, oldScale: oldScale });
+
+        }
+
+        settingsObj.size = parseFloat(size);
+        settingsObj.font_size = parseFloat(size);
+
+        ub.funcs.update_application_embellishments(settingsObj.application, settingsObj.embellishment); 
+    }
+
+    /*
+    * @desc add embellishment custom scale of ub.styleValue.embellishmentScales
+    * @param settingObj (object) - application settings
+    * @param appId (string) - application ID
+    */
+    ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray = function (settingsObj, appId) {
+        var views = settingsObj.application.views;
+        var appIdStr = appId.toString();
+        var fontSizeStr = settingsObj.font_size.toString();
+        var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
+
+        _.each(views, function(view) {
+
+            if (typeof view.application.appCustomScale !== 'undefined') {
+                var scale = parseFloat(view.application.appCustomScale.x);
+                scale = scale.toString();
+
+                if (typeof _.find(embellishmentScales, {scale: scale}) === 'undefined' 
+                    || typeof settingsObj.bestfit_obj === 'undefined') { 
+                        embellishmentScales.push({
+                            appId: appIdStr,
+                            size: fontSizeStr,
+                            scale: scale
+                        }); 
+                }
+            }
+        });
+    }
+
+    /*
+    * @desc process the x and y scale of the application
+    * @param settingObj (object) - application settings
+    * @return scale (object) - e.g. {x: 1, y: 1}
+    */
+    ub.funcs.processScale = function (settingsObj) {
+        var settingsObj = settingsObj;
+        var scale;
+        var embellishmentScales = ub.styleValues.embellishmentScales;
+
+        if (typeof settingsObj.custom_obj === 'undefined' || settingsObj.scale_type === 'custom') {
+            var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString()});
+            if (typeof custom !== 'undefined' && custom.scale !== '0') {
+                scale = { x: custom.scale, y: custom.scale };
+
+                settingsObj.custom_obj = {
+                    scale: scale,
+                    fontSize: custom.size,
+                    active: true
+                };
+            } else {
+                scale = embellishmentScales.getScale(settingsObj.size);                
+            }
+
+        } else {
+            scale = embellishmentScales.getScale(settingsObj.size);
+            settingsObj.custom_obj.active = false;
+        }
+
+        return scale;
+    }
 });

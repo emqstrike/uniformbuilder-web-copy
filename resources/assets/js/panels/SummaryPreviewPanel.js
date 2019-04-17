@@ -58,10 +58,10 @@ SummaryPreviewPanel.events = {
             "applicationType": ub.config.uniform_application_type
         }
 
-        var url = "http://34.214.34.246/api/upload";
 
         $(".pdf-iframe-container .pdf-iframe").prop('src', '');
 
+        var url = "https://pdf-generator.prolook.com/api/upload";
         $.ajax({
             url: url,
             type: "POST",

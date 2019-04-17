@@ -8860,7 +8860,7 @@ $(document).ready(function () {
             $('span.design-name').html(a.design_name);
             $('em.filename').html(_filename);
 
-            _.each(a.design_details.Data.Canvases[0].Elements, function (f) {
+            _.each(a.design_details.Canvases[0].Elements, function (f) {
             
                 if (typeof f.Colors === "object") {
             
