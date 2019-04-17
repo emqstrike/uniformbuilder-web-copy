@@ -544,11 +544,6 @@ GradientPanel.utilities = {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
-            if (target.includes("sleeve")) {
-                _p.position.y -= 350;
-                console.log("_adjustment y");
-            }
-
             var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
 
             if (_soPattern.dirty) {
