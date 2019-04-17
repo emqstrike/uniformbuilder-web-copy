@@ -8949,8 +8949,8 @@ $(document).ready(function () {
             
             }); 
 
+            $('div.debug-panel').hide();
             $('div.embellishmentInfo').html(_html);
-
             $('div.mainPreviewLink').fadeIn();
             $('h3.header').fadeIn();
 

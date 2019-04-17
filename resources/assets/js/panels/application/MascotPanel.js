@@ -42,7 +42,7 @@ MascotPanel.init = function () {
                 code: i.code,
                 perspective: i.application.views[0].perspective,
                 name: i.embellishment.name,
-                viewArtDetails: ub.config.host + '/utilities/previewEmbellishmentInfo/' + i.embellishment.design_id,
+                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + i.embellishment.design_id,
                 viewPrint: i.embellishment.svg_filename,
                 slider: ub.funcs.isTackleTwill() ? false : true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
