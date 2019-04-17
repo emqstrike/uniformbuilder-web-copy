@@ -55,7 +55,7 @@ SummaryPreviewPanel.events = {
             "hiddenBody": ub.current_material.settings.hiddenBody,
             "randomFeeds": ub.funcs.isSocks() ? ub.current_material.settings.randomFeeds: "",
             "legacyPDF":"",
-            "applicationType": ub.config.uniform_application_type
+            "applicationType": ub.config.uniform_application_type,
         }
 
 
