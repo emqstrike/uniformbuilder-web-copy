@@ -124,7 +124,12 @@ NewApplicationPanel.events = {
         if ($(this).data('id') === "front") {
             // Remove class from the currently active PART then change it to FRONT BODY
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            $(".parts-container").find('button[data-id="Front Body"].part').addClass('uk-active')
+            var front = $(".parts-container").find('button[data-id="Front Body"].part');
+            if (front.length > 0) {
+                front.addClass('uk-active');
+            } else {
+                $(".parts-container button.part").first().addClass('uk-active')
+            }
         } else if ($(this).data('id') === "back") {
             $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
             $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
