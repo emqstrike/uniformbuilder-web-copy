@@ -60,7 +60,7 @@ ModifierController.prototype = {
 
         // on click on any group pane switch to active
         $('#property-modifiers-menu a').click(this.enableDisableModifierMenu);
-        $('#property-modifiers-menu .group-pane').click(_.debounce(this.updateLeftPanel, 1500));
+        $('#property-modifiers-menu .group-pane').click(_.debounce(this.updateLeftPanel, 1000));
 
         // On click dropdown shorts for modifier
         $('div.pd-dropdown-links').on('click', ModifierController.dropdownLinks);
@@ -204,7 +204,7 @@ ModifierController.prototype = {
         
         _.delay(function() {
             ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
-        }, 1000);
+        }, 500);
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();

@@ -492,77 +492,61 @@ $(document).ready(function() {
         _settingsObject.type = 'embellishments';
         _settingsObject.status = 'on';
 
-        $.ajax({
-            url: _url,
-            type: "GET", 
-            dataType: "json",
-            processData: false,
-            crossDomain: true,
-            headers: {
-                "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
-            },
-            success: function (response) {
-                var data = response.Data;
-                if (response.OK) {
-                    var _embellishmentOBJ = {
-                        id: 2,
-                        design_id: designID,
-                        name: data.Name,
-                        user_id: typeof ub.user !== "undefined" ? ub.user.id : -1,
-                        png_filename: ub.data.inkSoftBaseURL + data.Canvases[0].PngRelativeUrl,
-                        svg_filename: ub.data.inkSoftBaseURL + data.Canvases[0].SvgRelativeUrl,
-                        thumbnail: ub.data.inkSoftBaseURL + data.Canvases[0].ThumbnailRelativeUrl,
-                        design_summary: JSON.stringify(data),
-                        design_details: "",
-                        category: "Defaults", // Use this category for all the default embellishments when it will be moved to the backend
-                        type: "user_design",
-                        is_public: "1",
-                        created_by_user_id: "43",
-                        status: "Final Approval OK",
-                        comments: "",
-                        update_history: "",
-                        first_name: "Arthur",
-                        last_name: "Abogadil",
-                        cfirst_name: "Jared",
-                        clast_name: "Blanchard",
-                    };
+        ub.utilities.getJSON(_url, function(response) {
+            var data = response.Data;
+            if (response.OK) {
+                var _embellishmentOBJ = {
+                    id: 2,
+                    design_id: designID,
+                    name: data.Name,
+                    user_id: typeof ub.user !== "undefined" ? ub.user.id : -1,
+                    png_filename: ub.data.inkSoftBaseURL + data.Canvases[0].PngRelativeUrl,
+                    svg_filename: ub.data.inkSoftBaseURL + data.Canvases[0].SvgRelativeUrl,
+                    thumbnail: ub.data.inkSoftBaseURL + data.Canvases[0].ThumbnailRelativeUrl,
+                    design_summary: JSON.stringify(data),
+                    design_details: "",
+                    category: "Defaults", // Use this category for all the default embellishments when it will be moved to the backend
+                    type: "user_design",
+                    is_public: "1",
+                    created_by_user_id: "43",
+                    status: "Final Approval OK",
+                    comments: "",
+                    update_history: "",
+                    first_name: "Arthur",
+                    last_name: "Abogadil",
+                    cfirst_name: "Jared",
+                    clast_name: "Blanchard",
+                };
 
-                    _settingsObject.embellishment = _embellishmentOBJ;
-                    ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
-                    ub.data.embellismentDetails.setStatus('designSummary', data);
-                } else {
-                    console.log("Design is not available");
-                }
+                _settingsObject.embellishment = _embellishmentOBJ;
+                ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
+                ub.data.embellismentDetails.setStatus('designSummary', data);
+            } else {
+                console.log("Design is not available");
             }
+        }, function(err) {
+            console.log(err);
         });
     }
 
     ub.funcs.getDesignDetails = function (designID, applicationID) {
         var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignDetail?designId='+ designID +'&Format=JSON';
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
-        
-        $.ajax({
-            url: _url,
-            type: "GET",
-            dataType: "json",
-            processData: false,
-            crossDomain: true,
-            headers: {
-                "accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null
-            },
-            success: function (response) {
-                if (response.OK) {
-                    ub.data.embellismentDetails.setStatus('designDetails', response.Data);
 
-                    if (typeof _settingsObject.embellishment === "undefined") {
-                        _settingsObject.embellishment = {};
-                    }
-                    _settingsObject.embellishment.design_details = response.Data;
+        ub.utilities.getJSON(_url, function(response) {
+            if (response.OK) {
+                ub.data.embellismentDetails.setStatus('designDetails', response.Data);
 
-                } else {
-                    console.log("Design is not available");
+                if (typeof _settingsObject.embellishment === "undefined") {
+                    _settingsObject.embellishment = {};
                 }
+                _settingsObject.embellishment.design_details = response.Data;
+
+            } else {
+                console.log("Design is not available");
             }
+        }, function(err) {
+            console.log(err);
         });
     }
 
