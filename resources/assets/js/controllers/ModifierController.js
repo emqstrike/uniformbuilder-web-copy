@@ -107,9 +107,7 @@ ModifierController.prototype = {
         }
 
         // parts
-        if (this.controllers.parts.items.inserts.length === 0 &&
-            this.controllers.parts.items.parts.length === 0 &&
-            this.controllers.parts.items.patterns.length === 0) {
+        if (typeof ub.data.modifierLabel !== "undefined" && _.size(ub.data.modifierLabel) > 0) {
 
             $('.menu-item-parts', tabs_el).remove();
         }
@@ -203,7 +201,10 @@ ModifierController.prototype = {
 
         var part_panel = ub.modifierController.controllers.parts.getPanel();
         ub.modifierController.propertiesPanel.setBodyPanel(part_panel);
-        ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
+        
+        _.delay(function() {
+            ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
+        }, 1000);
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();

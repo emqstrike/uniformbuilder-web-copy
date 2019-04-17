@@ -147,7 +147,6 @@ PropertiesPanel.prototype = {
     setDefaultColorsPatterns: function() {
         var _this = this;
         var currentMaterials = ub.current_material.settings[ub.config.type];
-
         _.map(_this.modifiers, function(index) {
             var materialObject = _.find(currentMaterials, {code: index.fullname});
             var patternObject = materialObject.pattern;
