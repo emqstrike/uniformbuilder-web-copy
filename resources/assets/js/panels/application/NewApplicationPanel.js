@@ -333,8 +333,9 @@ NewApplicationPanel.events = {
         var isLetters = applicationSettings.application_type === "player_name" || applicationSettings.application_type === "team_name" ? true : false;
         var isMascots = applicationSettings.application_type === "mascot" || applicationSettings.application_type === "embellishments" ? true : false;
         var isNumbers = applicationSettings.application_type === "front_number" || applicationSettings.application_type === "back_number" || applicationSettings.application_type === "sleeve_number" ? true : false;
-        
-        UIkit.modal.confirm('Are you sure you want to delete ' + applicationSettings.application.name + ' #' + applicationSettings.code + '?').then(function() {
+        var message = isMascots ? "logo" : applicationSettings.application.name;
+
+        UIkit.modal.confirm('Are you sure you want to delete ' + message + ' #' + applicationSettings.code + '?').then(function() {
             $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).remove();
             ub.funcs.deleteLocation(applicationSettings.code);
             var count;
