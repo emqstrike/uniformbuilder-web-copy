@@ -462,14 +462,14 @@ GradientPanel.utilities = {
         _.each(views, function(v) {
             var _adjustment = {x: 0, y: 0};
             _adjustment = ub.funcs.coordinateAdjustments(target_name, clone, v);
-            _extra = ub.getAngleofPattern(v, target_name)
+            // _extra = ub.getAngleofPattern(v, target_name)
 
-            if (typeof _extra !== 'undefined') {
-                _rotationAngle = _extra.angle;
-            }
-            else {
-                _rotationAngle = 0;
-            }
+            // if (typeof _extra !== 'undefined') {
+            //     _rotationAngle = _extra.angle;
+            // }
+            // else {
+            //     _rotationAngle = 0;
+            // }
 
             gradient_settings.containers[v] = {};
 
@@ -480,42 +480,43 @@ GradientPanel.utilities = {
 
             _.each(clone.layers, function(layer, index) {
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+                if (layer.filename !== "" && typeof layer.filename !== "undefined") {
+                    container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+                    var sprite = container.sprites[index];
 
-                var sprite = container.sprites[index];
+                    sprite.zIndex = layer.layer_number * -1;
+                    sprite.tint = parseInt(layer.color_code.hex_code, 16);
 
-                sprite.zIndex = layer.layer_number * -1;
-                sprite.tint = parseInt(layer.color_code.hex_code, 16);
+                    ///
+                    var _hexCode = (sprite.tint).toString(16);
+                    var _paddedHex = util.padHex(_hexCode, 6);
 
-                ///
-                var _hexCode = (sprite.tint).toString(16);
-                var _paddedHex = util.padHex(_hexCode, 6);
-
-                if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
-                    if (typeof layer.team_color_id !== "undefined") {
-                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };
-                    } else {
-                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                        if (typeof layer.team_color_id !== "undefined") {
+                            ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };
+                        } else {
+                            ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                        }
                     }
+
+                    sprite.anchor.set(0.5, 0.5);
+                    sprite.pivot.set(0.5, 0.5);
+
+                    sprite.tint = parseInt(clone.layers[index].color_code.hex_code, 16);
+                    container.addChild(sprite);
+
+                    var _positionAdjusted = {
+                        x: 0,
+                        y: 0,
+                    };
+
+                    container.position = _positionAdjusted;
+                    container.alpha = layer.container_opacity;
+                    container.rotation = _rotationAngle;
+                    container.scale = layer.container_scale;
+
+                    var s = '';
                 }
-
-                sprite.anchor.set(0.5, 0.5);
-                sprite.pivot.set(0.5, 0.5);
-
-                sprite.tint = parseInt(clone.layers[index].color_code.hex_code, 16);
-                container.addChild(sprite);
-
-                var _positionAdjusted = {
-                    x: 0,
-                    y: 0,
-                };
-
-                container.position = _positionAdjusted;
-                container.alpha = layer.container_opacity;
-                container.rotation = _rotationAngle;
-                container.scale = layer.container_scale;
-
-                var s = '';
             });
 
             ub.updateLayersOrder(container);
@@ -561,8 +562,6 @@ GradientPanel.utilities = {
     changeGradientColor: function(gradientObjectSettings, layerID, color_code, index) {
         var colorOBJ = ub.funcs.getColorByColorCode(color_code);
         var layerSetting = _.find(gradientObjectSettings.layers, {layer: layerID});
-
-
 
         GradientPanel.utilities.renderGradient(gradientObjectSettings, index);
     },

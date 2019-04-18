@@ -14,7 +14,7 @@ div.debug-panel {
 
     div.body {
         position: absolute;
-        top: 580px !important;
+        top: 60%;
         left: 50% !important;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
@@ -40,6 +40,24 @@ div.debug-panel {
 
     .time {
         color: #e32139 !important;
+    }
+}
+
+@media only screen and (max-width: 999px) {
+    .debug-panel .body {
+        top: 80% !important;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .debug-panel .body {
+        top: 66% !important;
+    }
+}
+
+@media only screen and (min-width: 1900px) {
+    .debug-panel .body {
+        top: 60% !important;
     }
 }
 

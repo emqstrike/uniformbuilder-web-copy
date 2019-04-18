@@ -467,7 +467,7 @@ LogoPanel.utilities = {
                     }
                 }
             } else {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
             }
         } else {
             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
