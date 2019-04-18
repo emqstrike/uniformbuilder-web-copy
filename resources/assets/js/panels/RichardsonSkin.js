@@ -66,7 +66,7 @@ RichardsonSkin.events = {
         }
     },
 
-    onClickPerspectiveThumbnail: function() {
+    onClickPerspectiveThumbnail: function(e) {
         $(".perspective a.active").removeClass('active');
         $(this).addClass("active")
         /* Act on the event */
@@ -74,6 +74,12 @@ RichardsonSkin.events = {
         if (ub.active_view !== view) {
             var perspective = new PerspectiveController();
             perspective.setPerspective(view)
+        }
+
+        // Generate Thumbnail
+        if (e.altKey) {
+            ub.showThumbnail2();
+            $.smkAlert({text: 'Thumbnail Generated for [' + ub.active_view + ' view]' , type:'warning', time: 3, marginTop: '80px'});
         }
     },
 
