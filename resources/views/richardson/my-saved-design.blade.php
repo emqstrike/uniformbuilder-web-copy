@@ -29,8 +29,9 @@
                 </tfoot>
             </table>
 
-            <div class="uk-child-width-1-1 my-designs-list-loading uk-flex uk-flex-center uk-text-center" uk-grid>
-                <div uk-spinner="ratio: 8">
+            <div class="uk-child-width-1-1 my-designs-list-loading uk-flex uk-flex-center uk-text-center uk-padding" uk-grid>
+                <div>
+                    <img src="/images/main-ui/down/Baseball-Icon-3.gif">
                 </div>
                 <div>
                     <p>Loading saved designs .... </p>
