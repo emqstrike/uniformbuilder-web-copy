@@ -434,6 +434,7 @@ nav.main-menu ul li.sd {
 .hov-red{
   &:hover {
     background-color: $color-red;
+    color: $color-white;
   }
 }
 
@@ -524,6 +525,10 @@ button[data-color-name="White"].palette {
   .wer {
     margin-left: 36px;
   }
+}
+
+.my-designs-list img {
+  height: 100% !important;
 }
 
 @media screen and (max-width: 374px) {

@@ -3,7 +3,7 @@
 
 <div class="uk-section">
     <div class="uk-padding uk-padding-remove-vertical">
-        <h2 class="uk-heading-divider uk-text-center abrade-ultra-italic">My Saved Design</h2>
+        <h2 class="uk-heading-divider uk-text-center abrade-ultra-italic">My Saved Designs </h2>
         <div class="uk-padding-large uk-padding-remove-vertical">
             <table class="uk-table uk-table-striped uk-text-center uk-table-middle designs-list-table uk-hidden abrade" border="1">
                 <thead>
@@ -61,29 +61,29 @@
             <td>
                 <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center" uk-grid>
                     <div>
-                        <img class="uk-height-small" src="@{{ low_res_front_thumbnail }}" data-file="@{{front_thumbnail}}">
+                        <img class="uk-height-*" src="@{{ low_res_front_thumbnail }}" data-file="@{{front_thumbnail}}">
                     </div>
                     <div>
-                        <img class="uk-height-small" src="@{{ low_res_back_thumbnail }}" data-file="@{{back_thumbnail}}">
+                        <img class="uk-height-*" src="@{{ low_res_back_thumbnail }}" data-file="@{{back_thumbnail}}">
                     </div>
                     <div>
-                        <img class="uk-height-small" src="@{{ low_res_left_thumbnail }}" data-file="@{{left_thumbnail}}">
+                        <img class="uk-height-*" src="@{{ low_res_left_thumbnail }}" data-file="@{{left_thumbnail}}">
                     </div>
                     <div>
-                        <img class="uk-height-small" src="@{{ low_res_right_thumbnail }}" data-file="@{{right_thumbnail}}">
+                        <img class="uk-height-*" src="@{{ low_res_right_thumbnail }}" data-file="@{{right_thumbnail}}">
                     </div>
                 </div>
             </td>
             <td>
                 <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
-                    <button class="load-design uk-button uk-button-small padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Load Design</button>
+                    <button class="load-design bgc-lightGray uk-button uk-button-small uk-width-3-6 padding-tiny-vertical uk-overlay-primary hov-red fc-dark uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Load Design</button>
                 </div>
                 <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
-                    <button class="share-design uk-button uk-button-small padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Share via Email</button>
+                    <button class="share-design bgc-lightGray uk-button uk-button-small uk-width-3-6 padding-tiny-vertical uk-overlay-primary hov-red fc-dark uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Share via Email</button>
                 </div>
                 <hr clss="uk-margin-remove">
                 <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
-                    <button class="delete-design uk-button uk-button-small padding-tiny-vertical uk-overlay-primary hov-red fc-white uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Delete Design</button>
+                    <button class="delete-design bgc-lightGray uk-button uk-button-small uk-width-3-6 padding-tiny-vertical uk-overlay-primary hov-red fc-dark uk-text-bold abrade uk-text-capitalize" data-saved-design-id="@{{ id }}" data-name="@{{ name }}">Delete Design</button>
                 </div>
             </td>
         </tr>
