@@ -71,7 +71,7 @@
                             <button class="uk-button uk-button-default cp-border-none fc-red uk-text-capitalize" type="button">Welcome, @{{ user.firstName }}</button>
                             <div class="uk-padding-small" uk-dropdown="pos: top-justify; mode: click">
                                 <ul class="uk-nav uk-dropdown-nav">
-                                    <li><a href="/richardson/my-saved-designs">My Saved Design</a></li>
+                                    <li><a href="/richardson/my-saved-designs">My Saved Designs</a></li>
                                     <li><a href="/richardson/orders">My Orders</a></li>
                                     <li><a href="/logout">Logout</a></li>
                                 </ul>

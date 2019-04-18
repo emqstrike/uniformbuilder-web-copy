@@ -467,7 +467,7 @@ LogoPanel.utilities = {
                     }
                 }
             } else {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.first(material_colors));
+                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
             }
         } else {
             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
@@ -738,7 +738,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Pro Select Raglan", "PTS Select Set-In", "PTS Select Sleeveless", "PTS Signature Raglan", "PTS Pro Select Sleeveless"],
             position: "left_sleeve_logo",
-            parts: ["right_sleeve", "right_outer_sleeve_stripe_color", "right_sleeve_panel"],
+            parts: ["right_sleeve", "right_outer_sleeve_stripe_color", "right_sleeve_panel", "right_end_of_sleeve_insert"],
             perspective: 'left',
             pipings: ["Left Sleeve Piping 1 inch Up", "Left End of Sleeve Piping"]
         },
@@ -764,7 +764,7 @@ LogoPanel.configurations = {
         {
             blockPattern: ["PTS Cage Jacket"],
             position: "left_sleeve_logo",
-            parts: ["right_sleeve", "right_sleeve_stripe_2", "right_sleeve_stripe_1"],
+            parts: ["right_sleeve", "right_sleeve_stripe_2", "right_sleeve_stripe_1", "right_end_of_sleeve_insert"],
             perspective: 'left'
         },
         {
