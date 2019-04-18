@@ -119,25 +119,27 @@ NewApplicationPanel.events = {
     onSelectPerspective: function() {
         $(".perspective-container").find("button.uk-active").removeClass('uk-active');
         var view = $(this).data('id');
-
-        // If FRONT perspective is clicked
-        if ($(this).data('id') === "front") {
-            // Remove class from the currently active PART then change it to FRONT BODY
-            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            var front = $(".parts-container").find('button[data-id="Front Body"].part');
-            if (front.length > 0) {
-                front.addClass('uk-active');
-            } else {
-                $(".parts-container button.part").first().addClass('uk-active')
-            }
-        } else if ($(this).data('id') === "back") {
-            $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
-            $(".parts-container").find('button[data-id="Back Body"].part').addClass('uk-active')
+        var _partToMakeActive = "";
+        if ($(this).data('id') === "front" || $(this).data('id') === "back") {
+            _partToMakeActive = $(this).data("id").toTitleCase();
+            $('div.parts-container button').each(function() {
+                var part = $(this).data("id");
+                if (part.includes(_partToMakeActive)) {
+                    $(".parts-container").find('button.part.uk-active').removeClass('uk-active');
+                    $(".parts-container").find('button[data-id="'+ part +'"].part').addClass("uk-active");
+                }
+            });
         } else if ($(this).data('id') === "left" || $(this).data('id') === "right") {
             // If LEFT or RIGHT perspective is clicked,
             var activePart = $(".parts-container").find('button.part.uk-active');
-            activePart.removeClass('uk-active')
-            $(".parts-container").find('button[data-id="Sleeve"][data-perspective="'+ view +'"].part').addClass('uk-active');
+            activePart.removeClass('uk-active');
+            var part = $(".parts-container").find('button[data-id="Sleeve"][data-perspective="'+ view +'"].part');
+
+            if (part.length > 0) {
+                part.addClass('uk-active');
+            } else {
+                $(".parts-container button.part").first().addClass("uk-active");
+            }
         }
 
         if (ub.active_view !== view) {
@@ -151,17 +153,17 @@ NewApplicationPanel.events = {
     onSelectPart: function() {
         $(".parts-container").find("button.uk-active").removeClass('uk-active');
         var part = $(this).data("id");
-        console.log(part)
-        $(this).addClass('uk-active');
 
-        if (part === "Front Body") {
+        if (part.includes("Front")) {
             $(".perspective-container").find('button[data-id="front"].perspective').trigger('click');
-        } else if (part === "Back Body") {
+        } else if (part.includes("Back")) {
             $(".perspective-container").find('button[data-id="back"].perspective').trigger('click');
         } else if (part === "Sleeve") {
             var perspective = $(this).data("perspective");
             $(".perspective-container").find('button[data-id="' + perspective + '"].perspective').trigger('click');
         }
+        
+        $(this).addClass('uk-active');
     },
 
     onSelectPartSide: function() {
