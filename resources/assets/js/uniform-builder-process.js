@@ -1341,105 +1341,97 @@ $(document).ready(function() {
 
         console.log('ub.funcs.prepareData() output=====>', _input);
 
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
+        console.log('PROCESSING!!!');
 
-        // $.ajax({
-        //     data: JSON.stringify({builder_customizations: _input}),
-        //     url: ub.config.host + "/generateOrderForm",
-        //     dataType: "json",
-        //     type: "POST",
-        //     crossDomain: true,
-        //     contentType: 'application/json',
-        //     headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-        //
-        //     success: function(response) {
-        //
-        //         if (response.success) {
-        //
-        //             console.log('OLD PDF LINK', response.filename);
+        var bc = _input.order_items[0].builder_customizations;
+        var order_items = _input.order_items[0];
+        var stamp = moment(Date.now()).format();
 
-                    console.log('PROCESSING!!!');
+        var _data = {
+            selectedSource:"Prolook Customizer",
+            selectedTemplate:"Prolook",
+            searchKey:"preview-" + order_items.material_id + "-" + order_items.item_id + "-" + stamp.replace(/[:+]/g, "-"),
+            thumbnails: bc.thumbnails,
+            category: bc.uniform_category,
+            fullName: "", // not used in any pdf service templates
+            client: _input.order.client,
+            orderId: "",
+            foid:"",
+            description: order_items.description,
+            cutPdf: bc.cut_pdf,
+            stylesPdf: bc.styles_pdf,
+            roster: bc.roster,
+            pipings: bc.pipings,
+            createdDate: moment(Date.now()).format('YYYY/MM/DD'),
+            notes: order_items.notes,
+            sizeBreakdown: bc.size_breakdown,
+            applications: bc.applications,
+            sizingTable: bc.sizingTable,
+            upper: bc.upper,
+            lower: bc.hiddenBody,
+            randomFeeds: bc.randomFeeds,
+            legacyPDF:"", // display link if old pdf is generated
+            applicationType: order_items.application_type
+        };
 
-                    var bc = _input.order_items[0].builder_customizations;
-                    var order_items = _input.order_items[0];
-                    var stamp = moment(Date.now()).format();
+        if (ub.config.pdf_generator === 'NEW') {
+            console.log('RUNNING REQUEST TO PDF SERVICE');
+            ub.funcs.pdfService(true, _data);
+            ub.pdfService = {
+                preview_data: _data
+            };
+        } else {
+            console.log('RUNNING REQUEST TO LEGACY PDF');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                data: JSON.stringify({builder_customizations: _input}),
+                url: ub.config.host + "/generateOrderForm",
+                dataType: "json",
+                type: "POST",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
-                    var _data = {
-                        selectedSource:"Prolook Customizer",
-                        selectedTemplate:"Prolook",
-                        searchKey:"preview-" + order_items.material_id + "-" + order_items.item_id + "-" + stamp.replace(/[:+]/g, "-"),
-                        thumbnails: bc.thumbnails,
-                        category: bc.uniform_category,
-                        fullName: "", // not used in any pdf service templates
-                        client: _input.order.client,
-                        orderId: "",
-                        foid:"",
-                        description: order_items.description,
-                        cutPdf: bc.cut_pdf,
-                        stylesPdf: bc.styles_pdf,
-                        roster: bc.roster,
-                        pipings: bc.pipings,
-                        createdDate: moment(Date.now()).format('YYYY/MM/DD'),
-                        notes: order_items.notes,
-                        sizeBreakdown: bc.size_breakdown,
-                        applications: bc.applications,
-                        sizingTable: bc.sizingTable,
-                        upper: bc.upper,
-                        lower: bc.hiddenBody,
-                        randomFeeds: bc.randomFeeds,
-                        legacyPDF:"", // display link if old pdf is generated
-                        applicationType: order_items.application_type
-                    };
+                success: function(response) {
 
-                    console.log('RUNNING REQUEST TO PDF SERVICE');
-                    // var newPDF =
+                    if (response.success) {
 
-                    ub.funcs.pdfService(true, _data);
-                    ub.pdfService = {
-                        preview_data: _data
-                    };
+                        ub.funcs.displayLinks(response.filename);
 
-                    // console.log('SENDING TO DISPLAY');
-                    // ub.funcs.displayLinks(newPDF);
+                        // if (ub.config.orderArtworkStatus === "rejected") {
 
-                    // this is commented not used
-                    // if (ub.config.orderArtworkStatus === "rejected") {
+                        //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                        //     $('span.save-order').hide();
 
-                    //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-                    //     $('span.save-order').hide();
+                        // }
 
-                    // }
+                        if (ub.data.updateOrderFromCustomArtworkRequest) {
 
+                            $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                            $('span.save-order').hide();
 
+                        }
 
+                    }
+                    else {
+                        console.log('error: ');
+                        console.log(response.message);
+                    }
 
-        //             if (ub.data.updateOrderFromCustomArtworkRequest) {
-        //
-        //                 $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-        //                 $('span.save-order').hide();
-        //
-        //             }
-        //
-        //         }
-        //         else {
-        //             console.log('error: ');
-        //             console.log(response.message);
-        //         }
-        //
-        //     },
-        //     error: function(error) {
-        //         $.smkAlert({
-        //             text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
-        //             type: 'warning'
-        //         });
-        //     }
-        //
-        // });
+                },
+                error: function(error) {
+                    $.smkAlert({
+                        text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                        type: 'warning'
+                    });
+                }
 
+            });
+        }
 
     };
 
