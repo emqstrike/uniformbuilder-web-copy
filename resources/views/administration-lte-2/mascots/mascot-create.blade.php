@@ -142,9 +142,6 @@ select:hover {
                                                 <option data-color="" value="" id="saved-default-color"></option>
                                                 </select>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-danger btn-xs btn-remove-layer btn-flat">Remove</a>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -294,8 +291,13 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.clone-row', function() {
-        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-            $(document).on("change", ".ma-default-color", function(){
+
+        var x = $( ".layers-row:first" ).clone();
+        y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
+        $('#layers-row-container').append(x);
+        $(x).append(y);
+
+        $(document).on("change", ".ma-default-color", function(){
 
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);

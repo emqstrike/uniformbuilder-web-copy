@@ -454,6 +454,38 @@
 
         @{{/picker_items}}
 
+        @{{#esports}}
+            
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+                
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/esports}}
 
         @{{#apparel}}
             
@@ -493,6 +525,8 @@
 <!-- End Sports Pickers -->
 
 <!-- Uniforms Picker -->
+
+    <!-- version 1 -->
 
     <script type="text/mustache" id="m-picker-items-uniforms">
 
@@ -536,6 +570,61 @@
         @{{/picker_items}}
 
     </script>
+
+    <!-- version 2 -->
+
+    <script type="text/mustache" id="m-picker-items-uniforms-v2">
+
+        @{{#picker_items}}
+            
+            <li class="mix @{{type}} @{{block_pattern_fv2}} @{{block_pattern_fv2_blank}} @{{block_pattern_fv2_favorite}} @{{neck_option_fv2}} @{{uniform_application_type}}" data-name="@{{name}}">
+
+            <div class="main-picker-items grow @{{sport}}" data-gender="@{{gender}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
+
+                <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption"> 
+                    <span class="type"></span>
+                    <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
+                    <span class="calculatedPrice">@{{calculatedPrice}}</span>
+                    <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
+                        Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
+                    </span>
+                    <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
+                        Youth now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+                    
+                    <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                    </span>
+
+                    <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+                    <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                    <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                    <div class="price_item_template_name">@{{price_item_template_name}}</div>
+                    <div class="material_id">@{{id}}</div>
+
+                </span> 
+
+            </div>
+
+        </li>
+
+        @{{/picker_items}}
+
+        <li class="gap"></li>
+        <li class="gap"></li>
+        <li class="gap"></li>
+
+    </script>
+
+    <!-- end version 2 -->
 
 <!-- End Uniforms Pickers -->
 
@@ -1394,25 +1483,21 @@
 
                     </tr>
 
-                @{{/orders}} 
-
+                @{{/orders}}
            </tbody>
-           <tfoot>                
-                <td></td>
-                <td class="data-table-filter-hide"></td>               
-                <td class="data-table-filter-hide"></td>
-                <td class="data-table-filter-hide"></td>
-                <td></td>
-                <td></td>
-                <td class="data-table-filter-hide"></td>
-                <td class="data-table-filter-hide"></td>
 
+           <tfoot>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
            </tfoot>
-            
-
         </table>
-
-    </script>   
+    </script>
 
 <!-- End Orders Table -->
 
@@ -1720,15 +1805,19 @@
 <!-- Profile -->
 
     <script type="text/mustache" id="m-profile-page">
+    <form id="myProfile">
+        <div class="alert alert-success hidden" id="myProfileAlert" role="alert">
+            <strong>Success!</strong> Profile successfully updated!
+        </div>
 
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}">
+            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>
         </div>
 
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}">
+            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>
         </div>
 
         <div class="form-group">
@@ -1786,7 +1875,7 @@
                         <div class="col-md-12">
 
                             <label for="state">State</label>
-                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" required>                                
+                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" pattern="[a-zA-Z][a-zA-Z0-9\s]*" required>                                
 
                         </div>
 
@@ -1837,9 +1926,9 @@
         <!-- End Row 2 -->
 
         <div class="form-group btn-footer">
-            <span class="btn update-profile">Update</span>
+            <button class="btn">Update</button>
         </div>
-
+    </form>
     </script>   
 
 <!-- End Profile -->
@@ -2234,7 +2323,7 @@
             </div>
 
             <br />
-            <label>3. Which part do you want to add the application on?</label>
+            <label>2. Which part do you want to add the application on?</label>
 
             <div class="part-container">
 
@@ -3165,6 +3254,8 @@
     
     <script type="text/mustache" id="m-us-states">
 
+        <option value="0">Select your state</option>
+
         @{{#states}}
             <option value="@{{code}}">@{{name}} (@{{code}})</option>
         @{{/states}}
@@ -3173,5 +3264,21 @@
 
 
 <!-- End States -->
+
+<!-- ORDER FORM Error list -->
+    
+    <script type="text/mustache" id="m-order-form-error">
+        
+        <ul style="display: table;margin: 0 auto;">
+            @{{#errors}}
+                <li>
+                    <span>@{{message}}</span>
+                    <a id="@{{id}}-btn" onClick="ub.funcs.gotoField('#@{{id}}')">Go to field.</a>
+                </li>
+            @{{/errors}}
+        </ul>
+        
+    </script>
+<!-- End ORDER FORM Error list -->
 
 @include('partials.controls.team-store-products-picker')

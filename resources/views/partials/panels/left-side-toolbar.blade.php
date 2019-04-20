@@ -60,4 +60,11 @@
         <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
     </span>
 
+    <br />
+
+    <span class="toolbar-item table-btn">
+        <i class="fa fa-table" aria-hidden="true"></i><br />
+        <span class="toolbar-item-label">FABRIC TEST</span>
+    </span>
+
 </div>

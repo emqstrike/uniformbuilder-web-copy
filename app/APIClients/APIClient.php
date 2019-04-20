@@ -17,7 +17,11 @@ class APIClient extends Client
             'base_uri' => getenv('API_HOST') . '/api/'
         ];
 
-        $accessToken = Session::get('accessToken');
+        if (env('APP_ENV') == 'testing') {
+            $accessToken = env('DEV_TOKEN_KEY');
+        } else {
+            $accessToken = Session::get('accessToken');
+        }
 
         if (!is_null($accessToken))
         {

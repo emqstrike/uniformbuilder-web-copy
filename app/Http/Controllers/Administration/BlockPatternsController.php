@@ -64,6 +64,7 @@ class BlockPatternsController extends Controller
         $uniformCategoryID = $request->input('uniform_category_id');
         $neckOptions = $request->input('neck_options');
         $placeholderOverrides = $request->input('placeholder_overrides');
+
         $data = [
             'name' => $name,
             'uniform_category_id' => $uniformCategoryID,
@@ -71,8 +72,8 @@ class BlockPatternsController extends Controller
         ];
 
         $id = null;
-        if (!empty($request->input('block_pattern_id')))
-        {
+
+        if (!empty($request->input('block_pattern_id'))) {
             $id = $request->input('block_pattern_id');
             $data['id'] = $id;
         }
@@ -80,95 +81,80 @@ class BlockPatternsController extends Controller
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_file');
-            if (isset($thumbnailFile))
-            {
-                if ($thumbnailFile->isValid())
-                {
-                    $data['thumbnail_path'] = FileUploader::upload(
-                                                    $thumbnailFile,
-                                                    $name,
-                                                    'thumbnail',
-                                                    "block_pattern/thumbnail"
-                                                );
+
+            if (isset($thumbnailFile)) {
+                if ($thumbnailFile->isValid()) {
+                    $data['thumbnail_path'] = FileUploader::upload($thumbnailFile, $name, 'thumbnail', "block_pattern/thumbnail");
                 }
             }
-
-        }
-        catch (S3Exception $e)
-        {
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/block_patterns')
-                            ->with('message', 'There was a problem uploading your files');
+            return Redirect::to('/administration/block_patterns')->with('message', 'There was a problem uploading your files');
         }
+
         try {
             $folder_name = "cut_preview";
+
             // Cut Preview
             $cutPreview = $request->file('cut_preview');
-            if (isset($cutPreview))
-            {
-                if ($cutPreview->isValid())
-                {
+
+            if (isset($cutPreview)) {
+                if ($cutPreview->isValid()) {
                     $randstr = Random::randomize(12);
-                    $data['cut_preview'] = FileUploader::upload(
-                                                    $cutPreview,
-                                                    $randstr,
-                                                    'thumbnail',
-                                                    $folder_name
-                                                );
+
+                    $data['cut_preview'] = FileUploader::upload($cutPreview, $randstr, 'thumbnail', $folder_name);
                 }
             }
-
-        }
-        catch (S3Exception $e)
-        {
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/block_patterns')
-                            ->with('message', 'There was a problem uploading your files');
+            return Redirect::to('/administration/block_patterns')->with('message', 'There was a problem uploading your files');
         }
 
         $myJson = json_decode($neckOptions, true);
+
         // Upload Neck Options Thumbnails
-        try
-        {
+        try {
             $neckOptionsFiles = $request->file('neck_option_image');
             $neckOptionsFiles = (array) $neckOptionsFiles;
+
             $ctr = 1;
-            foreach ($neckOptionsFiles as $neckOptionsFile) {
-                if (!is_null($neckOptionsFile))
-                {
-                    if ($neckOptionsFile->isValid())
-                    {
+
+            foreach ($neckOptionsFiles as $key => $neckOptionsFile) {
+                if (! is_null($neckOptionsFile)) {
+                    if ($neckOptionsFile->isValid()) {
                         // $filename = Random::randomize(12);
-                        $filename = $myJson[(string)$ctr]['name'];
+                        $filename = $myJson[$key + 1]['name'];
                         $filename = str_replace(' ', '', $filename);
-                        $myJson[(string)$ctr]['thumbnail_path'] = FileUploader::upload(
-                                                                    $neckOptionsFile,
-                                                                    $name,
-                                                                    'material_option',
-                                                                    "materials",
-                                                                    "{$name}/{$filename}.png"
-                                                                );
+                        $myJson[$key + 1]['thumbnail_path'] = FileUploader::upload(
+                            $neckOptionsFile,
+                            $name,
+                            'material_option',
+                            "materials",
+                            "{$name}/{$filename}-". time() . ".png"
+                        );
                     }
                 }
+
                 $ctr++;
             }
-        }
-        catch (S3Exception $e)
-        {
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/block_patterns')
-                            ->with('message', 'There was a problem uploading your files');
+            return Redirect::to('/administration/block_patterns')->with('message', 'There was a problem uploading your files');
         }
+
         $data['neck_options'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
 
         $response = null;
-        if (!empty($id))
-        {
+
+        if (!empty($id)) {
             Log::info('Attempts to update Block Pattern #' . $id);
+
+            if (! count(json_decode($data['neck_options'], true)) > 0) {
+                return back()->with('flash_message_error', 'Please add at least 1 neck option');
+            } 
+            
             $response = $this->client->updateBlockPattern($data);
-        }
-        else
-        {
+        } else {
             if (! count(json_decode($data['neck_options'], true)) > 0) {
                 return back()->with('flash_message_error', 'Please add at least 1 neck option');
             } 
@@ -177,17 +163,12 @@ class BlockPatternsController extends Controller
             $response = $this->client->createBlockPattern($data);
         }
 
-        if ($response->success)
-        {
+        if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/block_patterns')
-                            ->with('message', 'Successfully saved changes');
-        }
-        else
-        {
+            return Redirect::to('administration/block_patterns')->with('message', 'Successfully saved changes');
+        } else {
             Log::info('Failed');
-            return Redirect::to('administration/block_patterns')
-                            ->with('message', $response->message);
+            return Redirect::to('administration/block_patterns')->with('message', $response->message);
         }
     }
 }

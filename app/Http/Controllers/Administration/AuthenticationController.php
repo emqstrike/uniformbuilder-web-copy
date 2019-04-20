@@ -29,7 +29,6 @@ class AuthenticationController extends Controller
 
         $email = $request->input('email');
         $password = $request->input('password');
-
         if (in_array($email, $rep_emails)) {
             Session::put('adminFullAccess', false);
         } else {
@@ -38,27 +37,29 @@ class AuthenticationController extends Controller
 
         try
         {
-            $response = $this->client->post('user/login', [
-                'json' => [
-                    'email' => $email,
-                    'password' => $password
-                ]
-            ]);
-
-            $decoder = new JsonDecoder();
-
-            $result = $decoder->decode($response->getBody());
+            $data = [
+                'email' => $email,
+                'password' => $password,
+                'login_origin' => 'backend'
+            ];
+            $result = $this->client->login($data);
 
             // Only 'administrator' Account Type can login
             if ($result->success && $result->user->type == 'administrator')
             {
                 Session::put('userId', $result->user->id);
+                Session::put('userAllowedPages', $result->user->allowed_pages);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
+                Session::put('first_name', $result->user->first_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::put('role', $result->user->role);
+                Session::put('userType', $result->user->type);
+                Session::put('userLimitedAccess', $result->user->limited_access);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 $config_string = 'user-restrictions.'.$result->user->id;

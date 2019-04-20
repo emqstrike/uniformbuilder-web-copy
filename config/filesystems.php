@@ -68,6 +68,9 @@ return [
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
+
+            // Additional
+            'environment' => env('S3_ENV', 'dev')
         ],
 
         'rackspace' => [

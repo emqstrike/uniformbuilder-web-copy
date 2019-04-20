@@ -77,4 +77,15 @@ class PatternsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function getPatternsBySport($active_sport)
+    {
+        $response = $this->get('patterns/sport/'.$active_sport);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->patterns;
+        }
+        return null;
+    }
 }

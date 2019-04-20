@@ -49,11 +49,12 @@ select:hover {
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary submit-record">
+                                <button type="submit" class="btn btn-flat btn-primary submit-record">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Mascot
                                 </button>
-                                <a href="/administration/logo_requests" class="btn btn-danger">
+
+                                <a href="{{ route('v1_logo_requests') }}" class="btn btn-flat btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

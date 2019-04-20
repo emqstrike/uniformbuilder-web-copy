@@ -247,6 +247,10 @@ $(document).ready(function () {
 		ub.shortcut.add("Alt+4", function () {
 			ub.showThumbnail3(); 
 		});
+
+		ub.shortcut.add("Alt+5", function () {
+			ub.funcs.enableAlternativeUI();
+		});
 		
 		// Dev Tools is at shift + alt,
 
@@ -256,9 +260,14 @@ $(document).ready(function () {
 
 		// Main UI 
 
-		ub.shortcut.add("Esc", function () {			
-			if (ub.status.fullView.getStatus()) { ub.funcs.restoreUI(); }
-		});
+        ub.shortcut.add("Esc", function () {
+            if (ub.status.fullView.getStatus()) {
+                $("div.verbiage-container").removeClass('preview-verbiage-container');
+                $("p.verbiage-text").removeClass('preview-verbiage-text');
+                $("div#main_view").css('background-color', '');
+                ub.funcs.restoreUI();
+            }
+        });
 
 	/// End Shortcut definitions 
 

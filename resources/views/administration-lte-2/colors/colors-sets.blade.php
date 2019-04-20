@@ -237,7 +237,8 @@ $(document).ready(function(){
         $('.colors-val').val($(this).val());
     });
 
-    $('.toggle-color-set').on('click', function(){
+    $(document).on('click', '.toggle-color-set', function(e) {
+        e.preventDefault();
         var id = $(this).data('color-set-id');
         var url = "//" + api_host + "/api/color_set/toggle/";
         $.ajax({
@@ -250,6 +251,7 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
+                    window.location.reload();
                     new PNotify({
                         title: 'Success',
                         text: response.message,

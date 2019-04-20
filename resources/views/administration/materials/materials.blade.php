@@ -76,6 +76,8 @@
                     <select class="active-sport">
                         <option value="{{ $active_sport }}">{{ $active_sport }}</option>
                     </select>
+                    <a href="#" class="btn btn-danger btn-xs btn-flat reset-filter">Reset Filters</a>
+
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered table-hover materials display'>
@@ -106,7 +108,7 @@
         @forelse ($materials as $material)
             <tr>
                 <td class="m-id-val">
-                    {{ $material->id }}
+                    <a href="#" class="material-id-link" data-link="{{ config('customizer.customizer_host').'/builder/0/'.$material->id }}">{{ $material->id }}</a>
                 </td>
                 <td>
                     {{ $material->name }}
@@ -162,6 +164,9 @@
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
+                    <a href="{{ $material->styles_pdf }}" target="_blank" class="btn btn-xs btn-default @if(! $material->styles_pdf) disabled @endif">
+                        <i class="fa fa-download"></i>
+                    </a>
         <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
@@ -174,6 +179,12 @@
                     </a>
                     <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
                         <i class="fa fa-random" aria-hidden="true"></i>
+                    </a>
+                    <a href="/administration/material/{{ $material->id }}/logo_position" class="btn btn-xs btn-flat btn-warning">
+                        <i class="fa fa-github-alt" aria-hidden="true"></i>
+                    </a>
+                    <a href="/administration/material/{{ $material->id }}/gradient") }}" class="btn btn-xs btn-flat btn-warning">
+                        <i class="fa fa-square" aria-hidden="true"></i>
                     </a>
                     <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
                         <i class="fa fa-upload" aria-hidden="true"></i>
@@ -201,10 +212,11 @@
             <tr>
                 <td></td>
                 <td></td>
-                <!-- <td id="sports-filter"></td> -->
                 <td></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

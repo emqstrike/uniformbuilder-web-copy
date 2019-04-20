@@ -34,6 +34,10 @@ $(document).ready(function() {
         ub.left_view.visible = true;
         ub.right_view.visible = true;
 
+        if (ub.zoom) {
+            ub.zoom_off();
+        }
+
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
         ub.funcs.deactivateMoveTool();
@@ -81,6 +85,7 @@ $(document).ready(function() {
         var save_uniform_perspectives_url = '/save_uniform_perspectives';
         var material_data = {
             material_id: ub.config.material_id,
+            product_id: ub.product_id,
             store_code: ub.store_code,
             team_colors: ub.team_colors,
             front: ub.front,
@@ -88,9 +93,11 @@ $(document).ready(function() {
             right: ub.right,
             left: ub.left
         };
-        if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+        if (ub.store_code.length > 0) {
             save_uniform_perspectives_url = TeamStoreAPI.endpoints.save_customized_thumbnails;
-            material_data.settings = JSON.stringify(ub.current_material.settings);
+            if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+                material_data.settings = JSON.stringify(ub.current_material.settings);
+            }
         }
 
         $.ajax({
@@ -100,6 +107,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     ub.utilities.info('Store Code: ' + response.store_code);
+                    ub.utilities.info('Material ID: ' + response.material_id);
                     ub.utilities.info('Product ID: ' + response.product_id);
                     ub.utilities.info('Team Colors: ' + response.team_colors);
                     ub.utilities.info('Saved as images');
@@ -355,10 +363,16 @@ $(document).ready(function() {
         // Setup Events
 
         $('button#button-return-to-customizer').on('click', function () {
+            $("div.verbiage-container").removeClass('preview-verbiage-container');
+            $("p.verbiage-text").removeClass('preview-verbiage-text');
+            $("div#main_view").css('background-color', '');
             ub.funcs.restoreUI();
         });
 
         $('span.fullscreen-btn').on('click', function (e) {
+            $("div.verbiage-container").addClass('preview-verbiage-container');
+            $("p.verbiage-text").addClass('preview-verbiage-text');
+            $("div#main_view").css('background-color', '#61605e');
             ub.funcs.removeUI();
         });
 

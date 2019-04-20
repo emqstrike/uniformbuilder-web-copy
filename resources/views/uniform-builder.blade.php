@@ -16,6 +16,8 @@
     <meta name="keywords" content="custom uniform, custom football uniform, custom basketball uniform, custom baseball uniform, custom volleyball uniform, uniform builder, prolook unifom builder, team uniforms">
 
     <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
+
+    @include('partials.code.rollbar-js')
     
     <!-- Stylesheets -->
     @include('partials.code.stylesheets')
@@ -139,7 +141,6 @@
 
 
     @include('partials.detect-mobile')
-
 
 </body>
 </html>

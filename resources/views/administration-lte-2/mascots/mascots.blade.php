@@ -63,9 +63,13 @@
                         </a>
                     </h1>
                     <hr>
-                    Uniform Category:
+                   <label>Uniform Category:</label>
                     <select class="active-sport">
                         <option value="{{ $active_sport }}">{{ $active_sport }}</option>
+                    </select>
+                    <label>  Mascot Category: </label>
+                    <select class="active-category">
+                        <option value="{{ $active_category }}">{{ $active_category }}</option>
                     </select>
                 </div>
                 <div class="box-body">
@@ -168,7 +172,6 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.mascots.mascots-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -179,8 +182,10 @@
 $(document).ready(function(){
 
     window.sports = null;
+    window.categories = null;
 
     getSports(function(sports){ window.sports = sports; });
+    getCategories(function(categories){ window.categories = categories; });
 
     function getSports(callback){
         var sports;
@@ -195,6 +200,23 @@ $(document).ready(function(){
             success: function(data){
                 sports = data['categories'];
                 if(typeof callback === "function") callback(sports);
+            }
+        });
+    }
+
+    function getCategories(callback){
+        var categories;
+        var url = "//" + api_host + "/api/mascot_categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                categories = data['mascots_categories'];
+                if(typeof callback === "function") callback(categories);
             }
         });
     }
@@ -219,7 +241,31 @@ $(document).ready(function(){
     $('.active-sport').append(elem);
 
     $(document).on('change', '.active-sport', function() {
-        window.location = "/administration/v1-0/mascots/"+$(this).val();
+        var category_filter = $('.active-category').val();
+        window.location = "/administration/v1-0/mascots/"+$(this).val()+"/"+category_filter;
+    });
+
+
+    window.active_category = $('.active-category').val();
+    categories = _.filter(window.categories, function(e){
+        return window.active_category !== e.name;
+    });
+
+    categories_sorted = _.sortBy(categories, function(c) { return c.name; });
+
+    var mascot_elem = '';
+    if(window.active_category != 'All') {
+        mascot_elem += '<option value="All">All</option>';
+    }
+
+    categories_sorted.forEach(function(entry) {
+        mascot_elem += '<option value="'+entry.name+'">'+entry.name+'</option>';
+    });
+    $('.active-category').append(mascot_elem);
+
+    $(document).on('change', '.active-category', function() {
+        var sport_filter = $('.active-sport').val();
+        window.location = "/administration/v1-0/mascots/"+sport_filter+"/"+$(this).val();
     });
 
     function loadUniformCategories() {
@@ -386,6 +432,15 @@ $(document).ready(function(){
         } );
     }
     });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 </script>
 

@@ -99,6 +99,9 @@ return [
 
     'log' => 'single',
 
+    // Asset Version
+    'asset_version' => env('ASSET_VERSION', '0.0001'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -147,7 +150,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        'Elibyy\TCPDF\ServiceProvider',                                                                                                                                                                                                                                                                                                     
+        Elibyy\TCPDF\ServiceProvider::class,
 
     ],
 
@@ -197,6 +200,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Slack' => Maknz\Slack\Laravel\Facade::class,
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class
         
 
     ],

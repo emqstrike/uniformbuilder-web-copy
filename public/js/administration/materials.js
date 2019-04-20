@@ -46,16 +46,20 @@ $(document).ready(function() {
     window.mascots = null;
     window.patterns = null;
 
+    var temp_category= $('#material_uniform_category').val();
+    var temp_brand  = $('#material_brand').val();
+
     var lineIdx = 0;
     var loadCase = 0;
     var coords = [];
 
     getColors(function(colors){ window.colors = colors; });
-    getFonts(function(fonts){ window.fonts = fonts; });
+    getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
-    getPatterns(function(patterns){ window.patterns = patterns; });
+    getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
+    getFabrics(function(fabrics){ window.fabrics = fabrics; });
 
     console.log(window.tailsweeps);
 
@@ -608,9 +612,25 @@ $(document).ready(function() {
         flipApplication(id);
     });
 
+    function dynamicSort(property)
+    {
+        var sortOrder = 1;
+
+        if (property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+
+        return function (a,b) {
+            if (sortOrder == -1) {
+                return b[property].localeCompare(a[property]);
+            } else {
+                return a[property].localeCompare(b[property]);
+            }
+        }
+    }
+
     $('#add_front_application').mousedown(function() {
-
-
         var default_item = $('#front-default-item').val();
         var default_name_raw = $('#application_name').val();
         var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
@@ -642,7 +662,7 @@ $(document).ready(function() {
                 cornerBackgroundColor: 'blue'
             },
             tl: {
-                icon: 'http://52.39.10.209/rotate.svg'
+                // icon: 'http://52.39.10.209/rotate.svg'
             }
         });
         group.setControlsVisibility({
@@ -659,9 +679,11 @@ $(document).ready(function() {
         canvasFront.add(group);
 
         var fonts_options = '<option value="">Not Set</option>';
-        for(var i = 0; i < window.fonts.length; i++) {
-            if(window.fonts[i].active == 1){
-            fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+        var app_material_brand = $('#app-material-brand').val();
+
+        for (var i = 0; i < window.fonts.length; i++) {
+            if (window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand) {
+                fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
             }
         }
 
@@ -676,14 +698,17 @@ $(document).ready(function() {
             var bp_options = pattern.block_pattern_options;
             var sportOk = _.contains(sport, current_sport);
             var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
-                return (sportOk && optionsOk && asset_target === current_asset_target);
+
+            return (sportOk && optionsOk && asset_target === current_asset_target);
         });
 
+        // sort input patterns by name in ascending order
+        input_patterns.sort(dynamicSort('name'));
+
         $.each(input_patterns, function (i, item) {
-            if(item.id == 33) {
+            if (item.id == 33) {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-            }
-            else {
+            } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
             }
         });
@@ -702,11 +727,11 @@ $(document).ready(function() {
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
         var app_y                   = '<input type="text" style="' + style + '" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
-        var app_primary             = '<input type="checkbox" style="' + style + '" class="app-primary" value="1">';
-        var app_logo                = '<input type="checkbox" style="' + style + '" class="app-logo" value="1">';
-        var app_team_name           = '<input type="checkbox" style="' + style + '" class="app-team-name" value="1">';
-        var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
-        var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
+        var app_primary             = '<input checked type="checkbox" style="' + style + '" class="app-primary" value="1">';
+        var app_logo                = '<input checked type="checkbox" style="' + style + '" class="app-logo" value="1">';
+        var app_team_name           = '<input checked type="checkbox" style="' + style + '" class="app-team-name" value="1">';
+        var app_player_name         = '<input checked type="checkbox" style="' + style + '" class="app-player-name" value="1">';
+        var app_number              = '<input checked type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
         var default_mascot          = '<input type="textbox" class="mascotFilter"><select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
@@ -717,7 +742,7 @@ $(document).ready(function() {
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
-        var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
+        var embellishment           = '<input checked type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
         var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
@@ -730,89 +755,91 @@ $(document).ready(function() {
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
-        for(var i = 0; i<items_arr.length; i++) {
 
-            if(default_item != items_arr[i]) {
+        for (var i = 0; i<items_arr.length; i++) {
+            if (default_item != items_arr[i]) {
                 select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
             }
 
         }
+
         select_append += "</select>";
 
         var fields = [
-                    delete_application,
-                    app_id,
-                    select_append,
-                    def_name,
-                    application_rotation,
-                    app_x,
-                    app_y,
-                    app_primary,
-                    app_logo,
-                    embellishment,
-                    app_team_name,
-                    app_player_name,
-                    app_number,
-                    app_font_sizes,
-                    colors,
-                    accents,
-                    default_mascot,
-                    tailsweep,
-                    rotated_tailsweep,
-                    default_font,
-                    default_text,
-                    vertical_text,
-                    default_number,
-                    inksoft_design_id,
-                    app_opacity,
-                    def_pattern_position,
-                    app_default_pattern,
-                    custom_scale_x,
-                    custom_scale_y,
-                    flipped,
-                    flip
-                ];
+            delete_application,
+            app_id,
+            select_append,
+            def_name,
+            application_rotation,
+            app_x,
+            app_y,
+            app_primary,
+            app_logo,
+            embellishment,
+            app_team_name,
+            app_player_name,
+            app_number,
+            app_font_sizes,
+            colors,
+            accents,
+            default_mascot,
+            tailsweep,
+            rotated_tailsweep,
+            default_font,
+            default_text,
+            vertical_text,
+            default_number,
+            inksoft_design_id,
+            app_opacity,
+            def_pattern_position,
+            app_default_pattern,
+            custom_scale_x,
+            custom_scale_y,
+            flipped,
+            flip
+        ];
 
         $( ".front-applications" ).append(generateTRow(fields));
-        var canvasItem = "application"+group.id;
+
+        var canvasItem = "application" + group.id;
         application_number++;
 
         $.each(window.mascots, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
+
             var c = 0;
+
             var xdata = JSON.parse(item.layers_properties);
+
             $.each(xdata, function(i, item) {
                 c++;
             });
+
             item['description'] = item.category + ' [ ' + c + ' ]';
             item['imageSrc'] = item.icon;
             item['layers'] = c ;
-
         });
 
         mascotsData = window.mascots;
 
         var mascot_class = '.app-default-mascot';
-        $(mascot_class).ddslick({
 
+        $(mascot_class).ddslick({
             data: mascotsData,
             width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
-            onSelected: function (data) {
+            onSelected: function(data) {
+                var rowIndex = data.original[0].outerHTML;
+                rowIndex = $.parseHTML(rowIndex);
+                rowIndex = $(rowIndex).data("id");
 
-
-                    var rowIndex = data.original[0].outerHTML;
-                    rowIndex = $.parseHTML(rowIndex);
-                    rowIndex = $(rowIndex).data("id");
-
-                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
-                        accentMascotSelect(data,"mascot",rowIndex);
-                    }
-
+                if ($('.app-def-item').eq(rowIndex).val()=="mascot") {
+                    accentMascotSelect(data,"mascot",rowIndex);
+                }
             },
         });
 
@@ -824,6 +851,7 @@ $(document).ready(function() {
             item['imageSrc'] = item.thumbnail;
             console.log(item.secondary_id);
         });
+
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
 
@@ -839,12 +867,10 @@ $(document).ready(function() {
                 rowIndex = $.parseHTML(rowIndex);
                 rowIndex = $(rowIndex).data("id");
 
-                if($('.app-def-item').eq(rowIndex).val()!="mascot"){
-
+                if ($('.app-def-item').eq(rowIndex).val()!="mascot") {
                     accentMascotSelect(data,"accent",rowIndex);
                 }
             },
-
         });
 
         $.each(window.tailsweeps, function(i, item) {
@@ -852,8 +878,10 @@ $(document).ready(function() {
             item['value'] = item.id;
             item['selected'] = false;
         });
+
         var tailsweepsData = window.tailsweeps;
         var tailsweep_class = '.app-default-tailsweep';
+
         $(tailsweep_class).ddslick({
             data: tailsweepsData,
             width: 250,
@@ -867,35 +895,34 @@ $(document).ready(function() {
         $(document).on("change",".accentLayerColors",function(){
             updateColorField(this);
         });
+
         function updateColorField(t){
         var colorCodeField="";
            $(t).parent(".colorSelection").find("select").each(function() {
-
                 var colorCode = ($(this).find(":selected"))[0].outerHTML;
 
                 colorCode =  $.parseHTML(colorCode);
                 colorCode = $(colorCode).data("color-code");
-                colorCodeField = colorCodeField +","+colorCode;
-                $(this).css("background","#"+$(this).find(":selected").val());
-
+                colorCodeField = colorCodeField + "," + colorCode;
+                $(this).css("background","#" + $(this).find(":selected").val());
             });
-           $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
+           $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
         }
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
-            console.log('FLIP ADD');
-            var id = $(this).data('id');
-            flipApplication(id);
-        });
+                console.log('FLIP ADD');
+                var id = $(this).data('id');
+                flipApplication(id);
+            });
         });
 
         updateApplicationsJSON();
 
-        $(document).on('change', '.app-id', function(){
+        $(document).on('change', '.app-id', function() {
             var temp_app_id = $(this).val();
-            $(this).parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+            $(this).parent().find('.appTooltip').data('message', 'App #: ' + temp_app_id);
         });
 
         $('[data-toggle="tooltip"]').popover({
@@ -906,6 +933,8 @@ $(document).ready(function() {
                 return $(this).data('message');
             }
         });
+
+        console.timeEnd('cache');
     });
 
 
@@ -1280,6 +1309,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1310,9 +1340,10 @@ $(document).ready(function() {
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-guide").css("background-image", "url("+material.option.guide+")");
-        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
+        // $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $('#app-material-brand').val(material.brand);
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications point
         canvasFront.clear();
@@ -1370,6 +1401,7 @@ $(document).ready(function() {
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            brand: $(this).data('material-brand'),
             front_shape: ($(this).data('material-front-shape')),
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
@@ -1399,6 +1431,7 @@ $(document).ready(function() {
                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+                default_asset: ($(this).data('material-option-default-asset') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
@@ -1407,6 +1440,7 @@ $(document).ready(function() {
                 default_display: ($(this).data('default-display')),
                 build_type: ($(this).data('build-type')),
                 pattern_opacity: ($(this).data('pattern-opacity')),
+                fabric_id: ($(this).data('default-fabric')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1466,6 +1500,7 @@ $(document).ready(function() {
         $('#allow_pattern').prop('checked', false);
         $('#allow_gradient').prop('checked', false);
         $('#allow_color').prop('checked', false);
+        $('#default_asset').prop('checked', false);
 
         if(material.option.blend){
             $('#is_blend').prop('checked','checked');
@@ -1478,6 +1513,10 @@ $(document).ready(function() {
         }
         if(material.option.allow_color){
             $('#allow_color').prop('checked','checked');
+        }
+
+        if (material.option.default_asset) {
+            $('#default_asset').prop('checked','checked');
         }
 
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
@@ -1534,7 +1573,16 @@ $(document).ready(function() {
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        // var patterns_dropdown = '<option value="0">None</option>';
+        var fabric_dropdown = '<option value="0">None</option>';
+
+        $.each(window.fabrics, function(i, fabric) {
+            if(fabric.id == material.option.fabric_id) {
+                fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
+            } else {
+                fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
+            }
+        });
+
         var patterns_dropdown = '';
         var patterns_dropdown_bpomatch = '<option value="0">None</option>';
         var patterns_dropdown_nobpomatch = '<option value="0">None</option>';
@@ -1549,19 +1597,19 @@ $(document).ready(function() {
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
         try {
-            $.each(window.patterns, function(i, item) {
+            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+            $.each(active_patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
-
                 if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
+                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
                         } else {
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
                         }
                     }
-                    else if(item.asset_target == material.option.asset_target && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
+                    else if(item.asset_target == material.option.asset_target  && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
                         ctr++;
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
@@ -1590,6 +1638,9 @@ $(document).ready(function() {
             team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
             tid++;
         }
+
+        $('#default_fabric').html('');
+        $('#default_fabric').append( fabric_dropdown );
 
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
@@ -1670,7 +1721,7 @@ $(document).ready(function() {
                     // cornerPadding: 5
                 },
                 tl: {
-                    icon: 'http://52.39.10.209/rotate.svg'
+                    // icon: 'http://52.39.10.209/rotate.svg'
                 }
             });
             group.setControlsVisibility({
@@ -1757,9 +1808,10 @@ $(document).ready(function() {
 
 
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
+                var app_material_brand = $('#app-material-brand').val();
                 for(var i = 0; i < window.fonts.length; i++) {
-                    if(window.fonts[i].active == 1){
-                        if(app_font == window.fonts[i].id){
+                    if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
+                        if(app_font == window.fonts[i].id ){
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "' data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
@@ -2546,9 +2598,9 @@ $(document).ready(function() {
         });
     }
 
-    function getFonts(callback){
-        var mascots;
-        var url = "//" + api_host + "/api/fonts";
+    function getFonts(temp_category, temp_brand, callback){
+        var fonts;
+        var url = "//" + api_host + "/api/fonts/minified/"+temp_category+"/"+temp_brand;
         $.ajax({
             url: url,
             async: false,
@@ -2558,6 +2610,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 fonts = data['fonts'];
+                console.log(fonts);
                 if(typeof callback === "function") callback(fonts);
             }
         });
@@ -2580,9 +2633,9 @@ $(document).ready(function() {
         });
     }
 
-    function getPatterns(callback){
+    function getPatterns(temp_brand, callback){
         var patterns;
-        var url = "//" + api_host + "/api/patterns";
+        var url = "//" + api_host + "/api/patterns/"+temp_brand;
         $.ajax({
             url: url,
             async: false,
@@ -2593,6 +2646,23 @@ $(document).ready(function() {
             success: function(data){
                 patterns = data['patterns'];
                 if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
+
+    function getFabrics(callback){
+        var fabrics;
+        var url = "//" + api_host + "/api/fabrics";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fabrics = data['fabrics'];
+                if(typeof callback === "function") callback(fabrics);
             }
         });
     }

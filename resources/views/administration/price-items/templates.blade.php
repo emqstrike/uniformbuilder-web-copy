@@ -89,6 +89,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/administration-lte-2/sizes.js"></script>
 <script>
 $(document).ready(function(){
 
@@ -141,9 +142,6 @@ $(document).ready(function(){
         });
     });
 
-    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
-    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
-    var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
     var size_properties = {};
 
     getPriceItems(function(price_items){ window.price_items = price_items; });

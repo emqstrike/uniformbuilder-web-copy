@@ -63,4 +63,25 @@ class InksoftDesignsAPIClient extends APIClient
         }
         return null;
     }
+
+    public function getPaginated($current_page, $user_id)
+    {
+        $user = '';
+        if (!is_null($user_id)) {
+            $user = '&user_id=' . $user_id;
+        }
+
+        $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/inksoft_designs/paginate?page='.$current_page . $user);
+        $result = $this->decoder->decode($response->getBody());
+        $inksoft_designs = [];
+        if ($result->success)
+        {
+            $inksoft_designs = [
+                'inksoft_designs' => $result->inksoft_designs,
+                'users' => $result->users
+            ];
+
+        }
+        return $inksoft_designs;
+    }
 }

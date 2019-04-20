@@ -48,18 +48,30 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
-    public function getOrdersMinified()
+    public function getOrdersMinified($filters, $from, $to, $test_order)
     {
-        $endpoint = 'ordersMinified';
+        $unassigned = "";
+        $deleted = "";
+        
+        if (isset($filters['unassigned'])) {
+            $unassigned = '&unassigned=' . $filters['unassigned'];
+        }
+
+        if (isset($filters['deleted'])) {
+            $deleted = '&deleted=' . $filters['deleted'];
+        }
+
+        $endpoint = 'ordersMinified/getByDateRange/' . $from . '/' . $to . '/' . $test_order . '?' . $unassigned . $deleted;
 
         $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());
 
         $orders = [];
-        if ($result->success)
-        {
+
+        if ($result->success) {
             $orders = $result->orders;
         }
+
         return $orders;
     }
 
@@ -226,7 +238,7 @@ class OrdersAPIClient extends APIClient
         if ($result->success) {
             $count = $result->count;
         }
-        
+
         return $count;
     }
 

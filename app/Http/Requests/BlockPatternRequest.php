@@ -24,8 +24,29 @@ class BlockPatternRequest extends Request
      */
     public function rules()
     {
-        return [
-            'neck_option_image' => 'image'
-        ];
+        $rules = [];
+        $files = Input::file('neck_option_image');
+
+        if ($files) {
+            foreach ($files as $key => $file) {
+                $rules['neck_option_image.' . $key] = 'image';
+            }
+        }
+
+        return $rules;
+    }
+
+    public function messages()
+    {
+        $messages = [];
+        $files = Input::file('neck_option_image');
+
+        if ($files) {
+            foreach ($files as $key => $file) {
+                $messages['neck_option_image.' . $key . '.image'] = 'Neck option image ' . ($key + 1) . ' should be image.';
+            }
+        }
+
+        return $messages;
     }
 }

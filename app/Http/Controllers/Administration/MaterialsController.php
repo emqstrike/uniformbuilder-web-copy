@@ -1,30 +1,31 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\FileUploaderV2;
-use App\Utilities\Random;
-use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
+use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\BlockPatternsAPIClient;
+use App\APIClients\BoundariesAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FactoriesAPIClient;
-use App\APIClients\GradientsAPIClient;
-use App\APIClients\ApplicationsAPIClient;
-use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
-use App\APIClients\BlockPatternsAPIClient;
-use App\APIClients\MaterialsOptionsAPIClient;
-use App\APIClients\PriceItemTemplatesAPIClient;
-use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\GradientsAPIClient;
 use App\APIClients\ItemSizesAPIClient;
-use App\APIClients\ReversibleGroupsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
+use App\APIClients\MaterialsOptionsAPIClient;
+use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\PriceItemTemplatesAPIClient;
+use App\APIClients\ReversibleGroupsAPIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Http\Requests\MaterialRequest;
+use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Session;
+use \Redirect;
 
 class MaterialsController extends Controller
 {
@@ -119,13 +120,11 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
-
+        $material = $this->client->getMaterial($id);
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
-        $fonts = $this->fontClient->getFonts();
-
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
 
         $front_guide = null;
         $back_guide = null;
@@ -146,7 +145,6 @@ class MaterialsController extends Controller
             }
         }
 
-        $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
 
@@ -161,8 +159,7 @@ class MaterialsController extends Controller
             'front_guide' => $front_guide,
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
-            'right_guide' => $right_guide,
-            'block_patterns' => $block_patterns
+            'right_guide' => $right_guide
         ]);
     }
 
@@ -403,7 +400,7 @@ class MaterialsController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
         $materialName = $request->input('name');
         $materialId = $request->input('material_id');
@@ -472,6 +469,7 @@ class MaterialsController extends Controller
         $reversible_group = $request->input('reversible_group');
         $reversible_pair_id = $request->input('reversible_pair_id');
         $reversible_type = $request->input('reversible_type');
+        $retain_settings = $request->input('retain_settings_from_saved_design');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -533,8 +531,11 @@ class MaterialsController extends Controller
             'brand' => $brand,
             'reversible_group' => $reversible_group,
             'reversible_pair_id' => $reversible_pair_id,
-            'reversible_type' => $reversible_type
-
+            'reversible_type' => $reversible_type,
+            'model_number' => $request->input('model_number'),
+            'retain_settings_from_saved_design' => $retain_settings,
+            'block_pattern_option_2' => $request->input('block_pattern_option_2'),
+            'block_pattern_option_3' => $request->input('block_pattern_option_3')
         ];
         try {
             // Thumbnail Files
@@ -868,7 +869,65 @@ class MaterialsController extends Controller
 
     public function singlePage()
     {
-
         return view('administration.materials.materials-single-page');
     }
+
+    public function logoPosition($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-logo-position', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateLogoPosition(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $logo_position = $request->input('logo_position');
+
+        $data = [
+            'id' => $material_id,
+            'logo_position' => $logo_position
+        ];
+
+        $response = $this->client->updateLogoPosition($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')->with('message', $response->message);
+        }
+    }
+
+    public function gradient($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-gradient', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateGradient(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $gradient = $request->input('gradient');
+
+        $data = [
+            'id' => $material_id,
+            'gradient' => $gradient
+        ];
+
+        $response = $this->client->updateGradient($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')->with('message', $response->message);
+        }
+    }
+
 }

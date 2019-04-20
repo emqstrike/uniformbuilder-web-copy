@@ -39,7 +39,8 @@ class Analytics
             'dimensions' => 'ga:country, ga:pagePath, ga:date',
             'start-date' => $startDate,
             'end-date' => $endDate,
-            'sort' => 'ga:date'
+            'sort' => 'ga:date',
+            'max-results' => '50000'
         ); 
 
         $data = [];

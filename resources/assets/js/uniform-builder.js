@@ -29,15 +29,25 @@ $(document).ready(function () {
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
             ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
+            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                // prevent apostrophe problem
+                ub.config.sport         = ub.utilities.domParserDecoder(ub.config.sport);
+                ub.config.option        = ub.utilities.domParserDecoder(ub.config.option);
+                ub.config.blockPattern  = ub.utilities.domParserDecoder(ub.config.blockPattern);
+
                 ubsv.mascotScales.fetchValues();
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+
+                // optimize fonts consumption on the api
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
+
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
@@ -56,6 +66,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
+                // Get the Color Sets from the backend API
+                ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
+                ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
+
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -63,7 +77,11 @@ $(document).ready(function () {
 
                 // Application Sizes
                 ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
-                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
+
+                // Hidden Bodies
+                ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
+                ub.loader(ub.current_material.hidden_bodies_url, 'hidden_bodies', ub.callback);  
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -111,8 +129,6 @@ $(document).ready(function () {
 
             ub.zoom_off();
 
-            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
-
         };
 
 
@@ -133,6 +149,28 @@ $(document).ready(function () {
 
             var _gender = ub.data.urlAlias.getAlias(ub.config.styles.gender);
             var _sport = ub.data.urlAlias.getAlias(ub.config.styles.sport);
+
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                // exit if url is from HSEL
+                if (ub.config.isFromHSEL === "1") { return; }
+
+                var sport = _sport.urlAlias;
+                var gender = _gender.shortCode;
+
+                if (_sport.urlAlias === 'Football') { sport = 'Football 2017'; }
+                if (_sport.urlAlias === 'Wrestling') { sport = 'Wrestling 2018'; }
+
+                var uniformType = _.find(ub.data.activeSports.items, {name: sport}).type;
+
+                ub.funcs.setV2Gender(gender);
+                ub.funcs.setV2Sport(sport);
+                ub.funcs.setV2UniformType(uniformType);
+                ub.funcs.resetSecondaryBarFilter();
+                ub.funcs.setSideBarSportFilter();
+
+            }
 
             ub.funcs.directLinks(_gender.urlAlias, _sport.urlAlias);
 
@@ -383,7 +421,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
             }
 
-            if(ub.funcs.isSocks() && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
                 $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
             } else {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
@@ -442,7 +480,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
-            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
+            ub.current_material.settings.hiddenBody = ub.config.hiddenBody;
 
             ub.funcs.activatePartByIndex(0);
 
@@ -633,17 +671,30 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.branding.useAllColors) {
-                ub.funcs.addAllColorToTeamColors();
-            }
+            if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
+
+            ub.funcs.executeAfterLoadFunctionList();
 
         };
 
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"] > span').text('Outside View');
-                $('a.change-view[data-view="right"] > span').text('Inside View');
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+
+                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
+
+                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
+                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
+                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+
+                    $('span.perspective[data-id="left"]').text('Outside');
+                    $('span.perspective[data-id="right"]').text('Inside');
+                }
             }
 
         }
@@ -967,6 +1018,8 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
+                'colors_sets',
+                'hidden_bodies'
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1015,6 +1068,17 @@ $(document).ready(function () {
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+
+            if (object_name === 'colors_sets') { 
+                
+                var isThreadColor = true;
+
+                // get Thread Colors from the backend API
+                if (isThreadColor) ub.funcs.getThreadColors();
+
+            }
+
+            if (object_name === 'hidden_bodies') { ub.funcs.setupHiddenBody(obj); }
 
             if (object_name === 'cuts_links') {
 
@@ -1066,6 +1130,8 @@ $(document).ready(function () {
                 ub.init_style();
 
                 ub.funcs.optimize();
+
+                ub.funcs.setupRetain();
 
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
@@ -1667,15 +1733,28 @@ $(document).ready(function () {
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
-                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
+                    (material.uniform_category === "SFN Jogger (Apparel)") ||
+                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+
+                    var tempLeftThumbnail = material.thumbnail_path_left;
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
+
+                    if (material.block_pattern === "Hockey Sock") {
+                        material.thumbnail_path_left = tempLeftThumbnail;
+                    }
+
                 }
 
                 if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-   
+
+                if (material.uniform_category === "Tech Tee (eSports)") {
+                    material.thumbnail_path_left = material.thumbnail_path_back;
+                }
+                
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
@@ -1695,6 +1774,9 @@ $(document).ready(function () {
             // Remove inactive styles that were tagged
             ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
             ub.funcs.updateTagStyleCount();
+
+            // Init HSEL
+            ub.funcs.initHSELLogo();
 
         }
 
@@ -1917,8 +1999,11 @@ $(document).ready(function () {
         var _set = [];
         var _app = view.application;
 
+        // disable `number` and `player_name` for Sublimated Socks
+        var isNotSocks = !ub.funcs.isSocks();
+
         if (_app.hasLogo === 1 || ub.funcs.isSublimated()) { _set.push ('logo'); }
-        if (_app.hasNumber === 1 || ub.funcs.isSublimated()) { _set.push ('number'); }
+        if (_app.hasNumber === 1 || ub.funcs.isSublimated() && isNotSocks) { _set.push ('number'); }
         if (_app.hasPlayerName === 1 || ub.funcs.isSublimated()) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1 || ub.funcs.isSublimated()) { _set.push ('team_name'); }
         if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }
@@ -2438,7 +2523,7 @@ $(document).ready(function () {
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
             _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
 
-            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+            if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                 ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
                 ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
@@ -2463,6 +2548,8 @@ $(document).ready(function () {
                 e.setting_type === 'mesh_shadows' || 
                 e.setting_type === 'static_layer') { return; }
 
+            if (typeof e.code === "undefined") { return; }
+
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {
@@ -2473,11 +2560,14 @@ $(document).ready(function () {
 
             }
 
-            if (typeof e.code === "undefined") { return; }
 
             if (typeof e.code !== 'undefined') {
                 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
+
+                // exit if material is undefined
+                if (typeof _materialOption === 'undefined') { return; };
+
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
                 e.team_color_id     = _team_color_id;
@@ -2620,7 +2710,7 @@ $(document).ready(function () {
 
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
-                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+                if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
 
                     if (application_obj.application.layer === "Body") {
 
@@ -2632,11 +2722,49 @@ $(document).ready(function () {
 
             }
 
-            if (typeof application_obj.patternID === "undefined") {
-                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
-                if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
-            }
             // Application Pattern
+            if (typeof application_obj.patternID === "undefined") {
+
+                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+                
+                var _calibration = 0;
+                var _patternObj;
+
+                // set pattern position
+                if (application_obj.withPattern && application_obj.patternID !== null) {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.patternID});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.patternConfigFromBackend.position.y += _calibration;
+
+                    }
+
+                    ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); 
+                }
+
+                // set pattern position for saved design uniform
+                if (typeof ub.config.savedDesignInfo !== "undefined" && typeof application_obj.pattern_settings !== 'undefined') {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.pattern_obj.id});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.pattern_settings.position.y += _calibration;
+
+                    }
+
+                }
+
+                
+            }
     
             // Application Opacity
             application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);
@@ -2737,6 +2865,8 @@ $(document).ready(function () {
                 if (_.size(ub.current_material.settings.pipings) > 0) {
 
                     ub.funcs.processSavedPipings();
+                    
+                    // ub.funcs.afterLoadFunctionList.push(logoObj.processColors); 
 
                 }
 
@@ -2758,9 +2888,9 @@ $(document).ready(function () {
 
         }
 
-        if (ub.funcs.isSocks()) {
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
-            // Activate Left View when a sock is loaded
+            // Activate Left View on all Socks (Apparel) except on 'Hockey Sock' block pattern
             ub.funcs.activateLeftView();
 
         }
@@ -3147,6 +3277,8 @@ $(document).ready(function () {
 
     window.ub.setup_material_options = function () {
 
+        ub.fabric.fabricCollections = [];
+
         ub.current_material.options_distinct_names = {};
 
         ub.maxLayers = 0;
@@ -3165,14 +3297,29 @@ $(document).ready(function () {
 
                 var name = obj.name.toCodeCase();
 
-                current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
+                var _sprite = ub.pixi.new_sprite(obj.material_option_path);
+
+                current_view_objects[name] = _sprite;
                 var current_object = current_view_objects[name];
 
                 current_object.name = name;
 
+                if (name === "highlights" || name === "shadows") {
+
+                    ub.fabric.fabricCollections.push({
+                        code: name,
+                        name: name + '_' + obj.layer_level,
+                        id: obj.layer_level,
+                        perspective: obj.perspective,
+                        obj: _sprite,
+                    });
+
+                }
+                
                 // Multiplied to negative one because
                 // UpdateLayers order puts the least zIndex on the topmost position
 
+                current_object.spriteID = name + '_' + obj.layer_level;
                 current_object.zIndex = (obj.layer_level * ub.zIndexMultiplier) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
                 
@@ -3201,9 +3348,11 @@ $(document).ready(function () {
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                    current_object.layerID = obj.layer_level;
 
                 } else if (obj.setting_type === 'shadows') {
 
+                    current_object.layerID = obj.layer_level;
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                 } else {
@@ -5464,6 +5613,18 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
+        $('input.quickRegistrationEmail').on('focus', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            $('div#primaryQuickRegistrationPopup').unbind('mousedown', ub.funcs.handle_mousedown);
+        });
+
+        $('input.quickRegistrationEmail').on('blur', function(event) {
+            event.preventDefault();
+            // bind drag
+            $('div#primaryQuickRegistrationPopup').bind('mousedown', ub.funcs.handle_mousedown);
+        });
+
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
@@ -5614,29 +5775,10 @@ $(document).ready(function () {
 
         $('div.close-popup').on('click', function (){
 
-            $popup.remove();
+            $('div#primaryQuickRegistrationPopup').remove();
             ub.status.quickRegistrationPopup = false;
 
         });
-
-        // $popup.bind('clickoutside', function () {
-
-        //     var _status = $(this).data('status');
-
-        //     if (_status === 'hidden') {
-
-        //         $(this).data('status', 'visible');
-        //         return;
-
-        //     }
-
-        //     $(this).data('status', 'hidden');
-        //     $(this).hide();
-        //     $(this).remove();
-        //     ub.status.quickRegistrationPopup = false;
-
-        // });
-
 
     }
 
@@ -5674,6 +5816,7 @@ $(document).ready(function () {
         ub.funcs.resetHighlights();
 
     }
+
 
     ub.funcs.initOrderProcess = function () {
 
@@ -6194,7 +6337,8 @@ $(document).ready(function () {
         var views = ub.data.views;
         var _rotationAngle = 0;
         var _extra         = {};
-        var _positiion     = {x: 0, y: 0};
+        // var _positiion     = {x: 0, y: 0};
+        var _positiion = position;
         target_name        = util.toTitleCase(target_name);
 
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
@@ -6296,6 +6440,12 @@ $(document).ready(function () {
             _p.position.x += ub.dimensions.width / 2;
             _p.position.y += ub.dimensions.height / 2;
 
+            var _soPattern = ub.funcs.getMaterialOptionSettingsObject(target_name).pattern
+
+            if (_soPattern.dirty) {
+                _p.position = position;
+            }
+            
             _p.anchor = {x: 0.5, y: 0.5};
             _p.pivot = {x: 0.5, y: 0.5};
 
@@ -6533,27 +6683,38 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
+                var itemExcemptions = ['Apparel', 'eSports'];
 
-                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (!_.contains(itemExcemptions, _item)) {
 
-                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+                    if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
+                    if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
 
+                    var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+                    if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+
+                }
+                
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
 
             if (_picker_type === 'uniforms') {
 
-                ub.funcs.fadeOutElements();
-                $('body').removeClass('pickers-enabled');
+                // ub.funcs.fadeOutElements();
+                // $('body').removeClass('pickers-enabled');
 
-                $('#main-picker-container').hide();
-                $('.header-container').removeClass('forceHide');
+                // $('#main-picker-container').hide();
+                // $('.header-container').removeClass('forceHide');
 
+                // window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                
+                // reopen the uniform in a new page
+                var url = '/builder/0/' + _id;
+                window.open(url, '_blank');
 
-                window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                return;
 
             }
 
@@ -6585,6 +6746,19 @@ $(document).ready(function () {
 
                 }
                 
+            }
+
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                var uniformType = _.find(ub.data.activeSports.items, {name: _item}).type;
+
+                ub.funcs.setV2Gender(_gender);
+                ub.funcs.setV2Sport(_item);
+                ub.funcs.setV2UniformType(uniformType);
+                ub.funcs.resetSecondaryBarFilter();
+                ub.funcs.setSideBarSportFilter();
+
             }
 
         });
@@ -6639,6 +6813,13 @@ $(document).ready(function () {
 
         $('div#topbar > span.slink[data-picker-type="gender"]').unbind('click');
         $('div#topbar > span.slink[data-picker-type="gender"]').on('click', function () {
+
+            // Picker V2
+            if (ub.picker.isNew) {
+                $('.cd-filter .cd-close').trigger('click');
+                $('main.cd-main-content').css({'display':'none'});
+                ub.funcs.resetSecondaryBarFilter();
+            }
 
             $picker_item = $(this);
 
@@ -6745,7 +6926,6 @@ $(document).ready(function () {
             $('span.slink[data-item="Sublimated"]').show();
         }
 
-
     }
 
     ub.funcs.hideIpadUniforms = function () {
@@ -6762,14 +6942,17 @@ $(document).ready(function () {
 
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
-
-        var _sorted = _.sortBy(items, function (item) { 
-
+        var _sorted = _.sortBy(items, function (item) {
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
-
+            
             // Blank styles goes to the bottom ...
-            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; }
+            // Move materials with USA name to the last under Basketball category only
+            if ((item.uniform_category === "Basketball") && (item.neck_option.indexOf('USA') >= 0)){_weight += 100;}
+            // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
+            // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
+            if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
 
             return _weight;
 
@@ -6795,6 +6978,68 @@ $(document).ready(function () {
         $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPrice').hide();
         $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPriceSale').hide();
         $('div.main-picker-items[data-option="Fight Short"]').find('span.adult-label').html('Price starts from ');
+
+    }
+
+    // Get all set block pattern's aliases
+    // @param Array ub.tempItems
+    ub.funcs.getBlockPatternsAlias = function (items) {
+
+        var blockPatterns = [];
+
+        _.uniq(_.map(items, function(item) {
+
+             if (item.block_pattern_alias !== '' && typeof item.block_pattern_alias !== 'undefined') {
+
+                    blockPatterns.push(item.block_pattern_alias);
+
+             } else {
+
+                    blockPatterns.push(item.block_pattern);
+
+             }
+
+        }));
+
+        return _.uniq(blockPatterns);
+
+    }
+
+    // Get all set neck option's aliases
+    // @param Array ub.tempItems
+    ub.funcs.getNeckOptionsAlias = function (items) {
+
+        var neckOptions = [];
+
+        _.each(items, function(item) {
+
+            var parsedBlockPatternOptions = JSON.parse(item.block_pattern_options);
+            
+            var bOptions = _.find(parsedBlockPatternOptions, {name: item.neck_option});
+
+            item.neck_option_alias = (typeof bOptions.alias !== 'undefined' 
+                                        && bOptions.alias !== 'undefined' 
+                                        && bOptions.alias !== '') 
+                                     ? bOptions.alias 
+                                     : item.neck_option;
+
+        });
+
+        _.uniq(_.map(items, function(item) {
+
+             if (item.neck_option_alias !== '' && typeof item.neck_option_alias !== 'undefined') {
+
+                    neckOptions.push(item.neck_option_alias);
+
+             } else {
+
+                    neckOptions.push(item.neck_option);
+
+             }
+
+        }));
+
+        return _.uniq(neckOptions);
 
     }
 
@@ -6824,6 +7069,8 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
 
+                ub.filters.tertiary = _dataItem.toString();
+
                 if (_dataItem === "All") {
 
                     _newSet = window.origItems;
@@ -6832,7 +7079,7 @@ $(document).ready(function () {
 
                     _newSet = _.filter(window.origItems, function (item) {
 
-                        return item.block_pattern === _dataItem;
+                        return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
 
                     });
 
@@ -6916,7 +7163,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.neck_option === _dataItem;
+                            return item.neck_option === _dataItem || item.neck_option_alias === _dataItem;
 
                         });
 
@@ -6924,7 +7171,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.block_pattern === _activeBlockPattern && item.neck_option === _dataItem;
+                            return item.block_pattern === _activeBlockPattern && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
 
                         });
 
@@ -6932,7 +7179,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_blank === "1";
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_blank === "1";
 
                             });
 
@@ -6942,7 +7189,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem && item.is_favorite === true;
+                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_favorite === true;
 
                             });
 
@@ -6970,6 +7217,7 @@ $(document).ready(function () {
 
         ub.filters.primary = "All";
         ub.filters.secondary = "All";
+        ub.filters.tertiary = "All";
 
         $('span.secondary-filters').removeClass('active');
         $('span.primary-filters').removeClass('active');
@@ -7009,7 +7257,7 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
 
         ub.funcs.fadeOutElements();
 
@@ -7077,8 +7325,9 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: items,
                 apparel: _apparel,
+                esports: esports,
             }
-            
+
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
             _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
@@ -7104,26 +7353,46 @@ $(document).ready(function () {
             });
 
            ub.funcs.prepFilters();
-                
+           
         }
 
         if (type === 'uniforms') {
 
             var _sport = gender;
 
-            ub.funcs.prepareSecondaryBar(_sport, actualGender);
-
             var _sizeSec = _.size(items);
 
-            ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
-            ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
-
-            $('div.secondary-bar').fadeIn();
-            $('div.secondary-bar').css('margin-top', "0px");
-
-            var template = $('#m-picker-items-uniforms').html();
+            var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
+
+            if (!ub.picker.isNew) {
+
+                ub.funcs.prepareSecondaryBar(_sport, actualGender);
+
+                ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
+                ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
+
+                template = $('#m-picker-items-uniforms').html()
+
+                $('div.secondary-bar').fadeIn();
+                $('div.secondary-bar').css('margin-top', "0px");
+
+            } else {
+
+                ub.tempItems = ub.funcs.addFilterObject(ub.tempItems);
+
+                ub.funcs.prepareSecondaryBarV2(_sport, actualGender);
+
+                template = $('#m-picker-items-uniforms-v2').html()
+
+                $('main.cd-main-content').css({'display':'block'});
+
+                $scrollerElement = $('section#picker-items-container ul');
+
+            }
+
+            if (typeof gender === 'undefined') { return; }
 
             var data = {
 
@@ -7240,12 +7509,22 @@ $(document).ready(function () {
             if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
-                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+
+                if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+
+                    _options = ['Belted Pant', 'Elastic Waistband Pant'];
+
+                } else {
+
+                    $('div.quarternary-bar').hide();
+
+                }
 
             } else {
 
-                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
-                _options = _.uniq(_.pluck(itemsWOUpper,'neck_option'));  
+                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+                _options = ub.funcs.getNeckOptionsAlias(itemsWOUpper);
 
             }
 
@@ -7263,9 +7542,15 @@ $(document).ready(function () {
 
                 if (option === null) { return; }
 
+                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+
+                _alias = ub.data.blockPatternsAlias.getAlias(_alias);
+
                 _blockPatternsCollection.push({
-                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+
+                    alias: _alias,
                     item: option,
+
                 });
 
             });
@@ -7291,7 +7576,6 @@ $(document).ready(function () {
 
             });
 
-
             _.each(_options, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
@@ -7312,9 +7596,13 @@ $(document).ready(function () {
             });
 
             if (typeof fromTertiary !== 'boolean') {
+
+                if (!ub.picker.isNew) {
             
-                ub.funcs.updateTertiaryBar(items, gender);
-                ub.funcs.updateQuarternaryBar(items, gender);
+                    ub.funcs.updateTertiaryBar(items, gender);
+                    ub.funcs.updateQuarternaryBar(items, gender);
+
+                }
 
             }
 
@@ -7327,6 +7615,8 @@ $(document).ready(function () {
 
             $('span.secondary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+                
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
@@ -7423,6 +7713,8 @@ $(document).ready(function () {
 
             $('span.primary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
                 var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
@@ -7505,7 +7797,14 @@ $(document).ready(function () {
 
             });
 
-            $(window).scrollTop(0);
+            $(window).scrollTop(1);
+
+            if (ub.picker.isNew) {
+                
+                ub.funcs.resetSecondaryBarFilter();
+
+                $('div#main-picker-scroller').fadeOut().html('');
+            }
 
         }
 
@@ -7719,8 +8018,8 @@ $(document).ready(function () {
 
         $('body').removeClass('generic-canvas');
 
-        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
-        $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
+        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash_new.png)');
+        //$('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
         ub.funcs.hideRosterAndOrderForm();
 
@@ -7787,10 +8086,12 @@ $(document).ready(function () {
 
         ub.funcs.prepPickers();
 
-        var _apparel = _.find(ub.data.apparel, {gender: sport});
+        // var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
+        var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
+        var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -7832,7 +8133,17 @@ $(document).ready(function () {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
-        } else if (_availableForUnisex)  {
+        } else if (sport === "eSports") {
+            $(window).scrollTop(0);
+            var esports = _.find(ub.data.esports, {gender: gender});
+            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (sport === "Apparel") {
+            $(window).scrollTop(0);
+            var apparel = _.find(ub.data.apparel, {gender: gender});
+            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
+            return;
+        } else if (_availableForUnisex) {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
@@ -7946,6 +8257,26 @@ $(document).ready(function () {
         var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
         var _result = _.find(ub.filterStructure.primary, {name: _type});
         var _sportFilters = _.find(ub.data.sportFilters, {sport: sport}).filters;
+
+        // create exception on Tennis _sportFilters array
+        // men: Shorts
+        // women: Skorts
+        if ( _.isEqual(sport, 'Tennis') ) {
+
+            // get Shorts/Skorts index on _sportFilters array
+            var index = (_.contains(_sportFilters, 'Shorts')) 
+                        ? _sportFilters.indexOf('Shorts') 
+                        : (_.contains(_sportFilters, 'Skorts')) 
+                        ? _sportFilters.indexOf('Skorts') 
+                        : _sportFilters.indexOf('Shorts');
+
+            if (gender === 'men') {
+                _sportFilters[index] = 'Shorts';
+            } else {
+                _sportFilters[index] = 'Skorts';
+            }
+
+        }
 
         $('span.primary-filters').each(function (index, value) {
 
@@ -8206,9 +8537,8 @@ $(document).ready(function () {
         ub.funcs.deleteSavedDesign = function (id, name) {
 
             var txt;
-            
             var r = confirm("Are you sure you want to delete '" + name + "'?");
-            
+
             if (r !== true) { return; }
 
             data = {
@@ -8216,110 +8546,86 @@ $(document).ready(function () {
             }
 
             $.ajax({
-
                 url: ub.config.api_host + '/api/saved_design/delete/',
                 data: JSON.stringify(data),
-                type: "POST", 
+                type: "POST",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
-
                 }
-                
             });
-   
         }
+
         ub.funcs.runDataTable = function () {
+            $('.data-table').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                initComplete: function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
 
-            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+                                column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                            });
 
-              $('.data-table').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": false,
-                    "info": true,
-                    "autoWidth": true,
-                    initComplete: function () {
-                        this.api().columns().every( function () {
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        });
+                    });
 
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo( $(column.footer()).empty() )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                } );
-
-                            column.data().unique().sort().each( function ( d, j ) {
-
-                                select.append( '<option value="'+d+'">'+d+'</option>' )
-                            } );
-                        } );
-                        $(".data-table-filter-hide select").hide();                      
-                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
-                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
-                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
-                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
-                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
-
-                
-  
-                    }
-                }); 
-            });
-            
-            $(".dropdown-toggle").on('click', function () {                       
-
-                if($( ".btn-group" ).hasClass( "open" )){
-                    $( ".btn-group" ).removeClass("open");
-                }else{
-                    $( ".btn-group" ).addClass("open");
+                    $(".data-table-filter-hide select").hide();
+                    $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                    $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                    $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                    $(".dataTables_filter input").attr( "style","width: 300px; margin-left: 10px;");
                 }
             });
-           
 
+            // $(".dropdown-toggle").on('click', function () {
 
+            //     if($( ".btn-group" ).hasClass( "open" )){
+            //         $( ".btn-group" ).removeClass("open");
+            //     }else{
+            //         $( ".btn-group" ).addClass("open");
+            //     }
+            // });
         }
 
         ub.funcs.rebindSaveButtons = function (data) {
 
             var $container = $('div.saved-designs-list');
             var $imgThumbs = $('img.tview');
-                
-            $imgThumbs.unbind('click');
-            $imgThumbs.on('click', function () {
 
+            $("div.saved-designs-list").on('click', 'img.tview', function () {
                 var _file = $(this).data('file');
                 var _str = "<img src ='" + _file + "' />";
-                
                 ub.showModalTool(_str);
-
             });
 
-            $('span.action-button.view').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.view', function () {
                 var _savedDesignID = $(this).data('saved-design-id');
-                window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
-                
+                var url = '/my-saved-design/' + _savedDesignID + '/render';
+                window.open(url, '_blank');
             });
 
-            $('span.action-button.delete').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.delete', function () {
                 var _deleteDesignID = $(this).data('saved-design-id');
                 var _name = $(this).data('name');
-
                 ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
             });
 
             bindShareDesigns();
@@ -8397,9 +8703,12 @@ $(document).ready(function () {
                     });
                     
                     ub.funcs.runDataTable();
-
                     ub.funcs.rebindSaveButtons(data); 
             
+                    if (response.saved_designs.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.saved-designs-list table tfoot").hide();
+                    }
                 }
                 
             });
@@ -8478,7 +8787,7 @@ $(document).ready(function () {
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8486,7 +8795,7 @@ $(document).ready(function () {
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    }); 
+                    });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
@@ -8507,6 +8816,11 @@ $(document).ready(function () {
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
+
+                    if (dataSaved.orders.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.order-list table tfoot").hide();
+                    }
 
                     $('div.order-list.submitted').find('span.action-button.delete, span.action-button.edit').hide();
                     $('div.order-list.saved').find('span.action-button.delete, span.action-button.view').hide();
@@ -8723,7 +9037,7 @@ $(document).ready(function () {
 
             if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
 
-            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0});
 
             return _colorObj;
 
@@ -8800,7 +9114,7 @@ $(document).ready(function () {
                 var _id             = $(this).data('id');
                 var _type           = $(this).data('type');
                 var _messagePopup   = $('#m-message-popup').html();
-                var _message        = _.find(_messages, {id: _id.toString()});
+                var _message        = _.find(_messages, {id: _id});
 
                 _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
 
@@ -9161,19 +9475,20 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     if (response.success) {
-
                         // Remove M and JS here ...
                         var _reps = _.without(response.sales_reps, _.findWhere(response.sales_reps, {rep_id: '4321'})); // M
                         _reps = _.without(_reps, _.findWhere(_reps, {rep_id: '179'})); // JS
 
+                        // Filter active sales rep
+                        _reps = _.filter(_reps, function(rep) {
+                            if (rep.active !== 0) {
+                                return rep;
+                            }
+                        });
                         cb(_reps);
-
                     }
-
                 }
-                
             });
 
 
@@ -9269,30 +9584,12 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
-                    ub.user.firstName = obj.firstName;
-                    ub.user.lastName = obj.lastName;
-
-                    var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
-
-                    $.ajax({
-                        
-                        url: _url,
-                        type: "PATCH",
-                        data: JSON.stringify(_postData),
-                        datatype: "json",
-                        crossDomain: true,
-                        contentType: "applicatin/json",
-                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-
-                        success: function(response) {
-                            window.location.href = '/my-profile';
-                        }
-
+                    $('button.update-profile').removeAttr('disabled');
+                    $("#myProfileAlert").removeClass('hidden').fadeIn(500, function(){
+                        $("#myProfileAlert").delay(3000).fadeOut(500);
                     });
-
+                    
                 }
-                
             });
 
         };
@@ -9315,8 +9612,8 @@ $(document).ready(function () {
             var markup = Mustache.render(template, data);
             $container.html(markup);
 
-            $('span.update-profile').unbind('click');
-            $('span.update-profile').on('click', function () {
+            $('button.update-profile').unbind('click');
+            $('#myProfile').submit(function () {
 
                 var _firstName = $('input[name="first-name"]').val();
                 var _lastName = $('input[name="last-name"]').val();
@@ -9335,6 +9632,7 @@ $(document).ready(function () {
                     repID: _repID,
 
                 });
+                return false;
 
             });
 
@@ -9422,7 +9720,7 @@ $(document).ready(function () {
 
                     if (response.success) {
                         $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
-                        window.location.href = window.ub.config.host;
+                        window.location.href = '/logout';
                     } else {
 
                         $.smkAlert({text: response.message, type:'error', permanent: false, time: 5, marginTop: '90px'});
@@ -9785,6 +10083,10 @@ $(document).ready(function () {
             $('span.tab[data-type="pdf"]').unbind('click');
             $('span.tab[data-type="pdf"]').on('click', function () {
 
+                var path = location.pathname;
+                var order_id = path.substring(path.lastIndexOf("/") + 1);
+                var _url = "https://service-pdf.s3.us-west-2.amazonaws.com/pdf/prolook-" + order_id + ".pdf"
+                $('iframe#pdfViewer').attr('src', _url);
                 ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="pdf"]');
                 ub.funcs.showTab('div.order-info', 'div.order-info.pdf');
 
@@ -10336,18 +10638,7 @@ $(document).ready(function () {
         });
     }
 
-    $('.close-share-uniform-design-modal').on('click', function(){
-        $('#open-design-modal').modal('show');
-        $('#share-design-modal .team-email').val('');
-    });
-
     $('.share-uniform-design-by-email').on('click', function(){
-        
-        // var data = {
-        //     email_list: $('#share-design-modal .team-email').val(),
-        //     order_id: $(this).data('order-id'),
-        //     sharer_name: ub.user.fullname
-        // };
 
         var _id = $(this).data('order-id');
 
@@ -10386,7 +10677,7 @@ $(document).ready(function () {
     });
 
     function bindShareDesigns() {
-        $('.share-uniform-design').on('click', function(){
+        $('div.saved-designs-list').on('click', '.share-uniform-design',function(){
             var order_id = $(this).data('saved-design-id');
             $('#open-design-modal').modal('hide');
             $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);

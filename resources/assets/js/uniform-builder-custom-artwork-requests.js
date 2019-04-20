@@ -8,7 +8,7 @@ $(document).ready(function() {
         if (ub.data.hasProcessedArtworks) {
             
             $('span.approve-reject-artwork-btn').show();
-            $('div#order-status').html('Artwork Processed, please review the logo and press the <br/ >Approve / Reject Artwork button below to finalize the artwork for submission.');
+            $('div#order-status').html('Artwork Processed, please review the logo and press <br/ > the Approve / Reject Artwork button below to finalize <br/ > the artwork for submission.');
             $('div#order-status').show();
 
             $('div#order-status').attr('data-intro', 'This saved design has its artwork ready for your review.');
@@ -678,7 +678,7 @@ $(document).ready(function() {
             title: 'Realtime Mascot Preview',
             message: _markup,
             size: 'large',
-            //closeButton: false,
+            closeButton: false,
         });
 
         dialog.init(function() {

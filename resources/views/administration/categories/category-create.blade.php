@@ -40,6 +40,7 @@
                                 <select class="form-control type" name="type">
                                     <option value="sports">Sports</option>
                                     <option value="apparel">Apparel</option>
+                                    <option value="esports">eSports</option>
                                 </select>
                             </div>
                         </div>

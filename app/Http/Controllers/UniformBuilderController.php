@@ -22,6 +22,7 @@ use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
+use Storage;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
@@ -75,14 +76,14 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-
-        Log::info('Load Builder');
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
         $materialId = (isset($config['material_id']) && !empty($config['material_id']) && !($config['material_id'] == 0))
             ? $config['material_id']
+            : null;
+        $productId = (isset($config['product_id']) && !empty($config['product_id']) && !($config['product_id'] == 0))
+            ? $config['product_id']
             : null;
 
         $render = (isset($config['render'])) ? $config['render'] : false;
@@ -90,6 +91,7 @@ class UniformBuilderController extends Controller
         $accessToken = null;
         $categoryId = 0;
         $material = null;
+
         $colors = $this->colorsClient->getColors();
 
         if (is_null($designSetId))
@@ -132,6 +134,10 @@ class UniformBuilderController extends Controller
             'category_id' => $categoryId,
             'render' => $render
         ];
+        if (!is_null($productId))
+        {
+            $params['product_id'] = $productId;
+        }
 
         if (!Session::get('userHasTeamStoreAccount'))
         {
@@ -299,6 +305,7 @@ class UniformBuilderController extends Controller
             $params['styles'] = $config['styles'];
             $params['sport'] = $config['sport'];
             $params['gender'] = $config['gender'];
+            $params['isFromHSEL'] = isset($config['hsel']) ? true : false;
 
         }
 
@@ -517,7 +524,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null)
+    public function styles($gender = null, $sport = null, $org = null)
     {
         $config = [
             'styles' => true,
@@ -525,8 +532,16 @@ class UniformBuilderController extends Controller
             'gender' => $gender,
         ];
 
-        return $this->showBuilder($config);
+        // For HSEL
+        if (!is_null($org)) {
+            if ($org === "HSEL") {
+                $config['hsel'] = true;
+            } else {
+                abort(404);
+            }
+        }
 
+        return $this->showBuilder($config);
     }
 
     public function loadDesignSetRender(Request $request, $designSetId = null, $materialId = null)
@@ -537,12 +552,6 @@ class UniformBuilderController extends Controller
             'type' => 'Design Set',
             'render' => true
         ];
-
-        Log::info('(Request Before) Code  ' . $code);
-        Log::info('(Request Before) !isNull  ' . !is_null($code));
-        Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
-        Log::info('(Request Before) Team Colors  ' . $request->team_colors);
-        Log::info('Request Object ' . $request);
 
         return $this->showBuilder($config);
 
@@ -658,7 +667,6 @@ class UniformBuilderController extends Controller
         {
             $config['product_id'] = $product_id;
         }
-        Log::info(print_r($config, true));
     }
 
     public function fileUpload(Request $request) {
@@ -799,8 +807,8 @@ class UniformBuilderController extends Controller
 
         $ctrPipings = 0;
 
-        foreach ($pipings as $key => &$piping) {
-
+        foreach ($pipings as $key => &$piping)
+        {
             $pipingType = $key;
 
             if ($piping["enabled"] == "0") { continue; }
@@ -818,11 +826,17 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['size'];
+            if (isset($piping['size']))
+            {
+                $html .=   $piping['size'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $piping['numberOfColors'];
+            if (isset($piping['numberOfColors']))
+            {
+                $html .=   $piping['numberOfColors'];
+            }
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
@@ -830,12 +844,15 @@ class UniformBuilderController extends Controller
             $colors = '';
             $val = 1;
             $noOfColors = intval($piping['numberOfColors']);
-            foreach ($piping['layers'] as &$color) {
+            if (isset($piping['layers']))
+            {
+                foreach ($piping['layers'] as &$color)
+                {
+                    if ($val > $noOfColors) { continue; }
+                    $colors .= $color['colorCode'] . ",";
+                    $val++;
 
-                if ($val > $noOfColors) { continue; }
-                $colors .= $color['colorCode'] . ",";
-                $val++;
-
+                }
             }
 
             $colorsTrimmed = rtrim($colors, ",");
@@ -1263,6 +1280,8 @@ class UniformBuilderController extends Controller
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
+        $sml = $bc['sorted_modifier_labels'];
+
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
@@ -1296,30 +1315,126 @@ class UniformBuilderController extends Controller
 
         $ctrParts = 0;
 
-        foreach ($parts as &$part) {
+        $newParts = [];
 
-            if (!is_array($part)) { continue; }
+        // adding group id to matching part
+        foreach ($parts as &$partX) {
 
-            if ($part['setting_type'] === 'mesh_shadows') { continue; }
-            if ($part['setting_type'] === 'mesh_highlights') { continue; }
-            if ($part['setting_type'] === 'static_layer') { continue; }
+            if (!is_array($partX)) { continue; }
 
-            if ($part['code'] === 'highlights') { continue; }
-            if ($part['code'] === 'highlight') { continue; }
-            if ($part['code'] === 'shadows') { continue; }
-            if ($part['code'] === 'shadow') { continue; }
-            if ($part['code'] === 'guide') { continue; }
-            if ($part['code'] === 'status') { continue; }
-            if ($part['code'] === 'static') { continue; }
-            if ($part['code'] === 'locker_tag') { continue; }
-            if ($part['code'] === 'elastic_belt') { continue; }
-            if ($part['code'] === 'body_inside') { continue; }
-            if ($part['code'] === 'extra') { continue; }
+            if ($partX['setting_type'] === 'mesh_shadows') { continue; }
+            if ($partX['setting_type'] === 'mesh_highlights') { continue; }
+            if ($partX['setting_type'] === 'static_layer') { continue; }
 
-            if ($hiddenBody and $part['code'] === 'body') { continue; }
+            if ($partX['code'] === 'highlights') { continue; }
+            if ($partX['code'] === 'highlight') { continue; }
+            if ($partX['code'] === 'shadows') { continue; }
+            if ($partX['code'] === 'shadow') { continue; }
+            if ($partX['code'] === 'guide') { continue; }
+            if ($partX['code'] === 'status') { continue; }
+            if ($partX['code'] === 'static') { continue; }
+            if ($partX['code'] === 'locker_tag') { continue; }
+            if ($partX['code'] === 'elastic_belt') { continue; }
+            if ($partX['code'] === 'body_inside') { continue; }
+            if ($partX['code'] === 'extra') { continue; }
+            if ($partX['code'] === 'extra_cowl') { continue; }
+
+            if ($hiddenBody and $partX['code'] === 'body') { continue; }
+
+            Log::info('PARTX===============>' . $partX['code']);
+            $prevCode = $partX['code'];
+
+            // add extra property
+            $partX = (object) array_merge( (array)$partX, array( 'code_prev' => $prevCode ) );
+
+            // pre check if part name value is contains sleeve and only one separator then set it to sleeve only
+            if (strpos($partX->code, 'sleeve') !== false && substr_count($partX->code, '_') === 1) {
+                $partX->code = 'sleeve';
+            }
+
+            // transform code to matching words
+            if (strpos($partX->code, '-') !== false ) { // if dash is detected inside a word
+                $trans_code = str_replace('-', ' ', $partX->code); // replace dash with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $upper_code = str_replace(' ', '-', $upper_code); // replace spaces back to dash
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            } else {
+                $trans_code = str_replace('_', ' ', $partX->code); // replace underscore with spaces
+                $upper_code = ucwords($trans_code); // convert every word to uppercase
+                $count_spaces = substr_count($upper_code, ' '); // count spaces
+            }
+
+            // words thats are exempted from trim
+            if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
+                Log::info('EXEMPTED WORDS=======>' . $upper_code);
+            } else {
+                // trim
+                if ($count_spaces >= 2) {
+                    $pos = strpos($upper_code, ' ') + 1;
+                    $upper_code = substr($upper_code, $pos);
+                }
+            }
+
+            foreach ($sml as $v) {
+                if ($upper_code === $v['name']) {
+
+                    Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
+
+                    // check if $upper_code is sleeve then check prev_code it matches
+//                    if ($upper_code === 'sleeve') {
+//                        Log::info('SLEEVE CHECK===============>' . $partX->code);
+//                    }
+
+                    // add extra property
+                    $partX = (object) array_merge( (array)$partX, array( 'group_id' => $v['group_id'] ) );
+
+                    // push to array
+                    array_push($newParts, $partX);
+                }
+
+//                if (strpos($upper_code, 'dry') !== false) {
+//                    Log::info('LOGGING PRO-DRY==========%%%%%%%%%%' . $upper_code);
+//                }
+            }
+        }
+
+        // sort new parts before using
+        usort($newParts, function($a, $b)
+        {
+            if ($a->group_id == $b->group_id) {
+                return 0;
+            }
+            return ($a->group_id < $b->group_id) ? -1 : 1;
+        });
+
+//        Log::info('NEW PARTS SORTED===============>' . json_encode($newParts));
+
+        foreach (json_decode(json_encode($newParts), true) as &$part) {
+
+//            if (!is_array($part)) { continue; }
+//
+//            if ($part['setting_type'] === 'mesh_shadows') { continue; }
+//            if ($part['setting_type'] === 'mesh_highlights') { continue; }
+//            if ($part['setting_type'] === 'static_layer') { continue; }
+//
+//            if ($part['code'] === 'highlights') { continue; }
+//            if ($part['code'] === 'highlight') { continue; }
+//            if ($part['code'] === 'shadows') { continue; }
+//            if ($part['code'] === 'shadow') { continue; }
+//            if ($part['code'] === 'guide') { continue; }
+//            if ($part['code'] === 'status') { continue; }
+//            if ($part['code'] === 'static') { continue; }
+//            if ($part['code'] === 'locker_tag') { continue; }
+//            if ($part['code'] === 'elastic_belt') { continue; }
+//            if ($part['code'] === 'body_inside') { continue; }
+//            if ($part['code'] === 'extra') { continue; }
+//
+//            if ($hiddenBody and $part['code'] === 'body') { continue; }
+
+//            Log::info('PART===============>' . $part['code']);
+//            Log::info('PART===============>' . json_encode($part));
 
             $hasPattern = false;
-
             if (array_key_exists('pattern', $part)) {
                 if ($part['pattern']['pattern_id'] != '') {
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
@@ -1328,7 +1443,17 @@ class UniformBuilderController extends Controller
                 }
             }
 
-            $code = $this->toTitleCase($part['code']);
+            if (array_key_exists('code_prev', $part)) {
+                $codeName =   $part['code_prev'];
+            } else {
+                $codeName =  $part['code'];
+            }
+
+//            if ($part['code'] === 'sleeve') {
+//                Log::info('PART TEST===============>' . json_encode($part));
+//            }
+
+            $code = $this->toTitleCase($codeName);
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1754,7 +1879,7 @@ class UniformBuilderController extends Controller
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
 
-        if ($firstOrderItem['additional_attachments'] !== "") {
+        if ($firstOrderItem['additional_attachments'] !== "" and $firstOrderItem['additional_attachments'] !== null) {
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
             $table .= '<p>';
@@ -1762,10 +1887,13 @@ class UniformBuilderController extends Controller
             $table .= '</p>';
         }
 
-        $table .= '<strong>SIZING TABLE</strong><br /><br />';
-        $table .= '<table style="font-size: 1.5em">';
-        $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
-        $table .= '</table>';
+        if (isset($bc['sizingTableHTML']))
+        {
+            $table .= '<strong>SIZING TABLE</strong><br /><br />';
+            $table .= '<table style="font-size: 1.5em">';
+            $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
+            $table .= '</table>';
+        }
 
         $table .= '<table width="90%">';
 
@@ -1805,19 +1933,28 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generatePDF ($builder_customizations) {
-
-        Log::info('Init Generate PDF');
+    function generatePDF($builder_customizations, $previousTransformedPath) {
 
         $pdf = new TCPDF();
 
         $filename = $this->getGUID();
-        $path = public_path('design_sheets/' . $filename . '.pdf');
 
-        $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
-        $sport = $bc['uniform_category'];
+        if ($previousTransformedPath) {
+            $path = public_path('design_sheets/' . substr($previousTransformedPath,15));
+        } else {
+            $path = public_path('design_sheets/' . $filename . '.pdf');
+        }
+
+        Log::info('PDF PATH=======>' . $path);
 
         $type = 'upper';
+
+        $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+//        $sml = $builder_customizations['builder_customizations']['order_items'][0]['sorted_modifier_labels'];
+
+//        $block_pattern = $bc['cuts_links']['block_pattern'];
+
+        $sport = $bc['uniform_category'];
 
         if (array_key_exists('material_id', $bc['lower'])) {
             $type = 'lower';
@@ -1892,7 +2029,14 @@ class UniformBuilderController extends Controller
         $style_url_text = 'STYLE URL';
 
         $builder_url_link = $firstOrderItem["url"];
-        $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+
+        // PDF FILE PATH
+        $s3_target_path = '/design_sheets/' . str_slug(env('APP_VENDOR'), '-') . '/' . env('S3_ENV') . '/' . $firstOrderItem['material_id']  . '/' . $filename . '.pdf';
+        $pdf_url_link = 'https://s3-us-west-2.amazonaws.com/uniformbuilder' . $s3_target_path;
+        // $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+
+        Log::info('PDF S3 TARGET========>' . $pdf_url_link);
+
         $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
         $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
 
@@ -1941,9 +2085,14 @@ class UniformBuilderController extends Controller
         $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
-            $leftCaption = '(Outside)';
-            $rightCaption = '(Inside)';
+            $leftCaption = '(Inside)';
+            $rightCaption = '(Outside)';
         }
+
+//        if ($block_pattern === "Hockey Sock") {
+//            $leftCaption = '(Outside)';
+//            $rightCaption = '(Inside)';
+//        }
 
         $html  = '';
         $html .=   '<div>';
@@ -2056,7 +2205,7 @@ class UniformBuilderController extends Controller
 
             if ($appType === "EMBELLISHMENTS") {
 
-                Log::info('==========>Embellisments Detected!');
+                // Log::info('==========>Embellisments Detected!');
                 $appTypeCaption = "CUSTOM MASCOT";
                 $embellishment = $application['embellishment'];
                 $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2068,7 +2217,7 @@ class UniformBuilderController extends Controller
 
             } else if ($appType === "MASCOT" ) {
 
-                Log::info('==========>Mascot Detected!');
+                // Log::info('==========>Mascot Detected!');
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
                     $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
@@ -2109,23 +2258,45 @@ class UniformBuilderController extends Controller
 
         // End Piping
 
+        $pdf->SetAuthor('ProLook Sports');
+        $pdf->SetCreator('ProLook Sports Customizer');
         $pdf->Output($path, 'F');
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
 
+        // Upload PDF to S3
+        $source_path = base_path() . '/public/' . $transformedPath;
+        $target_remote_path = $s3_target_path;
+        if (file_exists($source_path))
+        {
+            $result = Storage::disk('s3')->put($target_remote_path, file_get_contents($source_path), 'public');
+            Log::info('File Uploaded Status: ' . $result);
+
+            // If upload is successful, remove the file
+            if ($result)
+            {
+                Log::info('PDF PATH = ' . $pdf_url_link);
+                Log::info('Delete File Status: ' . unlink($source_path));
+            }
+        }
+        else
+        {
+            Log::info('Missing PDF File');
+        }
+
         $user = Session::get('userId');
-        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
 
         if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
-            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '. $pdf_url_link;
         }
 
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
-        return $transformedPath;
+        return $pdf_url_link;
 
     }
 
@@ -2134,10 +2305,72 @@ class UniformBuilderController extends Controller
         $this->log_info('generateOrderForm');
 
         $r = $request->all();
-        $fname = $this->generatePDF($r);
+        $fname = $this->generatePDF($r, '');
 
         return response()->json(['success' => true, 'filename' => $fname ]);
 
+    }
+
+    public function generateLegacy($orderId){
+
+        // Log::info('GENERATING LEGACY PDF===> ' . $orderId);
+
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
+        $order = $this->ordersClient->getOrderItems($orderId);
+        $order = $order[0];
+        $settings = json_decode($order->builder_customizations, true);
+
+        if (isset($settings['upper']['material_id'])) {
+            $materialID = $settings['upper']['material_id'];
+            $appType = 'upper';
+        } else {
+            $materialID = $settings['lower']['material_id'];
+            $appType = 'lower';
+        }
+
+        $material = $this->materialsClient->getMaterial($materialID);
+
+        $builderItem[0] = array(
+            'material_id' => $materialID,
+            'description' => $orderDetails[0]->description,
+            'notes' => $orderDetails[0]->notes,
+            'additional_attachments' => $orderDetails[0]->additional_attachments,
+            'applicationType' => ucwords($material->uniform_application_type),
+            'sku' => $material->sku,
+            'url' => '/order/'.$orderId,
+            'type' => $appType,
+            'builder_customizations' => $settings
+        );
+
+        $bc = [
+            'builder_customizations' => [
+                'order' => [
+                    'client' => $orderInfo->client
+
+                ],
+                'order_items' => $builderItem
+            ]
+        ];
+
+        $fname = $this->generatePDF($bc, $settings['pdfOrderForm']);
+//        return response()->json(['success' => true, 'filename' => $fname ]);
+//        Log::info('OLD PDF FILE IS HERE===> ' . json_encode($settings));
+//        return view('editor.view-generated-pdf')->with('filename',$fname);
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'view-generated-pdf',
+            'type' => 'view-generated-pdf',
+            'filename' => $fname
+        ];
+        return view('editor.view-generated-pdf', $params);
     }
 
     function createPDF ($builder_customizations) {
@@ -2294,20 +2527,20 @@ class UniformBuilderController extends Controller
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
-        Log::info("Finished converting base64 image and uploaded to S3");
-        Log::info("It took {$time} seconds\n");
+        // Log::info("Finished converting base64 image and uploaded to S3");
+        // Log::info("It took {$time} seconds\n");
 
-        Log::info('Saving uniform design');
+        // Log::info('Saving uniform design');
         $response = $this->ordersClient->saveOrder($data);
         if ($response->success)
         {
-            Log::info('Success');
+            // Log::info('Success');
             return Redirect::to('/order/' . $response->order->order_id)
                         ->with('message', 'Successfully saved your uniform design');
         }
         else
         {
-            Log::info('Failed');
+            // Log::info('Failed');
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
@@ -2321,7 +2554,7 @@ class UniformBuilderController extends Controller
     public function loadSavedDesign($id, $render = false)
     {
 
-        Log::info('Load Saved Design');
+        // Log::info('Load Saved Design');
 
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
 
@@ -2605,6 +2838,28 @@ class UniformBuilderController extends Controller
 
         return view('editor.preview-embellishment', $params);
 
+    }
+
+    public function loadOrderbyFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::loadOrder($order->order_id);
+        }
+        return redirect('index');
+    }
+
+    public function generateLegacyByFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::generateLegacy($order->order_id);
+        }
+        return redirect('index');
     }
 
 }

@@ -2,6 +2,48 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
+<style type="text/css">
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+</style>
 @endsection
 
 @section('content')
@@ -17,6 +59,12 @@
                         Colors
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
+                    <hr>
+                    Brand:
+                    <select class="active-brand">
+                        <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
+                        <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table class='data-table table display table-bordered'>
@@ -29,6 +77,7 @@
                             <th>Sublimation Only</th>
                             <th>Color</th>
                             <th>Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -60,23 +109,20 @@
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                             </td>
                             <td class="col-md-1">
-                                <select class="form-control brand-id" name='brand_id' disabled="true">
-                                    <option value='0' @if ($color->brand_id == '0') selected @endif>No Brand</option>
-                                    <option value='1' @if ($color->brand_id == '1') selected @endif>Prolook</option>
-                                    <option value='2' @if ($color->brand_id == '2') selected @endif>Richardson</option>
+                                <select class="form-control brand" name='brand' disabled="true">
+                                    <option value='prolook' @if ($color->brand == 'prolook') selected @endif>Prolook</option>
+                                    <option value='richardson' @if ($color->brand == 'richardson') selected @endif>Richardson</option>
                                 </select>
                             </td>
+                            <td>
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-color" id="switch-{{ $color->id }}" data-color-id="{{ $color->id }}" {{ ($color->active) ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
                             </td>
                             <td class="col-md-2">
-                                <a href="#" class="btn btn-default btn-xs btn-flat disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs btn-flat enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
-                                </a>
-
                                 <a href="#" class="btn btn-primary btn-xs btn-flat edit-button" data-color-id="{{ $color->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
@@ -96,7 +142,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='3'>
+                            <td colspan='9'>
                                 No Colors
                             </td>
                         </tr>
@@ -136,7 +182,7 @@ $(document).ready(function(){
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
-        $(this).parent().siblings('td').find('.brand-id').prop('disabled', false);
+        $(this).parent().siblings('td').find('.brand').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
         var color_code = $(this).parent().siblings('td').find('#color-code-text');
         color_code.show();
@@ -146,7 +192,7 @@ $(document).ready(function(){
             preferredFormat: "hex",
             showInput: true,
             move: function(tinycolor) {
-                $(this).parent().parent().find('#hex-code').val(tinycolor);
+                $(this).parent().parent().find('#hex-code').val(tinycolor)  ;
             },
             hide: function(tinycolor) {
                 $(this).parent().parent().find('#hex-code').val(tinycolor);
@@ -154,7 +200,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .master-color',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
@@ -178,7 +224,7 @@ $(document).ready(function(){
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
         var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
-        var brand_id = $(this).parent().siblings('td').find('.brand-id').val();
+        var brand = $(this).parent().siblings('td').find('.brand').val();
         var data = {
             "id" : id,
             "name" : name,
@@ -186,7 +232,7 @@ $(document).ready(function(){
             "hex_code" : hex_code,
             "sublimation_only" : sublimation_only,
             "master_color_id" : master_color_id,
-            "brand_id" : brand_id
+            "brand" : brand
         };
         if(!$(this).attr('disabled')) {
             updateColor(data);
@@ -232,7 +278,7 @@ $(document).ready(function(){
         data.name = $('.input-color-name').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
-        data.brand_id = $('.input-brand-id').val();
+        data.brand = $('.input-brand').val();
         data.master_color_id = $('.input-master-color').val();
         addColor(data);
         $('.submit-new-record').attr('disabled', 'true');
@@ -242,7 +288,7 @@ $(document).ready(function(){
         $('.input-color-code').val('');
         $('.input-color-name').val('');
         $('.input-master-color').val('');
-        $('.input-brand-id').val('0');
+        $('.input-brand').val('none');
         $('#create-hex-code').val('#ff0000');
         $('#create_colorpicker').spectrum({
             color: "#ff0000",
@@ -290,10 +336,10 @@ $(document).ready(function(){
         });
     }
 
-    $(document).on('click', '.enable-color', function(e) {
+    $(document).on('click', '.toggle-color', function(e) {
         e.preventDefault();
         var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/enable/";
+        var url = "//" + api_host + "/api/color/toggle/";
         $.ajax({
             url: url,
             type: "POST",
@@ -304,45 +350,13 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.color-' + id;
+                    window.location.reload();
                     new PNotify({
                         title: 'Success',
                         text: response.message,
                         type: 'success',
                         hide: true
                     });
-                    $(elem + ' .disable-color').removeAttr('disabled');
-                    $(elem + ' .enable-color').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '.disable-color', function(e) {
-        e.preventDefault();
-        var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/disable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.color-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-color').removeAttr('disabled');
-                    $(elem + ' .disable-color').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
                 }
             }
         });
@@ -372,6 +386,10 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+
+    $(document).on('change', '.active-brand', function() {
+        window.location = "/administration/v1-0/colors/"+$(this).val();
     });
 
     $('.data-table').DataTable({

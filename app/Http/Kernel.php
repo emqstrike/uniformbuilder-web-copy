@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware.
+     * The application's route middleware.b
      *
      * @var array
      */
@@ -30,6 +30,8 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'adminAccess' => \App\Http\Middleware\VerifyAdministrationAccess::class,
+        'restrictedUserAccess' => \App\Http\Middleware\RedirectRestrictedUser::class,
         'disablePreventBack' => \App\Http\Middleware\DisablePreventBack::class,
+        'accessSavedDesigns' => \App\Http\Middleware\AccessSavedDesigns::class,
     ];
 }

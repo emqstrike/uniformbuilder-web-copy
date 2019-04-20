@@ -1,3 +1,5 @@
+@inject('sampleMenu', 'App\Menus\V1Menu')
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,41 +84,33 @@
     .breadcrumb {
         background: #ffffff;
     }
+
+    .sidebar li.header {
+        text-transform: uppercase;
+    }
 </style>
 
 @yield('styles')
+<style type="text/css">
+    @yield('custom-styles')
+</style>
+
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
-<body class="hold-transition skin-black sidebar-mini">
+<body class="skin-black sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     @include('administration-lte-2.lte-main-topbar')
 
-    @if (Session::get('adminFullAccess'))
-      @include('administration-lte-2.lte-side-menu')
-    @endif
+    @include('administration-lte-2.lte-side-menu')
     <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <!-- <h1>
-        Blank page
-        <small>it all starts here</small>
-      </h1> -->
-<!--       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">Blank page</li>
-      </ol> -->
-    </section>
-
     <!-- Main content -->
     <section class="content">
         @include('administration-lte-2.partials.breadcrumb')
-      @yield('content')
-
+        @yield('content')
     </section>
     <!-- /.content -->
   </div>

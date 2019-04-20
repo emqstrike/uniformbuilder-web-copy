@@ -201,16 +201,16 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.clone-row-mascot', function() {
-        console.log('clone');
         if( $( ".layers-row" ).length ){
-            console.log('IF');
             try{
-            $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+                var x = $( ".layers-row:first" ).clone();
+                y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
+                $('#layers-row-container').append(x);
+                $(x).append(y);
             } catch(err){
                 console.log(err.message);
             }
         } else {
-            console.log('ELSE');
             try{
                 $( "#static_row" ).show();
                 var elemX = $( "#static_row" ).clone()
@@ -264,6 +264,7 @@ $(document).ready(function(){
         var myJson = JSON.parse(existing_layers_properties);
 
         var length = Object.keys(myJson).length;
+        var first_row_index = length;
 
         while(length > 0) {
             $(document).on('change', function() {
@@ -306,7 +307,13 @@ $(document).ready(function(){
             +"</select></td>";
             var remove = "<td><a class=\"btn btn-danger btn-xs btn-flat btn-remove-layer\">Remove</a></td>";
             var close = "<tr>";
-            $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+remove+close);
+
+            if(first_row_index == length) {
+                $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+close);
+            } else {
+                $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+remove+close);
+            }
+
             length--;
         }
     }
@@ -413,7 +420,8 @@ $(document).ready(function(){
         $('#sports_value').val($(this).val());
     });
 
-    $('.sports').select2('val', sports);
+    $('.sports').val(sports);
+    $('.sports').trigger('change');
 
 });
 </script>

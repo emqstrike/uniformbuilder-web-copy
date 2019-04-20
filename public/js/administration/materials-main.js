@@ -7,6 +7,7 @@ $(document).ready(function() {
         "ordering": false,
         "info": true,
         "autoWidth": true,
+        "stateSave": true,
         initComplete: function () {
             this.api().columns().every( function () {
 
@@ -30,6 +31,19 @@ $(document).ready(function() {
             } );
         }
     });
+
+    $(document).on('click', '.reset-filter', function(e) {
+        e.preventDefault();
+        console.log('Clear Filter');
+        resetColumnFilter();
+    });
+
+    function  resetColumnFilter()
+    {
+        var table = $('.data-table').DataTable();
+            table.search( '' ).columns().search( '' ).draw();
+    }
+
 
     function toTitleCase(str)
     {
@@ -64,15 +78,35 @@ $(document).ready(function() {
     sports_sorted = _.sortBy(sports, function(o) { return o.name; });
 
     sports_sorted.forEach(function(entry) {
-        var elem = '<option value="'+entry.name+'">'+entry.name+'</option>';
-        $('.active-sport').append(elem);
+        if (entry.name) {
+            var elem = '<option value="' + entry.name + '">' + entry.name + '</option>';
+            $('.active-sport').append(elem);
+        }
     });
+
+    var is_all_option_exists = false;
+
+    $('.active-sport option').each(function() {
+        if (this.value == 'All') {
+            is_all_option_exists = true;
+        }
+    });
+
+    if (! is_all_option_exists) {
+        var elem = '<option value="all">All</option>';
+        $('.active-sport').prepend(elem);
+    }
 
     // console.log("SPORTS");
     // console.log(sports);
 
     $(document).on('change', '.active-sport', function() {
-        window.location = "/administration/materials/"+$(this).val();
+        // check for current version of the dashboard
+        if (window.location.href.search('v1-0') > 0) {
+            window.location = "/administration/v1-0/materials/" + $(this).val();
+        } else {
+            window.location = "/administration/materials/" + $(this).val();
+        }
     });
 
     $('img[data-toggle=popover]').popover({
@@ -90,7 +124,9 @@ $(document).ready(function() {
 
         var xdata = table.rows( { filter : 'applied'} ).data();
         $.each(xdata, function(i, item) {
-            ids.push(item[0]);
+            var elem = new DOMParser().parseFromString(item[0], 'text/html');
+            var id = $(elem).find('a.material-id-link');
+            ids.push($(id)[0].innerHTML);
         });
 
         console.log(JSON.stringify(ids));
@@ -292,6 +328,11 @@ $(document).ready(function() {
     });
 
 
-
+    $(document).on('click','.material-id-link',function(e){
+        e.preventDefault();
+        var url = $(this).data('link');
+        var win = window.open(url, '_blank');
+        win.focus();
+    });
 
 });

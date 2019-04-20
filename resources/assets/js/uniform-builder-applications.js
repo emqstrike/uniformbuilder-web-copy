@@ -26,6 +26,19 @@ $(document).ready(function() {
 
     };
 
+    // Only Sublimated or Knitted styles uses custom scale
+    ub.funcs.usesCustomScaleValid = function () {
+
+        return ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted";
+
+    }
+
+    ub.funcs.setupHiddenBody = function (obj) {
+
+        return ub.config.hiddenBody = obj;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -1044,17 +1057,12 @@ $(document).ready(function() {
                     var flip = 1;
 
                     if (typeof view.application.flip !== 'undefined') {
-
                         if (view.application.flip === 1) {
-
-                            flip = -1;
-
-                        } else {
-
-                            flip = 1;
-
+                                 flip = -1;
+                         }
+                        else {
+                             flip = 1;
                         }
-
                     }
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
@@ -1287,22 +1295,15 @@ $(document).ready(function() {
                         percentage = distance / 100;
                         ub.mascotPreviousSize = percentage;
                       
-
                         var flip = 1;
 
                         if (typeof view.application.flip !== 'undefined') {
-
                             if (view.application.flip === 1) {
-
-                                flip = -1;
-
+                                 flip = -1;
                             }
                             else {
-
-                                flip = 1;
-
+                                 flip = 1;
                             }
-
                         }
 
                         application_obj.scale = { x: percentage * flip, y: percentage};
@@ -2538,6 +2539,7 @@ $(document).ready(function() {
                 if (typeof mask === "undefined") {
                     errorCode = ub.errorCodes.getCode('maskLayerNotFound');
                     ub.utilities.errorWithCode(errorCode, mat_option + ' / ' + view.perspective);
+                    return;
                     // TODO: PartialApplications
                 }
                 
@@ -2572,7 +2574,7 @@ $(document).ready(function() {
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    if (!_settingsObject.dirty)
+                    if (!_settingsObject.dirty && ub.funcs.isTackleTwill())
                     {
                         point.position.x += _xOffset;
                         point.position.y += _yOffset;
@@ -2660,7 +2662,7 @@ $(document).ready(function() {
 
                         if (
                             (!_customScaleUndefined && !_customScaleBlank) && 
-                            ub.funcs.isSublimated()
+                            ub.funcs.usesCustomScaleValid()
                             ) {
 
                             var _scaleX = point.scale.x;
@@ -2712,6 +2714,9 @@ $(document).ready(function() {
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
+                // block pattern lists that ignore the increment or decrement in point.position
+                var blockPatternBlackLists = ['Hockey Socks'];
+
                 var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
                 
                 if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)   { point.position.y  -= 5;  }
@@ -2727,7 +2732,7 @@ $(document).ready(function() {
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)    { point.position.y   += 30;  }
 
                 // if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
-                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3) { point.position.y   += 11; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3 && !_.contains(blockPatternBlackLists, ub.config.blockPattern)) { point.position.y   += 11; }
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 2) { point.position.y   += 13; }
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
@@ -3181,7 +3186,7 @@ $(document).ready(function() {
                 var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
                 _transformed_boundaries.push(p); 
 
-            });      
+            });
     
         }
         else {
@@ -3191,7 +3196,7 @@ $(document).ready(function() {
                 var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
                 _transformed_boundaries.push(p); 
 
-            });   
+            });
 
         }
 
@@ -4061,7 +4066,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _hideBody = ub.data.hiddenBody.currentUniformOk();
+        var _hideBody = ub.config.hiddenBody;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -4075,6 +4080,8 @@ $(document).ready(function() {
             if (_obj.setting_type === 'mesh_shadows') { return; }
 
             if (_obj.name === "Extra") { return; }
+            if (_obj.name === "Extra Left Cowl") { return; }
+            if (_obj.name === "Extra Right Cowl") { return; }
 
             if (_hideBody) {
 
@@ -4104,6 +4111,10 @@ $(document).ready(function() {
 
     ub.funcs.drawPartsDrop = function () {
 
+        // omit `neck_tape_1` on ub.data.modifierLabels
+        var labelsToHide = ['neck_tape_2'];
+        ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
 
@@ -4123,7 +4134,7 @@ $(document).ready(function() {
 
         strBuilder += '<div class="pd-dropdown-links" data-ctr="0" data-group-id="0" data-fullname="team-colors" data-name="team-colors">' + '<i>Initialize</i> Team Colors</div>';
 
-        _.each(_sortedModifierLabels, function (label){
+        _.each(_sortedModifierLabels, function (label) {
 
             label.index = _ctr;
 
@@ -4137,8 +4148,9 @@ $(document).ready(function() {
 
             var _tempLabel = label.name;
 
-            if (_tempLabel === "Body Left") { _tempLabel = "Left Body"; }
-            if (_tempLabel === "Body Right") { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Body Left")     { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right")    { _tempLabel = "Right Body"; }
+            if (_tempLabel === "Neck Tape 1")   { _tempLabel = "Neck Tape"; }
 
             strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
@@ -4182,6 +4194,21 @@ $(document).ready(function() {
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
+                // Add `thread_colors` flag in ub.current_material.settings
+                // if the category of uniform is `Socks (Apparel)`
+                // and base on the truthiness of the flag, thread colors will be used
+                if ( _.isEqual(ub.current_material.material.uniform_category, 'Socks (Apparel)') 
+                    && ub.funcs.isKnitted() ) {
+
+                    if ( _.isEqual(ub.page, 'builder') 
+                        || ub.current_material.settings.threadColors === 'undefined' ) {
+
+                        ub.current_material.settings.threadColors = true;
+
+                    }
+
+                }
+
                 ub.funcs.initTeamColors();
                 $pd.hide();
                 $('div#right-main-window').css('overflow','hidden');
@@ -4206,8 +4233,9 @@ $(document).ready(function() {
 
             var _htTemp = _ht;
 
-            if (_ht === "Left Body")    { _htTemp = 'Body Left'};
-            if (_ht === "Right Body")   { _htTemp = 'Body Right'};
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'; }
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'; }
+            if (_ht === "Neck Tape")    { _htTemp = "Neck Tape 1"; }
 
             if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
                 
@@ -4434,11 +4462,9 @@ $(document).ready(function() {
         ub.funcs.activeStyle('colors');
 
         $('#color-wheel-container').fadeIn();
-
     }
 
     ub.funcs.deActivateColorPickers = function () {
-
         $('#color-wheel-container').hide();
 
     }
@@ -4533,9 +4559,8 @@ $(document).ready(function() {
     /// Interactive Applications 
 
     ub.funcs.deActivateApplications = function () {
-
+        ub.funcs.removeUnusedElement('div#changeApplicationUI');
         $('div#applicationUI').remove();
-
     }
 
     ub.funcs.centerFontPopup = function () {
@@ -4617,8 +4642,9 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
+        if (settingsObj.status === "off") { return; }
         var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id         = settingsObj.id;
+        var _id         = settingsObj.code;
         var _length     = 'short';
 
         ub.funcs.removeApplicationByID(_id);
@@ -5260,7 +5286,7 @@ $(document).ready(function() {
         settingsObj.size = parseFloat(size);
         settingsObj.font_size = parseFloat(size);
 
-
+        settingsObj.dirty = true;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
@@ -5866,17 +5892,19 @@ $(document).ready(function() {
         return _colors;
 
     };
+    ub.funcs.resetFlipStatus = function (_settingsObject){
+        var _flipped;
+        _.each (_settingsObject.application.views, function (view){
+            _flipped = view.application.flip = 0;
+        });
+    }
 
     ub.funcs.flipMascot = function (_settingsObject) {
-
         var _flipped;
-
         _.each (_settingsObject.application.views, function (view){
-
            if(typeof view.application.flip === "undefined") {
 
                 _flipped = view.application.flip = 1;
-
            }
            else {
 
@@ -5884,11 +5912,9 @@ $(document).ready(function() {
 
                     _flipped = view.application.flip = 1;
 
-
                 } else {
 
                     _flipped = view.application.flip = 0;
-
                 }
 
            }
@@ -6115,7 +6141,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.initializeRotatePanel = function (_settingsObject, applicationType) {
-
         var _multiplier = 100;
         if (applicationType !== "mascot") { _multiplier = 10};
 
@@ -6200,10 +6225,17 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
+        var blockPatternExceptions = ['Hockey Socks'];
+
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
-                _additionalClass = 'active'; 
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern))) { 
+                _additionalClass = 'active';
+
+                if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+                    (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='' : _additionalClass='active';
+                }
+
             } else {
                 _additionalClass = '';
             }
@@ -6218,8 +6250,26 @@ $(document).ready(function() {
 
         });
 
+        // show BESTFIT option on embellishment's application sizes
+        if (typeof settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill()) {
+
+            (_.isEqual(settingsObject.custom_obj.active, true)) ? _additionalClass='active' : _additionalClass='';
+
+            var customSize  = settingsObject.custom_obj.fontSize;
+            var customScale = settingsObject.custom_obj.scale.x;
+            var type        = 'custom';
+
+            // if scale is set to 0, e.g. {x: 0, y: 0} then hide BESTFIT option
+            if (customScale.toString() !== '0') _htmlBuilder += '<span style="width:auto" class="applicationLabels font_size ' + _additionalClass + '" data-size="' + customSize + '" data-type="'+  type +'" data-scale="'+ customScale +'">BESTFIT</span>';
+
+        }
+
         var _divisor = 10; // For Mascots
         var _v = ub.funcs.getPrimaryView(settingsObject.application);
+
+        // exit if undefined
+        if (typeof _v === 'undefined') { return; }
+        
         var _obj = ub.objects[_v + '_view']['objects_' + settingsObject.code];
 
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
@@ -6353,7 +6403,10 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
             ub.funcs.activateColors(application_id);     
-        }        
+        }
+
+        // This will check if the move tool will activated or not
+        ub.funcs.activateDisableMoveTool(application_id);
 
     };
 
@@ -6540,7 +6593,7 @@ $(document).ready(function() {
 
         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-            ub.utilities.info('Using sizes from backend: ');
+            ub.utilities.info('===>Using sizes from backend: ');
 
             console.log('Default Sizes: ');
             console.log(_sizes);
@@ -6549,11 +6602,11 @@ $(document).ready(function() {
 
             if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
-                console.log(_sizesFromConfig);
+                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                _sizes = _sizesFromConfig; 
+                _sizes = _sizesFromConfig;
                 
             } 
 
@@ -6616,13 +6669,19 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4' && ub.config.sport !== "Football 2017") {
+        // this is to ignore input size 0.5 on application #4 on a specified block pattern
+        var blockPatternExceptions = ['Hockey Socks'];
+
+        if (_id === '4' && ub.config.sport !== "Football 2017" && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
 
             _inputSizes = [{size: '0.5', }];
 
         } else {
 
-            _inputSizes = _sizes.sizes;
+            // _inputSizes = _sizes.sizes;
+
+            // add sort for sizes
+            _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
 
         }
 
@@ -6909,32 +6968,28 @@ $(document).ready(function() {
 
             $('span.flipButton').unbind('click');
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 ub.funcs.flipMascot(_settingsObject);
                 
             });
 
             $('div.applicationType').on('click', function () {
+                var _status = $('div.toggle').data('status');
 
-                if ($('div#changeApplicationUI').length > 1) {
+                // Don't create change application UI is status is off
+                if (_status === 'off') { return; }
 
+                if ($('div#changeApplicationUI').length > 0) {
                     var _status = $('div#changeApplicationUI').data('status');
-
                     if (_status === 'visible') {
-
                         $('div#changeApplicationUI').hide().data('status', 'hidden');
                         $('div.applicationType').removeClass('toggledApplicationType');
-                        
                     } else {
-
                         $('div#changeApplicationUI').fadeIn().data('status', 'visible');
                         $('div.applicationType').addClass('toggledApplicationType');
-
                     }
-
                     return;
-
                 }
 
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
@@ -7010,13 +7065,12 @@ $(document).ready(function() {
                 _selected = '';
 
                 $('.modifier_main_container').append(_htmlBuilder);
-                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('div#changeApplicationUI').hide().fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
                 $('div.optionButton').on('click', function () {
-
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -7193,33 +7247,34 @@ $(document).ready(function() {
 
             if(_currentStatus === "on") {
                 s = 'off';
+                ub.funcs.deactivateMoveTool();
+                ub.funcs.removeUnusedElement('div#changeApplicationUI');
             }
             else {
                 s = 'on';
+                ub.funcs.activateMoveTool(_id);
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
+            ub.funcs.toggleApplication(_id,s);
 
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
             var _matchingSettingsObject = undefined;
-            
+
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
                 _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                
             }
-            
+
             if (typeof _matchingSettingsObject !== "undefined") {
 
                 if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-                            
-                    // Toggle matching mascot if the same mascot is selected 
+                    // Toggle matching mascot if the same mascot is selected
                     _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
 
                 }
@@ -7229,13 +7284,11 @@ $(document).ready(function() {
             if (typeof _matchingID !== "undefined") {
 
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
-                
             }
-
         });
 
         $('div#applicationUI').fadeIn();
-        ub.funcs.activateMoveTool(application_id);
+        // ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
         ub.funcs.afterActivateMascots(_id);
@@ -7304,7 +7357,8 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
+        // exception on 'Hockey Sock' block pattern
+        if (parseInt(_id) > 70 && ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock' ) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 
@@ -7496,8 +7550,11 @@ $(document).ready(function() {
             if (_state === "on") {
 
                 _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
-                ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
+                if (! (_settingsObj.application_type === "mascot" || _settingsObj.application_type === "embellishments")) {
+                    ub.funcs.changeFontFromPopup(_settingsObj.font_obj.id, _settingsObj)
+                }
+                ub.updateLayersOrder(ub[_view]);
                 
             } else {
 
@@ -7624,6 +7681,12 @@ $(document).ready(function() {
 
     ub.funcs.changeApplicationType = function (settingsObject, type) {
 
+        // delete custom object amd scale type
+        // this are use for embellishment applications only
+        // TODO: create a cleaup funcs
+        delete settingsObject.custom_obj;
+        delete settingsObject.scale_type;
+
         var _settingsObject = settingsObject;
         var _type           = type;
         var _id             = parseInt(_settingsObject.code);
@@ -7631,7 +7694,10 @@ $(document).ready(function() {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-            var _mascotID = '181';
+            var _mascotID = '181'; 
+
+            if (ub.current_material.material.brand === "richardson") { _mascotID = '1584'; }   
+
             var _size;
 
             ub.funcs.deActivateApplications();
@@ -7658,31 +7724,31 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5; }
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5; }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;  }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                              { _size =  5; }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")                 { _size =  5; }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                                      { _size = 4;  }
 
-            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                   { _size = 1; }
+            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                               { _size = 1; }
 
-            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                                 { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                                   { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                                { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                                  { _size = 2;    }
 
-            if (ub.funcs.isSocks())                                                                                     { _size = 2.5;  }
+            if (ub.funcs.isSocks())                                                                                                 { _size = 2.5;  }
 
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                                  { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                                  { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                                  { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
-            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                             { _size = 1;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                             { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport("Hockey") && _.contains([2,5], _id) )                                           { _size = 6;    }
+            if (ub.funcs.isCurrentSport("Hockey") && !_.isEqual(ub.config.blockPattern, 'Hockey Socks') && _.contains([2,5], _id) ) { _size = 6;    }
 
-            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
-            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
+            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                                  { _size = 4;    }
+            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                                       { _size = 4;    }
 
             if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
@@ -7695,7 +7761,7 @@ $(document).ready(function() {
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_.contains(ub.data.matchingApplications, _id)) {
+            if (_.contains(ub.data.matchingApplications, _id) && typeof _matchingID !== 'undefined') {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -7767,7 +7833,9 @@ $(document).ready(function() {
 
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
-            ub.current_material.settings.applications[_id] = _settingsObject;  
+            ub.current_material.settings.applications[_id] = _settingsObject;
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -7778,7 +7846,19 @@ $(document).ready(function() {
             var _applicationType = '';
             var _sizeObj = undefined;
 
-            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            // list of sport block patterns that ignore ub.data.initialSizes
+            var blockPatternsException = ['Hockey Socks'];
+
+            // Temporary, this is to fix the issue regarding Hockey Socks (Jan. 25, 2019 @elmer)
+            if (!_.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
+            } else {
+
+                if (ub.config.type === 'lower' && _.contains(blockPatternsException, ub.current_material.material.block_pattern)) {
+                    _sizeObj = ub.data.initialSizesLower.getSize(_type, _id, ub.current_material.material.uniform_category, ub.current_material.material.block_pattern);
+                }
+
+            }
 
             if (typeof _sizeObj !== "undefined") {
 
@@ -7786,13 +7866,16 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
-                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1 || _settingsObject.application.layer.indexOf('Cowl') !== -1;
+                var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
+
+                if (_inShoulder) { _applicationType = "shoulder_number"; }
+                if (_inSleeve) { _applicationType = "sleeve_number"; }
 
                 var _primaryView = ub.funcs.getPrimaryView(_settingsObject.application);
 
-                if (_primaryView === "front") { _applicationType = "front_number"; }
-                if (_primaryView === "back") { _applicationType = "back_number"; }
+                if (_primaryView === "front" && !(_inShoulder || _inSleeve)) { _applicationType = "front_number"; }
+                if (_primaryView === "back" && !(_inShoulder || _inSleeve)) { _applicationType = "back_number"; }
 
             }
 
@@ -7851,6 +7934,8 @@ $(document).ready(function() {
             ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
+
         }
 
         if (_type === 'team_name') {
@@ -7861,6 +7946,8 @@ $(document).ready(function() {
             var _size = 2;
             
             if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _size = 4; }
+
+            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -7884,6 +7971,8 @@ $(document).ready(function() {
             ub.current_material.settings.applications[_id] = _settingsObject;  
 
             ub.funcs.LSRSBSFS(parseInt(_id));
+
+            delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
 
         }
 
@@ -8024,7 +8113,17 @@ $(document).ready(function() {
         // Set on Move Tool mouse down
         
         if (!_settingsObject.dirty) {
-            ub.funcs.oneInchPullUp(application_id);
+            if (ub.current_material.material.brand !== 'richardson') {
+
+                var sport           = ub.current_material.material.uniform_category;
+                var blockPattern    = ub.current_material.material.block_pattern;
+
+                // Disable oneInchPullUp for Socks (Apparel) with block pattern of Hockey Socks
+                if (!ub.data.oneInchPullUpExemptions.isExempted(sport, blockPattern)) {
+                    ub.funcs.oneInchPullUp(application_id);
+                }
+
+            }
         }
         
         ub.funcs.updateCaption(application_id);
@@ -8118,8 +8217,6 @@ $(document).ready(function() {
 
     }
 
-
-
     ub.funcs.popupsVisible = function () {
 
         return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
@@ -8147,6 +8244,9 @@ $(document).ready(function() {
             $('span.cog').fadeIn();
 
         }
+
+        // This will check if the move tool will activated or not
+        ub.funcs.activateDisableMoveTool(application_id);
 
         // if (parseInt(application_id) === 1) {
 
@@ -8306,20 +8406,24 @@ $(document).ready(function() {
 
         if (_uniformCategory === "Football") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM FOOTBALL');
 
         } else if (ub.current_material.material.uniform_category === "Baseball") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
+            //console.log('====>IM FROM BASKETBALL');
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            //console.log('====>IM FROM SPECIAL', _sizes);
 
         } else {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM GENERIC');
 
         }
 
@@ -8340,7 +8444,11 @@ $(document).ready(function() {
 
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                // add sort for sizes
+                _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function(obj) { return parseFloat(obj.size) });
+                _sizesFromConfig.sizes = _sizesSorted;
 
                 _sizes = _sizesFromConfig;
 
@@ -8660,7 +8768,6 @@ $(document).ready(function() {
 
             $('span.apply-pattern').unbind('click');
             $('span.apply-pattern').on('click', function () {
-
                 ub.funcs.createPatternPopupApplications(ub.current_material.settings.applications[_id]);
 
             });
@@ -8691,7 +8798,7 @@ $(document).ready(function() {
             }
 
             $('span.flipButton').on('click', function () {
-
+                
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
                 ub.funcs.pushOldState('vertical text', 'application', _settingsObject, {verticalText: _settingsObject.verticalText});
@@ -8703,13 +8810,11 @@ $(document).ready(function() {
             /// End Vertical Text 
 
             $('div.applicationType').on('click', function () {
-
                 var _status = $('div.toggle').data('status');
 
                 // Don't create change application UI is status is off
                 if (_status === 'off') { return; }
-                
-                if ($('div#changeApplicationUI').length > 1) {
+                if ($('div#changeApplicationUI').length > 0) {
 
                     var _status = $('div#changeApplicationUI').data('status');
 
@@ -8801,14 +8906,13 @@ $(document).ready(function() {
                 _currentlySelectedType = '';
                 _selected = '';
 
-                $('.modifier_main_container').append(_htmlBuilder);
-                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('.modifier_main_container').append(_htmlBuilder)
+                $('div#changeApplicationUI').hide().fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
                 $('div.optionButton').on('click', function () {
-
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+                    ub.funcs.resetFlipStatus(_settingsObject);
                     var _type = $(this).data('type');
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
@@ -9322,31 +9426,29 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-
+            console.log("toggle Option");
             var _currentStatus = $('div.toggle').data('status');
             var s;
+
             if(_currentStatus === "on") {
                 s = 'off';
-                $('div#changeApplicationUI').remove();
-            }
-            else {
+                ub.funcs.deactivateMoveTool();
+                ub.funcs.removeUnusedElement('div#changeApplicationUI');
+            } else {
+                ub.funcs.activateMoveTool(application_id);
                 s = 'on';
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
-
+            ub.funcs.toggleApplication(_id, s);
              var _matchingID = undefined;
-            
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-            
+
             if (typeof _matchingID !== "undefined") {
 
-                ub.funcs.toggleApplication(_matchingID.toString(), s); 
-
+                ub.funcs.toggleApplication(_matchingID.toString(), s);
             }
-
         });
 
         /// Initialize
@@ -9427,6 +9529,10 @@ $(document).ready(function() {
 
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
+
+        // exit if undefined
+        if (typeof _primaryView == 'undefined') { return; }
+
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
   
         ub.focusObject      = ub.objects[_perspective]["locations_" + application_id];
@@ -9787,7 +9893,9 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
             // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+
             _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
         }
 
         if (typeof _sizes === 'undefined') {
@@ -9823,6 +9931,8 @@ $(document).ready(function() {
 
             if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
             if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Tennis" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+
 
         }
 
@@ -9834,7 +9944,6 @@ $(document).ready(function() {
             ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
-
 
         return _sizes;
 
@@ -10224,10 +10333,22 @@ $(document).ready(function() {
 
         if (ub.funcs.isUniformFullSublimation()) {
 
-            _list   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+            _list   = _.sortBy(ub.data.modifierLabels, function(item) {
+                
+                var i = 100;
+                
+                // set intGroupID value (if it is NaN),
+                // this is to make sure that _.sortBy work
+                if (Number.isNaN(item.intGroupID)) {
+                    item.intGroupID = i++;
+                }
 
-            _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
-                                                                 item.name.indexOf('Piping') > -1 || 
+                return item.intGroupID;
+                
+            });
+
+            _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 ||
+                                                                 item.name.indexOf('Piping') > -1 ||
                                                                  item.name.indexOf('Stripe') > -1 ||
                                                                  item.name.indexOf('Front Insert') > -1 ||
                                                                  item.name.indexOf('Zipper') > -1 ||
@@ -10235,7 +10356,13 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Hood Cuff') > -1 ||
                                                                  item.name.indexOf('Pocket Cuff') > -1 ||
                                                                  item.name.indexOf('Arm Cuff') > -1 ||
-                                                                 item.name.indexOf('Prolook') > -1 || 
+                                                                 item.name.indexOf('Prolook') > -1 ||
+                                                                 item.name.indexOf("Pro-Dry") > -1 ||
+                                                                 item.name.indexOf('Warp Speed 1') > -1 ||
+                                                                 item.name.indexOf('Warp Speed 2') > -1 ||
+                                                                 item.name.indexOf('Warp Speed 3') > -1 ||
+                                                                 item.name.indexOf('Front Body Pattern') > -1 ||
+                                                                 item.name.indexOf('Back Body Pattern') > -1 ||
                                                                  item.name.indexOf('Belt Loop') > -1; });
 
             if (ub.funcs.isSocks()) { 
@@ -10279,8 +10406,18 @@ $(document).ready(function() {
             }
 
         }
-        
-        return _list;
+
+        _.each(_list, function(item) {
+            if (item.name.includes("Body Left") || item.name.includes("Front Body")) {
+                item.position = 1;
+            }
+
+            if (item.name.includes("Body Right") || item.name.includes("Back Body")) {
+                item.position = 2;
+            }
+        });
+
+        return _.sortBy(_list, 'position');
 
     }
 
@@ -10308,7 +10445,7 @@ $(document).ready(function() {
     ub.funcs.newApplication = function (perspective, part, type, side) {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
-        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _phaSettings    = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
         var _blockPattern   = ub.current_material.material.block_pattern;
@@ -10615,13 +10752,6 @@ $(document).ready(function() {
 
     ub.funcs.addLocation = function (artOnly) {
 
-        // Guard
-
-        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
-        if (typeof _submimatedSport === "undefined") { return; }
-
-        // End Guard
-
         // Select Perspective
 
         var template = $('#m-add-free-form-application').html();
@@ -10635,6 +10765,10 @@ $(document).ready(function() {
 
         dialog.init(function() {
 
+            // hide perspective-container
+            $('.perspective-container').prev().hide();;
+            $('.perspective-container').hide();
+
             // Perspectives
 
             $('div.perspective-container > span.perspective').unbind('click');
@@ -10644,7 +10778,7 @@ $(document).ready(function() {
 
                 $('div.perspective-container > span.perspective').removeClass('active');
                 $(this).addClass('active');
-                
+
                 ub.funcs.setActiveView(_perspective);
 
                 if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
@@ -10655,15 +10789,80 @@ $(document).ready(function() {
 
                     if (_perspective === "back" || _perspective === "front") {
 
-                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
-                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+                        if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+
+                            $('span.part').first().addClass('active');
+
+                        } else {
+
+                            _partToMakeActive =  _perspective.toTitleCase();
+
+                            var partCount = 0;
+
+                            $('div.part-container span').each(function() {
+                                
+                                var part = $(this).text();
+
+                                if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                    
+                                    partCount++;
+                                    
+                                    _partToMakeActive = part;
+
+                                    $('span.part').removeClass('active');
+                                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                                }
+
+                            });
+                        }
+
+                        // Hide label.leftRightPart and div.side-container, not applicable on front or back perspective
+                        $('label.leftrightPart, div.side-container').hide();
+                        $('span.side').removeClass('active');
+
+                    } else {
+                        // If perspective is not Front or Back, just select the first part
+                        $('span.part').first().addClass('active');
+                        $('span.part').first().trigger('click');
+                        var side = $('span.side.active').data('id');
+                        var _partToMakeActive = _perspective.toTitleCase();
+
+                        $('div.part-container span').each(function() {
+                            var part = $(this).text();
+                            var makeActive = '';
+
+                            if (part.indexOf(_partToMakeActive) !== -1) {
+                                makeActive = part;
+                                $("span.part").removeClass('active');
+                                $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                            }
+                        });
+
+                        if ($('span.side').hasClass('active')) {
+
+                            side = side.toTitleCase() + " ";
+
+                            side = $('span.side.active').text().replace(side, '');
+
+                            $('span.part.active').removeClass('active');
+
+                            $('span.part[data-id="' + side + '"]').addClass('active');
+
+                            $('span.side.active').removeClass('active');
+
+                            $('span.side[data-id="' + _perspective + '"]').addClass('active');
+
+                            if (typeof $('span.part.active').data('id') === 'undefined') { $('span.part').first().addClass('active'); $('span.side.active').removeClass('active'); }
+
+                        }
 
                     }
 
-                    if(ub.funcs.isSocks()) { 
+                    if(ub.funcs.isSocks()) {
 
-                        _part = "Sublimated"; 
-                        
+                        _part = "Sublimated";
+
                         if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
                             _part = "Body";
                         }
@@ -10685,6 +10884,25 @@ $(document).ready(function() {
 
                 $('div.part-container > span.part').removeClass('active');
                 $(this).addClass('active');
+
+                var _perspective = $('div.perspective-container > span.perspective.active').data('id');
+
+                // exception for Soccer with block pattern of `Champion Seties`
+                // prevent automatic selection of perspective
+                var blockPatternsException = ['Champion Series'];
+
+                $('div.perspective-container > span.perspective').each(function() {
+                    
+                    var perspective = $(this).text();
+
+                    if (_part.indexOf(perspective) !== -1 && !_.contains(blockPatternsException, ub.config.blockPattern)) {
+
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+
+                    }
+
+                });
 
                 var _left = _.find(ub.current_material.materials_options, {name: "Left " + _part});
 
@@ -10718,26 +10936,16 @@ $(document).ready(function() {
 
                 } else {
 
-                    // if (_part === "Back Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="back"]').addClass('active'); 
-                    // }
-
-                    // if (_part === "Front Body") { 
-                    //     $('span.perspective').removeClass('active');
-                    //     $('span.perspective[data-id="front"]').addClass('active'); 
-                    // }
-
-                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+                    /*var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
                     if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
 
-                    }
+                    }*/
 
-                    $('label.leftrightPart, div.side-container').hide();                    
+                    $('label.leftrightPart, div.side-container').hide();
                     $('span.side').removeClass('active');
                     $('span.side[data-id="na"]').addClass('active');
                     $('span.side[data-id="na"]').show();
@@ -10758,15 +10966,6 @@ $(document).ready(function() {
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
 
-                if (_side === "left" || _side === "right") {
-
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');    
-                    
-                    // Restore Previous Part
-                    if (typeof _previousPart !== "undefined") { $('span.part[data-id="' + _previousPart + '"]').addClass('active'); }
-
-                }
-
             });
 
             // Application Type
@@ -10783,10 +10982,10 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isSocks()) {
+            if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
+                // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
                 $('span.optionButton[data-type="player_number"]').hide();
-                $('span.optionButton[data-type="player_name"]').hide();
 
             }
 
@@ -10819,9 +11018,56 @@ $(document).ready(function() {
 
             }
 
-            // Catch all expression when nothing is selected, just select first
+            // Catch all expression when nothing is selected, just select first if perspective is not Front or Back
             if(!$('span.part').hasClass('active')) {
-                $('span.part').first().addClass('active');
+
+                var $perspective = $('div.perspective-container').find('span.perspective.active');
+
+                if ($perspective.text() === "Back" || $perspective.text() === "Front") {
+
+                    if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+
+                        $('span.part').first().addClass('active');
+
+                    } else {
+
+                        var _partToMakeActive =  $perspective.text().toTitleCase();
+
+                        var partCount = 0; 
+
+                        $('div.part-container span').each(function() {
+                            
+                            var part = $(this).text();
+
+                            if (part.indexOf(_partToMakeActive) !== -1 && partCount < 1) {
+                                partCount++;
+                                _partToMakeActive = part;
+                            }
+
+                        });
+
+                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                    }
+
+                } else {
+
+                    $('span.part').first().addClass('active');
+                    var side = $('span.side.active').data('id');
+                    var _partToMakeActive = $perspective.text().toTitleCase();
+
+                    $('div.part-container span').each(function() {
+                        var part = $(this).text();
+                        var makeActive = '';
+
+                        if (part.indexOf(_partToMakeActive) !== -1) {
+                            makeActive = part;
+                            $("span.part").removeClass('active');
+                            $('span.part[data-id="' + makeActive + '"]').addClass('active');
+                        }
+                    });
+                }
+
             }
 
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
@@ -10877,9 +11123,14 @@ $(document).ready(function() {
 
         // End Art Only 
 
+        $('div.perspective-container > span.perspective.active').trigger('click');
+
         });
 
         // End Select Perspective 
+
+        // Update Labels for Socks (Apparel)
+        ub.funcs.updateLabels();
 
     };
 
@@ -11021,6 +11272,10 @@ $(document).ready(function() {
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
             var _primaryView = ub.funcs.getPrimaryView(app.application);
+            
+            // exit if undefined
+            if (typeof _primaryView === 'undefined') { return; }
+            
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
 
             var _appTypeAlias =  _applicationType;
@@ -11299,7 +11554,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-        _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+        _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=      '</div>';
@@ -11310,9 +11565,8 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
 
         $('div.optionButton').on('click', function () {
-
             if ($(this).hasClass('deactivatedOptionButton')) { return; }
-
+            ub.funcs.resetFlipStatus(_settingsObject);
             var _type = $(this).data('type');
             _settingsObject.status = 'on';
 
@@ -11957,5 +12211,24 @@ $(document).ready(function() {
         return _result;
 
     }
+
+    ub.funcs.activateDisableMoveTool = function (application_id) {
+        var application = ub.funcs.getApplicationSettings(application_id)
+
+        if (application.status === "off") {
+            ub.funcs.deactivateMoveTool();
+        } else {
+            ub.funcs.activateMoveTool(application.code);
+        }
+    }
+    
+    /// Remove unused elements
+    ub.funcs.removeUnusedElement  = function (elem) {
+        if ($(elem).length > 0){
+            $(elem).remove();
+        }
+    }
+
+    /// End remove unused elements
 
 });

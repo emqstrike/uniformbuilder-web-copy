@@ -38,6 +38,18 @@ $(document).ready(function() {
 
         },
 
+        proggError: function (msg, type, user) {
+
+            // Programming Error Message should be funneled using this 
+
+            // TODO: Persist / Log error to storage
+            // TODO: (Refactor) Funnel all errors through here
+
+            console.trace();
+            console.error(msg);
+
+        },
+
         info: function (msg, type, user) {
 
             // TODO: Persist / Log to storage

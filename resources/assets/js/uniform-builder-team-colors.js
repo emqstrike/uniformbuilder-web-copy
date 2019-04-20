@@ -410,14 +410,17 @@ $(document).ready(function () {
         var _teamColorObj       = ub.current_material.settings.team_colors;
         var _indexOfColorObj    = undefined;
 
-        _indexOfColorObj        = _teamColorObj.indexOf(colorObj);
-        _teamColorObj.splice(_indexOfColorObj, 1);
+        var color = _.find(ub.current_material.settings.team_colors, {color_code: colorObj.color_code});
+        var _indexOfColorObj = _.indexOf(_teamColorObj, color);
+
+        if (_indexOfColorObj !== -1) {
+            _teamColorObj.splice(_indexOfColorObj, 1);
+        }
 
         ub.funcs.drawColorPickers();
 
         // Selective execution here ... Update pattern only if the color being removed is currently in used by the pattern
         if (ub.funcs.ifColorIsUsedOnPatterns(colorObj)){ ub.funcs.updatePatterns(); }
-        
     };
 
     ub.funcs.drawColorPickers = function () {
@@ -579,7 +582,7 @@ $(document).ready(function () {
 
                    var fill = "white";
 
-                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
+                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG' || _colorOBJ.color_code === 'FLG') {
                         fill = 'black';
                    }
 
@@ -748,7 +751,26 @@ $(document).ready(function () {
     ub.funcs.initTeamColors = function () {
         
         var _colorSet       = '';
-        _colorSet           = ub.funcs.getBaseColors();
+        
+        // If `thread_colors` value is true in ub.current_material.settings
+        // then use thread colors instead of the default colors
+        if (ub.current_material.settings.threadColors) {
+
+            _colorSet =  _.sortBy(ub.data.threadColors, 'order');
+
+        } else {
+
+            _colorSet = ub.funcs.getBaseColors();
+
+            // hide FLB and FLG colors on Team Colors UI
+            if (ub.config.blockPattern === 'Flag Football') {
+                var flag_colors = ['FLB', 'FLG'];
+                _colorSet = _.filter(ub.data.colors, function(color) {
+                    return !_.contains(flag_colors, color.color_code);
+                });
+            }
+
+        }
 
         $("span.part_label").html('Team Colors');
         $("span.nOf").html('Select the colors you will use');
