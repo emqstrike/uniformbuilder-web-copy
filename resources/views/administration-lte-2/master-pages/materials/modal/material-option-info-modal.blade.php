@@ -179,10 +179,34 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Default Fabric:</label>
                         <select class="form-control default-fabric" name="fabric_id" id="default_fabric">
+                        </select>
+                    </div>
+                </div> -->
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Base Fabric:</label>
+                        <select class="form-control default-base-fabric" name="base_fabric" id="default_base_fabric">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Sleeve Fabric:</label>
+                        <select class="form-control default-sleeve-fabric" name="sleeve_fabric" id="default_sleeve_fabric">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Insert Fabric:</label>
+                        <select class="form-control default-insert-fabric" name="insert_fabric" id="default_insert_fabric">
                         </select>
                     </div>
                 </div>
@@ -194,6 +218,24 @@
                             <option value="">None</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Base Fabric:</label>
+                    <select class="form-control default-base-fabric" name="base_fabric" id="default_base_fabric">
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Sleeve Fabric:</label>
+                    <select class="form-control default-sleeve-fabric" name="sleeve_fabric" id="default_sleeve_fabric">
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Insert Fabric:</label>
+                    <select class="form-control default-insert-fabric" name="insert_fabric" id="default_insert_fabric">
+                    </select>
                 </div>
 
                 <div class="col-md-12" id="pattern_layers_OC">
