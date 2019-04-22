@@ -200,6 +200,9 @@
                                                         data-build-type="{{ $option->build_type }}"
                                                         data-pattern-opacity="{{ $option->pattern_opacity }}"
                                                         data-default-fabric="{{ $option->fabric_id }}"
+                                                        data-default-base-fabric="{{ $option->base_fabric }}"
+                                                        data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                                        data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
