@@ -88,6 +88,7 @@
                         <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
                         <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
                         <input type="hidden" id="material_asset_target" value="{{ $material->asset_target }}">
+                        <input type="hidden" id="material_brand" value="{{ $material->brand }}">
 
                         <table class="col-md-12">
                             <thead>
