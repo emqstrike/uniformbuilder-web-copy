@@ -249,20 +249,33 @@ GradientPanel.events = {
         var modifierObject = _.find(ub.data.modifierLabels, {index: ub.current_part});
         var gradientColors = GradientPanel.utilities.getTemporaryColors(modifierObject.fullname);
         var gradientObjectSettings;
+        var names = ub.funcs.ui.getAllNames(modifierObject.name);
+
         if (modifierObject.name.includes("Sleeve")) {
             gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject("Right Sleeve");
         } else {
             gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierObject.name);
         }
  
-        _.each(gradientColors, function(gradient) {
-            var layerObject = _.find(gradientObjectSettings.layers, {layer: gradient.layer});
+        _.each(names, function(name) {
+            var titleNameFirstMaterial = name.toTitleCase();
+            var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-            if (typeof layerObject !== "undefined") {
-                layerObject.colorCode = gradient.color.color_code
-                layerObject.colorObj = gradient.color
-            }
-        });
+            _.each(gradientColors, function(gradient) {
+                var materialLayer = _.find(_settingsObject.gradient.gradient_obj.layers, {layer_no: gradient.layer.toString()});
+                var layerObject = _.find(gradientObjectSettings.layers, {layer: gradient.layer});
+
+                if (typeof materialLayer !== "undefined") {
+                    materialLayer.colorCode = gradient.color.color_code
+                    materialLayer.colorObj = gradient.color
+                }
+
+                if (typeof layerObject !== "undefined") {
+                    layerObject.colorCode = gradient.color.color_code
+                    layerObject.colorObj = gradient.color
+                }
+            });
+        })
         
         UIkit.modal("#modal-edit-palette-gradient").hide();
         GradientPanel.utilities.renderGradient(gradientObjectSettings, modifierObject.index);
@@ -430,7 +443,8 @@ GradientPanel.utilities = {
 
         _.each(gradientObjectSettings.layers.slice(0).reverse(), function(_property, index) {
             var _layer = {
-                color_code: _property.colorObj,
+                colorObj: _property.colorObj,
+                color_code: _property.colorObj.color_code,
                 layer_no: _property.layer.toString(),
                 filename: _property.filename,
                 container_position: {
@@ -487,7 +501,7 @@ GradientPanel.utilities = {
                     var sprite = container.sprites[index];
 
                     sprite.zIndex = layer.layer_number * -1;
-                    sprite.tint = parseInt(layer.color_code.hex_code, 16);
+                    sprite.tint = parseInt(layer.colorObj.hex_code, 16);
 
                     ///
                     var _hexCode = (sprite.tint).toString(16);
@@ -504,7 +518,7 @@ GradientPanel.utilities = {
                     sprite.anchor.set(0.5, 0.5);
                     sprite.pivot.set(0.5, 0.5);
 
-                    sprite.tint = parseInt(clone.layers[index].color_code.hex_code, 16);
+                    sprite.tint = parseInt(clone.layers[index].colorObj.hex_code, 16);
                     container.addChild(sprite);
 
                     var _positionAdjusted = {

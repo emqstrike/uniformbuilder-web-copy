@@ -117,6 +117,7 @@ MascotPanel.init = function () {
     ub.funcs.initializer();
     MascotPanel.events.init();
     NewApplicationPanel.events.init();
+    ApplicationEvent.events.init();   
 }
 
 MascotPanel.events = {
