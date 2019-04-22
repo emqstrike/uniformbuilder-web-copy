@@ -248,11 +248,13 @@ GradientPanel.events = {
     onApplyGradientColors: function() {
         var modifierObject = _.find(ub.data.modifierLabels, {index: ub.current_part});
         var gradientColors = GradientPanel.utilities.getTemporaryColors(modifierObject.fullname);
+        var gradientObjectSettings;
         if (modifierObject.name.includes("Sleeve")) {
-            modifierObject.name = "Right Sleeve";
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject("Right Sleeve");
+        } else {
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierObject.name);
         }
-        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierObject.name);
-
+ 
         _.each(gradientColors, function(gradient) {
             var layerObject = _.find(gradientObjectSettings.layers, {layer: gradient.layer});
 

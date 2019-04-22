@@ -5,7 +5,6 @@ $(document).ready(function () {
     ub.funcs.ui = {};
 
     ub.funcs.ui.getAllNames = function (materialOptionName) {
-
         var _names      = [];
         var _obj        = _.find(ub.data.modifierLabels, {name: materialOptionName});
         var _name       = _obj.fullname;
@@ -24,7 +23,6 @@ $(document).ready(function () {
         }
 
         return _names;
-
     };
 
     // Set Color in the Settings Object

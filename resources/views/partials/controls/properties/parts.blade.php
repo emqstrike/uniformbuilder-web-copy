@@ -18,6 +18,7 @@
                                         data-color-label="@{{ color_code }}"
                                         data-color-id="@{{ id }}"
                                         data-modifier-category="@{{ fullname }}"
+                                        data-modifier-index="@{{ index }}"
                                         uk-tooltip="title: @{{ name }}; pos: left;"
                                     >
                                     </button>
