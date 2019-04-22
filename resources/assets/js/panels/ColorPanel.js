@@ -31,7 +31,7 @@ ColorPanel.prototype = {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
-
+            var modifier_index = $(".color-main-container-" + modifier_category).data("modifier_index");
             var selected_color = $(".color-main-container-" + modifier_category).find('.active-color');
             selected_color.removeClass('active-color');
             selected_color.html("");
@@ -41,7 +41,6 @@ ColorPanel.prototype = {
             // Retrieve Color Object
             var color_code = $(this).data('color-label');
             var color = ub.funcs.getColorByColorCode(color_code);
-
             // Apply the color to the Canvas
             _this.setMaterialOptionColor(_modifier_name, color, "from color picker");
 
@@ -57,7 +56,6 @@ ColorPanel.prototype = {
         var _this = this;
 
         _.each(_names, function (name) {
-
             _this.setMaterialOptionSettingsColor(name, colorObj, source);
             _this.setMatchingColor(name, colorObj, source);
 
@@ -70,31 +68,23 @@ ColorPanel.prototype = {
 
     // Set Color in the Settings Object
     setMaterialOptionSettingsColor: function (materialOptionCode, colorObj, source) {
-
-        var _type                       = ub.current_material.material.type;
-        var _uniformObject              = ub.current_material.settings[_type];
-        var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
+        var _type = ub.current_material.material.type;
+        var _uniformObject = ub.current_material.settings[_type];
+        var _materialOptionObject = _.find(_uniformObject, {code: materialOptionCode});
 
         if (typeof _materialOptionObject !== 'undefined') {
-
             if (_materialOptionObject.color !== parseInt(colorObj.hex_code, 16)) {
-
                 var _oldValue = _materialOptionObject.color;
                 var _newValue = parseInt(colorObj.hex_code, 16);
 
                 if (source !== 'from undo') {
-
                     if (typeof ub.funcs.pushOldState === "undefined") { return; }
-
                     ub.funcs.pushOldState('color change', 'material option', _materialOptionObject, _materialOptionObject.colorObj, colorObj);
-
                 }
-
             }
 
-            _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
-            _materialOptionObject.colorObj  = colorObj;
-
+            _materialOptionObject.color = parseInt(colorObj.hex_code, 16);
+            _materialOptionObject.colorObj = colorObj;
         }
     },
 
@@ -150,6 +140,5 @@ ColorPanel.prototype = {
         ) {
             element.html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-colors"></span>');
         }
-    }
-
+    },
 }
