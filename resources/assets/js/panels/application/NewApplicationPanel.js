@@ -200,19 +200,7 @@ NewApplicationPanel.events = {
                 }
             }
             if (typeof application.status === "undefined" || application.status === "on") {
-                if (type === "letters") {
-                    if (application.application_type === "team_name" || application.application_type === "player_name") {
-                        return application;
-                    }
-                } else if (type === "numbers") {
-                    if (application.application_type === 'front_number' || application.application_type === 'back_number' || application.application_type === 'sleeve_number') {
-                        return application;
-                    }
-                } else if (type === "mascots") {
-                    if (application.application_type === 'mascot' || application.application_type === 'embellishments') {
-                        return application;
-                    }
-                }
+                return application;
             }
         });
         // Sort by zindex
@@ -221,12 +209,20 @@ NewApplicationPanel.events = {
         var applicationObject = [];
 
         _.map(_applicationCollection, function(application) {
+            var applicationType = "";
+
+            if (application.application_type === "embellishments" || application.application_type === "mascot" ) {
+                applicationType = "LOGO";
+            } else {
+                applicationType = application.application_type.toUpperCase().replace('_', ' ')
+            }
+
             var item = {
                 zindex: application.zIndex,
                 code: application.code,
                 caption: ub.funcs.getSampleCaption(application),
                 view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
-                application_type: application.application_type.toUpperCase().replace('_', ' '),
+                application_type: applicationType,
                 type: application.application_type
             }
 
