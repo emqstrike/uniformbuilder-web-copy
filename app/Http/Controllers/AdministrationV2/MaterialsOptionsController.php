@@ -341,7 +341,10 @@ class MaterialsOptionsController extends Controller
             'part_type' => $partType,
             'pattern_opacity' => $pattern_opacity,
             'default_asset' => $default_asset,
-            'fabric_id' => $request->input('fabric_id')
+            'fabric_id' => $request->input('fabric_id'),
+            'insert_fabric' => $request->input('insert_fabric'),
+            'base_fabric' => $request->input('base_fabric'),
+            'sleeve_fabric' => $request->input('sleeve_fabric'),
         ];
 
         try
