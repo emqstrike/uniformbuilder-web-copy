@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_material_gradient') }}" enctype="multipart/form-data" id='edit-gradient-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('update_gradient') }}" enctype="multipart/form-data" id='edit-gradient-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
                             <input type="hidden" id="gradient_data" value="{{ $material->gradient }}">
