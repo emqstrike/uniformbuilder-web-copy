@@ -8831,11 +8831,16 @@ $(document).ready(function () {
     }
 
     ub.funcs.getSamplePlayerName = function () {
+        var _samplePlayerName;
 
-        var _samplePlayerName = 'Grizzlies';
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            _samplePlayerName = "PLAYER"
+        } else {
+            _samplePlayerName = 'Grizzlies';
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-            _samplePlayerName = 'Tiger';
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+                _samplePlayerName = 'Tiger';
+            }
         }
 
         return _samplePlayerName;
