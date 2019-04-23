@@ -15,6 +15,8 @@
                     </div>
 
                     <div class="box-body">
+                        @include('administration.partials.flash-message')
+                        
                         <table data-toggle='table' class='data-table table table-bordered patterns'>
                             <thead>
                                 <tr>

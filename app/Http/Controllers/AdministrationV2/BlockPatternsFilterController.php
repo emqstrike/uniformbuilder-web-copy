@@ -43,11 +43,11 @@ class BlockPatternsFilterController extends Controller
     {
         $result = $this->newBlockPatternClient->create($request->all());
 
-        if ($result->errors) {
+        if (isset($result->errors)) {
             return back()->with('flash_message_error', $result->errors);
         }
 
-        return back();
+        return redirect()->route('v1_block_pattern_filters')->with('flash_message_success', 'Block pattern filter created');
     }
 
     public function edit($id)
@@ -64,14 +64,12 @@ class BlockPatternsFilterController extends Controller
 
     public function update(Request $request)
     {
-        return json_encode($request->all());
-
         $result = $this->newBlockPatternClient->update($request->all());
 
-        if ($result->errors) {
+        if (isset($result->errors)) {
             return back()->with('flash_message_error', $result->errors);
         }
 
-        return back();
+        return redirect()->route('v1_block_pattern_filters')->with('flash_message_success', 'Block pattern filter updated');
     }
 }

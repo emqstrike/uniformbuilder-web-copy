@@ -96,7 +96,7 @@
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Add Block Pattern
                                     </button>
-                                    <a href="{{ route('v1_block_patterns') }}" class="btn btn-flat btn-danger">
+                                    <a href="{{ route('v1_block_pattern_filters') }}" class="btn btn-flat btn-danger">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
