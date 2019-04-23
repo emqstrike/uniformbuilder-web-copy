@@ -8,15 +8,19 @@
     @include('administration-lte-2.master-pages.block-pattern-filters.partials.block-pattern-option')
 @endsection
 
+@section('panel-overlay')
+    <div v-show="is_panel_showing" class="panel-overlay"></div>
+@endsection
+
 @section('content')
     <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        @section('page-title', 'Add New Block Pattern Filter')
+                        @section('page-title', 'Edit New Block Pattern Filter')
 
-                        <h1>Add New Block Pattern Filter</h1>
+                        <h1>Edit New Block Pattern Filter</h1>
                     </div>
 
                     <div class="box-body">

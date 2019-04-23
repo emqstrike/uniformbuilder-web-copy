@@ -53,7 +53,7 @@ new Vue({
             this.showPanel(block_pattern_option, index);
         },
         removeBlockPatternOption: function(index) {
-            let remove = confirm('Are you sure you want to remove this neck option?');
+            let remove = confirm('Are you sure you want to remove this block pattern option?');
 
             if (remove == true) {
                 this.$delete(this.block_pattern_options, index);

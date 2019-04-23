@@ -23,7 +23,7 @@ class BlockPatternsFilterController extends Controller
 
     public function index()
     {
-        $newBlockPatterns = $this->newBlockPatternClient->getAll();
+        $newBlockPatterns = json_encode($this->newBlockPatternClient->getAll());
 
         return view('administration-lte-2.master-pages.block-pattern-filters.index', compact(
             'newBlockPatterns'
@@ -65,7 +65,7 @@ class BlockPatternsFilterController extends Controller
     public function update(Request $request)
     {
         return json_encode($request->all());
-        
+
         $result = $this->newBlockPatternClient->update($request->all());
 
         if ($result->errors) {

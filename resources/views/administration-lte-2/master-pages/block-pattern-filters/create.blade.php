@@ -8,6 +8,10 @@
     @include('administration-lte-2.master-pages.block-pattern-filters.partials.block-pattern-option')
 @endsection
 
+@section('panel-overlay')
+    <div v-show="is_panel_showing" class="panel-overlay"></div>
+@endsection
+
 @section('content')
     <div class="content">
         <div class="row">

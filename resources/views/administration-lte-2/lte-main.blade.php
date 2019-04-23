@@ -48,7 +48,8 @@
             @yield('slidein-panel')
 
             <div id="panel" class="wrapper">
-                <div v-show="is_panel_showing" class="panel-overlay"></div>
+                @yield('panel-overlay')
+
                 @include('administration-lte-2.lte-main-topbar')
                 @include('administration-lte-2.lte-side-menu')
                 
@@ -67,6 +68,7 @@
                 window.api_host = "{{ env('API_HOST') }}";
                 window.customizer_host = "{{ env('CUSTOMIZER_HOST') }}";
                 window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
+                window.accessToken = "{{ Session::get('accessToken') }}";
                 
                 @if (Session::get('isLoggedIn'))
                     window.loggedInUser = {{ Session::get('userId') }};
@@ -90,6 +92,8 @@
         <script type="text/javascript" src="/js/administration/common.js"></script>
         <script src="/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="/js/libs/axios.js"></script>
+        <script src="/js/libs/axios-global-config.js"></script>
 
         @yield('scripts')
         @yield('custom-scripts')
