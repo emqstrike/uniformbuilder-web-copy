@@ -32,6 +32,8 @@ class BlockPatternsFilterController extends Controller
 
     public function create()
     {
+        $uniformCategories = $this->uniformCategoriesClient->getUniformCategories();
+
         return view('administration-lte-2.master-pages.block-pattern-filters.create', compact(
             'uniformCategories'
         ));
@@ -44,10 +46,32 @@ class BlockPatternsFilterController extends Controller
         if ($result->errors) {
             return back()->with('flash_message_error', $result->errors);
         }
+
+        return back();
     }
 
     public function edit($id)
     {
-        $newBlockPattern = $this->newBlockPatternClient->get($id);
+        $newBlockPattern = $this->newBlockPatternClient->getById($id);
+
+        $uniformCategories = $this->uniformCategoriesClient->getUniformCategories();
+        
+        return view('administration-lte-2.master-pages.block-pattern-filters.edit', compact(
+            'newBlockPattern',
+            'uniformCategories'
+        ));
+    }
+
+    public function update(Request $request)
+    {
+        return json_encode($request->all());
+        
+        $result = $this->newBlockPatternClient->update($request->all());
+
+        if ($result->errors) {
+            return back()->with('flash_message_error', $result->errors);
+        }
+
+        return back();
     }
 }

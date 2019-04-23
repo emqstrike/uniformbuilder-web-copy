@@ -25,8 +25,26 @@ class NewBlockPatternClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function get($id)
+    public function getById($id)
     {
-        
+        $response = $this->get("new_block_patterns/$id");
+        $result = $this->decoder->decode($response->getBody());
+
+        $newBlockPattern = null;
+
+        if ($result->success) {
+            $newBlockPattern = $result->new_block_pattern;
+        }
+
+        return $newBlockPattern;
+    }
+
+    public function update($data)
+    {
+        $response = $this->patch("new_block_patterns/{$data['id']}/update", [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 }

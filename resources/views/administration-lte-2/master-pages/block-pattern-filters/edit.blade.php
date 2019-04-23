@@ -20,8 +20,11 @@
                     </div>
 
                     <div class="box-body">
-                        <form action="{{ route('v1_store_block_pattern_filter') }}" class="form-horizontal" method="POST">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <form action="{{ route('v1_update_block_pattern_filter') }}" class="form-horizontal" method="POST">
+                            {{ method_field('PATCH') }}
+                            {{ csrf_field() }}
+
+                            <input type="hidden" name="id" value="{{ $newBlockPattern->id }}">
                             <input type="hidden" name="block_pattern_options" :value="JSON.stringify(block_pattern_options)">
                             <input type="hidden" name="block_pattern_option_2" :value="JSON.stringify(block_pattern_option_2)">
 
@@ -30,7 +33,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Name</label>
                                 <div class="col-md-6">
-                                    <input type="name" class="form-control color-name" name="name" value="{{ old('name') }}">
+                                    <input type="name" class="form-control color-name" name="name" value="{{ $newBlockPattern->name }}">
                                 </div>
                             </div>
 
@@ -40,7 +43,9 @@
                                     <select name="uniform_category_id" class="form-control">
                                         @foreach ($uniformCategories as $uniformCategory )
                                             @if ($uniformCategory->name != "")
-                                                <option value="{{ $uniformCategory->id }}">{{ $uniformCategory->name }}</option>
+                                                <option value="{{ $uniformCategory->id }}" @if ($newBlockPattern->uniform_category_id == $uniformCategory->id) selected="selected" @endif>
+                                                    {{ $uniformCategory->name }}
+                                                </option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -103,8 +108,8 @@
 
 @section('scripts')
     <script>
-        var data = {}; // initialize data variable for vue
-        var block_pattern_option_2 = {};
+        var data = [{!! $newBlockPattern->block_pattern_options !!}][0];
+        var block_pattern_option_2 = {!! $newBlockPattern->block_pattern_option_2 !!};
     </script>
 
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>

@@ -213,6 +213,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('block_pattern_filters/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsFilterController@create'])->name('v1_add_block_pattern_filter');
             Route::get('block_pattern_filters/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsFilterController@edit'])->name('v1_edit_block_pattern_filter');
             Route::post('block_pattern_filters/store', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsFilterController@store'])->name('v1_store_block_pattern_filter');
+            Route::patch('block_pattern_filters/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsFilterController@update'])->name('v1_update_block_pattern_filter');
 
             // Fonts
             Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FontsController@index'])->name('v1_fonts_index');

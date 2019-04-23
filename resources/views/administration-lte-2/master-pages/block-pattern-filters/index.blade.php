@@ -33,7 +33,7 @@
                                             <td>{{ $newBlockPattern->name }}</td>
                                             <td>{{ $newBlockPattern->sport }}</td>
                                             <td>
-                                                <a href="" class="btn btn-xs btn-flat btn-success">Edit</a>
+                                                <a href="{{ route('v1_edit_block_pattern_filter', ['id' => $newBlockPattern->id]) }}" class="btn btn-xs btn-flat btn-success">Edit</a>
                                             </td>
                                         </tr>
                                     @endforeach
