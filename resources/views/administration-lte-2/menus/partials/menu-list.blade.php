@@ -12,9 +12,10 @@
             <input type="hidden" name="id[]" class="menu-id form-control" value="{{ $menu->id }}">
             <input type="hidden" name="order_id[]" class="order-id form-control">
             <input type="hidden" name="parent_id[]" class="parent-id form-control" value="{{ $menu->parent_id }}">
+            <input type="hidden" name="menu_item_code[]" class="menu-item-code form-control" value="{{ $menu->menu_item_code }}">
 
             <div class="form-group">
-                <label>Route Name</label>
+                <label>Route Names</label>
                 <input type="text" name="route_name[]" class="route-name form-control" value="{{ $menu->route_name }}">
             </div>
 
@@ -58,7 +59,7 @@
     @if (isset($menu->subMenu))
         <ol>
             @foreach ($menu->subMenu as $menu)
-                @include('administration.menus.partials.menu-list')
+                @include('administration-lte-2.menus.partials.menu-list')
             @endforeach
         </ol>
     @endif
