@@ -442,6 +442,13 @@ LogoPanel.utilities = {
         }
     },
 
+    defaultLogoForFabric: function(current_active_logo, colors) {
+        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(colors, "CG") ? "CG" : "W");
+        if (_.contains(colors, "CG") && _.contains(colors, "W")) {
+            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "R");
+        }
+    },
+
     reInitiateLogo: function() {
         var secondary_color = LogoPanel.colors.getSecondaryColor();
         var current_active_logo = LogoPanel.utilities.getEnableLogo();
@@ -456,10 +463,7 @@ LogoPanel.utilities = {
             if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
-                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
-                        if (_.contains(material_colors, "CG") && _.contains(material_colors, "W")) {
-                            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "R");
-                        }
+                        LogoPanel.utilities.defaultLogoForFabric(current_active_logo, material_colors);
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
@@ -467,10 +471,10 @@ LogoPanel.utilities = {
                     }
                 }
             } else {
-                LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
+                LogoPanel.utilities.defaultLogoForFabric(current_active_logo, material_colors);
             }
         } else {
-            LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "W");
+            LogoPanel.utilities.defaultLogoForFabric(current_active_logo, material_colors);
         }
     },
 
