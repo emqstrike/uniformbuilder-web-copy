@@ -673,6 +673,7 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
             ub.funcs.executeAfterLoadFunctionList();
 
         };
@@ -2707,6 +2708,8 @@ $(document).ready(function () {
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
+
+            if (typeof application_obj.originalSize === 'undefined') { application_obj.originalSize = application_obj.font_size; }
 
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
