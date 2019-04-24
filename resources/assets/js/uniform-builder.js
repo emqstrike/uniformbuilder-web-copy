@@ -648,6 +648,7 @@ $(document).ready(function () {
 
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
             ub.funcs.executeAfterLoadFunctionList();
 
         };

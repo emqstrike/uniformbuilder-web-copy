@@ -853,7 +853,10 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
-        if (!_isFreeFormEnabled) {
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+        if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
         // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
@@ -1309,11 +1312,18 @@ $(document).ready(function() {
 
                 }
 
-                $('select.customSize option:first').prop('selected', true);
-                
-                $('input.custom-size-type').prop('checked', false);
-                $('input.custom-size-type').attr('disabled', false);
-                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+                // tackle twill only (custom sizes)
+                var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+                if (tackeTwillCustomSizes) {
+                    // select initial option
+                    $('select.customSize option:first').prop('selected', true);
+                    
+                    // reset custom-size-type attr
+                    $('input.custom-size-type').prop('checked', false);
+                    $('input.custom-size-type').attr('disabled', false);
+                    $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+                }
 
             });
 
@@ -1522,6 +1532,17 @@ $(document).ready(function() {
             $('input.custom-size-type[data-type="tall"]').prop('checked', true);
         } else {
             $('input.custom-size-type').prop('checked', false);
+        }
+    }
+
+    // resize the right main window panel
+    ub.funcs.resizeRightMainWindow = function () {
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+        if (tackeTwillCustomSizes) {
+            $('div#right-main-window').css('height','570px');
+        } else {
+            $('div#right-main-window').css('height','530px');
         }
     }
 

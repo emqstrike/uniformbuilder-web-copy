@@ -11549,6 +11549,7 @@ ub.funcs.fontOffSets = [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
             { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
             { name: 'Test Orders', code: 'testOrders', section: 'uniforms' },
+            { name: 'Tackle Twill Custom Sizes', code: 'tackeTwillCustomSizes', section: 'uniforms' },
         ],
         
         getCode: function (featureFlag) {

@@ -1067,12 +1067,17 @@ $(document).ready(function() {
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-                    
-                    // activate bestfit option application panel
-                    ub.funcs.activateBestFitOption();
 
-                    // add `custom_size_type` flag on application setting instance
-                    _application.custom_size_type = "bestfit";
+                    // tackle twill only (custom sizes)
+                    var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+                    if (tackeTwillCustomSizes) {
+                        // activate bestfit option application panel
+                        ub.funcs.activateBestFitOption();
+
+                        // add `custom_size_type` flag on application setting instance
+                        _application.custom_size_type = "bestfit";
+                    }
 
                 }
 
@@ -1348,11 +1353,16 @@ $(document).ready(function() {
 
                         ub.updateApplicationSpecsPanel(_application.code);
 
-                        // activate bestfit option application panel
-                        ub.funcs.activateBestFitOption();
+                        // tackle twill only (custom sizes)
+                        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-                        // add `custom_size_type` flag on application setting instance
-                        _application.custom_size_type = "bestfit";
+                        if (tackeTwillCustomSizes) {
+                            // activate bestfit option application panel
+                            ub.funcs.activateBestFitOption();
+
+                            // add `custom_size_type` flag on application setting instance
+                            _application.custom_size_type = "bestfit";
+                        }
 
                     }
 
@@ -6245,8 +6255,9 @@ $(document).ready(function() {
 
         var isActiveOnSize = false;
 
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
         // Get the first 2 sizes array value
-        if (!ub.funcs.isFreeFormToolEnabled(_id)) { var sizes = sizes.slice(0,2); }
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { var sizes = sizes.slice(0,2); }
 
         _.each(sizes, function (size) {
 
@@ -6269,7 +6280,7 @@ $(document).ready(function() {
         });
 
         // Custom size select option
-        if (!ub.funcs.isFreeFormToolEnabled(_id)) {
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) {
 
             var sizeCount = _.size(sizes);
             var width = (sizeCount > 1) ? 155 : 205;
@@ -6752,7 +6763,10 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
 
-        if (!_isFreeFormEnabled) {
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+        if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
         // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
@@ -8660,7 +8674,10 @@ $(document).ready(function() {
         
         _htmlBuilder        +=          '</div>';
 
-        if (!_isFreeFormEnabled) {
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+        if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
         // Tall, Wide, Best Fit
         _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
