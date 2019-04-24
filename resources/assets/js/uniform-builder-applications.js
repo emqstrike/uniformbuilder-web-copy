@@ -987,6 +987,9 @@ $(document).ready(function() {
 
         var _application = application;
 
+        // tackle twill only (custom sizes)
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         // Check for Feature Flag
         if(!ub.config.isFeatureOn('ui','draggable_applications')) 
         {
@@ -1067,9 +1070,6 @@ $(document).ready(function() {
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-
-                    // tackle twill only (custom sizes)
-                    var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
                     if (tackeTwillCustomSizes) {
                         // activate bestfit option application panel
@@ -1204,8 +1204,12 @@ $(document).ready(function() {
 
                     if(sprite.ubName === "Move Tool") {
 
-                        rotation_point.alpha    = 0;
-                        scale_point.alpha       = 0;
+                        rotation_point.alpha = 0;
+
+                        // for custom sizes feature flag, CCO-156
+                        if (typeof scale_point !== 'undefined') {
+                            scale_point.alpha = 0;
+                        }
                         
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             delete_point.alpha = 0;
@@ -1257,8 +1261,12 @@ $(document).ready(function() {
 
                     if(sprite.ubName === "Rotate Tool") {
 
-                        move_point.alpha        = 0;
-                        scale_point.alpha       = 0;
+                        move_point.alpha = 0;
+                        
+                        // for custom sizes feature flag, CCO-156
+                        if (typeof scale_point !== 'undefined') {
+                            scale_point.alpha = 0;
+                        }
 
                         if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             delete_point.alpha = 0;
@@ -1352,9 +1360,6 @@ $(document).ready(function() {
                         $('span.custom_text.scale').html(_start);
 
                         ub.updateApplicationSpecsPanel(_application.code);
-
-                        // tackle twill only (custom sizes)
-                        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
                         if (tackeTwillCustomSizes) {
                             // activate bestfit option application panel
@@ -9689,9 +9694,6 @@ $(document).ready(function() {
 
         ub.funcs.activateCustomSizeType(_settingsObject);
 
-        // Disable bestfit option
-        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
-
     }
 
     ub.funcs.activateMoveTool = function (application_id) {
@@ -9889,8 +9891,10 @@ $(document).ready(function() {
         
         // --- Scale --- ///
 
+        // tackle twill only (custom sizes)
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-        // if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || ub.config.uniform_application_type === "tackle_twill") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || tackeTwillCustomSizes) {
 
         var _filenameScale = "/images/builder-ui/scale-icon-on.png";
         var _spriteScale = ub.pixi.new_sprite(_filenameScale);
@@ -9911,7 +9915,7 @@ $(document).ready(function() {
 
         ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
-        // }
+        }
 
         // --- Reset --- ///
 

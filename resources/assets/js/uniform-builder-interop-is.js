@@ -1510,6 +1510,7 @@ $(document).ready(function() {
         if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
             $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
             $('input.custom-size-type').attr('disabled', true);
+            $('input.custom-size-type[data-type="bestfit"]').attr('disabled', false);
         }
 
     }
@@ -1517,7 +1518,9 @@ $(document).ready(function() {
     // activate bestfit radio button
     ub.funcs.activateBestFitOption = function () {
         $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
-        $('input.custom-size-type').attr('disabled', true);
+        $('input.custom-size-type[data-type="tall"]').attr('disabled', true);
+        $('input.custom-size-type[data-type="wide"]').attr('disabled', true);
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', false);
         $('select.customSize option:first').prop('selected', true);
         $('span.font_size').removeClass('active');
     }
