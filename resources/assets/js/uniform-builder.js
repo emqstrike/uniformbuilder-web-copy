@@ -43,11 +43,11 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
-
                 // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
+                // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
 
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
