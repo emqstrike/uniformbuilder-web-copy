@@ -17,7 +17,6 @@ Route::group(['prefix' => 'richardson'], function () {
     });
 
     Route::get("/block-patterns/{pattern}/types/{uniform_type}", function($pattern, $uniform_type) {
-
         if ($uniform_type === "color-infused") {
             $uniform_type = "sublimated";
         } else if ($uniform_type === "color-dyed") {

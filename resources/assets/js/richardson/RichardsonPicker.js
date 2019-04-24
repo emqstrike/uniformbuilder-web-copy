@@ -8,7 +8,8 @@ var RichardsonPicker = {
     },
 
     onLoad: function() {
-        RichardsonPicker.renderUniformPicker(ub.config.styles.block_pattern, ub.config.styles.uniform_type);
+        var blockPattern = ub.config.styles.block_pattern.replace(/-/g, " ");
+        RichardsonPicker.renderUniformPicker(blockPattern, ub.config.styles.uniform_type);
     },
 
     onFilterStyles: function() {
