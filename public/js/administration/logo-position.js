@@ -19,7 +19,9 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                parts = _.uniq(_.map(data.materials_options, function (op) {
+
+                // Filter by "setting_type" first, only get "name" property, the get unique values
+                parts = _.uniq(_.map(_.where(data.materials_options, {setting_type: "shape"}), function (op) {
                     return op.name;
                 }));
             }
