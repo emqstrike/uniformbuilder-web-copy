@@ -291,7 +291,13 @@ GradientPanel.utilities = {
 
             ub.data.gradients = gradient;
 
-            _.map(ub.data.gradients, function(gradient, index){
+            _.map(ub.data.gradients, function(gradient, index) {
+                // Add filter for Cage Jacket
+                if (ub.config.blockPattern === "PTS Cage Jacket") {
+                    gradient.position === "Front Body" ? gradient.position = "Front Jersey" : gradient.position;
+                    gradient.position === "Back Body" ? gradient.position = "Back Jersey" : gradient.position;
+                }
+
                 var underscore = gradient.position.replace(/ /g, "_");
                 ub.data.gradients[index].name = underscore.toLowerCase();
             });
