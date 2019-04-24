@@ -1,4 +1,4 @@
-@extends("richardson.layout.master-without-footer")
+@extends("richardson.layout.master-plain")
 @section("body")
 <!-- Preview Panel -->
 @include('partials.panels.debug-panel')

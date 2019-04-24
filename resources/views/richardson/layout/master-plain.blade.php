@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Richardson Customizer</title>
     <!-- CSS -->
     @include("richardson.includes.styles")
@@ -11,6 +9,7 @@
     @include("richardson.includes.scripts")
     <!-- Scripts -->
 </head>
-
-@include("richardson.includes.navbar")
 <body>
+    @yield("body")
+</body>
+</html>
