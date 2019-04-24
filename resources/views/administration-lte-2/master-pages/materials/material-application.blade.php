@@ -77,6 +77,7 @@
 
                                 <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
                                 <input type="hidden" id="material_asset_target" value="{{ $material->asset_target }}">
+                                <input type="hidden" id="material_brand" value="{{ $material->brand }}">
 
                                 <div class="row">
                                     <div class="col-md-4">

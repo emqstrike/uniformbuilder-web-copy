@@ -46,14 +46,17 @@ $(document).ready(function() {
     window.mascots = null;
     window.patterns = null;
 
+    var temp_category= $('#material_uniform_category').val();
+    var temp_brand  = $('#material_brand').val();
+
     var lineIdx = 0;
     var loadCase = 0;
     var coords = [];
 
     getColors(function(colors){ window.colors = colors; });
-    getFonts(function(fonts){ window.fonts = fonts; });
+    getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
-    getPatterns(function(patterns){ window.patterns = patterns; });
+    getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
@@ -1419,6 +1422,9 @@ $(document).ready(function() {
                 build_type: ($(this).data('build-type')),
                 pattern_opacity: ($(this).data('pattern-opacity')),
                 fabric_id: ($(this).data('default-fabric')),
+                base_fabric: ($(this).data('default-base-fabric')),
+                sleeve_fabric: ($(this).data('default-sleeve-fabric')),
+                insert_fabric: ($(this).data('default-insert-fabric')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1552,6 +1558,9 @@ $(document).ready(function() {
         }
 
         var fabric_dropdown = '<option value="0">None</option>';
+        var base_fabric_dropdown = '<option value="0">None</option>';
+        var sleeve_fabric_dropdown = '<option value="0">None</option>';
+        var insert_fabric_dropdown = '<option value="0">None</option>';
 
         $.each(window.fabrics, function(i, fabric) {
             if(fabric.id == material.option.fabric_id) {
@@ -1559,6 +1568,30 @@ $(document).ready(function() {
                 fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
             } else {
                 fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
+            }
+        });
+
+        $.each(window.fabrics, function(i, fabric) {
+            if(fabric.id == material.option.base_fabric) {
+                base_fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
+            } else {
+                base_fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
+            }
+        });
+
+        $.each(window.fabrics, function(i, fabric) {
+            if(fabric.id == material.option.sleeve_fabric) {
+                sleeve_fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
+            } else {
+                sleeve_fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
+            }
+        });
+
+        $.each(window.fabrics, function(i, fabric) {
+            if(fabric.id == material.option.insert_fabric) {
+                insert_fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
+            } else {
+                insert_fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
             }
         });
 
@@ -1621,6 +1654,15 @@ $(document).ready(function() {
 
         $('#default_fabric').html('');
         $('#default_fabric').append( fabric_dropdown );
+
+        $('#default_base_fabric').html('');
+        $('#default_base_fabric').append( base_fabric_dropdown );
+        
+        $('#default_sleeve_fabric').html('');
+        $('#default_sleeve_fabric').append( sleeve_fabric_dropdown );
+
+        $('#default_insert_fabric').html('');
+        $('#default_insert_fabric').append( insert_fabric_dropdown );
 
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
@@ -2578,9 +2620,11 @@ $(document).ready(function() {
         });
     }
 
-    function getFonts(callback){
-        var mascots;
-        var url = "//" + api_host + "/api/fonts";
+    function getFonts(temp_category, temp_brand, callback){
+        
+        var fonts;
+        // var url = "//" + api_host + "/api/fonts";
+        var url = "//" + api_host + "/api/fonts/minified/"+temp_category+"/"+temp_brand;
         $.ajax({
             url: url,
             async: false,
@@ -2612,9 +2656,9 @@ $(document).ready(function() {
         });
     }
 
-    function getPatterns(callback){
+    function getPatterns(temp_brand, callback){
         var patterns;
-        var url = "//" + api_host + "/api/patterns";
+        var url = "//" + api_host + "/api/patterns/" + temp_brand;
         $.ajax({
             url: url,
             async: false,

@@ -11553,6 +11553,7 @@ ub.funcs.fontOffSets = [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
             { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
             { name: 'Test Orders', code: 'testOrders', section: 'uniforms' },
+            { name: 'Tackle Twill Custom Sizes', code: 'tackeTwillCustomSizes', section: 'uniforms' },
         ],
         
         getCode: function (featureFlag) {
@@ -12487,5 +12488,34 @@ ub.funcs.fontOffSets = [
 
         }
     }
+
+    ub.data.customSizes = [
+        '0.5', 
+        '0.75', 
+        '1',
+        '1.25',
+        '1.5',
+        '2',
+        '2.5',
+        '3',
+        '3.5',
+        '4',
+        '4.5',
+        '5',
+        '5.5',
+        '6',
+        '6.5',
+        '7',
+        '7.5',
+        '8',
+        '8.5',
+        '9',
+        '9.5',
+        '10',
+        '10.5',
+        '11',
+        '11.5',
+        '12',
+   ];
 
 });

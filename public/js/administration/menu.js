@@ -118,14 +118,14 @@ $(document).ready(function() {
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response) {
                         if (response.success == true) {
-                            Menu.addToSortable(response.menu.id, response.menu.menu_text, response.menu.route_name);
+                            Menu.addToSortable(response.menu.id, response.menu.menu_text, response.menu.route_name, response.menu.menu_item_code);
                         }
                     }
                 })
             });
         },
 
-        addToSortable: function(id, menuText, routeName) {
+        addToSortable: function(id, menuText, routeName, menuItemCode) {
             var html = '<li class="menu-container">';
                 html += '<div id="menu-' + id + '" class="menu sortable-container">'
                     html += '<div class="sortable-head">'
@@ -140,6 +140,7 @@ $(document).ready(function() {
                         html += '<input type="hidden" name="id[]" class="menu-id form-control" value="' + id + '">';
                         html += '<input type="hidden" name="order_id[]" class="order-id form-control">';
                         html += '<input type="hidden" name="parent_id[]" class="parent-id form-control" value="0">';
+                        html += '<input type="hidden" name="menu_item_code[]" class="menu-item-code form-control" value="' + menuItemCode + '">';
 
                         html += '<div class="form-group">';
                             html += '<label>Route Name</label>';
