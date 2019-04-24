@@ -69,7 +69,11 @@ ModifierController.prototype = {
     setControllers: function() {
         // fabrics
         this.controllers.fabrics = new FabricPanel('fabric-tmpl');
-        this.controllers.fabrics.setItems();
+        FabricPanel.events.init();
+        window.fabric_func = this.controllers.fabrics;
+        if (this.controllers.fabrics.fabrics.length > 0) {
+            FabricPanel.activateDefaultAsset(this.controllers.fabrics.default_fabric.layer_level);
+        }
 
         // parts
         this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts, ub.modifierController.propertiesPanel.inserts);
@@ -94,15 +98,7 @@ ModifierController.prototype = {
         var tabs_el = $('#property-modifiers-menu');
 
         // fabrics
-        var fabric_types = _.pluck(this.controllers.fabrics.fabrics.fabrics_data, "types");
-        if (fabric_types.length > 0) {
-            fabric_types = _.pluck(fabric_types, "fabric_type");
-
-            // check if neither base nor insert is present
-            if (fabric_types.indexOf(FabricPanel.FABRIC_BASE_TYPE) === -1 || fabric_types.indexOf(FabricPanel.FABRIC_INSERT_TYPE) !== -1) {
-                $('.menu-item-fabrics', tabs_el).remove();
-            }
-        } else {
+        if (this.controllers.fabrics.fabrics.length < 2) {
             $('.menu-item-fabrics', tabs_el).remove();
         }
 
@@ -201,7 +197,7 @@ ModifierController.prototype = {
 
         var part_panel = ub.modifierController.controllers.parts.getPanel();
         ub.modifierController.propertiesPanel.setBodyPanel(part_panel);
-        
+
         _.delay(function() {
             ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
         }, 500);
