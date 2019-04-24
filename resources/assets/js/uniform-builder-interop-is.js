@@ -1542,7 +1542,7 @@ $(document).ready(function() {
     ub.funcs.resizeRightMainWindow = function () {
         // Tackle Twill Custom Sizes feature flag
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
-        if (tackeTwillCustomSizes) {
+        if (tackeTwillCustomSizes && ub.funcs.isTackleTwill()) {
             $('div#right-main-window').css('height','570px');
         } else {
             $('div#right-main-window').css('height','530px');
