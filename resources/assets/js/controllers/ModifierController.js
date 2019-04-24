@@ -70,7 +70,6 @@ ModifierController.prototype = {
         // fabrics
         this.controllers.fabrics = new FabricPanel('fabric-tmpl');
         FabricPanel.events.init();
-        window.fabric_func = this.controllers.fabrics;
         if (this.controllers.fabrics.fabrics.length > 0) {
             FabricPanel.activateDefaultAsset(this.controllers.fabrics.default_fabric.layer_level);
         }

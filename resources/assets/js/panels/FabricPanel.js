@@ -18,8 +18,6 @@ FabricPanel.prototype = {
         this.fabrics = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(f) {
             return f.base_fabric !== undefined || f.insert_fabric !== undefined || f.sleeve_fabric !== undefined;
         });
-
-        window.fabrics_codedigs = this.fabrics;
     },
 
     setDefaultFabric: function() {
