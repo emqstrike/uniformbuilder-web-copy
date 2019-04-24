@@ -29,6 +29,7 @@ $(document).ready(function(){
             betaSportUniforms: false,
             priceItemName: false,
             testOrders: false,
+            tackeTwillCustomSizes: false,
         },
 
         setState: function (section, property, state) {
@@ -96,6 +97,7 @@ $(document).ready(function(){
         ub.config.setFeatureFlag('Beta Sport Uniforms');
         ub.config.setFeatureFlag('Show price items of uniforms');
         ub.config.setFeatureFlag('Test Orders');
+        ub.config.setFeatureFlag('Tackle Twill Custom Sizes');
         
     }
 
