@@ -131,6 +131,7 @@ elixir(function(mix) {
     mix.scripts('richardson/RichardsonIndex.js', 'public/richardson/js/RichardsonIndex.js')
        .scripts('richardson/uniform-builder-richardson-data.js', 'public/richardson/js/uniform-builder-richardson-data.js')
        .scripts('richardson/MySavedDesign.js', 'public/richardson/js/MySavedDesign.js')
+       .scripts('richardson/RichardsonPicker.js', 'public/richardson/js/RichardsonPicker.js')
 
     mix.less(
         [

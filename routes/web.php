@@ -15,4 +15,15 @@ Route::group(['prefix' => 'richardson'], function () {
     Route::get("/my-saved-designs", function() {
         return view("richardson.my-saved-design");
     });
+
+    Route::get("/block-patterns/{pattern}/types/{uniform_type}", function($pattern, $uniform_type) {
+        $styles = [
+            "page" => "picker",
+            "block_pattern" => $pattern,
+            "uniform_type" => $uniform_type
+        ];
+        $asset_storage = env('ASSET_STORAGE');
+
+        return view("richardson.picker", compact('styles', 'asset_storage'));
+    });
 });

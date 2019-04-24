@@ -531,6 +531,71 @@ button[data-color-name="White"].palette {
   height: 100% !important;
 }
 
+/* Debug Panel */
+
+div.debug-panel {
+    div.loading-screen-container {
+        position: absolute;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%);
+    }
+
+    div.football-loading img {
+        height: 100px !important;
+    }
+
+    div.body {
+        position: absolute;
+        top: 60%;
+        left: 50% !important;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center !important;
+
+        .header {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+
+        .contents {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+    }
+
+    span {
+        color: #9c9c9c !important;
+        font-size: 12px;
+    }
+
+    .time {
+        color: #e32139 !important;
+    }
+}
+
+@media only screen and (max-width: 999px) {
+    .debug-panel .body {
+        top: 80% !important;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .debug-panel .body {
+        top: 66% !important;
+    }
+}
+
+@media only screen and (min-width: 1900px) {
+    .debug-panel .body {
+        top: 60% !important;
+    }
+}
+
+/* End Debug Panel */
+
 @media screen and (max-width: 374px) {
   .hidden-xxs {
     display:none;

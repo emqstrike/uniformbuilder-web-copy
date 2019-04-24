@@ -456,7 +456,7 @@ LogoPanel.utilities = {
             if (typeof secondary_color !== "undefined" && _.size(secondary_color) > 0) {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
-                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "CG" : "W");
+                        LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, _.contains(material_colors, "CG") ? "W" : "CG");
                         if (_.contains(material_colors, "CG") && _.contains(material_colors, "W")) {
                             LogoPanel.utilities.initiateDefaultLogoColor(current_active_logo, "R");
                         }
