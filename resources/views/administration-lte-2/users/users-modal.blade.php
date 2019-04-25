@@ -1,79 +1,72 @@
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close"
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Add User
-                </h4>
+<div id="user-slideout-container" ref="user-slideout-container">
+    <div class="container">
+        <div class="col-md-12">
+            <h3 v-if="action == 'edit'">Edit User</h3>
+            <h3 v-else>Add User</h3>
+
+            <div class="form-group">
+                <label class="control-label">First Name</label>
+                <input type="text" class="form-control" v-model="user.first_name">
             </div>
 
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <form id="myForm" role="form" action="#" method="POST">
-                  <div class="form-group">
-                    <input type="hidden" name="created_by" value="{{ Session::get('userId') }}">
-                    <input type="hidden" name="user_create_origin" value="administration">
-                    <input type="hidden" class="form-control input-user-id" name="id">
-                    <label>First Name</label>
-                      <input type="name" class="form-control input-first-name" name="first_name" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Last Name</label>
-                    <input type="text" class="form-control input-last-name" name="last_name" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Email Address</label>
-                    <input type="email" class="form-control input-user-email" name="email" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input type="password" class="form-control input-user-password" name="password" value="">
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Confirm Password</label>
-                    <input type="password" class="form-control input-confirm-password" name="confirm_password" value="">
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Zip Code</label>
-                    <input type="text" class="form-control input-user-zip" name="zip">
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Assigned Sales Rep</label>
-                    <select name='default_rep_id' class="form-control input-rep-id">
-                        <option value="">none</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Type</label>
-                      <select name='type' class="form-control input-user-type">
-                        <option value='normal'>Normal</option>
-                        <option value='administrator'>Administrator</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label">Role</label>
-                      <select name='role' class="form-control input-user-role">
-                          <option value="default">Default</option>
-                          <option value="ga">Graphics Artist</option>
-                          <option value="qa">QA</option>
-                          <option value="rep">Sales Rep</option>
-                          <option value="rep_manager">Manager</option>
-                          <option value="dealer">Dealer</option>
-                          <option value="coach">Coach</option>
-                          <option value="dev">Developer</option>
-                          <option value="executive">Executive</option>
-                      </select>
-                    </div>
-                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
-                </form>
+            <div class="form-group">
+                <label class="control-label">Last Name</label>
+                <input type="text" class="form-control" v-model="user.last_name">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Email Address</label>
+                <input type="text" class="form-control" v-model="user.email">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Password</label>
+                <input type="text" class="form-control" v-model="user.password">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Confirm Password</label>
+                <input type="text" class="form-control" v-model="user.confirm_password">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Brand</label>
+                <select class="form-control" v-model="user.brand_id">
+                    <option v-for="branding in brands" :value="branding.id" :selected="user.brand_id == branding.id">@{{ branding.site_name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Zip Code</label>
+                <input type="text" class="form-control" v-model="user.zip">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Assigned Sales Rep</label>
+                <select class="form-control" v-model="user.default_rep_id">
+                    <option v-for="salesRep in salesReps" :value="salesRep.id" :selected="salesRep.id == user.default_rep_id">
+                        @{{ salesRep.last_name }}, @{{ salesRep.first_name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Type</label>
+                <select class="form-control" v-model="user.type">
+                    <option v-for="type in types" :value="type" :selected="user.type == type">@{{ type }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Role</label>
+                <select class="form-control" v-model="user.role">
+                    <option v-for="role in roles" :value="role" :selected="user.role == role.id">@{{ role.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-inline">
+                <button class="btn btn-sm btn-flat btn-success" @click="updateUser()">Update</button>
+                <button class="btn btn-sm btn-flat btn-danger" @click="togglePanel()">Cancel</button>
             </div>
         </div>
     </div>

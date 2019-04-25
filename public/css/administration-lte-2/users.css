@@ -1,0 +1,67 @@
+div#box_body {
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+span.select2 {
+    width: 100% !important;
+}
+
+li.select2-selection__choice {
+    color: black !important;
+}
+
+.select2-selection__clear {
+    display: none;
+}
+
+.slideout-menu {
+    -webkit-overflow-scrolling: touch;
+    background: #ffffff;
+    bottom: 0;
+    display: none;
+    min-height: 100vh;
+    overflow-y: scroll;
+    padding-bottom: 30px;
+    position: fixed;
+    top: 0;
+    width: 1200px;
+    z-index: 0;
+}
+
+.slideout-menu-left {
+    left: 0;
+}
+
+.slideout-menu-right {
+    right: 0;
+}
+
+.slideout-panel {
+    background: #ecf0f5;
+    min-height: 100vh;
+    position: relative;
+    will-change: transform;
+    z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+    display: block;
+}
+
+.panel-overlay {
+    background: rgba(0, 0, 0, .5);
+    height: 100%;
+    left: 0px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 99999;
+}
