@@ -545,14 +545,22 @@ LogoPanel.utilities = {
     },
 
     fabricColors: function(position) {
-        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
         var color_codes = [];
-        _.each(configuration.parts, function(part) {
-            var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
-            if (typeof material_ops !== "undefined") {
-                color_codes.push(material_ops.colorObj.color_code);
-            }
-        });
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
+        var logoSettings = _.find(ub.data.logos, {position: position})
+        var materials = typeof logoSettings.intersecting_parts !== "undefined" && logoSettings.intersecting_parts !== null ? logoSettings.intersecting_parts : configuration.parts;
+
+        if (typeof materials !== "undefined") {
+            _.each(materials, function(material) {
+                var part =  material.toLowerCase().replace(/ /g, "_")
+                var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
+                if (typeof material_ops !== "undefined") {
+                    color_codes.push(material_ops.colorObj.color_code);
+                }
+            });
+        } else {
+            ub.utilities.info("Cannot main fabric");
+        }
 
         if (typeof configuration.pipings !== "undefined") {
             _.each(configuration.pipings, function(piping) {
