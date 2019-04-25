@@ -293,8 +293,6 @@ function buildPositionDropdown(value){
             var val = $(this).data('img-url');
             if (val.length == 0) {
                 $(this).parent().parent().find('.delete-image').hide();
-            } else {
-                $(this).parent().parent().find('.delete-image').show();
             }
         });
     }

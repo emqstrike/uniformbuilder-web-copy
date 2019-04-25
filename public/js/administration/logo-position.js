@@ -171,31 +171,31 @@ $(document).ready(function() {
                         <label>Layer 1</label>
                         <input type="checkbox" class="layer1" value="`+entry.layer1+`" `+ layer1 +`>
                     </td>
-                    <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
                 <tr>
 
-                <td>
-                    <label>Layer 2</label>
-                    <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
-                </td>
-                    <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+                    <td>
+                        <label>Layer 2</label>
+                        <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
+                    </td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
                 <tr>
-                <td>
-                    <label>Layer 3</label>
-                    <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
-                </td>
-                    <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
+                    <td>
+                        <label>Layer 3</label>
+                        <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
+                    </td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
             </tbody>
             </table>`;
@@ -256,30 +256,30 @@ $(document).ready(function() {
                                 <label>Layer 1</label>
                                 <input type="checkbox" class="layer1" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Layer 2</label>
                                 <input type="checkbox" class="layer2" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-2 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Layer 3</label>
                                 <input type="checkbox" class="layer3" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-3 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
 
                     </tbody>
@@ -303,8 +303,8 @@ $(document).ready(function() {
     function detectImages(){
         $(".image").each(function(i) {
             var val = $(this).data('img-url');
-            if (val == "") {
-                $(this).css('border', '2px solid red');
+            if (val.length == 0) {
+                $(this).parent().find('.delete-image').hide();
             }
         });
     }
@@ -488,4 +488,10 @@ $(document).ready(function() {
         });
     }
 
+    $(document).on('click', '.delete-image', function(e){
+        e.preventDefault();
+        $(this).parent().parent().find(".image").attr("data-img-url", "");
+        refreshJSON();
+        $(this).hide();
+    });
 });
