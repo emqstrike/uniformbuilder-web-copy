@@ -158,10 +158,10 @@ $(".global-color").append(globalColorSelector(colors));
   					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
-        		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-        		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-        		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-        		<td><input type="file" class="file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
         	</tr>
         	<tr>
 
@@ -170,10 +170,10 @@ $(".global-color").append(globalColorSelector(colors));
         			`+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
-        		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-        		<td><input type="file" class="file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-        		<td><input type="file" class="file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-        		<td><input type="file" class="file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
         	</tr>
         	<tr>
         		<td>
@@ -181,10 +181,10 @@ $(".global-color").append(globalColorSelector(colors));
         			`+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
-        		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-        		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-        		<td><input type="file" class="file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-        		<td><input type="file" class="file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+        		<td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
         	</tr>
         </tbody>
         </table>`;
@@ -260,11 +260,11 @@ $(".global-color").append(globalColorSelector(colors));
         			`+ getSelectColorTemplate(colors,selectedFirst)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
-        		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
-        		<td><input type="file" class="file-b-1 image" data-img-url=""></td>
-        		<td><input type="file" class="file-l-1 image" data-img-url=""></td>
-        		<td><input type="file" class="file-r-1 image" data-img-url=""></td>
-        	</tr>
+        		<td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+			</tr>
         	<tr>
 
         		<td>
@@ -272,22 +272,22 @@ $(".global-color").append(globalColorSelector(colors));
         			`+ getSelectColorTemplate(colors,selectedSecond)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
-        		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
-        		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
-        		<td><input type="file" class="file-l-2 image" data-img-url=""></td>
-        		<td><input type="file" class="file-r-2 image" data-img-url=""></td>
-        	</tr>
+				<td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+			</tr>
         	<tr>
         		<td>
         			Position 3 <input type="checkbox" class="position-3" value="1">
         			`+ getSelectColorTemplate(colors,selectedThird)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
-        		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
-        		<td><input type="file" class="file-b-3 image" data-img-url=""></td>
-        		<td><input type="file" class="file-l-3 image" data-img-url=""></td>
-        		<td><input type="file" class="file-r-3 image" data-img-url=""></td>
-        	</tr>
+        		<td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+				<td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+			</tr>
         </tbody>
         </table>`;
     	$('.pipings-content').prepend(elem);
@@ -302,12 +302,9 @@ $(".global-color").append(globalColorSelector(colors));
     function detectImages(){
     	$(".image").each(function(i) {
     		var val = $(this).data('img-url');
-    		if(val != ""){
-    			$(this).removeClass( "alert alert-danger" );
-    		} else {
-    			console.log('none');
-    			$(this).addClass( "alert alert-danger" );
-    		}
+    		if (val.length == 0) {
+                $(this).parent().find('.delete-image').hide();
+            }
     	});
     }
 
@@ -629,5 +626,12 @@ $(".global-color").append(globalColorSelector(colors));
   		$(".position-"+ ind +" ~ select").val($(this).val()).attr("style",selectedColorValue);
   		refreshJSON();
   	});
+
+	$(document).on('click', '.delete-image', function(e){
+		e.preventDefault();
+		$(this).parent().parent().find(".image").attr("data-img-url", "");
+		refreshJSON();
+		$(this).hide();
+    });
 
 });
