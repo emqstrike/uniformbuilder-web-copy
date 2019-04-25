@@ -5,43 +5,46 @@ $(document).ready(function () {
     ub.richardson.data.secondaryLabels = {
         items: [
             {
-                blockPattern: 'PTS Signature',
+                blockPattern: 'pts signature',
                 type: 'upper',
                 labels: ['BSB V-Neck', '2 Button', 'Full Button', 'Faux Button']
             },
 
             {
-                blockPattern: 'PTS Signature',
+                blockPattern: 'pts signature',
                 type: 'lower',
                 labels: ['Full Length Elastic', 'Full Length Open Cuff', 'Knicker']
             },
             {
-                blockPattern: 'PTS Pro Select',
+                blockPattern: 'pts pro select',
                 type: 'upper',
                 labels: ['BSB V-Neck', '2 Button', 'Full Button', 'Faux Button']
             },
 
             {
-                blockPattern: 'PTS Pro Select',
+                blockPattern: 'pts pro select',
                 type: 'lower',
                 labels: ['Full Length Elastic', 'Full Length Open Cuff', 'Knicker']
             },
             {
-                blockPattern: 'PTS Select',
+                blockPattern: 'pts select',
                 type: 'upper',
                 labels: ['BSB V-Neck', '2 Button', 'Full Button']
             },
             {
-                blockPattern: 'PTS Select',
+                blockPattern: 'pts select',
                 type: 'lower',
                 labels: ['Full Length Elastic', 'Full Length Open Cuff', 'Knicker']
             },
         ],
 
         getLabel: function(blockPattern, type) {
-            var _result = _.find(this.items, {blockPattern: blockPattern, type: type});
+            var _result = _.find(this.items, {blockPattern: blockPattern.toLowerCase(), type: type});
 
-            if (typeof _result === "undefined") { ub.utilities.info('Secondary Bar Labels not found for ' + sport); }
+            if (typeof _result === "undefined") {
+                console.log('Secondary Bar Labels not found for ' + blockPattern);
+                return;
+            }
 
             return _result.labels;
         }

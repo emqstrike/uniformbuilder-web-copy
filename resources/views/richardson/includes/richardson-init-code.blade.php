@@ -10,7 +10,14 @@
             api_host: "{{ config('customizer.api_http_protocol') }}://{{ config('customizer.api_host') }}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
-            isHeaderVisible: "{{ env('HEADER_VISIBLE') }}"
+            isHeaderVisible: "{{ env('HEADER_VISIBLE') }}",
+            @if (isset($styles))
+            styles: {
+                page: "{{ $styles['page'] }}",
+                block_pattern: "{{ $styles['block_pattern'] }}",
+                uniform_type: "{{ $styles['uniform_type'] }}",
+            },
+            @endif
         };
 
         @if (Session::get('isLoggedIn'))
