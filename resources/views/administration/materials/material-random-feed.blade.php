@@ -3,8 +3,7 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
-<style type="text/css">
-    /*.big-checkbox {width: 30px; height: 30px; padding-top: 20px;}*/
+<style>
     td {
             vertical-align: bottom !important;
         }
@@ -153,4 +152,26 @@
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/polygon.js"></script>
 <script type="text/javascript" src="/js/administration/random-feed.js"></script>
+<script>
+        $(document).ready(function() {
+            $('#copy-data-to-clipboard').click(function() {
+                $('#copy-random-feed-data textarea').select();
+                document.execCommand('copy');
+
+                $('#copy-to-clipboard-tooltip').fadeIn();
+
+                setTimeout(function() {
+                    $('#copy-to-clipboard-tooltip').fadeOut();
+                }, 500);
+            });
+
+            $('.open-load-piping-modal-button').click(function() {
+                $('#load-piping-data-modal').modal('show');
+            });
+
+            $('.load-random-feed-modal').click(function() {
+                $('#load-random-feed-modal').modal('show');
+            })
+        });
+    </script>
 @endsection
