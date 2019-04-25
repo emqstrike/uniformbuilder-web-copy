@@ -11148,6 +11148,19 @@ $(document).ready(function() {
                 var _previousPart = $('span.part.active').data("id");
                 var _isExempted = ub.data.applicationProjectionExemptions.isExempted(_side, _previousPart, ub.config.sport);
 
+                $('div.perspective-container > span.perspective').each(function() {
+                    
+                    var perspective = $(this).text().toLowerCase();
+
+                    if (_side.indexOf(perspective) !== -1) {
+
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+
+                    }
+
+                });
+
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
 
