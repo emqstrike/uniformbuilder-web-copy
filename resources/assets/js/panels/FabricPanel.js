@@ -24,7 +24,7 @@ FabricPanel.prototype = {
         if (this.fabrics.length > 0) {
             var default_fabric = _.find(this.fabrics, {default_asset: 1});
 
-            this.default_fabric = default_fabric.length !== 0 ? default_fabric : this.fabrics[0];
+            this.default_fabric = default_fabric !== undefined ? default_fabric : this.fabrics[0];
         }
     },
 
