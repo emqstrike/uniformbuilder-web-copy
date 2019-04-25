@@ -545,9 +545,13 @@ LogoPanel.utilities = {
     },
 
     fabricColors: function(position) {
-        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
         var color_codes = [];
-        _.each(configuration.parts, function(part) {
+        var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
+        var logoSettings = _.find(ub.data.logos, {position: position})
+        var materials = logoSettings.intersecting_parts !== null ? logoSettings.intersecting_parts : configuration.parts;
+
+        _.each(materials, function(material) {
+            var part =  material.toLowerCase().replace(/ /g, "_")
             var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
             if (typeof material_ops !== "undefined") {
                 color_codes.push(material_ops.colorObj.color_code);
