@@ -8,6 +8,28 @@ $(document).ready(function() {
                         "Back Center Tunnel"
                     ];
 
+    getMaterialOptions = function (material_id) {
+        var parts;
+        var url = "//" + api_host + "/api/materials_options/" + material_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+
+                // Filter by "setting_type" first, only get "name" property, the get unique values
+                parts = _.uniq(_.map(_.where(data.materials_options, {setting_type: "shape"}), function (op) {
+                    return op.name;
+                }));
+                parts = _.without(parts, "Body", "Extra")
+            }
+        });
+        return parts;
+    }
+
     function buildPositionDropdown(value){
         var dropdown = '<select class="form-control logo-position">';
         window.position_sets.forEach(function(entry) {
@@ -19,6 +41,32 @@ $(document).ready(function() {
             }
         });
         return dropdown;
+    }
+
+    function buildIntersectingPartsDropdown(selected = null) {
+        var opts;
+        var parts = getMaterialOptions($('input[name=material_id]').val());
+
+        _.each(parts, function (p) {
+
+            if (!_.isNull(selected) && _.contains(selected, p)) {
+                opts += '<option value="'+p+'" selected>'+p+'</option>';
+            } else {
+                opts += '<option value="'+p+'">'+p+'</option>';
+            }
+        });
+
+        return opts;
+    }
+
+    function refreshSelectBoxes(){
+        $(".intersecting-parts").each(function(i) {
+            $(this).select2({
+                placeholder: "Select parts",
+                multiple: true,
+                allowClear: true
+            });
+        });
     }
 
     $('.copy-logo-position').on('click', function(e){
@@ -81,6 +129,7 @@ $(document).ready(function() {
             }
 
             var position_dropdown = buildPositionDropdown(entry.position);
+            var intersecting_parts = buildIntersectingPartsDropdown(entry.intersecting_parts);
 
             var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
             <tr>
@@ -96,7 +145,12 @@ $(document).ready(function() {
                          `+position_dropdown+`
                     </div>
                 </td>
-                <td colspan="2"></td>
+                <td colspan="2">
+                    <div class="col-md-10">
+                        <label>Intersecting Parts</label>
+                        <select class="form-control intersecting-parts" multiple="multiple">`+intersecting_parts+`</select>
+                    </div>
+                </td>
                 <td>
                     <div>
                         <label>Enable Logo Position</label><br>
@@ -149,6 +203,7 @@ $(document).ready(function() {
             $('.logo-position-content').append(template);
 
         });
+        refreshSelectBoxes();
         deleteLogoPosition();
         changeImage();
         changeEvent();
@@ -159,6 +214,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var position_dropdown = buildPositionDropdown();
+        var intersecting_parts = buildIntersectingPartsDropdown();
 
         var elem = `<table class="table table-striped table-bordered table-hover logo-position-table">
                         <tr>
@@ -174,7 +230,12 @@ $(document).ready(function() {
                                      `+position_dropdown+`
                                 </div>
                             </td>
-                            <td colspan="2"></td>
+                            <td colspan="2">
+                                <div class="col-md-10">
+                                    <label>Intersecting Parts</label>
+                                    <select class="form-control intersecting-parts" multiple="multiple">`+intersecting_parts+`</select>
+                                </div>
+                            </td>
                             <td>
                                 <div>
                                     <label>Enable Logo Position</label><br>
@@ -225,6 +286,7 @@ $(document).ready(function() {
                     </table>`;
 
         $('.logo-position-content').prepend(elem);
+        refreshSelectBoxes();
         deleteLogoPosition();
         changeImage();
         changeEvent();
@@ -264,6 +326,8 @@ $(document).ready(function() {
         $(".logo-position-table").each(function(i) {
             var info = {};
             info.position = $(this).find('.logo-position option:selected').val();
+            info.intersecting_parts = $(this).find('.intersecting-parts').val();
+
             var cbx = $(this).find('.logo-position-toggler');
             if(cbx.is(":checked")){
                 info.enabled = 1;

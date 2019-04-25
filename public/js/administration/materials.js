@@ -2620,7 +2620,7 @@ $(document).ready(function() {
     function getTailsweeps(callback){
         var tailsweep;
        var url = "//" + api_host + "/api/tailsweeps";
-     //var url = "//localhost:8888/api/tailsweeps";
+       
         $.ajax({
             url: url,
             async: false,
