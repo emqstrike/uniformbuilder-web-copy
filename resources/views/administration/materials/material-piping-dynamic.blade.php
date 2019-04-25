@@ -6,6 +6,14 @@
 <style type="text/css">
     .big-checkbox {width: 30px; height: 30px; padding-top: 20px;}
 
+    .flex {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .delete-image a {
+        color: red;
+    }
 
 </style>
 @endsection
