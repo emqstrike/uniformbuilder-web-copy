@@ -550,13 +550,17 @@ LogoPanel.utilities = {
         var logoSettings = _.find(ub.data.logos, {position: position})
         var materials = typeof logoSettings.intersecting_parts !== "undefined" && logoSettings.intersecting_parts !== null ? logoSettings.intersecting_parts : configuration.parts;
 
-        _.each(materials, function(material) {
-            var part =  material.toLowerCase().replace(/ /g, "_")
-            var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
-            if (typeof material_ops !== "undefined") {
-                color_codes.push(material_ops.colorObj.color_code);
-            }
-        });
+        if (typeof materials !== "undefined") {
+            _.each(materials, function(material) {
+                var part =  material.toLowerCase().replace(/ /g, "_")
+                var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
+                if (typeof material_ops !== "undefined") {
+                    color_codes.push(material_ops.colorObj.color_code);
+                }
+            });
+        } else {
+            ub.utilities.info("Cannot main fabric");
+        }
 
         if (typeof configuration.pipings !== "undefined") {
             _.each(configuration.pipings, function(piping) {
