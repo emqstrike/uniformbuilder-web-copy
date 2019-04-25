@@ -3227,7 +3227,17 @@ $(document).ready(function () {
 
     window.ub.setup_material_options = function () {
 
-        ub.fabric.fabricCollections = [];
+        var PERSPECTIVE_FRONT = "front";
+        var PERSPECTIVE_LEFT = "left";
+        var PERSPECTIVE_RIGHT = "right";
+        var PERSPECTIVE_BACK = "back";
+
+        ub.fabric.fabricCollections = {};
+
+        ub.fabric.fabricCollections[PERSPECTIVE_FRONT] = [];
+        ub.fabric.fabricCollections[PERSPECTIVE_LEFT] = [];
+        ub.fabric.fabricCollections[PERSPECTIVE_RIGHT] = [];
+        ub.fabric.fabricCollections[PERSPECTIVE_BACK] = [];
 
         ub.current_material.options_distinct_names = {};
 
@@ -3255,26 +3265,23 @@ $(document).ready(function () {
                 current_object.name = name;
 
                 if (name === "highlights" || name === "shadows") {
-                    var fabric_type;
+                    ub.fabric.fabricCollections[obj.perspective].push({
+                        base_fabric: _.find(ub.current_material.fabrics, function(fabric) {
+                                        return fabric.id == obj.base_fabric;
+                                    }),
 
-                    switch(true) {
-                        case "highlights" == name:
-                        case "shadows" == name:
-                            fabric_type = "base";
-                            break;
+                        insert_fabric: _.find(ub.current_material.fabrics, function(fabric) {
+                                        return fabric.id == obj.insert_fabric;
+                                    }),
 
-                        case name.includes("Insert"):
-                            fabric_type = "insert";
-                            break;
-                    }
+                        sleeve_fabric: _.find(ub.current_material.fabrics, function(fabric) {
+                                        return fabric.id == obj.sleeve_fabric;
+                                    }),
 
-                    ub.fabric.fabricCollections.push({
-                        code: name,
-                        name: name + '_' + obj.layer_level,
-                        id: obj.layer_level,
-                        perspective: obj.perspective,
-                        obj: _sprite,
-                        type: fabric_type
+                        sprite: _sprite,
+                        layer_level: obj.layer_level,
+                        active_asset: obj.default_asset ? "uk-active" : "",
+                        default_asset: obj.default_asset
                     });
                 }
                 
