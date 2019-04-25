@@ -532,7 +532,7 @@ $(function() {
         });
     });
 
-    $('.qstrike-item-id').on('change', function () {
+    $('.customizer-id').on('change', function () {
         if ($(this).val() > 0) {
             $('.is_fixed').prop('checked', true);
         } else {
