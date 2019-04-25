@@ -10951,8 +10951,8 @@ $(document).ready(function() {
         dialog.init(function() {
 
             // hide perspective-container
-            // $('.perspective-container').prev().hide();;
-            // $('.perspective-container').hide();
+            $('.perspective-container').prev().hide();;
+            $('.perspective-container').hide();
 
             // Perspectives
 
