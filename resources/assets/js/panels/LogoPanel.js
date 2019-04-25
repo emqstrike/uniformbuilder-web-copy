@@ -548,7 +548,7 @@ LogoPanel.utilities = {
         var color_codes = [];
         var configuration = LogoPanel.configurations.getConfiguration(ub.config.blockPattern, position);
         var logoSettings = _.find(ub.data.logos, {position: position})
-        var materials = logoSettings.intersecting_parts !== null ? logoSettings.intersecting_parts : configuration.parts;
+        var materials = typeof logoSettings.intersecting_parts !== "undefined" && logoSettings.intersecting_parts !== null ? logoSettings.intersecting_parts : configuration.parts;
 
         _.each(materials, function(material) {
             var part =  material.toLowerCase().replace(/ /g, "_")
