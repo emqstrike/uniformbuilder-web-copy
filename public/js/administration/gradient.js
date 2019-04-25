@@ -114,7 +114,7 @@ function buildPositionDropdown(value){
                     <label>Position</label>
                     `+position_dropdown+`
                 </div>
-            <td colspan="2">
+            <td colspan="3">
             </td>
             <td>
                 <div>
@@ -216,7 +216,7 @@ function buildPositionDropdown(value){
                          `+position_dropdown+`
                     </div>
                 </td>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
                 <td>
                     <div>
                         <label>Enable Gradient</label><br>
