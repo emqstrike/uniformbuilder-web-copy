@@ -24,6 +24,7 @@ $(document).ready(function() {
                 parts = _.uniq(_.map(_.where(data.materials_options, {setting_type: "shape"}), function (op) {
                     return op.name;
                 }));
+                parts = _.without(parts, "Body", "Extra")
             }
         });
         return parts;
