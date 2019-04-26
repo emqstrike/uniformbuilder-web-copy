@@ -279,6 +279,10 @@ GradientPanel.events = {
         
         UIkit.modal("#modal-edit-palette-gradient").hide();
         GradientPanel.utilities.renderGradient(gradientObjectSettings, modifierObject.index);
+
+        if (_.size(ub.data.logos) !== 0) {
+            LogoPanel.utilities.reInitiateLogo();
+        }
     },
 }
 

@@ -95,3 +95,17 @@
         <p class="">@{{ message }}</p>
     </div>
 </script>
+
+
+<script type="text/mustache" id="m-richardson-page-not-found">
+    <div class="uk-position-center uk-overlay uk-overlay-default">
+        <div class="uk-grid-small uk-text-center" uk-grid>
+            <div class="uk-width-1-1">
+                <img src="{{$asset_storage}}/images/branding/richardson-brand.png" style="height: 150px !important;">
+            </div>
+            <div class="uk-width-1-1">
+                <h1 class="uk-heading-large">Page not found</h1>
+            </div>
+        </div>
+    </div>
+</script>
