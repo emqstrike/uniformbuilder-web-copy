@@ -207,8 +207,7 @@ PropertiesPanel.prototype = {
 
     panelTracker: function() {
         var _this = this;
-        ub.stage.on('mousedown', _.throttle(function (mousedata)
-        {
+        ub.stage.on('mousedown', function (mousedata) {
             if (ub.tools.activeTool.active()) {
                 return;
             }
@@ -265,8 +264,7 @@ PropertiesPanel.prototype = {
             {
                 ub.funcs.clickOutside();
             }
-
-        }, 500));
+        });
     },
 
     activePanelbyIndex: function(index) {
