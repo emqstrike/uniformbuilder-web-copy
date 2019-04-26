@@ -25,6 +25,10 @@ FabricPanel.prototype = {
             var default_fabric = _.find(this.fabrics, {default_asset: 1});
 
             this.default_fabric = default_fabric !== undefined ? default_fabric : this.fabrics[0];
+        } else {
+            this.default_fabric = ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE][0];
+
+            console.error("Error: No default asset in highlight and shadows.");
         }
     },
 
@@ -97,7 +101,11 @@ FabricPanel.changeFabricVisible = function(layer_level) {
 };
 
 FabricPanel.activateDefaultAsset = function(layer_level) {
-    _.delay(function() {
-        $('#primary_options_container #m-fabric-selection a[data-layer-level="'+layer_level+'"]').click();
-    });
+    var fabric_el = $('#primary_options_container #m-fabric-selection a[data-layer-level="'+layer_level+'"]');
+
+    if (fabric_el.length > 0) {
+        fabric_el.click();
+    } else {
+        FabricPanel.changeFabricVisible(layer_level);
+    }
 };
