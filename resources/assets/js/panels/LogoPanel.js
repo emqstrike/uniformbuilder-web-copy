@@ -559,7 +559,6 @@ LogoPanel.utilities = {
                 if (typeof material_ops !== "undefined") {
                     if (typeof material_ops.pattern.pattern_id !== "undefined" && material_ops.pattern.pattern_id !== "blank") {
                         // Get Pattern Color Code
-                        console.log(material_ops.pattern.pattern_id, "material_ops.pattern.pattern_id")
                         var layers = material_ops.pattern.pattern_obj.layers;
                         _.each(layers, function(layer) {
                             if (_.includes(LogoPanel.valid_colors, layer.color_code)) {
@@ -568,7 +567,6 @@ LogoPanel.utilities = {
                         });
                     } else if (material_ops.gradient.gradient_id !== "" && typeof material_ops.gradient.gradient_id !== "undefined") {
                         // Get Gradient Color Code
-                        console.log(material_ops.gradient.gradient_id, "material_ops.gradient.gradient_id")
                         var layers = material_ops.gradient.gradient_obj.layers;
                         _.each(layers, function(layer) {
                             if (layer.layer_no !== "3") {
@@ -625,8 +623,6 @@ LogoPanel.utilities = {
                 }
             });
         }
-
-        console.log(color_codes)
         return color_codes;
     },
 };
