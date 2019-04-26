@@ -3246,13 +3246,11 @@ $(document).ready(function () {
         ub.utilities.info(' ');
         
         _.each(ub.views, function (view) {
-
             var material_options = _.where(ub.current_material.material.options, {perspective: view});
             var current_view_objects = ub.objects[view + '_view']; 
             var _layerCount = 0;
 
             _.each(material_options, function (obj, index) {
-
                 _layerCount +=1;
 
                 var name = obj.name.toCodeCase();
