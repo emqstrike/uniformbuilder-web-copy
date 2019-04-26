@@ -24,8 +24,10 @@ $(document).ready(function () {
             
             if (window.ub.config.material_id === -1) {
                 if (ub.config.brand.toLowerCase() === "richardson") {
-                    ub.funcs.loadPageNotFound();
-                    return;
+                    if (ub.page === "builder") {
+                        ub.funcs.loadPageNotFound();
+                        return;
+                    }
                 } else {
                     ub.pickersStartTime();
                     ub.categories_url = ub.config.api_host + '/api/categories';
