@@ -98,7 +98,7 @@
                                 <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
                             </td>
                             <td class="col-md-2">
-                                <input type="text" class="form-control color-alias" name="color-alias" value="{{ $color->name }}" disabled="true">
+                                <input type="text" class="form-control color-alias" name="color-alias" value="{{ $color->alias }}" disabled="true">
                             </td>
                             <td class="col-md-1">
                             <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
@@ -206,7 +206,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
