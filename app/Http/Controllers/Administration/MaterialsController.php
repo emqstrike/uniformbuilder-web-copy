@@ -363,13 +363,13 @@ class MaterialsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/materials')
+            return Redirect::to('administration/material/' . $material_id . '/pipings')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/materials')
+            return Redirect::to('administration/material/' . $material_id . '/pipings')
                             ->with('message', $response->message);
         }
     }
@@ -389,13 +389,13 @@ class MaterialsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/materials')
+            return Redirect::to('administration/material/' . $material_id . '/random_feed')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/materials')
+            return Redirect::to('administration/material/' . $material_id . '/random_feed')
                             ->with('message', $response->message);
         }
     }
@@ -894,10 +894,10 @@ class MaterialsController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+            return Redirect::to('/administration/material/' . $material_id . '/logo_position')->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')->with('message', $response->message);
+            return Redirect::to('/administration/material/' . $material_id . '/logo_position')->with('message', $response->message);
         }
     }
 
@@ -923,10 +923,10 @@ class MaterialsController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('/administration/materials')->with('message', 'Successfully saved changes');
+            return Redirect::to('/administration/material/' . $material_id . '/gradient')->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')->with('message', $response->message);
+            return Redirect::to('/administration/material/' . $material_id . '/gradient')->with('message', $response->message);
         }
     }
 

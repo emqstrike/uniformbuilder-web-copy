@@ -104,7 +104,7 @@
                             </td>
                             <td style='background-color: #{{ $color->hex_code }}; height: 30px; border: 1px solid #ddd;' class="col-md-2">
                                 <span id="color-code" class='badge'>{{ $color->color_code }}</span>
-                                <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="2">
+                                <input type="text" size="6" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="10">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                             </td>

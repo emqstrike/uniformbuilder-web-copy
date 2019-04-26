@@ -223,6 +223,9 @@ class MaterialsOptionsController extends Controller
         $build_type = $request->input('build_type');
         $pattern_opacity = $request->input('pattern_opacity');
         $fabric_id = $request->input('fabric_id');
+        $insert_fabric = $request->input('insert_fabric');
+        $base_fabric = $request->input('base_fabric');
+        $sleeve_fabric = $request->input('sleeve_fabric');
 
         if ($request->input('default_asset') == 'on') {
             $default_asset = true;
@@ -261,7 +264,10 @@ class MaterialsOptionsController extends Controller
             'part_type' => $partType,
             'pattern_opacity' => $pattern_opacity,
             'default_asset' => $default_asset,
-            'fabric_id' => $fabric_id
+            'fabric_id' => $fabric_id,
+            'base_fabric' => $base_fabric,
+            'insert_fabric' => $insert_fabric,
+            'sleeve_fabric' => $sleeve_fabric
         ];
 // dd(json_encode($data));
         try
