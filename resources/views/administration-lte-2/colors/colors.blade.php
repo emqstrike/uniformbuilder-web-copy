@@ -74,6 +74,7 @@
                             <th>Order</th>
                             <th>Master Color ID</th>
                             <th>Color Name</th>
+                            <th>Alias</th>
                             <th>Sublimation Only</th>
                             <th>Color</th>
                             <th>Brand</th>
@@ -95,6 +96,9 @@
                             </td>
                             <td class="col-md-2">
                                 <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
+                            </td>
+                            <td class="col-md-2">
+                                <input type="text" class="form-control color-alias" name="color-alias" value="{{ $color->name }}" disabled="true">
                             </td>
                             <td class="col-md-1">
                             <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
@@ -142,7 +146,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='9'>
+                            <td colspan='10'>
                                 No Colors
                             </td>
                         </tr>
@@ -165,7 +169,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    $('#create_colorpicker').spectrum({
+    $('#create-colorpicker').spectrum({
         color: "#ff0000",
         preferredFormat: "hex",
         showInput: true,
@@ -180,6 +184,7 @@ $(document).ready(function(){
     $(document).on('click', '.edit-button', function(e) {
         e.preventDefault();
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-alias').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
         $(this).parent().siblings('td').find('.brand').prop('disabled', false);
@@ -219,6 +224,7 @@ $(document).ready(function(){
     $(document).on('click', '.save-button', function() {
         var id = $(this).data('color-id');
         var name = $(this).parent().siblings('td').find('.color-name').val();
+        var alias = $(this).parent().siblings('td').find('.color-alias').val();
         var color_code = $(this).parent().siblings('td').find('#color-code-text').val();
         var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
         hex_code = hex_code.replace(/#/g, '');
@@ -228,6 +234,7 @@ $(document).ready(function(){
         var data = {
             "id" : id,
             "name" : name,
+            "alias" : alias,
             "color_code" : color_code,
             "hex_code" : hex_code,
             "sublimation_only" : sublimation_only,
@@ -276,6 +283,7 @@ $(document).ready(function(){
         var data = {};
         data.color_code = $('.input-color-code').val();
         data.name = $('.input-color-name').val();
+        data.alias = $('.input-color-alias').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
         data.brand = $('.input-brand').val();
@@ -287,6 +295,7 @@ $(document).ready(function(){
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-color-code').val('');
         $('.input-color-name').val('');
+        $('.input-color-alias').val('');
         $('.input-master-color').val('');
         $('.input-brand').val('none');
         $('#create-hex-code').val('#ff0000');

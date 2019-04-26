@@ -29,7 +29,7 @@
                   </div>
                   <div class="form-group">
                             <label class="control-label">Color</label>
-                                <input id='create_colorpicker' />
+                                <input id='create-colorpicker' type="hidden" class="form-control">
                                 <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
                   </div>
                   <div class="form-group">
