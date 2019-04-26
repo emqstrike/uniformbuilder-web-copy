@@ -24,12 +24,16 @@
                       <input type="text" class="form-control input-color-name" name="name" required>
                   </div>
                   <div class="form-group">
+                    <label>Color Alias</label>
+                      <input type="text" class="form-control input-color-alias" name="alias" required>
+                  </div>
+                  <div class="form-group">
                     <label class="control-label">Color Code</label>
                       <input type="text" class="form-control input-color-code" name="color_code" maxlength="10" required>
                   </div>
                   <div class="form-group">
                             <label class="control-label">Color</label>
-                                <input id='create_colorpicker' />
+                                <input id='create-colorpicker' type="hidden" class="form-control">
                                 <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
                   </div>
                   <div class="form-group">
@@ -41,7 +45,7 @@
                   </div>
                   <div class="form-group">
                   <label class="control-label">Master Color ID</label>
-                      <input type="number" class="form-control input-master-color" name="master_color" required>
+                      <input type="number" class="form-control input-master-color" name="master_color">
                   </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
