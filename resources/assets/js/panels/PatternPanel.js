@@ -462,6 +462,10 @@ PatternPanel.prototype = {
                 ub.funcs.setMaterialOptionPatternColor(index.materialOption, index.color, index.layerID, index.patternObj)
             });
         }
+
+        if (_.size(ub.data.logos) !== 0) {
+            LogoPanel.utilities.reInitiateLogo();
+        }
         UIkit.modal("#modal-edit-palette-pattern").hide();
     },
 

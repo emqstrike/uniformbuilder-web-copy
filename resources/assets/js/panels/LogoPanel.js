@@ -464,9 +464,11 @@ LogoPanel.utilities = {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
                         LogoPanel.utilities.defaultLogoForFabric(current_active_logo, material_colors);
+                        console.log("Continue", secondary_color[i].color_code)
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
+                        console.log("BREAK", secondary_color[i].color_code)
                         break;
                     }
                 }
@@ -555,11 +557,35 @@ LogoPanel.utilities = {
                 var part =  material.toLowerCase().replace(/ /g, "_")
                 var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
                 if (typeof material_ops !== "undefined") {
-                    color_codes.push(material_ops.colorObj.color_code);
+                    if (typeof material_ops.pattern.pattern_id !== "undefined" && material_ops.pattern.pattern_id !== "blank") {
+                        // Get Pattern Color Code
+                        console.log(material_ops.pattern.pattern_id, "material_ops.pattern.pattern_id")
+                        var layers = material_ops.pattern.pattern_obj.layers;
+                        _.each(layers, function(layer) {
+                            if (_.includes(LogoPanel.valid_colors, layer.color_code)) {
+                                color_codes.push(layer.color_code);
+                            }
+                        });
+                    } else if (material_ops.gradient.gradient_id !== "" && typeof material_ops.gradient.gradient_id !== "undefined") {
+                        // Get Gradient Color Code
+                        console.log(material_ops.gradient.gradient_id, "material_ops.gradient.gradient_id")
+                        var layers = material_ops.gradient.gradient_obj.layers;
+                        _.each(layers, function(layer) {
+                            if (layer.layer_no !== "3") {
+                                if (_.includes(LogoPanel.valid_colors, layer.color_code)) {
+                                    color_codes.push(layer.color_code);
+                                }
+                            }
+                        });
+                    } else {
+                        if (_.includes(LogoPanel.valid_colors, material_ops.colorObj.color_code)) {
+                            color_codes.push(material_ops.colorObj.color_code);
+                        }
+                    }
                 }
             });
         } else {
-            ub.utilities.info("Cannot main fabric");
+            ub.utilities.info("Cannot find main fabric");
         }
 
         if (typeof configuration.pipings !== "undefined") {
@@ -599,6 +625,8 @@ LogoPanel.utilities = {
                 }
             });
         }
+
+        console.log(color_codes)
         return color_codes;
     },
 };
