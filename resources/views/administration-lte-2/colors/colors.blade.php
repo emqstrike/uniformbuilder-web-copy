@@ -89,7 +89,7 @@
                                 {{ $color->id }}
                             </td>
                             <td class="col-md-1">
-                                {{ $color->order }}
+                                <input type="number" class="form-control color-order" name="order" value="{{ $color->order }}"" disabled="true">
                             </td>
                             <td class="col-md-1">
                                 <input type="number" class="form-control master-color" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
@@ -187,6 +187,7 @@ $(document).ready(function(){
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.color-alias').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-order').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
         $(this).parent().siblings('td').find('.brand').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
@@ -206,7 +207,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias, .color-order',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
@@ -230,6 +231,7 @@ $(document).ready(function(){
         var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
+        var order = $(this).parent().siblings('td').find('.color-order').val();
         var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
         var brand = $(this).parent().siblings('td').find('.brand').val();
         var data = {
@@ -239,6 +241,7 @@ $(document).ready(function(){
             "color_code" : color_code,
             "hex_code" : hex_code,
             "sublimation_only" : sublimation_only,
+            "order" : order,
             "master_color_id" : master_color_id,
             "brand" : brand
         };
