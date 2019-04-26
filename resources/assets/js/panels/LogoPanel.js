@@ -464,11 +464,9 @@ LogoPanel.utilities = {
                 for (var i = 0; i < secondary_color.length; i++) {
                     if (_.contains(material_colors, secondary_color[i].color_code)) {
                         LogoPanel.utilities.defaultLogoForFabric(current_active_logo, material_colors);
-                        console.log("Continue", secondary_color[i].color_code)
                         continue;
                     } else {
                         LogoPanel.utilities.initiateLogoColor(current_active_logo, secondary_color[i].color_code);
-                        console.log("BREAK", secondary_color[i].color_code)
                         break;
                     }
                 }
