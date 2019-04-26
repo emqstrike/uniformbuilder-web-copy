@@ -70,7 +70,7 @@ ModifierController.prototype = {
         // fabrics
         this.controllers.fabrics = new FabricPanel('fabric-tmpl');
         FabricPanel.events.init();
-        if (this.controllers.fabrics.fabrics.length > 0) {
+        if (typeof this.controllers.fabrics.default_fabric !== "undefined") {
             FabricPanel.activateDefaultAsset(this.controllers.fabrics.default_fabric.layer_level);
         }
 
@@ -103,7 +103,6 @@ ModifierController.prototype = {
 
         // parts
         if (typeof ub.data.modifierLabel !== "undefined" && _.size(ub.data.modifierLabel) > 0) {
-
             $('.menu-item-parts', tabs_el).remove();
         }
 
