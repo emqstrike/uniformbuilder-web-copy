@@ -21,13 +21,34 @@ $(document).ready(function () {
             // Hide Main Links on Load
             ub.funcs.hideMainLinks();
 
+            
+            if (window.ub.config.material_id === -1) {
+                if (ub.config.brand.toLowerCase() === "richardson") {
+                    ub.funcs.loadPageNotFound();
+                    return;
+                } else {
+                    ub.pickersStartTime();
+                    ub.categories_url = ub.config.api_host + '/api/categories';
+                    ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
+
+                    ub.displayDoneAt('Loading Categories ...');
+                    ub.loader(ub.categories_url, 'categories', ub.loadCategories);
+
+                    ub.displayDoneAt('Loading Styles ...');
+                    ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
+                    ub.afterLoadScripts();
+                }
+            }
+
             // Set Feature Flags
             ub.config.setFeatureFlags();
-
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
             ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
-            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+            if (window.ub.config.material_id !== -1) {
+                ub.funcs.loadHomePickers();
+            }
 
             if (ub.config.material_id !== -1) {
 
@@ -83,29 +104,7 @@ $(document).ready(function () {
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
-
             }
-
-            if (window.ub.config.material_id === -1) {
-
-                ub.pickersStartTime();
-
-                // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-                // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
-
-                ub.categories_url = ub.config.api_host + '/api/categories';
-                ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
-
-                ub.displayDoneAt('Loading Categories ...');
-                ub.loader(ub.categories_url, 'categories', ub.loadCategories);
-
-                ub.displayDoneAt('Loading Styles ...');
-                ub.loader(ub.materials_url, 'materials', ub.load_materials);
-
-                ub.afterLoadScripts();
-
-            }
-
 
             if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
 
@@ -166,6 +165,13 @@ $(document).ready(function () {
             
             ub.refresh_thumbnails();
 
+        }
+
+        ub.funcs.loadPageNotFound = function() {
+            var template = document.getElementById("m-richardson-page-not-found");
+            var markup = Mustache.render(template.innerHTML);
+            $("body").html("");
+            $("body").html(markup);
         }
 
         ub.funcs.getPrice = function (material) {
@@ -735,6 +741,8 @@ $(document).ready(function () {
         ub.funcs.ok = function (postLoad) {
 
             if (typeof postLoad !== "undefined") {
+
+                console.trace;
 
                 ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
                 ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callBackPostLoad);
@@ -8289,10 +8297,9 @@ $(document).ready(function () {
     // /// Show Builder Pickers is there's no Uniform or Order that's being loaded
 
     if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
-
-        // $('a.btn-new.new').click();
-        ub.funcs.initGenderPicker();
-
+        if (ub.config.brand.toLowerCase() !== "richardson") {
+            ub.funcs.initGenderPicker();
+        }
     } 
 
     // End Show Builder Picker
@@ -10567,10 +10574,12 @@ $(document).ready(function () {
     $('.add-roster-record').on('click', createNewRosterRecordForm);
 
     function createNewRosterRecordForm() {
-        var template = $('#roster-record').html();
-        var item = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
-        $('#team-roster-form .table-roster-list').append(item);
-        bindRemoveButtonBehavior();
+        if (ub.config.brand.toLowerCase() !== "richardson") {
+            var template = $('#roster-record').html();
+            var item = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
+            $('#team-roster-form .table-roster-list').append(item);
+            bindRemoveButtonBehavior();
+        }
     }
 
     function refreshUniformSizesInRosterSelect() {
