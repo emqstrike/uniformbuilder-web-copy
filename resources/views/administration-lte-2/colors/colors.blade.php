@@ -300,7 +300,7 @@ $(document).ready(function(){
         $('.input-master-color').val('');
         $('.input-brand').val('none');
         $('#create-hex-code').val('#ff0000');
-        $('#create_colorpicker').spectrum({
+        $('#create-colorpicker').spectrum({
             color: "#ff0000",
             preferredFormat: "hex",
             showInput: true,
