@@ -174,7 +174,8 @@ $(document).ready(function(){
         },
         hide: function(tinycolor) {
             $('#create-hex-code').val(tinycolor);
-        }
+        },
+        appendTo: "#myModal"
     });
 
     $(document).on('click', '.edit-button', function(e) {
@@ -299,7 +300,8 @@ $(document).ready(function(){
             },
             hide: function(tinycolor) {
                 $('#create-hex-code').val(tinycolor);
-            }
+            },
+            appendTo: "#myModal"
             });
         $('.submit-new-record').removeAttr('disabled');
     });
