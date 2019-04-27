@@ -594,3 +594,9 @@ div.debug-panel {
     display:none;
   }
 }
+
+.canvas-views {
+  canvas {
+    max-width: none !important;
+  }
+}
