@@ -406,7 +406,7 @@ $(document).ready(function() {
 	ub.funcs.prepareColors = function () {
 
 		ub.data.colors = _.filter(ub.data.colors, function (color) {
-            if (color.brand.toLowerCase() === "prolook") {
+            if (color.brand.toLowerCase() === ub.config.brand.toLowerCase()) {
                 return color = color.active === 1 || color.active === '1';
             }
         });
