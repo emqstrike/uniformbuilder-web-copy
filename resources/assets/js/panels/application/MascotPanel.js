@@ -80,7 +80,8 @@ MascotPanel.init = function () {
     _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-mascot-uikit', props);
 
     // output to page
-    $('.modifier_main_container').append(_htmlBuilder);
+    $('#primary_options_container').html("");
+$('#primary_options_container').html(_htmlBuilder);
 
     _.map(_appData, function(index) {
         if (index.application_type !== "free") {

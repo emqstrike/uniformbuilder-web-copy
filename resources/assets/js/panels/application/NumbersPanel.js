@@ -62,7 +62,8 @@ NumbersPanel.init = function () {
     var _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-numbers-uikit', templateData);
 
     // output to page
-    $('.modifier_main_container').append(_htmlBuilder);
+    $('#primary_options_container').html("");
+    $('#primary_options_container').html(_htmlBuilder);
 
     if (ub.funcs.isTackleTwill()) {
         ub.funcs.getFreeApplicationsContainer('numbers');

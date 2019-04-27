@@ -531,6 +531,10 @@ button[data-color-name="White"].palette {
   height: 100% !important;
 }
 
+.uk-height-max-xlarge {
+  max-height: 550px !important;
+  min-height: 550px !important;
+}
 /* Debug Panel */
 
 div.debug-panel {

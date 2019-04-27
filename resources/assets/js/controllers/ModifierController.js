@@ -134,7 +134,7 @@ ModifierController.prototype = {
     },
 
     enableDisableModifierMenu: function() {
-        $('#property-modifiers-menu a').removeClass('active');
+        $('#property-modifiers-menu a').parent().removeClass('uk-active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
         // Get Modifier number
         var modifier_number = $(this).data("modifier-number");
@@ -143,13 +143,13 @@ ModifierController.prototype = {
         var first = $("#property-modifiers-menu .menu-item").first();
         var last = $("#property-modifiers-menu .menu-item").last();
 
-        $(this).addClass('active');
+        $(this).parent().addClass('uk-active');
         $(this).css('pointer-events', "none");
 
-        if (first.hasClass("active")) {
+        if (first.parent().hasClass("uk-active")) {
             $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'none');
             $(".richardson-footer .richardson-onNext").css('pointer-events', 'auto');
-        } else if (last.hasClass("active")) {
+        } else if (last.parent().hasClass("uk-active")) {
             $("div.richardson-footer .richardson-onPrevious").css('pointer-events', 'auto');
             $(".richardson-footer .richardson-onNext").css('pointer-events', 'none');
         } else {

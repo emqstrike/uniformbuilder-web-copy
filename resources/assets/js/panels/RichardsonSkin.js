@@ -236,7 +236,7 @@ RichardsonSkin.funcs = {
     },
 
     setupRightPanelHeader: function() {
-        $("div.options_panel_header").html("");
+        $("div#options_panel_header").html("");
 
         var template = document.getElementById("m-richardson-right-panel-header");
         var data = {
@@ -246,7 +246,7 @@ RichardsonSkin.funcs = {
         };
 
         var rendered = Mustache.render(template.innerHTML, data);
-        $("div.options_panel_header").html(rendered);
+        $("div#options_panel_header").html(rendered);
         if (ub.current_material.material.name.length > 38) {
             $(".richardson-header .uniform-name").css("font-size", "12px");
         }

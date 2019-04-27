@@ -49,20 +49,14 @@ $(document).ready(function () {
     }
 
     ub.startModal = function (type) {
-
-        if (type === 1) {
-
-            if (ub.config.brand !== "richardson") {
+        if (ub.config.brand !== "richardson") {
+            if (type === 1) {
                 var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
                 ub.showModal('At least 2 Team Colors is required to proceed');
+            } else {
+                ub.showModal('Max of 8 Team Colors is allowed');
             }
-                
-        } else {
-
-            ub.showModal('Max of 8 Team Colors is allowed');
-
         }
-
     }
 
     ub.showModal = function (message) {

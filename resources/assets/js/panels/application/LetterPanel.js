@@ -16,8 +16,6 @@
 function LetterPanel() {}
 
 LetterPanel.init = function() {
-    $('#mod_primary_panel > .modifier_main_container').empty();
-
     // get applications and filter
     var _Applications = ub.current_material.settings.applications;
     var _filteredApplications = _.filter(_Applications, function(i) {
@@ -66,7 +64,8 @@ LetterPanel.init = function() {
     var _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-letters-uikit', templateData);
 
     // output to page
-    $('.modifier_main_container').append(_htmlBuilder);
+    $('#primary_options_container').html("");
+    $('#primary_options_container').html(_htmlBuilder);
 
     // var _htmlBuilder = ub.funcs.getNewApplicationContainer('DECORATION LETTERS', 'letters');
     // $('.modifier_main_container ul.application-container li').first().append(_htmlBuilder);

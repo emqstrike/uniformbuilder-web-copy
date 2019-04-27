@@ -79,18 +79,9 @@
                 </div>
             </div>
             <!-- Right Pane -->
-            <div class="uk-width-1-1 uk-width-1-2@m uk-width-1-3@l">
-                <div class="uk-padding-small bgc-light wer">
-                    <div class=" uk-text-right">
-                        <a class="uk-link-reset uk-text-uppercase" href="">Select new style</a>
-                    </div>
-                    <h5 class="uk-text-uppercase uk-text-bold uk-margin-remove">Pts 20</h5>
-                    <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand">
-                            <h4 class="uk-text-uppercase uk-text-bold uk-margin-remove uk-text-truncate abrade-ultra-italic">Pts Pro select 3000-8</h4>
-                            <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">Sublimated</h6>
-                        </div>
-                    </div>
+            <div class="uk-width-1-1 uk-width-1-2@m uk-width-1-3@l pane modifier_main_container" id="right-pane">
+                <div class="uk-padding-small bgc-light wer" id="options_panel_header">
+                    <!-- Add Loading screen -->
                 </div>
 
                 <div class="uk-grid-collapse" uk-grid>
@@ -99,70 +90,66 @@
                         <div class="uk-flex-center uk-grid-collapse uk-child-width-auto uk-text-right@m active-bgc-red active-bdr-red uk-text-bold" id="property-modifiers-menu" uk-grid>
                             <div class="uk-active">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-1 menu-item-fabrics uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Fabric; pos: top-right">1</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-1 menu-item-fabrics uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Fabric; pos: left; ">1</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-1 menu-item-fabrics uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Fabric; pos: left; ">1</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-2 menu-item-parts uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Base Color; pos: top-right">2</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-2 menu-item-parts uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Base Color; pos: left; ">2</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-2 menu-item-parts uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Base Color; pos: left; ">2</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-3 menu-item-piping uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Inserts; pos: top-right">3</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-3 menu-item-piping uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Inserts; pos: left; ">3</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-3 menu-item-pipings uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Inserts; pos: left; ">3</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-4 menu-item-letters uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Pipings; pos: top-right">4</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-4 menu-item-letters uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Pipings; pos: left">4</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-4 menu-item-letters uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Pipings; pos: left">4</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Decoration Letters; pos: top">5</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decoration Letters; pos: left">5</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decoration Letters; pos: left">5</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-6 menu-item-applications uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Decoration Numbers; pos: top">6</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-6 menu-item-applications uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decoration Numbers; pos: left">6</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-6 menu-item-applications uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decoration Numbers; pos: left">6</a>
                             </div>
                             <div class="">
                                 <!-- <a href="" class="group-pane abrade-ultra menu-item group-7 menu-item-logo uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-hidden@s" uk-tooltip="title: Decorations; pos: top">7</a> -->
-                                <a href="" class="group-pane abrade-ultra menu-item group-7 menu-item-logo uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decorations; pos: left">7</a>
+                                <a href="javascript:void(0)" class="group-pane abrade-ultra menu-item group-7 menu-item-logo uk-icon-button bdrr-none bdr-thin bdr-light uk-link-reset uk-visible@s" uk-tooltip="title: Decorations; pos: left">7</a>
                             </div>
                         </div>
                     </div>
                     <!-- End Number Navigation -->
-                    <div class="uk-width-1-1 uk-width-expand@s pane-main-window" id="right-main-window">
-                        @include('partials.panels.materials')
+                    <div class="uk-width-1-1 uk-width-expand@s uk-height-max-xlarge uk-overflow-auto bdr-thin bdr-gray" id="primary_options_container">
+                    </div>
+                </div>
 
-                        @include('partials.panels.colors')
+                <div class="uk-padding-small bgc-light wer">
+                    <div class=" uk-grid-collapse uk-text-center" uk-grid>
+                        <a class="uk-link-reset uk-width-1-2 ">
+                            <div class="uk-grid-collapse" uk-grid>
+                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark bdr-remove-right">
+                                    <span class="fc-red icon-left-arrow"></span>
+                                </div>
+                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Previous</div>
+                            </div>
+                        </a>
+                        <a href="#" uk-switcher-item="next" class="uk-link-reset uk-width-1-2 ">
+                            <div class="uk-grid-collapse" uk-grid>
+                                <div class="uk-width-expand uk-padding-small padding-tiny-vertical bdr-thin bdr-dark uk-text-uppercase bdr-remove-right">Next</div>
+                                <div class="uk-width-auto uk-padding-small padding-tiny-vertical bdr-thin bdr-dark">
+                                    <span class="fc-red icon-right-arrow"></span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="uk-width-1-1">
+                            <a href="#" class="uk-button bgc-dark fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic">Finish / View &nbsp;Summary</a>
+                        </div>
+                    </div>
 
-                        @include('partials.panels.patterns')
-
-                        @include('partials.panels.gradients')
-
-                        @include('partials.panels.applications')
-
-                        @include('partials.panels.texts')
-
-                        @include('partials.panels.numbers')
-
-                        @include('partials.panels.graphics')
-
-                        @include('partials.panels.sizes')
-
-                        @include('partials.panels.attachments')
-
-                        @include('partials.panels.mod_main')
-
-                        @include('partials.panels.mod_primary')
-
-                        @include('partials.panels.layers')
-
-                        @include('partials.panels.pipings')
-
-                        @include('partials.panels.randomFeeds')
-
-                        <!-- Richardson Modals file -->
-                        @if(env("BRAND") === "Richardson")
-                            @include('partials.panels.richardson-application-modal')
-                        @endif
+                    <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic" uk-grid>
+                        <div class="uk-width-auto">
+                            <a href="#" class="uk-link-reset fc-red abrade-ultra-italic">User Login</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,6 +177,8 @@
     <!-- Init Code -->
     @include('partials.code.init-code')
     <!-- End Code -->
+
+    @include('partials.panels.richardson-application-modal')
 
 
 
