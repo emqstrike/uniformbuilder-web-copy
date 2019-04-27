@@ -308,7 +308,8 @@ class UniformBuilderController extends Controller
 
         }
 
-        return view('editor.uniform-builder-index', $params);
+        // return view('editor.uniform-builder-index', $params);
+        return view("r-uniform-builder", $params);
 
     }
 
