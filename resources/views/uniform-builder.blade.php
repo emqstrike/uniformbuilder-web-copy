@@ -10,12 +10,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="team-store-api" content="{{ env('TEAM_STORE_API_BASE_URL') }}">
 
-    <title>Prolook Sports | Uniform Customizer</title>
+    <title>Richardson Sports | Uniform Customizer</title>
 
     <meta name="description" content="Design your own custom uniforms using the Prolook Uniform Customizer. We offer tons of designs for all sports. Create your custom uniform today.">
     <meta name="keywords" content="custom uniform, custom football uniform, custom basketball uniform, custom baseball uniform, custom volleyball uniform, uniform builder, prolook unifom builder, team uniforms">
 
-    <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
+    <link rel="icon" type="image/png" href="/images/branding/r-mark.jpg" />
 
     @include('partials.code.rollbar-js')
     
