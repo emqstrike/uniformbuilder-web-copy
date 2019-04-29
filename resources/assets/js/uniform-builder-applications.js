@@ -9274,15 +9274,21 @@ $(document).ready(function () {
                 ub.funcs.activateEmbellishments(_settingsObject.code);
             }
 
-            //==>
-
-
             // TODO
             // Create
             // - ub.funcs.update_application_embellishments => from ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
             // - ub.funcs.activateEmbellishments => from ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
             // - ub plugins - $.ub.create_embellishment
+        }
 
+        // Open Richardson Logo Modal for embellishment and mascot only
+        if (_settingsObject.application_type === 'embellishments' || _settingsObject.application_type === 'mascot') {
+            ub.data.currentApplication = _settingsObject;
+            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+                InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
+            } else {
+                InteropIsPanel.funcs.loadExistingDesign(_settingsObject);
+            }
         }
 
         ub.funcs.runAfterUpdate(_id);
