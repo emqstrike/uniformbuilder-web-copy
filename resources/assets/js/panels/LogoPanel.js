@@ -555,7 +555,7 @@ LogoPanel.utilities = {
                 var part =  material.toLowerCase().replace(/ /g, "_")
                 var material_ops = ub.funcs.getSettingsByMaterialOptionCode(part);
                 if (typeof material_ops !== "undefined") {
-                    if (typeof material_ops.pattern.pattern_id !== "undefined" && material_ops.pattern.pattern_id !== "blank") {
+                    if (typeof material_ops.pattern.pattern_id !== "undefined" && material_ops.pattern.pattern_id !== "blank" && material_ops.pattern.pattern_id !== "") {
                         // Get Pattern Color Code
                         var layers = material_ops.pattern.pattern_obj.layers;
                         _.each(layers, function(layer) {
