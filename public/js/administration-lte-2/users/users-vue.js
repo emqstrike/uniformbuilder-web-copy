@@ -2,103 +2,85 @@ new Vue({
     el: '#application-container',
     data: function() {
         return {
-            action: null,
-            brands: {},
-            isPanelVisible: false,
-            roles: [
-                {id: 'default', name: 'Default'},
-                {id: 'ga', name: 'Graphics Artist'},
-                {id: 'qa', name: 'QA'},
-                {id: 'rep', name: 'Sales Rep'},
-                {id: 'rep_manager', name: 'Manager'},
-                {id: 'dealer', name: 'Dealer'},
-                {id: 'coach', name: 'Coach'},
-                {id: 'dev', name: 'Developer'},
-                {id: 'executive', name: 'Executive'},
+            search: '',
+            pagination: {
+                page: 1,
+                rowsPerPage: 10,
+            },
+            selected: [],
+            headers: [
+                {text: 'ID', value: 'id'},
+                {text: 'Name', value: 'first_name'},
+                {text: 'Account Type', value: 'type'},
+                {text: 'Role', value: 'role'},
+                {text: 'Email', value: 'email'},
+                {text: 'Rep Name', value: 'rep_first_name'},
+                {text: 'Last Login', value: 'last_login'},
+                {text: 'Active Status', value: 'active'},
+                {text: 'Actions', value: ''},
             ],
-            salesReps: {},
-            types: ['administrator', 'normal'],
-            user: {},
-            users: users,
+            users: [],
             userSlideOut: null,
+            salesReps: {},
+            brands: {},
+            totalItems: 0,
+            loading: true
+        }
+    },
+    watch: {
+        pagination: {
+            handler () {
+                this.getDataFromAPI().then(data => {
+                    this.users = data.users;
+                    this.totalItems = data.total;
+                });
+            },
+            deep: true
+        }
+    },
+    computed: {
+        pages: function() {
+            if ((this.pagination.rowsPerPage == null) || (this.totalItems == null)) {
+                return 0;
+            }
+
+            return Math.ceil(this.totalItems / this.pagination.rowsPerPage);
+        },
+        computedPagination: {
+            get: function() {
+                return this.pagination
+            },
+            set: function(value) {
+                this.$emit('update:pagination', value)
+            }
         }
     },
     mounted: function() {
-        $('.data-table').DataTable();
-
-        this.userSlideOut = new Slideout({
-            'panel': document.getElementById('panel'),
-            'menu': document.getElementById('user-slideout-container'),
-            'padding': 1200,
-            'tolerance': 70,
-            'side': 'right'
+        this.getDataFromAPI().then(data => {
+            this.users = data.users;
+            this.totalItems = data.total;
         });
-
-        this.initializeBrandsData();
-        this.initializeSalesRepData();
     },
     methods: {
-        initializeBrandsData: function() {
-            axios.get(window.endpoint_version + '/brandings').then((response) => {
-                if (response.data.success === true) {
-                    this.brands = response.data.brandings;
-                }
+        getDataFromAPI: function()
+        {
+            this.loading = true
+
+            return new Promise((resolve, reject) => {
+                const { sortBy, descending, page, rowsPerPage } = this.pagination;
+
+                axios.get('users/paginate?page=' + page).then((response) => {
+                    if (response.data.success === true) {
+                        let users = response.data.users.data;
+                        const total = response.data.users.total;
+
+                        setTimeout(() => {
+                            this.loading = false;
+                            resolve({users, total});
+                        }, 1000);
+                    }
+                });
             });
         },
-        initializeSalesRepData: function() {
-            axios.get('sales_reps').then((response) => {
-                if (response.data.success === true) {
-                    this.salesReps = response.data.sales_reps;
-                }
-            });
-        },
-        toggle: function(index) {
-            let url = null;
-            let successMessage = null;
-            let errorMessage = null;
-
-            if (this.users[index].active) {
-                url = "user/disable";
-                successMessage = "User is now disabled";
-                errorMessage =  "Failed to disable user";
-            } else {
-                url = "user/enable";
-                successMessage = "User is now enabled";
-                errorMessage = "Failed to enable user";
-            }
-
-            axios.post(url, {
-                id: this.users[index].id
-            }).then((response) => {
-                if (response.data.success == true) {
-                    this.users[index].active = ! this.users[index].active;
-
-                    new PNotify({
-                        title: successMessage,
-                        type: 'success',
-                        hide: true,
-                        delay: 1000
-                    });
-                } else {
-                     new PNotify({
-                        title: errorMessage,
-                        type: 'error',
-                        hide: true,
-                        delay: 1000
-                    });
-                }
-            });
-        },
-        edit: function(index) {
-            this.user = this.users[index];
-            this.togglePanel();
-        },
-        togglePanel: function() {
-            this.userSlideOut.toggle();
-            this.isPanelVisible = ! this.isPanelVisible;
-        },
-        updateUser: function() {
-            console.log(this.user);
-        }
     }
 })
