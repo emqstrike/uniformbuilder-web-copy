@@ -316,7 +316,7 @@ $(document).ready(function(){
         $('.input-color-alias').val('');
         $('.input-color-code-alias').val();
         $('.input-master-color').val('');
-        $('.input-brand').val('none');
+        $('.input-brand').val('prolook');
         $('#create-hex-code').val('#ff0000');
         $('#create-colorpicker').spectrum({
             color: "#ff0000",
