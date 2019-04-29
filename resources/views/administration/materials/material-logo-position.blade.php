@@ -1,6 +1,8 @@
 @extends('administration.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
     <style>
         .logo-position-table td {
             vertical-align: bottom !important;
@@ -44,6 +46,14 @@
             content: "";
             left: 70px;
             position: absolute;
+        }
+        .flex {
+           display: flex;
+           flex-direction: row;
+        }
+
+        .delete-image a {
+            color: red;
         }
     </style>
 @endsection
@@ -126,6 +136,8 @@
 @section('scripts')
 
     <script type="text/javascript" src="/js/administration/logo-position.js"></script>
+    <script src="/js/libs/select2/select2.min.js"></script>
+    <script src="/underscore/underscore.js"></script>
 
     <script>
         $(document).ready(function() {
