@@ -1354,7 +1354,8 @@ $(document).ready(function() {
             applications: bc.applications,
             sizingTable: bc.sizingTable,
             upper: bc.upper,
-            lower: bc.hiddenBody,
+            lower: bc.lower,
+            hiddenBody: bc.hiddenBody,
             randomFeeds: bc.randomFeeds,
             legacyPDF:"", // display link if old pdf is generated
             applicationType: order_items.application_type
