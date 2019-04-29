@@ -51,12 +51,25 @@
                                 <input type="password" class="form-control user-password" name="password" required>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6 shadow">
                                 <input type="password" class="form-control user-confirm-password" name="confirm_password" required>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand_id" class="form-control">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->site_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                          <div class="form-group">
                             <label class="col-md-4 control-label">Zip Code</label>
                             <div class="col-md-6">
