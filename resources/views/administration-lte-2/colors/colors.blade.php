@@ -43,6 +43,12 @@
       -ms-transform: translateX(20.08px);
       transform: translateX(20.08px);
     }
+    .input-xsmall {
+        width: 100px !important;
+    }
+    .input-small {
+        width: 150px !important;
+    }
 </style>
 @endsection
 
@@ -77,6 +83,7 @@
                             <th>Alias</th>
                             <th>Sublimation Only</th>
                             <th>Color</th>
+                            <th>Color Code Alias</th>
                             <th>Brand</th>
                             <th>Active</th>
                             <th>Actions</th>
@@ -89,19 +96,19 @@
                                 {{ $color->id }}
                             </td>
                             <td class="col-md-1">
-                                <input type="number" class="form-control color-order" name="order" value="{{ $color->order }}"" disabled="true">
+                                <input type="number" class="form-control color-order input-xsmall" name="order" value="{{ $color->order }}" disabled="true">
                             </td>
                             <td class="col-md-1">
-                                <input type="number" class="form-control master-color" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
-                            </td>
-                            <td class="col-md-2">
-                                <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
-                            </td>
-                            <td class="col-md-2">
-                                <input type="text" class="form-control color-alias" name="color-alias" value="{{ $color->alias }}" disabled="true">
+                                <input type="number" class="form-control master-color input-xsmall" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
                             </td>
                             <td class="col-md-1">
-                            <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
+                                <input type="text" class="form-control color-name input-small" name="color-name" value="{{ $color->name }}" disabled="true">
+                            </td>
+                            <td class="col-md-1">
+                                <input type="text" class="form-control color-alias input-small" name="color-alias" value="{{ $color->alias }}" disabled="true">
+                            </td>
+                            <td class="col-md-1">
+                            <select class="form-control sublimation-only input-xsmall" name='sublimation_only' disabled="true">
                                     <option value='0' @if ($color->sublimation_only == '0') selected @endif>No</option>
                                     <option value='1' @if ($color->sublimation_only == '1') selected @endif>Yes</option>
                                 </select>
@@ -111,6 +118,9 @@
                                 <input type="text" size="6" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="10">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
+                            </td>
+                            <td class="col-md-1">
+                                <input type="text" class="form-control color-code-alias input-xsmall" name="color_code_alias" value="{{ $color->color_code_alias }}" disabled="true">
                             </td>
                             <td class="col-md-1">
                                 <select class="form-control brand" name='brand' disabled="true">
@@ -186,6 +196,7 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.color-alias').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-code-alias').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
         $(this).parent().siblings('td').find('.color-order').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
@@ -207,7 +218,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias, .color-order',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias, .color-order, .color-code-alias',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
@@ -228,6 +239,7 @@ $(document).ready(function(){
         var name = $(this).parent().siblings('td').find('.color-name').val();
         var alias = $(this).parent().siblings('td').find('.color-alias').val();
         var color_code = $(this).parent().siblings('td').find('#color-code-text').val();
+        var color_code_alias = $(this).parent().siblings('td').find('.color-code-alias').val();
         var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
@@ -243,7 +255,8 @@ $(document).ready(function(){
             "sublimation_only" : sublimation_only,
             "order" : order,
             "master_color_id" : master_color_id,
-            "brand" : brand
+            "brand" : brand,
+            "color_code_alias": color_code_alias
         };
         if(!$(this).attr('disabled')) {
             updateColor(data);
@@ -288,6 +301,7 @@ $(document).ready(function(){
         data.color_code = $('.input-color-code').val();
         data.name = $('.input-color-name').val();
         data.alias = $('.input-color-alias').val();
+        data.color_code_alias = $('.input-color-code-alias').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
         data.brand = $('.input-brand').val();
@@ -300,6 +314,7 @@ $(document).ready(function(){
         $('.input-color-code').val('');
         $('.input-color-name').val('');
         $('.input-color-alias').val('');
+        $('.input-color-code-alias').val();
         $('.input-master-color').val('');
         $('.input-brand').val('none');
         $('#create-hex-code').val('#ff0000');
