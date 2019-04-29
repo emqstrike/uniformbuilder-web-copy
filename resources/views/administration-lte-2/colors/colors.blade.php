@@ -369,6 +369,9 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).data('color-id');
         var url = "//" + api_host + "/api/color/toggle/";
+        var el = $(this)
+        var checked = el.prop('checked');
+
         $.ajax({
             url: url,
             type: "POST",
@@ -379,7 +382,8 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    window.location.reload();
+                    // window.location.reload();
+                    el.prop('checked', checked);
                     new PNotify({
                         title: 'Success',
                         text: response.message,
