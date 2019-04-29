@@ -29,18 +29,19 @@
                     <div class="box-body">
                         <div id="app">
                             <v-app id="inspire">
+                                <div class="text-xs-center">
+                                    <v-dialog v-model="dialog" hide-overlay persistent width="300">
+                                        <v-card color="primary" dark>
+                                            <v-card-text>
+                                                Please stand by
+                                                <v-progress-linear indeterminate color="white"  class="mb-0"></v-progress-linear>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-dialog>
+                                </div>
+
                                 <div>
-                                    <v-data-table
-                                        ref="userTable"
-                                        :headers="headers"
-                                        :items="users"
-                                        :search="search"
-                                        hide-actions
-                                        :pagination.sync="computedPagination"
-                                        :total-items="totalItems"
-                                        :loading="loading"
-                                        class="elevation-1"
-                                    >
+                                    <v-data-table ref="userTable" :headers="headers" :items="users" :search="search" hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
                                         <template slot="items" slot-scope="props">
                                             <td>@{{ props.item.id }}</td>
                                             <td>@{{ props.item.first_name }} @{{ props.item.last_name }}</td>

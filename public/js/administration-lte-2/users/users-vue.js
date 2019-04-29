@@ -24,19 +24,19 @@ new Vue({
             salesReps: {},
             brands: {},
             totalItems: 0,
-            loading: true
+            dialog: false
         }
     },
     watch: {
         pagination: {
-            handler () {
+            handler: function() {
                 this.getDataFromAPI().then(data => {
                     this.users = data.users;
                     this.totalItems = data.total;
                 });
             },
             deep: true
-        }
+        },
     },
     computed: {
         pages: function() {
@@ -64,7 +64,7 @@ new Vue({
     methods: {
         getDataFromAPI: function()
         {
-            this.loading = true
+            this.dialog = true;
 
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
@@ -75,7 +75,7 @@ new Vue({
                         const total = response.data.users.total;
 
                         setTimeout(() => {
-                            this.loading = false;
+                            this.dialog = false;
                             resolve({users, total});
                         }, 1000);
                     }
