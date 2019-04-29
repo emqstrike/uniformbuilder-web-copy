@@ -241,7 +241,7 @@ RichardsonSkin.funcs = {
         var template = document.getElementById("m-richardson-right-panel-header");
         var data = {
             "uniform_name": ub.current_material.material.name,
-            "block_pattern": typeof ub.current_material.material.model_number !== "undefined" || ub.current_material.material.model_number.length > 0 ? ub.current_material.material.model_number + "-L": this.richardsonPTSCategory(),
+            "block_pattern": typeof ub.current_material.material.model_number !== "undefined" && ub.current_material.material.model_number.length > 0 ? ub.current_material.material.model_number + "-L": this.richardsonPTSCategory(),
             "application_type": ub.funcs.isSublimated() ? "color infused" : ub.funcs.isTackleTwill() ? "color dyed" : ""
         };
 
