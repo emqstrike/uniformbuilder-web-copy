@@ -109,3 +109,19 @@
         </div>
     </div>
 </script>
+
+<script type="text/mustache" id="m-richardson-hexcode-checker">
+    <ul class="uk-list uk-list-large uk-list-divider uk-padding-small hex-code-tester">
+        @{{ #materials }}
+            <li class="material-option" data-material="@{{ material_option }}">
+                <h5 uk-margin="" class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">@{{ name }}</h5>
+                <div class="uk-margin-small" uk-margin>
+                    <div>
+                        <input class="uk-input uk-form-width-medium input-hexcode" type="text" placeholder="Enter hexcode e.g #e6e6e6">
+                    </div>
+                    <button class="uk-button uk-button-default uk-button-small uk-text-capitalize submit-test-hexcode">Test Color</button>
+                </div>
+            </li>
+        @{{ /materials }}
+    </ul>
+</script>
