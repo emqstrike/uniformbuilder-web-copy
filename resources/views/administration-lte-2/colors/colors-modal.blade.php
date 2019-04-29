@@ -32,6 +32,10 @@
                       <input type="text" class="form-control input-color-code" name="color_code" maxlength="10" required>
                   </div>
                   <div class="form-group">
+                    <label class="control-label">Color Code Alias</label>
+                      <input type="text" class="form-control input-color-code-alias" name="color_code_alias" maxlength="10" required>
+                  </div>
+                  <div class="form-group">
                             <label class="control-label">Color</label>
                                 <input id='create-colorpicker' type="hidden" class="form-control">
                                 <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
