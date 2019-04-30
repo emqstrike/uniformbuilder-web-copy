@@ -5,6 +5,7 @@ new Vue({
             action: null,
             brands: {},
             dialog: true,
+            error: false,
             headers: [
                 {text: 'ID', value: 'id'},
                 {text: 'Name', value: 'first_name'},
@@ -37,6 +38,7 @@ new Vue({
             selected: [],
             types: ['administrator', 'normal'],
             user: {},
+            userCache: {},
             users: [],
             userSlideOut: null,
             totalItems: 0,
@@ -88,7 +90,24 @@ new Vue({
         this.getSalesRepData();
     },
     methods: {
+        cancel: function(user) {
+            Object.assign(user, this.userCache);
+            this.removeErrorMessage();
+            this.togglePanel();
+        },
+        confirmPassword: function(event) {
+            if (this.user.password != this.user.confirm_password) {
+                this.$refs.confirmPassword.style.borderColor = '#dc3545';
+                this.error = true;
+            } else {
+                this.removeErrorMessage();
+            }
+        },
         edit: function(user) {
+            user.password = null;
+            user.confirm_password = null;
+
+            this.userCache = Object.assign({}, user);
             this.user = user;
             this.togglePanel();
         },
@@ -126,11 +145,50 @@ new Vue({
                 }
             });
         },
+        removeErrorMessage: function() {
+            this.$refs.confirmPassword.style.borderColor = '#cccccc';
+            this.error = false;
+        },
         togglePanel: function() {
             this.userSlideOut.toggle();
         },
+
         updateUser: function(user) {
-            
+            var data = {
+                id: user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                type: user.type,
+                role: user.role,
+                default_rep_id: user.default_rep_id,
+                zip: user.zip,
+                brand_id: user.brand_id
+            };
+
+            if ((user.password) && (user.password == user.confirm_password)) {
+                data.password = user.password;
+            }
+
+            axios.post('user/update', data).then((response) => {
+                if (response.data.success === true) {
+                    this.userSlideOut.toggle();
+
+                    new PNotify({
+                        title: 'User updated',
+                        type: 'success',
+                        hide: true,
+                        delay: 1000
+                    });
+                } else {
+                    new PNotify({
+                        title: 'User failed to update',
+                        type: 'error',
+                        hide: true,
+                        delay: 1000
+                    });
+                }
+            });
         }
     }
 })

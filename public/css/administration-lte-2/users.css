@@ -69,3 +69,7 @@ li.select2-selection__choice {
 .application--wrap {
     min-height: 0px !important;
 }
+
+.invalid-feedback {
+    color: #dc3545;
+}

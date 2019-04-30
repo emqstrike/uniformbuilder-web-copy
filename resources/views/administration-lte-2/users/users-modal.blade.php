@@ -16,17 +16,18 @@
 
             <div class="form-group">
                 <label class="control-label">Email Address</label>
-                <input type="text" class="form-control" v-model="user.email">
+                <input type="text" class="form-control" v-model="user.email" disabled="disabled">
             </div>
 
             <div class="form-group">
                 <label class="control-label">Password</label>
-                <input type="password" class="form-control" v-model="user.password">
+                <input type="password" class="form-control" v-model="user.password" v-on:input="confirmPassword">
             </div>
 
             <div class="form-group">
                 <label class="control-label">Confirm Password</label>
-                <input type="password" class="form-control" v-model="user.confirm_password">
+                <input type="password" class="form-control" v-model="user.confirm_password" v-on:input="confirmPassword" ref="confirmPassword">
+                <div class="invalid-feedback" v-show="error">Password do not match</div>
             </div>
 
             <div class="form-group">
@@ -65,8 +66,8 @@
             </div>
 
             <div class="form-inline">
-                <button class="btn btn-sm btn-flat btn-success" @click="updateUser(user)">Update</button>
-                <button class="btn btn-sm btn-flat btn-danger" @click="togglePanel()">Cancel</button>
+                <button class="btn btn-sm btn-flat btn-success" @click="updateUser(user)" :disabled="error">Update</button>
+                <button class="btn btn-sm btn-flat btn-danger" @click="cancel(user)">Cancel</button>
             </div>
         </div>
     </div>
