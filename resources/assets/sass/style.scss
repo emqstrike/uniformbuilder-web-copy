@@ -47,6 +47,33 @@ body {
 .bdr-remove-right {
   border-right: none !important; }
 
+.bdr-remove-top {
+  border-top: none !important; }
+
+.bdr-top {
+  border: .5px solid;
+  border-bottom: none !important;
+  border-left: none !important; 
+  border-right: none !important; 
+}
+
+.bdr-top-right {
+  border: .5px solid;
+  border-bottom: none !important;
+  border-left: none !important; 
+}
+
+.bdr-top-left {
+  border: .5px solid;
+  border-bottom: none !important;
+  border-right: none !important; 
+}
+
+.bdr-radius-1-2 {
+  border-radius: 50% !important;
+}
+
+
 .bdr-thin {
   border: .5px solid; }
 
@@ -592,5 +619,20 @@ div.debug-panel {
 @media screen and (max-width: 374px) {
   .hidden-xxs {
     display:none;
+  }
+}
+
+
+.sizes-container {
+  .size:hover {
+    background-color: $color-red;
+    color: $color-light;
+    border: .5px solid;
+  }
+
+  .size.uk-active {
+    background-color: $color-red;
+    color: $color-light;
+    border: .5px solid;
   }
 }

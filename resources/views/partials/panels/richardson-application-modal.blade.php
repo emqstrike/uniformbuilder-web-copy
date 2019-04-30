@@ -314,3 +314,55 @@
         </div>
     </div>
 </div>
+
+
+<!-- Richardson Roster Modal -->
+<div id="richardson-team-roster" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h3 class="uk-text-uppercase uk-margin-remove abrade-black">1. Select Sizes</h3>
+        <div class="uk-padding-small uk-padding-remove-horizontal">
+            <h6 class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Adult Sizes</h6>
+            <div class="uk-padding-small uk-padding-remove-horizontal">
+                <div class="uk-grid-small uk-child-width-auto@s uk-text-center" uk-grid>
+                    <div class="sizes-container">
+                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
+                            <a href="javascript:void(0)" class="uk-link-reset">
+                                XS
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sizes-container">
+                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size uk-active">
+                            <a href="javascript:void(0)" class="uk-link-reset">
+                                XS
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sizes-container">
+                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
+                            <a href="javascript:void(0)" class="uk-link-reset">
+                                XS
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sizes-container">
+                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
+                            <a href="javascript:void(0)" class="uk-link-reset">
+                                XS
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sizes-container">
+                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
+                            <a href="javascript:void(0)" class="uk-link-reset">
+                                XS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Richardson Roster Modal End -->
