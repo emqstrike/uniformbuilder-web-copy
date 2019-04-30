@@ -1,19 +1,19 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use Crypt;
-use Session;
-use Redirect;
+use App\APIClients\BrandingsAPIClient;
+use App\APIClients\DealersAPIClient;
+use App\APIClients\OrdersAPIClient;
+use App\APIClients\SalesRepresentativesAPIClient;
+use App\APIClients\SavedDesignsAPIClient;
+use App\APIClients\UsersAPIClient as APIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Utilities\Log;
+use Crypt;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\APIClients\SalesRepresentativesAPIClient;
-use App\APIClients\DealersAPIClient;
-use App\APIClients\SavedDesignsAPIClient;
-use App\APIClients\OrdersAPIClient;
-
-use App\APIClients\UsersAPIClient as APIClient;
+use Redirect;
+use Session;
 
 class UsersController extends Controller
 {
@@ -22,6 +22,7 @@ class UsersController extends Controller
     protected $dealersAPIClient;
     protected $savedDesignsAPIClient;
     protected $ordersAPIClientl;
+    protected $brandingClient;
 
 
     public function __construct(
@@ -29,7 +30,8 @@ class UsersController extends Controller
         SalesRepresentativesAPIClient $salesRepresentativesAPIClient,
         DealersAPIClient $dealersAPIClient,
         SavedDesignsAPIClient $savedDesignsAPIClient,
-        OrdersAPIClient $ordersAPIClient
+        OrdersAPIClient $ordersAPIClient,
+        BrandingsAPIClient $brandingClient
     )
     {
         $this->client = $apiClient;
@@ -37,6 +39,7 @@ class UsersController extends Controller
         $this->dealersAPIClient = $dealersAPIClient;
         $this->savedDesignsAPIClient = $savedDesignsAPIClient;
         $this->ordersAPIClient = $ordersAPIClient;
+        $this->brandingClient = $brandingClient;
     }
 
     public function index()
@@ -66,10 +69,13 @@ class UsersController extends Controller
         $user = $this->client->getUser($id);
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
         $dealers = $this->dealersAPIClient->getAll();
+        $brands = $this->brandingClient->getAll();
+
         return view('administration.users.user-edit', [
             'user' => $user,
             'sales_reps' => $sales_reps,
-            'dealers' => $dealers
+            'dealers' => $dealers,
+            'brands' => $brands
         ]);
     }
 
@@ -77,7 +83,13 @@ class UsersController extends Controller
     {
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
         $dealers = $this->dealersAPIClient->getAll();
-        return view('administration.users.user-create', compact ('sales_reps', 'dealers'));
+        $brands = $this->brandingClient->getAll();
+
+        return view('administration.users.user-create', compact(
+            'sales_reps', 
+            'dealers', 
+            'brands'
+        ));
     }
 
     public function accountSettings($id)
@@ -129,49 +141,60 @@ class UsersController extends Controller
         $userCreateOrigin = $request->input('user_create_origin');
         $createdBy = $request->input('created_by');
         $role = $request->input('role');
+
         $data = [
             'first_name' => $firstName,
-            'last_name' => $lastName
+            'last_name' => $lastName,
+            'brand_id' => $request->brand_id
         ];
 
         $userId = null;
-        if (!empty($request->input('user_id')))
-        {
+
+        if (!empty($request->input('user_id'))) {
             $userId = $request->input('user_id');
             $data['id'] = $userId;
         }
+
         if (!empty($request->input('email')))
         {
             $data['email'] = $request->input('email');
         }
+
         if (!empty($request->input('password')))
         {
             $data['password'] = $request->input('password');
         }
+
         if (!empty($request->input('role')))
         {
             $data['role'] = $request->input('role');
         }
+
         if (!empty($request->input('user_create_origin')))
         {
             $data['user_create_origin'] = $request->input('user_create_origin');
         }
+
         if (!empty($request->input('created_by')))
         {
             $data['created_by'] = $request->input('created_by');
         }
+
         if (!empty($request->input('state')))
         {
             $data['state'] = $request->input('state');
         }
+
         if (!empty($request->input('zip')))
         {
             $data['zip'] = $request->input('zip');
         }
+
         if (!empty($request->input('default_rep_id')))
         {
             $data['default_rep_id'] = $request->input('default_rep_id');
         }
+
         if (!empty($request->input('dealership_id')))
         {
             $data['dealership_id'] = $request->input('dealership_id');
@@ -190,13 +213,11 @@ class UsersController extends Controller
         }
 
         $response = null;
-        if (!empty($userId))
-        {
+
+        if (!empty($userId)) {
             Log::info('Attempts to update User#' . $userId);
             $response = $this->client->updateUser($data);
-        }
-        else
-        {
+        } else {
             $logData = $data;
             unset($logData['password']);
             Log::info('Attempts to create a new User ' . json_encode($logData));

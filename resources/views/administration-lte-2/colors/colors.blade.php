@@ -43,6 +43,12 @@
       -ms-transform: translateX(20.08px);
       transform: translateX(20.08px);
     }
+    .input-xsmall {
+        width: 100px !important;
+    }
+    .input-small {
+        width: 150px !important;
+    }
 </style>
 @endsection
 
@@ -74,8 +80,10 @@
                             <th>Order</th>
                             <th>Master Color ID</th>
                             <th>Color Name</th>
+                            <th>Alias</th>
                             <th>Sublimation Only</th>
                             <th>Color</th>
+                            <th>Color Code Alias</th>
                             <th>Brand</th>
                             <th>Active</th>
                             <th>Actions</th>
@@ -88,16 +96,19 @@
                                 {{ $color->id }}
                             </td>
                             <td class="col-md-1">
-                                {{ $color->order }}
+                                <input type="number" class="form-control color-order input-xsmall" name="order" value="{{ $color->order }}" disabled="true">
                             </td>
                             <td class="col-md-1">
-                                <input type="number" class="form-control master-color" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
-                            </td>
-                            <td class="col-md-2">
-                                <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
+                                <input type="number" class="form-control master-color input-xsmall" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
                             </td>
                             <td class="col-md-1">
-                            <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
+                                <input type="text" class="form-control color-name input-small" name="color-name" value="{{ $color->name }}" disabled="true">
+                            </td>
+                            <td class="col-md-1">
+                                <input type="text" class="form-control color-alias input-small" name="color-alias" value="{{ $color->alias }}" disabled="true">
+                            </td>
+                            <td class="col-md-1">
+                            <select class="form-control sublimation-only input-xsmall" name='sublimation_only' disabled="true">
                                     <option value='0' @if ($color->sublimation_only == '0') selected @endif>No</option>
                                     <option value='1' @if ($color->sublimation_only == '1') selected @endif>Yes</option>
                                 </select>
@@ -107,6 +118,9 @@
                                 <input type="text" size="6" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="10">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
+                            </td>
+                            <td class="col-md-1">
+                                <input type="text" class="form-control color-code-alias input-xsmall" name="color_code_alias" value="{{ $color->color_code_alias }}" disabled="true">
                             </td>
                             <td class="col-md-1">
                                 <select class="form-control brand" name='brand' disabled="true">
@@ -142,7 +156,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='9'>
+                            <td colspan='10'>
                                 No Colors
                             </td>
                         </tr>
@@ -165,7 +179,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    $('#create_colorpicker').spectrum({
+    $('#create-colorpicker').spectrum({
         color: "#ff0000",
         preferredFormat: "hex",
         showInput: true,
@@ -174,13 +188,17 @@ $(document).ready(function(){
         },
         hide: function(tinycolor) {
             $('#create-hex-code').val(tinycolor);
-        }
+        },
+        appendTo: "#myModal"
     });
 
     $(document).on('click', '.edit-button', function(e) {
         e.preventDefault();
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-alias').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-code-alias').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
+        $(this).parent().siblings('td').find('.color-order').prop('disabled', false);
         $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
         $(this).parent().siblings('td').find('.brand').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
@@ -200,7 +218,7 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand, .color-alias, .color-order, .color-code-alias',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
         $(this).parent().siblings('td').find('.color-name').trigger('change');
@@ -219,20 +237,26 @@ $(document).ready(function(){
     $(document).on('click', '.save-button', function() {
         var id = $(this).data('color-id');
         var name = $(this).parent().siblings('td').find('.color-name').val();
+        var alias = $(this).parent().siblings('td').find('.color-alias').val();
         var color_code = $(this).parent().siblings('td').find('#color-code-text').val();
+        var color_code_alias = $(this).parent().siblings('td').find('.color-code-alias').val();
         var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
+        var order = $(this).parent().siblings('td').find('.color-order').val();
         var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
         var brand = $(this).parent().siblings('td').find('.brand').val();
         var data = {
             "id" : id,
             "name" : name,
+            "alias" : alias,
             "color_code" : color_code,
             "hex_code" : hex_code,
             "sublimation_only" : sublimation_only,
+            "order" : order,
             "master_color_id" : master_color_id,
-            "brand" : brand
+            "brand" : brand,
+            "color_code_alias": color_code_alias
         };
         if(!$(this).attr('disabled')) {
             updateColor(data);
@@ -276,6 +300,8 @@ $(document).ready(function(){
         var data = {};
         data.color_code = $('.input-color-code').val();
         data.name = $('.input-color-name').val();
+        data.alias = $('.input-color-alias').val();
+        data.color_code_alias = $('.input-color-code-alias').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
         data.brand = $('.input-brand').val();
@@ -287,10 +313,12 @@ $(document).ready(function(){
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-color-code').val('');
         $('.input-color-name').val('');
+        $('.input-color-alias').val('');
+        $('.input-color-code-alias').val();
         $('.input-master-color').val('');
-        $('.input-brand').val('none');
+        $('.input-brand').val('prolook');
         $('#create-hex-code').val('#ff0000');
-        $('#create_colorpicker').spectrum({
+        $('#create-colorpicker').spectrum({
             color: "#ff0000",
             preferredFormat: "hex",
             showInput: true,
@@ -299,7 +327,8 @@ $(document).ready(function(){
             },
             hide: function(tinycolor) {
                 $('#create-hex-code').val(tinycolor);
-            }
+            },
+            appendTo: "#myModal"
             });
         $('.submit-new-record').removeAttr('disabled');
     });
@@ -340,6 +369,9 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).data('color-id');
         var url = "//" + api_host + "/api/color/toggle/";
+        var el = $(this)
+        var checked = el.prop('checked');
+
         $.ajax({
             url: url,
             type: "POST",
@@ -350,7 +382,8 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    window.location.reload();
+                    // window.location.reload();
+                    el.prop('checked', checked);
                     new PNotify({
                         title: 'Success',
                         text: response.message,
