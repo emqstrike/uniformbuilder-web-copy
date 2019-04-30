@@ -21,12 +21,12 @@
 
             <div class="form-group">
                 <label class="control-label">Password</label>
-                <input type="text" class="form-control" v-model="user.password">
+                <input type="password" class="form-control" v-model="user.password">
             </div>
 
             <div class="form-group">
                 <label class="control-label">Confirm Password</label>
-                <input type="text" class="form-control" v-model="user.confirm_password">
+                <input type="password" class="form-control" v-model="user.confirm_password">
             </div>
 
             <div class="form-group">
@@ -65,7 +65,7 @@
             </div>
 
             <div class="form-inline">
-                <button class="btn btn-sm btn-flat btn-success" @click="updateUser()">Update</button>
+                <button class="btn btn-sm btn-flat btn-success" @click="updateUser(user)">Update</button>
                 <button class="btn btn-sm btn-flat btn-danger" @click="togglePanel()">Cancel</button>
             </div>
         </div>

@@ -1,11 +1,11 @@
 @extends('administration-lte-2.lte-main')
 
 @section('slidein-panel')
-    {{-- @include('administration-lte-2.users.users-modal') --}}
+    @include('administration-lte-2.users.users-modal')
 @endsection
 
 @section('panel-overlay')
-    {{-- <div v-show="isPanelVisible" class="panel-overlay"></div> --}}
+    <div v-show="dialog" class="panel-overlay"></div>
 @endsection
 
 @section('styles')
@@ -56,7 +56,7 @@
                                             </td>
                                             <td>
                                                 <div class="btn-container">
-                                                    <button class="btn btn-primary btn-xs btn-flat">Edit</button>
+                                                    <button class="btn btn-primary btn-xs btn-flat" @click="edit(props.item)">Edit</button>
                                                     <button class="btn btn-success btn-xs btn-flat" :disabled="(! props.item.role) || (! props.item.active)">Edit Allowed Pages</button>
                                                     <a :href="'/administration/v1-0/user/transactions/' + props.item.id" class="btn btn-primary btn-xs btn-flat" target="_blank">View Transactions</a>
                                                 </div>
