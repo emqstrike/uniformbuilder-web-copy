@@ -53,7 +53,7 @@ $(document).ready(function() {
     var loadCase = 0;
     var coords = [];
 
-    getColors(function(colors){ window.colors = colors; });
+    getColors(temp_brand,  function(colors){ window.colors = colors; });
     getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
@@ -1674,13 +1674,13 @@ $(document).ready(function() {
 
         $('#default_base_fabric').html('');
         $('#default_base_fabric').append( base_fabric_dropdown );
-        
+
         $('#default_sleeve_fabric').html('');
         $('#default_sleeve_fabric').append( sleeve_fabric_dropdown );
 
         $('#default_insert_fabric').html('');
         $('#default_insert_fabric').append( insert_fabric_dropdown );
-        
+
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
 
@@ -2584,9 +2584,9 @@ $(document).ready(function() {
         return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
     }
 
-    function getColors(callback){
+    function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors";
+        var url = "//" + api_host + "/api/colors/" + brand;
         $.ajax({
             url: url,
             async: false,
@@ -2596,6 +2596,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 colors = data['colors'];
+                console.log('colors '+JSON.stringify(colors));
                 if(typeof callback === "function") callback(colors);
             }
         });
@@ -2620,7 +2621,7 @@ $(document).ready(function() {
     function getTailsweeps(callback){
         var tailsweep;
        var url = "//" + api_host + "/api/tailsweeps";
-       
+
         $.ajax({
             url: url,
             async: false,
