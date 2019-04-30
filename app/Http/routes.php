@@ -121,7 +121,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex'])->name('v1_master_colors');
 
             // Colors Sets
-            Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index'])->name('v1_color_sets');
+            Route::get('colors_sets/{active_brand?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index'])->name('v1_color_sets');
             Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm'])->name('v1_add_color_set');
             Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store'])->name('v1_store_color_set');
             Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store'])->name('v1_update_color_set');
