@@ -647,7 +647,7 @@ $(document).ready(function () {
     ub.funcs.getColorByColorCode = function (colorCode) {
 
         var _colorObj = _.find(ub.data.colors, {
-            color_code: colorCode, 
+            color_code: colorCode,
             brand: ub.config.brand.toLowerCase()
         });
 
