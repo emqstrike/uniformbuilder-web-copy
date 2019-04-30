@@ -174,6 +174,14 @@
                   <li><a href="/my-custom-artwork-requests"><i class="fa fa-picture-o" aria-hidden="true"></i> MY CUSTOM LOGO REQUESTS</a></li>
                   <li class="divider"></li>
 
+                  <li id="enable-beta">
+                      <a href="#">
+                          <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                          <span class="text">ENABLE BETA FEATURES</span>
+                      </a>
+                  </li>
+                  <li class="divider"></li>
+
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>

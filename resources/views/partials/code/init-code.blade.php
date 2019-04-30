@@ -12,6 +12,9 @@
             brand: "{{ env('BRAND') }}",
             picker_version: "{{ env('PICKER_VERSION') }}",
             pdf_generator: "{{ env('PDF_GENERATOR') }}",
+            beta_features: {
+                enabled: false
+            },
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",
@@ -107,7 +110,53 @@
 
             });
 
+            // when logged in set storage
+            if(localStorage.getItem('beta_features') === null) {
+                localStorage.setItem('beta_features', false);
+            }
+
+            // storage checker
+            if(localStorage.getItem('beta_features') === 'false') {
+                $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+            } else {
+                $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+            }
+
+            $('#enable-beta').on('click', function () {
+
+                // if(localStorage.getItem('beta_features') === null) {
+                //     // ub.config.beta_features.enabled = true;
+                //     localStorage.setItem('beta_features', true);
+                //     // console.log('beta_features', ub.config.beta_features.enabled );
+                //     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                //     $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+                // } else {
+                //     // ub.config.beta_features.enabled = false;
+                //     localStorage.setItem('beta_features', false);
+                //     // console.log('beta_features', ub.config.beta_features.enabled );
+                //     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                //     $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+                // }
+
+                if(localStorage.getItem('beta_features') === 'false') {
+                    localStorage.setItem('beta_features', true);
+                    $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                    $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+                } else {
+                    localStorage.setItem('beta_features', false);
+                    $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                    $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+                }
+
+                return false;
+            });
+
         @else
+
+            // clear storage
+            localStorage.clear();
 
             window.ub.user = false;
             $('.register').on('click', function() {
