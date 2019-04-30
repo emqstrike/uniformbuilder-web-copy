@@ -2028,7 +2028,7 @@ $(document).ready(function () {
 
     ub.funcs.isSublimated = function () {
 
-        return ub.current_material.material.uniform_application_type === "sublimated";
+        return ub.current_material.material.uniform_application_type === "sublimated"; 
 
     }
 

@@ -84,19 +84,51 @@ FabricPanel.changeFabricVisible = function(layer_level) {
     }
 
     _.each(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        if (_.contains(layer_levels, fc.layer_level)) {
+            fc.sprite.visible = true;
+            fc.active_asset = "uk-active";
+            fc.default_asset = true;
+        } else {
+            fc.sprite.visible = false;
+            fc.active_asset = "";
+            fc.default_asset = false;
+        }
     });
 
     _.each(ub.fabric.fabricCollections[FabricPanel.LEFT_PERSPECTIVE], function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        if (_.contains(layer_levels, fc.layer_level)) {
+            fc.sprite.visible = true;
+            fc.active_asset = "uk-active";
+            fc.default_asset = true;
+        } else {
+            fc.sprite.visible = false;
+            fc.active_asset = "";
+            fc.default_asset = false;
+        }
     });
 
     _.each(ub.fabric.fabricCollections[FabricPanel.RIGHT_PERSPECTIVE], function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        if (_.contains(layer_levels, fc.layer_level)) {
+            fc.sprite.visible = true;
+            fc.active_asset = "uk-active";
+            fc.default_asset = true;
+        } else {
+            fc.sprite.visible = false;
+            fc.active_asset = "";
+            fc.default_asset = false;
+        }
     });
 
     _.each(ub.fabric.fabricCollections[FabricPanel.BACK_PERSPECTIVE], function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        if (_.contains(layer_levels, fc.layer_level)) {
+            fc.sprite.visible = true;
+            fc.active_asset = "uk-active";
+            fc.default_asset = true;
+        } else {
+            fc.sprite.visible = false;
+            fc.active_asset = "";
+            fc.default_asset = false;
+        }
     });
 };
 

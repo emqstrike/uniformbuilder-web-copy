@@ -1222,13 +1222,13 @@ $(function() {
                 if (_.contains(_validApplicationTypes, 'logo')) {
                     _types.push({
                         name: 'mascot',
-                        defaultText: 'Stock Mascot'
+                        defaultText: 'Stock'
                     })
                 }
                 if (_.contains(_validApplicationTypes, 'embellishments')) {
                     _types.push({
                         name: 'embellishments',
-                        defaultText: 'Custom Mascot'
+                        defaultText: 'Custom'
                     })
                 }
             }

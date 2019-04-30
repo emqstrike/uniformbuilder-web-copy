@@ -251,6 +251,15 @@ $(document).ready(function () {
 		ub.shortcut.add("Alt+5", function () {
 			ub.funcs.enableAlternativeUI();
 		});
+
+		ub.shortcut.add("Alt+7", function () {
+			if (!ub.data.hexCodeTesterShown) {
+				ColorHexTester.init.init();
+			} else {
+				$('#property-modifiers-menu .menu-item').first().trigger('click');
+				ub.data.hexCodeTesterShown = false;
+			}
+		});
 		// Dev Tools is at shift + alt,
 
 		// ub.shortcut.add("Shift+Alt+1", function () {
