@@ -61,7 +61,7 @@
             <div class="form-group">
                 <label class="control-label">Role</label>
                 <select class="form-control" v-model="user.role">
-                    <option v-for="role in roles" :value="role" :selected="user.role == role.id">@{{ role.name }}</option>
+                    <option v-for="role in roles" :value="role.id" :selected="user.role == role.id">@{{ role.name }}</option>
                 </select>
             </div>
 
