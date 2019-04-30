@@ -51,8 +51,8 @@
                                             <td>@{{ props.item.rep_first_name }} @{{ props.item.rep_last_name }}</td>
                                             <td>@{{ props.item.last_login }}</td>
                                             <td>
-                                                <button class="btn btn-default btn-xs btn-flat" :disabled="props.item.active == 0">Disable</button>
-                                                <button class="btn btn-primary btn-xs btn-flat" :disabled="props.item.active == 1">Enable</button>
+                                                <button class="btn btn-default btn-xs btn-flat" :disabled="props.item.active == 0" @click=toggleActiveStatus(props.item)>Disable</button>
+                                                <button class="btn btn-primary btn-xs btn-flat" :disabled="props.item.active == 1" @click=toggleActiveStatus(props.item)>Enable</button>
                                             </td>
                                             <td>
                                                 <div class="btn-container">

@@ -104,8 +104,7 @@ new Vue({
             }
         },
         edit: function(user) {
-            user.password = null;
-            user.confirm_password = null;
+            user.password  = user.confirm_password = null; 
 
             this.userCache = Object.assign({}, user);
             this.user = user;
@@ -149,10 +148,42 @@ new Vue({
             this.$refs.confirmPassword.style.borderColor = '#cccccc';
             this.error = false;
         },
+        toggleActiveStatus: function(user) {
+            var _url = successMesage = errorMessage = null;
+
+            if (user.active) {
+                _url = 'user/disable';
+                successMessage = "User is now disabled";
+                errorMessage =  "Failed to disable user";
+            } else {
+                _url = 'user/enable';
+                successMessage = "User is now enabled";
+                errorMessage = "Failed to enable user";
+            }
+
+            axios.post(_url, {id: user.id}).then((response) => {
+                if (response.data.success === true) {
+                    user.active = ! user.active;
+                    
+                    new PNotify({
+                        title: successMessage,
+                        type: 'success',
+                        hide: true,
+                        delay: 1000
+                    });
+                } else {
+                    new PNotify({
+                        title: errorMessage,
+                        type: 'error',
+                        hide: true,
+                        delay: 1000
+                    });
+                }
+            });
+        },
         togglePanel: function() {
             this.userSlideOut.toggle();
         },
-
         updateUser: function(user) {
             var data = {
                 id: user.id,
