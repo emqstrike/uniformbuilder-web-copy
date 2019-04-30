@@ -646,7 +646,10 @@ $(document).ready(function () {
 
     ub.funcs.getColorByColorCode = function (colorCode) {
 
-        var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
+        var _colorObj = _.find(ub.data.colors, {
+            color_code: colorCode, 
+            brand: ub.config.brand.toLowerCase()
+        });
 
         if (typeof _colorObj === "undefined") {
             
@@ -656,6 +659,20 @@ $(document).ready(function () {
             
             _colorObj = _.first(ub.data.colors);
 
+        } else {
+            if (ub.config.brand === "richardson") {
+                if (_colorObj.alias === "White" || _colorObj.alias === "Yellow" || _colorObj.alias === "Cream" || _colorObj.alias === "Safety Green") {
+                    _colorObj.forecolor = '3d3d3d';
+                } else {
+                    _colorObj.forecolor = 'ffffff';
+                }
+            } else {
+                if (_colorObj.name === "White" || _colorObj.name === "Yellow" || _colorObj.name === "Cream" || _colorObj.name === "Safety Green") {
+                    _colorObj.forecolor = '3d3d3d';
+                } else {
+                    _colorObj.forecolor = 'ffffff';
+                }
+            }
         }
 
         if (colorCode == 'none') {
@@ -666,17 +683,6 @@ $(document).ready(function () {
                     hex_code: 'none',
                     name: 'None',
                 };
-        }
-
-        if (_colorObj.name === "White" || _colorObj.name === "Yellow" || _colorObj.name === "Cream" || _colorObj.name === "Safety Green") {
-
-            _colorObj.forecolor = '3d3d3d';
-
-        }
-        else {
-
-            _colorObj.forecolor = 'ffffff';
-
         }
 
         return _colorObj;
