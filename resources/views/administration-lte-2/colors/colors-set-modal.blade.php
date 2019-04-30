@@ -37,6 +37,13 @@
                       <select name="colors[]" class="form-control input-colors" multiple="multiple" style="width: 100%;" required>
                       </select>
                   </div>
+                  <div class="form-group">
+                    <label>Brand</label>
+                      <select class="form-control input-brand">
+                        <option value="prolook">Prolook</option>
+                        <option value="richardson">Richardson</option>
+                      </select>
+                  </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
