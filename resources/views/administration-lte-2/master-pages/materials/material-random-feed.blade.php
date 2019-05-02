@@ -87,6 +87,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
                             <input type="hidden" id="random_feed_data" value="{{ $material->random_feed }}">
+                            <input type="hidden" id="material_brand" value="{{ $material->brand }}">
                             <input type="hidden" name="random_feed" id="random_feed">
 
                             <div class="row">
