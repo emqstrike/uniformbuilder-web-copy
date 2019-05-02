@@ -22,7 +22,7 @@
                         @section('page-title', 'Users')
                         <h1>
                             <span class="glyphicon glyphicon-user"></span>Users
-                            <button class="btn btn-success btn-sm btn-flat">Add</button>
+                            <button class="btn btn-success btn-sm btn-flat" @click="add()">Add</button>
                         </h1>
                     </div>
 

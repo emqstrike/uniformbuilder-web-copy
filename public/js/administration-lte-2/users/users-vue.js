@@ -5,7 +5,7 @@ new Vue({
             action: null,
             brands: {},
             dialog: true,
-            error: false,
+            errors: [],
             headers: [
                 {text: 'ID', value: 'id'},
                 {text: 'Name', value: 'first_name'},
@@ -90,22 +90,81 @@ new Vue({
         this.getSalesRepData();
     },
     methods: {
-        cancel: function(user) {
-            Object.assign(user, this.userCache);
-            this.removeErrorMessage();
+        add: function() {
+            this.action = 'add';
+            this.user = {
+                role: this.roles[0].id,
+                type: this.types[0],
+                brand_id: this.brands[0].id
+            };
             this.togglePanel();
         },
-        confirmPassword: function(event) {
-            if (this.user.password != this.user.confirm_password) {
-                this.$refs.confirmPassword.style.borderColor = '#dc3545';
-                this.error = true;
-            } else {
-                this.removeErrorMessage();
+        cancel: function(user) {
+            this.errors = [];
+            Object.assign(user, this.userCache);
+            this.togglePanel();
+        },
+        createUser: function(user) {
+            if (! this.hasErrors()) {
+                this.dialog = true;
+
+                var data = {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    type: user.type,
+                    role: user.role,
+                    default_rep_id: user.default_rep_id,
+                    zip: user.zip,
+                    brand_id: user.brand_id,
+                    password: user.password
+                };
+
+                axios.post('user', data).then((response) => {
+                    if (response.data.success === true) {
+                        this.userSlideOut.toggle();
+
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'User created',
+                                type: 'success',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }  else {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'User failed to create',
+                                type: 'error',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }
+                });
             }
         },
         edit: function(user) {
             user.password  = user.confirm_password = null; 
 
+            if (! user.role) {
+                user.role = this.roles[0].id;
+            }
+
+            if (! user.type) {
+                user.type = this.types[0];
+            }
+
+            if (! user.brand_id) {
+                user.brand_id = this.brands[0].id;
+            }
+
+            this.action = 'edit';
             this.userCache = Object.assign({}, user);
             this.user = user;
             this.togglePanel();
@@ -144,11 +203,38 @@ new Vue({
                 }
             });
         },
-        removeErrorMessage: function() {
-            this.$refs.confirmPassword.style.borderColor = '#cccccc';
-            this.error = false;
+        hasErrors: function(event) {
+            this.errors = [];
+
+            if (! this.user.first_name) {
+                this.errors.push('First name required');
+            }
+
+            if (! this.user.last_name) {
+                this.errors.push('Last name required');
+            }
+
+            if (! this.user.email) {
+                this.errors.push('Email address required');
+            } else {
+                if (! this.validateEmail(this.user.email)) {
+                    this.errors.push('Valid email required');
+                }
+            }
+
+            if (this.user.password != this.user.confirm_password) {
+                this.errors.push('Password do not match');
+            }
+
+            if (this.errors.length > 0) {
+                return true;
+            }
+
+            return false;
         },
         toggleActiveStatus: function(user) {
+            this.dialog = true;
+
             var _url = successMesage = errorMessage = null;
 
             if (user.active) {
@@ -164,20 +250,28 @@ new Vue({
             axios.post(_url, {id: user.id}).then((response) => {
                 if (response.data.success === true) {
                     user.active = ! user.active;
-                    
-                    new PNotify({
-                        title: successMessage,
-                        type: 'success',
-                        hide: true,
-                        delay: 1000
-                    });
+
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: successMessage,
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
                 } else {
-                    new PNotify({
-                        title: errorMessage,
-                        type: 'error',
-                        hide: true,
-                        delay: 1000
-                    });
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: errorMessage,
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
                 }
             });
         },
@@ -185,41 +279,54 @@ new Vue({
             this.userSlideOut.toggle();
         },
         updateUser: function(user) {
-            var data = {
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                email: user.email,
-                type: user.type,
-                role: user.role,
-                default_rep_id: user.default_rep_id,
-                zip: user.zip,
-                brand_id: user.brand_id
-            };
+            if (! this.hasErrors()) {
+                this.dialog = true;
 
-            if ((user.password) && (user.password == user.confirm_password)) {
-                data.password = user.password;
+                var data = {
+                    id: user.id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    type: user.type,
+                    role: user.role,
+                    default_rep_id: user.default_rep_id,
+                    zip: user.zip,
+                    brand_id: user.brand_id,
+                    password: user.password
+                };
+
+                axios.post('user/update', data).then((response) => {
+                    if (response.data.success === true) {
+                        this.userSlideOut.toggle();
+
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'User updated',
+                                type: 'success',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'User failed to update',
+                                type: 'error',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }
+                });
             }
-
-            axios.post('user/update', data).then((response) => {
-                if (response.data.success === true) {
-                    this.userSlideOut.toggle();
-
-                    new PNotify({
-                        title: 'User updated',
-                        type: 'success',
-                        hide: true,
-                        delay: 1000
-                    });
-                } else {
-                    new PNotify({
-                        title: 'User failed to update',
-                        type: 'error',
-                        hide: true,
-                        delay: 1000
-                    });
-                }
-            });
+        },
+        validateEmail: function(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
         }
     }
 })

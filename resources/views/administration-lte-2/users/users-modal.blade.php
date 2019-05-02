@@ -4,6 +4,12 @@
             <h3 v-if="action == 'edit'">Edit User</h3>
             <h3 v-else>Add User</h3>
 
+            <div class="alert alert-danger" v-if="errors.length">
+                <ul>
+                    <li v-for="error in errors">@{{ error }}</li>
+                </ul>
+            </div>
+
             <div class="form-group">
                 <label class="control-label">First Name</label>
                 <input type="text" class="form-control" v-model="user.first_name">
@@ -16,18 +22,18 @@
 
             <div class="form-group">
                 <label class="control-label">Email Address</label>
-                <input type="text" class="form-control" v-model="user.email" disabled="disabled">
+                <input type="text" class="form-control" v-model="user.email" disabled="disabled" v-if="action == 'edit'">
+                <input type="text" class="form-control" v-model="user.email" v-else="action == 'edit'">
             </div>
 
             <div class="form-group">
                 <label class="control-label">Password</label>
-                <input type="password" class="form-control" v-model="user.password" v-on:input="confirmPassword">
+                <input type="password" class="form-control" v-model="user.password">
             </div>
 
             <div class="form-group">
                 <label class="control-label">Confirm Password</label>
-                <input type="password" class="form-control" v-model="user.confirm_password" v-on:input="confirmPassword" ref="confirmPassword">
-                <div class="invalid-feedback" v-show="error">Password do not match</div>
+                <input type="password" class="form-control" v-model="user.confirm_password">
             </div>
 
             <div class="form-group">
@@ -66,7 +72,8 @@
             </div>
 
             <div class="form-inline">
-                <button class="btn btn-sm btn-flat btn-success" @click="updateUser(user)" :disabled="error">Update</button>
+                <button class="btn btn-sm btn-flat btn-success" @click="updateUser(user)" v-if="action == 'edit'">Update</button>
+                <button class="btn btn-sm btn-flat btn-success" @click="createUser(user)" v-else="action == 'add'">Save</button>
                 <button class="btn btn-sm btn-flat btn-danger" @click="cancel(user)">Cancel</button>
             </div>
         </div>
