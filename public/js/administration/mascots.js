@@ -1,5 +1,51 @@
 $(document).ready(function() {
 
+    $(document).on('change', '.brand', function () {
+        var brand = $(this).val();
+        generateColorsDropdown(brand);
+    });
+
+    function generateColorsDropdown(brand) {
+        var elem = $('.ma-default-color').empty();
+        var opts = '';
+        getColors(brand, function(colors) {
+            colors.forEach(function(color) {
+                opts += `<option data-color="#`+color.hex_code+`" style="background-color: #`+color.hex_code+`; text-shadow: 1px 1px #000;" value="`+color.color_code+`">
+                                `+color.name+`
+                            </option>`
+                elem.append(opts)
+            });
+            $('.ma-default-color').trigger('change');
+        });
+    }
+
+    function getColors(brand, callback){
+        var colors;
+        var url = "//" + api_host + "/api/colors/" + brand;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    $('.brand').trigger('change');
+
+    $('select:not(:has(option))').attr('visible', false);
+
+    $('.ma-default-color').change(function(){
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
+    });
+
+
     $( ".mascot-row" ).each(function( index ) {
             if (typeof($(this).attr("data-sports")) != 'undefined') {
                 //sport sample data string ["baseball","batketball"]
@@ -343,6 +389,7 @@ $(document).ready(function() {
             length--;
         });
         var newLength = $('.layers-row').length;
+        $('.ma-default-color').trigger('change');
     });
 
     $(document).on('click', '.edit-clone-row', function() {
@@ -356,12 +403,6 @@ $(document).ready(function() {
             length--;
         });
         var newLength = $('.layers-row').length;
-    });
-
-    $(document).on("change", ".ma-default-color", function(){
-
-        var color = $('option:selected', this).data('color');
-        $(this).css('background-color', color);
     });
 
 });
