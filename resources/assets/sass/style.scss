@@ -511,7 +511,11 @@ img.custom-logo-upload-preview {
 }
 
 // Force to #FFF if W color code
-button[data-color-name="White"].palette {
+button[data-color-code="W"].palette {
+  background-color: #ffffff !important;
+}
+
+button[data-color-label="W"].palette {
   background-color: #ffffff !important;
 }
 

@@ -99,7 +99,7 @@
                 data-color-code="@{{ color_code }}"
                 data-color-id="@{{ id }}"
                 data-modifier="@{{ modifier }}"
-                uk-tooltip="title: @{{ name }}; pos: left;"
+                uk-tooltip="title: @{{ alias }}; pos: left;"
             >
             </button>
         </div>

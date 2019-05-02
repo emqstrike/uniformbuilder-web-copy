@@ -7,9 +7,7 @@ ColorPalette.funcs = {
         var colorSet = _.find(ub.data.colors_sets, { name: name});
 
         _.map(JSON.parse(colorSet.colors), function(color) {
-
             colors.push(ub.funcs.getColorByColorCode(color));
-
         });
 
         return colors;

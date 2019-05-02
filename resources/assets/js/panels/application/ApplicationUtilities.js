@@ -1647,9 +1647,9 @@ $(function() {
 
             _html += '<div>';
             if (_colorObj.color_code === "W") {
-                _html += '<button uk-tooltip="title:' + _colorObj.name + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#ffff; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+                _html += '<button uk-tooltip="title:' + _colorObj.alias + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#ffff; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
             } else {
-                _html += '<button uk-tooltip="title:' + _colorObj.name + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+                _html += '<button uk-tooltip="title:' + _colorObj.alias + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
             }
             _html += _checkMark;
             _html += '</button>';
