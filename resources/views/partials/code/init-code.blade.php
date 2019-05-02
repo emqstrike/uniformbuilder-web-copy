@@ -13,7 +13,7 @@
             picker_version: "{{ env('PICKER_VERSION') }}",
             pdf_generator: "{{ env('PDF_GENERATOR') }}",
             beta_features: {
-                enabled: false
+                newPDF: false
             },
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
@@ -124,28 +124,37 @@
                 $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
             }
 
+            // onclick enable beta features
             $('#enable-beta').on('click', function () {
 
-                // if(localStorage.getItem('beta_features') === null) {
-                //     // ub.config.beta_features.enabled = true;
-                //     localStorage.setItem('beta_features', true);
-                //     // console.log('beta_features', ub.config.beta_features.enabled );
-                //     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
-                //     $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
-                // } else {
-                //     // ub.config.beta_features.enabled = false;
-                //     localStorage.setItem('beta_features', false);
-                //     // console.log('beta_features', ub.config.beta_features.enabled );
-                //     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
-                //     $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
-                // }
+                // get beta features
+                var _ff = [];
 
                 if(localStorage.getItem('beta_features') === 'false') {
                     localStorage.setItem('beta_features', true);
+                    $.ajax({
+
+                        url: 'https://api.prolook.com/api/features',
+                        type: "GET",
+                        dataType: "json",
+                        crossDomain: true,
+                        contentType: 'application/json',
+                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                        success: function (response){
+                            var _data = response.features;
+                            var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 });
+                            feature_flags.map(function(i) { _ff.push({ name: i.name, user_ids: JSON.parse(i.user_ids) }) });
+                        }
+
+                    }).done(function() {
+                        localStorage.setItem('feature_flags', JSON.stringify(_ff));
+                    });
                     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
                     $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
                 } else {
                     localStorage.setItem('beta_features', false);
+                    localStorage.removeItem('feature_flags');
                     $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
                     $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
                 }
