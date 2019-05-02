@@ -315,54 +315,63 @@
     </div>
 </div>
 
-
-<!-- Richardson Roster Modal -->
-<div id="richardson-team-roster" class="uk-modal-container" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h3 class="uk-text-uppercase uk-margin-remove abrade-black">1. Select Sizes</h3>
-        <div class="uk-padding-small uk-padding-remove-horizontal">
-            <h6 class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Adult Sizes</h6>
-            <div class="uk-padding-small uk-padding-remove-horizontal">
-                <div class="uk-grid-small uk-child-width-auto@s uk-text-center" uk-grid>
-                    <div class="sizes-container">
-                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
-                            <a href="javascript:void(0)" class="uk-link-reset">
-                                XS
-                            </a>
+<!-- TEAM ROSTER -->
+<div id="richardson-team-roster" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
+    <div class="uk-modal-dialog uk-modal-body uk-width-auto@s uk-width-1-2@m uk-margin-auto-vertical">
+        <button class="uk-modal-close-outside" type="button" uk-close></button>
+        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Team Roster</h6>
+        <div class="uk-grid-small grid-tiny uk-grid-match" uk-grid>
+            <div class="uk-width-1-2@m uk-width-1-5@l">
+                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Add Roster</h5>
+                    <div class="roster-uniform-size-container">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-1-2@m uk-width-1-3@l">
+                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-capitalize fc-dark">Select Player Number</h5>
+                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-capitalize fc-darkGray">Preview: <span class="fc-red">(No. 34 - XS - 6pcs - Weird Doe)</span></h6>
+                    <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
+                        <div class="bdr-thin bdr-light uk-height-max-xlarge uk-overflow-auto player-numbers-container">
+                            
+                        </div>
+                        <div class="uk-padding-small uk-padding-remove-horizontal">
+                            <div class="uk-grid-small uk-child-width-1-2" uk-grid>
+                                <div>
+                                    <button class="uk-button uk-button-secondary uk-width-1-1 uk-text-capitalize add-numbers">Add</button>
+                                </div>
+                                <div>
+                                    <button class="uk-button uk-button-default uk-width-1-1 uk-text-capitalize cancel">Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="sizes-container">
-                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size uk-active">
-                            <a href="javascript:void(0)" class="uk-link-reset">
-                                XS
-                            </a>
-                        </div>
-                    </div>
-                    <div class="sizes-container">
-                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
-                            <a href="javascript:void(0)" class="uk-link-reset">
-                                XS
-                            </a>
-                        </div>
-                    </div>
-                    <div class="sizes-container">
-                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
-                            <a href="javascript:void(0)" class="uk-link-reset">
-                                XS
-                            </a>
-                        </div>
-                    </div>
-                    <div class="sizes-container">
-                        <div class="uk-card uk-padding-small bdr-radius-1-2 bdr-thin size">
-                            <a href="javascript:void(0)" class="uk-link-reset">
-                                XS
-                            </a>
-                        </div>
+                </div>
+            </div>
+            <div class="uk-width-1-1@m uk-width-expand@l">
+                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Roster Lists</h5>
+                    <div class="roster-list-height uk-overflow-auto">
+                        <table class="uk-table uk-table-middle uk-table-divider roster-player-list-table">
+                            <thead>
+                                <tr>
+                                    <th class="uk-width-1-5">Sizes</th>
+                                    <th class="uk-width-expand">Last Name</th>
+                                    <th class="uk-width-1-5">Number/Letter</th>
+                                    <th class="uk-width-1-6">Quantity</th>
+                                    <th class="uk-table-shrink"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Richardson Roster Modal End -->
+<!-- END TEAM ROSTER -->

@@ -51,28 +51,29 @@ body {
   border-top: none !important; }
 
 .bdr-top {
-  border: .5px solid;
+  border: .5px solid #eee !important;
   border-bottom: none !important;
   border-left: none !important; 
   border-right: none !important; 
 }
 
 .bdr-top-right {
-  border: .5px solid;
+  border: .5px solid #eee !important;
   border-bottom: none !important;
   border-left: none !important; 
+  border-top: none !important;
 }
 
 .bdr-top-left {
   border: .5px solid;
   border-bottom: none !important;
-  border-right: none !important; 
+  border-right: none !important;
+  border-top: none !important;
 }
 
 .bdr-radius-1-2 {
   border-radius: 50% !important;
 }
-
 
 .bdr-thin {
   border: .5px solid; }
@@ -635,4 +636,72 @@ div.debug-panel {
     color: $color-light;
     border: .5px solid;
   }
+}
+
+.size-circle {
+    border: .5px solid black; 
+    border-radius: 50% !important;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 2.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 35px;
+}
+
+.numbers-circle {
+  border: .5px solid black; 
+  border-radius: 50% !important;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.6em;
+  margin-right: 5px;
+  text-align: center;
+  width: 35px;
+}
+
+.player-number-button.selected {
+  pointer-events: none !important;
+}
+
+
+.selected {
+  
+  .size-circle {
+    background-color: $color-darkerGray;
+    color: $color-white;
+  }
+
+  .numbers-circle {
+    background-color: $color-darkerGray;
+    color: $color-white;
+  }
+}
+
+.uk-active {
+  .numbers-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+
+  .size-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+}
+
+.selected.uk-active {
+  .numbers-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+
+  .size-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+}
+
+.roster-list-height {
+  max-height: 711px !important;
 }
