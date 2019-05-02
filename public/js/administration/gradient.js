@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
 
-colors = getColors().colors;
+var temp_brand = $('#material_brand').val();
+
+var colors = getColors(temp_brand).colors;
 
 window.gradient_position = [
                     "Front Body",
@@ -497,10 +499,10 @@ function buildPositionDropdown(value){
         });
     }
 
-    function getColors(){
+    function getColors(brand){
         return $.ajax({
             type: 'GET',
-            url: "//" + api_host + "/api/colors",
+            url: "//" + api_host + "/api/colors/" + brand,
             async: false,
             dataType: 'json',
             data: { action : 'getColors' },

@@ -500,7 +500,7 @@ function buildPositionDropdown(value){
     function getColors(brand){
         return $.ajax({
             type: 'GET',
-            url: "//" + api_host + "/api/colors/" +brand,
+            url: "//" + api_host + "/api/colors/" + brand,
             async: false,
             dataType: 'json',
             data: { action : 'getColors' },
