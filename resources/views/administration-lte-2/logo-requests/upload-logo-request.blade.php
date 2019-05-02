@@ -85,8 +85,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                            <div class="col-md-6">
-                                <select name="brand" class="form-control" required="true">
-                                        <option value="none">None</option>
+                                <select name="brand" class="form-control brand" required="true">
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
                                 </select>
@@ -136,15 +135,6 @@
                                             </td>
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                                    @foreach ($colors as $color)
-                                                        @if ($color->active)
-                                                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
-                                                                {{ $color->name }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-
-                                                    <option data-color="" value="" id="saved-default-color"></option>
                                                 </select>
                                             </td>
                                             <td>
@@ -181,12 +171,6 @@
     <script type="text/javascript" src="/js/administration/mascots.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('select:not(:has(option))').attr('visible', false);
-
-            $('.ma-default-color').change(function(){
-                var color = $('option:selected', this).data('color');
-                $(this).css('background-color', color);
-            });
 
             $('.sports').select2({
                 placeholder: "Select sports",

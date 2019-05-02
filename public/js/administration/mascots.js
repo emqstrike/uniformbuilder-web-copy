@@ -13,8 +13,8 @@ $(document).ready(function() {
                 opts += `<option data-color="#`+color.hex_code+`" style="background-color: #`+color.hex_code+`; text-shadow: 1px 1px #000;" value="`+color.color_code+`">
                                 `+color.name+`
                             </option>`
-                elem.append(opts)
             });
+            elem.append(opts)
             $('.ma-default-color').trigger('change');
         });
     }
