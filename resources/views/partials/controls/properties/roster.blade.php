@@ -31,18 +31,18 @@
 
 <script type="text/mustache" id="m-richardson-roster-player-form">
     @{{ #players }}
-        <tr class="player-info" data-number="@{{ number }}">
+        <tr class="player-info" data-number="@{{ number }}" data-category="@{{ category }}">
             <td class="uk-padding-remove-horizontal">
                 <input class="uk-input roster-uniform-size" type="text" placeholder="" value="@{{ size }}" readonly=true>
             </td>
             <td>
-                <input class="uk-input roster-uniform-name" type="text" placeholder="Player Name">
+                <input class="uk-input roster-uniform-name" type="text" placeholder="Player Name" value="@{{ lastName }}">
             </td>
             <td>
                 <input class="uk-input roster-uniform-number" type="text" placeholder="00" value="@{{ number }}">
             </td>
             <td>
-                <input class="uk-input roster-uniform-qty" type="number" min="0" max="99" value="1">
+                <input class="uk-input roster-uniform-qty" type="number" min="0" max="99" value="@{{ qty }}">
             </td>
             <td>
                 <a href="javascript:void(0)" class="remove-player-info fc-darkGray">
