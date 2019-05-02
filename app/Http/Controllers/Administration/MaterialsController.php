@@ -121,7 +121,7 @@ class MaterialsController extends Controller
 
         $options = $this->optionsClient->getByMaterialId($id);
         $material = $this->client->getMaterial($id);
-        $colors = $this->colorsClient->getColors();
+        $colors = $this->colorsClient->getColors($material->brand);
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);

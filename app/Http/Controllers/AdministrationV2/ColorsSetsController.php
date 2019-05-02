@@ -27,14 +27,18 @@ class ColorsSetsController extends Controller
     /**
      * Colors
      */
-    public function index()
+    public function index($active_brand = null)
     {
-        $colors_sets = $this->client->getColorsSets();
+        if($active_brand == null) {
+            $active_brand = "prolook";
+        }
+        $colors_sets = $this->client->getColorSetByBrand($active_brand);
         $colors = $this->colorsClient->getColors();
 
         return view('administration-lte-2.colors.colors-sets', [
             'colors_sets' => $colors_sets,
-            'colors' => $colors
+            'colors' => $colors,
+            'active_brand' => $active_brand
         ]);
     }
 
