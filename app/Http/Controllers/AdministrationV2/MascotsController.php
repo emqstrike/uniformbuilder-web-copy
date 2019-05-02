@@ -87,8 +87,8 @@ class MascotsController extends Controller
 
     public function editMascotForm($id)
     {
-        $colors = $this->colorsClient->getColors();
         $mascot = $this->client->getMascot($id);
+        $colors = $this->colorsClient->getColors($mascot->brand);
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
