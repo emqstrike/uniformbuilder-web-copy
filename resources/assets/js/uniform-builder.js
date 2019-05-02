@@ -3271,23 +3271,33 @@ $(document).ready(function () {
 
                 current_object.name = name;
 
-                if (name === "highlights" || name === "shadows") {
+                switch(name) {
+                    case "highlights":
+                    case "shadows":
+
+                    // base
+                    case "front_body":
+                    case "back_body":
+
+                    // sleeve
+                    case "sleeve":
+
+                    // side insert material
+                    case "left_side_insert":
+                    case "right_side_insert":
+
+                    // back insert material
+                    case "bottom_panel":
+
+                    // sleeve insert
+                    case "left_sleeve":
+                    case "right_sleeve":
+
                     ub.fabric.fabricCollections[obj.perspective].push({
-                        base_fabric: _.find(ub.current_material.fabrics, function(fabric) {
-                                        return fabric.id == obj.base_fabric;
-                                    }),
-
-                        insert_fabric: _.find(ub.current_material.fabrics, function(fabric) {
-                                        return fabric.id == obj.insert_fabric;
-                                    }),
-
-                        sleeve_fabric: _.find(ub.current_material.fabrics, function(fabric) {
-                                        return fabric.id == obj.sleeve_fabric;
-                                    }),
-
+                        name: name,
                         sprite: _sprite,
                         layer_level: obj.layer_level,
-                        active_asset: obj.default_asset ? "uk-active" : "",
+                        fabric_id: obj.fabric_id,
                         default_asset: obj.default_asset
                     });
                 }
