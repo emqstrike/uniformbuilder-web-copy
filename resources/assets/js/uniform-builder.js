@@ -3366,7 +3366,15 @@ $(document).ready(function () {
                     }
 
                     var color = _.find(ub.data.colors, { color_code: default_color });
-                    var tint = parseInt(color.hex_code, 16);
+                    if (typeof color !== "undefined") {
+                        var tint = parseInt(color.hex_code, 16);
+                    } else {
+                        var color = _.find(ub.data.colors, { color_code: "B" });
+                        var tint = parseInt(color.hex_code, 16);
+
+                        ub.utilities.warn("Missing color code " + default_color);
+                    }
+
                     var modifier_label = name;
     
                     // Skip creating distinct name object if name already exists
