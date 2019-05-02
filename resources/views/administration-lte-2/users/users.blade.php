@@ -1,9 +1,5 @@
 @extends('administration-lte-2.lte-main')
 
-@section('slidein-panel')
-    @include('administration-lte-2.users.users-modal')
-@endsection
-
 @section('panel-overlay')
     <div v-show="dialog" class="panel-overlay"></div>
 @endsection
@@ -29,16 +25,8 @@
                     <div class="box-body">
                         <div id="app">
                             <v-app id="inspire">
-                                <div class="text-xs-center">
-                                    <v-dialog v-model="dialog" hide-overlay persistent width="300">
-                                        <v-card color="primary" dark>
-                                            <v-card-text>
-                                                Please stand by
-                                                <v-progress-linear indeterminate color="white"  class="mb-0"></v-progress-linear>
-                                            </v-card-text>
-                                        </v-card>
-                                    </v-dialog>
-                                </div>
+                                @include('administration-lte-2.users.components.loading-dialog')
+                                @include('administration-lte-2.users.components.allowed-pages-dialog')
 
                                 <div>
                                     <v-data-table ref="userTable" :headers="headers" :items="users" :search="search" hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">

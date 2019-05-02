@@ -73,3 +73,20 @@ li.select2-selection__choice {
 .invalid-feedback {
     color: #dc3545;
 }
+
+.v-dialog__content { 
+    z-index: 999999 !important;
+}
+
+.v-dialog--fullscreen {
+    overflow-x: hidden !important;
+}
+
+label.control-label {
+    font-size: 12px !important;
+    font-weight: normal !important;
+}
+
+.form-group {
+    padding: 0 16px !important;
+}

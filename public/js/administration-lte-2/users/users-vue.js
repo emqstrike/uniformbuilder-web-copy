@@ -40,6 +40,7 @@ new Vue({
             user: {},
             userCache: {},
             users: [],
+            userDialog: false,
             userSlideOut: null,
             totalItems: 0,
         }
@@ -78,14 +79,6 @@ new Vue({
             this.totalItems = data.total;
         });
 
-        this.userSlideOut = new Slideout({
-            'panel': document.getElementById('panel'),
-            'menu': document.getElementById('user-slideout-container'),
-            'padding': 1200,
-            'tolerance': 70,
-            'side': 'right'
-        });
-
         this.getBrandsData();
         this.getSalesRepData();
     },
@@ -99,33 +92,32 @@ new Vue({
             };
             this.togglePanel();
         },
-        cancel: function(user) {
+        cancel: function() {
             this.errors = [];
-            Object.assign(user, this.userCache);
+            Object.assign(this.user, this.userCache);
             this.togglePanel();
         },
-        createUser: function(user) {
+        createUser: function() {
             if (! this.hasErrors()) {
                 this.dialog = true;
 
                 var data = {
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email,
-                    type: user.type,
-                    role: user.role,
-                    default_rep_id: user.default_rep_id,
-                    zip: user.zip,
-                    brand_id: user.brand_id,
-                    password: user.password
+                    first_name: this.user.first_name,
+                    last_name: this.user.last_name,
+                    email: this.user.email,
+                    type: this.user.type,
+                    role: this.user.role,
+                    default_rep_id: this.user.default_rep_id,
+                    zip: this.user.zip,
+                    brand_id: this.user.brand_id,
+                    password: this.user.password
                 };
 
                 axios.post('user', data).then((response) => {
                     if (response.data.success === true) {
-                        this.userSlideOut.toggle();
-
                         setTimeout(() => {
                             this.dialog = false;
+                            this.togglePanel();
 
                             new PNotify({
                                 title: 'User created',
@@ -276,31 +268,31 @@ new Vue({
             });
         },
         togglePanel: function() {
-            this.userSlideOut.toggle();
+            this.userDialog = ! this.userDialog;
+            // this.userSlideOut.toggle();
         },
-        updateUser: function(user) {
+        updateUser: function() {
             if (! this.hasErrors()) {
                 this.dialog = true;
 
                 var data = {
-                    id: user.id,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email,
-                    type: user.type,
-                    role: user.role,
-                    default_rep_id: user.default_rep_id,
-                    zip: user.zip,
-                    brand_id: user.brand_id,
-                    password: user.password
+                    id: this.user.id,
+                    first_name: this.user.first_name,
+                    last_name: this.user.last_name,
+                    email: this.user.email,
+                    type: this.user.type,
+                    role: this.user.role,
+                    default_rep_id: this.user.default_rep_id,
+                    zip: this.user.zip,
+                    brand_id: this.user.brand_id,
+                    password: this.user.password
                 };
 
                 axios.post('user/update', data).then((response) => {
                     if (response.data.success === true) {
-                        this.userSlideOut.toggle();
-
                         setTimeout(() => {
                             this.dialog = false;
+                            this.togglePanel();
 
                             new PNotify({
                                 title: 'User updated',
