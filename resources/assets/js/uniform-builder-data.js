@@ -12560,7 +12560,7 @@ ub.funcs.fontOffSets = [
             },
             {
                 color1: "W",
-                color2: ["B", "NB", "RB", "R", "DG"]
+                color2: ["B", "NB", "RB", "R", "DF"]
             },
             {
                 color1: "CG",

@@ -56,7 +56,7 @@
                 data-color-id="@{{ id }}"
                 data-layer-name="@{{ layer }}"
                 data-modifier="@{{ modifier }}"
-                uk-tooltip="title: @{{ name }}; pos: left;"
+                uk-tooltip="title: @{{ alias }}; pos: left;"
             >
             </button>
         </div>

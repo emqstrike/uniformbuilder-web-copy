@@ -64,7 +64,7 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
                 ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand.toLowerCase() + '/';
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
@@ -1072,12 +1072,11 @@ $(document).ready(function () {
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
 
             if (object_name === 'colors_sets') { 
-                
-                var isThreadColor = true;
-
-                // get Thread Colors from the backend API
-                if (isThreadColor) ub.funcs.getThreadColors();
-
+                if (ub.config.brand.toLowerCase() !== "richardson") {
+                    var isThreadColor = true;
+                    // get Thread Colors from the backend API
+                    if (isThreadColor) ub.funcs.getThreadColors();
+                }
             }
 
             if (object_name === 'hidden_bodies') { ub.funcs.setupHiddenBody(obj); }
@@ -2513,9 +2512,6 @@ $(document).ready(function () {
         var _hasFrontBody                       = false;
         var _hasBody                            = false;
 
-        // Init Richardson Palette
-        ColorPalette.funcs.prepareRichardsonPalette();
-
         ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
         
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
@@ -2841,6 +2837,9 @@ $(document).ready(function () {
             }
 
         }
+
+        // Prepare Color pallete
+        ColorPalette.funcs.prepareRichardsonPalette();
 
         // Process Prolook Logo Here
         LogoPanel.init();

@@ -10,12 +10,10 @@
  * - Mustache
  */
 
-function PartPanel(element, parts, inserts) {
+function PartPanel(element, parts) {
     this.panel = document.getElementById(element);
     this.parts = parts;
-    this.inserts = inserts;
     this.items = {
-        inserts: this.inserts,
         parts: this.parts,
         patterns: ub.funcs.getPatternList()
     };

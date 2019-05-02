@@ -72,7 +72,7 @@ ModifierController.prototype = {
         FabricPanel.applyDefaultLayerLevel();
 
         // parts
-        this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts, ub.modifierController.propertiesPanel.inserts);
+        this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
 
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds

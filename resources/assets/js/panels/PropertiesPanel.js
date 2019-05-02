@@ -97,13 +97,9 @@ PropertiesPanel.prototype = {
     },
 
     initInserts: function() {
-        this.inserts = _.filter(this.modifiers, function (modifier) {
-            return modifier.name.includes("Panel") ||
-                modifier.name.includes("Piping") ||
-                modifier.name.includes("Insert")
+        this.parts = _.filter(this.modifiers, function (modifier) {
+            return modifier;
         });
-
-        this.parts = _.difference(this.modifiers, this.inserts);
     },
 
     getBrand: function() {
