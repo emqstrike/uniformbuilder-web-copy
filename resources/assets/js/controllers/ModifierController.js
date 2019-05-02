@@ -69,10 +69,7 @@ ModifierController.prototype = {
     setControllers: function() {
         // fabrics
         this.controllers.fabrics = new FabricPanel('fabric-tmpl');
-        FabricPanel.events.init();
-        if (typeof this.controllers.fabrics.default_fabric !== "undefined") {
-            FabricPanel.activateDefaultAsset(this.controllers.fabrics.default_fabric.layer_level);
-        }
+        FabricPanel.applyDefaultLayerLevel();
 
         // parts
         this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts, ub.modifierController.propertiesPanel.inserts);
@@ -97,7 +94,7 @@ ModifierController.prototype = {
         var tabs_el = $('#property-modifiers-menu');
 
         // fabrics
-        if (this.controllers.fabrics.fabrics.length < 2) {
+        if (_.isEmpty(this.controllers.fabrics.fabrics)) {
             $('.menu-item-fabrics', tabs_el).remove();
         }
 
