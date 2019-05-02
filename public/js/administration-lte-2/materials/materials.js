@@ -53,7 +53,7 @@ $(document).ready(function() {
     var loadCase = 0;
     var coords = [];
 
-    getColors(function(colors){ window.colors = colors; });
+    getColors(temp_brand, function(colors){ window.colors = colors; });
     getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
@@ -2567,9 +2567,9 @@ $(document).ready(function() {
         return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
     }
 
-    function getColors(callback){
+    function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors";
+        var url = "//" + api_host + "/api/colors/" + brand;
         $.ajax({
             url: url,
             async: false,
