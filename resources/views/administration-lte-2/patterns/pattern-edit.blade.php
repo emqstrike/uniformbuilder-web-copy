@@ -80,7 +80,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                             <div class="col-md-6">
-                                <select name="brand" class="form-control" required>
+                                <select name="brand" class="form-control brand" required>
                                         <option value="none" @if($pattern->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($pattern->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($pattern->brand == "richardson") selected="selected"@endif>Richardson</option>
@@ -153,15 +153,18 @@
 @endsection
 @section('custom-scripts')
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function(){``
 
+    var temp_brand = $('.brand').val();
     window.colors = null;
-    getColors(function(colors){
+
+    getColors(temp_brand, function(colors){
         window.colors = colors;
     });
-    function getColors(callback){
+
+    function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors";
+        var url = "//" + api_host + "/api/colors/" + brand;
         $.ajax({
             url: url,
             async: false,

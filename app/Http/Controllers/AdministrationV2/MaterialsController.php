@@ -640,11 +640,12 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
+        $material = $this->client->getMaterial($id);
 
-        $colors = $this->colorsClient->getColors();
+        $colors = $this->colorsClient->getColors($material->brand);
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
-        $fonts = $this->fontClient->getFonts();
+        $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
 
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
@@ -667,7 +668,6 @@ class MaterialsController extends Controller
             }
         }
 
-        $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
 
