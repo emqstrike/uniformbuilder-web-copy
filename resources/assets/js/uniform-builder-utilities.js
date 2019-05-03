@@ -304,8 +304,28 @@ $(document).ready(function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts signature") !== -1;
         };
 
-        ub.funcs.is_pro_select = function() {
+        ub.funcs.is_pts_signature_pant = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts signature pant") !== -1;
+        };
+
+        ub.funcs.is_pts_select = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts select") !== -1;
+        };
+
+        ub.funcs.is_pts_select_pant = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts select pant") !== -1;
+        };
+
+        ub.funcs.is_pts_pro_select = function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts pro select") !== -1;
+        };
+
+        ub.funcs.is_pts_cage_jacket = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts cage jacket") !== -1;
+        };
+
+        ub.funcs.is_pts_hoodie = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts hoodie") !== -1;
         };
 
         ub.funcs.is_sublimated = function() {
@@ -314,10 +334,6 @@ $(document).ready(function() {
 
         ub.funcs.is_twill = function() {
             return ub.config.uniform_application_type === "tackle_twill";
-        };
-
-        ub.funcs.is_infused = function() {
-            return ub.config.uniform_application_type === "infused";
         };
 
         ub.funcs.is_upper = function() {
