@@ -3367,7 +3367,7 @@ $(document).ready(function () {
                         var color = _.find(ub.data.colors, { color_code: "B"});
                         var tint = parseInt(color.hex_code, 16);
 
-                        ub.utilities.warn("Missing color code " + default_color);
+                        ub.utilities.warn("Missing color code " + default_color + " for " + name.replace(/_/g, " ").toUpperCase());
                     }
 
                     var modifier_label = name;
