@@ -3312,7 +3312,6 @@ $(document).ready(function () {
                 // So these static layers will be above the random feed layers in 
 
                 if (ub.funcs.isSocks()) {
-
                     if (name === "back_tab")  {
                         current_object.zIndex = ub.data.backTabLayer;
                         current_object.originalZIndex = ub.data.backTabLayer;
@@ -3346,19 +3345,14 @@ $(document).ready(function () {
                     var default_color = '';
 
                     if (obj.default_color === null) {
-
                         default_color = "B";
-
-                    }
-                    else {
+                    } else {
 
                         default_color = obj.default_color;
-
                         /// Trap for blank default color
                         if (default_color === '') {
                             default_color = 'B';
                         }
-
                     }
 
                     if (ub.data.excludedColors.isExcluded(ub.config.sport, ub.config.uniform_application_type, default_color)) {
@@ -3366,17 +3360,22 @@ $(document).ready(function () {
                     }
 
                     var color = _.find(ub.data.colors, { color_code: default_color });
-                    var tint = parseInt(color.hex_code, 16);
+                    
+                    if (typeof color !== "undefined") {
+                        var tint = parseInt(color.hex_code, 16);
+                    } else {
+                        var color = _.find(ub.data.colors, { color_code: "B"});
+                        var tint = parseInt(color.hex_code, 16);
+
+                        ub.utilities.warn("Missing color code " + default_color);
+                    }
+
                     var modifier_label = name;
-    
                     // Skip creating distinct name object if name already exists
                     if (typeof ub.current_material.options_distinct_names[name] !== "object") {
-
                         ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
                         ub.data.defaultUniformStyle[name] = { name: name, default_color: tint, colorObj: color};
-                    
                     }
-                    
                 }
 
                 // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
