@@ -175,17 +175,87 @@
 
 <!-- {{-- User Saved Desing --}} -->
 <div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
-    <div class="uk-modal-dialog uk-width-2-3 uk-modal-body uk-margin-auto-vertical">
+    <div class="uk-modal-dialog uk-width-1-1 uk-width-3-4@l uk-modal-body uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div class="uk-modal-body">
+        <div class="uk-modal-body uk-padding-small ">
             <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h3>
-            <div class="uk-flex uk-flex-center">
-                <div class="uk-width-2-3">
+{{--            ASDD--}}
+            <div class="uk-margin-top uk-grid-small uk-child-width-1-2@s" uk-grid>
+                <div class="uk-margin-bottom uk-width-2-3@l">
+                    <h6 class="uk-text-bold uk-text-uppercase">Design Preview</h6>
+                    <div class="uk-grid-collapse uk-flex-center" uk-grid>
+                    <!--Preview-->
+                        <div class="uk-width-1-1 uk-width-expand@s">
+                            <div class=" uk-grid-collapse uk-flex uk-flex-center" uk-grid>
+                                <ul class="uk-switcher con-preview uk-width-1-1 uk-width-3-4@s">
+                                    <li>
+                                        <div class="uk-inline">
+                                            <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/984010a0a226dc207ee5430a1e00a1b7.png" alt="" uk-img>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="uk-inline">
+                                            <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/ff11e98804c31eace338c140fc3b4e2f.png" alt="" uk-img>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="uk-inline">
+                                            <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/decdfb5513247463255f68634de2bcfb.png" alt="" uk-img>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="uk-inline">
+                                            <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/801f4aaa30cc9cb9f960d7c04ece745c.png" alt="" uk-img>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!--Preview navigation-->
+                        <div class="uk-width-1-1 con-thumb-nav-savedesign uk-flex-center uk-flex-first@m ">
+                            <div class="uk-grid-small grid-tiny uk-flex-center " uk-switcher="connect: .con-preview" uk-grid>
+                                <div class="uk-width-auto">
+                                    <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                        <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/984010a0a226dc207ee5430a1e00a1b7.png" alt=""uk-img>
+                                    </a>
+                                </div>
+                                <div class="uk-width-auto">
+                                    <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                        <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/ff11e98804c31eace338c140fc3b4e2f.png" alt="" uk-img>
+                                    </a>
+                                </div>
+                                <div class="uk-width-auto">
+                                    <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                        <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/decdfb5513247463255f68634de2bcfb.png" alt="" uk-img>
+                                    </a>
+                                </div>
+                                <div class="uk-width-auto">
+                                    <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                        <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/801f4aaa30cc9cb9f960d7c04ece745c.png" alt="" uk-img>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin-bottom uk-width-1-3@l">
+                    <h6 class="uk-text-bold uk-text-uppercase">Design Information</h6>
+
                     <form>
-                        <div class="uk-margin">
-                            <label class="uk-form-label" for="form-stacked-text">Name</label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" id="design-name" type="text" placeholder="Some text...">
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-2-3">
+                                <label class="uk-form-label" for="form-stacked-text">Design Name</label>
+                                <div class="uk-form-controls">
+                                    <input class="uk-input" id="design-name" type="text" placeholder="Design Name">
+                                </div>
+                            </div>
+
+                            <div class="uk-width-1-3">
+                                <label class="uk-form-label" for="form-stacked-text">ID</label>
+                                <div class="uk-form-controls">
+                                    <input class="uk-input" id="design-id" type="text" placeholder="0000">
+                                </div>
                             </div>
                         </div>
                         <div class="uk-margin">
@@ -195,20 +265,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-            <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center uniform-thumbnail-container uk-hidden" uk-grid>
-                <div class="front_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="back_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="right_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="left_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
                 </div>
             </div>
             <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
