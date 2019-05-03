@@ -13,7 +13,9 @@ window.gradient_position = [
                     "Bottom Panel",
                     "Back Insert",
                     "Left Side Panel",
-                    "Right Side Panel"
+                    "Right Side Panel",
+                    "Left Side Insert",
+                    "Right Side Insert"
                 ];
 
 function buildPositionDropdown(value){
