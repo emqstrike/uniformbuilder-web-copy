@@ -16,6 +16,7 @@ RosterPanel.events = {
             $("#richardson-team-roster").on("click", ".add-numbers", that.onAddNumbers);
             $("#richardson-team-roster").on("click", ".cancel", that.onCancel);
             $("#richardson-team-roster").on("keypress", ".roster-uniform-name, .roster-uniform-number, .roster-uniform-qty", _.debounce(that.onUpdateRosterInfo, 1000));
+            $("#richardson-team-roster").on("click", ".remove-player-info", that.onRemoveRoster);
             that.isInit = false;
         }
     },
@@ -36,6 +37,29 @@ RosterPanel.events = {
         } else {
             return;
         }
+    },
+
+    onRemoveRoster: function() {
+        var container = $(this).closest(".player-info")
+        var size = container.find(".roster-uniform-size").val();
+        var last_name = container.find(".roster-uniform-name").val();
+        var number = container.find(".roster-uniform-number").val();
+        var quantity = container.find(".roster-uniform-qty").val();
+        var category = container.data("category");
+
+        var index = $(this).closest('tr').index();
+        var roster = RosterPanel.events.find(size, category);
+
+        if (typeof roster !== "undefined") {
+            var list = roster.rosters;
+            if (typeof list !== "undefined") {
+                list.splice(index, 1);
+            }
+        }
+
+        container.fadeOut();
+        $(".player-numbers-container .player-number-button[data-number='"+ number +"']").removeClass("selected").removeClass("uk-active");
+        ub.funcs.setNumberStatus(number, 'free');
     },
 
     onUpdateRosterInfo: function() {
