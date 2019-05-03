@@ -62,12 +62,14 @@ FabricPanel.prototype = {
     setFabrics: function() {
         var have_base_sleeve_fabric = ub.funcs.is_pts_signature() ||
                                         ub.funcs.is_pts_pro_select() ||
-                                        ub.funcs.is_pts_hoodie() ||
                                         ub.funcs.is_pts_select() ||
-                                        ub.funcs.is_pts_select_pant();
+                                        ub.funcs.is_pts_select_pant() ||
+                                        ub.funcs.is_pts_hoodie() ||
+                                        ub.funcs.is_pts_cage_jacket();
 
         var have_insert_fabric = ub.funcs.is_pts_signature() ||
-                                    ub.funcs.is_pts_hoodie();
+                                    ub.funcs.is_pts_hoodie() ||
+                                    ub.funcs.is_pts_cage_jacket();
 
         if (have_base_sleeve_fabric) {
             this.setBaseSleeveFabrics();
@@ -113,7 +115,17 @@ FabricPanel.prototype = {
                                 break;
 
                             default:
-                                this.fabrics.base_sleeve = [];
+                                this.fabrics.base_sleeve = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level,
+                                            active: ""
+                                        }
+                                    ]
+                                };
+                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
                         }
                     } else if (ub.funcs.is_lower()){
                         this.fabrics.base_sleeve = {
@@ -141,9 +153,9 @@ FabricPanel.prototype = {
                                             active: "uk-active"
                                         },
                                         {
-                                            name: "LTX",
+                                            name: "Matrix Mesh",
                                             thumbnail: thumbnail,
-                                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
                                             active: ""
                                         }
                                     ]
@@ -162,9 +174,9 @@ FabricPanel.prototype = {
                                             active: "uk-active"
                                         },
                                         {
-                                            name: "Matrix Mesh",
+                                            name: "LTX",
                                             thumbnail: thumbnail,
-                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
                                             active: ""
                                         }
                                     ]
@@ -222,24 +234,18 @@ FabricPanel.prototype = {
 
                 if (ub.funcs.is_twill()) {
                     if (ub.funcs.is_upper()) {
-                        switch(parseInt(fabric.id)) {
-                            case 27: // MTX Mesh
-                                this.fabrics.insert = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level
-                                        }
-                                    ]
-                                };
-                                this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
+                        this.fabrics.insert = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level,
+                                    active: ""
+                                }
+                            ]
+                        };
+                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
 
-                                break;
-
-                            default:
-                                this.fabrics.insert = {};
-                        }
                     } else if (ub.funcs.is_lower()){
                         this.fabrics.insert = {
                             data: [
@@ -255,25 +261,17 @@ FabricPanel.prototype = {
                     }
                 } else if (ub.funcs.is_sublimated()) {
                     if (ub.funcs.is_upper()) {
-                        switch(parseInt(fabric.id)) {
-                            case 27: // MTX Mesh
-                            case 36: // Pro Stretch Dazzle
-                                this.fabrics.insert = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level
-                                        }
-                                    ]
-                                };
-                                this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
+                        this.fabrics.insert = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level
+                                }
+                            ]
+                        };
+                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
 
-                                break;
-
-                            default:
-                                this.fabrics.insert = {};
-                        }
                     } else if (ub.funcs.is_lower()){
                         this.fabrics.insert = {
                             data: [

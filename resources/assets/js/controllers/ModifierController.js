@@ -69,7 +69,6 @@ ModifierController.prototype = {
     setControllers: function() {
         // fabrics
         this.controllers.fabrics = new FabricPanel('fabric-tmpl');
-        window.fabrics = this.controllers.fabrics;
         FabricPanel.applyDefaultLayerLevel();
 
         // parts

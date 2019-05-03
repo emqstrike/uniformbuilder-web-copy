@@ -320,6 +320,10 @@ $(document).ready(function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts pro select") !== -1;
         };
 
+        ub.funcs.is_pts_cage_jacket = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts cage jacket") !== -1;
+        };
+
         ub.funcs.is_pts_hoodie = function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts hoodie") !== -1;
         };
