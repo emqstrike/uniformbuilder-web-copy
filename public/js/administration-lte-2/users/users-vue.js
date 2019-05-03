@@ -1,8 +1,11 @@
+Vue.component('v-select', VueSelect.VueSelect)
+
 new Vue({
     el: '#application-container',
     data: function() {
         return {
             action: null,
+            allowedPages: [],
             brands: {},
             dialog: true,
             errors: [],
@@ -36,13 +39,13 @@ new Vue({
             salesReps: {},
             search: '',
             selected: [],
+            totalItems: 0,
             types: ['administrator', 'normal'],
             user: {},
             userCache: {},
             users: [],
             userDialog: false,
-            userSlideOut: null,
-            totalItems: 0,
+            v1Pages: []
         }
     },
     watch: {
@@ -65,6 +68,31 @@ new Vue({
                 this.$emit('update:pagination', value)
             }
         },
+        getAllowedPages: function() {
+            let allowedPages = [];
+            let role = this.roles.find(role => role.id === this.user.role);
+
+            if (role.hasOwnProperty('allowed_pages')) {
+                let pages = JSON.parse(role.allowed_pages);
+
+                this.v1Pages.forEach(function(v1Page) {
+                    if (pages.indexOf(v1Page) < 0) {
+                        allowedPages.push(v1Page);
+                    }
+                });
+            }
+
+            return allowedPages;
+        },
+        getDefaultAllowedPages: function() {
+            let role = this.roles.find(role => role.id === this.user.role);
+
+            if (role.hasOwnProperty('allowed_pages')) {
+                return JSON.parse(role.allowed_pages);
+            }
+
+            return null;
+        },
         pages: function() {
             if ((this.pagination.rowsPerPage == null) || (this.totalItems == null)) {
                 return 0;
@@ -73,13 +101,15 @@ new Vue({
             return Math.ceil(this.totalItems / this.pagination.rowsPerPage);
         },
     },
-    mounted: function() {
+    created() {
         this.getDataFromAPI().then(data => {
             this.users = data.users;
             this.totalItems = data.total;
         });
 
         this.getBrandsData();
+        this.getPageRulesData();
+        this.getPagesData();
         this.getSalesRepData();
     },
     methods: {
@@ -92,9 +122,9 @@ new Vue({
             };
             this.togglePanel();
         },
-        cancel: function() {
+        cancel: function(user) {
             this.errors = [];
-            Object.assign(this.user, this.userCache);
+            Object.assign(user, this.userCache);
             this.togglePanel();
         },
         createUser: function() {
@@ -142,23 +172,28 @@ new Vue({
             }
         },
         edit: function(user) {
-            user.password  = user.confirm_password = null; 
+            this.userCache = Object.assign({}, user);
+            this.user = user;
 
-            if (! user.role) {
-                user.role = this.roles[0].id;
+            this.user.password  = this.user.confirm_password = null; 
+
+            // if ((this.user.allowed_pages != null) || (! Array.isArray(this.user.allowed_pages))) {
+            //     this.user.allowed_pages = JSON.parse(this.user.allowed_pages);
+            // }
+
+            if (! this.user.role) {
+                this.user.role = this.roles[0].id;
             }
 
-            if (! user.type) {
-                user.type = this.types[0];
+            if (! this.user.type) {
+                this.user.type = this.types[0];
             }
 
-            if (! user.brand_id) {
-                user.brand_id = this.brands[0].id;
+            if (! this.user.brand_id) {
+                this.user.brand_id = this.brands[0].id;
             }
 
             this.action = 'edit';
-            this.userCache = Object.assign({}, user);
-            this.user = user;
             this.togglePanel();
         },
         getBrandsData: function() {
@@ -187,6 +222,38 @@ new Vue({
                     }
                 });
             });
+        },
+        getPageRulesData() {
+            const self = this;
+
+            axios.get('page_rules').then((response) => {
+                if (response.data.success == true) {
+                    response.data.page_rules.forEach(function(pageRule) {
+                        let role = self.roles.find(role => role.id === pageRule.role);
+
+                        if ((Object.entries(role).length > 0) && (role.constructor == Object)) {
+                            Vue.set(role, 'allowed_pages', pageRule.allowed_pages);
+                        }
+                    });
+                }
+            });
+        },
+        getPagesData: function() {
+            let pages = [];
+
+            axios({
+                method: 'get',
+                url: '/administration/pages/v1-0',
+                baseURL:  window.app_url
+            }).then((response) => {
+                if (response.status == 200) {
+                    response.data.forEach(function(page) {
+                        pages.push(page.code);
+                    });
+                }
+            });
+
+            this.v1Pages = pages;
         },
         getSalesRepData: function() {
             axios.get('sales_reps').then((response) => {
@@ -269,7 +336,6 @@ new Vue({
         },
         togglePanel: function() {
             this.userDialog = ! this.userDialog;
-            // this.userSlideOut.toggle();
         },
         updateUser: function() {
             if (! this.hasErrors()) {

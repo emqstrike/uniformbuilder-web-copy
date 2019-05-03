@@ -45,7 +45,6 @@
                                             <td>
                                                 <div class="btn-container">
                                                     <button class="btn btn-primary btn-xs btn-flat" @click="edit(props.item)">Edit</button>
-                                                    <button class="btn btn-success btn-xs btn-flat" :disabled="(! props.item.role) || (! props.item.active)">Edit Allowed Pages</button>
                                                     <a :href="'/administration/v1-0/user/transactions/' + props.item.id" class="btn btn-primary btn-xs btn-flat" target="_blank">View Transactions</a>
                                                 </div>
                                             </td>
@@ -71,7 +70,6 @@
 @section('scripts')
     <script src="https://unpkg.com/vue@2.5.18/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-    @include('administration-lte-2.partials.users.allowed-pages-scripts')
     <script type="text/javascript" src="/js/administration/common.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-pattern-filters/slideout.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/users/users-vue.js"></script>
