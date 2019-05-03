@@ -113,6 +113,51 @@
             // when logged in set storage
             if(localStorage.getItem('beta_features') === null) {
                 localStorage.setItem('beta_features', false);
+                localStorage.setItem('switch', false);
+            }
+
+            // restrict switch element using feature flag
+            if(localStorage.getItem('switch') === null || localStorage.getItem('switch') === 'false') {
+                var _switchWhiteList = [];
+                $.ajax({
+
+                    url: 'https://api.prolook.com/api/features',
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response){
+                        var _data = response.features;
+                        var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
+                        feature_flags.map(function(i) {
+                            _switchWhiteList.push({ user_ids: JSON.parse(i.user_ids) })
+                        });
+                    }
+
+                }).done(function() {
+                    localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
+                    runAfterSet();
+                });
+            }
+
+            function runAfterSet() {
+                var _switchStorage = JSON.parse(localStorage.getItem('switch'));
+
+                if(_switchStorage[0].user_ids.includes(ub.user.id.toString()))
+                {
+                    var newLink = $('<li id="enable-beta">\n' +
+                        '               <a href="#">\n' +
+                        '                  <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>\n' +
+                        '                  <span class="text">ENABLE BETA FEATURES</span>\n' +
+                        '               </a>\n' +
+                        '            </li>\n' +
+                        '            <li class="divider"></li>');
+                    $('#user-dropdown-container').prepend(newLink);
+                } else {
+                    $('#user-dropdown-container').find('li#enable-beta').remove();
+                }
             }
 
             // storage checker
@@ -143,8 +188,10 @@
 
                         success: function (response){
                             var _data = response.features;
-                            var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 });
-                            feature_flags.map(function(i) { _ff.push({ name: i.name, user_ids: JSON.parse(i.user_ids) }) });
+                            var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name !== 'Switch Display' });
+                            feature_flags.map(function(i) {
+                                _ff.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
+                            });
                         }
 
                     }).done(function() {
