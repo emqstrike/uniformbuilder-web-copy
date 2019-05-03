@@ -1299,8 +1299,18 @@ $(function() {
                 // Marker that applications has been initialized
                 $(this).addClass('init')
             }
-            $(this).find('.noUi-value-large').first().html('Small');
-            $(this).find('.noUi-value-large').last().html('Large');
+            if (ub.funcs.isTackleTwill()) {
+                var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
+                var value_horizontal = $(this).find(".noUi-value-horizontal");
+                value_horizontal.each(function(value, index) {
+                    var size = applicationSizes.size[value];
+                    $(index).html("");
+                    $(index).html(size);
+                });
+            } else {
+                $(this).find('.noUi-value-large').first().html('Small');
+                $(this).find('.noUi-value-large').last().html('Large');
+            }
         });
 
         // slider move X
@@ -1407,38 +1417,96 @@ $(function() {
             _multiplier = 10;
         }
 
-        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
         if (typeof element.noUiSlider === "object") {
             element.noUiSlider.set(_start);
             return;
         }
 
-        noUiSlider.create(element, {
-            animate: true,
-            animationDuration: 300,
-            start: _start,
-            range: {
-                min: 1,
-                max: 100,
-            },
-            tooltips: true,
-            format: wNumb({
-                decimals: 0
-            }),
-            pips: {
-                mode: 'steps',
-                stepped: true,
-                density: 4
-            }
-        });
+        if (ub.funcs.isTackleTwill()) {
+            var percentage = 0;
+            var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
+            var start = _.indexOf(applicationSizes.size, _settingsObject.font_size.toString());
+
+            var range_all_sliders = {
+                'min': 1,
+                'max': applicationSizes.size.length
+            };
+
+            noUiSlider.create(element, {
+                start: start + 1,
+                range: range_all_sliders,
+                step: 1,
+                tooltips: [true],
+                format: wNumb({
+                    decimals: 0
+                }),
+                pips: {
+                    mode: 'steps',
+                    stepped: true,
+                    density: 4
+                }
+            });
+        } else {
+            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+            var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+            noUiSlider.create(element, {
+                animate: true,
+                animationDuration: 300,
+                start: _start,
+                range: {
+                    min: 1,
+                    max: 100,
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0
+                }),
+                pips: {
+                    mode: 'steps',
+                    stepped: true,
+                    density: 4
+                }
+            });
+        }
 
         element.noUiSlider.on('update', function (values, handle) {
             if (!_flag) { _flag = true; return;}
-            var _value = values[0];
-            ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+
+            if (ub.funcs.isTackleTwill()) {
+                var index = values[0];
+                var value = applicationSizes.size[index - 1];
+                if (typeof value !== "undefined") {
+                    $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
+                    $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
+
+                    var oldScale = ub.funcs.clearScale(_settingsObject);
+                    _settingsObject.oldScale = oldScale;
+
+                    ub.funcs.changeSize(value, _settingsObject);
+
+                    var _matchingID = undefined;
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+                    if (typeof _matchingID !== "undefined") {
+                        var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                        ub.funcs.changeSize(value, _matchingSettingsObject);
+                    }
+                }
+            } else {
+                var _value = values[0];
+                ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+            }
         });
+
+        if (ub.funcs.isTackleTwill()) {
+            element.noUiSlider.on("start", function(values, handle) {
+                var index = values[0];
+                var value = applicationSizes.size[index - 1];
+                $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
+                $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
+            });
+        }
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {
@@ -1535,7 +1603,7 @@ $(function() {
             code: _code
         }
         // send to mustache
-        return ub.funcs.isTackleTwill() ? '' : ub.utilities.buildTemplateString('#m-slider-container', props);
+        return ub.funcs.isTackleTwill() ? ub.utilities.buildTemplateString('#m-slider-container-twill', props) : ub.utilities.buildTemplateString('#m-slider-container', props);
     };
 
     ub.funcs.colorsSelection = function (id, _title) {
@@ -1713,5 +1781,62 @@ $(function() {
         });
 
         return count;
+    }
+
+
+    ub.funcs.getRichardsonApplicationSizes = function(_settingsObject) {
+        var _applicationType = _settingsObject.application_type;
+        var _title = _applicationType.toTitleCase();
+        var _sampleText = _settingsObject.text;
+        var _sizes;
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(_settingsObject.code);
+
+
+        if (_uniformCategory === "Football") {
+            _sizes = ub.funcs.getApplicationSizes(_applicationType);
+        } else if (ub.current_material.material.uniform_category === "Baseball") {
+            _sizes = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
+        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+        } else {
+            ub.utilities.warn('no sizes setting defaulting to generic');
+            _sizes = ub.funcs.getApplicationSizes(_applicationType);
+        }
+
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _settingsObject.code);
+
+        if (typeof _sizesFromConfig !== "undefined") {
+            // Debug Info
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+                console.log('Default Sizes: ');
+                console.log(_sizes);
+                console.log('Application #: ');
+                console.log(_settingsObject.code);
+                ub.utilities.info('Using sizes from backend: ');
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+
+                // add sort for sizes
+                _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function (obj) {
+                    return parseFloat(obj.size)
+                });
+                _sizesFromConfig.sizes = _sizesSorted;
+
+                _sizes = _sizesFromConfig;
+            }
+
+        } else {
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _settingsObject.code + " don't have application sizes settings on the backend.");
+            }
+        }
+
+        return _sizes;
     }
 });

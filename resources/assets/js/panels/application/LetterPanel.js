@@ -42,7 +42,7 @@ LetterPanel.init = function() {
             placeholder: 'Your ' + i.application.name.toLowerCase(),
             fonts: true,
             fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
-            slider: ub.funcs.isTackleTwill() ? false : true,
+            slider: true,
             sliderContainer: ub.funcs.sliderContainer(i.code),
             colorPicker: true,
             colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
