@@ -50,6 +50,7 @@ elixir(function(mix) {
 
             'uniform-builder-dealership.js',
             'uniform-builder-data.js',
+            'uniform-builder-patterns.js',
 
             //picker
             'uniform-builder-picker.js',
@@ -65,8 +66,7 @@ elixir(function(mix) {
             'uniform-builder-mascots.js',   
             'uniform-builder-placeholder-applications.js',  
             'uniform-builder-process.js',   
-            'uniform-builder-dialogs.js',   
-            'uniform-builder-patterns.js',  
+            'uniform-builder-dialogs.js', 
             'uniform-builder-applications.js',  
             'uniform-builder-getters-setters.js',       
             'uniform-builder-pipings.js',           
