@@ -6,11 +6,15 @@
  *         [29] ETX
  *         [31] Performance Fleece
  *         [36] Pro Stretch Dazzle
+ *         [23] LTE Fit (A00 3)
  *
  *     Parts category:
- *         Base Material
- *             - Front Body
- *             - Back Body
+ *         Base Material:
+ *             Upper:
+ *                 - Front Body
+ *                 - Back Body
+ *             Lower
+ *                 - Base
  *
  *         Sleeve Material
  *             - Left Sleeve
@@ -21,7 +25,10 @@
  *             - Right Side Insert
  *
  *         Back Insert Material
- *             - Bottom Panel
+ *             Upper:
+ *                 - Bottom Panel
+ *             Lower:
+ *                 - Back Insert
  *
  *         Sleeve Insert Material
  *             -
@@ -55,7 +62,9 @@ FabricPanel.prototype = {
     setFabrics: function() {
         var have_base_sleeve_fabric = ub.funcs.is_pts_signature() ||
                                         ub.funcs.is_pts_pro_select() ||
-                                        ub.funcs.is_pts_hoodie();
+                                        ub.funcs.is_pts_hoodie() ||
+                                        ub.funcs.is_pts_select() ||
+                                        ub.funcs.is_pts_select_pant();
 
         var have_insert_fabric = ub.funcs.is_pts_signature() ||
                                     ub.funcs.is_pts_hoodie();
@@ -106,11 +115,44 @@ FabricPanel.prototype = {
                             default:
                                 this.fabrics.base_sleeve = [];
                         }
+                    } else if (ub.funcs.is_lower()){
+                        this.fabrics.base_sleeve = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level,
+                                    active: ""
+                                }
+                            ]
+                        };
+                        this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
                     }
                 } else if (ub.funcs.is_sublimated()) {
                     if (ub.funcs.is_upper()) {
                         switch(parseInt(fabric.id)) {
                             case 29: // ETX
+                                this.fabrics.base_sleeve = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level,
+                                            active: "uk-active"
+                                        },
+                                        {
+                                            name: "LTX",
+                                            thumbnail: thumbnail,
+                                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                            active: ""
+                                        }
+                                    ]
+                                };
+                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
+
+                                break;
+
+                            case 23: // LTE Fit (A00 3)
                                 this.fabrics.base_sleeve = {
                                     data: [
                                         {
@@ -131,7 +173,7 @@ FabricPanel.prototype = {
 
                                 break;
 
-                            case 31: // Performance Fleece
+                            default:
                                 this.fabrics.base_sleeve = {
                                     data: [
                                         {
@@ -143,12 +185,19 @@ FabricPanel.prototype = {
                                     ]
                                 };
                                 this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-
-                                break;
-
-                            default:
-                                this.fabrics.base_sleeve = [];
                         }
+                    } else if (ub.funcs.is_lower()){
+                        this.fabrics.base_sleeve = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level,
+                                    active: ""
+                                }
+                            ]
+                        };
+                        this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
                     }
                 } else {
                     console.log("Application type is not sublimated or twill");
@@ -191,6 +240,18 @@ FabricPanel.prototype = {
                             default:
                                 this.fabrics.insert = {};
                         }
+                    } else if (ub.funcs.is_lower()){
+                        this.fabrics.insert = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level,
+                                    active: ""
+                                }
+                            ]
+                        };
+                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
                     }
                 } else if (ub.funcs.is_sublimated()) {
                     if (ub.funcs.is_upper()) {
@@ -213,6 +274,18 @@ FabricPanel.prototype = {
                             default:
                                 this.fabrics.insert = {};
                         }
+                    } else if (ub.funcs.is_lower()){
+                        this.fabrics.insert = {
+                            data: [
+                                {
+                                    name: fabric.material,
+                                    thumbnail: thumbnail,
+                                    layer_level: default_fabric.layer_level,
+                                    active: ""
+                                }
+                            ]
+                        };
+                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
                     }
                 } else {
                     console.log("Application type is not sublimated or twill");
@@ -239,9 +312,21 @@ FabricPanel.BACK_PERSPECTIVE = "back";
 FabricPanel.BASE_SLEEVE_MATERIAL = "base_sleeve";
 FabricPanel.INSERT_MATERIAL = "insert";
 
-FabricPanel.PARTS_BASE_SLEEVE = ["front_body", "back_body", "left_sleeve", "right_sleeve"];
+FabricPanel.PARTS_BASE_SLEEVE = [
+    // upper
+    "front_body", "back_body", "left_sleeve", "right_sleeve",
+
+    // lower
+    "base"
+];
 FabricPanel.PARTS_SIDE_INSERT = ["left_side_insert", "right_side_insert"];
-FabricPanel.PARTS_INSERT = ["bottom_panel"];
+FabricPanel.PARTS_INSERT = [
+    // upper
+    "bottom_panel",
+
+    // lower
+    "back_insert"
+];
 
 FabricPanel.events = {
     is_events_init: false,

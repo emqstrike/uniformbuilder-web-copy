@@ -3276,23 +3276,26 @@ $(document).ready(function () {
                     case "highlights":
                     case "shadows":
 
-                    // base
+                    // base (upper)
                     case "front_body":
                     case "back_body":
+                    // base (lower)
+                    case "base":
 
                     // sleeve
-                    case "sleeve":
+                    case "left_sleeve":
+                    case "right_sleeve":
 
-                    // side insert material
+                    // side insert
                     case "left_side_insert":
                     case "right_side_insert":
 
-                    // back insert material
+                    // back insert (upper)
                     case "bottom_panel":
+                    // back insert (lower)
+                    case "back_insert":
 
                     // sleeve insert
-                    case "left_sleeve":
-                    case "right_sleeve":
 
                     ub.fabric.fabricCollections[obj.perspective].push({
                         name: name,
