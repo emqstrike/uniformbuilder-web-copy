@@ -44,7 +44,7 @@ MascotPanel.init = function () {
                 name: i.embellishment.name,
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + i.embellishment.design_id,
                 viewPrint: i.embellishment.svg_filename,
-                slider: ub.funcs.isTackleTwill() ? false : true,
+                slider: true,
                 sliderContainer: ub.funcs.sliderContainer(i.code),
                 isEmbellishment: true,
                 status: (typeof i.status === "undefined" || i.status === "on" ? true : false)

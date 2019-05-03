@@ -263,7 +263,7 @@ $(function() {
             placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
             fonts: true,
             fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-            slider: ub.funcs.isTackleTwill() ? false : true,
+            slider: true,
             sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
             colorPicker: true,
             colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
@@ -648,7 +648,7 @@ $(function() {
                 code: _settingsObject.code,
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.mascot.name,
-                slider: ub.funcs.isTackleTwill() ? false : true,
+                slider: true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS'),
@@ -667,7 +667,7 @@ $(function() {
                 name: _settingsObject.embellishment.name,
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
-                slider: ub.funcs.isTackleTwill() ? false : true,
+                slider: true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 isEmbellishment: true,
             };
@@ -1052,7 +1052,7 @@ $(function() {
                 placeholder: 'Your ' + _settingsObject.application.name.toLowerCase(),
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-                slider: ub.funcs.isTackleTwill() ? false : true,
+                slider: true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
@@ -1073,7 +1073,7 @@ $(function() {
                     code: _settingsObject.code,
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.mascot.name,
-                    slider: ub.funcs.isTackleTwill() ? false : true,
+                    slider: true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                     isEmbellishment: false,
                     colorPicker: true,
@@ -1090,7 +1090,7 @@ $(function() {
                     name: _settingsObject.embellishment.name,
                     viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                     viewPrint: _settingsObject.embellishment.svg_filename,
-                    slider: ub.funcs.isTackleTwill() ? false : true,
+                    slider: true,
                     isEmbellishment: true,
                     sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
                 };
@@ -1108,7 +1108,7 @@ $(function() {
                 placeholder: _settingsObject.text,
                 fonts: true,
                 fontsData: ub.funcs.fontStyleSelection(_settingsObject, _settingsObject.application.name.toUpperCase()),
-                slider: ub.funcs.isTackleTwill() ? false : true,
+                slider: true,
                 sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE FONT COLOR'),
@@ -1480,17 +1480,12 @@ $(function() {
                     $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
                     $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
 
-                    var oldScale = ub.funcs.clearScale(_settingsObject);
-                    _settingsObject.oldScale = oldScale;
-
-                    ub.funcs.changeSize(value, _settingsObject);
-
-                    var _matchingID = undefined;
-                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
-
-                    if (typeof _matchingID !== "undefined") {
-                        var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                        ub.funcs.changeSize(value, _matchingSettingsObject);
+                    if (_settingsObject.application_type === "mascot") {
+                        ub.funcs.richardsonChangeMascotSize(_settingsObject, value);
+                    } else if (_settingsObject.application_type === "embellishments") {
+                        ub.funcs.richardsonChangeCustomMascotSize(_settingsObject, value);
+                    } else {
+                        ub.funcs.richardsonChangeFontSize(_settingsObject, value);
                     }
                 }
             } else {
@@ -1838,5 +1833,55 @@ $(function() {
         }
 
         return _sizes;
+    }
+
+
+    ub.funcs.richardsonChangeFontSize = function(_settingsObject, value) {
+        var oldScale = ub.funcs.clearScale(_settingsObject);
+        _settingsObject.oldScale = oldScale;
+
+        ub.funcs.changeSize(value, _settingsObject);
+
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            ub.funcs.changeSize(value, _matchingSettingsObject);
+        }
+    }
+
+    ub.funcs.richardsonChangeMascotSize = function(_settingsObject, value) {
+        var oldScale = ub.funcs.clearScale(_settingsObject);
+        _settingsObject.oldScale = oldScale;
+
+        ub.funcs.changeMascotSize(value, _settingsObject);
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            ub.funcs.changeMascotSize(value, _matchingSettingsObject);
+        }
+    }
+
+    ub.funcs.richardsonChangeCustomMascotSize = function(_settingsObject, value) {
+        var _scaleType = 'custom';
+        _settingsObject.scale_type = _scaleType;
+
+        var oldScale = ub.funcs.clearScale(_settingsObject);
+        _settingsObject.oldScale = oldScale;
+
+        ub.funcs.changeCustomMascotSize(value, _settingsObject);
+
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            ub.funcs.changeMascotSize(value, _matchingSettingsObject);
+
+        }
     }
 });
