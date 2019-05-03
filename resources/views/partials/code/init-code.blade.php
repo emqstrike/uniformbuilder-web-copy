@@ -116,9 +116,9 @@
                 localStorage.setItem('switch', false);
             }
 
-            // restrict switch element using feature flag
-            if(localStorage.getItem('switch') === null || localStorage.getItem('switch') === 'false') {
-                var _switchWhiteList = [];
+            var _switchWhiteList = [];
+
+            function runSwitchUpdater() {
                 $.ajax({
 
                     url: 'https://api.prolook.com/api/features',
@@ -134,17 +134,18 @@
                         feature_flags.map(function(i) {
                             _switchWhiteList.push({ user_ids: JSON.parse(i.user_ids) })
                         });
+                        localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
                     }
 
                 }).done(function() {
-                    localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
                     runAfterSet();
                 });
             }
 
+            runSwitchUpdater();;
+
             function runAfterSet() {
                 var _switchStorage = JSON.parse(localStorage.getItem('switch'));
-
                 if(_switchStorage[0].user_ids.includes(ub.user.id.toString()))
                 {
                     var newLink = $('<li id="enable-beta">\n' +
@@ -155,23 +156,22 @@
                         '            </li>\n' +
                         '            <li class="divider"></li>');
                     $('#user-dropdown-container').prepend(newLink);
+
+                    // storage checker element update
+                    if(localStorage.getItem('beta_features') === 'false') {
+                        $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                        $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+                    } else {
+                        $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                        $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+                    }
                 } else {
                     $('#user-dropdown-container').find('li#enable-beta').remove();
                 }
             }
 
-            // storage checker
-            if(localStorage.getItem('beta_features') === 'false') {
-                $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
-                $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
-            } else {
-                $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
-                $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
-            }
-
             // onclick enable beta features
-            $('#enable-beta').on('click', function () {
-
+            $('#user-dropdown-container').on('click', '#enable-beta', function () {
                 // get beta features
                 var _ff = [];
 
