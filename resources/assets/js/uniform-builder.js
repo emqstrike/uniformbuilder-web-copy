@@ -44,10 +44,9 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts' + '/' + ub.config.brand;
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
-                // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
@@ -56,12 +55,12 @@ $(document).ready(function () {
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
 
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
@@ -1108,10 +1107,10 @@ $(document).ready(function () {
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.data.colors) !== 'undefined' &&
-                     typeof(ub.data.patterns) !== 'undefined' &&
-                     typeof(ub.data.fonts) !== 'undefined' && 
-                     typeof(ub.data.mascots) !== 'undefined' && 
+                     typeof(ub.data.colors) !== 'undefined' && _.size(ub.data.colors) > 0 &&
+                     typeof(ub.data.patterns) !== 'undefined' && _.size(ub.data.patterns) > 0 &&
+                     typeof(ub.data.fonts) !== 'undefined' && _.size(ub.data.fonts) > 0 &&
+                     typeof(ub.data.mascots) !== 'undefined' && _.size(ub.data.mascots) > 0 &&
                      typeof(ub.data.mascots_categories) !== 'undefined' &&
                      typeof(ub.data.tagged_styles) !== 'undefined' &&
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
