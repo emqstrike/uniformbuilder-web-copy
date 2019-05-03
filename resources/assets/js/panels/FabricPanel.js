@@ -4,6 +4,8 @@
  *         [4] Baseball Polyester
  *         [27] MTX Mesh
  *         [29] ETX
+ *         [31] Performance Fleece
+ *         [36] Pro Stretch Dazzle
  *
  *     Parts category:
  *         Base Material
@@ -51,13 +53,19 @@ FabricPanel.prototype = {
      * @source Model Material Options.xlsx
      */
     setFabrics: function() {
-        if (ub.funcs.is_pts_signature()) {
-            if (ub.funcs.is_twill()) {
-                if (ub.funcs.is_upper()) {
-                    this.setBaseSleeveFabrics();
-                    this.setInsertFabrics();
-                }
-            }
+        var have_base_sleeve_fabric = ub.funcs.is_pts_signature() ||
+                                        ub.funcs.is_pts_pro_select() ||
+                                        ub.funcs.is_pts_hoodie();
+
+        var have_insert_fabric = ub.funcs.is_pts_signature() ||
+                                    ub.funcs.is_pts_hoodie();
+
+        if (have_base_sleeve_fabric) {
+            this.setBaseSleeveFabrics();
+        }
+
+        if (have_insert_fabric) {
+            this.setInsertFabrics();
         }
     },
 
@@ -71,39 +79,90 @@ FabricPanel.prototype = {
                 // thumbnail placeholder
                 var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
 
-                switch(parseInt(fabric.id)) {
+                if (ub.funcs.is_twill()) {
+                    if (ub.funcs.is_upper()) {
+                        switch(parseInt(fabric.id)) {
+                            case 4: // Baseball Polyester
+                                this.fabrics.base_sleeve = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level,
+                                            active: "uk-active"
+                                        },
+                                        {
+                                            name: "Matrix Mesh",
+                                            thumbnail: thumbnail,
+                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                            active: ""
+                                        }
+                                    ]
+                                };
+                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
 
-                    case 4: // Baseball Polyester
-                        this.fabrics.base_sleeve = [
-                            {
-                                name: fabric.material,
-                                thumbnail: thumbnail,
-                                layer_level: default_fabric.layer_level,
-                                active: "uk-active"
-                            },
-                            {
-                                name: "Matrix Mesh",
-                                thumbnail: thumbnail,
-                                layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
-                                active: ""
-                            }
-                        ];
-                        this.fabrics.base_sleeve_multiple = true;
+                                break;
 
-                        break;
+                            default:
+                                this.fabrics.base_sleeve = [];
+                        }
+                    }
+                } else if (ub.funcs.is_sublimated()) {
+                    if (ub.funcs.is_upper()) {
+                        switch(parseInt(fabric.id)) {
+                            case 29: // ETX
+                                this.fabrics.base_sleeve = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level,
+                                            active: "uk-active"
+                                        },
+                                        {
+                                            name: "Matrix Mesh",
+                                            thumbnail: thumbnail,
+                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                            active: ""
+                                        }
+                                    ]
+                                };
+                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
 
-                    case 27: // MTX Mesh
-                        break;
+                                break;
 
-                    case 29: // ETX
-                        break;
+                            case 31: // Performance Fleece
+                                this.fabrics.base_sleeve = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level,
+                                            active: ""
+                                        }
+                                    ]
+                                };
+                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
+
+                                break;
+
+                            default:
+                                this.fabrics.base_sleeve = [];
+                        }
+                    }
+                } else {
+                    console.log("Application type is not sublimated or twill");
                 }
             }
         }
     },
 
     setInsertFabrics: function() {
-        var default_fabric = FabricPanel.getDefaultFabric(FabricPanel.LEFT_PERSPECTIVE);
+        var default_fabric = FabricPanel.getDefaultFabric(FabricPanel.LEFT_PERSPECTIVE, FabricPanel.INSERT_MATERIAL);
+
+        if (ub.funcs.is_pts_hoodie()) {
+            default_fabric = FabricPanel.getDefaultFabric(FabricPanel.FRONT_PERSPECTIVE, FabricPanel.INSERT_MATERIAL);
+        }
 
         if (default_fabric !== null) {
             if (default_fabric.fabric !== "undefined") {
@@ -112,25 +171,51 @@ FabricPanel.prototype = {
                 // thumbnail placeholder
                 var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
 
-                switch(parseInt(fabric.id)) {
+                if (ub.funcs.is_twill()) {
+                    if (ub.funcs.is_upper()) {
+                        switch(parseInt(fabric.id)) {
+                            case 27: // MTX Mesh
+                                this.fabrics.insert = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level
+                                        }
+                                    ]
+                                };
+                                this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
 
-                    case 4: // Baseball Polyester
-                        break;
+                                break;
 
-                    case 27: // MTX Mesh
-                        this.fabrics.insert = [
-                            {
-                                name: fabric.material,
-                                thumbnail: thumbnail,
-                                layer_level: default_fabric.layer_level
-                            }
-                        ];
+                            default:
+                                this.fabrics.insert = {};
+                        }
+                    }
+                } else if (ub.funcs.is_sublimated()) {
+                    if (ub.funcs.is_upper()) {
+                        switch(parseInt(fabric.id)) {
+                            case 27: // MTX Mesh
+                            case 36: // Pro Stretch Dazzle
+                                this.fabrics.insert = {
+                                    data: [
+                                        {
+                                            name: fabric.material,
+                                            thumbnail: thumbnail,
+                                            layer_level: default_fabric.layer_level
+                                        }
+                                    ]
+                                };
+                                this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
 
-                        this.fabrics.insert_multiple = false;
-                        break;
+                                break;
 
-                    case 29: // ETX
-                        break;
+                            default:
+                                this.fabrics.insert = {};
+                        }
+                    }
+                } else {
+                    console.log("Application type is not sublimated or twill");
                 }
             }
         }
@@ -150,6 +235,13 @@ FabricPanel.FRONT_PERSPECTIVE = "front";
 FabricPanel.LEFT_PERSPECTIVE = "left";
 FabricPanel.RIGHT_PERSPECTIVE = "right";
 FabricPanel.BACK_PERSPECTIVE = "back";
+
+FabricPanel.BASE_SLEEVE_MATERIAL = "base_sleeve";
+FabricPanel.INSERT_MATERIAL = "insert";
+
+FabricPanel.PARTS_BASE_SLEEVE = ["front_body", "back_body", "left_sleeve", "right_sleeve"];
+FabricPanel.PARTS_SIDE_INSERT = ["left_side_insert", "right_side_insert"];
+FabricPanel.PARTS_INSERT = ["bottom_panel"];
 
 FabricPanel.events = {
     is_events_init: false,
@@ -171,23 +263,43 @@ FabricPanel.events = {
     }
 };
 
-FabricPanel.getDefaultFabric = function(perspective) {
+FabricPanel.getDefaultFabric = function(perspective, material) {
     // default perspective
     perspective = perspective || FabricPanel.FRONT_PERSPECTIVE;
+    material = material || FabricPanel.BASE_SLEEVE_MATERIAL;
 
-    var filtered_fabric = _.filter(ub.fabric.fabricCollections[perspective], function(f) {
-        return f.fabric_id !== 0;
-    });
+    var filtered_fabric = [];
 
-    var fabric_id = _.uniq(_.pluck(filtered_fabric, "fabric_id"));
+    switch(material) {
+        case FabricPanel.BASE_SLEEVE_MATERIAL:
+            filtered_fabric = _.filter(ub.fabric.fabricCollections[perspective], function(f) {
+                return f.fabric_id !== 0 && _.include(FabricPanel.PARTS_BASE_SLEEVE, f.name);
+            });
 
-    if (!_.isEmpty(fabric_id)) {
-        fabric_id = fabric_id.pop();
+            break;
 
-        return {
-            fabric: _.find(ub.current_material.fabrics, {id: fabric_id.toFixed(0)}),
-            layer_level: FabricPanel.getDefaultLayerLevel()
-        };
+        case FabricPanel.INSERT_MATERIAL:
+            filtered_fabric = _.filter(ub.fabric.fabricCollections[perspective], function(f) {
+                return f.fabric_id !== 0 && (
+                    _.include(FabricPanel.PARTS_SIDE_INSERT, f.name) ||
+                    _.include(FabricPanel.PARTS_INSERT, f.name)
+                );
+            });
+
+            break;
+    }
+
+    if (!_.isEmpty(filtered_fabric)) {
+        var fabric_id = _.uniq(_.pluck(filtered_fabric, "fabric_id"));
+
+        if (!_.isEmpty(fabric_id)) {
+            fabric_id = fabric_id.pop();
+
+            return {
+                fabric: _.find(ub.current_material.fabrics, {id: fabric_id.toFixed(0)}),
+                layer_level: FabricPanel.getDefaultLayerLevel()
+            };
+        }
     }
 
     return null;
@@ -197,7 +309,9 @@ FabricPanel.getDefaultLayerLevel = function(perspective) {
     // default perspective
     perspective = perspective || FabricPanel.FRONT_PERSPECTIVE;
 
-    var filtered_fabric = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], {default_asset: 1});
+    var filtered_fabric = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
+        return fc.default_asset == true || fc.default_asset == 1;
+    });
 
     if (!_.isEmpty(filtered_fabric)) {
         var fabric = filtered_fabric.pop();
