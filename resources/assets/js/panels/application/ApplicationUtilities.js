@@ -318,8 +318,6 @@ $(function() {
         // re-initialize template
         ub.funcs.initializer();
         ub.funcs.afterActivateApplication(application_id);
-
-        // codes from activateApplications were omitted from this point
     };
 
     // Build template for font accent selection
@@ -1300,6 +1298,7 @@ $(function() {
                 $(this).addClass('init')
             }
             if (ub.funcs.isTackleTwill()) {
+                // Change pips when uniform is tackle twill
                 var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
                 var value_horizontal = $(this).find(".noUi-value-horizontal");
                 value_horizontal.each(function(value, index) {
@@ -1423,8 +1422,9 @@ $(function() {
         }
 
         if (ub.funcs.isTackleTwill()) {
-            var percentage = 0;
+            // Get Sizes
             var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
+            // Get size index
             var start = _.indexOf(applicationSizes.size, _settingsObject.font_size.toString());
 
             var range_all_sliders = {
@@ -1432,6 +1432,7 @@ $(function() {
                 'max': applicationSizes.size.length
             };
 
+            // Setup slider for tackle twill
             noUiSlider.create(element, {
                 start: start + 1,
                 range: range_all_sliders,
@@ -1477,9 +1478,11 @@ $(function() {
                 var index = values[0];
                 var value = applicationSizes.size[index - 1];
                 if (typeof value !== "undefined") {
+                    // Change tooltip value
                     $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
                     $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
 
+                    // Apply application size
                     if (_settingsObject.application_type === "mascot") {
                         ub.funcs.richardsonChangeMascotSize(_settingsObject, value);
                     } else if (_settingsObject.application_type === "embellishments") {
@@ -1495,6 +1498,7 @@ $(function() {
         });
 
         if (ub.funcs.isTackleTwill()) {
+            // On Click slider get index size and alter the value of the tooltip
             element.noUiSlider.on("start", function(values, handle) {
                 var index = values[0];
                 var value = applicationSizes.size[index - 1];
@@ -1747,7 +1751,6 @@ $(function() {
         }
     };
 
-
     ub.funcs.isFlippedApplication = function (code) {
         var _applicationObject = ub.funcs.getApplicationSettings(code);
         var flipped = _applicationObject.application.views[0].application.flip;
@@ -1778,7 +1781,7 @@ $(function() {
         return count;
     }
 
-
+    // Get available size for application in a tackle twill uniform
     ub.funcs.getRichardsonApplicationSizes = function(_settingsObject) {
         var _applicationType = _settingsObject.application_type;
         var _title = _applicationType.toTitleCase();
@@ -1835,7 +1838,7 @@ $(function() {
         return _sizes;
     }
 
-
+    // Tackle twill change font size
     ub.funcs.richardsonChangeFontSize = function(_settingsObject, value) {
         var oldScale = ub.funcs.clearScale(_settingsObject);
         _settingsObject.oldScale = oldScale;
@@ -1851,6 +1854,7 @@ $(function() {
         }
     }
 
+    // Tackle twill change mascot size
     ub.funcs.richardsonChangeMascotSize = function(_settingsObject, value) {
         var oldScale = ub.funcs.clearScale(_settingsObject);
         _settingsObject.oldScale = oldScale;
@@ -1865,6 +1869,7 @@ $(function() {
         }
     }
 
+    // Tackle twill change custom mascot size
     ub.funcs.richardsonChangeCustomMascotSize = function(_settingsObject, value) {
         var _scaleType = 'custom';
         _settingsObject.scale_type = _scaleType;
