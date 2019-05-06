@@ -436,7 +436,7 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
                         fabric_sets.unshift({
                             name: lte.material,
                             thumbnail: thumbnail,
-                            layer_level: FabricPanel.FABRIC_MIXED_IDS[0],
+                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
                             active: ""
                         });
                         break;
