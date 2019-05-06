@@ -275,7 +275,9 @@ FabricPanel.getDefaultLayerLevel = function(perspective) {
     // default perspective
     perspective = perspective || FabricPanel.FRONT_PERSPECTIVE;
 
-    var filtered_fabric = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
+    var hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
+
+    var filtered_fabric = _.filter(hl_sh, function(fc) {
         return fc.default_asset == true || fc.default_asset == 1;
     });
 
@@ -290,9 +292,13 @@ FabricPanel.getDefaultLayerLevel = function(perspective) {
 
 FabricPanel.applyDefaultLayerLevel = function() {
     var default_layer_level = FabricPanel.getDefaultLayerLevel();
+    var hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
 
     if (default_layer_level !== null) {
         FabricPanel.changeFabricVisible(default_layer_level);
+    } else if (hl_sh !== null) {
+        var first_layer_level = _.first(hl_sh).layer_level;
+        FabricPanel.changeFabricVisible(first_layer_level);
     }
 };
 
@@ -312,41 +318,55 @@ FabricPanel.getLayerLevels = function(layer_level) {
     }
 };
 
+FabricPanel.getHighlightsAndShadows = function(perspective) {
+    var perspectives = [
+        FabricPanel.FRONT_PERSPECTIVE,
+        FabricPanel.LEFT_PERSPECTIVE,
+        FabricPanel.RIGHT_PERSPECTIVE,
+        FabricPanel.BACK_PERSPECTIVE
+    ];
+
+    if (_.include(perspectives, perspective)) {
+        return _.filter(ub.fabric.fabricCollections[perspective], function(fc) {
+            return fc.name === "highlights" || fc.name === "shadows";
+        });
+    }
+
+    return null;
+};
+
 FabricPanel.changeFabricVisible = function(layer_level) {
     var layer_levels = FabricPanel.getLayerLevels(layer_level);
 
     // hl_sh - highlights and shadows
-    var front_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    var front_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
+    var left_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.LEFT_PERSPECTIVE);
+    var right_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.RIGHT_PERSPECTIVE);
+    var back_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.BACK_PERSPECTIVE);
 
-    var left_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.LEFT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    if (front_hl_sh !== null) {
+        _.each(front_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
 
-    var right_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.RIGHT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    if (left_hl_sh !== null) {
+        _.each(left_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
 
-    var back_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.BACK_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    if (right_hl_sh !== null) {
+        _.each(right_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
 
-    _.each(front_hl_sh, function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
-    });
-
-    _.each(left_hl_sh, function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
-    });
-
-    _.each(right_hl_sh, function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
-    });
-
-    _.each(back_hl_sh, function (fc) {
-        fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
-    });
+    if (back_hl_sh !== null) {
+        _.each(back_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
 };
 
 // remove this function if fabric set is done
