@@ -374,7 +374,14 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
             case ub.funcs.is_pts_signature():
             case ub.funcs.is_pts_pro_select():
                 if (ub.funcs.is_twill() || ub.funcs.is_sublimated()) {
+                    var material;
                     var layer_level;
+
+                    if (ub.funcs.is_twill()) {
+                        material = baseballPolyEster;
+                    } else if (ub.funcs.is_sublimated()) {
+                        material = etx;
+                    }
 
                     if (ub.funcs.is_pts_signature()) {
                         layer_level = FabricPanel.FABRIC_MIXED_IDS[0];
@@ -403,7 +410,7 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
 
                         case 27: // matrix mesh
                             fabric_sets.unshift({
-                                name: baseballPolyEster.material,
+                                name: material.material,
                                 thumbnail: thumbnail,
                                 layer_level: layer_level,
                                 active: ""
