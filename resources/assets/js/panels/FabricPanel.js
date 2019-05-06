@@ -212,10 +212,19 @@ FabricPanel.events = {
     },
 
     onFabricLayerChange: function() {
-        var layer_level = $(this).data('layer-level');
+        var active_fabric_el = $('#m-fabric-selection ul li a.uk-active');
 
-        FabricPanel.changeFabricVisible(layer_level);
-        $('#m-fabric-selection ul li a.uk-active').removeClass('uk-active');
+        var layer_level = $(this).data('layer-level');
+        var active_layer_level = active_fabric_el.data('layer-level');
+
+        var layer_levels = FabricPanel.getLayerLevels(layer_level);
+
+        // do not change fabric if same layer level
+        if (!_.include(layer_levels, active_layer_level)) {
+            FabricPanel.changeFabricVisible(layer_level);
+        }
+
+        active_fabric_el.removeClass('uk-active');
         $(this).addClass('uk-active');
     }
 };
@@ -287,21 +296,24 @@ FabricPanel.applyDefaultLayerLevel = function() {
     }
 };
 
-FabricPanel.changeFabricVisible = function(layer_level) {
-    var layer_levels = [];
+FabricPanel.getLayerLevels = function(layer_level) {
     switch (true) {
         case _.contains(FabricPanel.FABRIC_SOLID_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_SOLID_IDS;
-            break;
+            return FabricPanel.FABRIC_SOLID_IDS;
 
         case _.contains(FabricPanel.FABRIC_ALL_MESH_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_ALL_MESH_IDS;
-            break;
+            return FabricPanel.FABRIC_ALL_MESH_IDS;
 
         case _.contains(FabricPanel.FABRIC_MIXED_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_MIXED_IDS;
-            break;
+            return FabricPanel.FABRIC_MIXED_IDS;
+
+        default:
+            return null;
     }
+};
+
+FabricPanel.changeFabricVisible = function(layer_level) {
+    var layer_levels = FabricPanel.getLayerLevels(layer_level);
 
     // hl_sh - highlights and shadows
     var front_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
@@ -406,6 +418,8 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
                     break;
             }
 
+            break;
+
             case ub.funcs.is_pts_select() && ub.funcs.is_upper() && ub.funcs.is_sublimated():
 
                 switch (parseInt(fabric.id)) {
@@ -413,7 +427,7 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
                         fabric_sets.push({
                             name: ltx.material,
                             thumbnail: thumbnail,
-                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
                             active: ""
                         });
                         break;
@@ -428,7 +442,7 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
                         break;
                 }
 
-            break;
+                break;
     }
 
     if (fabric_sets.length === 1) {
