@@ -28,15 +28,39 @@ RosterPanel.events = {
     },
 
     onClickPlayerNumber: function() {
+        var active_size = $("#richardson-team-roster .uniform-size-button.uk-active").data("size");
+        var category = $("#richardson-team-roster .uniform-size-button.uk-active").data("category");
+        var number = $(this).data("number");
+        var numbers = [];
+
+        $("#richardson-team-roster .uniform-size-button[data-size='"+  active_size +"'][data-category='"+  category +"']").addClass("selected");
+
         if ($("#richardson-team-roster .uniform-size-button.uk-active").length > 0) {
             if ($(this).hasClass("uk-active")) {
+                $("#richardson-team-roster .remove-player-info[data-number='"+ number +"'][data-category='"+ category +"']").trigger("click");
                 $(this).removeClass("uk-active");
             } else {
+                var findNumber = _.find(ub.data.playerNumbers, {number: number.toString(), status: "selected"});
+                if (typeof findNumber === "undefined") {
+                    numbers.push({
+                        size: active_size,
+                        number: parseInt($(this).data("number")),
+                        qty: 1,
+                        lastName: "",
+                        category: category
+                    });
+                }
+
+                ub.funcs.setNumberStatus($(this).data("number"), 'selected');
                 $(this).addClass("uk-active");
             }
         } else {
             return;
         }
+
+        RosterPanel.events.saveRosterData(active_size, category, numbers);
+        var roster = RosterPanel.events.find(active_size, category);
+        RosterPanel.events.prepareRosterList(roster.rosters);
     },
 
     onRemoveRoster: function() {
@@ -47,7 +71,7 @@ RosterPanel.events = {
         var quantity = container.find(".roster-uniform-qty").val();
         var category = container.data("category");
 
-        var index = $(this).closest('tr').index();
+        var index = $(this).closest('li').index();
         var roster = RosterPanel.events.find(size, category);
 
         if (typeof roster !== "undefined") {
@@ -57,9 +81,18 @@ RosterPanel.events = {
             }
         }
 
-        container.fadeOut();
+        container.fadeOut(function() {
+            $(this).remove();
+        });
+
         $(".player-numbers-container .player-number-button[data-number='"+ number +"']").removeClass("selected").removeClass("uk-active");
         ub.funcs.setNumberStatus(number, 'free');
+
+        console.log(list.length)
+        if (list.length === 0) {
+            console.log("remove selected size")
+            $("#richardson-team-roster .uniform-size-button[data-size='"+ size +"']").removeClass("selected");
+        }
     },
 
     onUpdateRosterInfo: function() {
@@ -113,11 +146,15 @@ RosterPanel.events = {
 
         var roster = RosterPanel.events.find(size, category);
         if (typeof roster !== "undefined") {
-            _.each(roster.rosters, function(roster) {
-                $("#richardson-team-roster .player-number-button[data-number='"+ roster.number +"']").addClass("uk-active");
-            });
+            _.delay(function() {
+                _.each(roster.rosters, function(roster) {
+                    $("#richardson-team-roster .player-number-button[data-number='"+ roster.number +"']").addClass("uk-active");
+                });
+            }, 100);
 
             RosterPanel.events.prepareRosterList(roster.rosters);
+        } else {
+            $("#richardson-team-roster .roster-player-list-table tbody").html("");
         }
     },
 
@@ -129,6 +166,18 @@ RosterPanel.events = {
 
         $("#richardson-team-roster .roster-uniform-size-container").html("");
         $("#richardson-team-roster .roster-uniform-size-container").html(render);
+
+        var rosters = RosterPanel.teamRoster;
+
+        if (rosters.length > 0) {
+            _.map(rosters, function(roster) {
+                if (roster.rosters.length > 0) {
+                    $("#richardson-team-roster .uniform-size-button[data-size='"+ roster.size +"'][data-category='"+ roster.category +"']").addClass("selected");
+                }
+            });
+
+            $("#richardson-team-roster .uniform-size-button.selected").first().trigger("click");
+        }
     },
 
     preparePlayerNumbers: function() {
@@ -147,8 +196,8 @@ RosterPanel.events = {
             players: numbers
         });
 
-        $("#richardson-team-roster .roster-player-list-table tbody").html("");
-        $("#richardson-team-roster .roster-player-list-table tbody").html(render);
+        $("#richardson-team-roster .roster-player-list-table").html("");
+        $("#richardson-team-roster .roster-player-list-table").html(render);
     },
 
     saveRosterData: function (size, category, rosters) {

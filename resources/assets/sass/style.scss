@@ -57,6 +57,19 @@ body {
   border-right: none !important; 
 }
 
+.bdr-bottom {
+    border: .5px solid $color-lightGray;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.bdr-bottom-top {
+    border: .5px solid $color-lightGray;
+    border-left: none !important;
+    border-right: none !important;
+}
+
 .bdr-top-right {
   border: .5px solid #eee !important;
   border-bottom: none !important;
@@ -668,7 +681,7 @@ div.debug-panel {
   line-height: 2.6em;
   margin-right: 5px;
   text-align: center;
-  width: 35px;
+  width: 30px;
 }
 
 .player-number-button.selected {
@@ -714,5 +727,9 @@ div.debug-panel {
 }
 
 .roster-list-height {
-  max-height: 711px !important;
+  max-height: 445px !important;
+}
+
+.roster-form-padding {
+  height: 33px !important;
 }
