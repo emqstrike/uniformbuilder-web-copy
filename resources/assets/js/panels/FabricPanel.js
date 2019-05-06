@@ -369,80 +369,80 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
     var lte = _.find(ub.current_material.fabrics, {id: "23"});
     var ltx = _.find(ub.current_material.fabrics, {id: "6"});
 
-    switch(true) {
-        case (ub.funcs.is_pts_signature() || ub.funcs.is_pts_pro_select()) &&
-              ub.funcs.is_upper() && ub.funcs.is_twill():
+    if (ub.funcs.is_upper()) {
+        switch (true) {
+            case ub.funcs.is_pts_signature():
+            case ub.funcs.is_pts_pro_select():
+                if (ub.funcs.is_twill() || ub.funcs.is_sublimated()) {
+                    var layer_level;
 
-            switch (parseInt(fabric.id)) {
-                case 4: // Baseball Polyester
-                    fabric_sets.push({
-                        name: matrixMesh.material,
-                        thumbnail: thumbnail,
-                        layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
-                        active: ""
-                    });
-                    break;
+                    if (ub.funcs.is_pts_signature()) {
+                        layer_level = FabricPanel.FABRIC_MIXED_IDS[0];
+                    } else if (ub.funcs.is_pts_pro_select()) {
+                        layer_level = FabricPanel.FABRIC_SOLID_IDS[0];
+                    }
 
-                case 27: // matrix mesh
-                    fabric_sets.unshift({
-                        name: baseballPolyEster.material,
-                        thumbnail: thumbnail,
-                        layer_level: FabricPanel.FABRIC_MIXED_IDS[0],
-                        active: ""
-                    });
-                    break;
-            }
+                    switch (parseInt(fabric.id)) {
+                        case 4: // Baseball Polyester
+                            fabric_sets.push({
+                                name: matrixMesh.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                active: ""
+                            });
+                            break;
 
-            break;
+                        case 29: // ETX
+                            fabric_sets.push({
+                                name: matrixMesh.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                active: ""
+                            });
+                            break;
 
-        case (ub.funcs.is_pts_signature() || ub.funcs.is_pts_pro_select()) &&
-             ub.funcs.is_upper() && ub.funcs.is_sublimated():
-
-            switch (parseInt(fabric.id)) {
-                case 29: // ETX
-                    fabric_sets.push({
-                        name: matrixMesh.material,
-                        thumbnail: thumbnail,
-                        layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
-                        active: ""
-                    });
-                    break;
-
-                case 27: // matrix mesh
-                    fabric_sets.unshift({
-                        name: etx.material,
-                        thumbnail: thumbnail,
-                        layer_level: FabricPanel.FABRIC_MIXED_IDS[0],
-                        active: ""
-                    });
-                    break;
-            }
-
-            break;
-
-            case ub.funcs.is_pts_select() && ub.funcs.is_upper() && ub.funcs.is_sublimated():
-
-                switch (parseInt(fabric.id)) {
-                    case 23: // LTE Fit (A00 3)
-                        fabric_sets.push({
-                            name: ltx.material,
-                            thumbnail: thumbnail,
-                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
-                            active: ""
-                        });
-                        break;
-
-                    case 6: // LTX
-                        fabric_sets.unshift({
-                            name: lte.material,
-                            thumbnail: thumbnail,
-                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
-                            active: ""
-                        });
-                        break;
+                        case 27: // matrix mesh
+                            fabric_sets.unshift({
+                                name: baseballPolyEster.material,
+                                thumbnail: thumbnail,
+                                layer_level: layer_level,
+                                active: ""
+                            });
+                            break;
+                    }
+                } else {
+                    console.log("Uniform application type is not twill or sublimated");
                 }
 
                 break;
+
+            case ub.funcs.is_pts_select():
+                if (ub.funcs.is_sublimated()) {
+                    switch(parseInt(fabric.id)) {
+                        case 23: // LTE Fit (A00 3)
+                            fabric_sets.push({
+                                name: ltx.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                active: ""
+                            });
+                            break;
+
+                        case 6: // LTX
+                            fabric_sets.unshift({
+                                name: lte.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                active: ""
+                            });
+                            break;
+                    }
+                } else {
+                    console.log("Uniform application type is not sublimated");
+                }
+
+                break;
+        }
     }
 
     if (fabric_sets.length === 1) {
