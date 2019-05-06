@@ -187,6 +187,7 @@ $(document).ready(function () {
 
             layer.color = _tintColor;
             layer.color_code = colorOBJ.color_code;
+            layer.colorObj = colorOBJ;
 
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
@@ -1661,6 +1662,7 @@ $(document).ready(function () {
                 container_opacity: 1,
                 container_rotation: ub.funcs.translateAngle(_materialOption.angle),
                 container_scale: { x:1,y:1 },
+                colorObj: _property.colorObj
             }
 
             _patternObject.pattern_obj.layers.push(_layer);
