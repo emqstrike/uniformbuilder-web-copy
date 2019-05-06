@@ -317,104 +317,79 @@
 
 <!-- TEAM ROSTER -->
 <div id="richardson-team-roster" class="bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
-    <div class="uk-modal-dialog uk-modal-body uk-width-expand@m uk-margin-auto-vertical">
+    <div class="uk-modal-dialog uk-modal-body uk-width-3-4@m uk-margin-auto-vertical">
         <button class="uk-modal-close-outside" type="button" uk-close></button>
         <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Team Roster</h6>
-        <div class="uk-grid-small uk-grid-match" uk-grid>
-            <div class="uk-width-1-2@m uk-width-1-6@l">
-                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
-                    <div class="roster-uniform-size-container">
-                        
+        <div class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-1@m uk-width-1-3@l">
+                <div class="uk-width-1-2@m uk-width-1-1@l">
+                    <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
+                        <div class="roster-uniform-size-container">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="uk-width-1-2@m uk-width-1-4@l">
-                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
-                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red">(No. 34 - XS - 6pcs - Weird Doe)</span></h6>
-                    <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
-                        <div class="bdr-bottom-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
-                            
+                <div class="uk-width-1-2@m uk-width-1-1@l">
+                    <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                        <h5 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
+                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red">(No. 34 - XS - 6pcs - Weird Doe)</span></h6>
+                        <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
+                            <div class="bdr-bottom-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="uk-width-1-2@m uk-width-expand@l">
-                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Edit Roster</h5>
-                    <div class="uk-grid-small uk-flex uk-flex-middle bdr-bottom" uk-grid>
-                        <div class="uk-width-1-6">
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase fc-dark">Size</h6>
-                        </div>
-                        <div class="uk-width-expand">
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase fc-dark">Last Name</h6>
-                        </div>
-                        <div class="uk-width-expand">
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase fc-dark">Number</h6>
-                        </div>
-                        <div class="uk-width-auto">
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase fc-dark">Quantity</h6>
-                        </div>
-                        <div class="uk-width-auto">
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase fc-dark"></h6>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-1@l">
+                        <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Edit Roster</h5>
+                            <table class="uk-table uk-table-small uk-table-divider roster-player-list-table uk-margin-remove-top fixed_header">
+                                <thead>
+                                    <tr>
+                                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Size</th>
+                                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Last Name</th>
+                                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Number</th>
+                                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Quantity</th>
+                                        <th class="fc-dark uk-padding-remove-top uk-table-shrink"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="roster-list-height uk-overflow-auto">
-                        <ul class="uk-list uk-list-divider roster-player-list-table uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top">
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-width-1-2@m uk-width-expand@l">
-                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
-                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Roster List</h6>
-                    <div class="uk-width-1-1">
-                        <div class="bdr-top roster-summary uk-padding-small"> 
-                            <ul class="uk-list uk-list-divider uk-height-max-xlarge uk-overflow-auto">
-                                <li>
-                                    <div class="uk-grid uk-grid-small" uk-grid>
-                                        <div class="uk-grid-small uk-child-width-1-6@s uk-child-width-1-6@m uk-child-width-auto@l grid-tiny uk-grid-match uk-padding-small uk-flex-center uk-padding-remove-horizontal" uk-grid>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">XS - </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 1, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 2, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 3, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 4, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 5, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 10, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 11, </h6>
-                                            </div>
-                                            <div>
-                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> 12, </h6>
-                                            </div>
-                                        </div>
+                    <div class="uk-width-1-1@l">
+                        <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
+                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Roster List</h6>
+                            <div class="uk-width-1-1">
+                                <div class="uk-grid-small uk-grid-match" uk-grid>
+                                    <div class="uk-width-1-3">
+                                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Sizes</h6>
                                     </div>
-                                </li>
-                            </ul>
+                                    <div class="uk-width-2-3">
+                                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark uk-text-center">Player Numbers</h6>
+                                    </div>
+                                </div>
+                                <div class="bdr-top uk-padding-small summary-list-height uk-overflow-auto"> 
+                                    <ul class="uk-list uk-list-divider roster-summary">
+                                        
+                                    </ul>
+                                </div>
+                                
+                            </div>
                         </div>
-                    </div>
-                    <div class="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
-                        <button class="uk-button uk-button-secondary uk-width-1-1">Secondary</button>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center">
+            <button class="uk-button uk-button-secondary save-roster">Save Roster</button>
         </div>
     </div>
 </div>

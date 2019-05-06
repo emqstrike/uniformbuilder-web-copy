@@ -31,27 +31,42 @@
 
 <script type="text/mustache" id="m-richardson-roster-player-form">
     @{{ #players }}
-        <li class="player-info uk-padding-small uk-padding-remove-bottom" data-number="@{{ number }}" data-category="@{{ category }}">
-            <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
-                <div class="uk-width-1-6">
-                    <input class="uk-input roster-form-padding roster-uniform-size" type="text" placeholder="" value="@{{ size }}" readonly="true">
+        <tr class="player-info" data-category="@{{ category }}">
+            <td>
+                <input class="uk-input roster-form-padding roster-uniform-size" type="text" placeholder="" value="@{{ size }}" readonly="true">
+            </td>
+            <td>
+                <input class="uk-input roster-form-padding roster-uniform-name" type="text" placeholder="Player Name" value="@{{ lastName }}">
+            </td>
+            <td>
+                <input class="uk-input roster-form-padding roster-uniform-number" type="text" placeholder="00" value="@{{ number }}" readonly="true">
+            </td>
+            <td>
+                <input class="uk-input roster-form-padding roster-uniform-qty" type="number" min="0" max="99" value="@{{ qty }}">
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="remove-player-info fc-darkGray" data-number="@{{ number }}" data-category="@{{ category }}">
+                    <span class="fa fa-close"></span>
+                </a>
+            </td>
+        </tr>
+    @{{ /players }}
+</script>
+
+
+<script type="text/mustache" id="m-richardson-team-roster-summary">
+    @{{ #rosters }}
+        <li>
+            
+            <div class="uk-grid-small uk-grid-match" uk-grid>
+                <div class="uk-width-1-3">
+                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">@{{ size }} (@{{ category }})</h6>
                 </div>
-                <div class="uk-width-expand">
-                    <input class="uk-input roster-form-padding roster-uniform-name" type="text" placeholder="Player Name" value="@{{ lastName }}">
-                </div>
-                <div class="uk-width-expand">
-                    <input class="uk-input roster-form-padding roster-uniform-number" type="text" placeholder="00" value="@{{ number }}" readonly="true">
-                </div>
-                <div class="uk-width-auto">
-                    <input class="uk-input roster-form-padding roster-uniform-qty" type="number" min="0" max="99" value="@{{ qty }}">
-                </div>
-                <div class="uk-width-auto">
-                    <a href="javascript:void(0)" class="remove-player-info fc-darkGray" data-number="@{{ number }}" data-category="@{{ category }}">
-                        <span class="fa fa-close"></span>
-                    </a>
+                <div class="uk-width-2-3">
+                    <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark"> @{{ numbers }}</h6>
                 </div>
             </div>
         </li>
-    @{{ /players }}
+    @{{ /rosters }}
 </script>
 
