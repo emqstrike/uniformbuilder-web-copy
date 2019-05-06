@@ -333,7 +333,7 @@
                 <div class="uk-width-1-2@m uk-width-1-1@l">
                     <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
                         <h5 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
-                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red">(No. 34 - XS - 6pcs - Weird Doe)</span></h6>
+                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red player-info-preview"></span></h6>
                         <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
                             <div class="bdr-bottom-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
                                 
@@ -366,7 +366,7 @@
                     <div class="uk-width-1-1@l">
                         <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
                             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Roster List</h6>
+                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark uk-heading-divider">Roster List</h6>
                             <div class="uk-width-1-1">
                                 <div class="uk-grid-small uk-grid-match" uk-grid>
                                     <div class="uk-width-1-3">

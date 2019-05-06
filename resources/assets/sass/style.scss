@@ -684,11 +684,6 @@ div.debug-panel {
   width: 30px;
 }
 
-.player-number-button.selected {
-  pointer-events: none !important;
-}
-
-
 .selected {
   
   .size-circle {
@@ -732,7 +727,7 @@ div.debug-panel {
 }
 
 .summary-list-height {
-  max-height: 415px !important;
+  max-height: 340px !important;
 }
 
 
@@ -749,7 +744,7 @@ div.debug-panel {
   display:block;
   width: 100%;
   overflow: auto;
-  height: 193px;
+  height: 260px;
 }
 
 .fixed_header thead tr {
@@ -761,4 +756,24 @@ div.debug-panel {
   padding: 5px;
   text-align: left;
   width: 25%;
+}
+
+tr.active {
+  input {
+    border: 1.5px solid !important;
+  }
+}
+
+.roster-summary {
+  .comma:not(:first-child) {
+    margin-left: -.3em;  
+  }
+
+  .comma:empty {
+    display: none;
+  }
+
+  .comma:not(:first-child):before {
+    content: ", ";
+  }
 }
