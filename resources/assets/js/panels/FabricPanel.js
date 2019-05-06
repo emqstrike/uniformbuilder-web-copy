@@ -296,7 +296,7 @@ FabricPanel.applyDefaultLayerLevel = function() {
 
     if (default_layer_level !== null) {
         FabricPanel.changeFabricVisible(default_layer_level);
-    } else if (hl_sh !== null) {
+    } else if (hl_sh !== null && !_.isEmpty(hl_sh)) {
         var first_layer_level = _.first(hl_sh).layer_level;
         FabricPanel.changeFabricVisible(first_layer_level);
     }
