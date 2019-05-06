@@ -302,11 +302,11 @@ PatternPanel.prototype = {
         _.each (_patternObject.layers, function (layer) {
 
             var color = color_palette[layer.layer_no - 1];
-
             if (typeof color !== 'undefined')
             {
                 // Assign New Team Color if not just use default
                 layer.default_color = color.hex_code;
+                layer.colorObj = color;
             }
         });
 
