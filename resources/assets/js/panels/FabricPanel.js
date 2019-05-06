@@ -7,6 +7,7 @@
  *         [31] Performance Fleece
  *         [36] Pro Stretch Dazzle
  *         [23] LTE Fit (A00 3)
+ *         [6] LTX
  *
  *     Parts category:
  *         Base Material:
@@ -85,135 +86,8 @@ FabricPanel.prototype = {
 
         if (default_fabric !== null) {
             if (default_fabric.fabric !== "undefined") {
-                var fabric = default_fabric.fabric;
-
-                // thumbnail placeholder
-                var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
-
-                if (ub.funcs.is_twill()) {
-                    if (ub.funcs.is_upper()) {
-                        switch(parseInt(fabric.id)) {
-                            case 4: // Baseball Polyester
-                                this.fabrics.base_sleeve = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level,
-                                            active: "uk-active"
-                                        },
-                                        {
-                                            name: "Matrix Mesh",
-                                            thumbnail: thumbnail,
-                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
-                                            active: ""
-                                        }
-                                    ]
-                                };
-                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-
-                                break;
-
-                            default:
-                                this.fabrics.base_sleeve = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level,
-                                            active: ""
-                                        }
-                                    ]
-                                };
-                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-                        }
-                    } else if (ub.funcs.is_lower()){
-                        this.fabrics.base_sleeve = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level,
-                                    active: ""
-                                }
-                            ]
-                        };
-                        this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-                    }
-                } else if (ub.funcs.is_sublimated()) {
-                    if (ub.funcs.is_upper()) {
-                        switch(parseInt(fabric.id)) {
-                            case 29: // ETX
-                                this.fabrics.base_sleeve = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level,
-                                            active: "uk-active"
-                                        },
-                                        {
-                                            name: "Matrix Mesh",
-                                            thumbnail: thumbnail,
-                                            layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
-                                            active: ""
-                                        }
-                                    ]
-                                };
-                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-
-                                break;
-
-                            case 23: // LTE Fit (A00 3)
-                                this.fabrics.base_sleeve = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level,
-                                            active: "uk-active"
-                                        },
-                                        {
-                                            name: "LTX",
-                                            thumbnail: thumbnail,
-                                            layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
-                                            active: ""
-                                        }
-                                    ]
-                                };
-                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-
-                                break;
-
-                            default:
-                                this.fabrics.base_sleeve = {
-                                    data: [
-                                        {
-                                            name: fabric.material,
-                                            thumbnail: thumbnail,
-                                            layer_level: default_fabric.layer_level,
-                                            active: ""
-                                        }
-                                    ]
-                                };
-                                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-                        }
-                    } else if (ub.funcs.is_lower()){
-                        this.fabrics.base_sleeve = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level,
-                                    active: ""
-                                }
-                            ]
-                        };
-                        this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
-                    }
-                } else {
-                    console.log("Application type is not sublimated or twill");
-                }
+                this.fabrics.base_sleeve = {data: FabricPanel.getBaseSleeveFabricSets(default_fabric)};
+                this.fabrics.base_sleeve.multiple = this.fabrics.base_sleeve.data.length > 1;
             }
         }
     },
@@ -338,10 +212,19 @@ FabricPanel.events = {
     },
 
     onFabricLayerChange: function() {
-        var layer_level = $(this).data('layer-level');
+        var active_fabric_el = $('#m-fabric-selection ul li a.uk-active');
 
-        FabricPanel.changeFabricVisible(layer_level);
-        $('#m-fabric-selection ul li a.uk-active').removeClass('uk-active');
+        var layer_level = $(this).data('layer-level');
+        var active_layer_level = active_fabric_el.data('layer-level');
+
+        var layer_levels = FabricPanel.getLayerLevels(layer_level);
+
+        // do not change fabric if same layer level
+        if (!_.include(layer_levels, active_layer_level)) {
+            FabricPanel.changeFabricVisible(layer_level);
+        }
+
+        active_fabric_el.removeClass('uk-active');
         $(this).addClass('uk-active');
     }
 };
@@ -392,7 +275,9 @@ FabricPanel.getDefaultLayerLevel = function(perspective) {
     // default perspective
     perspective = perspective || FabricPanel.FRONT_PERSPECTIVE;
 
-    var filtered_fabric = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
+    var hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
+
+    var filtered_fabric = _.filter(hl_sh, function(fc) {
         return fc.default_asset == true || fc.default_asset == 1;
     });
 
@@ -407,90 +292,189 @@ FabricPanel.getDefaultLayerLevel = function(perspective) {
 
 FabricPanel.applyDefaultLayerLevel = function() {
     var default_layer_level = FabricPanel.getDefaultLayerLevel();
+    var hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
 
     if (default_layer_level !== null) {
         FabricPanel.changeFabricVisible(default_layer_level);
+    } else if (hl_sh !== null && !_.isEmpty(hl_sh)) {
+        var first_layer_level = _.first(hl_sh).layer_level;
+        FabricPanel.changeFabricVisible(first_layer_level);
     }
 };
 
-FabricPanel.changeFabricVisible = function(layer_level) {
-    var layer_levels = [];
+FabricPanel.getLayerLevels = function(layer_level) {
     switch (true) {
         case _.contains(FabricPanel.FABRIC_SOLID_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_SOLID_IDS;
-            break;
+            return FabricPanel.FABRIC_SOLID_IDS;
 
         case _.contains(FabricPanel.FABRIC_ALL_MESH_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_ALL_MESH_IDS;
-            break;
+            return FabricPanel.FABRIC_ALL_MESH_IDS;
 
         case _.contains(FabricPanel.FABRIC_MIXED_IDS, layer_level):
-            layer_levels = FabricPanel.FABRIC_MIXED_IDS;
-            break;
+            return FabricPanel.FABRIC_MIXED_IDS;
+
+        default:
+            return null;
+    }
+};
+
+FabricPanel.getHighlightsAndShadows = function(perspective) {
+    var perspectives = [
+        FabricPanel.FRONT_PERSPECTIVE,
+        FabricPanel.LEFT_PERSPECTIVE,
+        FabricPanel.RIGHT_PERSPECTIVE,
+        FabricPanel.BACK_PERSPECTIVE
+    ];
+
+    if (_.include(perspectives, perspective)) {
+        return _.filter(ub.fabric.fabricCollections[perspective], function(fc) {
+            return fc.name === "highlights" || fc.name === "shadows";
+        });
     }
 
+    return null;
+};
+
+FabricPanel.changeFabricVisible = function(layer_level) {
+    var layer_levels = FabricPanel.getLayerLevels(layer_level);
+
     // hl_sh - highlights and shadows
-    var front_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.FRONT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
+    var front_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.FRONT_PERSPECTIVE);
+    var left_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.LEFT_PERSPECTIVE);
+    var right_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.RIGHT_PERSPECTIVE);
+    var back_hl_sh = FabricPanel.getHighlightsAndShadows(FabricPanel.BACK_PERSPECTIVE);
+
+    if (front_hl_sh !== null) {
+        _.each(front_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
+
+    if (left_hl_sh !== null) {
+        _.each(left_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
+
+    if (right_hl_sh !== null) {
+        _.each(right_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
+
+    if (back_hl_sh !== null) {
+        _.each(back_hl_sh, function (fc) {
+            fc.sprite.visible = _.contains(layer_levels, fc.layer_level);
+        });
+    }
+};
+
+// remove this function if fabric set is done
+FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
+    var fabric_sets = [];
+
+    var fabric = default_fabric.fabric;
+    var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
+
+    fabric_sets.push({
+        name: fabric.material,
+        thumbnail: thumbnail,
+        layer_level: default_fabric.layer_level,
+        active: "uk-active"
     });
 
-    var left_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.LEFT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    var baseballPolyEster = _.find(ub.current_material.fabrics, {id: "4"});
+    var matrixMesh = _.find(ub.current_material.fabrics, {id: "27"});
+    var etx = _.find(ub.current_material.fabrics, {id: "29"});
+    var lte = _.find(ub.current_material.fabrics, {id: "23"});
+    var ltx = _.find(ub.current_material.fabrics, {id: "6"});
 
-    var right_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.RIGHT_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+    if (ub.funcs.is_upper()) {
+        switch (true) {
+            case ub.funcs.is_pts_signature():
+            case ub.funcs.is_pts_pro_select():
+                if (ub.funcs.is_twill() || ub.funcs.is_sublimated()) {
+                    var material;
+                    var layer_level;
 
-    var back_hl_sh = _.filter(ub.fabric.fabricCollections[FabricPanel.BACK_PERSPECTIVE], function(fc) {
-        return fc.name === "highlights" || fc.name === "shadows";
-    });
+                    if (ub.funcs.is_twill()) {
+                        material = baseballPolyEster;
+                    } else if (ub.funcs.is_sublimated()) {
+                        material = etx;
+                    }
 
-    _.each(front_hl_sh, function (fc) {
-        if (_.contains(layer_levels, fc.layer_level)) {
-            fc.sprite.visible = true;
-            fc.active_asset = "uk-active";
-            fc.default_asset = true;
-        } else {
-            fc.sprite.visible = false;
-            fc.active_asset = "";
-            fc.default_asset = false;
+                    if (ub.funcs.is_pts_signature()) {
+                        layer_level = FabricPanel.FABRIC_MIXED_IDS[0];
+                    } else if (ub.funcs.is_pts_pro_select()) {
+                        layer_level = FabricPanel.FABRIC_SOLID_IDS[0];
+                    }
+
+                    switch (parseInt(fabric.id)) {
+                        case 4: // Baseball Polyester
+                            fabric_sets.push({
+                                name: matrixMesh.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                active: ""
+                            });
+                            break;
+
+                        case 29: // ETX
+                            fabric_sets.push({
+                                name: matrixMesh.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_ALL_MESH_IDS[0],
+                                active: ""
+                            });
+                            break;
+
+                        case 27: // matrix mesh
+                            fabric_sets.unshift({
+                                name: material.material,
+                                thumbnail: thumbnail,
+                                layer_level: layer_level,
+                                active: ""
+                            });
+                            break;
+                    }
+                } else {
+                    console.log("Uniform application type is not twill or sublimated");
+                }
+
+                break;
+
+            case ub.funcs.is_pts_select():
+                if (ub.funcs.is_sublimated()) {
+                    switch(parseInt(fabric.id)) {
+                        case 23: // LTE Fit (A00 3)
+                            fabric_sets.push({
+                                name: ltx.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                active: ""
+                            });
+                            break;
+
+                        case 6: // LTX
+                            fabric_sets.unshift({
+                                name: lte.material,
+                                thumbnail: thumbnail,
+                                layer_level: FabricPanel.FABRIC_SOLID_IDS[0],
+                                active: ""
+                            });
+                            break;
+                    }
+                } else {
+                    console.log("Uniform application type is not sublimated");
+                }
+
+                break;
         }
-    });
+    }
 
-    _.each(left_hl_sh, function (fc) {
-        if (_.contains(layer_levels, fc.layer_level)) {
-            fc.sprite.visible = true;
-            fc.active_asset = "uk-active";
-            fc.default_asset = true;
-        } else {
-            fc.sprite.visible = false;
-            fc.active_asset = "";
-            fc.default_asset = false;
-        }
-    });
+    if (fabric_sets.length === 1) {
+        fabric_sets[0].active = "";
+    }
 
-    _.each(right_hl_sh, function (fc) {
-        if (_.contains(layer_levels, fc.layer_level)) {
-            fc.sprite.visible = true;
-            fc.active_asset = "uk-active";
-            fc.default_asset = true;
-        } else {
-            fc.sprite.visible = false;
-            fc.active_asset = "";
-            fc.default_asset = false;
-        }
-    });
-
-    _.each(back_hl_sh, function (fc) {
-        if (_.contains(layer_levels, fc.layer_level)) {
-            fc.sprite.visible = true;
-            fc.active_asset = "uk-active";
-            fc.default_asset = true;
-        } else {
-            fc.sprite.visible = false;
-            fc.active_asset = "";
-            fc.default_asset = false;
-        }
-    });
+    return fabric_sets;
 };
