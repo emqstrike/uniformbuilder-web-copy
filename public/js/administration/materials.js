@@ -266,8 +266,8 @@ $(document).ready(function() {
                 $(this).parent().find('.app-def-pattern').val(33);
                 id = 33;
             } else if (temp_brand == 'richardson') {
-                $(this).parent().find('.app-def-pattern').val(312);
-                id = 312;
+                $(this).parent().find('.app-def-pattern').val(318);
+                id = 318;
             }
 
         }
@@ -714,7 +714,7 @@ $(document).ready(function() {
         $.each(input_patterns, function (i, item) {
             if (item.id == 33 && temp_brand == 'prolook') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-            } else if (item.id == 312 && temp_brand == 'richardson') {
+            } else if (item.id == 318 && temp_brand == 'richardson') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
@@ -1891,7 +1891,7 @@ $(document).ready(function() {
                     if (temp_brand == 'prolook') {
                         app_properties[l].appDefPattern = 33;
                     } else if (temp_brand == 'richardson') {
-                        app_properties[l].appDefPattern = 312;
+                        app_properties[l].appDefPattern = 318;
                     }
                 }
 
