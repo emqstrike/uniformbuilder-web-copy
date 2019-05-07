@@ -14,7 +14,7 @@ SummaryPreviewPanel.events = {
                 $(".loading").show();
 
                 // Check if all thumbnails uploaded
-                if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined") {
+                if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
                     _this.prepareThumbnails();
                 } else {
                     $(".pdf-iframe-container").show();
@@ -78,6 +78,7 @@ SummaryPreviewPanel.events = {
                     $(".loading").hide();
                     $(".pdf-iframe-container .pdf-iframe").prop('src', response.pdfUrl)
                     ub.current_material.settings.uniformPreviewPdf = response.pdfUrl;
+                    ub.data.rosterIsChange = false;
                 } else {
                     console.log("Something went wrong")
                 }
