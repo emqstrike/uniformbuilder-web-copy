@@ -177,9 +177,8 @@ new Vue({
 
             this.user.password  = this.user.confirm_password = null; 
 
-            // if ((this.user.allowed_pages != null) || (! Array.isArray(this.user.allowed_pages))) {
-            //     this.user.allowed_pages = JSON.parse(this.user.allowed_pages);
-            // }
+            this.user.allowed_pages = JSON.parse(this.user.allowed_pages);
+            this.user.limited_access = JSON.parse(this.user.limited_access);
 
             if (! this.user.role) {
                 this.user.role = this.roles[0].id;
@@ -351,22 +350,40 @@ new Vue({
                     default_rep_id: this.user.default_rep_id,
                     zip: this.user.zip,
                     brand_id: this.user.brand_id,
-                    password: this.user.password
                 };
+
+                if (this.user.password != null) {
+                    data.password = this.user.password;
+                }
 
                 axios.post('user/update', data).then((response) => {
                     if (response.data.success === true) {
-                        setTimeout(() => {
-                            this.dialog = false;
-                            this.togglePanel();
+                        var updateData = {
+                            user_id: this.user.id,
+                            allowed_pages: this.user.allowed_pages,
+                            limited_access: this.user.limited_access,
+                        };
+                        
+                        this.updateUserAllowedPages(updateData).then(data => {
+                            if (data.success === true) {
+                                console.log(data);
+                                let user = this.users.find(user => user.id === updateData.user_id);
+                                Vue.set(user, 'allowed_pages', data.allowed_pages);
+                                Vue.set(user, 'limited_access', data.limited_access);
 
-                            new PNotify({
-                                title: 'User updated',
-                                type: 'success',
-                                hide: true,
-                                delay: 1000
-                            });
-                        }, 1000);
+                                setTimeout(() => {
+                                    this.dialog = false;
+                                    this.togglePanel();
+
+                                    new PNotify({
+                                        title: 'User updated',
+                                        type: 'success',
+                                        hide: true,
+                                        delay: 1000
+                                    });
+                                }, 1000);
+                            }
+                        });
                     } else {
                         setTimeout(() => {
                             this.dialog = false;
@@ -381,6 +398,22 @@ new Vue({
                     }
                 });
             }
+        },
+        updateUserAllowedPages: function(data)
+        {
+            return new Promise((resolve, reject) => {
+                axios.post('user/allowed_pages', data).then((response) => {
+                    if (response.data.success === true) {
+                        let success = true;
+                        let allowed_pages = response.data.allowed_pages;
+                        let limited_access = response.data.limited_access;
+
+                        setTimeout(() => {
+                            resolve({success, allowed_pages, limited_access});
+                        }, 1000);
+                    }
+                });
+            });
         },
         validateEmail: function(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

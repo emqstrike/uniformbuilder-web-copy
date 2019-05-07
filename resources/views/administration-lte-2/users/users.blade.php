@@ -44,7 +44,7 @@
                                             </td>
                                             <td>
                                                 <div class="btn-container">
-                                                    <button class="btn btn-primary btn-xs btn-flat" @click="edit(props.item)">Edit</button>
+                                                    <button class="btn btn-primary btn-xs btn-flat" @click="edit(props.item)" :disabled="((props.item.deleted_at != null) || (props.item.active == 0))">Edit</button>
                                                     <a :href="'/administration/v1-0/user/transactions/' + props.item.id" class="btn btn-primary btn-xs btn-flat" target="_blank">View Transactions</a>
                                                 </div>
                                             </td>
