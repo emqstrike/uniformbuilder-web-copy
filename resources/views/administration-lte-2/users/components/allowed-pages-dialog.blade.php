@@ -98,17 +98,17 @@
 
                             <div class="form-group">
                                 <label class="control-label">Default Allowed Pages</label>
-                                <v-select multiple disabled :value="getDefaultAllowedPages"></v-select>
+                                <multiselect :value="getDefaultAllowedPages" :multiple="true" :disabled="true" :options="getDefaultAllowedPages" :searchable="false" :close-on-select="false" :show-labels="false"></multiselect>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">Allowed Pages</label>
-                                <v-select v-model="user.allowed_pages" multiple :options="getAllowedPages"></v-select>
+                                <multiselect v-model="user.allowed_pages" :multiple="true" :options="getAllowedPages" :searchable="false" :close-on-select="false" :show-labels="false"></multiselect>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">Limited Access</label>
-                                <v-select v-model="user.limited_access" multiple :options="v1Pages"></v-select>
+                                <multiselect v-model="user.limited_access" :multiple="true" :options="v1Pages" :searchable="false" :close-on-select="false" :show-labels="false"></multiselect>
                             </div>
                         </v-list>
                     </div>

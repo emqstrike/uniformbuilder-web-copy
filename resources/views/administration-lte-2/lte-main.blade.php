@@ -22,7 +22,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://unpkg.com/vue-select/dist/vue-select.css">
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+
 
         <style>
             #breadcrumbs {
@@ -92,7 +93,7 @@
         <script type="text/javascript" src="/admin-lte-2/js/libs/spectrum/spectrum.js"></script>
         <script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
         <script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
-        <script src="https://unpkg.com/vue-select@latest"></script>
+        <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
         <script type="text/javascript" src="/js/administration/common.js"></script>
         <script src="/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>

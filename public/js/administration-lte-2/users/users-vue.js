@@ -1,4 +1,4 @@
-Vue.component('v-select', VueSelect.VueSelect)
+Vue.component('Multiselect', VueMultiselect.default)
 
 new Vue({
     el: '#application-container',
