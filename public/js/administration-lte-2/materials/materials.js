@@ -262,8 +262,13 @@ $(document).ready(function() {
 
         //set blank pattern for existing applications
         if( props == undefined || props == 'undefined' || props == "" || props == null ) {
-            $(this).parent().find('.app-def-pattern').val(33);
-            id = 33;
+            if (temp_brand == 'prolook') {
+                $(this).parent().find('.app-def-pattern').val(33);
+                id = 33;
+            } else if (temp_brand == 'richardson') {
+                $(this).parent().find('.app-def-pattern').val(318);
+                id = 318;
+            }
         }
         else {
             pattern_loaded = 1;
@@ -690,10 +695,11 @@ $(document).ready(function() {
         input_patterns.sort(dynamicSort('name'));
 
         $.each(input_patterns, function (i, item) {
-            if (item.id == 33) {
+            if (item.id == 33 && temp_brand == 'prolook') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-            }
-            else {
+            } else if (item.id == 318 && temp_brand == 'richardson') {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+            } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
             }
         });
@@ -1863,7 +1869,11 @@ $(document).ready(function() {
                 });
                 // set BLANK pattern for existing
                 if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
-                    app_properties[l].appDefPattern = 33;
+                    if (temp_brand == 'prolook') {
+                        app_properties[l].appDefPattern = 33;
+                    } else if (temp_brand == 'richardson') {
+                        app_properties[l].appDefPattern = 318;
+                    }
                 }
 
                 $.each(input_patterns, function (i, item) {
