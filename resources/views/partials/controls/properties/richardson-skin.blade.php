@@ -21,7 +21,7 @@
         <div class="uk-grid-small" uk-grid>
             <div class="uk-width-expand">
                 <h4 class="uk-text-uppercase uk-text-bold uk-margin-remove abrade-ultra-italic uk-text-truncate uniform-name">@{{ uniform_name }}</h4>
-                <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">@{{ application_type }}</h6>
+                <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">Style No. @{{ application_type }}</h6>
             </div>
         </div>
     </div>
@@ -50,18 +50,17 @@
                 @{{ #user }}
                     <div class="uk-width-1-1">
                         <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
-                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkGray fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
-                            <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">
-                                Save Design
-                            </a>
+                            <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-right uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
+                            <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-left uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">Save Design</a>
                         </div>
                     </div>
                 @{{ /user }}
 
                 @{{ ^user }}
-                    <a href="#" class="link-reset uk-padding-small uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
+                    <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
                 @{{ /user }}
                 
+                <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
             </div>
 
             <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic uk-flex uk-flex-right" uk-grid>

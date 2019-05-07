@@ -33,6 +33,8 @@ RichardsonSkin.events = {
             RichardsonSkin.events.isInit = false;
         }
 
+        RosterPanel.events.init();
+
         if (ub.user) {
             RichardsonSaveDesign.events.init();
         }
@@ -240,11 +242,12 @@ RichardsonSkin.funcs = {
 
         var template = document.getElementById("m-richardson-right-panel-header");
         var data = {
-            "uniform_name": ub.current_material.material.name,
-            "block_pattern": typeof ub.current_material.material.model_number !== "undefined" && ub.current_material.material.model_number !== "" ? ub.current_material.material.model_number: this.richardsonPTSCategory(),
-            "application_type": ub.funcs.isSublimated() ? "color infused" : ub.funcs.isTackleTwill() ? "color dyed" : ""
+            "uniform_name": this.prepareStyleDescription(),
+            "block_pattern": ub.current_material.material.model_name,
+            "application_type": ub.current_material.material.model_number
         };
 
+        
         var rendered = Mustache.render(template.innerHTML, data);
         $("div.options_panel_header").html(rendered);
         if (ub.current_material.material.name.length > 38) {
@@ -264,5 +267,22 @@ RichardsonSkin.funcs = {
         if  (typeof color !== "undefined") {
             ub.renderer.backgroundColor = color;
         }
+    },
+
+    prepareStyleDescription: function() {
+        var uniformaApplicationType = ub.funcs.isSublimated() ? "color infused" : ub.funcs.isTackleTwill() ? "color dyed" : "";
+        var uniformName = ub.current_material.material.name;
+        var styleDescription = "";
+
+        if (uniformName.includes("PTS Signature")) {
+            uniformName.replace("PTS Signature", "");
+        } else if (uniformName.includes("PTS Pro Select")) {
+            uniformName.replace("PTS Pro Select", "");
+        } else if (uniformName.includes("PTS Select")) {
+            uniformName.replace("PTS Select", "");
+        }
+
+        styleDescription = uniformaApplicationType + " " + uniformName;
+        return styleDescription
     }
 }

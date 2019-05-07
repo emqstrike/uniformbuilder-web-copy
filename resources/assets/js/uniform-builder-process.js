@@ -146,10 +146,14 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.setNumberStatus = function (number, status) {
+    ub.funcs.setNumberStatus = function (size, category, number, status) {
 
         var _numberObj = _.find(ub.data.playerNumbers, { number: number.toString() });
-        _numberObj.status = status;
+        if (typeof _numberObj !== "undefined") {
+            _numberObj.status = status;
+            _numberObj.size = typeof size !== "undefined" ? size : "";
+            _numberObj.category = typeof category !== "undefined" ? category : "";
+        }
 
     }
 
