@@ -80,9 +80,11 @@ new Vue({
                         allowedPages.push(v1Page);
                     }
                 });
-            }
 
-            return allowedPages;
+                return allowedPages;
+            } else {
+                return this.v1Pages;
+            }
         },
         getDefaultAllowedPages: function() {
             let role = this.roles.find(role => role.id === this.user.role);
@@ -91,7 +93,7 @@ new Vue({
                 return JSON.parse(role.allowed_pages);
             }
 
-            return null;
+            return [];
         },
         pages: function() {
             if ((this.pagination.rowsPerPage == null) || (this.totalItems == null)) {
