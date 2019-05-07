@@ -21,7 +21,7 @@
         <div class="uk-grid-small" uk-grid>
             <div class="uk-width-expand">
                 <h4 class="uk-text-uppercase uk-text-bold uk-margin-remove abrade-ultra-italic uk-text-truncate uniform-name">@{{ uniform_name }}</h4>
-                <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">@{{ application_type }}</h6>
+                <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-remove fc-red abrade-ultra">Style No. @{{ application_type }}</h6>
             </div>
         </div>
     </div>
