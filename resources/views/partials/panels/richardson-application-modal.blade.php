@@ -173,18 +173,106 @@
 <!-- {{-- End User Login --}} -->
 
 
-<!-- {{-- User Saved Desing --}} -->
+{{--    User Feedback--}}
+<div id="richardson-feedback" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-width-1-1 uk-width-3-4@m uk-width-2-3@l uk-margin-auto-vertical uk-padding-small">
+        <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Feedback</h3>
+        <div class="uk-margin-top uk-grid" uk-grid>
+            <div class="uk-width-1-1 uk-width-1-3@s">
+                <h6 class="uk-text-bold uk-text-uppercase">Upload Screenshots</h6>
+                <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-2@s uk-text-center" uk-grid>
+                    <div>
+                        <div class="uk-inline-clip uk-transition-toggle uk-form-custom" tabindex="0" uk-form-custom="target: .custom-logo-upload-text">
+                            <input type="file">
+                            <img class="bdr-reg bdr-lightGray bgc-light padding-tiny-vertical" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/984010a0a226dc207ee5430a1e00a1b7.png" alt="upload your image">
+
+                            <div class="uk-transition-fade uk-position-cover uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-visible@s">
+                                <h6 class="uk-margin-remove abrade-ultra fc-light">Click to upload</h6>
+                            </div>
+                        </div>
+                        <h6 class="uk-text-small uk-text-center uk-margin-small-top">Front</h6>
+                    </div>
+                    <div>
+                        <div class="uk-inline-clip uk-transition-toggle uk-form-custom" tabindex="0" uk-form-custom="target: .custom-logo-upload-text">
+                            <input type="file">
+                            <img class="bdr-reg bdr-lightGray bgc-light padding-tiny-vertical" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/ff11e98804c31eace338c140fc3b4e2f.png" alt="upload your image">
+
+                            <div class="uk-transition-fade uk-position-cover uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-visible@s">
+                                <h6 class="uk-margin-remove abrade-ultra fc-light">Click to upload</h6>
+                            </div>
+                        </div>
+                        <h6 class="uk-text-small uk-text-center uk-margin-small-top">Back</h6>
+                    </div>
+                    <div>
+                        <div class="uk-inline-clip uk-transition-toggle uk-form-custom" tabindex="0" uk-form-custom="target: .custom-logo-upload-text">
+                            <input type="file">
+                            <img class="bdr-reg bdr-lightGray bgc-light padding-tiny-vertical" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/decdfb5513247463255f68634de2bcfb.png" alt="upload your image">
+
+                            <div class="uk-transition-fade uk-position-cover uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-visible@s">
+                                <h6 class="uk-margin-remove abrade-ultra fc-light">Click to upload</h6>
+                            </div>
+                        </div>
+                        <h6 class="uk-text-small uk-text-center uk-margin-small-top">Left</h6>
+                    </div>
+                    <div>
+                        <div class="uk-inline-clip uk-transition-toggle uk-form-custom" tabindex="0" uk-form-custom="target: .custom-logo-upload-text">
+                            <input type="file">
+                            <img class="bdr-reg bdr-lightGray bgc-light padding-tiny-vertical" src="https://s3-us-west-2.amazonaws.com/uniformbuilder/uploads/staging/801f4aaa30cc9cb9f960d7c04ece745c.png" alt="upload your image">
+
+                            <div class="uk-transition-fade uk-position-cover uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-visible@s">
+                                <h6 class="uk-margin-remove abrade-ultra fc-light">Click to upload</h6>
+                            </div>
+                        </div>
+                        <h6 class="uk-text-small uk-text-center uk-margin-small-top">Right</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-1-1 uk-width-2-3@s">
+                <h6 class="uk-text-bold uk-text-uppercase">Your Information</h6>
+                <form>
+                    <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@s" uk-grid>
+                        <div>
+                            <label class="uk-form-label" for="form-stacked-text">Name</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="design-name" type="text" placeholder="Name">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="uk-form-label" for="form-stacked-text">Email</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="design-id" type="text" placeholder="email@gmail.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Notes</label>
+                        <div class="uk-form-controls">
+                            <textarea class="uk-textarea" id="design-notes" rows="5"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center uk-padding-remove-horizontal uk-margin-small-top">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button bgc-darker fc-light save" type="button">Save</button>
+        </div>
+    </div>
+</div>
+{{--    End User Feedback--}}
+
+
+<!-- {{-- User Saved Design --}} -->
 <div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
-    <div class="uk-modal-dialog uk-width-1-1 uk-width-3-4@l uk-modal-body uk-margin-auto-vertical">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div class="uk-modal-body uk-padding-small ">
+    <div class="uk-modal-dialog uk-width-1-1 uk-width-3-4@m uk-width-2-3@l uk-margin-auto-vertical uk-padding-small">
+        <div>
             <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h3>
-{{--            ASDD--}}
-            <div class="uk-margin-top uk-grid-small uk-child-width-1-2@s" uk-grid>
-                <div class="uk-margin-bottom uk-width-2-3@l">
+            <div class="uk-margin-top uk-grid-small" uk-grid>
+                <div class="uk-margin-bottom uk-width-1-2@s uk-width-1-3@m">
                     <h6 class="uk-text-bold uk-text-uppercase">Design Preview</h6>
                     <div class="uk-grid-collapse uk-flex-center" uk-grid>
-                    <!--Preview-->
+                        <!--Preview-->
                         <div class="uk-width-1-1 uk-width-expand@s">
                             <div class=" uk-grid-collapse uk-flex uk-flex-center" uk-grid>
                                 <ul class="uk-switcher con-preview uk-width-1-1 uk-width-3-4@s">
@@ -211,7 +299,6 @@
                                 </ul>
                             </div>
                         </div>
-
                         <!--Preview navigation-->
                         <div class="uk-width-1-1 con-thumb-nav-savedesign uk-flex-center uk-flex-first@m ">
                             <div class="uk-grid-small grid-tiny uk-flex-center " uk-switcher="connect: .con-preview" uk-grid>
@@ -239,9 +326,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="uk-margin-bottom uk-width-1-3@l">
+                <div class="uk-margin-bottom uk-width-1-2@s uk-width-2-3@m">
                     <h6 class="uk-text-bold uk-text-uppercase">Design Information</h6>
-
                     <form>
                         <div class="uk-grid-small" uk-grid>
                             <div class="uk-width-2-3">
@@ -267,6 +353,7 @@
                     </form>
                 </div>
             </div>
+
             <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
                 <div uk-spinner="ratio: 8">
                 </div>
