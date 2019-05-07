@@ -9186,14 +9186,7 @@ $(document).ready(function () {
 
             }
 
-            // Set Pattern to Blank
-            if (_settingsObject.patternID !== "318") {
-                // Set to default pattern
-                var blank = _.find(ub.data.patterns.items, {id: "318"});
-                _settingsObject.patternID = blank.id;
-                _settingsObject.pattern_obj = blank;
-            }
-
+            ub.funcs.setApplicationPatternToDefault(_settingsObject, "318");
             ub.create_application(_settingsObject, undefined);
             
             if (ub.data.useScrollingUI) {
@@ -9233,13 +9226,7 @@ $(document).ready(function () {
             _settingsObject.application.type = _applicationType;
 
             // Set Pattern to Blank
-            if (_settingsObject.patternID !== "318") {
-                // Set to default pattern
-                var blank = _.find(ub.data.patterns.items, {id: "318"});
-                _settingsObject.patternID = blank.id;
-                _settingsObject.pattern_obj = blank;
-            }
-
+            ub.funcs.setApplicationPatternToDefault(_settingsObject, "318");
             ub.create_application(_settingsObject, undefined);
             
             if (ub.data.useScrollingUI) {
@@ -13721,6 +13708,16 @@ $(document).ready(function () {
         var _result = _.find(ub.data.mascots, {id: id.toString()});
         return _result;
 
+    }
+
+    ub.funcs.setApplicationPatternToDefault = function(_settingsObject, patternID) {
+        // Set Pattern to Blank
+        if (_settingsObject.patternID !== "318" && ub.config.brand.toLowerCase() === "richardson") {
+            // Set to default pattern
+            var blank = _.find(ub.data.patterns.items, {id: patternID});
+            _settingsObject.patternID = blank.id;
+            _settingsObject.pattern_obj = blank;
+        }
     }
 
 });
