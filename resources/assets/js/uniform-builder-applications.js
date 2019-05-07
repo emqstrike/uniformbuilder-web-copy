@@ -9186,16 +9186,17 @@ $(document).ready(function () {
 
             }
 
+            ub.funcs.setApplicationPatternToDefault(_settingsObject, "318");
             ub.create_application(_settingsObject, undefined);
+            
             if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
+
             ub.current_material.settings.applications[_id] = _settingsObject;
-
             delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
-
         }
 
         if (_type === 'team_name') {
@@ -9224,18 +9225,20 @@ $(document).ready(function () {
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
 
+            // Set Pattern to Blank
+            ub.funcs.setApplicationPatternToDefault(_settingsObject, "318");
             ub.create_application(_settingsObject, undefined);
+            
             if (ub.data.useScrollingUI) {
                 ub.funcs.activateApplicationsAll(_settingsObject.code);
             } else {
                 ub.funcs.activateApplications(_settingsObject.code);
             }
-            ub.current_material.settings.applications[_id] = _settingsObject;
 
+            ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
 
             delete ub.current_material.settings.applications[_id].application.views[0].application.appCustomScale;
-
         }
 
         if (_type === 'embellishments') {
@@ -13705,6 +13708,16 @@ $(document).ready(function () {
         var _result = _.find(ub.data.mascots, {id: id.toString()});
         return _result;
 
+    }
+
+    ub.funcs.setApplicationPatternToDefault = function(_settingsObject, patternID) {
+        // Set Pattern to Blank
+        if (_settingsObject.patternID !== "318" && ub.config.brand.toLowerCase() === "richardson") {
+            // Set to default pattern
+            var blank = _.find(ub.data.patterns.items, {id: patternID});
+            _settingsObject.patternID = blank.id;
+            _settingsObject.pattern_obj = blank;
+        }
     }
 
 });
