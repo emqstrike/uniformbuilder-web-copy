@@ -68,8 +68,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://unpkg.com/vue@2.5.18/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
     <script type="text/javascript" src="/js/administration/common.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/block-pattern-filters/slideout.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/users/users-vue.js"></script>
