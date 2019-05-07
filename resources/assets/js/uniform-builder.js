@@ -5065,7 +5065,7 @@ $(document).ready(function () {
                                 rotation: 0,
                                 scale: {x: 1, y: 1},
                                 position: {x: 1, y: 1},
-                                opacity: 1, 
+                                opacity: 1,
                             };
                         }
 

@@ -1526,6 +1526,12 @@
             _strokeOuter = 14;
         }
 
+        var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, input_object.accentObj.code);
+        if (typeof customStroke !== "undefined") {
+            _strokeOuter = customStroke.stroke;
+        }
+
+
         ub.funcs.removeUIHandles();
 
         if (typeof input_object.fontSize === "undefined") {
