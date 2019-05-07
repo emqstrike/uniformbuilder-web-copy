@@ -3509,7 +3509,7 @@ $(document).ready(function() {
             {   // Outlined with Drop Shadow
                 id: 8,
                 name: 'Outlined with Drop Shadow',
-                code: 'outlined_with_drop_shadow',
+                code: 'outlined_drop_shadow',
                 title: 'Three Color with Drop Shadow',
                 thumbnail: 'outlined_with_drop_shadow.png',
                 layers: [
