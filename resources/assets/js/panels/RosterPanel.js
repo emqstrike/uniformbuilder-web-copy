@@ -62,8 +62,10 @@ RosterPanel.events = {
                     });
                 }
 
-                ub.funcs.setNumberStatus($(this).data("number"), 'selected');
+                ub.funcs.setNumberStatus(active_size, category, $(this).data("number"), 'selected');
                 $(this).addClass("uk-active");
+                $(this).attr("data-size", active_size);
+                $(this).attr("data-category", category);
             }
         } else {
             return;
@@ -183,7 +185,7 @@ RosterPanel.events = {
         });
 
         $(".player-numbers-container .player-number-button[data-number='"+ number +"']").removeClass("selected").removeClass("uk-active");
-        ub.funcs.setNumberStatus(number, 'free');
+        ub.funcs.setNumberStatus(undefined, undefined, number, 'free');
         
         RosterPanel.events.prepareRosterSummary();
     },
@@ -312,23 +314,26 @@ RosterPanel.events = {
     },
 
     onHoverPlayerNumberActive: function() {
-        $("#richardson-team-roster .player-number-button.uk-active,.selected").hover(function() {
+        $("#richardson-team-roster .player-number-button").unbind("hover");
+        $("#richardson-team-roster .player-number-button").hover(function() {
             var number = $(this).data("number");
             var active_size = $(this).data("size");
             var category = $(this).data("category");
             var html =  "";
+            var info;
 
-            var roster = RosterPanel.events.find(active_size, category);
-            if (typeof roster !== "undefined") {
-                var info = _.find(roster.rosters, {size: active_size, number: number.toString()});
-                if (typeof info !== "undefined") {
-                    html = "NO. " + info.number + " - " + info.size + ' - ' + info.qty + " pcs" + " - " + info.lastName;
+            if ($(this).hasClass("uk-active") || $(this).hasClass("selected")) {
+                var roster = RosterPanel.events.find(active_size, category);
+                if (typeof roster !== "undefined") {
+                        info = _.find(roster.rosters, {size: active_size, number: number.toString()});
+                    if (typeof info !== "undefined") {
+                        html = "NO. " + info.number + " - " + info.size + ' - ' + info.qty + " pcs" + " - " + info.lastName;
+                    }
                 }
+
+                $("#richardson-team-roster .player-info-preview").html("")
+                $("#richardson-team-roster .player-info-preview").html(html)
             }
-
-            $("#richardson-team-roster .player-info-preview").html("")
-            $("#richardson-team-roster .player-info-preview").html(html)
-
         }, function() {
             $("#richardson-team-roster .player-info-preview").html("")
         })
