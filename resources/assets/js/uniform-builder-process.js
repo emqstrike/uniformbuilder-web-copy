@@ -756,15 +756,25 @@ $(document).ready(function() {
                 if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
                     $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
 
+                    var _front = $('img.img-thumbnail.front')[0].src;
+                    var _back = $('img.img-thumbnail.back')[0].src;
+                    var _left = $('img.img-thumbnail.left')[0].src;
+                    var _right = $('img.img-thumbnail.right')[0].src;
+
+                    if (_front === 'https://i.imgur.com/aB8nl6x.png') { _front = ''; }
+                    if (_back === 'https://i.imgur.com/aB8nl6x.png') { _back = ''; }
+                    if (_left === 'https://i.imgur.com/aB8nl6x.png') { _left = ''; }
+                    if (_right === 'https://i.imgur.com/aB8nl6x.png') { _right = ''; }
+
                     var _data = {
                         name: _name,
                         email: _email,
                         message: _message,
                         screenshots: {
-                            front: $('img.img-thumbnail.front')[0].src,
-                            back: $('img.img-thumbnail.back')[0].src,
-                            left: $('img.img-thumbnail.left')[0].src,
-                            right: $('img.img-thumbnail.right')[0].src
+                            front: _front,
+                            back: _back,
+                            left: _left,
+                            right: _right
                         }
                     };
 
