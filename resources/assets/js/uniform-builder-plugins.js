@@ -1526,11 +1526,14 @@
             _strokeOuter = 14;
         }
 
-        var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, input_object.accentObj.code);
-        if (typeof customStroke !== "undefined") {
-            _strokeOuter = customStroke.stroke;
+        if (input_object.fontSize <= 5) {
+            var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, input_object.accentObj.code);
+            if (typeof customStroke !== "undefined") {
+                _strokeOuter = customStroke.stroke;
+            }
         }
 
+        console.log(_strokeOuter, "_strokeOuter _strokeOuter");
 
         ub.funcs.removeUIHandles();
 
