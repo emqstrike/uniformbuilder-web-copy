@@ -45,7 +45,7 @@ MascotPanel.init = function () {
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + i.embellishment.design_id,
                 viewPrint: i.embellishment.svg_filename,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(i.code),
+                sliderContainer: ub.funcs.sliderContainer(i.code, "Mascot"),
                 isEmbellishment: true,
                 status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
             };
@@ -59,7 +59,7 @@ MascotPanel.init = function () {
                 perspective: i.application.views[0].perspective,
                 name: i.mascot.name,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(i.code),
+                sliderContainer: ub.funcs.sliderContainer(i.code, "Mascot"),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
                 isEmbellishment: false,
