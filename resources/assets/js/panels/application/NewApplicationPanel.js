@@ -71,7 +71,11 @@ NewApplicationPanel.events = {
         $("#add-another-decoration-modal .uk-moda").html(_htmlBuilder);
 
         // Activate first button
-        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
+        if (typeof ub.data.modifierLabels.Base !== "undefined") {
+            $('.parts-container div button[data-id="Base"]').click();
+        } else {
+            $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').click();
+        }
     },
 
     onCancelAddAnotherApplication: function() {
@@ -93,7 +97,11 @@ NewApplicationPanel.events = {
         $(".modifier_main_container .add-application-block").html(_htmlBuilder);
 
         // Activate first button
-        $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').trigger('click');
+        if (typeof ub.data.modifierLabels.Base !== "undefined") {
+            $('.parts-container div button[data-id="Base"]').click();
+        } else {
+            $('.perspective-container button.perspective[data-id="' + ub.active_view + '"]').click();
+        }
     },
 
     onCancelAddApplication: function() {
