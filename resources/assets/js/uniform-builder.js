@@ -6674,7 +6674,6 @@ $(document).ready(function () {
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
-
             var _picker_type = $(this).data('picker-type');
             var _item        = $(this).data('item');
             var _id          = $(this).data('id');
@@ -7045,11 +7044,16 @@ $(document).ready(function () {
         return _.uniq(neckOptions);
 
     }
+    ub.funcs.array_move = function (arr, old_index, new_index) {
+        new_index =((new_index % arr.length) + arr.length) % arr.length;
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr;
+    }
 
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
-
+            
             $('.tertiary-bar').html('');
 
             $('.tertiary-bar').hide();
@@ -7057,11 +7061,17 @@ $(document).ready(function () {
 
             var t = $('#m-tertiary-links').html();
             var _str = '';
-            var d = { block_patterns: _blockPatternsCollection, }
-
+            var isSoccer = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Soccer');
+            });
+            if(isSoccer.length > 0){
+                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), }
+            }else{
+                var d = { block_patterns: _blockPatternsCollection, }
+            }
+            
             var m = Mustache.render(t, d);
             $('.tertiary-bar').html(m);
-        
             $('div.tertiary-bar').fadeIn();        
             $('div.tertiary-bar').css('margin-top', "0px");
 
@@ -7069,7 +7079,7 @@ $(document).ready(function () {
             
             $('span.slink-small.tertiary').unbind('click');
             $('span.slink-small.tertiary').on('click', function () {
-
+                
                 var _dataItem = $(this).data('item');
 
                 ub.filters.tertiary = _dataItem.toString();
@@ -7079,13 +7089,19 @@ $(document).ready(function () {
                     _newSet = window.origItems;
 
                 } else {
-
+                    
                     _newSet = _.filter(window.origItems, function (item) {
-
+                        
                         return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
 
                     });
 
+                    if(_dataItem === "Premier Series"){
+                        _newSet = _.filter(window.origItems, function (item) {
+                            return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
+                        }).reverse();
+                    }
+                   
                     if (_dataItem === "Blank Styles") {
 
                          _newSet = _.filter(window.origItems, function (item) { return item.is_blank === '1'; });
@@ -7368,7 +7384,7 @@ $(document).ready(function () {
             var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
-
+            
             if (!ub.picker.isNew) {
 
                 ub.funcs.prepareSecondaryBar(_sport, actualGender);
