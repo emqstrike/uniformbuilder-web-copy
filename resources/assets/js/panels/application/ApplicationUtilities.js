@@ -647,7 +647,7 @@ $(function() {
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.mascot.name,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS'),
                 isEmbellishment: false,
@@ -666,7 +666,7 @@ $(function() {
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
                 isEmbellishment: true,
             };
         }
@@ -1072,7 +1072,7 @@ $(function() {
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.mascot.name,
                     slider: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
                     isEmbellishment: false,
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -1090,7 +1090,7 @@ $(function() {
                     viewPrint: _settingsObject.embellishment.svg_filename,
                     slider: true,
                     isEmbellishment: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot")
                 };
             }
 
@@ -1596,10 +1596,13 @@ $(function() {
         });
     };
 
-    ub.funcs.sliderContainer = function (_code) {
+    ub.funcs.sliderContainer = function (_code, title) {
+        title = title || "Font"; // Font, Mascot
+
         // prepare data
         var props = {
-            code: _code
+            code: _code,
+            title: title
         }
         // send to mustache
         return ub.funcs.isTackleTwill() ? ub.utilities.buildTemplateString('#m-slider-container-twill', props) : ub.utilities.buildTemplateString('#m-slider-container', props);
