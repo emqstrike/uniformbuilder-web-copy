@@ -574,48 +574,53 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.submitFeedback = function (message) {
+    ub.funcs.submitFeedback = function (_data) {
+        var test = true;
 
-        var _user_id = ub.user.id;
-        var _user_email = ub.user.email;
+        if(test) {
+            console.log('DATA===>', _data);
+        } else {
+            var _user_id = ub.user.id;
+            var _user_email = ub.user.email;
 
-        if (typeof _user_id === "undefined") {
-            _user_id = 0;
-            _user_email = '';
-        }
-
-        var _postData = {
-            "subject" : "Feedback",
-            "order_code" : "",
-            "content" : message,
-            "type" : "feedback",
-            "email" : _user_email,
-        };
-
-        // Have a user id passed only when a user is logged in
-        if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
-
-        var _url = ub.config.api_host + '/api/feedback';
-        //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
-
-        $.ajax({
-
-            url: _url,
-            type: "POST",
-            data: JSON.stringify(_postData),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-
-            success: function (response) {
-
-                // ub.funcs.reload();
-                console.log('FEEDBACK FORM', response);
-
+            if (typeof _user_id === "undefined") {
+                _user_id = 0;
+                _user_email = '';
             }
 
-        });
+            var _postData = {
+                "subject" : "Feedback",
+                "order_code" : "",
+                "content" : _data,
+                "type" : "feedback",
+                "email" : _user_email,
+            };
+
+            // Have a user id passed only when a user is logged in
+            if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+
+            var _url = ub.config.api_host + '/api/feedback';
+            //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+            $.ajax({
+
+                url: _url,
+                type: "POST",
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    // ub.funcs.reload();
+                    console.log('FEEDBACK FORM SUBMITTED!', response);
+
+                }
+
+            });
+        }
 
     }
 
@@ -674,9 +679,53 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.imageUpload  = function (file, callback) {
+
+        var formData = new FormData();
+
+        formData.append('file', file);
+
+        if (typeof $.ajaxSettings.headers !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+        }
+
+        $.ajax({
+
+            data: formData,
+            url: ub.config.api_host + "/api/fileUpload",
+            type: "POST",
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,
+            crossDomain: true,
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function (response){
+
+                if(response.success) {
+
+                    // var _extension = response.filename.split('.').pop();
+                    window.uploaded_filename = response.filename;
+                    callback(response.filename);
+                    console.log('[ub.funcs.imageUpload]===>', response.filename);
+
+                }
+                else {
+
+                    console.log('Error Uploading Image');
+                    console.log(response.message);
+
+                }
+
+            }
+
+        });
+
+    }
+
     ub.funcs.freeFeedbackForm = function () {
 
         $('a#feedback').on('click', function () {
+
 
             var data = {};
 
@@ -687,17 +736,45 @@ $(document).ready(function() {
             $('div.free-feedback-form').fadeIn();
             ub.funcs.centerPatternPopup();
 
+            // set value if user is logged in
+            if(ub.user) {
+                $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
+            }
+
             $('span.ok-btn').on('click', function () {
 
-                var _message = $('textarea#feedback-message').val().trim();
+                var _name = $('#feedback-form .name').val().trim();
+                var _email = $('#feedback-form .email').val().trim();
+                var _message = $('#feedback-form .message').val().trim();
 
-                if (_message.length !== 0) {
-
-                    ub.funcs.submitFeedback(_message);
-
+                function validateEmail(_email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(String(_email).toLowerCase());
                 }
 
-                $('div.free-feedback-form').remove();
+                if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
+                    $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
+
+                    var _data = {
+                        name: _name,
+                        email: _email,
+                        message: _message,
+                        screenshots: {
+                            front: $('img.img-thumbnail.front')[0].src,
+                            back: $('img.img-thumbnail.back')[0].src,
+                            left: $('img.img-thumbnail.left')[0].src,
+                            right: $('img.img-thumbnail.right')[0].src
+                        }
+                    };
+
+                    ub.funcs.submitFeedback(_data);
+                    $('div.free-feedback-form').remove();
+                } else {
+                    if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
+                    if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
+                    if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
+                }
 
             });
 
@@ -705,6 +782,67 @@ $(document).ready(function() {
 
                 $('div.free-feedback-form').remove();
 
+            });
+
+            // when typing occurs on fields remove error class
+            $('#feedback-form .name').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            $('#feedback-form .email').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            $('#feedback-form .message').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            // triggering click on images for file upload
+            $('img.img-thumbnail.front').on('click', function(){ $('#file-input-thumb-front').trigger('click'); });
+            $('img.img-thumbnail.back').on('click', function(){ $('#file-input-thumb-back').trigger('click'); });
+            $('img.img-thumbnail.left').on('click', function(){ $('#file-input-thumb-left').trigger('click'); });
+            $('img.img-thumbnail.right').on('click', function(){ $('#file-input-thumb-right').trigger('click'); });
+
+            // onchange file input value
+            $('#file-input-thumb-front').on('change', function(){
+                ub.funcs.imageUpload(this.files[0], function(filename) {
+                    if (typeof filename === 'undefined') {
+                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                        return;
+                    } else {
+                        $('img.img-thumbnail.front')[0].src = filename;
+                    }
+                });
+            });
+            $('#file-input-thumb-back').on('change', function(){
+                ub.funcs.imageUpload(this.files[0], function(filename) {
+                    if (typeof filename === 'undefined') {
+                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                        return;
+                    } else {
+                        $('img.img-thumbnail.back')[0].src = filename;
+                    }
+                });
+            });
+            $('#file-input-thumb-left').on('change', function(){
+                ub.funcs.imageUpload(this.files[0], function(filename) {
+                    if (typeof filename === 'undefined') {
+                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                        return;
+                    } else {
+                        $('img.img-thumbnail.left')[0].src = filename;
+                    }
+                });
+            });
+            $('#file-input-thumb-right').on('change', function(){
+                ub.funcs.imageUpload(this.files[0], function(filename) {
+                    if (typeof filename === 'undefined') {
+                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                        return;
+                    } else {
+                        $('img.img-thumbnail.right')[0].src = filename;
+                    }
+                });
             });
 
         });
@@ -1679,6 +1817,7 @@ $(document).ready(function() {
         $('table#size-breakdown').find('tr.tr-size-row').remove();
         $('table#size-breakdown').find('tr.items').remove();
         $('table#size-breakdown').append(_htmlBuilder);
+
 
         $('span.back-to-roster-form-button').on('click', function () {
 

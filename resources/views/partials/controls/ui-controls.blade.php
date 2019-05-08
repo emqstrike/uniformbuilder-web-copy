@@ -1709,18 +1709,68 @@
                 <div class="col-md-12">
                     
                     <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
-                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+{{--                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>--}}
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <h5 class="text-center">UPLOAD SCREENSHOTS <small>(optional)</small></h5>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" id="file-input-thumb-front" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive front">
+                                    <h5 class="text-center img-label">FRONT</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="file" id="file-input-thumb-back" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive back">
+                                    <h5 class="text-center img-label">BACK</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" id="file-input-thumb-left" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive left">
+                                    <h5 class="text-center img-label">LEFT</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="file" id="file-input-thumb-right" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive right">
+                                    <h5 class="text-center img-label">RIGHT</h5>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <form id="feedback-form">
+                              <div class="form-group">
+                                <label>Name <span class="required">*</span></label>
+                                <input type="text" class="form-control name" placeholder="Your Name">
+                              </div>
+                              <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" class="form-control email" placeholder="youremail@domain.com">
+                              </div>
+                              <div class="form-group">
+                                <label>Message <span class="required">*</span></label>
+                                <textarea class="form-control message" rows="16" placeholder="Please enter your message here! :)"></textarea>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
 
             </div>
 
             <div class="row">
-                
-                <div class="col-md-12 ok-footer">
-                    
-                     <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
 
+                <div class="col-md-12 ok-footer">
+                     <span class="cancel-btn">CANCEL</span>
+                     <span class="ok-btn">OK</span>
                 </div>
                 
             </div>

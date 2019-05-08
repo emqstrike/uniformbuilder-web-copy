@@ -9747,12 +9747,11 @@ div.header-container.main {
         div.free-feedback-form{
 
             cursor: grab;
-
             padding: 30px;
             display: none;
             position: absolute;
             width: 930px;
-            height: 390px;
+            min-height: 390px;
             top: 200px;
             left: 300px;
             z-index: 2000;
@@ -9762,6 +9761,27 @@ div.header-container.main {
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            .img-thumbnail:hover {
+                cursor: pointer;
+            }
+
+            .img-label {
+                font-weight: bold;
+                font-style: italic;
+            }
+
+            .required {
+                color: red;
+            }
+
+            .error {
+                border-color: red;
+            }
+
+            .fa-tshirt {
+                font-size: 100px;
+            }
 
             h3 {
 
