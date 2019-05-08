@@ -732,6 +732,11 @@ $(document).ready(function () {
         var _indexFound = undefined;
         var _ctr = 0;
 
+        // return only the designated team colors by brand
+        ub.current_material.settings.team_colors = ub.current_material.settings.team_colors.filter( function (el) {
+            return el.brand === ub.config.brand.toLocaleLowerCase() || el.brand == ub.config.brand;
+        });
+
         _.each(ub.current_material.settings.team_colors, function (team_color) {
             
             if (parseInt(team_color.id) === parseInt(colorID)){
@@ -800,7 +805,10 @@ $(document).ready(function () {
             _.each(ub.current_material.settings.team_colors, function (color, index) {
 
                 var color_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker', 'color-label': color.color_code });
-                color_btn.attr('data-status','selected');
+                
+                if (typeof color_btn !== 'undefined') { 
+                    color_btn.attr('data-status', 'selected');
+                }
 
             });
 
