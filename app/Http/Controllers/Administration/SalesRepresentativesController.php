@@ -64,6 +64,7 @@ class SalesRepresentativesController extends Controller
         $corporate = $request->input('is_corporate');
         $dealerid = $request->input('dealer_id');
         $repidmanager = $request->input('rep_id_manager');
+        $alias = $request->input('alias');
 
         $data = [
             'id' => $id,
@@ -78,7 +79,8 @@ class SalesRepresentativesController extends Controller
             'active' => $active,
             'is_corporate' => $corporate,
             'dealer_id' => $dealerid,
-            'rep_id_manager' => $repidmanager
+            'rep_id_manager' => $repidmanager,
+            'alias' => $alias
         ];
 
         if (!empty($id))
