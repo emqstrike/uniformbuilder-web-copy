@@ -340,18 +340,32 @@ NewApplicationPanel.events = {
 
         UIkit.modal.confirm('Are you sure you want to delete ' + message + ' #' + applicationSettings.code + '?').then(function() {
             $('.modifier_main_container').find($('li[data-application-id=' + applicationSettings.code + '].applicationUIBlockNew')).remove();
-            ub.funcs.deleteLocation(applicationSettings.code);
-            var count;
-            if (isLetters) {
-                count = ub.funcs.countApplicationByApplicationType("letters");
-            } else if (isMascots) {
-                count = ub.funcs.countApplicationByApplicationType("logos");
-            } else if (isNumbers) {
-                count = ub.funcs.countApplicationByApplicationType("numbers");
-            }
+            
+            if (!ub.funcs.isTackleTwill()) {
+                ub.funcs.deleteLocation(applicationSettings.code);
+                var count;
+                if (isLetters) {
+                    count = ub.funcs.countApplicationByApplicationType("letters");
+                } else if (isMascots) {
+                    count = ub.funcs.countApplicationByApplicationType("logos");
+                } else if (isNumbers) {
+                    count = ub.funcs.countApplicationByApplicationType("numbers");
+                }
 
-            if (typeof count.applications === "undefined") {
-                $(".add-another-application-container").hide();
+                if (typeof count.applications === "undefined") {
+                    $(".add-another-application-container").hide();
+                }
+            } else {
+                
+                ub.funcs.richardsonDeleteApplicaiton(applicationSettings.code, applicationSettings.application_type);
+
+                if (isMascots) {
+                    MascotPanel.init();
+                } else if (isNumbers) {
+                    NumbersPanel.init();
+                } else if (isLetters) {
+                    LetterPanel.init();
+                }
             }
         
         }, function () {
