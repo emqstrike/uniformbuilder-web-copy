@@ -156,23 +156,32 @@ RichardsonSkin.funcs = {
         ub.right_view.visible = true;
         ub.funcs.deactivateMoveTool();
 
+        var material = ub.current_material.material;
+
+        console.log(material);
+
+        var front = !_.isEmpty(material.thumnail_path_front) ? material.thumnail_path_front : ub.getThumbnailImage("front_view");
+        var back = !_.isEmpty(material.thumnail_path_back) ? material.thumnail_path_back : ub.getThumbnailImage("back_view");
+        var left = !_.isEmpty(material.thumnail_path_left) ? material.thumnail_path_left : ub.getThumbnailImage("left_view");
+        var right = !_.isEmpty(material.thumnail_path_right) ? material.thumnail_path_right : ub.getThumbnailImage("right_view");
+
         if (Worker) {
             var worker = new Worker('/workers/image-worker.js');
             worker.postMessage([
                 {
-                    image: ub.getThumbnailImage("front_view"),
+                    image: front,
                     perspective: "front"
                 },
                 {
-                    image: ub.getThumbnailImage("back_view"),
+                    image: back,
                     perspective: "back"
                 },
                 {
-                    image: ub.getThumbnailImage("left_view"),
+                    image: left,
                     perspective: "left"
                 },
                 {
-                    image: ub.getThumbnailImage("right_view"),
+                    image: right,
                     perspective: "right"
                 },
             ]);
@@ -183,14 +192,10 @@ RichardsonSkin.funcs = {
                 $("div#left-side-toolbar").html("");
                 $("div#left-side-toolbar").html(rendered_template);
                 $(".perspective .change-perspective-button[data-perspective='"+ ub.active_view +"']").addClass('active');
-                console.log("Updating Uniform Thumbnail via worker")
-            }
+                console.log("Updating Uniform Thumbnail via worker");
+            };
         } else {
             // Setup perspective
-            var front = ub.getThumbnailImage("front_view");
-            var back = ub.getThumbnailImage("back_view");
-            var left = ub.getThumbnailImage("left_view");
-            var right = ub.getThumbnailImage("right_view");
 
             var perspectives = [
                {
