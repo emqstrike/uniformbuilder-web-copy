@@ -390,7 +390,6 @@ new Vue({
                         
                         this.updateUserAllowedPages(updateData).then(data => {
                             if (data.success === true) {
-                                console.log(data);
                                 let user = this.users.find(user => user.id === updateData.user_id);
                                 Vue.set(user, 'allowed_pages', data.allowed_pages);
                                 Vue.set(user, 'limited_access', data.limited_access);
