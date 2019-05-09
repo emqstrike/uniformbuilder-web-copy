@@ -647,7 +647,7 @@ $(function() {
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.mascot.name,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS'),
                 isEmbellishment: false,
@@ -666,7 +666,7 @@ $(function() {
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                 isEmbellishment: true,
             };
         }
@@ -1072,7 +1072,7 @@ $(function() {
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.mascot.name,
                     slider: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot"),
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                     isEmbellishment: false,
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -1090,7 +1090,7 @@ $(function() {
                     viewPrint: _settingsObject.embellishment.svg_filename,
                     slider: true,
                     isEmbellishment: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Mascot")
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo")
                 };
             }
 

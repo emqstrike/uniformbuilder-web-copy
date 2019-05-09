@@ -116,7 +116,9 @@
 
 <script type="text/mustache" id="m-slider-container-twill">
     <div class="uk-padding-small uk-padding-remove-vertical">
-        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom"><span class="uk-margin-small-right fa fa-font"></span>Font Size</h6>
+        <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom">
+            @{{ title }} Size
+        </h6>
         <div class="manipulator-type-container scale uk-padding uk-padding-remove-top">
             <div class="sc scale">
                 <div id="scale-slider" class="slider-control-scale" data-id="@{{ code }}"></div>

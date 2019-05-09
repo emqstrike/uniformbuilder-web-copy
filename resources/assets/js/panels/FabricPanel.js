@@ -64,13 +64,18 @@ FabricPanel.prototype = {
         var have_base_sleeve_fabric = ub.funcs.is_pts_signature() ||
                                         ub.funcs.is_pts_pro_select() ||
                                         ub.funcs.is_pts_select() ||
+                                        ub.funcs.is_pts_signature_pant() ||
+                                        ub.funcs.is_pts_pro_select_pant() ||
                                         ub.funcs.is_pts_select_pant() ||
                                         ub.funcs.is_pts_hoodie() ||
                                         ub.funcs.is_pts_cage_jacket();
 
         var have_insert_fabric = ub.funcs.is_pts_signature() ||
-                                    ub.funcs.is_pts_hoodie() ||
-                                    ub.funcs.is_pts_cage_jacket();
+                                    ub.funcs.is_pts_cage_jacket() ||
+                                    ub.funcs.is_pts_hoodie();
+
+        var have_gusset_fabric = ub.funcs.is_pts_signature_pant() ||
+                                ub.funcs.is_pts_pro_select_pant();
 
         if (have_base_sleeve_fabric) {
             this.setBaseSleeveFabrics();
@@ -78,6 +83,10 @@ FabricPanel.prototype = {
 
         if (have_insert_fabric) {
             this.setInsertFabrics();
+        }
+
+        if (have_gusset_fabric) {
+            this.setGussetFabrics();
         }
     },
 
@@ -162,6 +171,26 @@ FabricPanel.prototype = {
                 } else {
                     console.log("Application type is not sublimated or twill");
                 }
+            }
+        }
+    },
+
+    setGussetFabrics: function() {
+        var default_fabric = FabricPanel.getDefaultFabric();
+
+        if (default_fabric !== null) {
+            if (default_fabric.fabric !== "undefined") {
+                var matrixMesh = _.find(ub.current_material.fabrics, {id: "27"});
+
+                var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
+
+                this.fabrics.gusset = {data: {
+                    name: matrixMesh.material,
+                    thumbnail: thumbnail,
+                    layer_level: default_fabric.layer_level,
+                    active: ""
+                }};
+                this.fabrics.gusset.multiple = this.fabrics.gusset.data.length > 1;
             }
         }
     },
