@@ -2046,7 +2046,6 @@ $(document).ready(function () {
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
-
         var _one_dimensional = ub.data.applications_transformed_one_dimensional;
 
         _.each (_one_dimensional, function (_application) {
@@ -2225,7 +2224,6 @@ $(document).ready(function () {
                         status: 'off',
 
                     };
-
                 }
 
                 // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
@@ -2236,7 +2234,7 @@ $(document).ready(function () {
                 /// TODO: This is being executed multiple times
 
             });
-            
+
         });
 
         ub.funcs.initzIndex();
@@ -2511,8 +2509,11 @@ $(document).ready(function () {
         var uniform_type                        = ub.current_material.material.type;
         var _hasFrontBody                       = false;
         var _hasBody                            = false;
-
+        ub.data.freeAppplicationClone = [];
         ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
+
+        // Prepare Color pallete
+        ColorPalette.funcs.prepareRichardsonPalette();
         
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
@@ -2748,7 +2749,15 @@ $(document).ready(function () {
                     });
 
                 }
+            }
 
+            if (application_obj.type === "free") {
+                if (ub.data.afterLoadCalled !== 1) {
+                    var clone_output = _.clone(application_obj);
+                    clone_output.application = _.clone(application_obj.application)
+                    JSON.stringify(clone_output);
+                    ub.data.freeAppplicationClone.push(clone_output);
+                }
             }
 
             if (application_obj.type === "embellishments") {
@@ -2837,9 +2846,6 @@ $(document).ready(function () {
             }
 
         }
-
-        // Prepare Color pallete
-        ColorPalette.funcs.prepareRichardsonPalette();
 
         // Process Prolook Logo Here
         LogoPanel.init();

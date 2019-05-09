@@ -304,20 +304,24 @@ $(document).ready(function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts signature") !== -1;
         };
 
-        ub.funcs.is_pts_signature_pant = function() {
-            return ub.config.blockPattern.toLowerCase().indexOf("pts signature pant") !== -1;
+        ub.funcs.is_pts_pro_select = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts pro select") !== -1;
         };
 
         ub.funcs.is_pts_select = function() {
             return ub.config.blockPattern.toLowerCase().indexOf("pts select") !== -1;
         };
 
-        ub.funcs.is_pts_select_pant = function() {
-            return ub.config.blockPattern.toLowerCase().indexOf("pts select pant") !== -1;
+        ub.funcs.is_pts_signature_pant = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts signature pant") !== -1;
         };
 
-        ub.funcs.is_pts_pro_select = function() {
-            return ub.config.blockPattern.toLowerCase().indexOf("pts pro select") !== -1;
+        ub.funcs.is_pts_pro_select_pant = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts pro select pant") !== -1;
+        };
+
+        ub.funcs.is_pts_select_pant = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("pts select pant") !== -1;
         };
 
         ub.funcs.is_pts_cage_jacket = function() {

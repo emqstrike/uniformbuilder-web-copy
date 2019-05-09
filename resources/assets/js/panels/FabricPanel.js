@@ -64,13 +64,18 @@ FabricPanel.prototype = {
         var have_base_sleeve_fabric = ub.funcs.is_pts_signature() ||
                                         ub.funcs.is_pts_pro_select() ||
                                         ub.funcs.is_pts_select() ||
+                                        ub.funcs.is_pts_signature_pant() ||
+                                        ub.funcs.is_pts_pro_select_pant() ||
                                         ub.funcs.is_pts_select_pant() ||
                                         ub.funcs.is_pts_hoodie() ||
                                         ub.funcs.is_pts_cage_jacket();
 
         var have_insert_fabric = ub.funcs.is_pts_signature() ||
-                                    ub.funcs.is_pts_hoodie() ||
-                                    ub.funcs.is_pts_cage_jacket();
+                                    ub.funcs.is_pts_cage_jacket() ||
+                                    ub.funcs.is_pts_hoodie();
+
+        var have_gusset_fabric = ub.funcs.is_pts_signature_pant() ||
+                                ub.funcs.is_pts_pro_select_pant();
 
         if (have_base_sleeve_fabric) {
             this.setBaseSleeveFabrics();
@@ -78,6 +83,10 @@ FabricPanel.prototype = {
 
         if (have_insert_fabric) {
             this.setInsertFabrics();
+        }
+
+        if (have_gusset_fabric) {
+            this.setGussetFabrics();
         }
     },
 
@@ -166,6 +175,26 @@ FabricPanel.prototype = {
         }
     },
 
+    setGussetFabrics: function() {
+        var default_fabric = FabricPanel.getDefaultFabric();
+
+        if (default_fabric !== null) {
+            if (default_fabric.fabric !== "undefined") {
+                var matrixMesh = _.find(ub.current_material.fabrics, {id: "27"});
+
+                var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
+
+                this.fabrics.gusset = {data: {
+                    name: matrixMesh.material,
+                    thumbnail: thumbnail,
+                    layer_level: default_fabric.layer_level,
+                    active: ""
+                }};
+                this.fabrics.gusset.multiple = this.fabrics.gusset.data.length > 1;
+            }
+        }
+    },
+
     getPanel: function() {
         var panel = Mustache.render(this.panel.innerHTML, {fabrics: this.fabrics});
         return panel;
@@ -199,6 +228,9 @@ FabricPanel.PARTS_INSERT = [
     // lower
     "back_insert"
 ];
+
+FabricPanel.PARTS_FRONT_BODY = "front_body";
+FabricPanel.PARTS_LEFT_SIDE_INSERT = "left_side_insert";
 
 FabricPanel.events = {
     is_events_init: false,
@@ -256,10 +288,30 @@ FabricPanel.getDefaultFabric = function(perspective, material) {
     }
 
     if (!_.isEmpty(filtered_fabric)) {
-        var fabric_id = _.uniq(_.pluck(filtered_fabric, "fabric_id"));
+        var fabric_ids = _.uniq(_.pluck(filtered_fabric, "fabric_id"));
 
-        if (!_.isEmpty(fabric_id)) {
-            fabric_id = fabric_id.pop();
+        if (!_.isEmpty(fabric_ids)) {
+            var fabric_id = fabric_ids[0];
+
+            if (fabric_ids.length > 1) {
+                var part;
+
+                switch(perspective) {
+                    case FabricPanel.FRONT_PERSPECTIVE:
+                    case FabricPanel.BACK_PERSPECTIVE:
+                        part = FabricPanel.PARTS_FRONT_BODY;
+                        break;
+
+                    case FabricPanel.LEFT_PERSPECTIVE:
+                    case FabricPanel.RIGHT_PERSPECTIVE:
+                        part = FabricPanel.PARTS_LEFT_SIDE_INSERT;
+                        break;
+                }
+
+                var fabric = _.find(filtered_fabric, {name: part});
+
+                fabric_id = fabric.fabric_id;
+            }
 
             return {
                 fabric: _.find(ub.current_material.fabrics, {id: fabric_id.toFixed(0)}),

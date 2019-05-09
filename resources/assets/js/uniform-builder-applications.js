@@ -8804,7 +8804,7 @@ $(document).ready(function () {
         var _samplePlayerName;
 
         if (ub.config.brand.toLowerCase() === "richardson") {
-            _samplePlayerName = "PLAYER"
+            _samplePlayerName = "PLAYER NAME"
         } else {
             _samplePlayerName = 'Grizzlies';
 
@@ -9023,8 +9023,13 @@ $(document).ready(function () {
             if (ub.funcs.isCurrentSport('Baseball')) {
                 _size = 2;
             }
+
             if (ub.funcs.isCurrentSport('Fastpitch')) {
                 _size = 2;
+            }
+
+            if (ub.funcs.isCurrentSport('Baseball') && ub.config.brand.toLowerCase() === "richardson") {
+                _size = 2.5;
             }
 
             ub.funcs.setAppSize(_id, _size);
@@ -9176,7 +9181,13 @@ $(document).ready(function () {
             var _applicationType = 'team_name';
             var _size = 2;
 
-            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
+            if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { 
+                _size = 2.5;
+            }
+
+            if (ub.funcs.isCurrentSport('Baseball') && ub.config.brand.toLowerCase() === "richardson") {
+                _size = 2.5;
+            }
 
             ub.funcs.setAppSize(_id, _size);
 

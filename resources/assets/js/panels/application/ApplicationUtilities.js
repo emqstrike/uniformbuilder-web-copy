@@ -647,7 +647,7 @@ $(function() {
                 perspective: _settingsObject.application.views[0].perspective,
                 name: _settingsObject.mascot.name,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                 colorPicker: true,
                 colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS'),
                 isEmbellishment: false,
@@ -666,7 +666,7 @@ $(function() {
                 viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
                 viewPrint: _settingsObject.embellishment.svg_filename,
                 slider: true,
-                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                 isEmbellishment: true,
             };
         }
@@ -1072,7 +1072,7 @@ $(function() {
                     perspective: _settingsObject.application.views[0].perspective,
                     name: _settingsObject.mascot.name,
                     slider: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code),
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo"),
                     isEmbellishment: false,
                     colorPicker: true,
                     colorsSelection: ub.funcs.colorsSelection(_settingsObject.code, 'CHOOSE STOCK MASCOT COLORS')
@@ -1090,7 +1090,7 @@ $(function() {
                     viewPrint: _settingsObject.embellishment.svg_filename,
                     slider: true,
                     isEmbellishment: true,
-                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code)
+                    sliderContainer: ub.funcs.sliderContainer(_settingsObject.code, "Logo")
                 };
             }
 
@@ -1300,12 +1300,18 @@ $(function() {
             if (ub.funcs.isTackleTwill()) {
                 // Change pips when uniform is tackle twill
                 var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
-                var value_horizontal = $(this).find(".noUi-value-horizontal");
-                value_horizontal.each(function(value, index) {
-                    var size = applicationSizes.size[value];
-                    $(index).html("");
-                    $(index).html(size);
-                });
+                if (applicationSizes.size.length !== 1) {
+                    var value_horizontal = $(this).find(".noUi-value-horizontal");
+                    value_horizontal.each(function(value, index) {
+                        var size = applicationSizes.size[value];
+                        $(index).html("");
+                        $(index).html(size);
+                    });
+                } else {
+                    $(this).find(".noUi-value-horizontal").html("");
+                    $(this).find(".noUi-value-horizontal.noUi-value-sub").html("");
+                    $(this).find(".noUi-value-horizontal.noUi-value-sub").html(applicationSizes.size[0]);
+                }
             } else {
                 $(this).find('.noUi-value-large').first().html('Small');
                 $(this).find('.noUi-value-large').last().html('Large');
@@ -1427,10 +1433,20 @@ $(function() {
             // Get size index
             var start = _.indexOf(applicationSizes.size, _settingsObject.font_size.toString());
 
-            var range_all_sliders = {
-                'min': 1,
-                'max': applicationSizes.size.length
-            };
+            var range_all_sliders;
+
+            if (applicationSizes.size.length === 1 && _settingsObject.code === "6" && _settingsObject.type === "player_name") {
+                range_all_sliders = {
+                   'min': 1,
+                   'max': 3
+                };
+                start += 1;
+            } else {
+                range_all_sliders = {
+                   'min': 1,
+                   'max': applicationSizes.size.length
+                };
+            }
 
             // Setup slider for tackle twill
             noUiSlider.create(element, {
@@ -1447,6 +1463,12 @@ $(function() {
                     density: 4
                 }
             });
+
+            if (applicationSizes.size.length === 1) {
+                // To disable
+                element.setAttribute('disabled', true);
+            }
+
         } else {
             var _v = ub.funcs.getPrimaryView(_settingsObject.application);
             var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
@@ -1596,10 +1618,13 @@ $(function() {
         });
     };
 
-    ub.funcs.sliderContainer = function (_code) {
+    ub.funcs.sliderContainer = function (_code, title) {
+        title = title || "Font"; // Font, Mascot
+
         // prepare data
         var props = {
-            code: _code
+            code: _code,
+            title: title
         }
         // send to mustache
         return ub.funcs.isTackleTwill() ? ub.utilities.buildTemplateString('#m-slider-container-twill', props) : ub.utilities.buildTemplateString('#m-slider-container', props);
@@ -1888,5 +1913,69 @@ $(function() {
             ub.funcs.changeMascotSize(value, _matchingSettingsObject);
 
         }
+    }
+
+    ub.funcs.richardsonDeleteApplicaiton = function (locationID) {
+        var _appSettings = ub.current_material.settings.applications[locationID];
+
+        _.each(_appSettings.application.views, function (view) {
+            var _obj = ub.objects[view.perspective + '_view']['objects_' + locationID];
+            ub[view.perspective + '_view'].removeChild(_obj);
+
+            delete ub.objects[view.perspective + '_view']['objects_' + locationID];
+            ub.activeApplication = undefined;
+        });
+
+        if (typeof ub.data.applications_transformed["Body"] !== "undefined") {
+            delete ub.data.applications_transformed["Body"][locationID];
+        } else {
+            if (typeof ub.data.applications_transformed["Body Panel Color"] !== "undefined") {
+                delete ub.data.applications_transformed["Body Panel Color"][locationID];
+            }
+        }
+
+        ub.funcs.deactivateMoveTool(locationID);
+        ub.tools.activeTool.deactivate();
+        ub.funcs.updateLayerTool();
+
+        var cloneApplication = _.find(ub.data.freeAppplicationClone, {code: locationID});
+        console.log(cloneApplication)
+        if (typeof cloneApplication !== "undefined") {
+            delete ub.current_material.settings.applications[locationID];
+            ub.current_material.settings.applications[cloneApplication.code] = _.clone(cloneApplication);
+        } else {
+            var app = ub.funcs.omitKeysForFreeApplication(locationID);
+            delete ub.current_material.settings.applications[locationID];
+            ub.current_material.settings.applications[locationID] = app;
+        }
+        
+
+        $('body').css('cursor', 'auto');
+    };
+
+    ub.funcs.omitKeysForFreeApplication = function(code) {
+        var app = _.clone(_.pick(ub.current_material.settings.applications[code], 
+            "application", 
+            "application_type", 
+            "code",
+            "configurationSource",
+            "patternConfigFromBackend",
+            "patternID",
+            "pattern_settings",
+            "type",
+            "validApplicationTypes",
+            "withPattern",
+            "status",
+            "zIndex"
+        ))
+
+        // Set Application Into Free
+        app.application.name = "Free";
+        app.application.type = "free";
+        app.application_type = "free";
+        app.type = "free";
+        app.status = "off";
+
+        return app;
     }
 });
