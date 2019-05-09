@@ -16,10 +16,24 @@
                 <div class="box">
                     <div class="box-header">
                         @section('page-title', 'Users')
-                        <h1>
-                            <span class="glyphicon glyphicon-user"></span>Users
-                            <button class="btn btn-success btn-sm btn-flat" @click="add()">Add</button>
-                        </h1>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h1>
+                                    <span class="glyphicon glyphicon-user"></span>Users
+                                    <button class="btn btn-success btn-sm btn-flat" @click="add()">Add</button>
+                                </h1>
+                            </div>
+
+                            <div class="col-md-4 text-right" style="margin-top: 20px;">
+                                <div class="form-inline">
+                                    <input type="text" class="form-control" v-model="search">
+                                    <button class="btn btn-flat btn-primary" @click="searchUsers()">Search</button>
+                                    <button class="btn btn-flat btn-default" @click="clearSearchUsers()">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div class="box-body">

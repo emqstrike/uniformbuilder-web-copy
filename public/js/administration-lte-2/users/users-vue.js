@@ -129,6 +129,14 @@ new Vue({
             Object.assign(user, this.userCache);
             this.togglePanel();
         },
+        clearSearchUsers: function() {
+            this.search = "";
+
+            this.getDataFromAPI().then(data => {
+                this.users = data.users;
+                this.totalItems = data.total;
+            });
+        },
         createUser: function() {
             if (! this.hasErrors()) {
                 this.dialog = true;
@@ -211,7 +219,13 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                axios.get('users/paginate?page=' + page).then((response) => {
+                var url = "users/paginate?page=" + page;
+
+                if (this.search) {
+                    url += "&name=" + this.search;
+                }
+
+                axios.get(url).then((response) => {
                     if (response.data.success === true) {
                         let users = response.data.users.data;
                         const total = response.data.users.total;
@@ -291,6 +305,14 @@ new Vue({
             }
 
             return false;
+        },
+        searchUsers: function() {
+            this.pagination.page = 1;
+
+            this.getDataFromAPI().then(data => {
+                this.users = data.users;
+                this.totalItems = data.total;
+            });
         },
         toggleActiveStatus: function(user) {
             this.dialog = true;
