@@ -1435,17 +1435,17 @@ $(function() {
 
             var range_all_sliders;
 
-            if (applicationSizes.size.length !== 1) {
-                range_all_sliders = {
-                   'min': 1,
-                   'max': applicationSizes.size.length
-                };
-            } else {
+            if (applicationSizes.size.length === 1 && _settingsObject.code === "6" && _settingsObject.type === "player_name") {
                 range_all_sliders = {
                    'min': 1,
                    'max': 3
                 };
                 start += 1;
+            } else {
+                range_all_sliders = {
+                   'min': 1,
+                   'max': applicationSizes.size.length
+                };
             }
 
             // Setup slider for tackle twill
