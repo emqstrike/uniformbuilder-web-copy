@@ -1896,7 +1896,16 @@ $(function() {
 
     // Tackle twill change custom mascot size
     ub.funcs.richardsonChangeCustomMascotSize = function(_settingsObject, value) {
-        var _scaleType = 'custom';
+        var _scaleType = "normal";
+
+        if (typeof _settingsObject.custom_obj !== "undefined") {
+            var custom = _settingsObject.custom_obj;
+
+            if (custom.fontSize === value.toString()) {
+                _scaleType = "custom";
+            }
+        }
+
         _settingsObject.scale_type = _scaleType;
 
         var oldScale = ub.funcs.clearScale(_settingsObject);
@@ -1908,10 +1917,8 @@ $(function() {
         _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
         if (typeof _matchingID !== "undefined") {
-
             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
             ub.funcs.changeMascotSize(value, _matchingSettingsObject);
-
         }
     }
 
@@ -1967,14 +1974,15 @@ $(function() {
             "withPattern",
             "status",
             "zIndex"
-        ))
+        ));
 
-        // Set Application Into Free
         app.application.name = "Free";
         app.application.type = "free";
         app.application_type = "free";
         app.type = "free";
         app.status = "off";
+
+        console.log(app)
 
         return app;
     }
