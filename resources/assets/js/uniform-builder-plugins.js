@@ -1531,8 +1531,6 @@
             var appObj = input_object.applicationObj;
             var isNumbers = appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" ? true : false;
 
-
-            console.log(appObj)
             if (accentObj.code === "double_outline" && isNumbers && input_object.fontSize <= 5) {
                 _strokeInner = 8;
                 _strokeOuter = 16;
@@ -1543,9 +1541,6 @@
                 _strokeOuter = 15;
             }
         }
-
-        console.log(_strokeInner, _strokeOuter)
-        console.log()
 
         ub.funcs.removeUIHandles();
 
