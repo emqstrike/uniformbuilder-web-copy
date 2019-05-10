@@ -14,22 +14,22 @@ RichardsonSaveDesign.events = {
         }
     },
 
-
     onClickSaveDesign: function() {
+        $("#richardson-saved-design form#save-design-form").trigger("reset");
         if (RichardsonSaveDesign.events.isUniformChange()) {
             RichardsonSaveDesign.events.showSaveDesgin();
+            $('div.save-design-buttons').removeClass("uk-hidden");
             $(".uniform-thumbnail-container").addClass("uk-hidden");
-            $(".save-design-buttons").addClass("uk-hidden");
             $(".saving-please-wait").addClass("uk-hidden");
+            $(".save-design-buttons .save").addClass("bgc-lightGray");
+            $(".save-design-buttons .save").attr("disabled");
             $('.save-design-loading').fadeIn();
-            console.log("Uniform is change")
         } else {
+            $('div.save-design-buttons').removeClass("uk-hidden");
             $(".uniform-thumbnail-container").removeClass("uk-hidden");
             $(".save-design-buttons").removeClass("uk-hidden");
             $(".saving-please-wait").addClass("uk-hidden");
             $('.save-design-loading').fadeOut();
-
-            console.log("Uniform is not change")
         }
         UIkit.modal("#richardson-saved-design").show();
     },
@@ -46,6 +46,8 @@ RichardsonSaveDesign.events = {
         $(".uniform-thumbnail-container .back_view img").attr('src', '');
         $(".uniform-thumbnail-container .left_view img").attr('src', '');
         $(".uniform-thumbnail-container .right_view img").attr('src', '');
+
+        $("#richardson-saved-design #design-id").val(ub.config.material_id);
 
         ub.current_material.settings.thumbnails = {
             front_view: "",
@@ -146,29 +148,8 @@ RichardsonSaveDesign.events = {
         
             success: function (response){
                 if (response.success) {
-                    // if (typeof window.ub.user.type !== "undefined") {
-                    //     ub.funcs.checkEmailPopup();
-                    // } else {
-                    //     ub.funcs.updatePopup();    
-                    // }
                     UIkit.modal("#richardson-saved-design").hide();
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
-                    // var is_add_to_team_store = false;
-                    // if (typeof($('#is_add_to_team_store').val()) == "undefined") {
-                    //     is_add_to_team_store = false;
-                    // } else {
-                    //     if ($('#is_add_to_team_store:checked').length) {
-                    //         is_add_to_team_store = true;
-                    //     }
-                    // }
-
-                    // if (is_add_to_team_store) {
-                    //     // Make ID available globally; TeamStoreToolBox.js needs this var
-                    //     ub.team_stores_material_id = response.team_stores_material_id;
-
-                    //     TeamStoreToolBox.add_to_team_store(ub.current_material.material.id);
-                    // }
-
                 } else {
                     console.log('Error Saving Design.');
                     console.log(response.message);
@@ -204,8 +185,10 @@ RichardsonSaveDesign.events = {
 
                     if (ub.funcs.thumbnailsUploaded()) {
                         $('.save-design-loading').fadeOut();
+                        $(".design-preview").removeClass("uk-hidden");
                         $(".uniform-thumbnail-container").removeClass("uk-hidden");
-                        $(".save-design-buttons").removeClass("uk-hidden");
+                        $(".save-design-buttons .save").removeClass("bgc-lightGray");
+                        $(".save-design-buttons .save").removeAttr("disabled");
                     }
                 } else {
                     console.log('Error generating thumbnail for ' + view);

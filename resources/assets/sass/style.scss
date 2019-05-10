@@ -92,7 +92,7 @@ body {
   border: .5px solid; }
 
 .bdr-reg {
-  border: 1px solid; }
+  border: 1px solid !important; }
 
 .bdrr-none {
   border-radius: 0; }
@@ -226,6 +226,11 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   right: 0;
   border-left: 1px solid #353535;
   background: url(https://richardsonsports.com/customizer/images/css/arrow-r.png) no-repeat center center; }
+
+.thumb-nav-savedesign {
+  max-width: 50px;
+  padding: 5px 8px;
+  border-color: $color-lightGray;}
 
 .thumbnail-small {
   width: 44px;
@@ -564,11 +569,17 @@ button[data-color-label="W"].palette {
   }
 
   .con-preview-pane-thumb-nav {
-    max-width: 80px;
+    max-width: 80px !important;
   }
 
   .wer {
     margin-left: 36px;
+  }
+
+}
+@media screen and (min-width: 960px) {
+    .con-thumb-nav-savedesign {
+    max-width: 50px !important;
   }
 }
 

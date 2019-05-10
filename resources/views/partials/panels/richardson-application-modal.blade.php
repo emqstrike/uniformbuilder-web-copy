@@ -175,17 +175,93 @@
 
 <!-- {{-- User Saved Desing --}} -->
 <div id="richardson-saved-design" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
-    <div class="uk-modal-dialog uk-width-2-3 uk-modal-body uk-margin-auto-vertical">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div class="uk-modal-body">
-            <h3 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h3>
-            <div class="uk-flex uk-flex-center">
-                <div class="uk-width-2-3">
-                    <form>
-                        <div class="uk-margin">
-                            <label class="uk-form-label" for="form-stacked-text">Name</label>
-                            <div class="uk-form-controls">
-                                <input class="uk-input" id="design-name" type="text" placeholder="Some text...">
+    <div class="uk-modal-dialog uk-width-1-1 uk-width-3-4@m uk-width-2-3@l uk-width-1-2@xl uk-margin-auto-vertical uk-padding-small">
+        <div>
+            <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Save Design</h6>
+            <div class="uk-margin-top uk-grid-small" uk-grid>
+                <div class="uk-margin-bottom uk-width-1-2@s">
+                    <div class="design-preview uk-hidden">
+                        <h6 class="uk-text-bold uk-text-uppercase">Design Preview</h6>
+                        <div class="uk-grid-collapse uk-flex-center" uk-grid>
+                            <!--Preview-->
+                            <div class="uk-width-1-1 uk-width-expand@s">
+                                <div class=" uk-grid-collapse uk-flex uk-flex-center" uk-grid>
+                                    <ul class="uk-switcher con-preview uk-width-1-1 uk-width-3-4@s uniform-thumbnail-container">
+                                        <li>
+                                            <div class="uk-inline front_view">
+                                                <img src="" alt="" uk-img>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="uk-inline back_view">
+                                                <img src="" alt="" uk-img>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="uk-inline left_view">
+                                                <img src="" alt="" uk-img>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="uk-inline right_view">
+                                                <img src="" alt="" uk-img>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--Preview navigation-->
+                            <div class="uk-width-1-1 con-thumb-nav-savedesign uk-flex-center uk-flex-first@m ">
+                                <div class="uk-grid-small grid-tiny uk-flex-center uniform-thumbnail-container" uk-switcher="connect: .con-preview" uk-grid>
+                                    <div class="uk-width-auto front_view">
+                                        <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                            <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="" alt=""uk-img>
+                                        </a>
+                                    </div>
+                                    <div class="uk-width-auto back_view">
+                                        <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                            <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="" alt="" uk-img>
+                                        </a>
+                                    </div>
+                                    <div class="uk-width-auto left_view">
+                                        <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                            <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="" alt="" uk-img>
+                                        </a>
+                                    </div>
+                                    <div class="uk-width-auto right_view">
+                                        <a href="" class="bdrr-none uk-link-reset" uk-icon=" ratio: 2">
+                                            <img class="thumb-nav-savedesign bdr-reg bdr-lightGray" src="" alt="" uk-img>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
+                        <div uk-spinner="ratio: 8">
+                        </div>
+                        <div>
+                            <p>Uploading images .... </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uk-margin-bottom uk-width-1-2@s">
+                    <h6 class="uk-text-bold uk-text-uppercase">Design Information</h6>
+                    <form id="save-design-form">
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-2-3">
+                                <label class="uk-form-label" for="form-stacked-text">Design Name</label>
+                                <div class="uk-form-controls">
+                                    <input class="uk-input" id="design-name" type="text" placeholder="Design Name">
+                                </div>
+                            </div>
+
+                            <div class="uk-width-1-3">
+                                <label class="uk-form-label" for="form-stacked-text">ID</label>
+                                <div class="uk-form-controls">
+                                    <input class="uk-input" id="design-id" type="text" placeholder="0000" readonly="true">
+                                </div>
                             </div>
                         </div>
                         <div class="uk-margin">
@@ -197,32 +273,11 @@
                     </form>
                 </div>
             </div>
-            <div class="uk-grid-match uk-child-width-1-2@s uk-child-width-1-4@m uk-text-center uniform-thumbnail-container uk-hidden" uk-grid>
-                <div class="front_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="back_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="right_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-                <div class="left_view">
-                    <img class="bdr-reg bdr-gray uk-height-medium" src="">
-                </div>
-            </div>
-            <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
-                <div uk-spinner="ratio: 8">
-                </div>
-                <div>
-                    <p>Uploading images .... </p>
-                </div>
-            </div>
         </div>
 
-        <div class="uk-modal-footer uk-text-right save-design-buttons uk-hidden">
+        <div class="uk-modal-footer uk-padding-remove-bottom uk-text-right save-design-buttons">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-            <button class="uk-button uk-button-primary save" type="button">Save</button>
+            <button class="uk-button uk-button-primary save bgc-lightGray" type="button" disabled>Save</button>
         </div>
         <div class="saving-please-wait uk-modal-footer uk-text-right uk-hidden">
             <p>Please wait.... <span uk-spinner="ratio: .5"></span></p>
@@ -234,9 +289,9 @@
 <!-- Mascot Select -->
 <div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
-    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h5 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson logos</h5>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson logos</h6>
         <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark" uk-switcher>
             <li>
                 <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="existing">
@@ -294,11 +349,9 @@
 <!-- End Mascot Select -->
 
 <div id="richardson-summary-preview" class="uk-modal-container" uk-modal="esc-close: false; bg-close: false;">
-    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small">
         <button class="uk-modal-close-outside" type="button" uk-close></button>
-        <div class="uk-padding-small cp-bgc-light uk-text-center uk-text-bold">
-            <h2 class="uk-modal-title uk-text-uppercase uk-margin-remove abrade-black">uniform Summary</h2>
-        </div>
+        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Uniform Summary</h6>
         <div class="uk-flex-center">
             <div class="loading uk-padding-small uk-padding-remove-horizontal">
                 <div class="uk-text-center">
@@ -366,7 +419,6 @@
                     <div class="uk-width-1-1@l">
                         <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
                             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
-                            <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark uk-heading-divider">Roster List</h6>
                             <div class="uk-width-1-1">
                                 <div class="uk-grid-small uk-grid-match" uk-grid>
                                     <div class="uk-width-1-3">
@@ -388,7 +440,7 @@
                 </div>
             </div>
         </div>
-        <div class="uk-modal-footer uk-text-center">
+        <div class="uk-modal-footer uk-padding-remove-bottom uk-text-center">
             <button class="uk-button uk-button-secondary save-roster">Save Roster</button>
         </div>
     </div>
