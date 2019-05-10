@@ -90,3 +90,12 @@ label.control-label {
 .form-group {
     padding: 0 16px !important;
 }
+
+#filter-container label {
+    margin-left: 10px;
+}
+
+select {
+    text-transform: capitalize;
+    -webkit-appearance: menulist !important;
+}

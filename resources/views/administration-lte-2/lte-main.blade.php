@@ -8,7 +8,6 @@
         <title>Administration | {{ env('APP_TITLE') }}</title>
 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/admin-lte-2/datatables/css/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="/admin-lte-2/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/admin-lte-2/Ionicons/css/ionicons.min.css">
@@ -23,7 +22,7 @@
         <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-
+        <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
 
         <style>
             #breadcrumbs {

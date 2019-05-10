@@ -18,22 +18,41 @@
                         @section('page-title', 'Users')
 
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <h1>
                                     <span class="glyphicon glyphicon-user"></span>Users
                                     <button class="btn btn-success btn-sm btn-flat" @click="add()">Add</button>
                                 </h1>
                             </div>
 
-                            <div class="col-md-4 text-right" style="margin-top: 20px;">
+                            <div id="filter-container" class="col-md-8 text-right" style="margin-top: 20px;">
                                 <div class="form-inline">
+                                    <label>Type</label>
+                                    <select v-model="selectedFilterType" class="form-control" @change="filter()">
+                                        <option value="all">all</option>
+                                        <option v-for="type in types" :value="type">@{{ type }}</option>
+                                    </select>
+
+                                    <label>Role</label>
+                                    <select v-model="selectedFilterRole" class="form-control" @change="filter()">
+                                        <option value="all">all</option>
+                                        <option v-for="role in roles" :value="role.id">@{{ role.name }}</option>
+                                    </select>
+
+                                    <label>Search user by:</label>
+
+                                    <select v-model="searchUserFilter" class="form-control">
+                                        <option value="name">Name</option>
+                                        <option value="email">Email</option>
+                                        <option value="id">ID</option>
+                                    </select>
+
                                     <input type="text" class="form-control" v-model="search">
                                     <button class="btn btn-flat btn-primary" @click="searchUsers()">Search</button>
                                     <button class="btn btn-flat btn-default" @click="clearSearchUsers()">Clear</button>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
 
                     <div class="box-body">
