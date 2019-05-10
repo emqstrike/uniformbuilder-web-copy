@@ -1526,6 +1526,8 @@
             _strokeOuter = 14;
         }
 
+
+
         if (ub.config.brand.toLowerCase() === "richardson") {
             var accentObj = input_object.accentObj;
             var appObj = input_object.applicationObj;
@@ -1539,6 +1541,15 @@
             if (accentObj.code === "double_outline" && isNumbers && input_object.fontSize > 5) {
                 _strokeInner = 13;
                 _strokeOuter = 15;
+            }
+
+            var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, accentObj.code, input_object.fontSize);
+            console.log(customStroke)
+            if (typeof customStroke !== "undefined" && isNumbers) {
+                _strokeInner = customStroke.strokeInner;
+                _strokeOuter = customStroke.strokeOuter;
+
+                console.log("PUMAPASOK BA ?")
             }
         }
 

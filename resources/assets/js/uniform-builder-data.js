@@ -12771,15 +12771,17 @@ ub.funcs.fontOffSets = [
     ub.data.customFontStroke = {
         items: [
             {
-                font: "City Block BSB",
+                font: "Condensed Block BSB",
+                fontSize: 7,
                 accentName: "double_outline",
-                stroke: 18
+                strokeInner: 11,
+                strokeOuter: 12
             }
         ],
 
-        getCustomStroke: function(fontName, accentName) {
+        getCustomStroke: function(fontName, accentName, fontSize) {
             var _result = undefined;
-            _result = _.find(this.items, {font: fontName, accentName: accentName});
+            _result = _.find(this.items, {font: fontName, accentName: accentName, fontSize: fontSize});
 
             return _result;
         }
