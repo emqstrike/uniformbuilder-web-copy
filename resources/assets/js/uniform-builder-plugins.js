@@ -1526,6 +1526,22 @@
             _strokeOuter = 14;
         }
 
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            var accentObj = input_object.accentObj;
+            var appObj = input_object.applicationObj;
+            var isNumbers = appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" ? true : false;
+
+            if (accentObj.code === "double_outline" && isNumbers && input_object.fontSize <= 5) {
+                _strokeInner = 8;
+                _strokeOuter = 16;
+            }
+
+            if (accentObj.code === "double_outline" && isNumbers && input_object.fontSize > 5) {
+                _strokeInner = 13;
+                _strokeOuter = 15;
+            }
+        }
+
         ub.funcs.removeUIHandles();
 
         if (typeof input_object.fontSize === "undefined") {

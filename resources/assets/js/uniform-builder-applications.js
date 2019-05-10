@@ -4981,19 +4981,16 @@ $(document).ready(function () {
     }
 
     ub.funcs.changeAccentFromPopup = function (accentID, settingsObj) {
-
         var _accentObj = _.find(ub.data.accents.items, {id: parseInt(accentID)});
         var _id = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
 
         /// Set Default Colors
-
         var _firstLayer = _.find(_accentObj.layers, {layer_no: 1});
         _firstLayer.default_color = ub.current_material.settings.team_colors[1].hex_code;
 
         if (_accentObj.layers.length >= 4) {
-
             var _secondLayer = _.find(_accentObj.layers, {layer_no: 1});
             var _color = ub.funcs.getColorByColorCode('B').hex_code;
 
@@ -5002,21 +4999,16 @@ $(document).ready(function () {
             }
 
             _secondLayer.default_color = _color;
-
         }
-
         /// End Set Default Colors
 
 
         /// Process new Colors
-
         var _toggle = false;
-
         var colorArray = [];
         var colorArrayText = [];
 
         _.each(_accentObj.layers, function (layer) {
-
             var _hexCode = layer.default_color;
             var _color = ub.funcs.getColorObjByHexCode(_hexCode);
             var _layerNo = layer.layer_no - 1;
@@ -5026,13 +5018,10 @@ $(document).ready(function () {
             }
 
             if (typeof _color === 'undefined') {
-
                 _color = settingsObj.color_array[_layerNo];
-
             }
 
             if (typeof _color === "undefined" || !ub.funcs.isInTeamColor(_color.color_code)) {
-
                 var _index = _toggle ? 1 : 0;
                 _toggle = !_toggle;
 
@@ -5042,58 +5031,39 @@ $(document).ready(function () {
                 layer.default_color = _color.hex_code;
 
                 if (typeof settingsObj.colorArrayText === 'undefined') {
-
                     settingsObj.colorArrayText = [_color.color_code];
-
                 } else {
-
                     settingsObj.colorArrayText[_layerNo] = _color.color_code;
-
                 }
-
             }
 
             colorArray.push(_color);
             colorArrayText.push(_color.color_code);
-
         });
-
         /// End Process new Colors
 
         settingsObj.color_array = colorArray;
         settingsObj.colorArrayText = colorArrayText;
 
         /// trim new colors
-
         var _accentObjLength = (_accentObj.layers.length - 1);
-
         ub.accentObj = _accentObj;
-
         /// end trim new colors
 
         /// Matching Colors
-
         _matchingCode = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
         if (typeof _matchingCode !== "undefined") {
-
             _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode.toString());
-
             if (typeof _matchingSettingsObject !== 'undefined') {
-
                 _matchingSettingsObject.color_array = settingsObj.color_array;
                 _matchingSettingsObject.colorArrayText = settingsObj.colorArrayText;
-
             }
-
         }
-
         /// End Matching Colors
 
         settingsObj.accent_obj = _accentObj
-
         ub.create_application(settingsObj, undefined);
-
         $popup = $('div#primaryAccentPopup');
         $popup.remove();
         ub.status.accentPopupVisible = false;

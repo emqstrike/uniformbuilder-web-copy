@@ -158,8 +158,6 @@ RichardsonSkin.funcs = {
 
         var material = ub.current_material.material;
 
-        console.log(material);
-
         var front = !_.isEmpty(material.thumnail_path_front) ? material.thumnail_path_front : ub.getThumbnailImage("front_view");
         var back = !_.isEmpty(material.thumnail_path_back) ? material.thumnail_path_back : ub.getThumbnailImage("back_view");
         var left = !_.isEmpty(material.thumnail_path_left) ? material.thumnail_path_left : ub.getThumbnailImage("left_view");

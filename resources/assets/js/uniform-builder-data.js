@@ -3712,7 +3712,6 @@ $(document).ready(function() {
     };
 
     ub.data.playerNumbers = [
-
         {
              number: "1",
              status: "free",
@@ -12763,6 +12762,24 @@ ub.funcs.fontOffSets = [
                             application_type: application_type,
                             type: type
                         });
+
+            return _result;
+        }
+    }
+
+
+    ub.data.customFontStroke = {
+        items: [
+            {
+                font: "City Block BSB",
+                accentName: "double_outline",
+                stroke: 18
+            }
+        ],
+
+        getCustomStroke: function(fontName, accentName) {
+            var _result = undefined;
+            _result = _.find(this.items, {font: fontName, accentName: accentName});
 
             return _result;
         }
