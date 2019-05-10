@@ -1517,7 +1517,6 @@
     }
 
     $.ub.create_text = function (input_object) {
-
         let _strokeInner = 11;
         let _strokeOuter = 14;
 
@@ -1740,8 +1739,7 @@
                     if (input_object.fontSize !== 7 && input_object.font_name !== "Condensed Block BSB") {
                         style.strokeThickness = _strokeOuter + 14;
                     } else {
-                        style.strokeThickness = _strokeOuter + 9.3;
-                        console.log("asdkjashdksahdksajhdksajhdksajdhksajdhskajhd")
+                        style.strokeThickness = _strokeOuter + 7;
                     }
                 }
             }

@@ -12774,8 +12774,8 @@ ub.funcs.fontOffSets = [
                 font: "Condensed Block BSB",
                 fontSize: 7,
                 accentName: "double_outline",
-                strokeInner: 11,
-                strokeOuter: 12
+                strokeInner: 10,
+                strokeOuter: 13
             }
         ],
 
