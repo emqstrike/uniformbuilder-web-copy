@@ -31,6 +31,7 @@ RichardsonSaveDesign.events = {
             $(".saving-please-wait").addClass("uk-hidden");
             $('.save-design-loading').fadeOut();
         }
+        $("#richardson-saved-design #design-id").val(ub.config.material_id);
         UIkit.modal("#richardson-saved-design").show();
     },
 
@@ -46,8 +47,6 @@ RichardsonSaveDesign.events = {
         $(".uniform-thumbnail-container .back_view img").attr('src', '');
         $(".uniform-thumbnail-container .left_view img").attr('src', '');
         $(".uniform-thumbnail-container .right_view img").attr('src', '');
-
-        $("#richardson-saved-design #design-id").val(ub.config.material_id);
 
         ub.current_material.settings.thumbnails = {
             front_view: "",
