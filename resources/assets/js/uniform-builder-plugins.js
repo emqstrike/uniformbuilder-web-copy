@@ -1544,12 +1544,9 @@
             }
 
             var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, accentObj.code, input_object.fontSize);
-            console.log(customStroke)
             if (typeof customStroke !== "undefined" && isNumbers) {
                 _strokeInner = customStroke.strokeInner;
                 _strokeOuter = customStroke.strokeOuter;
-
-                console.log("PUMAPASOK BA ?")
             }
         }
 
