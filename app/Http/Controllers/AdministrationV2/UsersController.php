@@ -44,13 +44,17 @@ class UsersController extends Controller
     {
         $users = $this->client->getUsers();
         $users_string = json_encode($users);
-        foreach($users as $user)
-        {
+
+        foreach ($users as $user) {
             $user->created_at = date('M-d-Y', strtotime($user->created_at));
-            if(isset($user->last_login)){
+
+            if (isset($user->last_login)) {
                 $user->last_login = date('M-d-Y', strtotime($user->last_login));
             }
         }
+
+        $users = json_encode($users);
+
         return view('administration-lte-2.users.users', [
             'users' => $users,
             'users_string' => $users_string
