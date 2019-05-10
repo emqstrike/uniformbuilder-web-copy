@@ -575,6 +575,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.submitFeedback = function (_data) {
+
         var test = true;
 
         if(test) {
@@ -582,22 +583,30 @@ $(document).ready(function() {
         } else {
             var _user_id = ub.user.id;
             var _user_email = ub.user.email;
+            var _material_id = ub.config.material_id;
+            var _saved_design_id = ub.config.savedDesignInfo.savedDesignID;
 
             if (typeof _user_id === "undefined") {
                 _user_id = 0;
-                _user_email = '';
+                _user_email = _data.email;
             }
 
             var _postData = {
                 "subject" : "Feedback",
                 "order_code" : "",
-                "content" : _data,
+                "content" : _data.message,
                 "type" : "feedback",
                 "email" : _user_email,
+                "name" : _data.name,
+                "screenshot": _data.screenshot
             };
 
-            // Have a user id passed only when a user is logged in
-            if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+            // passed only when a user is logged in
+            if (typeof ub.user.id !== "undefined") {
+                _postData.user_id = _user_id;
+                _postData.material_id = _material_id;
+                _postData.saved_design_id = _saved_design_id;
+            }
 
             var _url = ub.config.api_host + '/api/feedback';
             //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
