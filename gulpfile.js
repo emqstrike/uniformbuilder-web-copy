@@ -48,9 +48,9 @@ elixir(function(mix) {
             'richardson/RichardsonSaveDesign.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
-
             'uniform-builder-dealership.js',
             'uniform-builder-data.js',
+            'uniform-builder-patterns.js',
             'uniform-builder-ui-data.js',
             'uniform-builder-application-sizes.js',
             'uniform-builder-name-drops.js',
@@ -63,7 +63,6 @@ elixir(function(mix) {
             'uniform-builder-placeholder-applications.js',
             'uniform-builder-process.js',
             'uniform-builder-dialogs.js',
-            'uniform-builder-patterns.js',
             'uniform-builder-applications.js',
             'uniform-builder-getters-setters.js',
             'uniform-builder-pipings.js',
