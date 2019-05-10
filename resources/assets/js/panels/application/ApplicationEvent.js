@@ -18,6 +18,12 @@ function ApplicationEvent() {
 
 }
 
+ApplicationEvent.maxLengthCheck = function (object) {
+    if (object.value.length > object.max.length) {
+        object.value = object.value.slice(0, object.max.length)
+    }
+}
+
 ApplicationEvent.events = {
     isInit: true,
 
@@ -141,6 +147,10 @@ ApplicationEvent.events = {
     onBlurApplicationText: function() {
         var _val = $(this).val();
         ub.status.onText = false;
+
+        if (_val.length > 2) {
+            _val = _val.slice(0, 2)
+        }
 
         var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});

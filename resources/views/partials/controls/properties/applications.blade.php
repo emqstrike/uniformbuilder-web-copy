@@ -260,7 +260,7 @@
                     <div class="con-input-object con-en-disable-me">
                         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Select number font style</h6>
                         <div class="app-letters-wrapper">
-                            <input class="en-disable-me uk-input uk-form-width-xsmall bgc-light bdr-lightGray sampleText app-letters-input" type="text" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }}>
+                            <input class="en-disable-me uk-input uk-form-width-xsmall bgc-light bdr-lightGray sampleText app-letters-input" maxlength="2" max="99" type="number" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} oninput="ApplicationEvent.maxLengthCheck(this)">
                         </div>
                     </div>
 
@@ -468,7 +468,7 @@
                 <div class="con-input-object con-en-disable-me">
                     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Select number font style</h6>
                     <div class="app-letters-wrapper">
-                        <input class="uk-input bgc-light uk-form-width-xsmall bdr-lightGray sampleText app-letters-input" type="text" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }}>
+                        <input class="uk-input bgc-light uk-form-width-xsmall bdr-lightGray sampleText app-letters-input" type="number" maxlength="2" max="99" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }} oninput="ApplicationEvent.maxLengthCheck(this)">
                     </div>
                 </div>
 
