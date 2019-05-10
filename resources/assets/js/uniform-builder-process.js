@@ -711,6 +711,7 @@ $(document).ready(function() {
                 }
                 else {
 
+                    callback(undefined);
                     console.log('Error Uploading Image');
                     console.log(response.message);
 
@@ -722,10 +723,31 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareImagesPreview = function () {
+
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+        var _front = ub.getThumbnailImage2('front_view');
+        var _back = ub.getThumbnailImage2('back_view');
+        var _left = ub.getThumbnailImage2('left_view');
+        var _right = ub.getThumbnailImage2('right_view');
+        var _frontImage = "<img src ='" + _front + "' alt='...' class='img-thumbnail img-responsive front' />" ;
+        var _backImage = "<img src ='" + _back + "' alt='...' class='img-thumbnail img-responsive back' />" ;
+        var _leftImage = "<img src ='" + _left + "' alt='...' class='img-thumbnail img-responsive left' />" ;
+        var _rightImage = "<img src ='" + _right + "' alt='...' class='img-thumbnail img-responsive right' />" ;
+        ub.frontPreview = _frontImage;
+        ub.backPreview = _backImage;
+        ub.leftPreview = _leftImage;
+        ub.rightPreview = _rightImage;
+        // ub.showModalTool(_str);
+
+    }
+
     ub.funcs.freeFeedbackForm = function () {
 
         $('a#feedback').on('click', function () {
-
 
             var data = {};
 
@@ -742,6 +764,28 @@ $(document).ready(function() {
                 $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
             }
 
+            ub.funcs.prepareImagesPreview();
+
+            if(ub.user) {
+                    if(ub.current_material.id === -1) {
+
+                    } else {
+                        if (ub.frontPreview) {
+                            // process perspective preview
+                            var _imagePreview = ("<div class='row'>" +
+                                "                   <div class='col-md-12'>" +
+                                                        ub.frontPreview +
+                                                        ub.backPreview +
+                                                        ub.leftPreview +
+                                                        ub.rightPreview +
+                                "                   </div>" +
+                                "                 </div><br/>");
+
+                            $('.feedback-left-panel').prepend(_imagePreview);
+                        }
+                    }
+            }
+
             $('span.ok-btn').on('click', function () {
 
                 var _name = $('#feedback-form .name').val().trim();
@@ -756,26 +800,15 @@ $(document).ready(function() {
                 if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
                     $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
 
-                    var _front = $('img.img-thumbnail.front')[0].src;
-                    var _back = $('img.img-thumbnail.back')[0].src;
-                    var _left = $('img.img-thumbnail.left')[0].src;
-                    var _right = $('img.img-thumbnail.right')[0].src;
+                    var _upload = $('img.img-thumbnail.upload')[0].src;
 
-                    if (_front === 'https://i.imgur.com/aB8nl6x.png') { _front = ''; }
-                    if (_back === 'https://i.imgur.com/aB8nl6x.png') { _back = ''; }
-                    if (_left === 'https://i.imgur.com/aB8nl6x.png') { _left = ''; }
-                    if (_right === 'https://i.imgur.com/aB8nl6x.png') { _right = ''; }
+                    if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
 
                     var _data = {
                         name: _name,
                         email: _email,
                         message: _message,
-                        screenshots: {
-                            front: _front,
-                            back: _back,
-                            left: _left,
-                            right: _right
-                        }
+                        screenshot: _upload
                     };
 
                     ub.funcs.submitFeedback(_data);
@@ -808,49 +841,18 @@ $(document).ready(function() {
             });
 
             // triggering click on images for file upload
-            $('img.img-thumbnail.front').on('click', function(){ $('#file-input-thumb-front').trigger('click'); });
-            $('img.img-thumbnail.back').on('click', function(){ $('#file-input-thumb-back').trigger('click'); });
-            $('img.img-thumbnail.left').on('click', function(){ $('#file-input-thumb-left').trigger('click'); });
-            $('img.img-thumbnail.right').on('click', function(){ $('#file-input-thumb-right').trigger('click'); });
+            $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
 
             // onchange file input value
-            $('#file-input-thumb-front').on('change', function(){
+            $('#file-input-upload').on('change', function(){
+                $('.upload-btn').find('i').removeClass('fa-cloud-upload').addClass('fa-refresh fa-spin');
                 ub.funcs.imageUpload(this.files[0], function(filename) {
                     if (typeof filename === 'undefined') {
+                        $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
                         $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
                     } else {
-                        $('img.img-thumbnail.front')[0].src = filename;
-                    }
-                });
-            });
-            $('#file-input-thumb-back').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.back')[0].src = filename;
-                    }
-                });
-            });
-            $('#file-input-thumb-left').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.left')[0].src = filename;
-                    }
-                });
-            });
-            $('#file-input-thumb-right').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.right')[0].src = filename;
+                        $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
+                        $('img.img-thumbnail.upload')[0].src = filename;
                     }
                 });
             });

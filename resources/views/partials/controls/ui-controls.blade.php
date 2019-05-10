@@ -1709,39 +1709,16 @@
                 <div class="col-md-12">
                     
                     <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
-{{--                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>--}}
 
                     <div class="row">
-                        <div class="col-md-6">
-
-                            <h5 class="text-center">UPLOAD SCREENSHOTS <small>(optional)</small></h5>
-
+                        <div class="col-md-6 feedback-left-panel">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <input type="file" id="file-input-thumb-front" style="display:none" accept="image/*"/>
-                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive front">
-                                    <h5 class="text-center img-label">FRONT</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="file" id="file-input-thumb-back" style="display:none" accept="image/*"/>
-                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive back">
-                                    <h5 class="text-center img-label">BACK</h5>
+                                <div class="col-md-12 text-center">
+                                    <button class="btn btn-default btn-block upload-btn"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
+                                    <input type="file" id="file-input-upload" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive upload">
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="file" id="file-input-thumb-left" style="display:none" accept="image/*"/>
-                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive left">
-                                    <h5 class="text-center img-label">LEFT</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="file" id="file-input-thumb-right" style="display:none" accept="image/*"/>
-                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive right">
-                                    <h5 class="text-center img-label">RIGHT</h5>
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="col-md-6">
@@ -1756,7 +1733,7 @@
                               </div>
                               <div class="form-group">
                                 <label>Message <span class="required">*</span></label>
-                                <textarea class="form-control message" rows="16" placeholder="Please enter your message here! :)"></textarea>
+                                <textarea class="form-control message" rows="20" placeholder="Please enter your message here! :)"></textarea>
                               </div>
                             </form>
                         </div>
