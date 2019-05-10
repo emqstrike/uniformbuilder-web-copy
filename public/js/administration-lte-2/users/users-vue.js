@@ -38,7 +38,9 @@ new Vue({
             ],
             salesReps: {},
             search: '',
-            selected: [],
+            searchUserFilter: 'name',
+            selectedFilterRole: 'all',
+            selectedFilterType: 'all',
             totalItems: 0,
             types: ['administrator', 'normal'],
             user: {},
@@ -131,10 +133,13 @@ new Vue({
         },
         clearSearchUsers: function() {
             this.search = "";
+            this.selectedFilterRole = 'all';
+            this.selectedFilterType = 'all';
 
             this.getDataFromAPI().then(data => {
                 this.users = data.users;
                 this.totalItems = data.total;
+                this.pagination.page = 1;
             });
         },
         createUser: function() {
@@ -205,6 +210,14 @@ new Vue({
             this.action = 'edit';
             this.togglePanel();
         },
+        filter: function() {
+            this.pagination.page = 1;
+
+            this.getDataFromAPI().then(data => {
+                this.users = data.users;
+                this.totalItems = data.total;
+            });
+        },
         getBrandsData: function() {
             axios.get(window.endpoint_version + '/brandings').then((response) => {
                 if (response.data.success === true) {
@@ -222,8 +235,24 @@ new Vue({
                 var url = "users/paginate?page=" + page;
 
                 if (this.search) {
-                    url += "&name=" + this.search;
+                    if (this.searchUserFilter == 'name') {
+                        url += "&name=" + this.search;
+                    } else if (this.searchUserFilter == 'email') {
+                        url += "&email=" + this.search;
+                    } else if (this.searchUserFilter == 'id') {
+                        url += "&id=" + this.search;
+                    }
                 }
+
+                if (this.selectedFilterType != 'all') {
+                    url += "&type=" + this.selectedFilterType;
+                }
+
+                if (this.selectedFilterRole != 'all') {
+                    url += "&role=" + this.selectedFilterRole;
+                }
+
+                console.log(url);
 
                 axios.get(url).then((response) => {
                     if (response.data.success === true) {
