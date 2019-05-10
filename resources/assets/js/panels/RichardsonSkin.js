@@ -242,10 +242,10 @@ RichardsonSkin.funcs = {
 
     setupRightPanelHeader: function() {
         $("div.options_panel_header").html("");
-
+        var uniform_name = this.prepareStyleDescription();
         var template = document.getElementById("m-richardson-right-panel-header");
         var data = {
-            "uniform_name": this.prepareStyleDescription(),
+            "uniform_name": uniform_name,
             "block_pattern": ub.current_material.material.model_name,
             "application_type": ub.current_material.material.model_number
         };
@@ -253,7 +253,7 @@ RichardsonSkin.funcs = {
         
         var rendered = Mustache.render(template.innerHTML, data);
         $("div.options_panel_header").html(rendered);
-        if (ub.current_material.material.name.length > 38) {
+        if (uniform_name.length > 38) {
             $(".richardson-header .uniform-name").css("font-size", "12px");
         }
     },
