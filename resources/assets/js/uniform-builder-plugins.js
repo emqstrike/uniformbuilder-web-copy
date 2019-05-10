@@ -1518,8 +1518,8 @@
 
     $.ub.create_text = function (input_object) {
 
-        var _strokeInner = 11;
-        var _strokeOuter = 14;
+        let _strokeInner = 11;
+        let _strokeOuter = 14;
 
         if (input_object.fontSize < 5) {
             _strokeInner = 7;
@@ -1736,10 +1736,14 @@
 
                 style.stroke = '#ffffff';
                 
-                if(input_object.fontSize > 5) {
-                    style.strokeThickness = _strokeOuter + 14;
+                if (input_object.fontSize > 5) {
+                    if (input_object.fontSize !== 7 && input_object.font_name !== "Condensed Block BSB") {
+                        style.strokeThickness = _strokeOuter + 14;
+                    } else {
+                        style.strokeThickness = _strokeOuter + 9.3;
+                        console.log("asdkjashdksahdksajhdksajhdksajdhksajdhskajhd")
+                    }
                 }
-
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {

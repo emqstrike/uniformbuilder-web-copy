@@ -18,6 +18,12 @@ function ApplicationEvent() {
 
 }
 
+ApplicationEvent.maxLengthCheck = function (object) {
+    if (object.value.length > object.max.length) {
+        object.value = object.value.slice(0, object.max.length)
+    }
+}
+
 ApplicationEvent.events = {
     isInit: true,
 
@@ -82,15 +88,15 @@ ApplicationEvent.events = {
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
         var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
 
+        if (_val.length === 0) {
+            return;
+        }
+
         if (e.keyCode === 13) {
             _settingsObject.text = _val;
 
             if (typeof _settingsObject.tailsweep !== "undefined") {
                 // Tailsweep, is off for now
-                // if (_settingsObject.text.length <= 5) { _length = 'short'; }
-                // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; }
-                // if (_settingsObject.text.length > 7) { _length = 'long'; }
-
                 _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
 
                 _settingsObject.tailsweep.length = _length;
@@ -141,6 +147,10 @@ ApplicationEvent.events = {
     onBlurApplicationText: function() {
         var _val = $(this).val();
         ub.status.onText = false;
+
+        if (_val.length === 0) {
+            return;
+        }
 
         var id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id});
@@ -242,10 +252,4 @@ ApplicationEvent.events = {
             ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
         }
     },
-}
-
-ApplicationEvent.maxLengthCheck = function (object) {
-    if (object.value.length > object.max.length) {
-        object.value = object.value.slice(0, object.max.length)
-    }
 }
