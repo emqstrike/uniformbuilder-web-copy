@@ -1517,14 +1517,15 @@
     }
 
     $.ub.create_text = function (input_object) {
-
-        var _strokeInner = 11;
-        var _strokeOuter = 14;
+        let _strokeInner = 11;
+        let _strokeOuter = 14;
 
         if (input_object.fontSize < 5) {
             _strokeInner = 7;
             _strokeOuter = 14;
         }
+
+
 
         if (ub.config.brand.toLowerCase() === "richardson") {
             var accentObj = input_object.accentObj;
@@ -1539,6 +1540,12 @@
             if (accentObj.code === "double_outline" && isNumbers && input_object.fontSize > 5) {
                 _strokeInner = 13;
                 _strokeOuter = 15;
+            }
+
+            var customStroke = ub.data.customFontStroke.getCustomStroke(input_object.font_name, accentObj.code, input_object.fontSize);
+            if (typeof customStroke !== "undefined" && isNumbers) {
+                _strokeInner = customStroke.strokeInner;
+                _strokeOuter = customStroke.strokeOuter;
             }
         }
 
@@ -1728,10 +1735,13 @@
 
                 style.stroke = '#ffffff';
                 
-                if(input_object.fontSize > 5) {
-                    style.strokeThickness = _strokeOuter + 14;
+                if (input_object.fontSize > 5) {
+                    if (input_object.fontSize !== 7 && input_object.font_name !== "Condensed Block BSB") {
+                        style.strokeThickness = _strokeOuter + 14;
+                    } else {
+                        style.strokeThickness = _strokeOuter + 7;
+                    }
                 }
-
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {
