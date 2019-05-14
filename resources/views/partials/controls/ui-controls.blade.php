@@ -1732,8 +1732,16 @@
                                 <input type="email" class="form-control email" placeholder="youremail@domain.com">
                               </div>
                               <div class="form-group">
+                                <label>Material ID <small class="optional">(optional)</small></label>
+                                <input type="text" class="form-control materialId" placeholder="">
+                              </div>
+                              <div class="form-group">
+                                <label>Saved Design ID <small class="optional">(optional)</small></label>
+                                <input type="text" class="form-control savedDesignId" placeholder="">
+                              </div>
+                              <div class="form-group">
                                 <label>Message <span class="required">*</span></label>
-                                <textarea class="form-control message" rows="20" placeholder="Please enter your message here! :)"></textarea>
+                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)"></textarea>
                               </div>
                             </form>
                         </div>

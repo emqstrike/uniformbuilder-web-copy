@@ -576,14 +576,13 @@ $(document).ready(function() {
 
     ub.funcs.submitFeedback = function (_data) {
 
-        var test = false;
+        var test = true;
 
         if(test) {
             console.log('DATA===>', _data);
         } else {
             var _user_id = ub.user.id;
             var _user_email = ub.user.email;
-            var _material_id = ub.config.material_id;
 
             if (typeof _user_id === "undefined") {
                 _user_id = 0;
@@ -597,17 +596,19 @@ $(document).ready(function() {
                 "type" : "feedback",
                 "email" : _user_email,
                 "name" : _data.name,
-                "screenshot": _data.screenshot
+                "screenshot": _data.screenshot,
+                "material_id": _data.material_id,
+                "saved_design_id": _data.saved_design_id
             };
 
             // pass user id only when a user is logged in
             if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
 
             // pass material id if exist
-            if (_material_id !== -1) { _postData.material_id = _material_id; }
+            // if (_material_id !== -1) { _postData.material_id = _material_id; }
 
             // pass saved design id if exist
-            if (typeof ub.config.savedDesignInfo !== "undefined") { _postData.saved_design_id = ub.config.savedDesignInfo.savedDesignID }
+            // if (typeof ub.config.savedDesignInfo !== "undefined") { _postData.saved_design_id = ub.config.savedDesignInfo.savedDesignID }
 
             var _url = ub.config.api_host + '/api/feedback';
             //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
@@ -774,6 +775,16 @@ $(document).ready(function() {
                 $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
             }
 
+            // set value of material id if exist
+            if(ub.config.material_id !== -1) {
+                $('#feedback-form .materialId').val(ub.config.material_id).attr('disabled','disabled').prev().find('small').hide();
+            }
+
+            //set the value of saved design id if exist
+            if (typeof ub.config.savedDesignInfo !== "undefined") {
+                $('#feedback-form .savedDesignId').val(ub.config.savedDesignInfo.savedDesignID).attr('disabled','disabled').prev().find('small').hide();
+            }
+
             ub.funcs.prepareImagesPreview();
 
             if(ub.user) {
@@ -802,6 +813,9 @@ $(document).ready(function() {
                 var _email = $('#feedback-form .email').val().trim();
                 var _message = $('#feedback-form .message').val().trim();
 
+                var _materialId = $('#feedback-form .materialId').val().trim();
+                var _savedDesignId = $('#feedback-form .savedDesignId').val().trim();
+
                 function validateEmail(_email) {
                     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                     return re.test(String(_email).toLowerCase());
@@ -818,7 +832,9 @@ $(document).ready(function() {
                         name: _name,
                         email: _email,
                         message: _message,
-                        screenshot: _upload
+                        screenshot: _upload,
+                        material_id: _materialId,
+                        saved_design_id: _savedDesignId
                     };
 
                     ub.funcs.submitFeedback(_data);
