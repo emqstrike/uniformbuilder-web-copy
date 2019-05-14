@@ -109,7 +109,7 @@ $(document).ready(function() {
         //     ub.data.fonts = _.filter(ub.data.fonts, {brand: 'prolook'})
         // }
 
-        var _brand = typeof ub.current_material.material.brand !== "undefined" ? ub.current_material.material.brand: ub.config.brand.toLowerCase();
+        var _brand = ub.config.brand.toLowerCase();
         ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
 
     };
