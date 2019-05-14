@@ -1983,28 +1983,19 @@ $(document).ready(function () {
             }
 
             if (sprite.ubHover) {
-
                 var _id = sprite.name.replace('objects_', '');
-
                 sprite.ubHover = false;
 
-                if (application.type !== "mascot" && application.type !== "logo") {
-
-                    if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id, application.code);
-                    } else {
-                        ub.funcs.activateApplications(_settingsObject.code);
-                    }
-
+                if (ub.config.brand.toLowerCase() === "richardson") {
+                    ModifierController.scrollToOptions(application.type, _id, application.id);
                 } else {
-                    // Check if scrolling UI is active
-                    if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(application.type, _id, application.code);
+                    if (application.type !== "mascot" && application.type !== "logo") {
+                        ub.funcs.activateApplications(_settingsObject.code);
                     } else {
+                        // Check if scrolling UI is active
                         ub.funcs.activateMascots(_id);
                     }
                 }
-
             }
 
             sprite.ubHover = false;
@@ -11369,43 +11360,26 @@ $(document).ready(function () {
             }
 
             if (sprite.ubHover) {
-
                 var _id = locationCode;
                 var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
 
                 ub.funcs.deActivateLocations();
                 ub.showLocation = false;
 
-                if (_settingsObject.application_type === "free") {
-
-                    if (!ub.data.useScrollingUI) {
-                        ub.funcs.activateFreeApplication(locationCode);
-                    }
-
-                }
-                else if (_settingsObject.application_type === "mascot") {
-
-                    if (ub.data.useScrollingUI) {
-                        // Trigger click on tab
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
-                    } else {
-                        ub.funcs.activateMascots(locationCode);
-                    }
-
+                if (ub.config.brand.toLowerCase() === "richardson") {
+                    ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
                 } else {
-
-                    if (ub.data.useScrollingUI) {
-                        ModifierController.scrollToOptions(_settingsObject.application_type, _id, _settingsObject.code);
+                    if (_settingsObject.application_type === "free") {
+                        ub.funcs.activateFreeApplication(locationCode);
+                    } else if (_settingsObject.application_type === "mascot") {
+                        ub.funcs.activateMascots(locationCode);
                     } else {
                         ub.funcs.activateApplications(_settingsObject.code);
                     }
-
                 }
 
                 sprite.ubHover = false;
-
             }
-
         });
 
         sprite.mousedown = sprite.touchstart = function (data) {
