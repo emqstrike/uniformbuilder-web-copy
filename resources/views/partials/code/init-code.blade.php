@@ -117,8 +117,9 @@
             }
 
             var _switchWhiteList = [];
+            var _beta = [];
 
-            function runSwitchUpdater() {
+            function runStorageUpdater() {
                 $.ajax({
 
                     url: 'https://api.prolook.com/api/features',
@@ -130,11 +131,20 @@
 
                     success: function (response){
                         var _data = response.features;
-                        var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
-                        feature_flags.map(function(i) {
+
+                        // update switch storage
+                        var switch_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
+                        switch_flags.map(function(i) {
                             _switchWhiteList.push({ user_ids: JSON.parse(i.user_ids) })
                         });
                         localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
+
+                        // update feature_flags storage
+                        var beta_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name !== 'Switch Display' });
+                        beta_flags.map(function(i) {
+                            _beta.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
+                        });
+                        localStorage.setItem('feature_flags', JSON.stringify(_beta));
                     }
 
                 }).done(function() {
@@ -142,7 +152,7 @@
                 });
             }
 
-            runSwitchUpdater();;
+            runStorageUpdater();
 
             function runAfterSet() {
                 var _switchStorage = JSON.parse(localStorage.getItem('switch'));
