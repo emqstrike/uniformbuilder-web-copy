@@ -10950,10 +10950,6 @@ $(document).ready(function() {
 
         dialog.init(function() {
 
-            // hide perspective-container
-            $('.perspective-container').prev().hide();;
-            $('.perspective-container').hide();
-
             // Perspectives
 
             $('div.perspective-container > span.perspective').unbind('click');
@@ -11072,19 +11068,19 @@ $(document).ready(function() {
 
                 var _perspective = $('div.perspective-container > span.perspective.active').data('id');
 
-                // exception for Soccer with block pattern of `Champion Seties`
-                // prevent automatic selection of perspective
-                var blockPatternsException = ['Champion Series'];
-
                 $('div.perspective-container > span.perspective').each(function() {
                     
                     var perspective = $(this).text();
 
-                    if (_part.indexOf(perspective) !== -1 && !_.contains(blockPatternsException, ub.config.blockPattern)) {
+                    if (_perspective === "front" || _perspective === "back") {
 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+                        if (_part.indexOf(perspective) !== -1) {
 
+                            $('span.perspective').removeClass('active');
+                            $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+
+                        }
+                        
                     }
 
                 });
