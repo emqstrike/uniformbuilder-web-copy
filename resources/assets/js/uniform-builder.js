@@ -7065,7 +7065,7 @@ $(document).ready(function () {
                 return (item.uniform_category === 'Soccer');
             });
             if(isSoccer.length > 0){
-                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), }
+                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
             }else{
                 var d = { block_patterns: _blockPatternsCollection, }
             }
@@ -7141,7 +7141,14 @@ $(document).ready(function () {
             var t = $('#m-quarternary-links').html();
             var _str = '';
             
-            var d = { block_patterns: _optionsCollection, }
+            var isSoccer = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Soccer');
+            });
+            if(isSoccer.length > 0){
+                var d = { block_patterns: _optionsCollection.reverse(), }
+            }else{
+                var d = { block_patterns: _optionsCollection, }
+            }
 
             // Don't include Crew in the Quarternary options, todo: move this to a config list
             d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
