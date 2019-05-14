@@ -576,7 +576,7 @@ $(document).ready(function() {
 
     ub.funcs.submitFeedback = function (_data) {
 
-        var test = true;
+        var test = false;
 
         if(test) {
             console.log('DATA===>', _data);
@@ -584,7 +584,6 @@ $(document).ready(function() {
             var _user_id = ub.user.id;
             var _user_email = ub.user.email;
             var _material_id = ub.config.material_id;
-            var _saved_design_id = ub.config.savedDesignInfo.savedDesignID;
 
             if (typeof _user_id === "undefined") {
                 _user_id = 0;
@@ -601,12 +600,14 @@ $(document).ready(function() {
                 "screenshot": _data.screenshot
             };
 
-            // passed only when a user is logged in
-            if (typeof ub.user.id !== "undefined") {
-                _postData.user_id = _user_id;
-                _postData.material_id = _material_id;
-                _postData.saved_design_id = _saved_design_id;
-            }
+            // pass user id only when a user is logged in
+            if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+
+            // pass material id if exist
+            if (_material_id !== -1) { _postData.material_id = _material_id; }
+
+            // pass saved design id if exist
+            if (typeof ub.config.savedDesignInfo !== "undefined") { _postData.saved_design_id = ub.config.savedDesignInfo.savedDesignID }
 
             var _url = ub.config.api_host + '/api/feedback';
             //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
