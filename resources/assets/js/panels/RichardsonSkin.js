@@ -154,7 +154,6 @@ RichardsonSkin.funcs = {
         ub.back_view.visible = true;
         ub.left_view.visible = true;
         ub.right_view.visible = true;
-        ub.funcs.deactivateMoveTool();
 
         var material = ub.current_material.material;
 
