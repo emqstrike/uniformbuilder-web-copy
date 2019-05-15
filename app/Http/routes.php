@@ -198,6 +198,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index'])->name('v1_uniform_categories');
             Route::get('hidden_bodies', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\HiddenBodiesController@index'])->name('v1_hidden_bodies');
             Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SingleViewApplicationsController@index'])->name('v1_single_view_applications');
+            Route::get('pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PipingsController@index'])->name('v1_pipings');
 
             Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index'])->name('v1_mascot_categories');
             Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index'])->name('v1_mascots_groups_categories');
