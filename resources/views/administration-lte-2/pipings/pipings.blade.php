@@ -120,7 +120,7 @@
         </div>
     </div>
 </section>
-<!-- @include('administration-lte-2.pipings.pipings-modal') -->
+@include('administration-lte-2.pipings.pipings-modal') 
 @include('partials.confirmation-modal')
 
 @endsection
