@@ -40,7 +40,9 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Thumbnail</label>
-                      <input type="text" class="form-control input-thumbnail" name="thumbnail">
+                      <input type="file" class="form-control input-thumbnail" name="thumbnail" accept="image/*">
+                      <div class="thumbnail-prev">
+                      </div>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Piping Set</label>
