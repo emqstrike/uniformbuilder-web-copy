@@ -57,6 +57,7 @@ ModifierController.prototype = {
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
+        $('#property-modifiers-menu .menu-item-roster').on('click', this.roster);
 
         // on click on any group pane switch to active
         $('#property-modifiers-menu a').click(this.enableDisableModifierMenu);
@@ -130,7 +131,7 @@ ModifierController.prototype = {
         $('a:first', tabs_el).click();
     },
 
-    enableDisableModifierMenu: function() {
+    enableDisableModifierMenu: function() { 
         $('#property-modifiers-menu a').removeClass('active');
         $('#property-modifiers-menu a').css('pointer-events', "auto");
         // Get Modifier number
@@ -226,8 +227,6 @@ ModifierController.prototype = {
             PipingPanel.events.init();
             PipingPanel.setInitialState();
         }
-
-
     },
 
     letters: function() {
@@ -280,6 +279,11 @@ ModifierController.prototype = {
                 ub.utilities.error("No active Richardson Logo");
             }
         }
+    },
+
+    roster: function() {
+        RosterPanel.events.init();
+        RosterPanel.events.onShowRoster();
     }
 };
 

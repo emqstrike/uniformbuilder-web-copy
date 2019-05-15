@@ -33,8 +33,6 @@ RichardsonSkin.events = {
             RichardsonSkin.events.isInit = false;
         }
 
-        RosterPanel.events.init();
-
         if (ub.user) {
             RichardsonSaveDesign.events.init();
         }

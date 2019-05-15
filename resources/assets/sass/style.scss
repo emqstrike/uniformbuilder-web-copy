@@ -689,7 +689,7 @@ div.debug-panel {
   border-radius: 50% !important;
   display: inline-block;
   font-weight: bold;
-  line-height: 2.6em;
+  line-height: 2.2em;
   margin-right: 5px;
   text-align: center;
   width: 30px;
@@ -738,7 +738,8 @@ div.debug-panel {
 }
 
 .summary-list-height {
-  max-height: 340px !important;
+  max-height: 256px !important;
+  min-height: 256px !important;
 }
 
 

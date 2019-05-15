@@ -97,6 +97,7 @@
         <a href="#" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers" uk-tooltip="title: Numbers; pos: left;" data-item="numbers">5</a>
         <a href="#" class="group-pane abrade-ultra menu-item group-6 menu-item-applications" uk-tooltip="title: Logos; pos: left;" data-item="applications">6</a>
         <a href="#" class="group-pane abrade-ultra menu-item group-7 menu-item-logo" uk-tooltip="title: Brand; pos: left;" data-item="logo">7</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-8 menu-item-roster" uk-tooltip="title: Team Roster; pos: left;" data-item="roster">7</a>
     </div>
 
     <div id="right-pane" class="pane">

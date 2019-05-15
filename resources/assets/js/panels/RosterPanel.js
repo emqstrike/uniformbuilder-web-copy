@@ -10,7 +10,6 @@ RosterPanel.events = {
     init: function() {
         var that = this;
         if (that.isInit) {
-            $("#right-pane-column").on("click", ".richardson-footer .manage-team-roster", that.onShowRoster);
             $("#richardson-team-roster").on("click", ".uniform-size-button", that.onClickUniformSize);
             $("#richardson-team-roster").on("click", ".player-number-button", that.onClickPlayerNumber);
             // $("#richardson-team-roster").on("focus", ".player-number-button", that.onHoverPlayerNumber);
@@ -18,6 +17,10 @@ RosterPanel.events = {
             $("#richardson-team-roster").on("click", ".remove-player-info", that.onRemoveRoster);
             $("#richardson-team-roster").on("click", ".save-roster", that.onClickSaveRoster);
             $("#richardson-team-roster").on("click", ".click-player-number", that.onClickSummaryPlayerNumber);
+
+            $("#richardson-team-roster").on("beforehide", function() {
+                $("#property-modifiers-menu .menu-item").first().trigger("click");
+            })
             
             that.isInit = false;
         }
