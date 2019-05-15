@@ -12,6 +12,9 @@
             brand: "{{ env('BRAND') }}",
             picker_version: "{{ env('PICKER_VERSION') }}",
             pdf_generator: "{{ env('PDF_GENERATOR') }}",
+            beta_features: {
+                newPDF: false
+            },
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",
@@ -107,7 +110,119 @@
 
             });
 
+            // when logged in set storage
+            if(localStorage.getItem('beta_features') === null) {
+                localStorage.setItem('beta_features', false);
+                localStorage.setItem('switch', false);
+            }
+
+            var _switchWhiteList = [];
+            var _beta = [];
+
+            function runStorageUpdater() {
+                $.ajax({
+
+                    url: ub.config.api_host + '/api/features',
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response){
+                        var _data = response.features;
+
+                        // update switch storage
+                        var switch_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
+                        switch_flags.map(function(i) {
+                            _switchWhiteList.push({ user_ids: JSON.parse(i.user_ids) })
+                        });
+                        localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
+
+                        // update feature_flags storage
+                        var beta_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name !== 'Switch Display' });
+                        beta_flags.map(function(i) {
+                            _beta.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
+                        });
+                        localStorage.setItem('feature_flags', JSON.stringify(_beta));
+                    }
+
+                }).done(function() {
+                    runAfterSet();
+                });
+            }
+
+            runStorageUpdater();
+
+            function runAfterSet() {
+                var _switchStorage = JSON.parse(localStorage.getItem('switch'));
+                if(_switchStorage[0].user_ids.includes(ub.user.id.toString()))
+                {
+                    var newLink = $('<li id="enable-beta">\n' +
+                        '               <a href="#">\n' +
+                        '                  <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>\n' +
+                        '                  <span class="text">ENABLE BETA FEATURES</span>\n' +
+                        '               </a>\n' +
+                        '            </li>\n' +
+                        '            <li class="divider"></li>');
+                    $('#user-dropdown-container').prepend(newLink);
+
+                    // storage checker element update
+                    if(localStorage.getItem('beta_features') === 'false') {
+                        $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                        $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+                    } else {
+                        $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                        $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+                    }
+                } else {
+                    $('#user-dropdown-container').find('li#enable-beta').remove();
+                }
+            }
+
+            // onclick enable beta features
+            $('#user-dropdown-container').on('click', '#enable-beta', function () {
+                // get beta features
+                var _ff = [];
+
+                if(localStorage.getItem('beta_features') === 'false') {
+                    localStorage.setItem('beta_features', true);
+                    $.ajax({
+
+                        url: ub.config.api_host + '/api/features',
+                        type: "GET",
+                        dataType: "json",
+                        crossDomain: true,
+                        contentType: 'application/json',
+                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                        success: function (response){
+                            var _data = response.features;
+                            var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name !== 'Switch Display' });
+                            feature_flags.map(function(i) {
+                                _ff.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
+                            });
+                        }
+
+                    }).done(function() {
+                        localStorage.setItem('feature_flags', JSON.stringify(_ff));
+                    });
+                    $('#enable-beta').find('.glyphicon').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+                    $('#enable-beta').find('.text').text('DISABLE BETA FEATURES');
+                } else {
+                    localStorage.setItem('beta_features', false);
+                    localStorage.removeItem('feature_flags');
+                    $('#enable-beta').find('.glyphicon').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+                    $('#enable-beta').find('.text').text('ENABLE BETA FEATURES');
+                }
+
+                return false;
+            });
+
         @else
+
+            // clear storage
+            localStorage.clear();
 
             window.ub.user = false;
             $('.register').on('click', function() {

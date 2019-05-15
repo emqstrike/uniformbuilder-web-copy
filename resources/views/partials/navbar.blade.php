@@ -163,7 +163,7 @@
                   <span class = "sr-only">Toggle Dropdown</span>
               </button>
 
-              <ul class = "dropdown-menu" role="menu">
+              <ul id="user-dropdown-container" class="dropdown-menu" role="menu">
 
                   <!-- <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li> -->
                   <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
@@ -173,7 +173,6 @@
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
                   <li><a href="/my-custom-artwork-requests"><i class="fa fa-picture-o" aria-hidden="true"></i> MY CUSTOM LOGO REQUESTS</a></li>
                   <li class="divider"></li>
-
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>

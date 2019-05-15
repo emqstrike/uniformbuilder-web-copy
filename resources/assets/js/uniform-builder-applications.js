@@ -12014,6 +12014,8 @@ $(document).ready(function() {
 
         formData.append('file', file);
 
+        console.log('huhu===>', file);
+
         if (typeof $.ajaxSettings.headers !== "undefined") {
             delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
         }
