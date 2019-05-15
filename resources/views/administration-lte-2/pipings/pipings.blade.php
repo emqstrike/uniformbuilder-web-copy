@@ -56,10 +56,10 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Single View Applications')
+                    @section('page-title', 'Pipings')
                     <h2>
                         <span class="fa fa-eye"></span>
-                        Categories with Single View Applications
+                        Pipings
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h2>
                 </div>
@@ -84,9 +84,9 @@
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
                             <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
                             <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern }}</td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern_option }}</td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->thumbnail }}</td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->piping_set }}</td>
+                            <td class="td-item-block-pattern-option col-md-1">{{ $item->block_pattern_option }}</td>
+                            <td class="td-item-thumbnail col-md-1">{{ $item->thumbnail }}</td>
+                            <td class="td-item-piping-set col-md-1">{{ $item->piping_set }}</td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
@@ -108,10 +108,10 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <!-- <td></td>
                             <td></td>
                             <td></td>
-                            <td></td> -->
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                     </table>
@@ -154,7 +154,7 @@ $(document).ready(function(){
                             });
             $( '#block_pattern' ).html('');
             $.each(sportOK, function(i, item) {
-                $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
             });
         $('#block_pattern').trigger('change');
     });
@@ -164,11 +164,11 @@ $(document).ready(function(){
     $(document).on('change', '#block_pattern', function() {
         var options = [];
         var bps = $('#block_pattern_value').val();
-        var bps_name = bps.toString().split(",");
-            bps_name.forEach( function(item_name) {
-                var name = item_name;
+        var bps_id = bps.toString().split(",");
+            bps_id.forEach( function(item_id) {
+                var id = item_id;
                 $.each(z, function(i, item) {
-                   if( item.name == name ){
+                   if( item.id == id ){
                         var optx = JSON.parse(item.neck_options);
                         $.each(optx, function(i, item) {
                             options.push(item.name);
@@ -189,11 +189,6 @@ $(document).ready(function(){
     if($('#neck_option_value').val()){
         var bpos = JSON.parse($('#neck_option_value').val());
     }
-    $('.material-neck-option').select2({
-        placeholder: "Select block pattern option",
-        multiple: true,
-        allowClear: true
-    });
 
     $(".material-neck-option").change(function() {
         $('#neck_option_value').val($(this).val());
@@ -205,11 +200,6 @@ $(document).ready(function(){
     if($('#block_pattern_value').val()){
         var bp = JSON.parse($('#block_pattern_value').val());
     }
-    $('.block-pattern').select2({
-        placeholder: "Select block pattern",
-        multiple: true,
-        allowClear: true
-    });
 
     $(".block-pattern").change(function() {
         $('#block_pattern_value').val($(this).val());
@@ -225,55 +215,56 @@ $(document).ready(function(){
         $('#block_pattern').val('');
         $('.neck-option-val').val('');
         $('#neck_option').val('');
-        $('.input-item-type').val('');
+        $('.input-item-thumbnail').val('');
+        $('.input-item-piping-set').val('');
         $('.submit-new-record').removeAttr('disabled');
     });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Category with Single View Application Information');
-        $('.submit-new-record').text('Add Record');
+        $('.modal-title').text('Add Pipings');
+        $('.submit-new-record').text('Submit');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Category with Single View Application Information');
-        $('.submit-new-record').text('Update Record');
+        $('.modal-title').text('Edit Pipings');
+        $('.submit-new-record').text('Update');
         var data = {};
-        data.id = $(this).parent().parent().parent().find('.td-item-id').text();
-        data.uniform_category_id = $(this).parent().parent().parent().find('.td-item-sport').val();
-        var raw_bp = $(this).parent().parent().parent().find('.td-item-block-pattern').text();
-        data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-        var raw_bpo = $(this).parent().parent().parent().find('.td-item-option').text();
-        data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
-        data.type = $(this).parent().parent().parent().find('.td-item-type').text();
+        var parentEl = $(this).parent().parent().parent();
+
+        data.id = parentEl.find('.td-item-id').text();
+        data.sport = parentEl.find('.td-item-sport').val();
+        data.block_pattern = parentEl.find('.td-item-block-pattern').text();
+        data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
+        data.thumbnail = parentEl.find('.td-item-thumbnail').text();
+        data.piping_set = parentEl.find('.td-item-piping-set').text();
 
         $('.input-item-id').val(data.id);
-        $('.sport').val(data.uniform_category_id).trigger('change');
-        $('.block-pattern-val').val(data.block_pattern);
-        $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
-        $('.neck-option-val').val(data.neck_option);
-        $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
-        $('.input-item-type').val(data.type);
+        $('.sport').val(data.sport).trigger('change');
+        $('.block-pattern-val').val(data.block_pattern).trigger('change');
+        $('.neck-option-val').val(data.block_pattern_option).trigger('change');
+        $('.input-thumbnail').val(data.thumbnail).trigger('change');
+        $('.input-piping-set').val(data.piping_set).trigger('change');
+
     });
 
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
-        data.uniform_category_id = $('.sport').find(":selected").val();
-        var raw_bp = $('.block-pattern-val').val();
-        data.block_patterns = raw_bp.split(",");
-        var raw_bpo = $('.neck-option-val').val();
-        data.neck_options = raw_bpo.split(",");
-        data.type = $('.input-item-type').find(":selected").val();
+        data.sport = $('.sport').val();
+        data.block_pattern = $('.block-pattern-val').val();
+        data.block_pattern_option = $('.neck-option-val').val();
+        data.thumbnail = $('.input-thumbnail').val();
+        data.piping_set = $('.input-piping-set').val();
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/v1-0/pipings";
+            var url = "//" + api_host +"/api/v1-0/pipings/create";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-item-id').val();
-            var url = "//" + api_host +"/api/v1-0/single_view_applications/update";
+            var url = "//" + api_host +"/api/v1-0/pipings/update";
         }
 
         addUpdateRecord(data, url);
@@ -315,12 +306,12 @@ $(document).ready(function(){
     $(document).on('click', '.delete-item', function() {
        var id = [];
        id.push( $(this).data('item-id'));
-       modalConfirm('Remove Single View Application', 'Are you sure you want to delete the Single View?', id);
+       modalConfirm('Remove Pipings', 'Are you sure you want to delete the item?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/single_view_applications/delete";
+        var url = "//" + api_host + "/api/v1-0/pipings/delete";
         $.ajax({
             url: url,
             type: "POST",
