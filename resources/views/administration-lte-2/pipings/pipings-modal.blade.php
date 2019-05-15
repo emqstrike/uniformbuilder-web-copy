@@ -46,7 +46,14 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Piping Set</label>
-                    <input type="text" class="form-control input-piping-set" name="piping_set">
+                    <select name="sport" class="form-control input-piping-set" name="piping_set" required>
+                      <option value="Center Piping">Center Piping</option>
+                      <option value="End of Sleeve Piping">End of Sleeve Piping</option>
+                      <option value="Neck Piping">Neck Piping</option>
+                      <option value="Set-in Raglan Piping">Set-in Raglan Piping</option>
+                      <option value="Sleeve Piping 1 inch up">Sleeve Piping 1 inch up</option>
+                      <option value="Yoke Piping">Yoke Piping</option>
+                    </select>
                   </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
