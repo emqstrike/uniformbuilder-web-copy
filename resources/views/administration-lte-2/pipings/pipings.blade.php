@@ -82,8 +82,8 @@
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern }}</td>
+                            <td class="col-md-1">{{ $item->sport_name }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
+                            <td class="col-md-1">{{ $item->bp_name }} <input type="hidden" name="" class="td-item-block-pattern" value="{{ $item->block_pattern}}"></td>
                             <td class="td-item-block-pattern-option col-md-1">{{ $item->block_pattern_option }}</td>
                             <td class="td-item-thumbnail col-md-1">{{ $item->thumbnail }}</td>
                             <td class="td-item-piping-set col-md-1">{{ $item->piping_set }}</td>
@@ -237,7 +237,7 @@ $(document).ready(function(){
 
         data.id = parentEl.find('.td-item-id').text();
         data.sport = parentEl.find('.td-item-sport').val();
-        data.block_pattern = parentEl.find('.td-item-block-pattern').text();
+        data.block_pattern = parentEl.find('.td-item-block-pattern').val();
         data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
         data.thumbnail = parentEl.find('.td-item-thumbnail').text();
         data.piping_set = parentEl.find('.td-item-piping-set').text();
