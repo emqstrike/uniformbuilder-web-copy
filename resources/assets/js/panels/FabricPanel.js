@@ -102,97 +102,11 @@ FabricPanel.prototype = {
     },
 
     setInsertFabrics: function() {
-        var default_fabric = FabricPanel.getDefaultFabric(FabricPanel.LEFT_PERSPECTIVE, FabricPanel.INSERT_MATERIAL);
-
-        if (ub.funcs.is_pts_hoodie()) {
-            default_fabric = FabricPanel.getDefaultFabric(FabricPanel.FRONT_PERSPECTIVE, FabricPanel.INSERT_MATERIAL);
-        }
-
-        if (default_fabric !== null) {
-            if (default_fabric.fabric !== "undefined") {
-                var fabric = default_fabric.fabric;
-
-                // thumbnail placeholder
-                var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
-
-                if (ub.funcs.is_twill()) {
-                    if (ub.funcs.is_upper()) {
-                        this.fabrics.insert = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level,
-                                    active: ""
-                                }
-                            ]
-                        };
-                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
-
-                    } else if (ub.funcs.is_lower()){
-                        this.fabrics.insert = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level,
-                                    active: ""
-                                }
-                            ]
-                        };
-                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
-                    }
-                } else if (ub.funcs.is_sublimated()) {
-                    if (ub.funcs.is_upper()) {
-                        this.fabrics.insert = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level
-                                }
-                            ]
-                        };
-                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
-
-                    } else if (ub.funcs.is_lower()){
-                        this.fabrics.insert = {
-                            data: [
-                                {
-                                    name: fabric.material,
-                                    thumbnail: thumbnail,
-                                    layer_level: default_fabric.layer_level,
-                                    active: ""
-                                }
-                            ]
-                        };
-                        this.fabrics.insert.multiple = this.fabrics.insert.data.length > 1;
-                    }
-                } else {
-                    console.log("Application type is not sublimated or twill");
-                }
-            }
-        }
+        this.fabrics.insert = FabricPanel.getInsertFabric();
     },
 
     setGussetFabrics: function() {
-        var default_fabric = FabricPanel.getDefaultFabric();
-
-        if (default_fabric !== null) {
-            if (default_fabric.fabric !== "undefined") {
-                var matrixMesh = _.find(ub.current_material.fabrics, {id: "27"});
-
-                var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
-
-                this.fabrics.gusset = {data: {
-                    name: matrixMesh.material,
-                    thumbnail: thumbnail,
-                    layer_level: default_fabric.layer_level,
-                    active: ""
-                }};
-                this.fabrics.gusset.multiple = this.fabrics.gusset.data.length > 1;
-            }
-        }
+        this.fabrics.gusset = FabricPanel.getGussetFabric();
     },
 
     getPanel: function() {
@@ -237,14 +151,14 @@ FabricPanel.events = {
 
     init: function() {
         if (!FabricPanel.events.is_events_init) {
-            $('#primary_options_container').on('click', '#m-fabric-selection a', FabricPanel.events.onFabricLayerChange);
+            $('#primary_options_container').on('click', '#m-fabric-selection .con-palettes a', FabricPanel.events.onFabricLayerChange);
 
             FabricPanel.events.is_events_init = true;
         }
     },
 
     onFabricLayerChange: function() {
-        var active_fabric_el = $('#m-fabric-selection ul li a.uk-active');
+        var active_fabric_el = $('#m-fabric-selection .con-palettes a.uk-active');
 
         var layer_level = $(this).data('layer-level');
         var active_layer_level = active_fabric_el.data('layer-level');
@@ -529,4 +443,26 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
     }
 
     return fabric_sets;
+};
+
+FabricPanel.getInsertFabric = function() {
+    if (ub.funcs.is_upper() && ub.funcs.is_pts_signature()) {
+        return "Back and Side Panels are made from MTX Mesh";
+    } else if (ub.funcs.is_lower() && ub.funcs.is_pts_signature()) {
+        return "Back Panel is made from MTX Mesh";
+    } else if (ub.funcs.is_pts_cage_jacket()) {
+        return "Side and Sleeve Panels are made from MTX Mesh";
+    } else if (ub.funcs.is_pts_hoodie()) {
+        return "Side and Sleeve Panels are made from Flux";
+    }
+
+    return null;
+};
+
+FabricPanel.getGussetFabric = function() {
+    if (ub.funcs.is_lower() && (ub.funcs.is_pts_signature() || ub.funcs.is_pts_pro_select())) {
+        return "Gusset Panels is made from Matrix Mesh";
+    }
+
+    return null;
 };
