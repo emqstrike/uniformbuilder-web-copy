@@ -115,6 +115,7 @@ elixir(function(mix) {
             'panels/application/ApplicationUtilities.js',
             'panels/application/ApplicationEvent.js',
             'panels/application/InteropIsPanel.js',
+            'panels/application/StockMascot.js',
             'panels/SummaryPreviewPanel.js',
             'panels/ColorHexTester.js',
             'panels/RosterPanel.js',
