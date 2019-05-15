@@ -122,7 +122,7 @@
             function runStorageUpdater() {
                 $.ajax({
 
-                    url: 'https://api.prolook.com/api/features',
+                    url: ub.config.api_host + '/api/features',
                     type: "GET",
                     dataType: "json",
                     crossDomain: true,
@@ -189,7 +189,7 @@
                     localStorage.setItem('beta_features', true);
                     $.ajax({
 
-                        url: 'https://api.prolook.com/api/features',
+                        url: ub.config.api_host + '/api/features',
                         type: "GET",
                         dataType: "json",
                         crossDomain: true,
