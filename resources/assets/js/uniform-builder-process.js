@@ -576,7 +576,7 @@ $(document).ready(function() {
 
     ub.funcs.submitFeedback = function (_data) {
 
-        var test = true;
+        var test = false;
 
         if(test) {
             console.log('DATA===>', _data);
