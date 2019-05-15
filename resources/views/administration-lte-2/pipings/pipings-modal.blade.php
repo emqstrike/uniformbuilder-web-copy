@@ -50,7 +50,8 @@
                       <option value="Center Piping">Center Piping</option>
                       <option value="End of Sleeve Piping">End of Sleeve Piping</option>
                       <option value="Neck Piping">Neck Piping</option>
-                      <option value="Set-in Raglan Piping">Set-in Raglan Piping</option>
+                      <option value="Raglan Piping">Raglan Piping</option>
+                      <option value="Set-in Piping">Set-in Piping</option>
                       <option value="Sleeve Piping 1 inch up">Sleeve Piping 1 inch up</option>
                       <option value="Yoke Piping">Yoke Piping</option>
                     </select>
