@@ -1,4 +1,4 @@
-$(document).ready(function() {                    
+$(document).ready(function() {
 
     ub.funcs.isSocks = function () {
 
@@ -8,15 +8,15 @@ $(document).ready(function() {
     }
 
     ub.funcs.isFootball = function () {
-        
+
         return ub.config.sport === "Football" || ub.config.sport === "Football 2017";
-        
+
     };
 
     ub.funcs.isLower = function () {
 
         return ub.config.type === "lower";
-        
+
     }
 
     ub.funcs.fadeOutCustomizer = function () {
@@ -29,8 +29,8 @@ $(document).ready(function() {
 
         $('div#roster-input').fadeOut();
 
-        $('div#right-pane-column').fadeIn();        
-        $('div#left-pane-column').fadeIn(); 
+        $('div#right-pane-column').fadeIn();
+        $('div#left-pane-column').fadeIn();
 
     }
 
@@ -49,7 +49,7 @@ $(document).ready(function() {
             if (typeof cancelNumberPopup === "undefined") {
 
                 $('span.add-player[data-size="' + size + '"]').trigger('click');
-                    
+
             }
 
         }
@@ -100,7 +100,7 @@ $(document).ready(function() {
         $('span.size[data-status="on"]').each (function () {
 
             var _size = $(this).data('size').toString();
-            
+
             _activeSizes.push(_size);
 
         });
@@ -109,7 +109,7 @@ $(document).ready(function() {
 
     }
 
-  
+
     ub.funcs.reInitHover = function () {
 
         $('tr.roster-row').hover(
@@ -127,7 +127,7 @@ $(document).ready(function() {
         $popup = $('div#numbersPopup');
         $popup.fadeIn();
 
-        if ($popup.length === 0) { return; } 
+        if ($popup.length === 0) { return; }
 
         var _wWidth     = window.innerWidth;
         var _wHeight    = window.innerHeight;
@@ -138,11 +138,11 @@ $(document).ready(function() {
         var _top        = (_wHeight - _pHeight) /2;
 
         $popup.css({
-            
+
             top: _top,
             left: _left,
 
-        }); 
+        });
 
     };
 
@@ -177,8 +177,8 @@ $(document).ready(function() {
 
         } else {
 
-            $('td.PlayerNumberInput, th.thPlayerNumberInput').hide();            
-            
+            $('td.PlayerNumberInput, th.thPlayerNumberInput').hide();
+
         }
 
     }
@@ -208,7 +208,7 @@ $(document).ready(function() {
 
             _htmlBuilder +=     '<span class="number ' + _number.status + '" data-status="' + _number.status + '" data-number="' + _number.number + '">'
             _htmlBuilder +=        _number.number;
-            _htmlBuilder +=     '</span>';            
+            _htmlBuilder +=     '</span>';
 
         });
 
@@ -242,7 +242,7 @@ $(document).ready(function() {
         });
 
         $('span.number.used').hover(function() {
-            
+
             var _number     = $(this).data('number');
             var $tr         = $('input[name="number"][value="' + _number + '"]').parent().parent();
             var _size       = $tr.find('input[name="size"]').val();
@@ -252,7 +252,7 @@ $(document).ready(function() {
             $('span.preview').html(_index + '. ' +_size + ' - ' + _lastname);
 
         }, function() {
-        
+
             $('span.preview').html('Preview');
 
         });
@@ -260,7 +260,7 @@ $(document).ready(function() {
         $('span.btn-cancel').on('click', function () {
 
             $('div#numbersPopup').remove();
-    
+
         });
 
         $('span.btn-ok').on('click', function () {
@@ -301,10 +301,10 @@ $(document).ready(function() {
                 _length += 1;
 
             });
-            
+
             if (
-                !ub.funcs.isFootball() || 
-                (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
+                !ub.funcs.isFootball() ||
+                (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") ||
                 ub.current_material.material.price_item_code === "FBMJ"
             )
             {
@@ -374,7 +374,7 @@ $(document).ready(function() {
         if (!ub.funcs.isFootball()) {
 
             _sleeveType = 'N/A';
-            
+
         }
 
         return {
@@ -395,7 +395,7 @@ $(document).ready(function() {
     ub.funcs.validName = function (value) {
 
         var _valid = true;
-        
+
         if (!value.trim().length > 0) {
 
             _valid = false;
@@ -493,7 +493,7 @@ $(document).ready(function() {
             var _rosterSize;
 
             if (typeof _cutEntry === "undefined") {
-                
+
                 _footballSizingTable.push({
                     sleeveType: _sleeveType,
                     sizes: [],
@@ -512,9 +512,9 @@ $(document).ready(function() {
 
             }
 
-            _rosterSize.items.push({ 
-            
-                sleeveType: _sleeveType, 
+            _rosterSize.items.push({
+
+                sleeveType: _sleeveType,
                 size: roster.size,
                 number: roster.number,
 
@@ -533,7 +533,7 @@ $(document).ready(function() {
 
             });
 
-        });      
+        });
 
         ub.current_material.settings.sizingTable = _footballSizingTable;
         ub.current_material.settings.sizingTableHTML = ub.utilities.buildTemplateString("#m-sizing-table", {entries: ub.current_material.settings.sizingTable});
@@ -550,7 +550,7 @@ $(document).ready(function() {
             _total += parseInt(roster.quantity);
 
             var _obj = _.find(_prepareSize, {size: roster.size});
-            
+
             if (typeof _obj === "undefined") {
 
                 _prepareSize.push({size: roster.size, quantity: 0 });
@@ -563,7 +563,7 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.size_breakdown = _prepareSize;
-        
+
         return _total;
 
     }
@@ -574,51 +574,67 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.submitFeedback = function (message) {
+    ub.funcs.submitFeedback = function (_data) {
 
-        var _user_id = ub.user.id;
-        var _user_email = ub.user.email;
+        var test = false;
 
-        if (typeof _user_id === "undefined") {
-            _user_id = 0;
-            _user_email = '';
+        if(test) {
+            console.log('DATA===>', _data);
+        } else {
+            var _user_id = ub.user.id;
+            var _user_email = ub.user.email;
+
+            if (typeof _user_id === "undefined") {
+                _user_id = 0;
+                _user_email = _data.email;
+            }
+
+            var _postData = {
+                "subject" : "Feedback",
+                "order_code" : "",
+                "content" : _data.message,
+                "type" : "feedback",
+                "email" : _user_email,
+                "name" : _data.name,
+                "screenshot": _data.screenshot,
+                "material_id": _data.material_id,
+                "saved_design_id": _data.saved_design_id
+            };
+
+            // pass user id only when a user is logged in
+            if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+
+            // pass material id if exist
+            // if (_material_id !== -1) { _postData.material_id = _material_id; }
+
+            // pass saved design id if exist
+            // if (typeof ub.config.savedDesignInfo !== "undefined") { _postData.saved_design_id = ub.config.savedDesignInfo.savedDesignID }
+
+            var _url = ub.config.api_host + '/api/feedback';
+            //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+            $.ajax({
+
+                url: _url,
+                type: "POST",
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    // ub.funcs.reload();
+                    console.log('FEEDBACK FORM SUBMITTED!', response);
+
+                }
+
+            });
         }
 
-        var _postData = {
-            "subject" : "Feedback",
-            "order_code" : "",
-            "content" : message,
-            "type" : "feedback",
-            "email" : _user_email,
-        };
-
-        // Have a user id passed only when a user is logged in
-        if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
-
-        var _url = ub.config.api_host + '/api/feedback';
-        //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
-
-        $.ajax({
-            
-            url: _url,
-            type: "POST", 
-            data: JSON.stringify(_postData),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-            success: function (response) {
-
-                // ub.funcs.reload();
-                console.log('FEEDBACK FORM', response);
-
-            }
-            
-        });
-
     }
- 
+
     ub.funcs.feedbackFormFromOrder = function (initMessage, imgFront, imgLeft, imgRight, imgBack, redirectLink) {
 
         // unbind before opening window
@@ -657,7 +673,7 @@ $(document).ready(function() {
             $('div.feedback-form').remove();
 
             window.location = redirectLink;
-            
+
         });
 
         $('span.cancel-btn').on('click', function () {
@@ -674,6 +690,72 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.imageUpload  = function (file, callback) {
+
+        var formData = new FormData();
+
+        formData.append('file', file);
+
+        if (typeof $.ajaxSettings.headers !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+        }
+
+        $.ajax({
+
+            data: formData,
+            url: ub.config.api_host + "/api/fileUpload",
+            type: "POST",
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,
+            crossDomain: true,
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function (response){
+
+                if(response.success) {
+
+                    // var _extension = response.filename.split('.').pop();
+                    window.uploaded_filename = response.filename;
+                    callback(response.filename);
+                    console.log('[ub.funcs.imageUpload]===>', response.filename);
+
+                }
+                else {
+
+                    callback(undefined);
+                    console.log('Error Uploading Image');
+                    console.log(response.message);
+
+                }
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.prepareImagesPreview = function () {
+
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+        var _front = ub.getThumbnailImage2('front_view');
+        var _back = ub.getThumbnailImage2('back_view');
+        var _left = ub.getThumbnailImage2('left_view');
+        var _right = ub.getThumbnailImage2('right_view');
+        var _frontImage = "<img src ='" + _front + "' alt='...' class='img-thumbnail img-responsive front' />" ;
+        var _backImage = "<img src ='" + _back + "' alt='...' class='img-thumbnail img-responsive back' />" ;
+        var _leftImage = "<img src ='" + _left + "' alt='...' class='img-thumbnail img-responsive left' />" ;
+        var _rightImage = "<img src ='" + _right + "' alt='...' class='img-thumbnail img-responsive right' />" ;
+        ub.frontPreview = _frontImage;
+        ub.backPreview = _backImage;
+        ub.leftPreview = _leftImage;
+        ub.rightPreview = _rightImage;
+        // ub.showModalTool(_str);
+
+    }
+
     ub.funcs.freeFeedbackForm = function () {
 
         $('a#feedback').on('click', function () {
@@ -687,17 +769,81 @@ $(document).ready(function() {
             $('div.free-feedback-form').fadeIn();
             ub.funcs.centerPatternPopup();
 
+            // set value if user is logged in
+            if(ub.user) {
+                $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
+            }
+
+            // set value of material id if exist
+            if(ub.config.material_id !== -1) {
+                $('#feedback-form .materialId').val(ub.config.material_id).attr('disabled','disabled').prev().find('small').hide();
+            }
+
+            //set the value of saved design id if exist
+            if (typeof ub.config.savedDesignInfo !== "undefined") {
+                $('#feedback-form .savedDesignId').val(ub.config.savedDesignInfo.savedDesignID).attr('disabled','disabled').prev().find('small').hide();
+            }
+
+            ub.funcs.prepareImagesPreview();
+
+            if(ub.user) {
+                    if(ub.current_material.id === -1) {
+
+                    } else {
+                        if (ub.frontPreview) {
+                            // process perspective preview
+                            var _imagePreview = ("<div class='row'>" +
+                                "                   <div class='col-md-12'>" +
+                                                        ub.frontPreview +
+                                                        ub.backPreview +
+                                                        ub.leftPreview +
+                                                        ub.rightPreview +
+                                "                   </div>" +
+                                "                 </div><br/>");
+
+                            $('.feedback-left-panel').prepend(_imagePreview);
+                        }
+                    }
+            }
+
             $('span.ok-btn').on('click', function () {
 
-                var _message = $('textarea#feedback-message').val().trim();
+                var _name = $('#feedback-form .name').val().trim();
+                var _email = $('#feedback-form .email').val().trim();
+                var _message = $('#feedback-form .message').val().trim();
 
-                if (_message.length !== 0) {
+                var _materialId = $('#feedback-form .materialId').val().trim();
+                var _savedDesignId = $('#feedback-form .savedDesignId').val().trim();
 
-                    ub.funcs.submitFeedback(_message);
-
+                function validateEmail(_email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(String(_email).toLowerCase());
                 }
 
-                $('div.free-feedback-form').remove();
+                if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
+                    $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
+
+                    var _upload = $('img.img-thumbnail.upload')[0].src;
+
+                    if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
+
+                    var _data = {
+                        name: _name,
+                        email: _email,
+                        message: _message,
+                        screenshot: _upload,
+                        material_id: _materialId,
+                        saved_design_id: _savedDesignId
+                    };
+
+                    ub.funcs.submitFeedback(_data);
+                    $('div.free-feedback-form').remove();
+                } else {
+                    if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
+                    if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
+                    if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
+                }
 
             });
 
@@ -707,11 +853,64 @@ $(document).ready(function() {
 
             });
 
+            // when typing occurs on fields remove error class
+            $('#feedback-form .name').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            $('#feedback-form .email').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            $('#feedback-form .message').on('keyup', function(){
+                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+            });
+
+            // triggering click on images for file upload
+            $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
+
+            // onchange file input value
+            $('#file-input-upload').on('change', function(){
+                $('.upload-btn').find('i').removeClass('fa-cloud-upload').addClass('fa-refresh fa-spin');
+                ub.funcs.imageUpload(this.files[0], function(filename) {
+                    if (typeof filename === 'undefined') {
+                        $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
+                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                    } else {
+                        $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
+                        $('img.img-thumbnail.upload')[0].src = filename;
+                    }
+                });
+            });
+
         });
 
     }
 
     ub.funcs.freeFeedbackForm();
+
+    ub.funcs.betaFeaturesChecker = function (_flag, callback, legacy) {
+        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'));
+
+        if (_flag === 'New PDF') {
+            if(localStorage.getItem('beta_features') === 'true') {
+                var currentFeature = feature_flags.find(function(i) {return i.name === _flag;});
+                if (
+                    localStorage.getItem('beta_features') === 'true' &&
+                    currentFeature !== undefined &&
+                    currentFeature.name === _flag &&
+                    currentFeature.user_ids.includes(ub.user.id.toString())
+                ) {
+                    callback();
+                } else {
+                    legacy();
+                }
+            } else {
+                legacy();
+            }
+        }
+
+    };
 
     var _viewOrderLink = '';
     var _message = '';
@@ -727,9 +926,9 @@ $(document).ready(function() {
         delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({
-            
+
             url: _url,
-            type: "POST", 
+            type: "POST",
             data: JSON.stringify(_postData),
             dataType: "json",
             crossDomain: true,
@@ -739,21 +938,20 @@ $(document).ready(function() {
 
                 _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
 
-                if (ub.config.pdf_generator === 'NEW') {
+                ub.funcs.betaFeaturesChecker('New PDF', function() {
                     // re run pdf service to update with order code
                     ub.pdfService.preview_data.orderId = response.order_code;
                     ub.pdfService.preview_data.searchKey = response.order_code;
                     console.log('UPDATED PREVIEW DATA', ub.pdfService.preview_data);
-                }
+                }, function() { console.log('LEGACY logged via success'); });
 
             }
-            
         }).done(function() {
 
-            if (ub.config.pdf_generator === 'NEW') {
+            ub.funcs.betaFeaturesChecker('New PDF', function() {
                 console.log('POST ORDER DATA GENERATE PDF');
                 ub.funcs.pdfService(true, ub.pdfService.preview_data);
-            }
+            }, function() { console.log('LEGACY logged via done'); });
 
             $('div#validate-order-form').remove();
             $('span.processing').fadeOut();
@@ -777,9 +975,9 @@ $(document).ready(function() {
         var _url = ub.endpoints.getFullUrlString('updateArtworkStatus');
 
         $.ajax({
-                
+
                 url: _url,
-                data: JSON.stringify({id: ub.config.orderIDParent, artwork_status: 'pending' }), 
+                data: JSON.stringify({id: ub.config.orderIDParent, artwork_status: 'pending' }),
                 type: "POST",
                 dataType: "json",
                 crossDomain: true,
@@ -800,7 +998,7 @@ $(document).ready(function() {
                     window.location = _viewOrderLink;
 
                 }
-                
+
             });
 
     }
@@ -808,15 +1006,15 @@ $(document).ready(function() {
     ub.funcs.updateOrderItemField = function (object) {
 
         var _url = ub.endpoints.getFullUrlString('updateOrderItem');
-        
+
         if (typeof $.ajaxSettings.headers !== "undefined" && typeof $.ajaxSettings.headers["X-CSRF-TOKEN"] !== "undefined") {
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
         }
 
         $.ajax({
-                
+
             url: _url,
-            data: JSON.stringify(object), 
+            data: JSON.stringify(object),
             type: "POST",
             dataType: "json",
             crossDomain: true,
@@ -829,7 +1027,7 @@ $(document).ready(function() {
                 ub.funcs.resetArtworkStatusToPending();
 
             }
-            
+
         });
 
     }
@@ -868,7 +1066,7 @@ $(document).ready(function() {
     ub.funcs.submitOrderForm = function (action) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
-        
+
         if (!_rosterFormValid) {
 
             ub.startModal('Please Complete Order Form Details');
@@ -899,7 +1097,7 @@ $(document).ready(function() {
         var _billingEmail           = $('input[name="billing-email"]').val();
         var _billingPhone           = $('input[name="billing-phone"]').val();
         var _billingFax             = $('input[name="billing-fax"]').val();
-        
+
         var _billingAddress         = $('input[name="billing-address"]').val();
         var _billingCity            = $('input[name="billing-city"]').val();
         var _billingState           = $('select[name="billing-state"]').val();
@@ -910,7 +1108,7 @@ $(document).ready(function() {
         var _shippingEmail           = $('input[name="shipping-email"]').val();
         var _shippingPhone           = $('input[name="shipping-phone"]').val();
         var _shippingFax             = $('input[name="shipping-fax"]').val();
-        
+
         var _shippingAddress         = $('input[name="shipping-address"]').val();
         var _shippingCity            = $('input[name="shipping-city"]').val();
         var _shippingState           = $('select[name="shipping-state"]').val();
@@ -920,7 +1118,7 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.settings.custom_artwork === "undefined") {
 
-            ub.current_material.settings.custom_artwork = "";            
+            ub.current_material.settings.custom_artwork = "";
 
         }
 
@@ -959,7 +1157,7 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
-        var _type = ub.config.uniform_application_type.toTitleCase(); 
+        var _type = ub.config.uniform_application_type.toTitleCase();
         var _submitted = '1';
         if (action == ub.constants.order_actions.SAVE_ORDER) {
             _submitted = 0;
@@ -972,7 +1170,7 @@ $(document).ready(function() {
             order: {
 
                 brand: ub.current_material.material.brand,
-                client: _clientName,  
+                client: _clientName,
                 submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
@@ -1030,7 +1228,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    application_type: ub.config.uniform_application_type, 
+                    application_type: ub.config.uniform_application_type,
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
@@ -1078,7 +1276,7 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').on('click', function () {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
-            if (_qty < _result.qty) { 
+            if (_qty < _result.qty) {
                 bootbox.alert("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " items per style.");
                 return;
             }
@@ -1117,7 +1315,7 @@ $(document).ready(function() {
                      // }, 3000);
                  });
             }
-            
+
         });
 
         $('span.save-order').unbind('click');
@@ -1174,7 +1372,7 @@ $(document).ready(function() {
         var _billingEmail           = $('input[name="billing-email"]').val();
         var _billingPhone           = $('input[name="billing-phone"]').val();
         var _billingFax             = $('input[name="billing-fax"]').val();
-        
+
         var _billingAddress         = $('input[name="billing-address"]').val();
         var _billingCity            = $('input[name="billing-city"]').val();
         var _billingState           = $('select[name="billing-state"]').val();
@@ -1185,7 +1383,7 @@ $(document).ready(function() {
         var _shippingEmail           = $('input[name="shipping-email"]').val();
         var _shippingPhone           = $('input[name="shipping-phone"]').val();
         var _shippingFax             = $('input[name="shipping-fax"]').val();
-        
+
         var _shippingAddress         = $('input[name="shipping-address"]').val();
         var _shippingCity            = $('input[name="shipping-city"]').val();
         var _shippingState           = $('select[name="shipping-state"]').val();
@@ -1234,7 +1432,7 @@ $(document).ready(function() {
         var orderInput = {
 
             order: {
-                client: _clientName,  
+                client: _clientName,
                 submitted: '1',
                 sku: "B-M-FBIJ-INF14-01-F01-17",
                 material_id: ub.current_material.material.id,
@@ -1291,12 +1489,12 @@ $(document).ready(function() {
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    application_type: ub.config.uniform_application_type, 
+                    application_type: ub.config.uniform_application_type,
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes
                 }
             ]
-        };        
+        };
 
         return orderInput;
 
@@ -1305,7 +1503,7 @@ $(document).ready(function() {
     ub.funcs.generatePDF = function () {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
-        
+
         if (!_rosterFormValid) {
 
             ub.startModal('Please Complete Order Form Details');
@@ -1361,13 +1559,13 @@ $(document).ready(function() {
             applicationType: order_items.application_type
         };
 
-        if (ub.config.pdf_generator === 'NEW') {
+        ub.funcs.betaFeaturesChecker('New PDF', function() {
             console.log('RUNNING REQUEST TO PDF SERVICE');
             ub.funcs.pdfService(true, _data);
             ub.pdfService = {
                 preview_data: _data
             };
-        } else {
+        }, function() {
             console.log('RUNNING REQUEST TO LEGACY PDF');
             $.ajaxSetup({
                 headers: {
@@ -1418,7 +1616,7 @@ $(document).ready(function() {
                 }
 
             });
-        }
+        });
 
     };
 
@@ -1481,7 +1679,7 @@ $(document).ready(function() {
         var _backViewOk     = _thumbs.back_view !== '';
         var _leftViewOk     = _thumbs.left_view !== '';
         var _rightViewOk    = _thumbs.right_view !== '';
-        
+
         _uploaded = _frontViewOk && _backViewOk && _leftViewOk && _rightViewOk;
 
         return _uploaded;
@@ -1545,7 +1743,7 @@ $(document).ready(function() {
         if (name === "shipping-state" || name === "billing-state") {
             $('select[name="' + name + '"]').val(val);
         } else {
-            $('input[name="' + name + '"]').val(val);    
+            $('input[name="' + name + '"]').val(val);
         }
 
     };
@@ -1556,10 +1754,10 @@ $(document).ready(function() {
         var _notes = "";
 
         $('div#order-form').fadeIn();
-        
+
         if (typeof orderInfo === "undefined") { return; }
         if (typeof _loadFrom.notes !== "undefined") { _notes = _loadFrom.notes.content; }
-        
+
         if (ub.data.hasProcessedArtworks) {
             _loadFrom = orderInfo.order;
             _notes = _.last(ub.data.orderInfo.notes).content;
@@ -1603,11 +1801,11 @@ $(document).ready(function() {
         // Additional Attachment Link
         var _filename = JSON.parse(orderInfo.items[0].additional_attachments);
 
-        if (util.isImage(_filename)) { 
-        
-            $('img#additional-attachment-preview').attr('src', _filename); 
-            $('a#additional-attachment-link').attr('href', _filename); 
-            $('span#additional-attachment-label').html(_filename); 
+        if (util.isImage(_filename)) {
+
+            $('img#additional-attachment-preview').attr('src', _filename);
+            $('a#additional-attachment-link').attr('href', _filename);
+            $('span#additional-attachment-label').html(_filename);
 
         }
 
@@ -1621,7 +1819,7 @@ $(document).ready(function() {
 
         $('div#roster-input').fadeOut();
         window.scrollTo(0,0);
-        
+
         ub.funcs.prepareOrderForm(orderInfo);
         ub.funcs.prepareSizingTable();
 
@@ -1657,6 +1855,7 @@ $(document).ready(function() {
         $('table#size-breakdown').find('tr.tr-size-row').remove();
         $('table#size-breakdown').find('tr.items').remove();
         $('table#size-breakdown').append(_htmlBuilder);
+
 
         $('span.back-to-roster-form-button').on('click', function () {
 
@@ -1699,7 +1898,7 @@ $(document).ready(function() {
 
 
                     });
-                    
+
                 }
 
         });
@@ -1712,9 +1911,9 @@ $(document).ready(function() {
         * and error messages will be displayed accordingly
         */
         $('input#client-name').on('blur', function() {
-            
+
             if ($('input#client-name').val() != '') {
-                
+
                 errors = [];
                 ub.funcs.billingShippingStateAreRequired(errors);
                 $(this).removeClass('is-invalid');
@@ -1750,9 +1949,9 @@ $(document).ready(function() {
         * and if not, an error message is displayed accordingly
         */
         $('select#shipping-state').on('change', function() {
-            
+
             if ($('select#shipping-state').val() != 0) {
-                
+
                 errors = [];
                 ub.funcs.clientNameBillingStateAreRequired(errors);
                 $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
@@ -1809,7 +2008,7 @@ $(document).ready(function() {
 
             }
 
-            if(ub.data.uploading) {  
+            if(ub.data.uploading) {
 
                 $.smkAlert({text: 'Please wait for uploading to finish.', type:'warning', time: 3, marginTop: '80px'});
                 return;
@@ -1817,9 +2016,9 @@ $(document).ready(function() {
             }
 
             var html = ub.utilities.buildTemplateString("#m-order-form-error", {errors: errors});
-            
+
             $('.error-container').html(html);
-            
+
             if (_.size(errors) > 0) {
                 $('.error-container').addClass('has-error');
             } else {
@@ -1850,7 +2049,7 @@ $(document).ready(function() {
 
         if (typeof ub.data.orderInfo !== "undefined") {
 
-            if (typeof ub.data.orderInfo.items[0].notes !== "undefined") { 
+            if (typeof ub.data.orderInfo.items[0].notes !== "undefined") {
 
                 $('textarea#additional-notes').val(orderInfo.items[0].notes);
 
@@ -1865,7 +2064,7 @@ $(document).ready(function() {
             $('span.submit-order').fadeIn();
 
         }
-        
+
     }
 
     ub.funcs.getOrderQty = function () {
@@ -1875,7 +2074,7 @@ $(document).ready(function() {
         $('input[name="quantity"]').each(function (index, obj) {
 
            _qty += parseInt($(obj).val());
-           
+
         });
 
         return _qty;
@@ -2079,7 +2278,7 @@ $(document).ready(function() {
             });
 
         });
-        
+
         // var _returnValue = [];
 
         // $('span.number').each(function(){
@@ -2189,7 +2388,7 @@ $(document).ready(function() {
 
     ub.funcs.prepopulateRoster = function (orderInfo) {
 
-        var _roster = orderInfo.roster; 
+        var _roster = orderInfo.roster;
         var _lastSize;
 
         _.each(_roster, function (player) {
@@ -2198,8 +2397,8 @@ $(document).ready(function() {
             var $spanSize   = $('span.size[data-size="' + _size + '"]');
             var _status     = $spanSize.attr('data-status');
 
-            if (_status === "off") { ub.funcs.addSizesTabs(_size, true); } 
-            
+            if (_status === "off") { ub.funcs.addSizesTabs(_size, true); }
+
             $spanSize.addClass('active');
 
             ub.funcs.addPlayerToRoster(player);
@@ -2233,11 +2432,11 @@ $(document).ready(function() {
     ub.funcs.modifyOrderFormUIBySport = function () {
 
         if (ub.funcs.isSocks()) {
-            $('span.adult-sizes').html('ADULT SHOE SIZES: '); 
-            $('span.adult-header').html('Adult Shoe Sizes: '); 
+            $('span.adult-sizes').html('ADULT SHOE SIZES: ');
+            $('span.adult-header').html('Adult Shoe Sizes: ');
 
-            $('span.youth-sizes').html('YOUTH SHOE SIZES: '); 
-            $('span.youth-header').html('Youth Shoe Sizes: '); 
+            $('span.youth-sizes').html('YOUTH SHOE SIZES: ');
+            $('span.youth-header').html('Youth Shoe Sizes: ');
         }
 
     }
@@ -2252,10 +2451,10 @@ $(document).ready(function() {
 
         ub.utilities.info('');
         ub.utilities.info('----- Valid Size / Price -----');
-       
+
         if (typeof ub.current_material.material.parsedPricingTable.properties !== "undefined") {
 
-            // Youth 
+            // Youth
             ub.utilities.info('Youth: ');
 
             _.each(ub.current_material.material.parsedPricingTable.properties.youth, function (item) {
@@ -2264,9 +2463,9 @@ $(document).ready(function() {
                 _youth.push(item.size);
 
             });
-            
+
             _youthPrices = ub.current_material.material.parsedPricingTable.properties.youth
-            
+
             if (typeof _youthPrices === "undefined" || typeof _youthPrices === 0) {
 
                 ub.utilities.info('No Youth Prices defined.');
@@ -2275,7 +2474,7 @@ $(document).ready(function() {
 
             var _youthSizeConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'youth', gender: ub.config.gender });
 
-            if (typeof _youthSizeConfig === "undefined") { 
+            if (typeof _youthSizeConfig === "undefined") {
 
                 _youthSizeConfig = {
 
@@ -2287,23 +2486,23 @@ $(document).ready(function() {
 
                 ub.data.sizes.items.push(_youthSizeConfig);
 
-            } 
+            }
 
-            _youthSizeConfig.sizes = _youth; 
+            _youthSizeConfig.sizes = _youth;
 
-            // Adult 
+            // Adult
             ub.utilities.info('');
             ub.utilities.info('Adult: ');
-            
+
             _.each(ub.current_material.material.parsedPricingTable.properties.adult, function (item) {
 
                 ub.utilities.info(item.size.lpad(' ', 7) + ' / ' + item.msrp);
                 _adult.push(item.size);
-                
+
             });
 
             _adultPrices = ub.current_material.material.parsedPricingTable.properties.adult
-            
+
             if (typeof _adultPrices === "undefined" || typeof _adultPrices === 0) {
 
                 ub.utilities.info('No Adult Prices defined.');
@@ -2312,8 +2511,8 @@ $(document).ready(function() {
             }
 
             var _adultSizesConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'adult', gender: ub.config.gender });
-            
-            if (typeof _adultSizesConfig === "undefined") { 
+
+            if (typeof _adultSizesConfig === "undefined") {
 
                 _adultSizesConfig = {
 
@@ -2325,9 +2524,9 @@ $(document).ready(function() {
 
                 ub.data.sizes.items.push(_adultSizesConfig);
 
-            } 
+            }
 
-            _adultSizesConfig.sizes = _adult; 
+            _adultSizesConfig.sizes = _adult;
 
         } else {
 
@@ -2356,8 +2555,8 @@ $(document).ready(function() {
         var _template = '';
         var _markup = '';
 
-        /// Circle Sizes 
-        
+        /// Circle Sizes
+
         data = {
             adult: _adult.sizes,
             youth: _youth.sizes,
@@ -2371,7 +2570,7 @@ $(document).ready(function() {
         if (_adult.sizes.length === 0) { $('span.adult-sizes').hide(); }
         if (_youth.sizes.length === 0) { $('span.youth-sizes').hide(); }
 
-        /// Tab Buttons 
+        /// Tab Buttons
 
          data = {
             adult: _adult.sizes,
@@ -2382,9 +2581,9 @@ $(document).ready(function() {
         _markup = Mustache.render(_template, data);
 
         $('div.tabButtonsContainer').append(_markup);
-        
-        /// Table Rows 
-        
+
+        /// Table Rows
+
         data = {
             tabs: _combinedSizes,
         };
@@ -2407,7 +2606,7 @@ $(document).ready(function() {
 
         ub.funcs.resetHighlights();
 
-        $('div#right-pane-column').fadeOut();        
+        $('div#right-pane-column').fadeOut();
         $('div#left-pane-column').fadeOut();
 
         TeamStoreToolBox.close();
@@ -2430,7 +2629,7 @@ $(document).ready(function() {
 
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
-       
+
         ub.funcs.initRosterCalled = true;
 
         ub.current_material.settings.thumbnails = {
@@ -2452,7 +2651,7 @@ $(document).ready(function() {
 
         if (
             !ub.funcs.isFootball() ||
-            (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
+            (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") ||
             ub.current_material.material.price_item_code === "FBMJ" ||
             ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
         )
@@ -2477,19 +2676,19 @@ $(document).ready(function() {
 
                 $('select.sleeve-type').val($('select.default-sleeve-type').val());
                 $('select.lastname-application').val($('select.default-lastname-application').val());
-                    
+
             });
 
             $('span.add-player').on('click', function () {
                 console.log('ON CLICK ADD PLAYER=======>');
 
-                var _numbers    = ''; 
+                var _numbers    = '';
                 var _size       = '';
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling') && 
-                    ub.current_material.material.uniform_group !== "Apparel" && 
+                if (!ub.funcs.isCurrentSport('Wrestling') &&
+                    ub.current_material.material.uniform_group !== "Apparel" &&
                     !ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
                     ) {
 
@@ -2533,7 +2732,7 @@ $(document).ready(function() {
 
             });
 
-        } 
+        }
 
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
@@ -2559,10 +2758,10 @@ $(document).ready(function() {
 
         });
 
-        if (typeof orderInfo !== "undefined") { 
+        if (typeof orderInfo !== "undefined") {
 
-            // Reinit using previous roster  
-            ub.funcs.prepopulateRoster(orderInfo.items[0]); 
+            // Reinit using previous roster
+            ub.funcs.prepopulateRoster(orderInfo.items[0]);
 
             $('textarea#additional-notes').val(orderInfo.items[0].notes);
 
@@ -2573,7 +2772,7 @@ $(document).ready(function() {
 
         // Disable Buttons when the order is being resubmitted from a rejected order
         if (ub.config.orderArtworkStatus === "rejected" || ub.data.updateOrderFromCustomArtworkRequest) {
-            
+
             $('select.default-sleeve-type').attr('disabled', 'disabled');
             $('select.default-lastname-application').attr('disabled', 'disabled');
             $('input[name="lastname"]').attr('disabled', 'disabled');
@@ -2599,25 +2798,25 @@ $(document).ready(function() {
         switch(_location) {
 
             case 'home':
-                
+
                 // unbind before opening window
                 window.onbeforeunload = null;
                 window.location.href = '/';
-                
+
                 break;
-        
+
             case 'my-saved-designs':
-                
+
                 // unbind before opening window
                 window.onbeforeunload = null;
                 window.location.href = '/my-saved-designs';
-                
+
                 break;
-          
+
             default:
                 console.warning('Invalid Location: ' + _location);
 
-        }        
+        }
 
     }
 
@@ -2627,7 +2826,7 @@ $(document).ready(function() {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
-            
+
             var template = $('#m-save-design-guest').html();
             var data = { title: 'Save Design', designName: _designName };
             var markup = Mustache.render(template, data);
@@ -2641,20 +2840,20 @@ $(document).ready(function() {
 
                 $('button.close').unbind('click');
                 $('button.close').on('click', function () {
-                   
+
                     dialog.modal('hide');
 
                 });
 
             });
-            
-        }    
+
+        }
 
         ub.funcs.updatePopup = function () {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
-            
+
             var template = $('#m-save-design-ok').html();
             var data = { title: 'Save Design', designName: _designName };
             var markup = Mustache.render(template, data);
@@ -2668,16 +2867,16 @@ $(document).ready(function() {
 
                 $('button.stay').unbind('click');
                 $('button.stay').on('click', function () {
-                   
+
                     dialog.modal('hide');
 
                 });
 
                 $('button.my-saved-designs').unbind('click');
                 $('button.my-saved-designs').on('click', function () {
-                    
+
                     dialog.modal('hide');
-                   
+
                     var dialog1 = bootbox.dialog({
                         message: 'Loading My Saved Design...',
                     });
@@ -2688,14 +2887,14 @@ $(document).ready(function() {
 
                 $('button.select-another-uniform').unbind('click');
                 $('button.select-another-uniform').on('click', function () {
-                    
+
                     dialog.modal('hide');
                     var dialog2 = bootbox.dialog({
                         message: 'Loading the Uniform Pickers...',
                     });
-                    
+
                     ub.funcs.goto('home');
-                    
+
                 });
 
             });
@@ -2716,13 +2915,13 @@ $(document).ready(function() {
                 data: JSON.stringify({ dataUrl: _dataUrl }),
                 url: ub.config.host + "/saveLogo",
                 dataType: "json",
-                type: "POST", 
+                type: "POST",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
+
                 success: function (response){
-                    
+
                     if(response.success) {
 
                         ub.current_material.settings.thumbnails[view] = response.filename;
@@ -2752,7 +2951,7 @@ $(document).ready(function() {
 
                         console.log('Error generating thumbnail for ' + view);
                         console.log(response.message);
-                        
+
                     }
 
                 }
@@ -2771,7 +2970,7 @@ $(document).ready(function() {
 
             // Skip notification when coming from local
             if (ub.config.app_env === 'local') { data.test_data = '1'; }
-            
+
             delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
@@ -2783,15 +2982,15 @@ $(document).ready(function() {
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
+
                 success: function (response){
-                    
+
                     if (response.success) {
 
                         if (typeof window.ub.user.type !== "undefined") {
                             ub.funcs.checkEmailPopup();
                         } else {
-                            ub.funcs.updatePopup();    
+                            ub.funcs.updatePopup();
                         }
 
                         var is_add_to_team_store = false;
@@ -2818,7 +3017,7 @@ $(document).ready(function() {
                     }
 
                 }
-            
+
             });
 
         }
@@ -2826,7 +3025,7 @@ $(document).ready(function() {
         ub.funcs.saveDesign = function () {
 
             //
-            
+
             $('div.ok-footer').hide();
             $('div.saving-please-wait').show();
 
@@ -2861,7 +3060,7 @@ $(document).ready(function() {
             };
 
             if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
-                
+
                 _data.id = ub.config.savedDesignInfo.savedDesignID;
                 _data.builder_customizations = _data.builder_customizations;
 
@@ -2888,9 +3087,9 @@ $(document).ready(function() {
 
             // // Remove Disabled Random Feeds
             // var _disabledRandomFeed = {};
-            
+
             // _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
-                
+
             //     if (randomFeed.enabled === 0) {
 
             //         _disabledRandomFeed[key] = randomFeed;
@@ -2920,7 +3119,7 @@ $(document).ready(function() {
             $('img.right_view').attr('src', '');
 
             ub.current_material.settings.thumbnails = {
-            
+
                 front_view: "",
                 back_view: "",
                 left_view: "",
@@ -2964,10 +3163,10 @@ $(document).ready(function() {
             $('div.save-design span.ok-btn').on('click', function () {
 
                 ub.funcs.saveDesign();
-                
+
             });
 
-            // If from custom artwork request process 
+            // If from custom artwork request process
             if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
 
                 $('div.save-design > h3').html('<i class="fa fa-floppy-o" aria-hidden="true"></i> Updating Design')
@@ -2992,7 +3191,7 @@ $(document).ready(function() {
 
         if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
 
-            if(typeof ub.user.defaultRepID === "undefined" || 
+            if(typeof ub.user.defaultRepID === "undefined" ||
                 ub.user.defaultRepID === '-1' ||
                 ub.user.defaultRepID === '0')  {
 
@@ -3021,11 +3220,11 @@ $(document).ready(function() {
             data: JSON.stringify({ email: e, password: p }),
             url: ub.config.host + "/lrest",
             dataType: "json",
-            type: "POST", 
+            type: "POST",
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-        
+
             success: function (response) {
 
                 if(response.success) {
@@ -3071,7 +3270,7 @@ $(document).ready(function() {
                         // Return to pickers, if not editing any material
                         if(typeof ub.current_material.material === "undefined") {
                             window.location.href = "/";
-                        } else { 
+                        } else {
                             ub.funcs.ok();
                             ub.funcs.checkDefaultRepID();
                         }
@@ -3093,7 +3292,7 @@ $(document).ready(function() {
                 }
 
             }
-        
+
         });
 
     }
@@ -3101,9 +3300,9 @@ $(document).ready(function() {
     $('input#login-email').on('keypress', function (e) {
 
         var code = (e.keyCode ? e.keyCode : e.which);
-        
-        if (code == 13) { 
-            
+
+        if (code == 13) {
+
             $('input#login-password').focus();
             e.preventDefault();
 

@@ -7157,6 +7157,7 @@ var HOSTED_VIEWER_ORIGINS = ['null',
   'https://customizer.prolook.com',
   'https://staging-customizer.prolook.com',
   'http://localhost',
+  'http://builder.local',
   'http://localhost:5000',
   'http://romack.staging.prolook.com'
 ];
