@@ -788,3 +788,9 @@ tr.active {
     content: ", ";
   }
 }
+
+// Stock Mascot Modal
+.stock-mascot-categories li.uk-active {
+  background-color: $color-darkerGray;
+  color: $color-white;
+}

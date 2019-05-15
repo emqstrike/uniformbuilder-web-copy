@@ -8,6 +8,7 @@ StockMascot.events = {
         var that = this;
         if (that.isInit) {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
+            $(".inksoft-stock-mascot").on("click", ".stock-mascot-list-container .mascot-item a", that.onClickMascotItem);
         }
         that.isInit = false;
 
@@ -17,9 +18,24 @@ StockMascot.events = {
     onClickStockMascotCategory: function() {
         var that = this;
         var categoryID = $(this).data("category-id");
+        $(".inksoft-stock-mascot .stock-mascot-list-container").addClass("uk-hidden")
+        $(".inksoft-stock-mascot .stock-mascot-loading-screen").removeClass("uk-hidden");
         StockMascot.funcs.loadArtByCategory(categoryID, function(response) {
-            console.log(response);
+            if (response.OK) {
+                StockMascot.funcs.prepareStockMascots(response);
+            }
         });
+
+        $(".stock-mascot-categories li.uk-active").removeClass("uk-active");
+        $(this).parent().addClass("uk-active");
+    },
+
+    onClickMascotItem: function() {
+        var that = this;
+        var image = $(this).data("image");
+        var stockID = $(this).data("stock-mascot-id");
+
+        StockMascot.funcs.previewStockMascotPreview(image, stockID);
     },
 }
 
@@ -49,17 +65,33 @@ StockMascot.funcs = {
             categories: categories.Children
         });
 
-        $("li.inksoft-stock-mascot .stock-mascot-categories").html("");
-        $("li.inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
+        $(".inksoft-stock-mascot .stock-mascot-categories").html("");
+        $(".inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
+
+        $(".stock-mascot-categories li a").first().trigger("click");
     },
 
-    prepareStockMascot: function(data) {
-        var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-categories-list', {
-            categories: categories.Children
+    prepareStockMascots: function(mascot) {
+        var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascots-list', {
+            mascots: mascot.Data
         });
 
-        $("li.inksoft-stock-mascot .stock-mascot-list-container").html("");
-        $("li.inksoft-stock-mascot .stock-mascot-list-container").html(renderContainer);
+        $(".inksoft-stock-mascot .stock-mascot-list-container").removeClass("uk-hidden")
+        $(".inksoft-stock-mascot .stock-mascot-loading-screen").addClass("uk-hidden");
+        $(".inksoft-stock-mascot .stock-mascot-list-container").html("");
+        $(".inksoft-stock-mascot .stock-mascot-list-container").html(renderContainer);
+
+        $(".inksoft-stock-mascot .mascot-item a").first().trigger("click");
+    },
+
+    previewStockMascotPreview: function(image, stock_id) {
+        var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-preview', {
+            image: image,
+            ID: stock_id
+        });
+
+        $(".inksoft-stock-mascot .stock-mascot-preview-container").html("");
+        $(".inksoft-stock-mascot .stock-mascot-preview-container").html(renderContainer);
     },
 
     loadRichardsonCategories: function(cb) {

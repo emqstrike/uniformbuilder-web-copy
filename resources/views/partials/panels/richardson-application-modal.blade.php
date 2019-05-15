@@ -299,11 +299,6 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="stock">
-                    <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Stock <span class="uk-visible@s">Logo</span>
-                </a>
-            </li>
-            <li>
                 <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="create">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Create logo/Logo libraries</span>
                 </a>
@@ -317,22 +312,6 @@
         <hr>
         <ul class="uk-switcher uk-margin menu-mascot-content">
             <li class="inksoft-existing-design">
-            </li>
-            <li class="inksoft-stock-mascot">
-                <div class="uk-grid-small uk-height-large" uk-grid>
-                    <div class="uk-width-1-4">
-                        <div class="uk-padding-small bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
-                            <ul class="uk-list uk-list-divider stock-mascot-categories">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="uk-width-expand">
-                        <div class="uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
-                            <div class="uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top" uk-grid>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </li>
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">
@@ -471,22 +450,31 @@
 
 <!-- Stock Mascot -->
 <div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
-    <div class="uk-modal-dialog uk-modal-body uk-padding-small">
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
-        <hr>
-        <div class="inksoft-stock-mascot">
-            <div class="uk-grid-small uk-height-large" uk-grid>
+        <div class="inksoft-stock-mascot uk-padding-small">
+            <div class="uk-height-large uk-grid-match" uk-grid>
                 <div class="uk-width-1-4">
-                    <div class="uk-padding-small bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
-                        <ul class="uk-list uk-list-divider stock-mascot-categories">
+                    <div class="bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
+                        <ul class="uk-nav uk-list stock-mascot-categories">
                         </ul>
                     </div>
                 </div>
                 <div class="uk-width-expand">
-                    <div class="uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
-                        <div class="uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top" uk-grid>
+                    <div class="cp-padding-tiny bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
+                        <div class="uk-grid-small uk-grid-match uk-child-width-1-2@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top stock-mascot-list-container" uk-grid>
                         </div>
+                        <div class="uk-width-1-1 stock-mascot-loading-screen">
+                            <div class="uk-flex uk-flex-center">
+                                <div uk-spinner="ratio: 5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-1-4 uk-flex uk-flex-center uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">
+                    <div class="uk-width-1-1@s uk-text-center uk-first-column stock-mascot-preview-container">
+                        
                     </div>
                 </div>
             </div>

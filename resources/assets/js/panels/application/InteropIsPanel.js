@@ -38,8 +38,6 @@ InteropIsPanel.events = {
                 }
             } else if (type === "upload") {
                 InteropIsPanel.funcs.loadDesignerUpload(undefined, applicationObject.code)
-            } else if (type === "stock") {
-                InteropIsPanel.funcs.loadStockMascot();
             }
         } else {
             ub.utilities.error("Cannot find current application");
@@ -152,7 +150,7 @@ InteropIsPanel.events = {
         } else {
             InteropIsPanel.funcs.updateMascotStatus(0, id, design_id, type);
         }
-    }
+    },
 }
 
 InteropIsPanel.funcs = {
@@ -250,7 +248,7 @@ InteropIsPanel.funcs = {
         $(".inksoft-loader.create #embed-inksoft-create").html("")
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
         InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2);
+        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -348,7 +346,7 @@ InteropIsPanel.funcs = {
         $(".inksoft-loader.upload #embed-inksoft-upload").html("");
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(3)
+        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2)
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -456,5 +454,5 @@ InteropIsPanel.funcs = {
                 }
             }     
         });
-    },
+    }
 }
