@@ -343,33 +343,6 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '.toggle-item-active', function(e) {
-        e.preventDefault();
-        var id = $(this).data('item-id');
-        console.log(id);
-         var url = "//" + api_host + "/api/v1-0/single_view_applications/toggle";
-         $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    window.location.reload();
-                    var elem = '.pattern-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                }
-            }
-        });
-    });
     try {
         $('.data-table').DataTable({
             "paging": true,
