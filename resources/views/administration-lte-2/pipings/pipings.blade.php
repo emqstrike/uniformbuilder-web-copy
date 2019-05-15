@@ -58,7 +58,7 @@
                 <div class="box-header">
                     @section('page-title', 'Pipings')
                     <h2>
-                        <span class="fa fa-eye"></span>
+                        <span class="glyphicon glyphicon-stats"></span>
                         Pipings
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h2>
@@ -120,7 +120,7 @@
         </div>
     </div>
 </section>
-<!-- @include('administration-lte-2.pipings.pipings-modal') -->
+@include('administration-lte-2.pipings.pipings-modal') 
 @include('partials.confirmation-modal')
 
 @endsection
