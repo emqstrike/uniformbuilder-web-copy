@@ -374,8 +374,8 @@
         <button class="uk-modal-close-outside" type="button" uk-close></button>
         <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Team Roster</h6>
         <div class="uk-grid-small" uk-grid>
-            <div class="uk-width-1-1@m uk-width-1-3@l">
-                <div class="uk-width-1-2@m uk-width-1-1@l">
+            <div class="uk-width-1-2@m uk-width-1-5@l">
+                <div class="uk-width-1-1@m uk-width-1-1@l">
                     <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
                         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
                         <div class="roster-uniform-size-container">
@@ -383,19 +383,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="uk-width-1-2@m uk-width-1-1@l">
+            </div>
+            <div class="uk-width-1-2@m uk-width-1-3@l">
                     <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                        <h5 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
+                        <h5 uk-margin class="uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
                         <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red player-info-preview"></span></h6>
                         <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
-                            <div class="bdr-bottom-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
+                            <div class="bdr-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
                                 
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="uk-width-1-2@m uk-width-expand@l">
+            <div class="uk-width-1-1@m uk-width-expand@l">
                 <div class="uk-grid-small" uk-grid>
                     <div class="uk-width-1-1@l">
                         <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">

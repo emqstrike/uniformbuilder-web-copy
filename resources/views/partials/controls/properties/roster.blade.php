@@ -57,7 +57,7 @@
 <script type="text/mustache" id="m-richardson-team-roster-summary">
     @{{ #rosters }}
         <li class="list">
-            <div class="uk-grid-small uk-grid-match" uk-grid>
+            <div class="uk-grid-small uk-grid-match uk-flex-middle" uk-grid>
                 <div class="uk-width-1-3">
                     <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">@{{ size }} (@{{ category }})</h6>
                 </div>
