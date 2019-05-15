@@ -217,6 +217,7 @@ $(document).ready(function(){
         $('#neck_option').val('');
         $('.input-item-thumbnail').val('');
         $('.input-item-piping-set').val('');
+        $('.thumbnail-prev').empty();
         $('.submit-new-record').removeAttr('disabled');
     });
 
@@ -242,11 +243,19 @@ $(document).ready(function(){
         data.thumbnail = parentEl.find('.td-item-thumbnail').text();
         data.piping_set = parentEl.find('.td-item-piping-set').text();
 
+        if(data.thumbnail != '') {
+            var mElem = '';
+            mElem += `<img src="`+ data.thumbnail +`" style="height: 100px; width: 110px;">
+                          <a href="#" class="btn btn-danger btn-xs btn-flat delete-category-image" data-category-id="`+ data.id +`" data-field="thumbnail-prev" role="button">
+                              Delete
+                          </a>`;
+        }
+        $('.thumbnail-prev').append(mElem);
+
         $('.input-item-id').val(data.id);
         $('.sport').val(data.sport).trigger('change');
         $('.block-pattern-val').val(data.block_pattern).trigger('change');
         $('.neck-option-val').val(data.block_pattern_option).trigger('change');
-        $('.input-thumbnail').val(data.thumbnail).trigger('change');
         $('.input-piping-set').val(data.piping_set).trigger('change');
 
     });
@@ -257,8 +266,24 @@ $(document).ready(function(){
         data.sport = $('.sport').val();
         data.block_pattern = $('.block-pattern-val').val();
         data.block_pattern_option = $('.neck-option-val').val();
-        data.thumbnail = $('.input-thumbnail').val();
         data.piping_set = $('.input-piping-set').val();
+        
+        var formData = new FormData();
+        var th_file = null;
+
+        try {
+            var thumbnail = $('.input-thumbnail')[0].files[0];
+            if(thumbnail != undefined) {
+                formData.append('file', thumbnail);
+                fileUpload(formData, function (filename) { th_file = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        if(th_file != null) {
+            data.thumbnail = th_file;
+        }
 
         if(window.modal_action == 'add'){
             var url = "//" + api_host +"/api/v1-0/pipings/create";
@@ -419,6 +444,52 @@ $(document).ready(function(){
                 }
             });
     }
+
+    function fileUpload(postData, callback){
+        var file;
+        $.ajax({
+            url: "//" + api_host + "/api/v1-0/file/uploader",
+            type: "POST",
+            data: postData,
+            processData: false,
+            contentType: false,
+            crossDomain: true,
+            async: false,
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    file = data.file;
+                    if(typeof callback === "function") callback(file);
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    };
+
+    $(document).on('click', '.delete-category-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('category-id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/v1-0/pipings/deleteImage";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
 
 });
 </script>
