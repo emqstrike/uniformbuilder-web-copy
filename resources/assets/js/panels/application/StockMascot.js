@@ -9,6 +9,8 @@ StockMascot.events = {
         if (that.isInit) {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-list-container .mascot-item a", that.onClickMascotItem);
+            $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .edit-stock-logo", that.onClickEditStockMascot);
+            $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .add-to-uniform", that.onClickAddToUniform);
         }
         that.isInit = false;
 
@@ -23,6 +25,7 @@ StockMascot.events = {
         StockMascot.funcs.loadArtByCategory(categoryID, function(response) {
             if (response.OK) {
                 StockMascot.funcs.prepareStockMascots(response);
+                console.log(response.Data)
             }
         });
 
@@ -37,6 +40,18 @@ StockMascot.events = {
 
         StockMascot.funcs.previewStockMascotPreview(image, stockID);
     },
+
+    onClickEditStockMascot: function() {
+        var that = this;
+        var stockID = $(this).data("stock-mascot-id");
+        InteropIsPanel.funcs.loadDesigner(stockID, undefined, true);
+    },
+
+    onClickAddToUniform: function() {
+        var that = this;
+        var stockID = $(this).data("stock-mascot-id");
+        console.log(stockID)
+    }
 }
 
 StockMascot.funcs = {

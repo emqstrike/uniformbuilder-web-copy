@@ -849,10 +849,10 @@
     </div>
     <div class="uk-grid-collapse uk-grid-match uk-child-width-1-2@s uk-text-center uk-margin-top" uk-grid>
         <div>
-            <button class="uk-width-1-1 uk-button bgc-red fc-white uk-button-small uk-text-capitalize" data-stock-mascot-id="@{{ ID }}">Edit Logo</button>
+            <button class="uk-width-1-1 uk-button bgc-red fc-white uk-button-small uk-text-capitalize edit-stock-logo" data-stock-mascot-id="@{{ ID }}">Edit Logo</button>
         </div>
         <div>
-            <button class="uk-width-1-1 uk-button bgc-darkGray uk-button-small fc-white uk-text-capitalize" data-stock-mascot-id="@{{ ID }}">Add to uniform</button>
+            <button class="uk-width-1-1 uk-button bgc-darkGray uk-button-small fc-white uk-text-capitalize add-to-uniform" data-stock-mascot-id="@{{ ID }}">Add to uniform</button>
         </div>
     </div>
 </script>

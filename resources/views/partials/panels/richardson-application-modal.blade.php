@@ -447,9 +447,8 @@
 </div>
 <!-- END TEAM ROSTER -->
 
-
 <!-- Stock Mascot -->
-<div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
+<div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
@@ -482,3 +481,20 @@
     </div>
 </div>
 <!-- End Stock Mascot -->
+
+<!-- Inksoft Editor -->
+<div id="inksoftEditor" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
+    <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Design Editor</h6>
+        <div class="uk-padding-small">
+            <div class="uk-width-1-1 uk-flex uk-flex-center">
+                <div class="inksoft-design-editor">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Inksoft Editor -->
