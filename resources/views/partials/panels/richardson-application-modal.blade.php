@@ -389,7 +389,7 @@
                         <h5 uk-margin class="uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
                         <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red player-info-preview"></span></h6>
                         <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
-                            <div class="bdr-bottom-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
+                            <div class="bdr-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
                                 
                             </div>
                         </div>
