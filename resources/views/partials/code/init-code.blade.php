@@ -10,11 +10,7 @@
 
         window.ub.config = {
             brand: "{{ env('BRAND') }}",
-            picker_version: "{{ env('PICKER_VERSION') }}",
             pdf_generator: "{{ env('PDF_GENERATOR') }}",
-            beta_features: {
-                newPDF: false
-            },
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",
