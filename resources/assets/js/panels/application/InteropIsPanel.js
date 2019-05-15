@@ -14,6 +14,7 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
             $(".upload-tutorial-container").on("click", ".close-tutorial", that.onCloseTutorial);
+            $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
         }
 
         that.isInit = false;
@@ -38,6 +39,8 @@ InteropIsPanel.events = {
                 }
             } else if (type === "upload") {
                 InteropIsPanel.funcs.loadDesignerUpload(undefined, applicationObject.code)
+            } else if (type === "stock") {
+                InteropIsPanel.funcs.loadStockMascot();
             }
         } else {
             ub.utilities.error("Cannot find current application");
@@ -151,6 +154,14 @@ InteropIsPanel.events = {
             InteropIsPanel.funcs.updateMascotStatus(0, id, design_id, type);
         }
     },
+
+    onClickStockMascotCategory: function() {
+        var that = this;
+        var categoryID = $(this).data("category-id");
+        InteropIsPanel.funcs.loadArtByCategory(categoryID, function(response) {
+            console.log(response);
+        });
+    },
 }
 
 InteropIsPanel.funcs = {
@@ -248,7 +259,7 @@ InteropIsPanel.funcs = {
         $(".inksoft-loader.create #embed-inksoft-create").html("")
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
         InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
+        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2);
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -346,7 +357,7 @@ InteropIsPanel.funcs = {
         $(".inksoft-loader.upload #embed-inksoft-upload").html("");
         launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
         InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2)
+        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(3)
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -454,5 +465,59 @@ InteropIsPanel.funcs = {
                 }
             }     
         });
+    },
+
+    loadStockMascot: function() {
+        var stockMascotCategoryID = 1000683;
+        var that = this;
+        if (typeof ub.data.stockMascot === "undefined") {
+            that.loadRichardsonCategories(function(response) {
+                if (response.StatusCode) {
+                    var richardsonStockMascots = _.find(response.Data, {ID: stockMascotCategoryID});
+                    if (typeof richardsonStockMascots !== "undefined") {
+                        ub.data.stockMascot = richardsonStockMascots;
+                        that.prepareStockMascotCategories(ub.data.stockMascot);
+                    }
+                }
+            })
+        } else {
+            that.prepareStockMascotCategories(ub.data.stockMascot);
+        }
+        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
+    },
+
+    prepareStockMascotCategories: function(categories) {
+        var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-categories-list', {
+            categories: categories.Children
+        });
+
+        $("li.inksoft-stock-mascot .stock-mascot-categories").html("");
+        $("li.inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
+    },
+
+    prepareStockMascot: function() {
+        
+        $("li.inksoft-stock-mascot .stock-mascot-list-container").html("");
+        $("li.inksoft-stock-mascot .stock-mascot-list-container").html(renderContainer);
+    }
+
+    loadRichardsonCategories: function(cb) {
+        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetClipArtCategories?Format=JSON';
+        ub.utilities.getJSON(url, function(response) {
+            cb(response);
+        }, function(error) {
+            console.log("ERROR while loading Inksoft Categories");
+            console.log(error)
+        })
+    },
+
+    loadArtByCategory: function(id, cb) {
+        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetStoreArt?CategoryId='+ id +'&Format=JSON';
+        ub.utilities.getJSON(url, function(response) {
+            cb(response);
+        }, function(error) {
+            console.log("ERROR while loading Inksoft Categories");
+            console.log(error)
+        })
     }
 }

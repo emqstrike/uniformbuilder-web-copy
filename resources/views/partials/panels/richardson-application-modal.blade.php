@@ -299,6 +299,11 @@
                 </a>
             </li>
             <li>
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="stock">
+                    <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Stock <span class="uk-visible@s">Logo</span>
+                </a>
+            </li>
+            <li>
                 <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="create">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Create logo/Logo libraries</span>
                 </a>
@@ -312,6 +317,22 @@
         <hr>
         <ul class="uk-switcher uk-margin menu-mascot-content">
             <li class="inksoft-existing-design">
+            </li>
+            <li class="inksoft-stock-mascot">
+                <div class="uk-grid-small uk-height-large" uk-grid>
+                    <div class="uk-width-1-4">
+                        <div class="uk-padding-small bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
+                            <ul class="uk-list uk-list-divider stock-mascot-categories">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="uk-width-expand">
+                        <div class="uk-padding-small bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
+                            <div class="uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top" uk-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">

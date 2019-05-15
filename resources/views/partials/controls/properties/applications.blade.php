@@ -816,3 +816,18 @@
 </script>
 <!-- End Existing Design -->
 
+<!-- Richardson Stock Mascot -->
+<script type="text/mustache" id="m-inksoft-stock-mascot">
+    
+</script>
+
+<script type="text/mustache" id="m-inksoft-stock-mascot-categories-list">
+    @{{ #categories }}
+        <li class="stock-mascot-category" data-category-id="@{{ ID }}">
+            <a href="javascript:void(0)" class="uk-link-reset category-btn" data-category-id="@{{ ID }}">@{{ Name }}</a>
+        </li>
+    @{{ /categories }}
+</script>
+
+<!-- End Richardson Stock Mascot -->
+
