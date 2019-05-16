@@ -10,10 +10,10 @@ RosterPanel.events = {
     init: function() {
         var that = this;
         if (that.isInit) {
+            $("#right-pane-column").on("click", ".richardson-footer .manage-team-roster", that.onShowRoster);
             $("#richardson-team-roster").on("click", ".uniform-size-button", that.onClickUniformSize);
             $("#richardson-team-roster").on("click", ".player-number-button", that.onClickPlayerNumber);
-            // $("#richardson-team-roster").on("focus", ".player-number-button", that.onHoverPlayerNumber);
-            $("#richardson-team-roster").on("keypress", ".roster-uniform-name, .roster-uniform-number, .roster-uniform-qty", _.debounce(that.onUpdateRosterInfo, 500));
+            $("#richardson-team-roster").on("keypress", ".roster-uniform-name, .roster-uniform-number, .roster-uniform-qty", _.debounce(that.onUpdateRosterInfo, 100));
             $("#richardson-team-roster").on("click", ".remove-player-info", that.onRemoveRoster);
             $("#richardson-team-roster").on("click", ".save-roster", that.onClickSaveRoster);
             $("#richardson-team-roster").on("click", ".click-player-number", that.onClickSummaryPlayerNumber);
