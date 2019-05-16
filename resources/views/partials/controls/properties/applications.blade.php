@@ -27,14 +27,16 @@
 <!-- Font Styles -->
 <script type="text/mustache" id="m-font-styles-container">
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">@{{ type }} font</h6>
-    <div class="uk-grid-collapse uk-grid-match uk-text-center" uk-grid>
+    <div class="uk-grid-collapse uk-grid-match uk-text-center" id="font-styles-container" uk-grid>
         <div class="uk-width-auto">
             <a href="javascript:void(0)" class="fontStyleLeft uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
                 <span class="fc-red"><i class="glyphicon glyphicon-arrow-left"></i></span>
             </a>
         </div>
         <div class="uk-width-expand">
-            <span class="font_name uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark" style="font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+            <a href="javascript:void(0)" class="select-font-style" data-application-code="@{{ code }}">
+                <span class="font_name uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark" style="font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+            </a>
         </div>
         <div class="uk-width-auto">
             <a href="javascript:void(0)" class="fontStyleRight uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
