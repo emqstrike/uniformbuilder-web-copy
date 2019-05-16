@@ -12516,6 +12516,16 @@ ub.funcs.fontOffSets = [
         '11',
         '11.5',
         '12',
-   ];
+    ];
+
+    // enable application's Scale Tool for the ff. brand
+    ub.data.enableScaleToolOnApplications = {
+        brands: [
+            'Richardson',
+        ],
+        isEnabled: function (brand) {
+            return _.contains(this.brands, brand);
+        }
+    }
 
 });

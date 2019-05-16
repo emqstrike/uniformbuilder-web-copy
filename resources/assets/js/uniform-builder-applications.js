@@ -9894,26 +9894,29 @@ $(document).ready(function() {
         // tackle twill only (custom sizes)
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || tackeTwillCustomSizes) {
+        if (ub.config.uniform_application_type === "sublimated" 
+            || ub.config.uniform_application_type === "knitted" 
+            // || tackeTwillCustomSizes 
+            || ub.data.enableScaleToolOnApplications.isEnabled(ub.config.brand)) {
 
-        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+                var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+                var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-        ub.objects[_perspective].scale_tool = _spriteScale;
-        ub[_perspective].addChild(_spriteScale);
+                ub.objects[_perspective].scale_tool = _spriteScale;
+                ub[_perspective].addChild(_spriteScale);
 
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+                var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-        _spriteScale.position.x  = _view.application.center.x;
-        _spriteScale.position.y  = _view.application.center.y;
-        _spriteScale.ubName = 'Scale Tool';
+                _spriteScale.position.x  = _view.application.center.x;
+                _spriteScale.position.y  = _view.application.center.y;
+                _spriteScale.ubName = 'Scale Tool';
 
-        var _x = _xAnchor;
+                var _x = _xAnchor;
 
-        _spriteScale.anchor.set(_x, -2);
-        _spriteScale.zIndex = -1000;
+                _spriteScale.anchor.set(_x, -2);
+                _spriteScale.zIndex = -1000;
 
-        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+                ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
         }
 
