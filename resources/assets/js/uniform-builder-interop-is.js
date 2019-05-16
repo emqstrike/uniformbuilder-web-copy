@@ -348,6 +348,7 @@ $(document).ready(function() {
 
         if (ub.config.brand.toLowerCase() === "richardson") {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
+            UIkit.modal("#inksoftEditor").hide();
         }
 
         ub.status.render.resumeRendering();

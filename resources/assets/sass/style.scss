@@ -795,3 +795,18 @@ tr.active {
   background-color: $color-darkerGray;
   color: $color-white;
 }
+
+.mascot-item a.mascot-btn {
+    h6 {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+}
+
+
+.mascot-item a.mascot-btn.uk-active {
+    h6 {
+      background-color: $color-red;
+      color: $color-white;
+    }
+}

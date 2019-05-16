@@ -9257,13 +9257,16 @@ $(document).ready(function () {
         }
 
         // Open Richardson Logo Modal for embellishment and mascot only
-        if (_settingsObject.application_type === 'embellishments' || _settingsObject.application_type === 'mascot') {
-            ub.data.currentApplication = _settingsObject;
+        ub.data.currentApplication = _settingsObject;
+        console.log("============================>>>>>>>>>", _settingsObject.application_type)
+        if (_settingsObject.application_type === 'embellishments') {
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
                 InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
             } else {
                 InteropIsPanel.funcs.loadExistingDesign(_settingsObject);
             }
+        } else if (_settingsObject.application_type === 'mascot') {
+            StockMascot.events.init();
         }
 
         ub.funcs.runAfterUpdate(_id);
@@ -12158,13 +12161,15 @@ $(document).ready(function () {
 
         // Initialize New Embellishment Popup
         if (ub.config.brand.toLowerCase() === "richardson") {
-            if (type === "embellishments" || type === "mascot") {
+            if (type === "embellishments") {
                 ub.data.currentApplication = _newApplication;
                 if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
                     InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
                 } else {
                     InteropIsPanel.funcs.loadExistingDesign(_newApplication);
                 }
+            } else if (type === "mascot") {
+                StockMascot.events.init();
             }
         } else {
             if (type === "embellishments") {

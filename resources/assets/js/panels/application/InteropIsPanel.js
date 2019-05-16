@@ -186,7 +186,7 @@ InteropIsPanel.funcs = {
             DisableClipArt: false,
             DisableUserArt: true,
             DisableProducts: true,
-            DisableDesigns: true,
+            DisableDesigns: false,
             DisableDistress: true,
             DisableResolutionMeter: true,
             DisableUploadVectorArt: false,

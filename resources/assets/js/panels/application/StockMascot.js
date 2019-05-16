@@ -24,8 +24,7 @@ StockMascot.events = {
         $(".inksoft-stock-mascot .stock-mascot-loading-screen").removeClass("uk-hidden");
         StockMascot.funcs.loadArtByCategory(categoryID, function(response) {
             if (response.OK) {
-                StockMascot.funcs.prepareStockMascots(response);
-                console.log(response.Data)
+                StockMascot.funcs.prepareStockMascots(response.Data);
             }
         });
 
@@ -39,24 +38,38 @@ StockMascot.events = {
         var stockID = $(this).data("stock-mascot-id");
 
         StockMascot.funcs.previewStockMascotPreview(image, stockID);
+        $(".mascot-item a.uk-active").removeClass("uk-active");
+        $(this).addClass("uk-active");
     },
 
     onClickEditStockMascot: function() {
         var that = this;
         var stockID = $(this).data("stock-mascot-id");
-        InteropIsPanel.funcs.loadDesigner(stockID, undefined, true);
+        InteropIsPanel.funcs.loadDesigner(stockID, ub.data.currentApplication.code, true);
     },
 
     onClickAddToUniform: function() {
         var that = this;
         var stockID = $(this).data("stock-mascot-id");
-        console.log(stockID)
+
+        var _settingsObject = ub.data.currentApplication;
+        var _matchingID = undefined;
+
+        is.isMessage(stockID, _settingsObject.code, true);
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            is.isMessage(_designID, _matchingID, true);
+        }
+
+        UIkit.modal("#richardson-stock-mascot").hide();
     }
 }
 
 StockMascot.funcs = {
     loadStockMascot: function() {
-        var stockMascotCategoryID = 1000683;
+        var stockMascotCategoryID = 1000281;
         var that = this;
         if (typeof ub.data.stockMascot === "undefined") {
             that.loadRichardsonCategories(function(response) {
@@ -65,6 +78,11 @@ StockMascot.funcs = {
                     if (typeof richardsonStockMascots !== "undefined") {
                         ub.data.stockMascot = richardsonStockMascots;
                         that.prepareStockMascotCategories(ub.data.stockMascot);
+                        StockMascot.funcs.loadArtByCategory(richardsonStockMascots.ID, function(response) {
+                            if (response.OK) {
+                                StockMascot.funcs.prepareStockMascots(response.Data);
+                            }
+                        });
                     }
                 }
             })
@@ -82,13 +100,21 @@ StockMascot.funcs = {
 
         $(".inksoft-stock-mascot .stock-mascot-categories").html("");
         $(".inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
-
-        $(".stock-mascot-categories li a").first().trigger("click");
     },
 
-    prepareStockMascots: function(mascot) {
+    prepareStockMascots: function(mascots) {
+        var data = [];
+        _.each(mascots, function(mascot) {
+            console.log(mascot)
+            data.push({
+                ImageUrl: mascot.Canvases[0].PngRelativeUrl,
+                Name: mascot.Name,
+                ID: mascot.DesignID
+            });
+        })
+
         var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascots-list', {
-            mascots: mascot.Data
+            mascots: data
         });
 
         $(".inksoft-stock-mascot .stock-mascot-list-container").removeClass("uk-hidden")
@@ -110,8 +136,9 @@ StockMascot.funcs = {
     },
 
     loadRichardsonCategories: function(cb) {
-        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetClipArtCategories?Format=JSON';
+        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetDesignCategories?Format=JSON';
         ub.utilities.getJSON(url, function(response) {
+            console.log(response)
             cb(response);
         }, function(error) {
             console.log("ERROR while loading Inksoft Categories");
@@ -120,12 +147,22 @@ StockMascot.funcs = {
     },
 
     loadArtByCategory: function(id, cb) {
-        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetStoreArt?CategoryId='+ id +'&Format=JSON';
-        ub.utilities.getJSON(url, function(response) {
-            cb(response);
-        }, function(error) {
-            console.log("ERROR while loading Inksoft Categories");
-            console.log(error)
-        })
+        var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetDesignSummaries?DesignCategoryId='+ id +'&Format=JSON';
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            data: '',
+            processData: false,
+            crossDomain: true,
+            success: function (response) {
+                console.log(response)
+                cb(response);
+            },
+            error: function (error) {
+                console.log("ERROR while loading Inksoft Stock Mascot");
+                console.log(error)
+            }
+        });
     }
 }
