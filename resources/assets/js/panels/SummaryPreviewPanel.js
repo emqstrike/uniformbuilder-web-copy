@@ -80,7 +80,12 @@ SummaryPreviewPanel.events = {
                     ub.current_material.settings.uniformPreviewPdf = response.pdfUrl;
                     ub.data.rosterIsChange = false;
                 } else {
-                    console.log("Something went wrong")
+                    $.smkAlert({
+                        text: 'Something went wrong while generating the PDF. Please try again later. Send your feedback if the problem persists. We appreciate your comments. Our team will be working on it as soon as possible.',
+                        type: 'warning'
+                    });
+
+                    UIkit.modal("#richardson-summary-preview").hide();
                 }
             },
 

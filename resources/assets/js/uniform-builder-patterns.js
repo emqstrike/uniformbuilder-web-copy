@@ -1526,9 +1526,14 @@ $(document).ready(function () {
 
             var _defaultColor = ub.funcs.getColorByColorCode(_property.default_color);
 
-            var _layer = { 
+            // if (typeof _defaultColor !== "undefined") {
+            //     _defaultColor = ub.funcs.getColorByColorCode("B");
+            // }
+
+            var _layer = {
                 default_color: _defaultColor.hex_code,
                 color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
+                colorObj: _defaultColor,
                 layer_no:_property.layer, 
                 team_color_id: _property.team_color_id,
                 filename: _property.file_path,
