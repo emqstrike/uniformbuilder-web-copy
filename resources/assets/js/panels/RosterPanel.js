@@ -10,7 +10,7 @@ RosterPanel.events = {
     init: function() {
         var that = this;
         if (that.isInit) {
-            $("#right-pane-column").on("click", ".richardson-footer .manage-team-roster", that.onShowRoster);
+            $("#right-pane-column").on("click", ".richardson-footer .manage-team-roster", that.onClickManageRoster);
             $("#richardson-team-roster").on("click", ".uniform-size-button", that.onClickUniformSize);
             $("#richardson-team-roster").on("click", ".player-number-button", that.onClickPlayerNumber);
             $("#richardson-team-roster").on("keypress", ".roster-uniform-name, .roster-uniform-number, .roster-uniform-qty", _.debounce(that.onUpdateRosterInfo, 100));
@@ -30,6 +30,10 @@ RosterPanel.events = {
         RosterPanel.events.prepareUniformSizes();
         RosterPanel.events.preparePlayerNumbers();
         UIkit.modal("#richardson-team-roster").show();
+    },
+
+    onClickManageRoster: function() {
+        $("#property-modifiers-menu .menu-item-roster").trigger("click");
     },
 
     onHoverPlayerNumber: function() {
