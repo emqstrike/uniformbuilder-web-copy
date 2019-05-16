@@ -228,7 +228,7 @@ FabricPanel.getDefaultFabric = function(perspective, material) {
             }
 
             return {
-                fabric: _.find(ub.current_material.fabrics, {id: fabric_id.toFixed(0)}),
+                fabric: _.find(ub.current_material.fabrics, {id: fabric_id.toString()}),
                 layer_level: FabricPanel.getDefaultLayerLevel()
             };
         }
