@@ -22,7 +22,134 @@ ApplicationEvent.maxLengthCheck = function (object) {
     if (object.value.length > object.max.length) {
         object.value = object.value.slice(0, object.max.length)
     }
-}
+};
+
+/**
+ * Change font style
+ * If direction parameter is set, font_id must be not set vice versa.
+ *
+ * @param  {int} app_id
+ * @param  {string} direction
+ * @param  {int} font_id
+ * @return {void}
+ */
+ApplicationEvent.changeFontStyle = function(app_id, direction, font_id) {
+    app_id = app_id.toString();
+    var settingsObject = _.find(ub.current_material.settings.applications, {code: app_id});
+
+    var newFont;
+
+    if (direction !== false) {
+        newFont = ub.funcs.getFontObj(direction, settingsObject.font_obj);
+    } else {
+        newFont = _.find(ub.data.fonts, {id: font_id.toFixed()});
+    }
+
+    if (typeof newFont !== 'undefined') {
+        font_id = newFont.id;
+
+        ub.funcs.changeFontFromPopup(font_id, settingsObject);
+        var font_style_el = $('#font-styles-container');
+
+        font_style_el.find('.font_name').text(newFont.caption);
+        font_style_el.find('.font_name').css('font-family', newFont.name);
+    } else {
+        // No Font!
+        return;
+    }
+
+    if (settingsObject.type === "front_number" || settingsObject.type === "back_number") {
+        _.each(ub.current_material.settings.applications, function (application) {
+            if (application.type !== settingsObject.application_type && application.type !== "logo" && application.type !== "mascot") {
+                if (settingsObject.type.indexOf('number') !== -1 && application.type.indexOf('number') !== -1) {
+                    ub.funcs.changeFontFromPopup(font_id, application);
+                }
+            }
+        });
+    }
+
+    var _matchingID = ub.data.matchingIDs.getMatchingID(app_id);
+
+    if (typeof _matchingID !== "undefined") {
+        var matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+        ub.funcs.changeFontFromPopup(font_id, matchingSettingsObject);
+    }
+};
+
+ApplicationEvent.createFontPopup = function(sampleText, settingsObj) {
+    var applicationType = settingsObj.application_type;
+    ub.status.fontPopupVisible = true;
+
+    var sampleSize = '1.9em';
+    var paddingTop = '40px';
+
+    if (applicationType === "front_number" || applicationType === "back_number") {
+
+        sampleSize = '3.3em';
+        paddingTop = '30px';
+
+    }
+
+    var data = {
+        label: 'Choose Font: ',
+        fonts: ub.data.fonts,
+        sampleText: sampleText,
+        applicationType: applicationType,
+        sampleSize: sampleSize,
+        paddingTop: paddingTop,
+    };
+
+    var template = $('#m-font-popup').html();
+    var markup = Mustache.render(template, data);
+
+    $('body').append(markup);
+
+    $popup = $('div#primaryFontPopup');
+    $popup.fadeIn();
+
+    ub.funcs.centerPatternPopup();
+
+    $('div.fontPopupResults > div.item').hover(
+        function () {
+            $(this).find('div.name').addClass('pullUp');
+        }, function () {
+            $(this).find('div.name').removeClass('pullUp');
+        }
+    );
+
+    $('div.fontPopupResults > div.item').on('click', function () {
+        var font_id = $(this).data('font-id');
+
+        ApplicationEvent.changeFontStyle(settingsObj.code, false, font_id);
+    });
+
+    ub.funcs.centerFontPopup();
+
+    $('div.close-popup').on('click', function () {
+
+        $popup.remove();
+        ub.status.fontPopupVisible = false;
+
+    });
+
+    $popup.bind('clickoutside', function () {
+
+        var _status = $(this).data('status');
+
+        if (_status === 'hidden') {
+
+            $(this).data('status', 'visible');
+            return;
+
+        }
+
+        $(this).data('status', 'hidden');
+        $(this).hide();
+        $(this).remove();
+        ub.status.fontPopupVisible = false;
+
+    });
+};
 
 ApplicationEvent.events = {
     isInit: true,
@@ -35,6 +162,7 @@ ApplicationEvent.events = {
             $("#primary_options_container").on('click', '.thumbnailContainer', _this.onSelectFontAccent);
             $("#primary_options_container").on('keypress', 'input.app-letters-input', _this.onKeyPressApplicationText);
             $("#primary_options_container").on('blur', 'input.app-letters-input', _this.onBlurApplicationText);
+            $("#primary_options_container").on('click', '.select-font-style', _this.onCreateFontPopUp);
             $("#primary_options_container").on('click', 'a.fontStyleLeft, a.fontStyleRight', _this.onChangeFontStyle);
             $("#primary_options_container").on('click', '.change-free-app', _this.onChangeFreeApplication);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', _this.onChangeAccentColor);
@@ -175,40 +303,28 @@ ApplicationEvent.events = {
         });
     },
 
-    onChangeFontStyle: function() {
-        var _id = $(this).closest('.applicationUIBlockNew').data('application-id').toString()
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+    onCreateFontPopUp: function() {
+        var app_code = $(this).data('application-code');
+        var settingsObj = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
 
-        var _direction = $(this).data('direction');
-        var _newFont = ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
+        if (typeof settingsObj !== "undefined") {
+            var sample_text = "Sample Text";
 
-        if (typeof _newFont !== 'undefined') {
-            ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
-            // ub.funcs.activateApplications(_settingsObject.code)
-            $(this).parent().parent().find('.font_name').text(_newFont.caption)
-            $(this).parent().parent().find('.font_name').css('font-family', _newFont.name)
+            if (!_.isEmpty($('input.app-letters-input').val())) {
+                sample_text = $('input.app-letters-input').val();
+            }
+
+            ApplicationEvent.createFontPopup(sample_text, settingsObj);
         } else {
-            // No Font!
-            return;
+            console.log("Error: Application code " + app_code + " is invalid code.");
         }
+    },
 
-        if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
-            _.each(ub.current_material.settings.applications, function (_application) {
-                if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
-                    if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-                        ub.funcs.changeFontFromPopup(_newFont.id, _application);
-                    }
-                }
-            });
-        }
+    onChangeFontStyle: function() {
+        var id = $(this).closest('.applicationUIBlockNew').data('application-id');
+        var direction = $(this).data('direction');
 
-        var _matchingID = undefined;
-        _matchingID = ub.data.matchingIDs.getMatchingID(_id);
-
-        if (typeof _matchingID !== "undefined") {
-            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-        }
+        ApplicationEvent.changeFontStyle(id, direction);
     },
 
     onChangeFreeApplication: function() {

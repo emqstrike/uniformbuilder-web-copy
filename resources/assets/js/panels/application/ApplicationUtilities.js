@@ -351,6 +351,7 @@ $(function() {
             type: _type,
             fontStyle: _settingsObject.font_obj.name,
             fontCaption: _settingsObject.font_obj.caption,
+            code: _settingsObject.code
         }
 
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-font-styles-container', templateData);
