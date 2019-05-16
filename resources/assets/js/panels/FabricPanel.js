@@ -461,7 +461,7 @@ FabricPanel.getInsertFabric = function() {
 
 FabricPanel.getGussetFabric = function() {
     if (ub.funcs.is_lower() && (ub.funcs.is_pts_signature() || ub.funcs.is_pts_pro_select())) {
-        return "Gusset Panels is made from Matrix Mesh";
+        return "Gusset Panel is made from Matrix Mesh";
     }
 
     return null;
