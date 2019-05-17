@@ -76,7 +76,7 @@
         <div class="con-select con-palettes">
             <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-piping-color-container" uk-grid>
                 <div class="pattern-color-button-container">
-                    <button class="uk-inline box-palette btn-selection-choice palette-color pattern-color-selector-button piping-color-selector-button none-color palette palette-blank"
+                    <button class="uk-inline box-palette btn-selection-choice palette-color piping-color-selector-button none-color palette palette-blank"
                         style="background-color: #ffff"
                         data-modifier="@{{ modifier }}"
                         data-color-code="none"
@@ -86,7 +86,7 @@
                 </div>
                 @{{#colors}}
                     <div class="pattern-color-button-container">
-                        <button class="uk-inline box-palette btn-selection-choice palette-color pattern-color-selector-button palette piping-color-selector-button"
+                        <button class="uk-inline box-palette btn-selection-choice palette-color palette piping-color-selector-button"
                             style="background-color: #@{{ hex_code }};"
                             data-color-name="@{{ name}}"
                             data-color-code="@{{ color_code }}"
