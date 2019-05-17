@@ -47,6 +47,7 @@ PropertiesPanel.prototype = {
     initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
         ub.data.partsLocation = [];
+        var patterns = ub.funcs.getPatternList();
         _.map(this.modifiers, function(modifier) {
             if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
                 modifier.alias = modifier.name.replace(" Body", "");
@@ -58,7 +59,12 @@ PropertiesPanel.prototype = {
             var titleNameFirstMaterial = _names[0].toTitleCase();
             var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-            modifier.hasPattern = (_settingsObject.has_pattern) ? true : false;
+            if (_settingsObject.has_pattern) {
+                modifier.hasPattern = true;
+                modifier.patterns = ub.funcs.getPatternList();
+            } else {
+                modifier.hasPattern = false;
+            }
 
             // Check if the part has limited color set
             var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modifier.name);

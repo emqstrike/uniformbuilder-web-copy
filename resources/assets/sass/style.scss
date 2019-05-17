@@ -242,8 +242,8 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   border-radius: 0px;
 }
 .palette {
-  height: 35px !important;
-  width: 35px !important;
+  height: 30px !important;
+  width: 30px !important;
   display: block !important;
   border: 1px solid #aaaaaa !important;
 }
@@ -789,3 +789,6 @@ tr.active {
     content: ", ";
   }
 }
+
+
+// Parts

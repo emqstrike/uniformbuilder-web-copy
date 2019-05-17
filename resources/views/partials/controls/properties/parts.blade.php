@@ -14,6 +14,10 @@
                 </div>
             @{{ /parts }}
         </div>
+
+        <div class="parts-modifier-panel">
+
+        </div>
     </div>
 </script>
 
@@ -107,7 +111,6 @@
         </li>
     @{{ /layers }}
 </script>
-
 
 <script type="text/mustache" id="m-parts-modifier">
     <div class="con-select con-palettes w-btn-toggle">

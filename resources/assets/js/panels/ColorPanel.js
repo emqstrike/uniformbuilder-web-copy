@@ -27,21 +27,25 @@ ColorPanel.prototype = {
 
     onSelectLocation: function() {
         var that = this;
-
         $(".modifier_main_container").on("click", "#primary_options_colors .jersey-location-buttons", function() {
             var fullname = $(this).data("modifier-fullname");
             var name = $(this).data("modifier-name");
             var modifierObject = _.find(ub.data.partsLocation, {fullname: fullname});
 
             if (typeof modifierObject !== "undefined") {
-                console.log(modifierObject)
+                var html = ub.utilities.buildTemplateString('#m-parts-modifier', modifierObject);
+                $("#primary_options_colors .parts-modifier-panel").html("");
+                $("#primary_options_colors .parts-modifier-panel").html(html);
+
+                $("#primary_options_colors .jersey-location-buttons.uk-active").removeClass("uk-active");
+                $(this).addClass("uk-active")
             }
-        })
+        });
     },
 
     onSelect: function() {
         var _this = this;
-        $(".color-container-button").on('click', '.color-selector-button', function(event) {
+        $(".modifier_main_container").on('click', '.parts-modifier-panel .color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');
