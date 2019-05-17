@@ -184,11 +184,8 @@ $(document).ready(function(){
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
-        $('.sport').val('none');
-        $('.sport').trigger('change');
-        $('.block-pattern-val').val('');
+        $('.sport').val('');
         $('#block_pattern').val('');
-        $('.neck-option-val').val('');
         $('#neck_option').val('');
         $('.input-thumbnail').val('');
         $('.input-piping-set').val('');
