@@ -86,7 +86,14 @@
                             <td class="col-md-1">{{ $item->sport_name }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
                             <td class="col-md-1">{{ $item->bp_name }} <input type="hidden" name="" class="td-item-block-pattern" value="{{ $item->block_pattern}}"></td>
                             <td class="td-item-block-pattern-option col-md-1">{{ $item->block_pattern_option }}</td>
-                            <td class="td-item-thumbnail col-md-1">{{ $item->thumbnail }}</td>
+                            <td class="col-md-1">
+                                <input type="hidden" name="" class="td-item-thumbnail" value="{{ $item->thumbnail }}">
+                                @if (! is_null($item->thumbnail) && $item->thumbnail !== '' )
+                                <a href="{{ $item->thumbnail }}" target="_blank">
+                                    <span class="fa fa-image"></span>
+                                </a>
+                                @endif
+                            </td>
                             <td class="td-item-piping-set col-md-1">{{ $item->piping_set }}</td>
                             <td class="td-item-alias col-md-1">{{ $item->alias_name }}</td>
                             <td class="col-md-2">
@@ -210,7 +217,7 @@ $(document).ready(function(){
         data.block_pattern = parentEl.find('.td-item-block-pattern').val();
         data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
         data.alias_name = parentEl.find('.td-item-alias').text();
-        data.thumbnail = parentEl.find('.td-item-thumbnail').text();
+        data.thumbnail = parentEl.find('.td-item-thumbnail').val();
         data.piping_set = parentEl.find('.td-item-piping-set').text();
         console.log(data.block_pattern_option);
         if(data.thumbnail != '') {
