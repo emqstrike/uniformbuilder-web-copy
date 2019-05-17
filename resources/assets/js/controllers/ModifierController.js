@@ -73,8 +73,9 @@ ModifierController.prototype = {
         FabricPanel.applyDefaultLayerLevel();
 
         // parts
-        this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
-
+        // this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
+        this.controllers.parts = new PartPanel('m-parts-no-scroll', ub.modifierController.propertiesPanel.parts);
+        
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             this.controllers.pipings = new RandomFeedPanel('random-feeds-list');

@@ -25,6 +25,20 @@ ColorPanel.prototype = {
         return panel;
     },
 
+    onSelectLocation: function() {
+        var that = this;
+
+        $(".modifier_main_container").on("click", "#primary_options_colors .jersey-location-buttons", function() {
+            var fullname = $(this).data("modifier-fullname");
+            var name = $(this).data("modifier-name");
+            var modifierObject = _.find(ub.data.partsLocation, {fullname: fullname});
+
+            if (typeof modifierObject !== "undefined") {
+                console.log(modifierObject)
+            }
+        })
+    },
+
     onSelect: function() {
         var _this = this;
         $(".color-container-button").on('click', '.color-selector-button', function(event) {

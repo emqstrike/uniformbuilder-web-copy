@@ -46,6 +46,7 @@ PropertiesPanel.prototype = {
 
     initModifiers: function() {
         this.modifiers = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+        ub.data.partsLocation = [];
         _.map(this.modifiers, function(modifier) {
             if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
                 modifier.alias = modifier.name.replace(" Body", "");
@@ -93,6 +94,8 @@ PropertiesPanel.prototype = {
                     modifier.hasGradient = false;
                 }
             }
+
+            ub.data.partsLocation.push(modifier);
         });
     },
 
@@ -131,6 +134,7 @@ PropertiesPanel.prototype = {
         this.panels.colors.onSelect();
         this.panels.patterns.onSelect();
         if (PropertiesPanel.is_bind_events_called === 0) {
+            this.panels.colors.onSelectLocation();
             this.panelTracker();
             this.panels.patterns.onOpenModalPatternModifier();
             this.panels.patterns.onSelectColorPerCategory();
