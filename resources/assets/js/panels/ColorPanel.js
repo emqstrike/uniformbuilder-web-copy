@@ -40,14 +40,10 @@ ColorPanel.prototype = {
                 $("#primary_options_colors .parts-modifier-panel").html("");
                 $("#primary_options_colors .parts-modifier-panel").html(html);
 
-                $("#primary_options_colors .jersey-location-buttons.uk-active").removeClass("uk-active");
-                $(this).addClass("uk-active")
-
                 var materialObject = _.find(currentMaterials, {code: modifierObject.fullname});
                 if (typeof materialObject !== "undefined") {
                     var patternObject = materialObject.pattern;
                     var gradientObject = materialObject.gradient;
-
                     var color_container = $("#primary_options_colors .parts-modifier-panel .color-selector-button[data-color-label='"+ materialObject.colorObj.color_code +"']");
                     if (color_container.length > 0) {
                         that.addCheckOnSelectedColor(color_container, materialObject.colorObj.color_code);
@@ -66,6 +62,9 @@ ColorPanel.prototype = {
                         gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         gradientContainer.addClass('active-pattern');
                     }
+
+                    $("#primary_options_colors .jersey-location-buttons.uk-active").removeClass("uk-active");
+                    $(this).addClass("uk-active")
                 }
             }
         });

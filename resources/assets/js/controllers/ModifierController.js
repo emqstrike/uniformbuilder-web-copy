@@ -195,11 +195,13 @@ ModifierController.prototype = {
         var part_panel = ub.modifierController.controllers.parts.getPanel();
         ub.modifierController.propertiesPanel.setBodyPanel(part_panel);
 
-        if (ub.current_part === 0) {
-            $(".modifier_main_container #primary_options_colors .jersey-location-buttons").first().trigger("click");
-        } else {
-            $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ ub.current_part +"']").trigger("click");
-        }
+        _.delay(function() {
+            if (ub.current_part === 0) {
+                $(".modifier_main_container #primary_options_colors .jersey-location-buttons").first().trigger("click");
+            } else {
+                $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ ub.current_part +"']").trigger("click");
+            }
+        }, 500)
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();

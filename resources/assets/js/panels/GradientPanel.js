@@ -95,7 +95,14 @@ GradientPanel.events = {
         var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
         var modifierTitle = ub.utilities.titleCase(modifier);
         var items = ub.data.gradientColorLayerFilter.getColors();
-        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        var gradientObjectSettings = undefined;
+
+        if (modifierTitle.includes("Sleeve")) {
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject("Right Sleeve");
+        } else {
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        }
+
         var colors = [];
         var colors2 = [];
         var firstLayer = _.find(gradientObjectSettings.layers, {layer: 1});
