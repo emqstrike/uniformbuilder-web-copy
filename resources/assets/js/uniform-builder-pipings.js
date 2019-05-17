@@ -187,6 +187,7 @@ $(document).ready(function () {
         if (typeof ub.current_material.settings.pipings[set] === "undefined") {
 
             ub.current_material.settings.pipings[set] = {
+                set: set,
                 size: '',
                 enabled: 0,
                 numberOfColors: 0,
@@ -468,6 +469,7 @@ $(document).ready(function () {
         var modifier = activePipingSet.set.toLowerCase().replace(/ /g, "-");
         var _template   = $('#m-piping-colors-new').html();
         var _colorArray = ub.funcs.getPipingColorArray(activePipingSet);
+
         var _data = {
             colors: _colorArray,
             modifier: modifier,

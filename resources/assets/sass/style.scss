@@ -549,7 +549,7 @@ button[data-color-label="W"].palette {
 
 
 #right-main-window.pane-main-window {
-  height: 550px !important;
+  height: 650px !important;
   background-color: white !important;
   border: 1px solid #e6e6e6 !important;
   width: 500px !important;
@@ -787,5 +787,39 @@ tr.active {
 
   .comma:not(:first-child):before {
     content: ", ";
+  }
+}
+
+
+// Piping CSS
+img.piping-images {
+  height: 110px !important;
+}
+
+.piping-color-list .palette {
+  height: 30px !important;
+  width: 30px !important;
+  display: block !important;
+  border: 1px solid #aaaaaa !important;
+}
+
+
+.piping-image .piping-image-button.selected div {
+  border: 1px solid $color-dark;
+}
+
+.piping-image .piping-image-button.uk-active div {
+  border: 1px solid $color-red;
+
+  
+}
+
+.piping-image img {
+  filter:opacity(60%);
+}
+
+.piping-image .piping-image-button.selected,.uk-active {
+  img {
+    filter:opacity(100%);
   }
 }

@@ -234,7 +234,7 @@ RichardsonSkin.funcs = {
         });
 
         $("div#right-pane-column").css({
-            "top": ub.config.isHeaderVisible ? '220px' : "100px",
+            "top": ub.config.isHeaderVisible ? '220px' : "60px",
             "right": "100px"
         });
     },
