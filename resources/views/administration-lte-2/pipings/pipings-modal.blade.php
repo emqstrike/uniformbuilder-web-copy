@@ -54,6 +54,9 @@
                       <option value="Set-in Piping">Set-in Piping</option>
                       <option value="Sleeve Piping 1 inch up">Sleeve Piping 1 inch up</option>
                       <option value="Yoke Piping">Yoke Piping</option>
+                      <option value="Back Insert Piping">Back Insert Piping</option>
+                      <option value="Pant Piping">Pant Piping</option>
+                      <option value="Tunnel Piping">Tunnel Piping</option>
                     </select>
                   </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
