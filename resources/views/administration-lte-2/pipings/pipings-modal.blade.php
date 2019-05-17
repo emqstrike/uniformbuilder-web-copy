@@ -56,6 +56,10 @@
                       <option value="Tunnel Piping">Tunnel Piping</option>
                     </select>
                   </div>
+                  <div class="form-group">
+                    <label>Alias</label>
+                    <input type="text" name="alias_name" class="form-control input-alias" required>
+                  </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>

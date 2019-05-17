@@ -73,6 +73,7 @@
                             <th>Block Pattern Option</th>
                             <th>Thumbnail</th>
                             <th>Piping Set</th>
+                            <th>Alias</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -87,6 +88,7 @@
                             <td class="td-item-block-pattern-option col-md-1">{{ $item->block_pattern_option }}</td>
                             <td class="td-item-thumbnail col-md-1">{{ $item->thumbnail }}</td>
                             <td class="td-item-piping-set col-md-1">{{ $item->piping_set }}</td>
+                            <td class="td-item-alias col-md-1">{{ $item->alias_name }}</td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
@@ -105,6 +107,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -180,8 +183,9 @@ $(document).ready(function(){
         $('#block_pattern').val('');
         $('.neck-option-val').val('');
         $('#neck_option').val('');
-        $('.input-item-thumbnail').val('');
-        $('.input-item-piping-set').val('');
+        $('.input-thumbnail').val('');
+        $('.input-piping-set').val('');
+        $('.input-alias').val('');
         $('.thumbnail-prev').empty();
         $('.submit-new-record').removeAttr('disabled');
     });
@@ -205,6 +209,7 @@ $(document).ready(function(){
         data.sport = parentEl.find('.td-item-sport').val();
         data.block_pattern = parentEl.find('.td-item-block-pattern').val();
         data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
+        data.alias_name = parentEl.find('.td-item-alias').text();
         data.thumbnail = parentEl.find('.td-item-thumbnail').text();
         data.piping_set = parentEl.find('.td-item-piping-set').text();
         console.log(data.block_pattern_option);
@@ -222,6 +227,7 @@ $(document).ready(function(){
         $('.input-block-pattern').val(data.block_pattern).trigger('change');;
         $('.input-option').val(data.block_pattern_option);
         $('.input-piping-set').val(data.piping_set);
+        $('.input-alias').val(data.alias_name);
 
     });
 
@@ -232,6 +238,7 @@ $(document).ready(function(){
         data.block_pattern = $('.input-block-pattern').val();
         data.block_pattern_option = $('.input-option').val();
         data.piping_set = $('.input-piping-set').val();
+        data.alias_name = $('.input-alias').val();
 
         var formData = new FormData();
         var th_file = null;
