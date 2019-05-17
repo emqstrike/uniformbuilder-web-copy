@@ -8,6 +8,7 @@
                 <div class="uk-width-1-5@s">
                     <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice jersey-location-buttons uk-text-capitalize uk-text-truncate" uk-tooltip="title: @{{ alias }}; pos: left;" 
                     data-modifier-fullname="@{{ fullname }}"
+                    data-modifier-index="@{{ index }}"
                     data-modifier-name="@{{ name }}">
                         @{{ alias }}
                     </a>
@@ -114,7 +115,7 @@
 
 <script type="text/mustache" id="m-parts-modifier">
     <div class="con-select con-palettes w-btn-toggle">
-        <h6 class="uk-margin-small uk-margin-remove-horizontal uk-text-uppercase">Color</h6>
+        <h6 class="uk-margin-small-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-uppercase">Color</h6>
         <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-color conAutoSelect color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" uk-grid>
             @{{#colors}}
                 <div class="color-container-button">
