@@ -29,7 +29,6 @@
                       <select name="block_pattern_id" class="form-control input-block-pattern" id="block_pattern" style="width: 100%;" required>
                       </select>
                   </div>
-                  <textarea name="block_patterns_data" style="display:none;" id="block_patterns_data"></textarea>
                   <div class="form-group">
                     <label class="control-label">Block Pattern Option</label>
                       <select class="form-control input-option" name="neck_option" id="neck_option" style="width: 100%;" required="true">
