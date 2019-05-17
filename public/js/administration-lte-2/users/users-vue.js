@@ -252,8 +252,6 @@ new Vue({
                     url += "&role=" + this.selectedFilterRole;
                 }
 
-                console.log(url);
-
                 axios.get(url).then((response) => {
                     if (response.data.success === true) {
                         let users = response.data.users.data;

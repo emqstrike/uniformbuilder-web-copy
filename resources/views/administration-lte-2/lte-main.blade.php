@@ -72,6 +72,7 @@
                 window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
                 window.accessToken = "{{ Session::get('accessToken') }}";
                 window.app_url = "{{ env('APP_URL') }}";
+                window.application_brand = "{{ env('BRAND') }}";
                 
                 @if (Session::get('isLoggedIn'))
                     window.loggedInUser = {{ Session::get('userId') }};

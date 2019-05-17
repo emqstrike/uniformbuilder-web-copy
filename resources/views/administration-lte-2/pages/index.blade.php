@@ -28,52 +28,45 @@
 
                         <h1>Pages</h1>
 
-                        <button class='btn btn-flat btn-xs btn-success add-page'>
+                        <button class='btn btn-flat btn-xs btn-success' @click="createPage()">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add a page
                         </button>
                     </div>
 
                     <div class="box-body">
-                        @include('administration.partials.flash-message')
+                        <v-app id="inspire">
+                            @include('administration-lte-2.partials.components.loading-dialog')
 
-                        <table data-toggle='table' class="data-table table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Page Name</th>
-                                    <th>Brand</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+                            <div>
+                                @include('administration-lte-2.pages.modal.page-modal')
 
-                            <tbody>
-                                @if ($pages)
-                                    @foreach ($pages as $page)
-                                        <tr>
-                                            <td class="page-code">{{ $page->code }}</td>
-                                            <td class="page-name">{{ $page->page_name }}</td>
-                                            <td>{{ $page->brand }}</td>
-                                            <td>
-                                                <button class="btn btn-flat btn-primary btn-xs edit-page" data-page-id="{{ $page->id }}"  role="button">
-                                                    <i class="glyphicon glyphicon-edit"></i>
-                                                    Edit
-                                                </button>
+                                <v-data-table ref="pageTable" :headers="headers" :items="pages" hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
+                                    <template slot="items" slot-scope="props">
+                                        <td>@{{ props.item.id }}</td>
+                                        <td>@{{ props.item.code }}</td>
+                                        <td>@{{ props.item.page_name }}</td>
+                                        <td>@{{ props.item.brand }}</td>
+                                        <td>
+                                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(props.item)">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                                Edit
+                                            </button>
 
-                                                <button class="btn btn-flat btn-danger btn-xs delete-page" data-page-id="{{ $page->id }}" role="button">
-                                                    <i class="glyphicon glyphicon-trash"></i>
-                                                    Remove
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="3">No pages found</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                                            <button class="btn btn-flat btn-danger btn-xs" @click="remove(props)">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                Remove
+                                            </button>
+
+                                        </td>
+                                    </template>
+                                </v-data-table>
+
+                                <div class="text-xs-center pt-2">
+                                    <v-pagination v-model="pagination.page" :length="paginationPages" :total-visible="10"></v-pagination>
+                                </div>
+                            </div>
+                        </v-app>
                     </div>
                 </div>
             </div>

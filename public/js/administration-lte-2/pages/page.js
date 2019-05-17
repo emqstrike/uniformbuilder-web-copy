@@ -1,178 +1,203 @@
-$(document).ready(function() {
-    $('.data-table').DataTable({
-        'paging': true,
-        'searching': true
-    });
+new Vue({
+    el: '#application-container',
+    data: function() {
+        return {
+            action: null,
+            dialog: true,
+            errors: [],
+            headers: [
+                {text: 'ID', value: 'id'},
+                {text: 'Code', value: 'code'},
+                {text: 'Page Name', value: 'page_name'},
+                {text: 'Brand', value: 'brand'},
+                {text: 'Action', value: ''}
+            ],
+            page: {},
+            pageCache: {},
+            pageDialog: false,
+            pages: [],
+            pagination: {
+                page: 1,
+                rowsPerPage: 10,
+            },
+            totalItems: 0,
+        }
+    },
+    mounted() {
+        this.getData();
+    },
+    computed: {
+        computedPagination: {
+            get: function() {
+                return this.pagination
+            },
+            set: function(value) {
+                this.$emit('update:pagination', value)
+            }
+        },
+        paginationPages: function() {
+            if ((this.pagination.rowsPerPage == null) || (this.totalItems == null)) {
+                return 0;
+            }
 
-    $('body').on('click', '.delete-page', function() {
-        var pageId = $(this).data('page-id');
-        var url = "//" + api_host + "/api/page/" + pageId + "/delete/";
+            return Math.ceil(this.totalItems / this.pagination.rowsPerPage);
+        },
+    },
+    watch: {
+        pagination: {
+            handler: function() {
+                this.getData();
+            },
+            deep: true
+        },
+    },
+    methods: {
+        cancel(page) {
+            Object.assign(page, this.pageCache);
+            this.pageDialog = false;
+            this.errors = [];
+        },
+        createPage() {
+            this.action = 'add';
+            this.pageDialog = true;
+            this.page = {};
+        },
+        edit(page) {
+            this.action = "edit";
+            this.page = page;
+            this.pageCache = Object.assign({}, page);
+            this.pageDialog = true;
+        },
+        getData() {
+            this.getDataFromAPI().then(data => {
+                this.pages = data.pages;
+                this.totalItems = data.total;
+            });
+        },
+        getDataFromAPI() {
+            this.dialog = true;
 
-        var confirmation = confirm('Are you sure you want to delete this page?');
+            return new Promise((resolve, reject) => {
+                const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-        if (confirmation == true) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                headers: {"accessToken": atob(headerValue)},
-                contentType: 'application/json',
-                success: function(response) {
-                    if (response.success == true) {
-                        location.reload();
+                axios.get('pages/get_by_brand/' + window.application_brand + '?page=' + page).then((response) => {
+                    if (response.data.success === true) {
+                        let pages = response.data.pages.data;
+                        const total = response.data.pages.total;
 
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-                    } else {
-                        new PNotify({
-                            title: 'Error',
-                            text: response.message,
-                            type: 'error',
-                            hide: true
-                        });
+                        setTimeout(() => {
+                            this.dialog = false;
+                            resolve({pages, total});
+                        }, 1000);
                     }
+                });
+            });
+        },
+        remove(page) {
+            let remove = confirm('Are you sure you want to remove this page?');
+
+            if (remove === true) {
+                this.dialog = true;
+
+                axios.get('page/' + page.item.id + '/delete').then((response) => {
+                    if (response.data.success === true) {
+                        this.$delete(this.pages, page.index);
+
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            this.getData();
+
+                            new PNotify({
+                                title: 'Page removed',
+                                type: 'success',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'Page failed to remove',
+                                type: 'error',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }
+                });
+            }
+        },
+        savePage(page) {
+            this.dialog = true;
+
+            axios.post('page', page).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.dialog = this.pageDialog = false;
+
+                        new PNotify({
+                            title: 'Page saved',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Page failed to save',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
+        },
+        updatePage(page) {
+            this.dialog = true;
+
+            axios.patch('page/' + page.id + '/update', page).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.dialog = this.pageDialog = false;
+                        this.errors = [];
+
+                        new PNotify({
+                            title: 'Page updated',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Page failed to update',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
                 }
             });
         }
-    });
-
-    $('body').on('click', '.edit-page', function() {
-        var id = $(this).data('page-id');
-        var name = $(this).closest('tr').find('.page-name').text();
-        var code = $(this).closest('tr').find('.page-code').text();
-
-        $('#add-edit-page h4').text('Edit Page');
-
-        $('#add-edit-page .input-page-id').val(id);
-        $('#add-edit-page .input-page-name').val(name);
-        $('#add-edit-page .input-page-code').val(code);
-
-        $('#add-edit-page .btn-primary').addClass('update-page');
-
-        $('#add-edit-page').modal('show');
-    });
-
-    $('.add-page').click(function() {
-        $('#add-edit-page h4').text('Add Page');
-        $('#add-edit-page .btn-primary').addClass('save-page');
-        $('#add-edit-page').modal('show');
-    });
-
-    $('body').on('click', '.update-page', function() {
-        $('#add-edit-page .alert-danger').fadeOut().empty();
-        
-        var id =  $('#add-edit-page .input-page-id').val();
-
-        var data = {
-            page_name: $('#add-edit-page .input-page-name').val(),
-            code: $('#add-edit-page .input-page-code').val(),
-            brand: $('#add-edit-page .input-page-brand').val()
-        }
-
-        var url = "//" + api_host + "/api/page/" + id + "/update/";
-
-        $.ajax({
-            url: url,
-            type: 'PATCH',
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json',
-            success: function(response) {
-                if (response.errors != undefined) {
-                    var html = "<ul>";
-
-                    $.each(response.errors, function(key, value) {
-                        html += "<li>" + value + "</li>";
-                    });
-
-                    html += "</ul>";
-
-                    $('#add-edit-page .alert-danger').append(html).fadeIn();
-                } else {
-                    if (response.success == true) {
-                        location.reload();
-
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-                    } else {
-                        new PNotify({
-                            title: 'Error',
-                            text: response.message,
-                            type: 'error',
-                            hide: true
-                        });
-                    }
-                }
-            }
-        });
-    });
-
-    $('body').on('click', '.save-page', function() {
-        $('#add-edit-page .alert-danger').fadeOut().empty();
-
-        var data = {
-            page_name: $('#add-edit-page .input-page-name').val(),
-            code: $('#add-edit-page .input-page-code').val(),
-            brand: $('#add-edit-page .input-page-brand').val()
-        }
-
-        var url = "//" + api_host + "/api/page/";
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json',
-            success: function(response) {
-                if (response.errors != undefined) {
-                    var html = "<ul>";
-
-                    $.each(response.errors, function(key, value) {
-                        html += "<li>" + value + "</li>";
-                    });
-
-                    html += "</ul>";
-
-                    $('#add-edit-page .alert-danger').append(html).fadeIn();
-                } else {
-                    if (response.success == true) {
-                        location.reload();
-
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-                    } else {
-                        new PNotify({
-                            title: 'Error',
-                            text: response.message,
-                            type: 'error',
-                            hide: true
-                        });
-                    }
-                }
-            }
-        });
-    });
-
-    $('#add-edit-page').on('hidden.bs.modal', function (e) {
-        $('#add-edit-page .btn-primary').removeClass('update-page');
-        $('#add-edit-page .btn-primary').removeClass('save-page');
-
-        $('#add-edit-page .input-page-id').val('');
-        $('#add-edit-page .input-page-name').val('');
-        $('#add-edit-page .input-page-code').val('');
-    });
+    }
 });
-
-   

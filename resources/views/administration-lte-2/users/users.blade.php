@@ -58,7 +58,7 @@
                     <div class="box-body">
                         <div id="app">
                             <v-app id="inspire">
-                                @include('administration-lte-2.users.components.loading-dialog')
+                                @include('administration-lte-2.partials.components.loading-dialog')
                                 @include('administration-lte-2.users.components.allowed-pages-dialog')
 
                                 <div>
@@ -85,7 +85,7 @@
                                     </v-data-table>
 
                                     <div class="text-xs-center pt-2">
-                                        <v-pagination v-model="pagination.page" :length="pages" :total-visible="15"></v-pagination>
+                                        <v-pagination v-model="pagination.page" :length="pages" :total-visible="10"></v-pagination>
                                     </div>
                                 </div>
                             </v-app>
