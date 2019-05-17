@@ -20,6 +20,8 @@ new Vue({
                 page: 1,
                 rowsPerPage: 10,
             },
+            search: "",
+            searchPageFilter: 'name',
             totalItems: 0,
         }
     },
@@ -57,6 +59,12 @@ new Vue({
             this.pageDialog = false;
             this.errors = [];
         },
+        clearSearchPages() {
+            this.search = "";
+            this.searchPageFilter = "name";
+            this.pagination.page = 1;
+            this.getData();
+        },
         createPage() {
             this.action = 'add';
             this.pageDialog = true;
@@ -80,7 +88,19 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                axios.get('pages/get_by_brand/' + window.application_brand + '?page=' + page).then((response) => {
+                var url = "pages/get_by_brand/" + window.application_brand + "?page=" + page;
+
+                if (this.search) {
+                    if (this.searchPageFilter == 'name') {
+                        url += "&name=" + this.search;
+                    } else if (this.searchPageFilter == 'code') {
+                        url += "&code=" + this.search;
+                    } else if (this.searchPageFilter == 'id') {
+                        url += "&id=" + this.search;
+                    }
+                }
+
+                axios.get(url).then((response) => {
                     if (response.data.success === true) {
                         let pages = response.data.pages.data;
                         const total = response.data.pages.total;
@@ -163,6 +183,10 @@ new Vue({
                     }, 1000);
                 }
             });
+        },
+        searchPage() {
+            this.pagination.page = 1;
+            this.getData();
         },
         updatePage(page) {
             this.dialog = true;

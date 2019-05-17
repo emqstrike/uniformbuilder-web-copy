@@ -47,7 +47,7 @@
                                         <option value="id">ID</option>
                                     </select>
 
-                                    <input type="text" class="form-control" v-model="search">
+                                    <input type="text" class="form-control" v-model="search" v-on:keyup.enter="searchUsers()">
                                     <button class="btn btn-flat btn-primary" @click="searchUsers()">Search</button>
                                     <button class="btn btn-flat btn-default" @click="clearSearchUsers()">Clear</button>
                                 </div>

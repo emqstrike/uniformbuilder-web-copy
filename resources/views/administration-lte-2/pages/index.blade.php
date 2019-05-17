@@ -26,12 +26,33 @@
                     <div class="box-header">
                         @section('page-title', 'Pages')
 
-                        <h1>Pages</h1>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h1>Pages</h1>
 
-                        <button class='btn btn-flat btn-xs btn-success' @click="createPage()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            Add a page
-                        </button>
+                                <button class='btn btn-flat btn-xs btn-success' @click="createPage()">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    Add a page
+                                </button>
+                            </div>
+
+                            <div id="filter-container" class="col-md-8 text-right" style="margin-top: 20px;">
+                                <div class="form-inline">
+                                    <label>Search page by:</label>
+
+                                    <select v-model="searchPageFilter" class="form-control">
+                                        <option value="name">Name</option>
+                                        <option value="code">Code</option>
+                                        <option value="id">ID</option>
+                                    </select>
+
+                                    <input type="text" class="form-control" v-model="search" v-on:keyup.enter="searchPage()">
+
+                                    <button class="btn btn-flat btn-primary" @click="searchPage()">Search</button>
+                                    <button class="btn btn-flat btn-default" @click="clearSearchPages()">Clear</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="box-body">
