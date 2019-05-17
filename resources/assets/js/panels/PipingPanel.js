@@ -137,6 +137,16 @@ PipingPanel.events = {
         } else {
             $(".richardson-piping-ui .piping-sizes-buttons[data-size='none']").trigger("click");
         }
+
+        if (ub.config.type === "lower") {
+            if (piping_set === "Back Insert Piping") {
+                $('a.change-view[data-view="back"]').trigger('click');
+            }
+
+            if (piping_set === "Left Pant Piping") {
+                $('a.change-view[data-view="left"]').trigger('click');
+            }
+        }
     },
 
     onClickPipingColorLayer: function() {
@@ -220,17 +230,31 @@ PipingPanel.events = {
         $(".richardson-piping-ui .piping-configuration-numbers-colors").html(colorsMarkup);
 
         // Force one color when going to 1/2
-        if (piping_type === "Neck Piping") {
-            if (type === "Neck Piping 1/2") {
+        if (ub.config.type === "lower") {
+            if (type === "Back Insert Piping 1/2" || type === "Tunnel Piping 1/4" || type === "Tunnel Piping 1/2") {
                 $('.richardson-piping-ui .piping-colors-buttons').first().click();
             } else {
                 $('.richardson-piping-ui .piping-colors-buttons').last().click();
             }
-        } else {
+
             if (pipingSettingsObject.numberOfColors === 0) {
                 $('.richardson-piping-ui .piping-colors-buttons[data-type="' + lastColor.name + '"]').click();
             } else {
                 $('.richardson-piping-ui .piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]').click();
+            }
+        } else {
+            if (piping_type === "Neck Piping") {
+                if (type === "Neck Piping 1/2") {
+                    $('.richardson-piping-ui .piping-colors-buttons').first().click();
+                } else {
+                    $('.richardson-piping-ui .piping-colors-buttons').last().click();
+                }
+            } else {
+                if (pipingSettingsObject.numberOfColors === 0) {
+                    $('.richardson-piping-ui .piping-colors-buttons[data-type="' + lastColor.name + '"]').click();
+                } else {
+                    $('.richardson-piping-ui .piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]').click();
+                }
             }
         }
 

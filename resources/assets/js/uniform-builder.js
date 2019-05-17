@@ -1100,12 +1100,20 @@ $(document).ready(function () {
                 var data = [];
                 _.map(obj, function(item) {
 
-                    if (item.piping_set.includes("Raglan") || item.piping_set.includes("End of Sleeve Piping")) {
-                        item.alias = "Left " + item.piping_set;
-                    } else if (item.piping_set.includes("Sleeve Piping 1 inch up")) {
-                        item.alias = "Left Sleeve Piping 1 inch Up";
+                    if (ub.config.type === "upper") {
+                        if (item.piping_set.includes("Raglan") || item.piping_set.includes("End of Sleeve Piping")) {
+                            item.alias = "Left " + item.piping_set;
+                        } else if (item.piping_set.includes("Sleeve Piping 1 inch up")) {
+                            item.alias = "Left Sleeve Piping 1 inch Up";
+                        } else {
+                            item.alias = item.piping_set;
+                        }
                     } else {
-                        item.alias = item.piping_set;
+                        if (item.piping_set.includes("Pant Piping")) {
+                            item.alias = "Left " + item.piping_set;
+                        } else {
+                            item.alias = item.piping_set;
+                        }
                     }
 
                     data.push(item);
