@@ -49,6 +49,8 @@ PropertiesPanel.prototype = {
         _.map(this.modifiers, function(modifier) {
             if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
                 modifier.alias = modifier.name.replace(" Body", "");
+            } else if (modifier.name.includes("Back Jersey") || modifier.name.includes("Front Jersey")) {
+                modifier.alias = modifier.name.replace(" Jersey", "");
             } else {
                 modifier.alias = modifier.name;
             }
