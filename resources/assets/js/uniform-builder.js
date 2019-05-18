@@ -1099,17 +1099,16 @@ $(document).ready(function () {
             if (object_name === "piping_images" && ub.config.sport === "Baseball") {
                 var data = [];
                 _.map(obj, function(item) {
-
                     if (ub.config.type === "upper") {
-                        if (item.piping_set.includes("Raglan") || item.piping_set.includes("End of Sleeve Piping")) {
+                        if (item.piping_set === "Raglan Piping" || item.piping_set === "End of Sleeve Piping" || item.piping_set === "Set-in Piping") {
                             item.alias = "Left " + item.piping_set;
-                        } else if (item.piping_set.includes("Sleeve Piping 1 inch up")) {
+                        } else if (item.piping_set === "Sleeve Piping 1 inch up" ) {
                             item.alias = "Left Sleeve Piping 1 inch Up";
                         } else {
                             item.alias = item.piping_set;
                         }
                     } else {
-                        if (item.piping_set.includes("Pant Piping")) {
+                        if (item.piping_set === "Pant Piping") {
                             item.alias = "Left " + item.piping_set;
                         } else {
                             item.alias = item.piping_set;
@@ -1117,7 +1116,7 @@ $(document).ready(function () {
                     }
 
                     data.push(item);
-                })
+                });
 
                 ub.data[object_name] = data;
             }
