@@ -6,11 +6,13 @@
         <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center uk-child-width-1-5 con-select con-toggle active-bgc-red uk-flex uk-flex-center" uk-grid>
             @{{ #parts }}
                 <div class="location-button-container">
-                    <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice jersey-location-buttons uk-text-capitalize uk-text-truncate" uk-tooltip="title: @{{ alias }}; pos: left;" 
+                    <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice jersey-location-buttons uk-text-capitalize"
                     data-modifier-fullname="@{{ fullname }}"
                     data-modifier-index="@{{ index }}"
                     data-modifier-name="@{{ name }}">
-                        @{{ alias }}
+                        <span>
+                            @{{ alias }}
+                        </span>
                     </a>
                 </div>
             @{{ /parts }}
@@ -114,56 +116,76 @@
 </script>
 
 <script type="text/mustache" id="m-parts-modifier">
-    <div class="con-select con-palettes w-btn-toggle">
-        <h6 class="uk-margin-small-top uk-margin-small-bottom uk-margin-remove-horizontal uk-text-uppercase">Color</h6>
-        <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-color conAutoSelect color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" uk-grid>
-            @{{#colors}}
-                <div class="color-container-button">
-                    <button class="uk-inline box-palette btn-selection-choice palette-color color-selector-button palette"
-                        style="background-color: #@{{ hex_code }};"
-                        data-color-id="@{{ id }}"
-                        data-color-name="@{{ name }}"
-                        data-color-label="@{{ color_code }}"
-                        data-color-id="@{{ id }}"
-                        data-modifier-category="@{{ fullname }}"
-                        data-modifier-index="@{{ index }}"
-                        uk-tooltip="title: @{{ alias }}; pos: left;"
-                    >
-                    </button>
-                </div>
-            @{{ /colors}}
-        </div>
-        @{{#hasPattern}}
-        <h6 class="uk-margin-small uk-margin-remove-horizontal uk-text-uppercase">Pattern</h6>
-        <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-pattern pattern-main-container-@{{ fullname }}" uk-grid>
-            @{{ #patterns }}
-                <div class="pattern-container-button">
-                    <button class="uk-inline box-palette btn-selection-choice palette-pattern palette pattern-selector-button"
-                        style="background-image: url('@{{ icon }}');"
-                        data-pattern-id="@{{ id }}"
-                        data-pattern-name="@{{ name }}"
-                        data-modifier-category="@{{ fullname }}"
-                        data-modifier-index="@{{ index }}"
-                        uk-tooltip="title: @{{ name }}; pos: left;"
-                    >
-                    </button>
-                </div>
-            @{{ /patterns }}
-            @{{#hasGradient}}
-                <div class="gradient-container-button">
-                    <button class="uk-inline box-palette btn-selection-choice palette-pattern palette gradient-selector-button"
-                        style="background-image: linear-gradient(red, yellow)"
-                        data-gradient-name="gradient"
-                        data-modifier-category="@{{ fullname }}"
-                        data-modifier-index="@{{ index }}"
-                        uk-tooltip="title: Gradient; pos: left;"
-                    >
-                    </button>
-                </div>
-            @{{/hasGradient}}
-        </div>
-        <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container uk-margin-small-top">
-        </div>
-        @{{/hasPattern}}
+    <div class="uk-margin-medium-top uk-width-1-2">
+        <ul class="uk-subnav uk-subnav-pill uk-flex-center active-bgc-red pattern-color-switcher" uk-switcher="connect: .switcher-container-pattern-color">
+            <li class="uk-width-expand">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize uk-width-1-1">
+                    Color
+                </a>
+            </li>
+            @{{ #hasPattern }}
+            <li class="uk-width-expand cp-padding-tiny cp-padding-remove-vertical">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize uk-width-1-1">
+                    Pattern
+                </a>
+            </li>
+            @{{ /hasPattern }}
+        </ul>
     </div>
+    <ul class="uk-switcher switcher-container-pattern-color uk-margin">
+        <li>
+            <div class="con-select con-palettes w-btn-toggle">
+                <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-color conAutoSelect color-main-container-@{{ fullname }}" data-modifier-name="@{{ name }}" uk-grid>
+                    @{{#colors}}
+                        <div class="color-container-button">
+                            <button class="uk-inline box-palette btn-selection-choice palette-color color-selector-button palette"
+                                style="background-color: #@{{ hex_code }};"
+                                data-color-id="@{{ id }}"
+                                data-color-name="@{{ name }}"
+                                data-color-label="@{{ color_code }}"
+                                data-color-id="@{{ id }}"
+                                data-modifier-category="@{{ fullname }}"
+                                data-modifier-index="@{{ index }}"
+                                uk-tooltip="title: @{{ alias }}; pos: left;"
+                            >
+                            </button>
+                        </div>
+                    @{{ /colors}}
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="con-select con-palettes w-btn-toggle">
+                <div class="uk-grid-small grid-tiny-1 uk-grid-match uk-child-width-auto uk-text-center m-palette-pattern pattern-main-container-@{{ fullname }}" uk-grid>
+                    @{{ #patterns }}
+                        <div class="pattern-container-button">
+                            <button class="uk-inline box-palette btn-selection-choice palette-pattern palette pattern-selector-button"
+                                style="background-image: url('@{{ icon }}');"
+                                data-pattern-id="@{{ id }}"
+                                data-pattern-name="@{{ name }}"
+                                data-modifier-category="@{{ fullname }}"
+                                data-modifier-index="@{{ index }}"
+                                uk-tooltip="title: @{{ name }}; pos: left;"
+                            >
+                            </button>
+                        </div>
+                    @{{ /patterns }}
+                    @{{#hasGradient}}
+                        <div class="gradient-container-button">
+                            <button class="uk-inline box-palette btn-selection-choice palette-pattern palette gradient-selector-button"
+                                style="background-image: linear-gradient(red, yellow)"
+                                data-gradient-name="gradient"
+                                data-modifier-category="@{{ fullname }}"
+                                data-modifier-index="@{{ index }}"
+                                uk-tooltip="title: Gradient; pos: left;"
+                            >
+                            </button>
+                        </div>
+                    @{{/hasGradient}}
+                </div>
+                <div class="edit-pattern-modal-container-@{{ fullname }} pattern-modal-selector-container uk-margin-small-top">
+                </div>
+            </div>
+        </li>
+    </ul>
 </script>

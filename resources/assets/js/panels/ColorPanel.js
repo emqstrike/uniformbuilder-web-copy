@@ -63,6 +63,10 @@ ColorPanel.prototype = {
                         gradientContainer.addClass('active-pattern');
                     }
 
+                    if (patternObject.pattern_id !== "blank" && patternObject.pattern_id !== "" || typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                        UIkit.switcher(".pattern-color-switcher").show(1);
+                    }
+
                     $("#primary_options_colors .jersey-location-buttons.uk-active").removeClass("uk-active");
                     $(this).addClass("uk-active")
                 }

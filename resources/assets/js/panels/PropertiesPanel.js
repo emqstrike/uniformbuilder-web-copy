@@ -256,11 +256,17 @@ PropertiesPanel.prototype = {
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if ($("#primary_options_container ul.parts-container").length === 0) {
+                if ($("#primary_options_container #primary_options_colors").length === 0) {
                     $('#property-modifiers-menu .menu-item-parts').trigger('click');
                 }
 
-                $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ _index +"']").trigger("click");
+                var location = $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ _index +"']");
+
+                if (!location.hasClass("uk-active")) {
+                    location.trigger("click");
+                } else {
+                    return;
+                }
             }
             else
             {
