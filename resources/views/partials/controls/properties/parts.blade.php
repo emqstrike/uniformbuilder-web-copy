@@ -3,9 +3,9 @@
         <h5 uk-margin class="uk-margin-remove-vertical uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Jersey Colors</h5>
         <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Locations</h6>
 
-        <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark uk-flex uk-flex-center" uk-grid>
+        <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center uk-child-width-1-5 con-select con-toggle active-bgc-red uk-flex uk-flex-center" uk-grid>
             @{{ #parts }}
-                <div class="uk-width-1-5@s">
+                <div class="location-button-container">
                     <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice jersey-location-buttons uk-text-capitalize uk-text-truncate" uk-tooltip="title: @{{ alias }}; pos: left;" 
                     data-modifier-fullname="@{{ fullname }}"
                     data-modifier-index="@{{ index }}"
