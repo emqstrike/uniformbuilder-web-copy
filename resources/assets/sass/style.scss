@@ -804,14 +804,12 @@ img.piping-images {
 }
 
 
-.piping-image .piping-image-button.selected div {
-  border: 1px solid $color-dark;
+.piping-image .piping-image-button.selected div.border {
+  border: 1.3px solid $color-dark;
 }
 
-.piping-image .piping-image-button.uk-active div {
-  border: 1px solid $color-red;
-
-  
+.piping-image .piping-image-button.uk-active div.border {
+  border: 1.3px solid $color-red;
 }
 
 .piping-image img {
@@ -822,4 +820,8 @@ img.piping-images {
   img {
     filter:opacity(100%);
   }
+}
+
+.piping-image .piping-name {
+  font-size: 12px !important;
 }
