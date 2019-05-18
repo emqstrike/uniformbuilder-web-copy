@@ -74,6 +74,7 @@ $(document).ready(function () {
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
                 ub.current_material.fabrics = ub.config.api_host + '/api/fabrics/';
+                ub.current_material.piping_images = ub.config.api_host + '/api/v1-0/pipings';
 
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
@@ -85,6 +86,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
                 ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -1021,7 +1023,7 @@ $(document).ready(function () {
                 'application_size',
                 'single_view_applications',
                 'colors_sets',
-                'hidden_bodies'
+                'hidden_bodies',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -1094,6 +1096,32 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === "piping_images" && ub.config.sport === "Baseball") {
+                var data = [];
+                _.map(obj, function(item) {
+
+                    if (ub.config.type === "upper") {
+                        if (item.piping_set.includes("Raglan") || item.piping_set.includes("End of Sleeve Piping")) {
+                            item.alias = "Left " + item.piping_set;
+                        } else if (item.piping_set.includes("Sleeve Piping 1 inch up")) {
+                            item.alias = "Left Sleeve Piping 1 inch Up";
+                        } else {
+                            item.alias = item.piping_set;
+                        }
+                    } else {
+                        if (item.piping_set.includes("Pant Piping")) {
+                            item.alias = "Left " + item.piping_set;
+                        } else {
+                            item.alias = item.piping_set;
+                        }
+                    }
+
+                    data.push(item);
+                })
+
+                ub.data[object_name] = data;
+            }
+
             if (typeof ub.user.id !== "undefined") {
 
                 if (object_name === 'tagged_styles') {
@@ -1147,6 +1175,11 @@ $(document).ready(function () {
                         if (object_name === "tailSweeps") {
                             key = 'tailsweeps';
                         }
+
+                        if (object_name === "piping_images") {
+                            key = "pipings";
+                        }
+
                         cb(e.data.response[key], object_name);
                     }
                 }
@@ -1163,6 +1196,8 @@ $(document).ready(function () {
                     success: function (response) {
                         if (object_name === "tailSweeps") {
                             cb(response['tailsweeps'], object_name);
+                        } else if (object_name === "piping_images") {
+                            cb(response['pipings'], object_name);
                         } else {
                             cb(response[object_name], object_name);
                         }

@@ -17,6 +17,14 @@ PipingPanel.prototype = {
     },
 
     setPipingSetItems: function() {
+        var piping_images = _.filter(ub.data.piping_images, function(image) {
+            if (image.bp_name === ub.config.blockPattern && ub.config.option === image.block_pattern_option) {
+                return image;
+            }
+        });
+
+        var colors = ColorPalette.funcs.getConfigurationPerTab("piping");
+
         var piping_types = PipingPanel.getPipingTypes();
 
         var piping_set_items = _.map(piping_types, function(piping_type) {
@@ -42,7 +50,11 @@ PipingPanel.prototype = {
             };
         });
 
-        this.set_items = {piping_set_items: piping_set_items};
+        this.set_items = {
+            piping_set_items: piping_set_items,
+            images: piping_images,
+            colors: colors
+        };
     }
 };
 
@@ -55,27 +67,130 @@ PipingPanel.events = {
 
     init: function() {
         if (PipingPanel.events.is_init_events_called === 0) {
+            // Event For the Requested UI
+            $(".modifier_main_container").on("click", ".piping-image .piping-image-button", PipingPanel.events.onClickPipingImage); 
             $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-sizes-buttons", PipingPanel.events.onPipingSizeButtonClick);
             $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-colors-buttons", PipingPanel.events.onPipingColorButtonClick);
-            $(".modifier_main_container").on('click', '.richardson-piping-ui .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
-            $("#piping-change-color").on('click', '.piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
-            $("#piping-change-color").on('click', '.cancel-piping-color', PipingPanel.events.onCancelEditPiping);
-            $("#piping-change-color").on('click', '.apply-piping-color', PipingPanel.events.onApplyPipingColor);
+            $(".modifier_main_container").on('click', '.colors .piping-color-layer-btn', PipingPanel.events.onClickPipingColorLayer);
+            $(".modifier_main_container").on("click", ".richardson-piping-ui .piping-configuration-colors .piping-color-selector-button", PipingPanel.events.onChangePipingColor);
+            // $(".modifier_main_container").on('click', '.richardson-piping-ui .edit-piping-modal-button', PipingPanel.events.onShowPipingModal);
+            // $("#piping-change-color").on('click', '.piping-color-selector-button', PipingPanel.events.onSelectPipingColor);
+            // $("#piping-change-color").on('click', '.cancel-piping-color', PipingPanel.events.onCancelEditPiping);
+            // $("#piping-change-color").on('click', '.apply-piping-color', PipingPanel.events.onApplyPipingColor);
+
             PipingPanel.events.is_init_events_called = 1;
         }
     },
 
+    onChangePipingColor: function() {
+        $(".richardson-piping-ui .piping-configuration-colors .piping-color-selector-button.active-piping-color").find(".piping-check").remove();
+        $(".richardson-piping-ui .piping-configuration-colors .piping-color-selector-button.active-piping-color").removeClass("active-piping-color")
+        
+        // Get Color Object
+        var color_code = $(this).data("color-code");
+        var _colorObj = ub.funcs.getColorByColorCode(color_code);
+
+        var pipingLayerID = $(".richardson-piping-ui .colors .piping-color-layer-btn.uk-active").data("piping-layer");
+
+        var active_size_type = $('.richardson-piping-ui .sizes .piping-sizes-buttons.uk-active').data('type');
+        PipingPanel.applyPipingColor(active_size_type, pipingLayerID, _colorObj);
+
+        $(this).html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium"></span></div>');
+
+        if (color_code === 'W'
+            || color_code === 'Y'
+            || color_code === 'CR'
+            || color_code === 'S'
+            || color_code === 'PK'
+            || color_code === 'OP'
+            || color_code === 'SG'
+            || color_code === 'none'
+        ) {
+            $(this).html('<div class="cp-check-background piping-check"><span class="fa fa-check fa-1x cp-piping-check-medium cp-fc-black"></span></div>');
+        }
+
+        $(this).addClass('active-piping-color');
+    },
+
+    onClickPipingImage: function() {
+        PipingPanel.setInitialState();
+        var piping_set = $(this).data("piping-set");
+        var pipingObject = ub.funcs.getPipingSet(piping_set);
+        var sizes = ub.funcs.sortPipingSizes({items: pipingObject});
+        var active_piping_set = PipingPanel.getActivePipingSet(piping_set);
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_set);
+
+        // Render Sizes
+        var _template = document.getElementById("m-piping-configuration-sizes").innerHTML;
+        var _markup = Mustache.render(_template, {
+            sizes: sizes.items
+        });
+
+        $(".modifier_main_container .piping-configuration-size").html("");
+        $(".modifier_main_container .piping-configuration-size").html(_markup);
+
+        $(".piping-image .piping-image-button.uk-active").removeClass("uk-active");
+        $(this).addClass("uk-active");
+
+        if (pipingSettingsObject.enabled === 1 && pipingSettingsObject.size !== "") {
+            $(".richardson-piping-ui .piping-sizes-buttons[data-size='"+ pipingSettingsObject.size +"']").trigger("click");
+        } else {
+            $(".richardson-piping-ui .piping-sizes-buttons[data-size='none']").trigger("click");
+        }
+
+        if (ub.config.type === "lower") {
+            if (piping_set === "Back Insert Piping") {
+                $('a.change-view[data-view="back"]').trigger('click');
+            }
+
+            if (piping_set === "Left Pant Piping") {
+                $('a.change-view[data-view="left"]').trigger('click');
+            }
+        }
+    },
+
+    onClickPipingColorLayer: function() {
+        var layer = $(this).data("piping-layer");
+        var piping_type = $(".piping-image .piping-image-button.uk-active").data('piping-set');
+        var pipingSettingsObject = ub.funcs.getPipingSettingsObject(piping_type);
+
+        var colors = ColorPalette.funcs.getConfigurationPerTab("piping");
+        var pipping_colors_element = document.getElementById("m-piping-configuration-colors");
+        var render_piping_colors = Mustache.render(
+            pipping_colors_element.innerHTML,
+            {
+                colors: colors,
+            }
+        );
+
+        $(".richardson-piping-ui .piping-configuration-colors").html("");
+        $(".richardson-piping-ui .piping-configuration-colors").html(render_piping_colors);
+
+        $(".richardson-piping-ui .colors .piping-color-layer-btn.uk-active").removeClass("uk-active");
+        $(this).addClass("uk-active")
+
+        if (typeof pipingSettingsObject !== "undefined") {
+            var _layer = _.find(pipingSettingsObject.layers, {layer: parseInt(layer)});
+            if (typeof _layer !== "undefined") {
+                $(".richardson-piping-ui .piping-configuration-colors .piping-color-selector-button[data-color-code='"+ _layer.colorCode +"']").trigger("click");
+            }
+        }
+    },
+
     onPipingSizeButtonClick: function() {
-        var piping_el = $(this).closest('.piping-item');
         var type = $(this).data('type');
         var size = $(this).data('size');
-        var piping_type = piping_el.data('piping-type');
+        var piping_type = $(".piping-image .piping-image-button.uk-active").data('piping-set');
 
-        $(".piping-sizes-buttons", piping_el).removeClass("uk-active");
+        $(".piping-sizes-buttons.uk-active").removeClass("uk-active");
         $(this).addClass("uk-active");
 
         if (size === "none") {
             PipingPanel.disablePiping(piping_type)
+            $(".richardson-piping-ui .piping-configuration-colors").html("");
+            $(".richardson-piping-ui .piping-configuration-color-layer").html("");
+            PipingPanel.setInitialState();
+
             if (typeof ub.data.logos !== "undefined") {
                 LogoPanel.utilities.reInitiateLogo();
             }
@@ -85,7 +200,7 @@ PipingPanel.events = {
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
         var pipingObject = _.find(ub.data.pipings, {name: type});
         var colorsMarkup =  ub.funcs.getPipingColorsNew(pipingObject);
-        var firstColor = _.first(ub.funcs.getPipingColorArray(pipingObject));
+        var lastColor = _.last(ub.funcs.getPipingColorArray(pipingObject));
         var pipingSettingsObject = ub.funcs.getPipingSettingsObject(active_piping_set.set);
         var matchingPipingObject;
         var matchingPipingSettingsObject;
@@ -111,18 +226,36 @@ PipingPanel.events = {
             ub.funcs.changePipingSize(matchingPipingSettingsObject, matchingPipingObject, size);
         }
         /// End Process Matching Object
-
-        $(".piping-color-modifier-container", piping_el).html(colorsMarkup);
-
-        if (pipingSettingsObject.numberOfColors === 0) {
-            $('.piping-colors-buttons[data-type="' + firstColor.name + '"]', piping_el).click();
-        } else {
-            $('.piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]', piping_el).click();
-        }
+        $(".richardson-piping-ui .piping-configuration-numbers-colors").html("")
+        $(".richardson-piping-ui .piping-configuration-numbers-colors").html(colorsMarkup);
 
         // Force one color when going to 1/2
-        if (type === "Neck Piping 1/2") {
-            $('.piping-colors-buttons[data-value="1"]', piping_el).trigger('click');
+        if (ub.config.type === "lower") {
+            if (type === "Back Insert Piping 1/2" || type === "Tunnel Piping 1/4" || type === "Tunnel Piping 1/2") {
+                $('.richardson-piping-ui .piping-colors-buttons').first().click();
+            } else {
+                $('.richardson-piping-ui .piping-colors-buttons').last().click();
+            }
+
+            if (pipingSettingsObject.numberOfColors === 0) {
+                $('.richardson-piping-ui .piping-colors-buttons[data-type="' + lastColor.name + '"]').click();
+            } else {
+                $('.richardson-piping-ui .piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]').click();
+            }
+        } else {
+            if (piping_type === "Neck Piping") {
+                if (type === "Neck Piping 1/2") {
+                    $('.richardson-piping-ui .piping-colors-buttons').first().click();
+                } else {
+                    $('.richardson-piping-ui .piping-colors-buttons').last().click();
+                }
+            } else {
+                if (pipingSettingsObject.numberOfColors === 0) {
+                    $('.richardson-piping-ui .piping-colors-buttons[data-type="' + lastColor.name + '"]').click();
+                } else {
+                    $('.richardson-piping-ui .piping-colors-buttons[data-value="' + pipingSettingsObject.numberOfColors + '"]').click();
+                }
+            }
         }
 
         if (typeof ub.data.logos !== "undefined") {
@@ -131,15 +264,16 @@ PipingPanel.events = {
     },
 
     onPipingColorButtonClick: function(e) {
-        var piping_el = $(this).closest('.piping-item');
-        var active_size_type = $('.sizes .piping-sizes-buttons.uk-active', piping_el).data('type');
-        var size = $('.sizes .piping-sizes-buttons.uk-active', piping_el).data("size");
+        var active_size_type = $('.richardson-piping-ui .sizes .piping-sizes-buttons.uk-active').data('type');
+        var size = $('.richardson-piping-ui .sizes .piping-sizes-buttons.uk-active').data("size");
         var value = $(this).data('value');
 
-        $(".piping-colors-buttons", piping_el).removeClass("uk-active");
+        console.log(value)
+
+        $(".richardson-piping-ui .piping-colors-buttons.uk-active").removeClass("uk-active");
         $(this).addClass("uk-active");
 
-        var piping_type = piping_el.data('piping-type');
+        var piping_type = $(".piping-image .piping-image-button.uk-active").data('piping-set');
         var active_piping_set = PipingPanel.getActivePipingSet(piping_type);
 
         var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
@@ -170,7 +304,9 @@ PipingPanel.events = {
         }
         /// End Process Matching Object
 
-        $('.colorContainer', piping_el).html(colorPickerHtml);
+        var layerHTML = PipingPanel.renderLayer(value);
+        $(".richardson-piping-ui .piping-configuration-color-layer").html("");
+        $(".richardson-piping-ui .piping-configuration-color-layer").html(layerHTML);
 
         ub.funcs.initPipingColors(pipingObject, selectedColorArray[0]);
         ub.funcs.renderPipings(pipingObject, value);
@@ -183,6 +319,8 @@ PipingPanel.events = {
             ub.funcs.renderPipings(matchingPipingObject, value);
         }
         /// End Process Matching Object
+
+        $(".richardson-piping-ui .piping-configuration-color-layer .piping-color-layer-btn").first().trigger("click");
 
         if (typeof ub.data.logos !== "undefined") {
             LogoPanel.utilities.reInitiateLogo();
@@ -377,15 +515,17 @@ PipingPanel.events = {
 PipingPanel.setInitialState = function() {
     var piping_types = PipingPanel.getPipingTypes();
     _.map(piping_types, function(piping_type) {
-        var pipping_settings_object = ub.funcs.getPipingSettingsObject(piping_type);
-        var piping_item_el = $('.richardson-piping-ui .piping-item[data-piping-type="'+ piping_type +'"]');
-
-        if (pipping_settings_object.enabled === 1 && pipping_settings_object.size !== "") {
-            $('.piping-sizes-buttons[data-size="' + pipping_settings_object.size + '"]', piping_item_el).trigger('click');
+        var piping_settings_object = ub.funcs.getPipingSettingsObject(piping_type);
+        var activePiping = $(".richardson-piping-ui .piping-image .piping-image-button[data-piping-set='"+ piping_settings_object.set +"']")
+        if (piping_settings_object.enabled === 1 && piping_settings_object.size !== "") {
+            if (!activePiping.hasClass("selected")) {
+                activePiping.addClass("selected");
+            }
         } else {
-            $('.piping-sizes-buttons[data-size="none"]', piping_item_el).addClass('uk-active');
+            if (activePiping.hasClass("selected")) {
+                activePiping.removeClass("selected");
+            }
         }
-
     });
 };
 
@@ -466,11 +606,18 @@ PipingPanel.hasLeftSleeve1Inch = function() {
 
 PipingPanel.renderLayer = function(size) {
     var _html = '';
-
+    _html += '<h6 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose colors</h6>';
+    _html += '<div class="colors">';
+    _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>';
+    _html += ''    
     for (var i = 0; i < size; i++) {
         var index = i + 1;
-        _html += '<li class="uk-padding-remove" data-piping-layer="'+ index +'"><a class="uk-width-1-1 padding-tiny-vertical uk-button-default fc-dark uk-text-capitalize" >Color '+ index +'</a></li>'
+        _html += '<div class="uk-width-auto uk-width-expand@s">'
+            _html += '<a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice piping-color-layer-btn uk-text-capitalize" data-piping-layer="'+ index +'">Color '+ index +'</a>'
+        _html += '</div> '
     }
+    _html += '</div>'
+    _html += '</div>'
 
     return _html;
 }
@@ -497,55 +644,49 @@ PipingPanel.changeTempColor = function(type, layer, colorObject) {
 }
 
 
-PipingPanel.applyPipingColor = function (modifier, layers) {
-    _.each(layers, function(layer, index) {
-        var active_size_type = $('.piping-item[data-piping-modifier="'+ modifier +'"] .sizes .piping-sizes-buttons.uk-active').data('type');
-        var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
-        var _name = pipingObject.name;
+PipingPanel.applyPipingColor = function (active_size_type, layer_number, _colorObj) {
+    var pipingObject = _.find(ub.data.pipings, {name: active_size_type});
+    var _name = pipingObject.name;
 
-        var colorNumber = $('.piping-item[data-piping-modifier="'+ modifier +'"] .colors .piping-colors-buttons.uk-active').data("value");
-        var i = index + 1;
-
-        if (parseInt(colorNumber) < i) {
-            return;
+    // Get Piping Settings object
+    var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
+    if (typeof _pipingSettingsObject !== "undefined") {
+        ub.funcs.changePipingColor(_colorObj, layer_number, pipingObject);
+        var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(layer_number)});
+        if (typeof _layer !== "undefined") {
+            _layer.colorCode = _colorObj.color_code;
+            _layer.colorObj = _colorObj;
         }
+    }
 
-        // Get Piping Settings object
-        var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
-        if (typeof _pipingSettingsObject !== "undefined") {
-            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(layer.layer_no)});
-            if (typeof _layer !== "undefined") {
-                _layer.colorCode = layer.colorObject.color_code;
-                _layer.colorObj = layer.colorObject;
+
+    // Matching Piping Object and Piping Setting Object
+    var matchingPipingObject;
+    var matchingPipingSettingsObject;
+
+    if (_name.indexOf('Left') > -1) {
+        matchingName = ub.funcs.getMatchingSide(_name);
+        matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
+    }
+
+    if (_name.indexOf('Right') > -1) {
+        matchingName = ub.funcs.getMatchingSide(_name);
+        matchingPipingObject = _.find(ub.data.pipings, {_name: matchingName});
+    }
+
+    if (typeof matchingPipingObject !== 'undefined') {
+        matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
+        ub.funcs.changePipingColor(_colorObj, layer_number, matchingPipingObject);
+        
+        if (typeof matchingPipingSettingsObject !== "undefined")
+        {
+            var _matchingLayer = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(layer_number)});
+            if (typeof _matchingLayer !== "undefined") {
+                _matchingLayer.colorCode = _colorObj.color_code;
+                _matchingLayer.colorObj = _colorObj;
             }
         }
-
-        // Matching Piping Object and Piping Setting Object
-        var matchingPipingObject;
-        var matchingPipingSettingsObject;
-
-        if (_name.indexOf('Left') > -1) {
-            matchingName = ub.funcs.getMatchingSide(_name);
-            matchingPipingObject = _.find(ub.data.pipings, {name: matchingName});
-        }
-
-        if (_name.indexOf('Right') > -1) {
-            matchingName = ub.funcs.getMatchingSide(_name);
-            matchingPipingObject = _.find(ub.data.pipings, {_name: matchingName});
-        }
-
-        if (typeof matchingPipingObject !== 'undefined') {
-            matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(matchingPipingObject.set);
-            if (typeof matchingPipingSettingsObject !== "undefined")
-            {
-                var _matchingLayer = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(layer.layer_no)});
-                if (typeof _matchingLayer !== "undefined") {
-                    _matchingLayer.colorCode = layer.colorObject.color_code;
-                    _matchingLayer.colorObj = layer.colorObject;
-                }
-            }
-        }
-    });
+    }
 };
 
 PipingPanel.cancelPipingColor = function(modifier, layers) {

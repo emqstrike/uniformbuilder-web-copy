@@ -81,7 +81,7 @@ ModifierController.prototype = {
             this.controllers.pipings = new RandomFeedPanel('random-feeds-list');
             this.controllers.pipings.setRandomFeedSetItems();
         } else if (PipingPanel.isValidToProcessPipings()) { // display pipings
-            this.controllers.pipings = new PipingPanel('m-piping-sidebar-new');
+            this.controllers.pipings = new PipingPanel('m-piping-with-images');
             this.controllers.pipings.setPipingSetItems();
         }
 
