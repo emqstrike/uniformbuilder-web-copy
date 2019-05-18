@@ -12787,4 +12787,33 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.logoLocation = {
+        items: [
+            {
+                perspective: "front",
+                part: "Front Body",
+                alias: "Front",
+                side: undefined
+            },
+            {
+                perspective: "back",
+                part: "Back Body",
+                alias: "Back",
+                side: undefined
+            },
+            {
+                perspective: "left",
+                part: "Sleeve",
+                alias: "L Sleeve",
+                side: "left"
+            },
+            {
+                perspective: "right",
+                part: "Sleeve",
+                alias: "R Sleeve",
+                side: "right"
+            }
+        ]
+    }
+
 });

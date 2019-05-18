@@ -77,7 +77,8 @@ MascotPanel.init = function () {
         applications: _appData
     };
 
-    _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-mascot-uikit', props);
+    var locations = ub.data.logoLocation.items;
+    _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-panel', {locations: locations});
 
     // output to page
     $('.modifier_main_container').append(_htmlBuilder);
@@ -131,7 +132,39 @@ MascotPanel.events = {
             $('#primary_options_container').on('click', '.applicationUIBlockNew .hide-application', _this.onHideMascot);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
             $("#primary_options_container").on("click", ".applicationUIBlockNew .open-inksoft-editor", _this.onChangeEmbellishment);
+
+            $("#primary_options_container").on("click", ".logo-type-container .btn-selection-choice", _this.onSelectLogoType);
+            $("#primary_options_container").on("click", ".logo-location-container .btn-selection-choice", _this.onSelectLocation)
             MascotPanel.events.is_init = false;
+        }
+    },
+
+    onSelectLogoType: function() {
+        $(".logo-type-container .btn-selection-choice.uk-active").removeClass("uk-active");
+        $(this).addClass("uk-active");
+        
+    },
+
+    onSelectLocation: function() {
+        var _type = $(".logo-type-container .btn-selection-choice.uk-active").data("type");
+        var _perspective = $(this).data("perspective");
+        var _part = $(this).data("part");
+        var _side;
+        if (_part === "Sleeve") {
+            _side = $(this).data("side");
+        }
+
+        $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
+
+        if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
+            ub.funcs.newApplication(_perspective, _part, _type, _side);
+        } else {
+            $.smkAlert({
+                text: 'Please select logo type',
+                type: 'danger',
+                time: 10,
+                marginTop: '90px'
+            });
         }
     },
 
