@@ -30,8 +30,13 @@
             @{{ #images }}
                 <div class="piping-image">
                     <a href="javascript:void(0)" class="piping-image-button" data-piping-set="@{{ alias }}">
-                        <div class="bdr-thin bdr-gray uk-flex uk-flex-center">
-                            <img src="@{{ thumbnail }}" class="piping-images">
+                        <div class="bdr-thin bdr-gray border">
+                            <div class="uk-inline uk-width-1-1 uk-flex uk-flex-center">
+                                <img src="@{{ thumbnail }}" class="piping-images">
+                                <div class="uk-overlay uk-position-bottom cp-padding-xs bgc-dark">
+                                    <p class="uk-text-center uk-margin-remove fc-white piping-name uk-text-truncate">@{{ piping_set }}</p>
+                                </div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -58,7 +63,7 @@
 <script type="text/mustache" id="m-piping-configuration-sizes">
     <h6 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose size</h6>
     <div class="sizes">
-        <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>
+        <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-red" uk-grid>
             <div class="uk-width-auto uk-width-expand@s">
                 <a class="uk-button uk-button-small uk-width-1-1 uk-button-default btn-selection-choice piping-sizes-buttons" data-size="none">None</a>
             </div>

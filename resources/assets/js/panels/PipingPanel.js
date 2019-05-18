@@ -608,7 +608,7 @@ PipingPanel.renderLayer = function(size) {
     var _html = '';
     _html += '<h6 uk-margin class="uk-margin-small-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Choose colors</h6>';
     _html += '<div class="colors">';
-    _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-dark" uk-grid>';
+    _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select con-toggle active-bgc-red" uk-grid>';
     _html += ''    
     for (var i = 0; i < size; i++) {
         var index = i + 1;
