@@ -442,6 +442,11 @@ $(document).ready(function() {
         window.is.closeDesignStudio();
         ub.funcs.getDesignSummary(designID, applicationID);
         ub.funcs.getDesignDetails(designID, applicationID);
+        _.delay(function() {
+            var settingsObject = ub.funcs.getApplicationSettings(applicationID);
+            ub.funcs.renderStockMascot(settingsObject);
+            console.log("Render Mascot")
+        }, 2000)
     }
 
     window.is.addDesignToUniform = function (response, applicationID) {

@@ -1106,8 +1106,6 @@ $(document).ready(function () {
             ub.status.manipulatorDown = true;
 
             if (sprite.ubName === "Delete Tool") {
-
-                ub.funcs.deleteLocation(_application.code);
                 if(ub.data.useScrollingUI) {
                     var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
                     var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
@@ -1126,10 +1124,15 @@ $(document).ready(function () {
                         $(".add-another-application-container").hide();
                     }
                     
-                    ModifierController.deleteApplicationContainer(_application.code)
+                    if (isMascots) {
+                        ub.funcs.afterRemoveStockLogo(_application);
+                    } else {
+                        ModifierController.deleteApplicationContainer(_application.code)
+                    }
                 }
-                return;
 
+                ub.funcs.deleteLocation(_application.code);
+                return;
             }
 
             if (sprite.ubName !== "Reset Tool") {
@@ -9272,7 +9275,6 @@ $(document).ready(function () {
         }
 
         ub.funcs.runAfterUpdate(_id);
-
     }
 
     ub.funcs.postData = function (data, url) {

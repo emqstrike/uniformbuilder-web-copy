@@ -1983,8 +1983,34 @@ $(function() {
         app.type = "free";
         app.status = "off";
 
-        console.log(app)
-
         return app;
+    }
+
+
+    ub.funcs.renderStockMascot = function (_settingsObject) {
+        var template = document.getElementById("m-mascot-information").innerHTML;
+        var objCustom = {
+            thumbnail: _settingsObject.embellishment.png_filename,
+            application_type: _settingsObject.application_type,
+            logo_type: _settingsObject.logo_type,
+            code: _settingsObject.code,
+            perspective: _settingsObject.application.views[0].perspective,
+            name: _settingsObject.embellishment.name,
+            viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
+            viewPrint: _settingsObject.embellishment.svg_filename,
+            flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : ""
+        };
+
+        var renderTemplate = Mustache.render(template, objCustom);
+
+        $(".modifier_main_container .logo-details-container").html("");
+        $(".modifier_main_container .logo-details-container").html(renderTemplate);
+    }
+
+    ub.funcs.afterRemoveStockLogo = function(settingsObj) {
+        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObj.application.views[0].perspective + "']").removeClass("uk-active");
+        $(".modifier_main_container .logo-details-container").html("");
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + settingsObj.application.views[0].perspective + "']").html("");
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + settingsObj.application.views[0].perspective + "']").html('<span class="uk-text-center uk-text-small fc-darkGray fc-italic">(Add)</span>');
     }
 });

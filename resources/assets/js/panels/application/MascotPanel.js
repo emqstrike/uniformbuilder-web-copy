@@ -30,93 +30,22 @@ MascotPanel.init = function () {
         }
     });
 
-    var _appData = [];
-
-    // getting only data that i need
-    _.map(_filteredApplications, function (i) {
-        if (i.application_type === 'embellishments') {
-            var objCustom = {
-                thumbnail: i.embellishment.png_filename,
-                application_type: i.application_type,
-                type: 'CUSTOM LOGO',
-                code: i.code,
-                perspective: i.application.views[0].perspective,
-                name: i.embellishment.name,
-                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + i.embellishment.design_id,
-                viewPrint: i.embellishment.svg_filename,
-                slider: true,
-                sliderContainer: ub.funcs.sliderContainer(i.code, "Logo"),
-                isEmbellishment: true,
-                status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
-            };
-            _appData.push(objCustom);
-        } else if (i.application_type === 'mascot') {
-            var objStock = {
-                thumbnail: i.mascot.icon,
-                application_type: i.application_type,
-                type: 'STOCK MASCOT',
-                code: i.code,
-                perspective: i.application.views[0].perspective,
-                name: i.mascot.name,
-                slider: true,
-                sliderContainer: ub.funcs.sliderContainer(i.code, "Logo"),
-                colorPicker: true,
-                colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE STOCK MASCOT COLORS'),
-                isEmbellishment: false,
-                status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
-            };
-            _appData.push(objStock);
-        }
-    });
-
-    // prepare data
-    var props = {
-        isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : '',
-        title: "logo",
-        type: "mascots",
-        applications: _appData
-    };
-
     var locations = ub.data.logoLocation.items;
     _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-panel', {locations: locations});
 
     // output to page
     $('.modifier_main_container').append(_htmlBuilder);
 
-    _.map(_appData, function(index) {
-        if (index.application_type !== "free") {
-            if (index.status) {
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .view-application').addClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] div.hide-show-button-container .hide-application').removeClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').show();
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('a.flip-mascot').show();
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').removeClass('uk-disabled');
-            } else {
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .hide-application").addClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find("div.hide-show-button-container .view-application").removeClass('uk-active');
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('.mascot-options-container').hide();
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('a.flip-mascot').hide();
-                $('.applicationUIBlockNew[data-application-id="'+ index.code +'"]').find('button.con-img-added-mascot-logo').addClass('uk-disabled');
-            }
-        }
-        
-        if (ub.funcs.isFlippedApplication(index.code)) {
-            $('.applicationUIBlockNew[data-application-id="'+ index.code +'"] .flip-mascot').addClass("uk-active");
-        }
+    _.map(_filteredApplications, function(index) {
+        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("uk-active");
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html("");
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ index.code +'">(remove)</a>');
     });
 
-    if (ub.funcs.isTackleTwill()) {
-        ub.funcs.getFreeApplicationsContainer('mascots');
-    }
-
-    if (_appData.length === 0 || ub.funcs.isTackleTwill()) {
-        $(".add-another-application-container").hide();
-    }
 
     $(".logo-type-container .btn-selection-choice").first().addClass("uk-active");
     
     // initialize and bind events
-    ub.funcs.setupApplicationSettings(_appData);
     ub.funcs.initializer();
     MascotPanel.events.init();
     NewApplicationPanel.events.init();
@@ -138,15 +67,27 @@ MascotPanel.events = {
             $("#primary_options_container").on("click", ".logo-details-container .change-stock-mascot", _this.onChangeStockMascot)
             $("#primary_options_container").on("click", ".logo-type-container .btn-selection-choice", _this.onSelectLogoType);
             $("#primary_options_container").on("click", ".logo-location-container .btn-selection-choice", _this.onSelectLocation)
+            $('#primary_options_container').on('click', '.logo-details-container .flip-mascot', _this.onFlipMascot);
+            $('#primary_options_container').on('click', '.location-add-remove-container .removeMascot', _this.onRemoveMascot);
             MascotPanel.events.is_init = false;
         }
     },
 
+    onRemoveMascot: function() {
+        var code = $(this).data("application-code");
+        var settingsObject = ub.funcs.getApplicationSettings(code);
+        ub.funcs.afterRemoveStockLogo(settingsObject);
+       
+        ub.funcs.deleteLocation(code);
+    },
 
     onChangeStockMascot: function() {
+        ub.data.isChangeStockLogo = true;
         var application_id = $(this).data("application-code");
+        var settingsObject = ub.funcs.getApplicationSettings(application_id);
 
-        console.log(application_id)
+        ub.data.currentApplication = settingsObject;
+        StockMascot.events.init();
     },
 
     onSelectLogoType: function() {
@@ -160,47 +101,34 @@ MascotPanel.events = {
         var _perspective = $(this).data("perspective");
         var _part = $(this).data("part");
         var _side;
-        var location = "";
+        var location = "";  
         if (_part === "Sleeve") {
             _side = $(this).data("side");
             location = _side + " " + _part;
         } else {
             location = _part;
         }
-        $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
 
-        console.log(location)
+        $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
         var _settingsObject = _.find(ub.current_material.settings.applications, {type: _type, location: ub.utilities.titleCase(location)});
         if (typeof _settingsObject !== "undefined") {
-            // Load Embellisment Details
-            var template = document.getElementById("m-mascot-information").innerHTML;
-            var objCustom = {
-                thumbnail: _settingsObject.embellishment.png_filename,
-                application_type: _settingsObject.application_type,
-                logo_type: _settingsObject.logo_type,
-                code: _settingsObject.code,
-                perspective: _settingsObject.application.views[0].perspective,
-                name: _settingsObject.embellishment.name,
-                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
-                viewPrint: _settingsObject.embellishment.svg_filename
-            };
-
-            var renderTemplate = Mustache.render(template, objCustom);
-
-            $(".modifier_main_container .logo-details-container").html("");
-            $(".modifier_main_container .logo-details-container").html(renderTemplate);
+            ub.funcs.renderStockMascot(_settingsObject);
         } else {
             if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
                 ub.funcs.newApplication(_perspective, _part, _type, _side, logo_type);
             }
         }
 
-        $(this).addClass("uk-active")
+        _.delay(function() {
+            $("#primary_options_container .location-add-remove-container[data-perspective='" + ub.data.currentApplication.application.views[0].perspective + "']").html("");
+            $("#primary_options_container .location-add-remove-container[data-perspective='" + ub.data.currentApplication.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ ub.data.currentApplication.code +'">(remove)</a>');
+        }, 1000)
+        $(this).addClass("uk-active");
     },
 
     onChangeEmbellishment: function() {
         var application_id = $(this).closest(".applicationUIBlockNew").data('application-id');
-        var applicationObject = ub.funcs.getApplicationSettings(application_id)
+        var applicationObject = ub.funcs.getApplicationSettings(application_id);
 
         if (typeof applicationObject !== "undefined") {
             if (applicationObject.application_type === "embellishments") {

@@ -12,6 +12,7 @@ StockMascot.events = {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .edit-stock-logo", that.onClickEditStockMascot);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .add-to-uniform", that.onClickAddToUniform);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .cancel-add-uniform", that.onClickCancel);
+            $("#richardson-stock-mascot").on("click", ".cancel-add-uniform", that.onClickCancel);
         }
         that.isInit = false;
 
@@ -68,8 +69,12 @@ StockMascot.events = {
     },
 
     onClickCancel: function() {
-        var _settingsObject = ub.data.currentApplication;
-        ub.funcs.deleteLocation(_settingsObject.code);
+        if (!ub.data.isChangeStockLogo) {
+            var _settingsObject = ub.data.currentApplication;
+            ub.funcs.afterRemoveStockLogo(_settingsObject);
+            ub.funcs.deleteLocation(_settingsObject.code);
+        }
+        ub.data.isChangeStockLogo = false;
         UIkit.modal("#richardson-stock-mascot").hide();
     }
 }
@@ -95,6 +100,7 @@ StockMascot.funcs = {
             })
         } else {
             that.prepareStockMascotCategories(ub.data.stockMascot);
+            $(".inksoft-stock-mascot .mascot-item a").first().trigger("click");
         }
         
         UIkit.modal("#richardson-stock-mascot").show();
@@ -112,7 +118,6 @@ StockMascot.funcs = {
     prepareStockMascots: function(mascots) {
         var data = [];
         _.each(mascots, function(mascot) {
-            console.log(mascot)
             data.push({
                 ImageUrl: mascot.Canvases[0].PngRelativeUrl,
                 Name: mascot.Name,

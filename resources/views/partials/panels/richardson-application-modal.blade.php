@@ -450,7 +450,7 @@
 <!-- Stock Mascot -->
 <div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
         <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
         <div class="inksoft-stock-mascot uk-padding-small">
             <div class="uk-height-large uk-grid-match" uk-grid>
