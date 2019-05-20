@@ -1531,7 +1531,7 @@
         var _strokeInner = 11;
         var _strokeOuter = 14;
 
-        if (input_object.fontSize < 5) {
+        if (input_object.fontSize <= 5) {
             _strokeInner = 7;
             _strokeOuter = 14;
         }
