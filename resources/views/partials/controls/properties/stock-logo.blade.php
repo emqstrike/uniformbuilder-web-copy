@@ -43,9 +43,9 @@
     <div class="con-en-disable-me uk-grid-small" uk-grid>
         <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
             <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove open-inksoft-editor">
-                <img class="uk-padding-small" src="@{{ thumbnail }}" style="min-width: 100% !important; min-height: 150px !important">
+                <img class="uk-padding-small change-stock-mascot" src="@{{ thumbnail }}" style="min-width: 100% !important; min-height: 150px !important" data-application-code="@{{ code }}">
             </button>
-            <a href="#" class="btn-open-modal-logo en-disable-me uk-link-reset">@{{ name }}</a>
+            <a href="#" class="change-stock-mascot en-disable-me uk-link-reset" data-application-code="@{{ code }}">@{{ name }}</a>
             <a href="#" class="en-disable-me uk-link-reset fc-red" data-application-code="@{{ code }}">(Remove)</a>
             <a href="#" class="uk-button uk-button-small uk-button-default uk-width-1-1 uk-margin-small-top uk-text-capitalize flip-mascot" data-application-code="@{{ code }}">Flip</a>
         </div>

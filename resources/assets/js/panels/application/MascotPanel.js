@@ -135,10 +135,18 @@ MascotPanel.events = {
             $('#primary_options_container').on('click', '.colorItem[data-object-type="mascots"]', _this.onChangeMascotColor);
             $("#primary_options_container").on("click", ".applicationUIBlockNew .open-inksoft-editor", _this.onChangeEmbellishment);
 
+            $("#primary_options_container").on("click", ".logo-details-container .change-stock-mascot", _this.onChangeStockMascot)
             $("#primary_options_container").on("click", ".logo-type-container .btn-selection-choice", _this.onSelectLogoType);
             $("#primary_options_container").on("click", ".logo-location-container .btn-selection-choice", _this.onSelectLocation)
             MascotPanel.events.is_init = false;
         }
+    },
+
+
+    onChangeStockMascot: function() {
+        var application_id = $(this).data("application-code");
+
+        console.log(application_id)
     },
 
     onSelectLogoType: function() {
