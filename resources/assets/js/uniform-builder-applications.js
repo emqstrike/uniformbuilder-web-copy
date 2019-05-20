@@ -9218,6 +9218,14 @@ $(document).ready(function () {
             var _applicationType = 'embellishments';
             var _size = 4;
             var _embellishmentID = 1722159;
+            
+            if (ub.config.brand.toLowerCase() === "richardson") {
+                if (logo_type === "stock") {
+
+                } else if (logo_type === "custom") {
+
+                }
+            }
 
             // ub.funcs.getDesignSummary
 
