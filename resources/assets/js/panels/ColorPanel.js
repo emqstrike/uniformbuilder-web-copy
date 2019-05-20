@@ -25,9 +25,58 @@ ColorPanel.prototype = {
         return panel;
     },
 
+    onSelectLocation: function() {
+        var that = this;
+        $(".modifier_main_container").on("click", "#primary_options_colors .jersey-location-buttons", function() {
+            var fullname = $(this).data("modifier-fullname");
+            var name = $(this).data("modifier-name");
+            var modifierObject = _.find(ub.data.modifierLabels, {fullname: fullname});
+            var currentMaterials = ub.current_material.settings[ub.config.type];
+
+            ub.current_part = modifierObject.index;
+
+            if (typeof modifierObject !== "undefined") {
+                var html = ub.utilities.buildTemplateString('#m-parts-modifier', modifierObject);
+                $("#primary_options_colors .parts-modifier-panel").html("");
+                $("#primary_options_colors .parts-modifier-panel").html(html);
+
+                var materialObject = _.find(currentMaterials, {code: modifierObject.fullname});
+                if (typeof materialObject !== "undefined") {
+                    var patternObject = materialObject.pattern;
+                    var gradientObject = materialObject.gradient;
+                    var color_container = $("#primary_options_colors .parts-modifier-panel .color-selector-button[data-color-label='"+ materialObject.colorObj.color_code +"']");
+                    if (color_container.length > 0) {
+                        that.addCheckOnSelectedColor(color_container, materialObject.colorObj.color_code);
+                    }
+
+                    if (patternObject.pattern_id !== "blank" && patternObject.pattern_id !== "") {
+                        var patternButton = $("#primary_options_colors .parts-modifier-panel .pattern-selector-button[data-pattern-id='"+ patternObject.pattern_obj.pattern_id +"']");
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal uk-button uk-button-small uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
+                        patternButton.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                        patternButton.addClass('active-pattern');
+                    }
+
+                    if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                        var gradientContainer = $("#primary_options_colors .parts-modifier-panel .gradient-selector-button[data-gradient-name='gradient']");
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal uk-button-small uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+                        gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
+                        gradientContainer.addClass('active-pattern');
+                    }
+
+                    if (patternObject.pattern_id !== "blank" && patternObject.pattern_id !== "" || typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
+                        UIkit.switcher(".pattern-color-switcher").show(1);
+                    }
+
+                    $("#primary_options_colors .jersey-location-buttons.uk-active").removeClass("uk-active");
+                    $(this).addClass("uk-active")
+                }
+            }
+        });
+    },
+
     onSelect: function() {
         var _this = this;
-        $(".color-container-button").on('click', '.color-selector-button', function(event) {
+        $(".modifier_main_container").on('click', '.parts-modifier-panel .color-selector-button', function(event) {
             var colorLabel = $(this).data("color-label");
             var modifier_category = $(this).data("modifier-category");
             var _modifier_name = $(".color-main-container-" + modifier_category).data('modifier-name');

@@ -308,10 +308,10 @@ ApplicationEvent.events = {
         var settingsObj = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
 
         if (typeof settingsObj !== "undefined") {
-            var sample_text = "Sample Text";
+            var sample_text = $(this).closest('.lettersOptsContainer').find('input.app-letters-input').val();
 
-            if (!_.isEmpty($('input.app-letters-input').val())) {
-                sample_text = $('input.app-letters-input').val();
+            if (_.isEmpty(sample_text)) {
+                sample_text = "Sample Text";
             }
 
             ApplicationEvent.createFontPopup(sample_text, settingsObj);
