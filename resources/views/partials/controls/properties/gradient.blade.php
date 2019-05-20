@@ -8,7 +8,7 @@
                         <canvas id="gradientPreview" class="gradientPreview"></canvas>
                     </div>
                 </div>
-                <h6 class="uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase modal-pattern-name"></h6>
+                <h6 class="uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase">Gradient</h6>
             </div>
             <div class="uk-width-1-1 uk-width-2-3@m uk-text-center">
                 <div>

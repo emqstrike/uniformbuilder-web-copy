@@ -242,8 +242,8 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   border-radius: 0px;
 }
 .palette {
-  height: 35px !important;
-  width: 35px !important;
+  height: 30px !important;
+  width: 30px !important;
   display: block !important;
   border: 1px solid #aaaaaa !important;
 }
@@ -803,7 +803,6 @@ img.piping-images {
   border: 1px solid #aaaaaa !important;
 }
 
-
 .piping-image .piping-image-button.selected div.border {
   border: 1.3px solid $color-dark;
 }
@@ -824,4 +823,11 @@ img.piping-images {
 
 .piping-image .piping-name {
   font-size: 12px !important;
+}
+
+// Color CSS
+.location-button-container a.uk-button {
+  font-size: 12px !important;
+  padding: 3px 5px 3px 5px !important;
+  line-height: normal !important;
 }

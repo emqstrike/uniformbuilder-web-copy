@@ -83,7 +83,7 @@ GradientPanel.events = {
             gradientObjectSettings.enabled = 1;
 
             // Add Check and Show edit gradient color button
-            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+            $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-gradient-modal uk-button uk-button-small uk-button-default uk-text-capitalize' data-modifier-index='" + index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
             $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
             $(this).addClass('active-pattern');
         }
@@ -95,7 +95,14 @@ GradientPanel.events = {
         var modifier = ub.utilities.underscoreToWhitespace(modifier_category);
         var modifierTitle = ub.utilities.titleCase(modifier);
         var items = ub.data.gradientColorLayerFilter.getColors();
-        var gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        var gradientObjectSettings = undefined;
+
+        if (modifierTitle.includes("Sleeve")) {
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject("Right Sleeve");
+        } else {
+            gradientObjectSettings = GradientPanel.utilities.getGradientSettingsObject(modifierTitle);
+        }
+
         var colors = [];
         var colors2 = [];
         var firstLayer = _.find(gradientObjectSettings.layers, {layer: 1});

@@ -93,7 +93,7 @@ PatternPanel.prototype = {
     onSelect: function() {
         let _this = this;
         var blank = _.find(ub.data.patterns.items, {name: "Blank", brand: "richardson"});
-        $(".modifier_main_container .pattern-container-button").on('click', '.pattern-selector-button', function(event) {
+        $(".modifier_main_container").on('click', '.parts-modifier-panel .pattern-selector-button', function(event) {
             // Get Modifier category and index
             let modifier_category = $(this).data("modifier-category");
             let modifier_index = $(this).data("modifier-index");
@@ -146,7 +146,7 @@ PatternPanel.prototype = {
 
                 if (blank.id.toString() !== _id.toString()) {
                     // Show edit pattern button
-                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
+                    $(".edit-pattern-modal-container-"  + modifier_category).html("<button class='edit-pattern-modal uk-button uk-button-small uk-button-default uk-text-capitalize' data-modifier-index='" + modifier_index +"' data-modifier-category='"+ modifier_category +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                 }
 
                 $(this).html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');

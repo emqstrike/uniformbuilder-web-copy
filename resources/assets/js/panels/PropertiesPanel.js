@@ -37,7 +37,7 @@ function PropertiesPanel(
     };
     this.initModifiers();
     this.initInserts();
-    this.setDefaultColorsPatterns();
+    // this.setDefaultColorsPatterns();
     this.bindEvents();
 }
 
@@ -49,6 +49,8 @@ PropertiesPanel.prototype = {
         _.map(this.modifiers, function(modifier) {
             if (modifier.name.includes("Front Body") || modifier.name.includes("Back Body")) {
                 modifier.alias = modifier.name.replace(" Body", "");
+            } else if (modifier.name.includes("Back Jersey") || modifier.name.includes("Front Jersey")) {
+                modifier.alias = modifier.name.replace(" Jersey", "");
             } else {
                 modifier.alias = modifier.name;
             }
@@ -57,7 +59,12 @@ PropertiesPanel.prototype = {
             var titleNameFirstMaterial = _names[0].toTitleCase();
             var _settingsObject = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
 
-            modifier.hasPattern = (_settingsObject.has_pattern) ? true : false;
+            if (_settingsObject.has_pattern) {
+                modifier.hasPattern = true;
+                modifier.patterns = ub.funcs.getPatternList();
+            } else {
+                modifier.hasPattern = false;
+            }
 
             // Check if the part has limited color set
             var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modifier.name);
@@ -128,9 +135,10 @@ PropertiesPanel.prototype = {
     },
 
     bindEvents: function() {
-        this.panels.colors.onSelect();
-        this.panels.patterns.onSelect();
         if (PropertiesPanel.is_bind_events_called === 0) {
+            this.panels.colors.onSelect();
+            this.panels.patterns.onSelect();
+            this.panels.colors.onSelectLocation();
             this.panelTracker();
             this.panels.patterns.onOpenModalPatternModifier();
             this.panels.patterns.onSelectColorPerCategory();
@@ -184,7 +192,7 @@ PropertiesPanel.prototype = {
 
                     var pattern_container = $(".pattern-main-container-"+ materialObject.code + " .pattern-container-button .pattern-selector-button[data-pattern-id='"+ _patternObject.id +"']");
                     if (pattern_container.length > 0) {
-                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
+                        $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-pattern-modal uk-button uk-button-small uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Pattern Color</button>");
                         pattern_container.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                         pattern_container.addClass('active-pattern');
                     }
@@ -192,7 +200,7 @@ PropertiesPanel.prototype = {
 
                 if (typeof gradientObject.gradient_id !== "undefined" && gradientObject.gradient_id !== "") {
                     var gradientContainer = $(".pattern-main-container-"+ materialObject.code + " .gradient-container-button .gradient-selector-button[data-gradient-name='gradient']");
-                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
+                    $(".edit-pattern-modal-container-"  + modifierObject.fullname).html("<button class='edit-gradient-modal uk-button-small uk-button uk-button-default uk-text-capitalize' data-modifier-index='" + modifierObject.index +"' data-modifier-category='"+ modifierObject.fullname +"'><i class='fa fa-edit'></i>&nbsp;Edit Gradient Color</button>");
                     gradientContainer.html('<div class="cp-check-background cp-background-cover"><span class="fa fa-check fa-1x cp-pattern-check-medium"></span></div>');
                     gradientContainer.addClass('active-pattern');
                 }
@@ -250,11 +258,17 @@ PropertiesPanel.prototype = {
                 var _index = ub.funcs.getIndexByName(_result);
                 ub.current_part = _index;
 
-                if ($("#primary_options_container ul.parts-container").length === 0) {
+                if ($("#primary_options_container #primary_options_colors").length === 0) {
                     $('#property-modifiers-menu .menu-item-parts').trigger('click');
                 }
 
-                _this.activePanelbyIndex(_index);
+                var location = $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ _index +"']");
+
+                if (!location.hasClass("uk-active")) {
+                    location.trigger("click");
+                } else {
+                    return;
+                }
             }
             else
             {

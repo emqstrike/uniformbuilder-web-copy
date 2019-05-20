@@ -73,8 +73,9 @@ ModifierController.prototype = {
         FabricPanel.applyDefaultLayerLevel();
 
         // parts
-        this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
-
+        // this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
+        this.controllers.parts = new PartPanel('m-parts-no-scroll', ub.modifierController.propertiesPanel.parts);
+        
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             this.controllers.pipings = new RandomFeedPanel('random-feeds-list');
@@ -195,8 +196,12 @@ ModifierController.prototype = {
         ub.modifierController.propertiesPanel.setBodyPanel(part_panel);
 
         _.delay(function() {
-            ub.modifierController.propertiesPanel.setDefaultColorsPatterns();
-        }, 500);
+            if (ub.current_part === 0) {
+                $(".modifier_main_container #primary_options_colors .jersey-location-buttons").first().trigger("click");
+            } else {
+                $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ ub.current_part +"']").trigger("click");
+            }
+        }, 100)
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();
