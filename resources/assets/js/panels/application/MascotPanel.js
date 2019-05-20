@@ -112,6 +112,8 @@ MascotPanel.init = function () {
     if (_appData.length === 0 || ub.funcs.isTackleTwill()) {
         $(".add-another-application-container").hide();
     }
+
+    $(".logo-type-container .btn-selection-choice").first().addClass("uk-active");
     
     // initialize and bind events
     ub.funcs.setupApplicationSettings(_appData);
@@ -141,31 +143,51 @@ MascotPanel.events = {
 
     onSelectLogoType: function() {
         $(".logo-type-container .btn-selection-choice.uk-active").removeClass("uk-active");
-        $(this).addClass("uk-active");
-        
+        $(this).addClass("uk-active");  
     },
 
     onSelectLocation: function() {
-        var _type = $(".logo-type-container .btn-selection-choice.uk-active").data("type");
+        var _type = "embellishments";
+        var logo_type = $(".logo-type-container .btn-selection-choice.uk-active").data("type");
         var _perspective = $(this).data("perspective");
         var _part = $(this).data("part");
         var _side;
+        var location = "";
         if (_part === "Sleeve") {
             _side = $(this).data("side");
+            location = _side + " " + _part;
+        } else {
+            location = _part;
         }
-
         $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
 
-        if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
-            ub.funcs.newApplication(_perspective, _part, _type, _side);
+        console.log(location)
+        var _settingsObject = _.find(ub.current_material.settings.applications, {type: _type, location: ub.utilities.titleCase(location)});
+        if (typeof _settingsObject !== "undefined") {
+            // Load Embellisment Details
+            var template = document.getElementById("m-mascot-information").innerHTML;
+            var objCustom = {
+                thumbnail: _settingsObject.embellishment.png_filename,
+                application_type: _settingsObject.application_type,
+                logo_type: _settingsObject.logo_type,
+                code: _settingsObject.code,
+                perspective: _settingsObject.application.views[0].perspective,
+                name: _settingsObject.embellishment.name,
+                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
+                viewPrint: _settingsObject.embellishment.svg_filename
+            };
+
+            var renderTemplate = Mustache.render(template, objCustom);
+
+            $(".modifier_main_container .logo-details-container").html("");
+            $(".modifier_main_container .logo-details-container").html(renderTemplate);
         } else {
-            $.smkAlert({
-                text: 'Please select logo type',
-                type: 'danger',
-                time: 10,
-                marginTop: '90px'
-            });
+            if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
+                ub.funcs.newApplication(_perspective, _part, _type, _side, logo_type);
+            }
         }
+
+        $(this).addClass("uk-active")
     },
 
     onChangeEmbellishment: function() {

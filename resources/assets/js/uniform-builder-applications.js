@@ -8823,8 +8823,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.changeApplicationType = function (settingsObject, type) {
-
+    ub.funcs.changeApplicationType = function (settingsObject, type, logo_type, location) {
         // delete custom object amd scale type
         // this are use for embellishment applications only
         // TODO: create a cleaup funcs
@@ -9217,63 +9216,58 @@ $(document).ready(function () {
 
             var _applicationType = 'embellishments';
             var _size = 4;
-            var _embellishmentID = 1722159;
+            var _embellishmentID;
             
             if (ub.config.brand.toLowerCase() === "richardson") {
                 if (logo_type === "stock") {
-
+                    _embellishmentID = 1762241;
                 } else if (logo_type === "custom") {
-
+                    _embellishmentID = 1722159;
                 }
+            } else {
+                _embellishmentID = 1722159;
             }
 
             // ub.funcs.getDesignSummary
 
             ub.funcs.deActivateApplications();
-
             _settingsObject.font_obj = ub.funcs.getSampleFont();
             _settingsObject.application_type = _applicationType;
             _settingsObject.type = _applicationType;
             _settingsObject.object_type = _applicationType;
-            _settingsObject.embellishment = window.is.embellishments.getDefaultEmbellishment(_settingsObject); // window.is.embellishments.getEmbellishmentByID(_embellishmentID); // Add support for kollege town, prolook name drops or tailsweeps
             _settingsObject.color_array = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
+            _settingsObject.logo_type = logo_type;
+            _settingsObject.embellishment = window.is.embellishments.getEmbellishmentByID(_embellishmentID, _settingsObject.code); // window.is.embellishments.getEmbellishmentByID(_embellishmentID); // Add support for kollege town, prolook name drops or tailsweeps
 
             ub.funcs.setAppSize(_id, _size);
 
-            /// Include Matching Side code here ...
-
-            //==>
-
-            ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
-
-            if (ub.data.useScrollingUI) {
-                ub.funcs.activateApplicationsAll(_settingsObject.code);
-            } else {
-                ub.funcs.activateEmbellishments(_settingsObject.code);
-            }
-
             // TODO
             // Create
             // - ub.funcs.update_application_embellishments => from ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
             // - ub.funcs.activateEmbellishments => from ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
             // - ub plugins - $.ub.create_embellishment
+            // ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
         }
 
         // Open Richardson Logo Modal for embellishment and mascot only
+        if (location === "Sleeve") {
+            _settingsObject.location = _settingsObject.application.layer;
+        } else {
+            _settingsObject.location = location;
+        }
         ub.data.currentApplication = _settingsObject;
-        console.log("============================>>>>>>>>>", _settingsObject.application_type)
-        if (_settingsObject.application_type === 'embellishments') {
+        if (_settingsObject.logo_type === 'custom') {
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
                 InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
             } else {
                 InteropIsPanel.funcs.loadExistingDesign(_settingsObject);
             }
-        } else if (_settingsObject.application_type === 'mascot') {
+        } else if (_settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
         }
 
@@ -11852,7 +11846,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type, side) {
+    ub.funcs.newApplication = function (perspective, part, type, side, logo_type) {
         var _pha = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part = part;
@@ -12158,7 +12152,12 @@ $(document).ready(function () {
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
         ub.funcs.updateLayerTool();
 
-        $('div.optionButton[data-type="' + type + '"]').trigger('click');
+
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            ub.funcs.changeApplicationType(_newApplication, type, logo_type, part)
+        } else {
+            $('div.optionButton[data-type="' + type + '"]').trigger('click');
+        }
 
         $.smkAlert({
             text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer',
@@ -12166,30 +12165,6 @@ $(document).ready(function () {
             time: 10,
             marginTop: '90px'
         });
-
-        // Initialize New Embellishment Popup
-        if (ub.config.brand.toLowerCase() === "richardson") {
-            if (type === "embellishments") {
-                ub.data.currentApplication = _newApplication;
-                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                    InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
-                } else {
-                    InteropIsPanel.funcs.loadExistingDesign(_newApplication);
-                }
-            } else if (type === "mascot") {
-                StockMascot.events.init();
-            }
-        } else {
-            if (type === "embellishments") {
-                _newApplication.font_size = _newApplication.size;
-                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                    is.loadDesigner(undefined, _newIDStr);
-                } else {
-                    ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
-                }
-            }
-        }
-
     }
 
     ub.funcs.addLocation = function (artOnly) {

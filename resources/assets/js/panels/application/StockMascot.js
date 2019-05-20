@@ -11,6 +11,7 @@ StockMascot.events = {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-list-container .mascot-item a", that.onClickMascotItem);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .edit-stock-logo", that.onClickEditStockMascot);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .add-to-uniform", that.onClickAddToUniform);
+            $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .cancel-add-uniform", that.onClickCancel);
         }
         that.isInit = false;
 
@@ -63,6 +64,12 @@ StockMascot.events = {
             is.isMessage(_designID, _matchingID, true);
         }
 
+        UIkit.modal("#richardson-stock-mascot").hide();
+    },
+
+    onClickCancel: function() {
+        var _settingsObject = ub.data.currentApplication;
+        ub.funcs.deleteLocation(_settingsObject.code);
         UIkit.modal("#richardson-stock-mascot").hide();
     }
 }

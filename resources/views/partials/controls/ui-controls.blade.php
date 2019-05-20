@@ -3396,5 +3396,6 @@
 @include('partials.controls.properties.applications')
 @include('partials.controls.properties.richardson-skin')
 @include('partials.controls.properties.roster')
-
+@include('partials.controls.properties.stock-logo')
+@include('partials.controls.properties.stock-mascot-modal')
 @include('partials.controls.team-store-products-picker')
