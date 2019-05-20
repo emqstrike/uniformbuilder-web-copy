@@ -1533,7 +1533,9 @@ $(document).ready(function() {
             hiddenBody: bc.hiddenBody,
             randomFeeds: bc.randomFeeds,
             legacyPDF:"", // display link if old pdf is generated
-            applicationType: order_items.application_type
+            applicationType: order_items.application_type,
+            sml: bc.sorted_modifier_labels,
+            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku
         };
 
         ub.funcs.betaFeaturesChecker('New PDF', function() {
