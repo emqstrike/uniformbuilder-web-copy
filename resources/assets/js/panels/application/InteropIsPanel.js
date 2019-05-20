@@ -154,7 +154,7 @@ InteropIsPanel.events = {
 }
 
 InteropIsPanel.funcs = {
-    loadDesigner: function(designID, applicationID, create = true) {
+    loadDesigner: function(designID, applicationID, editorOnly = false) {
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -245,11 +245,18 @@ InteropIsPanel.funcs = {
             DesignCategoryID: "1000004"
         };
 
-        $(".inksoft-loader.create #embed-inksoft-create").html("")
-        launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
-        InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
-        UIkit.modal("#select-mascot-inksoft-modal").show();
+        if (editorOnly) {
+            $("#inksoftEditor .inksoft-design-editor").html("")
+            launchDesigner('HTML5DS', flashvars, document.querySelector("#inksoftEditor .inksoft-design-editor"));
+            UIkit.modal("#inksoftEditor").show();
+            UIkit.modal("#richardson-stock-mascot").hide();
+        } else {
+            $(".inksoft-loader.create #embed-inksoft-create").html("")
+            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
+            InteropIsPanel.events.init();
+            UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
+            UIkit.modal("#select-mascot-inksoft-modal").show();
+        }
     },
 
     loadDesignerUpload: function(designID, applicationID) {

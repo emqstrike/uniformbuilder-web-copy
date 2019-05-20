@@ -446,3 +446,55 @@
     </div>
 </div>
 <!-- END TEAM ROSTER -->
+
+<!-- Stock Mascot -->
+<div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
+        <div class="inksoft-stock-mascot uk-padding-small">
+            <div class="uk-height-large uk-grid-match" uk-grid>
+                <div class="uk-width-1-4">
+                    <div class="bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
+                        <ul class="uk-nav uk-list stock-mascot-categories">
+                        </ul>
+                    </div>
+                </div>
+                <div class="uk-width-expand">
+                    <div class="cp-padding-tiny bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
+                        <div class="uk-grid-small uk-grid-match uk-child-width-1-2@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top stock-mascot-list-container" uk-grid>
+                        </div>
+                        <div class="uk-width-1-1 stock-mascot-loading-screen">
+                            <div class="uk-flex uk-flex-center">
+                                <div uk-spinner="ratio: 5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-1-4 uk-flex uk-flex-center uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">
+                    <div class="uk-width-1-1@s uk-text-center uk-first-column stock-mascot-preview-container">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Stock Mascot -->
+
+<!-- Inksoft Editor -->
+<div id="inksoftEditor" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
+    <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Design Editor</h6>
+        <div class="uk-padding-small">
+            <div class="uk-width-1-1 uk-flex uk-flex-center">
+                <div class="inksoft-design-editor">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Inksoft Editor -->
