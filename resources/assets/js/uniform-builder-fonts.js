@@ -282,11 +282,8 @@ $(document).ready(function() {
 
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
-
-            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
-
-            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
-
+            _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: 'front'});
+            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString()});
             ub.utilities.info('');
             ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
             ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
