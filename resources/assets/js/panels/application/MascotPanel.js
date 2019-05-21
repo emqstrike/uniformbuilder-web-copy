@@ -84,10 +84,16 @@ MascotPanel.events = {
     onChangeStockMascot: function() {
         ub.data.isChangeStockLogo = true;
         var application_id = $(this).data("application-code");
+        var designID = $(this).data("application-design-id");
+        var logoType = $(this).data("application-logo-type");
         var settingsObject = ub.funcs.getApplicationSettings(application_id);
 
         ub.data.currentApplication = settingsObject;
-        StockMascot.events.init();
+        if (logoType === "custom") {
+            InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
+        } else {
+            StockMascot.events.init();    
+        }
     },
 
     onSelectLogoType: function() {
@@ -119,10 +125,6 @@ MascotPanel.events = {
             }
         }
 
-        _.delay(function() {
-            $("#primary_options_container .location-add-remove-container[data-perspective='" + ub.data.currentApplication.application.views[0].perspective + "']").html("");
-            $("#primary_options_container .location-add-remove-container[data-perspective='" + ub.data.currentApplication.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ ub.data.currentApplication.code +'">(remove)</a>');
-        }, 1000)
         $(this).addClass("uk-active");
     },
 

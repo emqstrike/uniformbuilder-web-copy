@@ -9263,10 +9263,12 @@ $(document).ready(function () {
         } else {
             _settingsObject.location = location;
         }
+
         ub.data.currentApplication = _settingsObject;
         if (_settingsObject.logo_type === 'custom') {
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
+                // InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
+                InteropIsPanel.funcs.loadDesignerUpload(undefined, _settingsObject.code, true);
             } else {
                 InteropIsPanel.funcs.loadExistingDesign(_settingsObject);
             }

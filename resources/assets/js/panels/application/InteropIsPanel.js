@@ -14,13 +14,26 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
             $(".upload-tutorial-container").on("click", ".close-tutorial", that.onCloseTutorial);
+            $(".inksoft-desing-studio").on("click", ".cancel-add-uniform", that.cancelAddtoUniform)
         }
 
         that.isInit = false;
     },
 
+    cancelAddtoUniform: function() {
+        if (!ub.data.isChangeStockLogo) {
+            var _settingsObject = ub.data.currentApplication;
+            ub.funcs.afterRemoveStockLogo(_settingsObject);
+            ub.funcs.deleteLocation(_settingsObject.code);
+        }
+        ub.data.isChangeStockLogo = false;
+
+        UIkit.modal("#inksoftUploader").hide();
+        UIkit.modal("#inksoftEditor").hide();
+    },
+
     onCloseTutorial: function() {
-        $(".inksoft-loader.upload .upload-tutorial-container").addClass("uk-hidden");
+        $(".upload-tutorial-container").addClass("uk-hidden");
     },
 
     onChangeTab: function() {
@@ -259,7 +272,7 @@ InteropIsPanel.funcs = {
         }
     },
 
-    loadDesignerUpload: function(designID, applicationID) {
+    loadDesignerUpload: function(designID, applicationID, uploadOnly = false) {
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -350,11 +363,18 @@ InteropIsPanel.funcs = {
             DesignCategoryID: "1000004"
         };
 
-        $(".inksoft-loader.upload #embed-inksoft-upload").html("");
-        launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
+        if (uploadOnly) {
+            $("#inksoftUploader .inksoft-design-uploader").html("");
+            launchDesigner('HTML5DS', flashvars, document.querySelector("#inksoftUploader .inksoft-design-uploader"));
+            UIkit.modal("#inksoftUploader").show();
+        } else {
+            $(".inksoft-loader.upload #embed-inksoft-upload").html("");
+            launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.upload #embed-inksoft-upload"));
+            UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2)
+            UIkit.modal("#select-mascot-inksoft-modal").show();
+        }
+
         InteropIsPanel.events.init();
-        UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(2)
-        UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
     loadExistingDesign: function(settingsObj) {

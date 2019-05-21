@@ -349,6 +349,8 @@ $(document).ready(function() {
         if (ub.config.brand.toLowerCase() === "richardson") {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
             UIkit.modal("#inksoftEditor").hide();
+            UIkit.modal("#inksoftUploader").hide();
+            UIkit.modal("#inksoftEditor").hide();
         }
 
         ub.status.render.resumeRendering();
@@ -442,11 +444,6 @@ $(document).ready(function() {
         window.is.closeDesignStudio();
         ub.funcs.getDesignSummary(designID, applicationID);
         ub.funcs.getDesignDetails(designID, applicationID);
-        _.delay(function() {
-            var settingsObject = ub.funcs.getApplicationSettings(applicationID);
-            ub.funcs.renderStockMascot(settingsObject);
-            console.log("Render Mascot")
-        }, 2000)
     }
 
     window.is.addDesignToUniform = function (response, applicationID) {
@@ -529,6 +526,9 @@ $(document).ready(function() {
                 if (typeof ub.data.embellismentDetails !== "undefined") {
                     ub.data.embellismentDetails.setStatus('designSummary', data);
                 }
+
+                var settingsObject = ub.funcs.getApplicationSettings(applicationID);
+                ub.funcs.renderStockMascot(_settingsObject);
             } else {
                 console.log("Design is not available");
             }

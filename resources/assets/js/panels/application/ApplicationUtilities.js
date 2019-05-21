@@ -1998,13 +1998,17 @@ $(function() {
             name: _settingsObject.embellishment.name,
             viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
             viewPrint: _settingsObject.embellishment.svg_filename,
-            flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : ""
+            flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : "",
+            design_id: _settingsObject.embellishment.design_id,
+            isCustom: _settingsObject.logo_type === "custom" ? true: false
         };
 
         var renderTemplate = Mustache.render(template, objCustom);
 
         $(".modifier_main_container .logo-details-container").html("");
         $(".modifier_main_container .logo-details-container").html(renderTemplate);
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html("");
+        $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ _settingsObject.code +'">(remove)</a>');
     }
 
     ub.funcs.afterRemoveStockLogo = function(settingsObj) {

@@ -150,7 +150,6 @@ StockMascot.funcs = {
     loadRichardsonCategories: function(cb) {
         var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetDesignCategories?Format=JSON';
         ub.utilities.getJSON(url, function(response) {
-            console.log(response)
             cb(response);
         }, function(error) {
             console.log("ERROR while loading Inksoft Categories");
@@ -168,7 +167,6 @@ StockMascot.funcs = {
             processData: false,
             crossDomain: true,
             success: function (response) {
-                console.log(response)
                 cb(response);
             },
             error: function (error) {

@@ -293,22 +293,29 @@ ModifierController.prototype = {
 };
 
 ModifierController.scrollToOptions = function (application_type, application_id, application_code) {
-    // Check if clicked application is TEAM NAME or PLAYER NAME,
-    if (application_type === "team_name" || application_type === "player_name") {
-        $('#property-modifiers-menu .menu-item-letters').trigger('click')
-    } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
-        // Numbers
-        $('#property-modifiers-menu .menu-item-numbers').trigger('click')
-    } else if (application_type === "mascot" || application_type === "embellishments") {
-        // Mascots/Embellishments
-        $('#property-modifiers-menu .menu-item-applications').trigger('click')
+    var settingsObject = ub.funcs.getApplicationSettings(application_code);
+    if (typeof settingsObject !== "undefined") {
+        // Check if clicked application is TEAM NAME or PLAYER NAME
+        if (settingsObject.application_type === "team_name" || settingsObject.application_type === "player_name") {
+            $('#property-modifiers-menu .menu-item-letters').trigger('click')
+        } else if (settingsObject.application_type === "front_number" || settingsObject.application_type === "back_number" || settingsObject.application_type === "sleeve_number" || settingsObject.application_type === "number") {
+            // Numbers
+            $('#property-modifiers-menu .menu-item-numbers').trigger('click')
+        } else if (settingsObject.application_type === "mascot" || settingsObject.application_type === "embellishments") {
+            // Mascots/Embellishments
+            $('#property-modifiers-menu .menu-item-applications').trigger('click')
+            _.delay(function() {
+                $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObject.application.views[0].perspective + "']").trigger("click");
+            }, 500);
+            ub.funcs.activateMoveTool(application_code);
+            return;
+        }
+
+        _.delay(function() {
+            $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
+        }, 500);
+        ub.funcs.activateMoveTool(application_code);
     }
-
-    _.delay(function() {
-        $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
-    }, 500);
-
-    ub.funcs.activateMoveTool(application_code);
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {

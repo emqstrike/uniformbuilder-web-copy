@@ -44,11 +44,23 @@
 <script type="text/mustache" id="m-mascot-information">
     <div class="con-en-disable-me uk-grid-small" uk-grid>
         <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
-            <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove change-stock-mascot" data-application-code="@{{ code }}">
+            <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove change-stock-mascot" 
+                data-application-code="@{{ code }}"
+                data-application-logo-type="@{{ logo_type }}"
+                data-application-design-id="@{{ design_id }}"
+            >
                 <img class="uk-padding-small" src="@{{ thumbnail }}" style="min-width: 100% !important; min-height: 150px !important">
             </button>
             <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-remove abrade-black">@{{ name }}</h6>
-            <a href="#" class="change-stock-mascot en-disable-me fc-red" data-application-code="@{{ code }}">(Change)</a>
+            <a href="#" class="change-stock-mascot en-disable-me fc-red" data-application-code="@{{ code }}" data-application-logo-type="@{{ logo_type }}" data-application-design-id="@{{ design_id }}">
+                @{{ #isCustom }}
+                (Edit)
+                @{{/isCustom}}
+
+                @{{^isCustom}}
+                (Change)
+                @{{/isCustom}}
+            </a>
             <a href="#" class="uk-button uk-button-small uk-button-default uk-width-1-1 uk-margin-small-top uk-text-capitalize flip-mascot @{{ flip }}" data-application-code="@{{ code }}">Flip</a>
         </div>
         <div class="uk-width-1-2 uk-width-2-3@s uk-width-1-2@l uk-width-2-3@xl">
