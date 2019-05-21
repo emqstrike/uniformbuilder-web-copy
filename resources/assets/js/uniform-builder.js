@@ -1735,6 +1735,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Soccer" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
+                    (material.uniform_category === "Track and Field" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
                     (material.uniform_category === "SFN Jogger (Apparel)") ||
                     (material.uniform_category === "Yoga Pant (Apparel)")) {
