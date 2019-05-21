@@ -14,7 +14,7 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
             $(".upload-tutorial-container").on("click", ".close-tutorial", that.onCloseTutorial);
-            $(".inksoft-desing-studio").on("click", ".cancel-add-uniform", that.cancelAddtoUniform)
+            $(".inksoft-design-studio").on("click", ".cancel-add-uniform", that.cancelAddtoUniform)
         }
 
         that.isInit = false;

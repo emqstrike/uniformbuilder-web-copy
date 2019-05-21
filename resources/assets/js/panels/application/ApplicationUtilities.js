@@ -2004,11 +2004,13 @@ $(function() {
         };
 
         var renderTemplate = Mustache.render(template, objCustom);
-
+        $(".logo-type-container .btn-selection-choice.uk-active").removeClass("uk-active");
+        $(".logo-type-container .btn-selection-choice[data-type='"+ _settingsObject.logo_type +"']").addClass("uk-active");
         $(".modifier_main_container .logo-details-container").html("");
         $(".modifier_main_container .logo-details-container").html(renderTemplate);
         $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html("");
         $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ _settingsObject.code +'">(remove)</a>');
+        ub.funcs.activateMoveTool(_settingsObject.code)
     }
 
     ub.funcs.afterRemoveStockLogo = function(settingsObj) {

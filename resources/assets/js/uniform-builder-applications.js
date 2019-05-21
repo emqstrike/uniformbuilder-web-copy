@@ -1085,11 +1085,9 @@ $(document).ready(function () {
             });
 
             ub.funcs.activateMoveTool(application.code);
-
-            setTimeout(function () {
-                ub.dragNonce = {applicationID: '', state: false};
-            }, 500);
-
+            // setTimeout(function () {
+            //     ub.dragNonce = {applicationID: '', state: false};
+            // }, 500);
         };
 
         sprite.mousedown = sprite.touchstart = function (interactionData) {
@@ -1509,22 +1507,22 @@ $(document).ready(function () {
         };
 
         sprite.mouseup = sprite.mouseup = function (interactionData) {
-            var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
-            if (element.length !== 0) {
-                ub.funcs.activateApplicationsLetters(application.code);
+            if (application.application_type === "embellishments") {
+                ub.funcs.activateMoveTool(application.code)
+            } else {
+                var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
+                if (element.length !== 0) {
+                    ub.funcs.activateApplicationsLetters(application.code);
+                }
             }
         }
-
     }
 
 
     /// MV Functions
-
     ub.funcs.getViewsOfID = function (app_id) {
-
         var views = ub.data.applications_transformed["Body"][app_id].views;
         return views;
-
     };
 
     ub.funcs.getSpritesOfID = function (app_id) {

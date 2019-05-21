@@ -1,4 +1,4 @@
-<!-- Logo -->
+Logo -->
 <script type="text/mustache" id="m-mascot-panel">
     <div class="uk-padding-small">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Logo</h5>
@@ -64,7 +64,11 @@
             <a href="#" class="uk-button uk-button-small uk-button-default uk-width-1-1 uk-margin-small-top uk-text-capitalize flip-mascot @{{ flip }}" data-application-code="@{{ code }}">Flip</a>
         </div>
         <div class="uk-width-1-2 uk-width-2-3@s uk-width-1-2@l uk-width-2-3@xl">
+            <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-remove-bottom abrade-black">@{{ logo_type }} Logo</h6>
+            <div>
+                <a href="@{{ viewPrint }}" class="uk-text-small">View&nbsp;Print&nbsp;Ready&nbsp;File</a>
+            </div>
         </div>
     </div>
 </script>
-<!-- End Logo -->
+<!-- End Logo
