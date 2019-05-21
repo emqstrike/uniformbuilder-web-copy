@@ -9380,6 +9380,9 @@ $(document).ready(function() {
                 var _fontID         = _settingsObject.font_obj.id;
                 var _size           = _settingsObject.font_size;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size, ub.active_view, {id: _settingsObject.code});
+
+                var _stroke         = ub.objects[ub.active_view + "_view"]["objects_" + _settingsObject.code].ubFontSizeData;
+
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
@@ -9412,7 +9415,7 @@ $(document).ready(function() {
                 _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize gaFontInput" name="font-size" value="' +  _pixelFontSize + '" /> px';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=                   '<div class="inputY">';
-                _cogBuilder +=                      '<div class="notes" style="margin-left: 140px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
+                _cogBuilder +=                      '<div class="notes" style="margin-left: 35px; margin-top: 25px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
                 _cogBuilder +=                   '</div>';                
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
@@ -9428,6 +9431,7 @@ $(document).ready(function() {
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
 
+                // Scale
                 _cogBuilder +=           '<div class="popup-row">';
                 _cogBuilder +=               '<div class="inputContainer">'
                 _cogBuilder +=                   '<div class="inputX">';
@@ -9438,6 +9442,19 @@ $(document).ready(function() {
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
+
+                // Stroke
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Inner Stroke: </span><input class="strokeInner gaFontInput" name="scaleX" value="' + _stroke.strokeInner + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Outer Stroke: </span><input class="strokeOuter gaFontInput" name="scaleY" value="' + _stroke.strokeOuter + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
                 _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
 
                 _cogBuilder +=           '<div class="button-row">';
@@ -9516,8 +9533,10 @@ $(document).ready(function() {
                         var _offsetY = $('input.offsetY').val();
                         var _scaleX = $('input.scaleX').val();
                         var _scaleY = $('input.scaleY').val();
+                        var _stokeInner = $('input.strokeInner').val();
+                        var _stokeOuter = $('input.strokeOuter').val();
 
-                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
+                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY, _stokeInner, _stokeOuter);
 
                     });
 

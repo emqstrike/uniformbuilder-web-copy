@@ -1733,6 +1733,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Soccer" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
                     (material.uniform_category === "SFN Jogger (Apparel)") ||
@@ -4992,7 +4993,7 @@ $(document).ready(function () {
             };
 
             /// Create Text Type Applications on load ( Player Name, Number and Team Name )
-            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY) {
+            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY, innerStroke, outerStroke) {
 
                 if (application_obj.text.length === 0) { return; }
 
@@ -5005,6 +5006,8 @@ $(document).ready(function () {
                 var _overrideOffsetY = undefined;
                 var _overrideScaleX = undefined;
                 var _overrideScaleY = undefined;
+                var _innerStroke = undefined;
+                var _outerStroke = undefined;
 
                 if (typeof overrideSize !== 'undefined') {
 
@@ -5036,6 +5039,18 @@ $(document).ready(function () {
 
                 }
 
+                if (typeof innerStroke !== 'undefined') {
+
+                    _innerStroke = innerStroke;
+
+                }
+
+                if (typeof outerStroke !== 'undefined') {
+
+                    _outerStroke = outerStroke;
+
+                }
+
                 var input_object = {
                     text_input: application_obj.text,
                     font_name: application_obj.font_obj.name,
@@ -5049,7 +5064,9 @@ $(document).ready(function () {
                     overrideOffsetX: _overrideOffsetX,                
                     overrideOffsetY: _overrideOffsetY,                
                     overrideScaleX: _overrideScaleX,                
-                    overrideScaleY: _overrideScaleY,                
+                    overrideScaleY: _overrideScaleY,
+                    innerStroke: _innerStroke,
+                    outerStroke: _outerStroke
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -6674,7 +6691,6 @@ $(document).ready(function () {
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
-
             var _picker_type = $(this).data('picker-type');
             var _item        = $(this).data('item');
             var _id          = $(this).data('id');
@@ -7045,11 +7061,16 @@ $(document).ready(function () {
         return _.uniq(neckOptions);
 
     }
+    ub.funcs.array_move = function (arr, old_index, new_index) {
+        new_index =((new_index % arr.length) + arr.length) % arr.length;
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr;
+    }
 
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
-
+            
             $('.tertiary-bar').html('');
 
             $('.tertiary-bar').hide();
@@ -7057,11 +7078,17 @@ $(document).ready(function () {
 
             var t = $('#m-tertiary-links').html();
             var _str = '';
-            var d = { block_patterns: _blockPatternsCollection, }
-
+            var isSoccer = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Soccer');
+            });
+            if(isSoccer.length > 0){
+                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
+            }else{
+                var d = { block_patterns: _blockPatternsCollection, }
+            }
+            
             var m = Mustache.render(t, d);
             $('.tertiary-bar').html(m);
-        
             $('div.tertiary-bar').fadeIn();        
             $('div.tertiary-bar').css('margin-top', "0px");
 
@@ -7069,7 +7096,7 @@ $(document).ready(function () {
             
             $('span.slink-small.tertiary').unbind('click');
             $('span.slink-small.tertiary').on('click', function () {
-
+                
                 var _dataItem = $(this).data('item');
 
                 ub.filters.tertiary = _dataItem.toString();
@@ -7079,13 +7106,19 @@ $(document).ready(function () {
                     _newSet = window.origItems;
 
                 } else {
-
+                    
                     _newSet = _.filter(window.origItems, function (item) {
-
+                        
                         return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
 
                     });
 
+                    if(_dataItem === "Premier Series"){
+                        _newSet = _.filter(window.origItems, function (item) {
+                            return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
+                        }).reverse();
+                    }
+                   
                     if (_dataItem === "Blank Styles") {
 
                          _newSet = _.filter(window.origItems, function (item) { return item.is_blank === '1'; });
@@ -7125,7 +7158,14 @@ $(document).ready(function () {
             var t = $('#m-quarternary-links').html();
             var _str = '';
             
-            var d = { block_patterns: _optionsCollection, }
+            var isSoccer = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Soccer');
+            });
+            if(isSoccer.length > 0){
+                var d = { block_patterns: _optionsCollection.reverse(), }
+            }else{
+                var d = { block_patterns: _optionsCollection, }
+            }
 
             // Don't include Crew in the Quarternary options, todo: move this to a config list
             d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
@@ -7368,7 +7408,7 @@ $(document).ready(function () {
             var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
-
+            
             if (!ub.picker.isNew) {
 
                 ub.funcs.prepareSecondaryBar(_sport, actualGender);
