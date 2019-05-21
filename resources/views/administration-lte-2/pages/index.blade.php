@@ -13,6 +13,11 @@
         .row {
             margin-bottom: 15px;
         }
+
+        select {
+            text-transform: capitalize;
+            -webkit-appearance: menulist !important;
+        }
     </style>
 @endsection
 
