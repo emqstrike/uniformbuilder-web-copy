@@ -1085,9 +1085,9 @@ $(document).ready(function () {
             });
 
             ub.funcs.activateMoveTool(application.code);
-            // setTimeout(function () {
-            //     ub.dragNonce = {applicationID: '', state: false};
-            // }, 500);
+            setTimeout(function () {
+                ub.dragNonce = {applicationID: '', state: false};
+            }, 500);
         };
 
         sprite.mousedown = sprite.touchstart = function (interactionData) {
@@ -10877,7 +10877,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.activateMoveTool = function (application_id) {
-
         // Guard Expressions
         if ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) {
             return;
@@ -11149,7 +11148,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.deactivateMoveTool = function () {
-
         ub.status.manipulatorDown = false;
 
         if (ub.funcs.isLayersPanelVisible()) {

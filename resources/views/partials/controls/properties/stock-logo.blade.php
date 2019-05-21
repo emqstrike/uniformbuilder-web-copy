@@ -1,4 +1,4 @@
-Logo -->
+<!-- Logo -->
 <script type="text/mustache" id="m-mascot-panel">
     <div class="uk-padding-small">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Logo</h5>
