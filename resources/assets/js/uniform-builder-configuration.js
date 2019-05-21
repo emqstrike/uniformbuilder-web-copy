@@ -132,6 +132,9 @@ $(document).ready(function(){
 
     }
 
-
+    ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
+        var brands = ['Prolook', 'Richardson'];
+        return _.contains(brands, brand);
+    }
 
 });
