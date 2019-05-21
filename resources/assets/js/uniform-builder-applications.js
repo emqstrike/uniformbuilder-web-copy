@@ -1085,11 +1085,9 @@ $(document).ready(function () {
             });
 
             ub.funcs.activateMoveTool(application.code);
-
-            setTimeout(function () {
-                ub.dragNonce = {applicationID: '', state: false};
-            }, 500);
-
+            // setTimeout(function () {
+            //     ub.dragNonce = {applicationID: '', state: false};
+            // }, 500);
         };
 
         sprite.mousedown = sprite.touchstart = function (interactionData) {
@@ -1509,10 +1507,12 @@ $(document).ready(function () {
         };
 
         sprite.mouseup = sprite.mouseup = function (interactionData) {
-            var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
-            if (element.length !== 0) {
-                ub.funcs.activateApplicationsLetters(application.code);
-            }
+            // var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
+            // if (element.length !== 0) {
+            //     ub.funcs.activateApplicationsLetters(application.code);
+            // }
+
+            ub.funcs.activateMoveTool(application.code)
         }
 
     }
