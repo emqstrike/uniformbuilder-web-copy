@@ -9915,8 +9915,8 @@ $(document).ready(function() {
 
         if (ub.config.uniform_application_type === "sublimated" 
             || ub.config.uniform_application_type === "knitted" 
-            // || tackeTwillCustomSizes 
-            || ub.data.enableScaleToolOnApplications.isEnabled(ub.config.brand)) {
+            || tackeTwillCustomSizes 
+            || ub.config.enableScaleToolOnApplications(ub.config.brand)) {
 
                 var _filenameScale = "/images/builder-ui/scale-icon-on.png";
                 var _spriteScale = ub.pixi.new_sprite(_filenameScale);

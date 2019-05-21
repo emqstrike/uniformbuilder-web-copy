@@ -132,9 +132,20 @@ $(document).ready(function(){
 
     }
 
-    ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
-        var brands = ['Prolook', 'Richardson'];
+    // Brand Rules
+
+    // enable application's Scale Tool for the ff. brand
+    ub.config.enableScaleToolOnApplications = function (brand) {
+        var brands = ['Richardson'];
         return _.contains(brands, brand);
     }
+
+    // ignore font rules for twill and subli uniforms
+    ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
+        var brands = ['Richardson'];
+        return _.contains(brands, brand);
+    }
+
+    // end Brand Rules
 
 });
