@@ -4992,7 +4992,7 @@ $(document).ready(function () {
             };
 
             /// Create Text Type Applications on load ( Player Name, Number and Team Name )
-            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY) {
+            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY, innerStroke, outerStroke) {
 
                 if (application_obj.text.length === 0) { return; }
 
@@ -5005,6 +5005,8 @@ $(document).ready(function () {
                 var _overrideOffsetY = undefined;
                 var _overrideScaleX = undefined;
                 var _overrideScaleY = undefined;
+                var _innerStroke = undefined;
+                var _outerStroke = undefined;
 
                 if (typeof overrideSize !== 'undefined') {
 
@@ -5036,6 +5038,18 @@ $(document).ready(function () {
 
                 }
 
+                if (typeof innerStroke !== 'undefined') {
+
+                    _innerStroke = innerStroke;
+
+                }
+
+                if (typeof outerStroke !== 'undefined') {
+
+                    _outerStroke = outerStroke;
+
+                }
+
                 var input_object = {
                     text_input: application_obj.text,
                     font_name: application_obj.font_obj.name,
@@ -5049,7 +5063,9 @@ $(document).ready(function () {
                     overrideOffsetX: _overrideOffsetX,                
                     overrideOffsetY: _overrideOffsetY,                
                     overrideScaleX: _overrideScaleX,                
-                    overrideScaleY: _overrideScaleY,                
+                    overrideScaleY: _overrideScaleY,
+                    innerStroke: _innerStroke,
+                    outerStroke: _outerStroke
                 };
 
                 var uniform_type = ub.current_material.material.type;
