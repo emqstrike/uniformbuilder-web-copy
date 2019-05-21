@@ -184,9 +184,13 @@ $(document).ready(function () {
 
 	ub.funcs.initPicker = function () {
 
-		if (ub.config.picker_version == 'NEW') {
-			ub.picker.isNew = true;
-		}
+        ub.funcs.betaFeaturesChecker('New Filter', function() {
+            console.log('New Filter Activated')
+            ub.picker.isNew = true;
+        }, function() { 
+            ub.picker.isNew = false;
+            console.log('Old Filter Activated'); 
+        });
 
         // prevent enter key submit on search input
         ub.funcs.preventEnterKeyPress();

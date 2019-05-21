@@ -1,5 +1,30 @@
 $(document).ready(function() {
 
+    // Custom Stroke
+    ub.data.fontStroke = {
+        items: [
+            {
+                brand: 'Prolook',
+                sport: 'Baseball',
+                blockPattern: 'Baseball Jersey Set-In',
+                neckOptions: ['BSB V-Neck', '2 Button'],
+                fontNames: ['Maryland Baseball', 'Astros Baseball'],
+                fontSize: 5,
+                accentName: 'double_outline',
+                strokeInner: 7,
+                strokeOuter: 14
+            },
+        ],
+        getStroke: function (brand, sport, blockPattern, fontSize, accentName, neckOption, fontName) {
+            var result = undefined;
+            result = _.filter(this.items, {brand: brand, sport: sport, blockPattern: blockPattern, fontSize: fontSize, accentName: accentName}).find(function (items) {
+                return _.contains(items.neckOptions, neckOption) && _.contains (items.fontNames, fontName);
+            });
+            return result;
+        }
+        
+   }
+
     ub.funcs.getSampleFont = function () {
 
         // TODO: Use first available font if there's no match
@@ -277,6 +302,18 @@ $(document).ready(function() {
 
             ub.data.offSetResult = _perspectiveData;
             _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
+
+            if (ub.config.ignoreFontRulesOnSublimatedAndTwill(ub.config.brand)) {
+                
+                _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
+                _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
+                
+                ub.utilities.info('');
+                ub.utilities.info(ub.config.brand + ' brand is detected. Ignoring font rules between sublimated and twill.');
+                ub.utilities.info('Using sublimated font behavior on application #' + location.toString() + ', size: ' + fontSize + ', perspective: ' + perspective);
+                ub.utilities.info('{ inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ') }');
+
+            }
             
         }
 
@@ -290,7 +327,7 @@ $(document).ready(function() {
             ub.utilities.info('');
             ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
             ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
-            ub.utilities.info('{inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ')');
+            ub.utilities.info('{ inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ') }');
             
         }
 
