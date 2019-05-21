@@ -1,5 +1,30 @@
 $(document).ready(function() {
 
+    // Custom Stroke
+    ub.data.fontStroke = {
+        items: [
+            {
+                brand: 'Prolook',
+                sport: 'Baseball',
+                blockPattern: 'Baseball Jersey Set-In',
+                neckOptions: ['BSB V-Neck', '2 Button'],
+                fontNames: ['Maryland Baseball', 'Astros Baseball'],
+                fontSize: 5,
+                accentName: 'double_outline',
+                strokeInner: 7,
+                strokeOuter: 14
+            },
+        ],
+        getStroke: function (brand, sport, blockPattern, fontSize, accentName, neckOption, fontName) {
+            var result = undefined;
+            result = _.filter(this.items, {brand: brand, sport: sport, blockPattern: blockPattern, fontSize: fontSize, accentName: accentName}).find(function (items) {
+                return _.contains(items.neckOptions, neckOption) && _.contains (items.fontNames, fontName);
+            });
+            return result;
+        }
+        
+   }
+
     ub.funcs.getSampleFont = function () {
 
         // TODO: Use first available font if there's no match
@@ -282,11 +307,8 @@ $(document).ready(function() {
 
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
-
-            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
-
-            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
-
+            _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: 'front'});
+            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString()});
             ub.utilities.info('');
             ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
             ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);

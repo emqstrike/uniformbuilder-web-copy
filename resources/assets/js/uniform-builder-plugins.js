@@ -1536,6 +1536,29 @@
             _strokeOuter = 14;
         }
 
+        // Stroke
+        var customStroke = ub.data.fontStroke.getStroke(ub.config.brand, 
+                                                        ub.current_material.material.uniform_category, 
+                                                        ub.current_material.material.block_pattern, 
+                                                        parseInt(input_object.fontSize), 
+                                                        input_object.accentObj.code, 
+                                                        ub.current_material.material.neck_option, 
+                                                        input_object.font_name);
+
+        if (typeof customStroke !== 'undefined') {
+            _strokeInner = customStroke.strokeInner;
+            _strokeOuter = customStroke.strokeOuter;
+        }
+
+        if (typeof input_object.innerStroke !== 'undefined') {
+            _strokeInner = parseInt(input_object.innerStroke);
+        }
+
+        if (typeof input_object.outerStroke !== 'undefined') {
+            _strokeOuter = parseInt(input_object.outerStroke);
+        }
+        // end Stroke
+
         ub.funcs.removeUIHandles();
 
         if (typeof input_object.fontSize === "undefined") {
@@ -1898,6 +1921,9 @@
         /// End Set First Three Colors 
 
         // container.zIndex = -(ub.funcs.generateZindex('applications') + parseInt(input_object.application.id));
+
+        container.ubFontSizeData.strokeInner = _strokeInner;
+        container.ubFontSizeData.strokeOuter = _strokeOuter;
         
         return container;
         

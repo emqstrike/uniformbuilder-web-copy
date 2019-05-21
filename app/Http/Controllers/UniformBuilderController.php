@@ -1282,6 +1282,8 @@ class UniformBuilderController extends Controller
         $bc = $itemData['builder_customizations'];
         $sml = $bc['sorted_modifier_labels'];
 
+        Log::info('SML===> ' . json_encode($sml));
+
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
@@ -1350,6 +1352,11 @@ class UniformBuilderController extends Controller
             // pre check if part name value is contains sleeve and only one separator then set it to sleeve only
             if (strpos($partX->code, 'sleeve') !== false && substr_count($partX->code, '_') === 1) {
                 $partX->code = 'sleeve';
+            }
+
+            // pre check if part name value is contains cowl and only one separator then set it to cowl only
+            if (strpos($partX->code, 'cowl') !== false && substr_count($partX->code, '_') === 1) {
+                $partX->code = 'cowl';
             }
 
             // transform code to matching words

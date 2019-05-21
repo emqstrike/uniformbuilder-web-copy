@@ -73,6 +73,7 @@
                             <th>Block Pattern Option</th>
                             <th>Thumbnail</th>
                             <th>Piping Set</th>
+                            <th>Alias</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -82,11 +83,19 @@
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="col-md-1">{{ $item->sport }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
-                            <td class="td-item-block-pattern col-md-1">{{ $item->block_pattern }}</td>
+                            <td class="col-md-1">{{ $item->sport_name }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->sport}}"></td>
+                            <td class="col-md-1">{{ $item->bp_name }} <input type="hidden" name="" class="td-item-block-pattern" value="{{ $item->block_pattern}}"></td>
                             <td class="td-item-block-pattern-option col-md-1">{{ $item->block_pattern_option }}</td>
-                            <td class="td-item-thumbnail col-md-1">{{ $item->thumbnail }}</td>
+                            <td class="col-md-1">
+                                <input type="hidden" name="" class="td-item-thumbnail" value="{{ $item->thumbnail }}">
+                                @if (! is_null($item->thumbnail) && $item->thumbnail !== '' )
+                                <a href="{{ $item->thumbnail }}" target="_blank">
+                                    <span class="fa fa-image"></span>
+                                </a>
+                                @endif
+                            </td>
                             <td class="td-item-piping-set col-md-1">{{ $item->piping_set }}</td>
+                            <td class="td-item-alias col-md-1">{{ $item->alias_name }}</td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
@@ -112,6 +121,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                     </table>
@@ -120,7 +130,7 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.pipings.pipings-modal') 
+@include('administration-lte-2.pipings.pipings-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -160,63 +170,27 @@ $(document).ready(function(){
     });
     $('.sport').trigger('change');
 
-    var z = window.block_patterns;
+
     $(document).on('change', '#block_pattern', function() {
-        var options = [];
-        var bps = $('#block_pattern_value').val();
-        var bps_id = bps.toString().split(",");
-            bps_id.forEach( function(item_id) {
-                var id = item_id;
-                $.each(z, function(i, item) {
-                   if( item.id == id ){
-                        var optx = JSON.parse(item.neck_options);
-                        $.each(optx, function(i, item) {
-                            options.push(item.name);
-                        });
-                    } else {
-                    }
-                });
-            });
-
-        var y = _.sortBy(_.uniq(options));
+        var id = $(this).val();
         $( '#neck_option' ).html('');
-        y.forEach(function(i) {
-            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
+        var filtered_block_pattern = _.find(window.block_patterns, function( bp ) {
+            return bp.id == id;
         });
-        $('.material-neck-option').trigger('change');
+        var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
+        $.each(filtered_neck_options, function(i, item) {
+            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+        });
     });
-
-    if($('#neck_option_value').val()){
-        var bpos = JSON.parse($('#neck_option_value').val());
-    }
-
-    $(".material-neck-option").change(function() {
-        $('#neck_option_value').val($(this).val());
-    });
-
-    $('.material-neck-option').val(bpos);
-    $('.material-neck-option').trigger('change');
-
-    if($('#block_pattern_value').val()){
-        var bp = JSON.parse($('#block_pattern_value').val());
-    }
-
-    $(".block-pattern").change(function() {
-        $('#block_pattern_value').val($(this).val());
-    });
-
-    $('.block-pattern').val(bp);
-    $('.block-pattern').trigger('change');
 
     $("#myModal").on("hidden.bs.modal", function() {
-        $('.sport').val('none');
-        $('.sport').trigger('change');
-        $('.block-pattern-val').val('');
+        $('.sport').val('');
         $('#block_pattern').val('');
-        $('.neck-option-val').val('');
         $('#neck_option').val('');
-        $('.input-item-thumbnail').val('');
-        $('.input-item-piping-set').val('');
+        $('.input-thumbnail').val('');
+        $('.input-piping-set').val('');
+        $('.input-alias').val('');
+        $('.thumbnail-prev').empty();
         $('.submit-new-record').removeAttr('disabled');
     });
 
@@ -237,17 +211,27 @@ $(document).ready(function(){
 
         data.id = parentEl.find('.td-item-id').text();
         data.sport = parentEl.find('.td-item-sport').val();
-        data.block_pattern = parentEl.find('.td-item-block-pattern').text();
+        data.block_pattern = parentEl.find('.td-item-block-pattern').val();
         data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
-        data.thumbnail = parentEl.find('.td-item-thumbnail').text();
+        data.alias_name = parentEl.find('.td-item-alias').text();
+        data.thumbnail = parentEl.find('.td-item-thumbnail').val();
         data.piping_set = parentEl.find('.td-item-piping-set').text();
+        console.log(data.block_pattern_option);
+        if(data.thumbnail != '') {
+            var mElem = '';
+            mElem += `<img src="`+ data.thumbnail +`" style="height: 100px; width: 110px;">
+                          <a href="#" class="btn btn-danger btn-xs btn-flat delete-category-image" data-category-id="`+ data.id +`" data-field="thumbnail-prev" role="button">
+                              Delete
+                          </a>`;
+        }
+        $('.thumbnail-prev').append(mElem);
 
         $('.input-item-id').val(data.id);
         $('.sport').val(data.sport).trigger('change');
-        $('.block-pattern-val').val(data.block_pattern).trigger('change');
-        $('.neck-option-val').val(data.block_pattern_option).trigger('change');
-        $('.input-thumbnail').val(data.thumbnail).trigger('change');
-        $('.input-piping-set').val(data.piping_set).trigger('change');
+        $('.input-block-pattern').val(data.block_pattern).trigger('change');;
+        $('.input-option').val(data.block_pattern_option);
+        $('.input-piping-set').val(data.piping_set);
+        $('.input-alias').val(data.alias_name);
 
     });
 
@@ -255,10 +239,27 @@ $(document).ready(function(){
         e.preventDefault();
         var data = {};
         data.sport = $('.sport').val();
-        data.block_pattern = $('.block-pattern-val').val();
-        data.block_pattern_option = $('.neck-option-val').val();
-        data.thumbnail = $('.input-thumbnail').val();
+        data.block_pattern = $('.input-block-pattern').val();
+        data.block_pattern_option = $('.input-option').val();
         data.piping_set = $('.input-piping-set').val();
+        data.alias_name = $('.input-alias').val();
+
+        var formData = new FormData();
+        var th_file = null;
+
+        try {
+            var thumbnail = $('.input-thumbnail')[0].files[0];
+            if(thumbnail != undefined) {
+                formData.append('file', thumbnail);
+                fileUpload(formData, function (filename) { th_file = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        if(th_file != null) {
+            data.thumbnail = th_file;
+        }
 
         if(window.modal_action == 'add'){
             var url = "//" + api_host +"/api/v1-0/pipings/create";
@@ -419,6 +420,52 @@ $(document).ready(function(){
                 }
             });
     }
+
+    function fileUpload(postData, callback){
+        var file;
+        $.ajax({
+            url: "//" + api_host + "/api/v1-0/file/uploader",
+            type: "POST",
+            data: postData,
+            processData: false,
+            contentType: false,
+            crossDomain: true,
+            async: false,
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    file = data.file;
+                    if(typeof callback === "function") callback(file);
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    };
+
+    $(document).on('click', '.delete-category-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('category-id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/v1-0/pipings/deleteImage";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
 
 });
 </script>
