@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
     <style type="text/css">

@@ -88,7 +88,7 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                var url = "pages/get_by_brand/" + window.application_brand + "?page=" + page;
+                var url = "pages/get_by_brand/" + window.application_brand + "/paginated?page=" + page;
 
                 if (this.search) {
                     if (this.searchPageFilter == 'name') {

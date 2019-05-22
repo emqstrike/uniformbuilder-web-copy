@@ -3,28 +3,19 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 
     <style type="text/css">
-        div#box_body {
-            overflow-y: scroll;
-            max-height: 500px;
-        }
-
-        table.data-table {
-            table-layout: fixed;
-            word-wrap: break-word;
-        }
-
-        .modal .row {
-            margin-bottom: 15px;
-        }
-
-        .select2 {
-            width: 100% !important;
-        }
-
         li.select2-selection__choice {
             color: black !important;
+        }
+
+        .v-dialog__content { 
+            z-index: 999999 !important;
+        }
+
+        .v-dialog--fullscreen {
+            overflow-x: hidden !important;
         }
     </style>
 @endsection
@@ -39,7 +30,7 @@
 
                         <h1>Page Rules</h1>
 
-                        <button class='btn btn-flat btn-xs btn-success add-page-rule'>
+                        <button class='btn btn-flat btn-xs btn-success' @click="add(pageRule)">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add new page rule
                         </button>
@@ -48,6 +39,7 @@
                     <div class="box-body">
                         <v-app id="inspire">
                             @include('administration-lte-2.partials.components.loading-dialog')
+                            @include('administration-lte-2.page-rules.modal.page-rule')
 
                             <div>
                                 <v-data-table ref="pageRuleTable" :headers="headers" hide-actions :items="pageRules" class="elevation-1" :total-items="100">
@@ -55,7 +47,7 @@
                                         <td>@{{ props.item.type }}</td>
                                         <td>@{{ props.item.role }}</td>
                                         <td>
-                                            <button class="btn btn-flat btn-primary btn-xs">
+                                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(props.item)">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                                 Edit
                                             </button>

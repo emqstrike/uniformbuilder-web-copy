@@ -7,6 +7,7 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
     <link rel="stylesheet" href="/css/administration-lte-2/users.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
