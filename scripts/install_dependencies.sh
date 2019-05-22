@@ -1,2 +1,2 @@
 #!/bin/bash
-composer install
+echo "hello world"
