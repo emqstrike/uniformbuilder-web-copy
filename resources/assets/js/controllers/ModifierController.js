@@ -247,7 +247,6 @@ ModifierController.prototype = {
     },
 
     players: function() {
-        console.log("Pkayer Name HERE MADAFAKA")
         PlayerNamePanel.events.init();
     },
 

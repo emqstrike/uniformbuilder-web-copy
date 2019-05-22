@@ -11,30 +11,86 @@
 </script>
 
 <script type="text/mustache" id="m-player-name-modifier-control">
-    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Player Name</h5><span>(remove)</span>
-    <div class="lettersOptsContainer">
-        <div class="con-input-object con-en-disable-me">
-            <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Select @{{ type}} Font Style</h6>
-            <div class="app-letters-wrapper">
-                <input class="uk-input bgc-light bdr-lightGray sampleText app-letters-input" type="text" placeholder="@{{ placeholder }}" value="@{{ defaultText }}" @{{ isPlayerName }}>
-            </div>
-        </div>
+    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Player Name <span class="fc-red uk-text-small">(remove)</span></h5>
+    <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium uk-text-uppercase" type="text" placeholder="@{{ defaultText }}">
+    <div class="playerOptionContainer">
+        @{{ #hasFontStyle }}
+            @{{{ fontStyle }}}
+        @{{ /hasFontStyle }}
 
-        @{{#fonts}}
-            @{{{ fontsData }}}
-        @{{/fonts}}
+        @{{ #hasTeamLayout }}
+            @{{{ teamLayout }}}
+        @{{ /hasTeamLayout }}
 
-        @{{#slider}}
+        @{{ #slider }}
             @{{{ sliderContainer }}}
-        @{{/slider}}
+        @{{ /slider }}
 
-        @{{#accents}}
-            @{{{ accentsData }}}
-        @{{/accents}}
+        @{{ #hasAccents }}
+            @{{{ accents }}}
+        @{{ /hasAccents }}
 
-        @{{#colorPicker}}
+        @{{ #colorPicker }}
             @{{{ colorsSelection }}}
-        @{{/colorPicker}}
+        @{{ /colorPicker }}
+    </div>
+</script>
+
+<script type="text/mustache" id="m-player-name-accent">
+    <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom uk-margin-small-top abrade-black">Choose font Accent</h6>
+    <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-6@s con-select m-accents active-bdr-red" uk-grid>
+        @{{ #accents }}
+            <div>
+                <button class="uk-inline bgc-transparent box-palette btn-selection-choice @{{ active }}">
+                    <div class=" bdr-thin bdr-gray">
+                        <img src="@{{ thumbnail }}" uk-img>
+                    </div>
+                    <div class="uk-position-cover choice-icon bdr-lightGray">
+                        <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary"></span>
+                    </div>
+                </button>
+            </div>
+        @{{ /accents }}
+    </div>
+</script>
+
+<script type="text/mustache" id="m-player-name-font">
+    <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Player name font</h6>
+    <div class="uk-grid-collapse uk-grid-match uk-text-center" id="font-styles-container" uk-grid>
+        <div class="uk-width-auto">
+            <a href="javascript:void(0)" class="fontStyleLeft uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
+                <span class="fc-red"><i class="glyphicon glyphicon-arrow-left"></i></span>
+            </a>
+        </div>
+        <div class="uk-width-expand">
+            <a href="javascript:void(0)" class="select-font-style" data-application-code="@{{ code }}">
+                <span class="font_name uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark" style="font-family: @{{ fontStyle }}">@{{ fontCaption }}</span>
+            </a>
+        </div>
+        <div class="uk-width-auto">
+            <a href="javascript:void(0)" class="fontStyleRight uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
+                <span class="fc-red"><i class="glyphicon glyphicon-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="m-player-name-layout">
+    <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Team Name Layout</h6>
+    <div class="uk-grid-collapse uk-grid-match uk-text-center" uk-grid>
+        <div class="uk-width-auto">
+            <a href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default">
+                <span class="fc-red icon-left-arrow"></span>
+            </a>
+        </div>
+        <div class="uk-width-expand">
+            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark"><span class="abrade-black">Maxim</span> Straight</button>
+        </div>
+        <div class="uk-width-auto">
+            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default">
+                <span class="fc-red icon-right-arrow"></span>
+            </button>
+        </div>
     </div>
 </script>
 

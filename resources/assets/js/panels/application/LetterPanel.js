@@ -21,7 +21,11 @@ LetterPanel.init = function() {
     // get applications and filter
     var _Applications = ub.current_material.settings.applications;
     var _filteredApplications = _.filter(_Applications, function(i) {
-        if (i.application_type === 'team_name' || i.application_type === 'player_name') {
+        // if (i.application_type === 'team_name' || i.application_type === 'player_name') {
+        //     return i;
+        // }
+
+        if (i.application_type === 'team_name') {
             return i;
         }
     });

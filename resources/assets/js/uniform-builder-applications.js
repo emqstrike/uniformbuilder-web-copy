@@ -1509,6 +1509,8 @@ $(document).ready(function () {
             var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
             if (element.length !== 0) {
                 ub.funcs.activateApplicationsLetters(application.code);
+            } else {
+                ub.funcs.activateMoveTool(application.code)
             }
         }
 
@@ -9257,8 +9259,8 @@ $(document).ready(function () {
         }
 
         // Open Richardson Logo Modal for embellishment and mascot only
+        ub.data.currentApplication = _settingsObject;
         if (_settingsObject.application_type === 'embellishments' || _settingsObject.application_type === 'mascot') {
-            ub.data.currentApplication = _settingsObject;
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
                 InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
             } else {
