@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo npm install
+echo "Hello World"
