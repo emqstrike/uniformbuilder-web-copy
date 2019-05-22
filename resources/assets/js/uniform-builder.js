@@ -7215,7 +7215,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.block_pattern === _activeBlockPattern && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
+                            return (item.block_pattern === _activeBlockPattern || item.block_pattern_alias === _activeBlockPattern) && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
 
                         });
 
