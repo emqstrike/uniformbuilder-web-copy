@@ -1510,7 +1510,8 @@ $(document).ready(function () {
             if (element.length !== 0) {
                 ub.funcs.activateApplicationsLetters(application.code);
             } else {
-                ub.funcs.activateMoveTool(application.code)
+                PlayerNamePanel.funcs.initializePlayerName(application.code);
+                ub.funcs.activateMoveTool(application.code);
             }
         }
 

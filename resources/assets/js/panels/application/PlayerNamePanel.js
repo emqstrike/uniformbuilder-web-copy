@@ -50,9 +50,15 @@ PlayerNamePanel.events = {
         var configuration = PlayerNamePanel.configuration;
         var part = ub.funcs.is_pts_cage_jacket() ? "Back Jersey" : "Back Body";
         ub.funcs.newApplication(configuration.perspective, part, configuration.type, configuration.side);
-
         var playerObj = ub.data.currentApplication;
+        PlayerNamePanel.funcs.initializePlayerName(playerObj.code);
+    }
+}
 
+PlayerNamePanel.funcs = {
+    initializePlayerName: function(code) {
+        var that = this;
+        var playerObj = ub.funcs.getApplicationSettings(code);
         var objStock = {
             application_type: playerObj.application_type,
             type: playerObj.application.name.toUpperCase(),
@@ -60,20 +66,23 @@ PlayerNamePanel.events = {
             code: playerObj.code,
             perspective: playerObj.application.views[0].perspective,
             hasAccents: true,
-            accents: PlayerNamePanel.funcs.accent(playerObj),
+            accents: that.accent(playerObj),
             hasFontStyle: true,
-            fontStyle: PlayerNamePanel.funcs.fontStyle(playerObj),
+            fontStyle: that.fontStyle(playerObj),
             hasTeamLayout: true,
-            teamLayout: PlayerNamePanel.funcs.teamLayout(playerObj)
+            teamLayout: that.teamLayout(playerObj),
+            hasColors: true,
+            colorContainer: that.colorSelection(playerObj, "Player Name Colors"),
+            hasFontSize: true,
+            fontSizeSlider: that.fontSizeSlider(playerObj)
         };
 
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-player-name-modifier-control', objStock);
         $(".modifier_main_container #player-name-panel").html("");
         $(".modifier_main_container #player-name-panel").html(_htmlBuilder);
-    }
-}
+        ub.funcs.initializer();
+    },
 
-PlayerNamePanel.funcs = {
     accent: function(settingsObject) {
         var _accents = []
         _.map(ub.data.accents.items, function (j) {
@@ -113,7 +122,94 @@ PlayerNamePanel.funcs = {
         return _htmlBuilder;
     },
 
-    colorSelection: function() {
+    colorSelection: function(_settingsObject, title) {
+        var _colorBlock = '';
+        var _html = '';
 
+        _html += '<div class="colorSelectionContainer">';
+        _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+title+'</h6>';
+        _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>'
+
+        _.each(_settingsObject.accent_obj.layers, function (layer) {
+            var _hexCode = layer.default_color;
+            var _color = ub.funcs.getColorObjByHexCode(_hexCode);
+            var _layerNo = layer.layer_no - 1;
+
+            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') {
+                return;
+            }
+
+            _color = _settingsObject.color_array[_layerNo];
+
+            // Use default color if team color is short
+            if (typeof _color === "undefined") {
+                _hexCode = layer.default_color;
+                _color = ub.funcs.getColorObjByHexCode(_hexCode);
+                ub.utilities.error('Undefined color found here!!!');
+            }
+
+            if (typeof _color !== 'undefined') {
+                _html += '<li><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize uk-button-small">' + layer.name + '</a></li>';
+                // building separated color blocks
+                _colorBlock += PlayerNamePanel.funcs.createColorBlock(_settingsObject.code, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
+            } else {
+                util.error('Hex Code: ' + _hexCode + ' not found!');
+            }
+        });
+
+        _html += '</ul>';
+        _html += '<ul class="uk-switcher uk-margin-small-top">'
+        _html += _colorBlock;
+        _html += '</ul>';
+        _html += '</div>';
+
+        return _html;
+    },
+
+    createColorBlock: function(_id, activeColorCode, layer_no, layer_name, active_color, objectType) {
+        var _html = '';
+        var _teamColors = ub.data.secondaryColorPalette;
+        var _objectType = objectType;
+
+        if (typeof objectType === "undefined") {
+            _objectType = 'not-set';
+        }
+
+        _teamColors = _.sortBy(_teamColors, "order");
+        // _html += '<div id="tab-' + _id + '-' + layer_no + '" class="tab-pane fade cp-margin-remove" style="padding-bottom: 50px; padding-top: 20px;">';
+        _html += '<li>'
+        _html += '<div class="con-select con-palettes">'
+        _html += '<div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color" uk-grid>'
+        _.each(_teamColors, function (_color) {
+            var _checkMark = '';
+            var _class = '';
+            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+
+            if (activeColorCode === _color.color_code) {
+                _checkMark = '<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size" style="color:#' + _colorObj.forecolor + ';"></span>';
+                _class = 'activeColorItem';
+            }
+
+            _html += '<div>';
+            if (_colorObj.color_code === "W") {
+                _html += '<button uk-tooltip="title:' + _colorObj.alias + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#ffff; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+            } else {
+                _html += '<button uk-tooltip="title:' + _colorObj.alias + '; pos: left;" class="uk-inline box-palette btn-selection-choice palette-color palette colorItem '+ _class +'" style="background-color:#' + _colorObj.hex_code + '; color:#' + _colorObj.forecolor + ';" data-id="' + _id + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type="' + _objectType + '">';
+            }
+            _html += _checkMark;
+            _html += '</button>';
+            _html += '</div>';
+        });
+
+        _html += '</div>';
+        _html += '</div>';
+        _html += '</li>';
+
+        return _html;
+    },
+
+    fontSizeSlider: function(_settingsObject) {
+        var _htmlBuilder = ub.utilities.buildTemplateString('#m-player-name-font-size-slider', {code: _settingsObject.code});
+        return _htmlBuilder;
     }
 }
