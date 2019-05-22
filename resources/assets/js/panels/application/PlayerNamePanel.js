@@ -28,22 +28,20 @@ PlayerNamePanel.configuration = {
 PlayerNamePanel.events = {
     isInit: true,
 
-    loadUserInterface: function() {
-        var template = document.getElementById("m-player-name-container").innerHTML;
-        var renderTemplate = Mustache.render(template);
-        $('.modifier_main_container').html("");
-        $('.modifier_main_container').html(renderTemplate);
-    },  
-    
     init: function() {
         var that = this;
         if (that.isInit) {
             // Events HERE
             $(".modifier_main_container").on("click", ".add-player-name .btn-selection-choice", that.onClickAddPlayerName);
+            $('.modifier_main_container').on('click', '.playerOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
+            $('.modifier_main_container').on('click', '.m-accents .btn-selection-choice', that.onSelectFontAccent);
+            $('.modifier_main_container').on('click', '.playerOptionContainer a.fontStyleLeft, a.fontStyleRight', that.onChangeFontStyle);
+            $('.modifier_main_container').on('click', '#player-name-panel .remove-player-name', that.onRemovePlayerName);
+            
             that.isInit = false;
         }
 
-        that.loadUserInterface();
+        PlayerNamePanel.funcs.loadAddPlayer();
     },
 
     onClickAddPlayerName: function() {
@@ -52,10 +50,85 @@ PlayerNamePanel.events = {
         ub.funcs.newApplication(configuration.perspective, part, configuration.type, configuration.side);
         var playerObj = ub.data.currentApplication;
         PlayerNamePanel.funcs.initializePlayerName(playerObj.code);
+    },
+
+    onChangeAccentColor: function() {
+        // changing active color
+        $(this).parent().parent().find('button').removeClass('activeColorItem').html('');
+        $(this).addClass('activeColorItem').html('<span class="fa fa-check fa-1x cp-margin-remove cp-padding-remove cp-check-color-font-size"></span>');
+
+        // proceed
+        var dataId = $(this).attr('data-id');
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: dataId});
+
+        var _layer_no = $(this).data('layer-no');
+        var _color_code = $(this).data('color-code');
+        var _layer_name = $(this).data('layer-name');
+        var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+        var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
+
+        _layer.default_color = _colorObj.hex_code;
+        _settingsObject.color_array[_layer_no - 1] = _colorObj;
+
+        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+        ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj, 'accent');
+
+        var _matchingID;
+        var _matchingSide;
+        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+        if (typeof _matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+            _layer.default_color = _colorObj.hex_code;
+            _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+            ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+        }
+    },
+
+    onSelectFontAccent: function() {
+        var code = $(this).closest(".playerOptionContainer").data("code");
+        var settingsObj = ub.funcs.getApplicationSettings(code);
+        var accentID = $(this).data('accent-id');
+
+        ub.funcs.changeAccentFromPopup(accentID, settingsObj);
+
+        var matchingID = undefined;
+        matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+        if (typeof matchingID !== "undefined") {
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
+            ub.funcs.changeAccentFromPopup(accentID, _matchingSettingsObject);
+        }
+
+        PlayerNamePanel.funcs.initializePlayerName(code)
+        _.delay(function() {
+            $("#primary_options_container").scrollTo($(".playerOptionContainer .con-select.con-palettes"), {duration: 300});
+        }, 100)
+    },
+
+    onChangeFontStyle: function() {
+        var direction = $(this).data("direction");
+        var code = $(this).closest(".playerOptionContainer").data("code");
+        ApplicationEvent.changeFontStyle(code, direction);
+    },
+
+    onRemovePlayerName: function() {
+        var code = $(this).data("code");
+        var _application = ub.funcs.getApplicationSettings(code);
+        ub.funcs.deleteLocation(_application.code);
+        PlayerNamePanel.funcs.loadAddPlayer();
     }
 }
 
 PlayerNamePanel.funcs = {
+    loadAddPlayer: function() {
+        var template = document.getElementById("m-player-name-container").innerHTML;
+        var renderTemplate = Mustache.render(template);
+        $('.modifier_main_container').html("");
+        $('.modifier_main_container').html(renderTemplate);
+    },
+
     initializePlayerName: function(code) {
         var that = this;
         var playerObj = ub.funcs.getApplicationSettings(code);
@@ -128,9 +201,9 @@ PlayerNamePanel.funcs = {
 
         _html += '<div class="colorSelectionContainer">';
         _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+title+'</h6>';
-        _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>'
+        _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>';
 
-        _.each(_settingsObject.accent_obj.layers, function (layer) {
+        _.each(_settingsObject.accent_obj.layers, function (layer, index) {
             var _hexCode = layer.default_color;
             var _color = ub.funcs.getColorObjByHexCode(_hexCode);
             var _layerNo = layer.layer_no - 1;
@@ -149,7 +222,11 @@ PlayerNamePanel.funcs = {
             }
 
             if (typeof _color !== 'undefined') {
-                _html += '<li><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize uk-button-small">' + layer.name + '</a></li>';
+                if (index === 0) {
+                    _html += '<li><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.name + '</a></li>';
+                } else {
+                    _html += '<li class="uk-padding-remove"><a href="#" class="uk-width-1-1 padding-tiny-vertical uk-button-default uk-text-capitalize">' + layer.name + '</a></li>';
+                }
                 // building separated color blocks
                 _colorBlock += PlayerNamePanel.funcs.createColorBlock(_settingsObject.code, _color.color_code, layer.layer_no, layer.name, layer.default_color, 'accent');
             } else {

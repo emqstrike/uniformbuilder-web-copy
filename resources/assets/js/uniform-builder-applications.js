@@ -12155,7 +12155,7 @@ $(document).ready(function () {
         $.smkAlert({
             text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer',
             type: 'success',
-            time: 10,
+            time: 1,
             marginTop: '90px'
         });
 

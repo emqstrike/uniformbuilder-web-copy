@@ -11,9 +11,11 @@
 </script>
 
 <script type="text/mustache" id="m-player-name-modifier-control">
-    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Player Name <span class="fc-red uk-text-small">(remove)</span></h5>
+    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
+        Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
+    </h5>
     <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium uk-text-uppercase uk-disabled" type="text" placeholder="@{{ defaultText }}" value="@{{ defaultText }}">
-    <div class="playerOptionContainer">
+    <div class="playerOptionContainer" data-code="@{{ code }}">
         @{{ #hasFontStyle }}
             @{{{ fontStyle }}}
         @{{ /hasFontStyle }}
@@ -40,8 +42,8 @@
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small-bottom uk-margin-small-top abrade-black">Choose font Accent</h6>
     <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-6@s con-select m-accents active-bdr-red" uk-grid>
         @{{ #accents }}
-            <div>
-                <button class="uk-inline bgc-transparent box-palette btn-selection-choice @{{ active }}">
+            <div uk-tooltip="title: @{{ title }}; pos: left;">
+                <button class="uk-inline bgc-transparent box-palette btn-selection-choice @{{ active }}" data-accent-id="@{{ id }}">
                     <div class=" bdr-thin bdr-gray">
                         <img src="@{{ thumbnail }}" uk-img>
                     </div>
