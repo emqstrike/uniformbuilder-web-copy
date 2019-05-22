@@ -140,11 +140,11 @@ PipingPanel.events = {
 
         if (ub.config.type === "lower") {
             if (piping_set === "Back Insert Piping") {
-                $('a.change-view[data-view="back"]').trigger('click');
+                $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='back']").trigger("click");
             }
 
             if (piping_set === "Left Pant Piping") {
-                $('a.change-view[data-view="left"]').trigger('click');
+                $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='left']").trigger("click");
             }
         }
     },

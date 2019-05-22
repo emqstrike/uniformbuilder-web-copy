@@ -40,6 +40,13 @@ ColorPanel.prototype = {
                 $("#primary_options_colors .parts-modifier-panel").html("");
                 $("#primary_options_colors .parts-modifier-panel").html(html);
 
+                // Change if part is front and back
+                if (modifierObject.fullname === "front_body" || modifierObject.fullname === "front_jersey") {
+                    $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='front']").trigger("click");
+                } else if (modifierObject.fullname === "back_body" || modifierObject.fullname === "back_jersey") {
+                    $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='back']").trigger("click");
+                }
+
                 var materialObject = _.find(currentMaterials, {code: modifierObject.fullname});
                 if (typeof materialObject !== "undefined") {
                     var patternObject = materialObject.pattern;
