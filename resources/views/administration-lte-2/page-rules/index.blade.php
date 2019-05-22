@@ -52,7 +52,7 @@
                                                 Edit
                                             </button>
 
-                                            <button class="btn btn-flat btn-danger btn-xs">
+                                            <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                                 Remove
                                             </button>

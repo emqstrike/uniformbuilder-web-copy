@@ -122,12 +122,45 @@ new Vue({
                 }
             });
         },
+        remove(pageRule) {
+            this.dialog = true;
+
+            let remove = confirm('Are you sure you want to remove this page?');
+
+            if (remove == true) {
+                axios.get('page_rules/' + pageRule.id + '/delete').then((response) => {
+                    if (response.data.success == true) {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            this.getDataFromAPI();
+
+                            new PNotify({
+                                title: 'Page rule deleted',
+                                type: 'success',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'Page rule failed to delete',
+                                type: 'error',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }
+                });
+            }
+        },
         save(pageRule) {
             this.dialog = true;
 
             pageRule.allowed_pages = JSON.stringify(pageRule.allowed_pages);
-
-            console.log(pageRule);
 
             axios.post('page_rule', pageRule).then((response) => {
                 if (response.data.success === true) {
