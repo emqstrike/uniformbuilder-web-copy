@@ -88,7 +88,7 @@ elixir(function(mix) {
             'uniform-builder-polyfils.js',
             'uniform-builder-shortcuts.js',
             'uniform-builder-generators.js',
-
+            
             // Teamstore
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
@@ -115,6 +115,7 @@ elixir(function(mix) {
             'panels/application/ApplicationUtilities.js',
             'panels/application/ApplicationEvent.js',
             'panels/application/InteropIsPanel.js',
+            'panels/application/PlayerNamePanel.js',
             'panels/SummaryPreviewPanel.js',
             'panels/ColorHexTester.js',
             'panels/RosterPanel.js',

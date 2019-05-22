@@ -32,6 +32,7 @@ function ModifierController(element, brand) {
         pipings: {},
         letters: {},
         numbers: {},
+        players: {},
         applications: {},
         logo: {}
     };
@@ -55,6 +56,7 @@ ModifierController.prototype = {
         $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
+        $('#property-modifiers-menu .menu-item-player').on('click', this.players);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
         $('#property-modifiers-menu .menu-item-roster').on('click', this.roster);
@@ -242,6 +244,11 @@ ModifierController.prototype = {
     numbers: function() {
         NumbersPanel.init();
         $("#primary_options_container").scrollTo(0);
+    },
+
+    players: function() {
+        console.log("Pkayer Name HERE MADAFAKA")
+        PlayerNamePanel.events.init();
     },
 
     applications: function() {

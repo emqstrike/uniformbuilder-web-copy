@@ -91,13 +91,13 @@
     <div id="property-modifiers-menu" class="hidden">
         <a href="#" class="group-pane abrade-ultra menu-item group-1 menu-item-fabrics" uk-tooltip="title: Fabrics; pos: left;" data-item="fabrics">1</a>
         <a href="#" class="group-pane abrade-ultra menu-item group-2 menu-item-parts" uk-tooltip="title: Colors; pos: left;" data-item="parts">2</a>
-        <!-- {{-- <a href="#" class="group-pane abrade-ultra menu-item group-3 menu-item-inserts" uk-tooltip="title: Inserts; pos: left;" data-item="inserts">3</a> --}} -->
         <a href="#" class="group-pane abrade-ultra menu-item group-3 menu-item-pipings" uk-tooltip="title: Pipings; pos: left;">3</a>
-        <a href="#" class="group-pane abrade-ultra menu-item group-4 menu-item-letters" uk-tooltip="title: Names; pos: left;" data-item="letters">4</a>
-        <a href="#" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers" uk-tooltip="title: Numbers; pos: left;" data-item="numbers">5</a>
-        <a href="#" class="group-pane abrade-ultra menu-item group-6 menu-item-applications" uk-tooltip="title: Logos; pos: left;" data-item="applications">6</a>
-        <a href="#" class="group-pane abrade-ultra menu-item group-7 menu-item-logo" uk-tooltip="title: Brand; pos: left;" data-item="logo">7</a>
-        <a href="#" class="group-pane abrade-ultra menu-item group-8 menu-item-roster" uk-tooltip="title: Team Roster; pos: left;" data-item="roster">7</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-4 menu-item-letters" uk-tooltip="title: Team Name; pos: left;" data-item="letters">4</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-5 menu-item-numbers" uk-tooltip="title: Player Number; pos: left;" data-item="numbers">5</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-6 menu-item-player" uk-tooltip="title: Player Name; pos: left;" data-item="player-name">5</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-7 menu-item-applications" uk-tooltip="title: Logos; pos: left;" data-item="applications">6</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-8 menu-item-logo" uk-tooltip="title: Brand; pos: left;" data-item="logo">7</a>
+        <a href="#" class="group-pane abrade-ultra menu-item group-9 menu-item-roster" uk-tooltip="title: Team Roster; pos: left;" data-item="roster">8</a>
     </div>
 
     <div id="right-pane" class="pane">
