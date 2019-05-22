@@ -134,15 +134,21 @@ $(document).ready(function(){
 
     // Brand Rules
 
-    // enable application's Scale Tool for the ff. brand
-    ub.config.enableScaleToolOnApplications = function (brand) {
-        var brands = ['Richardson'];
+    // enable application's Scale Tool on Subli and Twill uniforms for the ff. brand
+    ub.config.ignoreScaleRulesOnSublimatedAndTwill = function (brand) {
+        var brands = [];
+
+        // if feature flag for tackle twill's custom sizes is on (cco-156), return false
+        if (ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes')) {
+            return false;    
+        }
+
         return _.contains(brands, brand);
     }
 
-    // ignore font rules for twill and subli uniforms
+    // ignore font rules for twill and subli uniforms, instead use the Sublimated font properties
     ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
-        var brands = ['Richardson'];
+        var brands = [];
         return _.contains(brands, brand);
     }
 

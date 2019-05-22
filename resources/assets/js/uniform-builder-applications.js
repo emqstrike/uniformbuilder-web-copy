@@ -958,8 +958,17 @@ $(document).ready(function() {
 
         var application = _application;
         var _primaryViewObj = ub.funcs.getPrimaryViewObject(_application.application);
-        var _center = _primaryViewObj.application.center[axis] - _val;
-        var _pivot = _primaryViewObj.application.pivot[axis] - _val;
+
+        var _center;
+        var _pivot;
+
+        if (ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
+            _center = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+            _pivot = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+        } else {
+            _center = _primaryViewObj.application.center[axis] - _val;
+            _pivot = _primaryViewObj.application.pivot[axis] - _val;
+        }
 
         _.each (_application.application.views, function (view) {
 
@@ -6262,7 +6271,9 @@ $(document).ready(function() {
 
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
         // Get the first 2 sizes array value
-        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { var sizes = sizes.slice(0,2); }
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { 
+            var sizes = sizes.slice(0,2); 
+        }
 
         _.each(sizes, function (size) {
 
@@ -6274,7 +6285,7 @@ $(document).ready(function() {
                 _additionalClass = '';
             }
 
-            if (ub.funcs.isFreeFormToolEnabled(_id)) {
+            if (ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
                 if (_additionalClass === "active") {
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
                 }
@@ -6335,7 +6346,7 @@ $(document).ready(function() {
 
         // Custom Size
 
-        if (ub.funcs.isFreeFormToolEnabled(_id) && typeof _obj !== "undefined") {
+        if ((ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) && typeof _obj !== "undefined") {
 
             /// Rotate
 
@@ -6719,11 +6730,16 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
-        if (_isFreeFormEnabled) { 
+
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
             _label = 'Measurements'; _class = "custom"; 
         }
+
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
@@ -6767,9 +6783,6 @@ $(document).ready(function() {
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -8654,10 +8667,15 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
 
-        if (_isFreeFormEnabled) { _label = 'Measurements'; _class = "custom"; }
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
+            _label = 'Measurements'; _class = "custom"; 
+        }
 
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
@@ -8678,9 +8696,6 @@ $(document).ready(function() {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
         
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -9130,7 +9145,7 @@ $(document).ready(function() {
             $('span.font_size').on('click', function () {
 
                 // If already active, trigger turn off instead
-                if(ub.funcs.isSublimated()) {
+                if(ub.funcs.isSublimated() || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
                     if ($(this).hasClass('active')) {
                         $('ul.tab-navs > li.tab.close').trigger('click');
                         return;
@@ -9916,7 +9931,7 @@ $(document).ready(function() {
         if (ub.config.uniform_application_type === "sublimated" 
             || ub.config.uniform_application_type === "knitted" 
             || tackeTwillCustomSizes 
-            || ub.config.enableScaleToolOnApplications(ub.config.brand)) {
+            || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
 
                 var _filenameScale = "/images/builder-ui/scale-icon-on.png";
                 var _spriteScale = ub.pixi.new_sprite(_filenameScale);
