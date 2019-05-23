@@ -1,3 +1,5 @@
+"use strict";
+// var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 
 /*
@@ -6,11 +8,10 @@ var elixir = require('laravel-elixir');
  |--------------------------------------------------------------------------
  |
  | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
+ | for your Laravel application. By default, we are compiling the Less
  | file for our application, as well as publishing vendor resources.
  |
  */
-
 
 elixir(function(mix) {
 
@@ -18,13 +19,13 @@ elixir(function(mix) {
     mix.scripts([
 
             // Third-party
-            'third-party/natural/natural.js',   
-            'third-party/natural/all.js',   
-            'third-party/tipped/tipped.js',          
+            'third-party/natural/natural.js',
+            'third-party/natural/all.js',
+            'third-party/tipped/tipped.js',
             'third-party/select2/select2.full.js',
-            'third-party/pixi/pixi.js', 
+            'third-party/pixi/pixi.js',
             'third-party/pixi/pixi.draggable.js',
-            
+
             // Sources
 
             'utilities.js',
@@ -36,10 +37,10 @@ elixir(function(mix) {
             'uniform-builder-endpoints.js',
             'uniform-builder-style-configuration.js',
             'uniform-builder-functions.js',
-            
-            // Brand Specific 
 
-            // Richardson 
+            // Brand Specific
+
+            // Richardson
             'richardson/uniform-builder-richardson-data.js',
             'richardson/uniform-builder-richardson.js',
             'uniform-builder-fabrics.js',
@@ -55,21 +56,21 @@ elixir(function(mix) {
             'uniform-builder-picker.js',
 
             'uniform-builder-ui-data.js',
-            'uniform-builder-application-sizes.js', 
-            'uniform-builder-name-drops.js',    
-            'uniform-builder-nlp.js',   
-            'uniform-builder-mock-data.js', 
-            'uniform-builder-status.js',    
-            'uniform-builder-math.js',  
+            'uniform-builder-application-sizes.js',
+            'uniform-builder-name-drops.js',
+            'uniform-builder-nlp.js',
+            'uniform-builder-mock-data.js',
+            'uniform-builder-status.js',
+            'uniform-builder-math.js',
             'uniform-builder-interop-is.js',
-            'uniform-builder-mascots.js',   
-            'uniform-builder-placeholder-applications.js',  
-            'uniform-builder-process.js',   
-            'uniform-builder-dialogs.js',   
-            'uniform-builder-patterns.js',  
-            'uniform-builder-applications.js',  
-            'uniform-builder-getters-setters.js',       
-            'uniform-builder-pipings.js',           
+            'uniform-builder-mascots.js',
+            'uniform-builder-placeholder-applications.js',
+            'uniform-builder-process.js',
+            'uniform-builder-dialogs.js',
+            'uniform-builder-patterns.js',
+            'uniform-builder-applications.js',
+            'uniform-builder-getters-setters.js',
+            'uniform-builder-pipings.js',
             'uniform-builder-random-feed.js',
             'uniform-builder-plugins.js',
             'uniform-builder-transformers.js',
@@ -95,24 +96,24 @@ elixir(function(mix) {
             'TeamStoreAPI.js',
             'TeamStoreToolBox.js',
 
-        ], 
+        ],
         // Result
         'public/uniform-builder/js/ub.js'
     );
 
     mix.less(
         [
-            
+
             // Third-party
-            'third-party/tipped/tipped.less',   
-            'third-party/select2/select2.less', 
-            
-            // Source 
+            'third-party/tipped/tipped.less',
+            'third-party/select2/select2.less',
+
+            // Source
             'uniform-builder.less',
 
         ],
-        
+
         // Result
         'public/uniform-builder/css/uniform-builder.css');
-    
+
 });
