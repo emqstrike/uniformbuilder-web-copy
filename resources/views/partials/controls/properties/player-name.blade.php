@@ -11,30 +11,32 @@
 </script>
 
 <script type="text/mustache" id="m-player-name-modifier-control">
-    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
-        Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
-    </h5>
-    <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium uk-text-uppercase uk-disabled" type="text" placeholder="@{{ defaultText }}" value="@{{ defaultText }}">
-    <div class="playerOptionContainer" data-code="@{{ code }}">
-        @{{ #hasFontStyle }}
-            @{{{ fontStyle }}}
-        @{{ /hasFontStyle }}
+    <div class="uk-padding-small" id="player-name-panel">
+        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
+            Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
+        </h5>
+        <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium uk-text-uppercase app-letters-input uk-disabled" type="text" placeholder="@{{ defaultText }}" value="@{{ defaultText }}">
+        <div class="playerOptionContainer" data-code="@{{ code }}">
+            @{{ #hasFontStyle }}
+                @{{{ fontStyle }}}
+            @{{ /hasFontStyle }}
 
-        @{{ #hasTeamLayout }}
-            @{{{ teamLayout }}}
-        @{{ /hasTeamLayout }}
+            @{{ #hasTeamLayout }}
+                @{{{ teamLayout }}}
+            @{{ /hasTeamLayout }}
 
-        @{{ #hasFontSize }}
-            @{{{ fontSizeSlider }}}
-        @{{ /hasFontSize }}
+            @{{ #hasFontSize }}
+                @{{{ fontSizeSlider }}}
+            @{{ /hasFontSize }}
 
-        @{{ #hasAccents }}
-            @{{{ accents }}}
-        @{{ /hasAccents }}
+            @{{ #hasAccents }}
+                @{{{ accents }}}
+            @{{ /hasAccents }}
 
-        @{{ #hasColors }}
-            @{{{ colorContainer }}}
-        @{{ /hasColors }}
+            @{{ #hasColors }}
+                @{{{ colorContainer }}}
+            @{{ /hasColors }}
+        </div>
     </div>
 </script>
 
@@ -57,7 +59,7 @@
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Player name font</h6>
     <div class="uk-grid-collapse uk-grid-match uk-text-center" id="font-styles-container" uk-grid>
         <div class="uk-width-auto">
-            <a href="javascript:void(0)" class="fontStyleLeft uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
+            <a href="javascript:void(0)" class="change-font-style uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
                 <span class="fc-red"><i class="glyphicon glyphicon-arrow-left"></i></span>
             </a>
         </div>
@@ -67,7 +69,7 @@
             </a>
         </div>
         <div class="uk-width-auto">
-            <a href="javascript:void(0)" class="fontStyleRight uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
+            <a href="javascript:void(0)" class="change-font-style uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
                 <span class="fc-red"><i class="glyphicon glyphicon-arrow-right"></i></span>
             </a>
         </div>
@@ -78,7 +80,7 @@
     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Team Name Layout</h6>
     <div class="uk-grid-collapse uk-grid-match uk-text-center" uk-grid>
         <div class="uk-width-auto">
-            <a href="javascript:void(0)" class="fontStyleLeft uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
+            <a href="javascript:void(0)" class="fontLayoutLeft uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="previous">
                 <span class="fc-red"><i class="glyphicon glyphicon-arrow-left"></i></span>
             </a>
         </div>
@@ -86,7 +88,7 @@
             <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark"><span class="abrade-black">Maxim</span> Straight</button>
         </div>
         <div class="uk-width-auto">
-            <a href="javascript:void(0)" class="fontStyleRight uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
+            <a href="javascript:void(0)" class="fontLayoutRight uk-button uk-button-small uk-width-1-1 uk-button-default" data-direction="next">
                 <span class="fc-red"><i class="glyphicon glyphicon-arrow-right"></i></span>
             </a>
         </div>

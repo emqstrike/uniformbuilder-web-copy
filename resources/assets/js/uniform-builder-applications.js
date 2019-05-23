@@ -1112,7 +1112,7 @@ $(document).ready(function () {
                     var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
                     var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
                     var isNumbers = _application.application_type === "front_number" || _application.application_type === "back_number" || _application.application_type === "sleeve_number" ? true : false;
-
+                    var isPlayerName = _application.application_type === "player_name" ? true : false;
                     var count;
                     if (isLetters) {
                         count = ub.funcs.countApplicationByApplicationType("letters");
@@ -1125,8 +1125,12 @@ $(document).ready(function () {
                     if (typeof count.applications === "undefined") {
                         $(".add-another-application-container").hide();
                     }
-                    
-                    ModifierController.deleteApplicationContainer(_application.code)
+
+                    if (isPlayerName) {
+                        PlayerNamePanel.funcs.loadAddPlayer();
+                    } else {
+                        ModifierController.deleteApplicationContainer(_application.code);
+                    }
                 }
                 return;
 

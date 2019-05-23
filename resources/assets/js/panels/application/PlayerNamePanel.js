@@ -35,13 +35,19 @@ PlayerNamePanel.events = {
             $(".modifier_main_container").on("click", ".add-player-name .btn-selection-choice", that.onClickAddPlayerName);
             $('.modifier_main_container').on('click', '.playerOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
             $('.modifier_main_container').on('click', '.m-accents .btn-selection-choice', that.onSelectFontAccent);
-            $('.modifier_main_container').on('click', '.playerOptionContainer a.fontStyleLeft, a.fontStyleRight', that.onChangeFontStyle);
+            $('.modifier_main_container').on('click', '.playerOptionContainer a.change-font-style', that.onChangeFontStyle);
             $('.modifier_main_container').on('click', '#player-name-panel .remove-player-name', that.onRemovePlayerName);
+            $(".modifier_main_container").on('click', '#player-name-panel .select-font-style', that.onCreateFontPopUp);
             
             that.isInit = false;
         }
 
-        PlayerNamePanel.funcs.loadAddPlayer();
+        var playerObj = _.find(ub.current_material.settings.applications, {type: "player_name"});
+        if (typeof playerObj !== "undefined") {
+            PlayerNamePanel.funcs.initializePlayerName(playerObj.code);
+        } else {
+            PlayerNamePanel.funcs.loadAddPlayer();
+        }
     },
 
     onClickAddPlayerName: function() {
@@ -116,8 +122,29 @@ PlayerNamePanel.events = {
     onRemovePlayerName: function() {
         var code = $(this).data("code");
         var _application = ub.funcs.getApplicationSettings(code);
-        ub.funcs.deleteLocation(_application.code);
-        PlayerNamePanel.funcs.loadAddPlayer();
+        UIkit.modal.confirm('Are you sure you want to delete Player Name #' + _application.code + '?').then(function() {
+            ub.funcs.deleteLocation(_application.code);
+            PlayerNamePanel.funcs.loadAddPlayer();
+        }, function () {
+            console.log('Rejected.') 
+        });
+    },
+
+    onCreateFontPopUp: function() {
+        var app_code = $(this).data('application-code');
+        var settingsObj = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
+
+        if (typeof settingsObj !== "undefined") {
+            var sample_text = $(".modifier_main_container #player-name-panel input.app-letters-input").val();
+
+            if (_.isEmpty(sample_text)) {
+                sample_text = "Sample Text";
+            }
+
+            ApplicationEvent.createFontPopup(sample_text, settingsObj);
+        } else {
+            console.log("Error: Application code " + app_code + " is invalid code.");
+        }
     }
 }
 
@@ -151,8 +178,8 @@ PlayerNamePanel.funcs = {
         };
 
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-player-name-modifier-control', objStock);
-        $(".modifier_main_container #player-name-panel").html("");
-        $(".modifier_main_container #player-name-panel").html(_htmlBuilder);
+        $(".modifier_main_container").html("");
+        $(".modifier_main_container").html(_htmlBuilder);
         ub.funcs.initializer();
     },
 

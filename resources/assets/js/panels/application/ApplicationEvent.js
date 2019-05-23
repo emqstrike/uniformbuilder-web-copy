@@ -162,7 +162,7 @@ ApplicationEvent.events = {
             $("#primary_options_container").on('click', '.thumbnailContainer', _this.onSelectFontAccent);
             $("#primary_options_container").on('keypress', 'input.app-letters-input', _this.onKeyPressApplicationText);
             $("#primary_options_container").on('blur', 'input.app-letters-input', _this.onBlurApplicationText);
-            $("#primary_options_container").on('click', '.select-font-style', _this.onCreateFontPopUp);
+            $("#primary_options_container").on('click', '.applicationUIBlockNew .select-font-style', _this.onCreateFontPopUp);
             $("#primary_options_container").on('click', '.applicationUIBlockNew a.fontStyleLeft, a.fontStyleRight', _this.onChangeFontStyle);
             $("#primary_options_container").on('click', '.change-free-app', _this.onChangeFreeApplication);
             $('#primary_options_container').on('click', '.colorItem[data-object-type="accent"]', _this.onChangeAccentColor);
