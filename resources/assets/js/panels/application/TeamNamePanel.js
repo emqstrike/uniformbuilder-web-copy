@@ -30,7 +30,6 @@ TeamNamePanel.events = {
         } else {
             TeamNamePanel.funcs.loadAddTeamName();
         }
-
     },
 
     onClickAddTeamName: function() {
@@ -167,6 +166,7 @@ TeamNamePanel.funcs = {
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-team-name-modifier-control', objStock);
         $(".modifier_main_container").html("");
         $(".modifier_main_container").html(_htmlBuilder);
+        ub.funcs.activateMoveTool(teamNameObj.code);
         ub.funcs.initializer();
     },
 

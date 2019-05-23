@@ -181,6 +181,7 @@ PlayerNamePanel.funcs = {
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-player-name-modifier-control', objStock);
         $(".modifier_main_container").html("");
         $(".modifier_main_container").html(_htmlBuilder);
+        ub.funcs.activateMoveTool(playerObj.code);
         ub.funcs.initializer();
     },
 

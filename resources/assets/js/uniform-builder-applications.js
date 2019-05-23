@@ -1109,25 +1109,15 @@ $(document).ready(function () {
 
                 ub.funcs.deleteLocation(_application.code);
                 if(ub.data.useScrollingUI) {
-                    var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
                     var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
                     var isNumbers = _application.application_type === "front_number" || _application.application_type === "back_number" || _application.application_type === "sleeve_number" ? true : false;
                     var isPlayerName = _application.application_type === "player_name" ? true : false;
-                    var count;
-                    if (isLetters) {
-                        count = ub.funcs.countApplicationByApplicationType("letters");
-                    } else if (isMascots) {
-                        count = ub.funcs.countApplicationByApplicationType("logos");
-                    } else if (isNumbers) {
-                        count = ub.funcs.countApplicationByApplicationType("numbers");
-                    }
-
-                    if (typeof count.applications === "undefined") {
-                        $(".add-another-application-container").hide();
-                    }
+                    var isTeamName = _application.application_type === "team_name" ? true : false;
 
                     if (isPlayerName) {
                         PlayerNamePanel.funcs.loadAddPlayer();
+                    } else if (isTeamName) {
+                        TeamNamePanel.funcs.loadAddTeamName();
                     } else {
                         ModifierController.deleteApplicationContainer(_application.code);
                     }
@@ -1513,8 +1503,13 @@ $(document).ready(function () {
             var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
             if (element.length !== 0) {
                 ub.funcs.activateApplicationsLetters(application.code);
-            } else {
+            } else if (application.application_type === "player_name") {
                 PlayerNamePanel.funcs.initializePlayerName(application.code);
+                ub.funcs.activateMoveTool(application.code);
+            } else if (application.application_type === "team_name") {
+                TeamNamePanel.funcs.initializeTeamName(application.code);
+                ub.funcs.activateMoveTool(application.code);
+            } else if (application.application_type === "embellishments") {
                 ub.funcs.activateMoveTool(application.code);
             }
         }
