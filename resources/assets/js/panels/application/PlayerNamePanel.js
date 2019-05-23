@@ -32,10 +32,10 @@ PlayerNamePanel.events = {
         var that = this;
         if (that.isInit) {
             // Events HERE
-            $(".modifier_main_container").on("click", ".add-player-name .btn-selection-choice", that.onClickAddPlayerName);
-            $('.modifier_main_container').on('click', '.playerOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
-            $('.modifier_main_container').on('click', '.m-accents .btn-selection-choice', that.onSelectFontAccent);
-            $('.modifier_main_container').on('click', '.playerOptionContainer a.change-font-style', that.onChangeFontStyle);
+            $(".modifier_main_container").on("click", "#player-name-panel .add-player-name .btn-selection-choice", that.onClickAddPlayerName);
+            $('.modifier_main_container').on('click', '#player-name-panel .playerOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
+            $('.modifier_main_container').on('click', '#player-name-panel .m-accents .btn-selection-choice', that.onSelectFontAccent);
+            $('.modifier_main_container').on('click', '#player-name-panel .playerOptionContainer a.change-font-style', that.onChangeFontStyle);
             $('.modifier_main_container').on('click', '#player-name-panel .remove-player-name', that.onRemovePlayerName);
             $(".modifier_main_container").on('click', '#player-name-panel .select-font-style', that.onCreateFontPopUp);
             
