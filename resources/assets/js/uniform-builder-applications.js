@@ -8788,10 +8788,14 @@ $(document).ready(function () {
 
     ub.funcs.getSampleTeamName = function () {
 
-        var _sampleTeamName = 'Mustangs';
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            _sampleTeamName = "Richardson"
+        } else {
+            var _sampleTeamName = 'Mustangs';
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-            _sampleTeamName = 'Tigers';
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+                _sampleTeamName = 'Tigers';
+            }
         }
 
         return _sampleTeamName;

@@ -55,6 +55,7 @@ PlayerNamePanel.events = {
         var part = ub.funcs.is_pts_cage_jacket() ? "Back Jersey" : "Back Body";
         ub.funcs.newApplication(configuration.perspective, part, configuration.type, configuration.side);
         var playerObj = ub.data.currentApplication;
+        $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='back']").trigger("click");
         PlayerNamePanel.funcs.initializePlayerName(playerObj.code);
     },
 
@@ -228,7 +229,7 @@ PlayerNamePanel.funcs = {
 
         _html += '<div class="colorSelectionContainer">';
         _html  += '<h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">'+title+'</h6>';
-        _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-dark active-bgc-dark active-bdr-dark" uk-switcher uk-grid>';
+        _html += '<ul class="color-selection-tab uk-subnav uk-grid-collapse uk-text-center uk-padding-remove uk-child-width-expand bottom-arrow arrow-outward bac-red active-bgc-red active-bdr-red" uk-switcher uk-grid>';
 
         _.each(_settingsObject.accent_obj.layers, function (layer, index) {
             var _hexCode = layer.default_color;

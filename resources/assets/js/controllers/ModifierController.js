@@ -237,7 +237,8 @@ ModifierController.prototype = {
     },
 
     letters: function() {
-        LetterPanel.init();
+        // LetterPanel.init();
+        TeamNamePanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 

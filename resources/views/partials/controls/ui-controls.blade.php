@@ -3397,4 +3397,5 @@
 @include('partials.controls.properties.richardson-skin')
 @include('partials.controls.properties.roster')
 @include('partials.controls.properties.player-name')
+@include('partials.controls.properties.team-name')
 @include('partials.controls.team-store-products-picker')
