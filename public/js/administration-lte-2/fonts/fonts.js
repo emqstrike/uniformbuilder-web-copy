@@ -57,22 +57,34 @@ $(document).ready(function(){
     $('.fix-fst-button').on('click', function(e){
         e.preventDefault();
         // loadFontSizeTable(JSON.parse($('#fst-fix').val()));
+        console.log('here');
 
         var fstbls_old = $('#fst-fix').val();
         if(fstbls_old != ""){
             var old_font_size_tables = JSON.parse(fstbls_old);
             console.log(old_font_size_tables);
+
             old_font_size_tables.forEach(function(entry) {
-                // console.log(entry);s
-                var tbl_class = '.'+entry.perspective+'-fst-body';
+                var tbl_class = '.'+ entry.perspective + '-fst-body';
+
+                $(tbl_class).empty();
+
                 entry.sizes.forEach(function(item) {
                     console.log(item.inputSize);
-                    var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="form-control inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="form-control inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="form-control inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="form-control inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="form-control inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="form-control inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn-flat btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                    var elem = `<tr>
+                                    <td><input type="number" step="any" class="form-control inputs application-number" value="` + item.application_number + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs input-size" value="` + item.inputSize + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs output-size" value="` + item.outputSize + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs x-offset" value="` + item.x_offset + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs y-offset" value="` + item.y_offset + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs x-scale" value="` + item.x_scale + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs y-scale" value="` + item.y_scale + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs inner-stroke" value="` + item.inner_stroke + `"></td>
+                                    <td><input type="number" step="any" class="form-control inputs outer-stroke" value="` + item.outer_stroke + `"></td>
+                                    <td><a href="#" class="btn-flat btn btn-xs btn-danger remove-layer">Remove</a></td>
+                                </tr>`;
                     $(tbl_class).append(elem);
                 });
-                // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
-                // $('.front-fst-body').prepend(elem);
-                // $(tbl_class).prepend(elem);
             });
         }
 
@@ -311,7 +323,18 @@ $(document).ready(function(){
         var perspective = $(this).data('perspective');
         var tbl_class = '.'+perspective+'-fst-body';
         e.preventDefault();
-        var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number"></td><td><input type="number" step="any" class="form-control inputs input-size"></td><td><input type="number" step="any" class="form-control inputs output-size"></td><td><input type="number" step="any" class="form-control inputs x-offset"></td><td><input type="number" step="any" class="form-control inputs y-offset"></td><td><input type="number" step="any" class="form-control inputs x-scale"></td><td><input type="number" step="any" class="form-control inputs y-scale"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        var elem = `<tr>
+                        <td><input type="number" step="any" class="form-control inputs application-number"></td>
+                        <td><input type="number" step="any" class="form-control inputs input-size"></td>
+                        <td><input type="number" step="any" class="form-control inputs output-size"></td>
+                        <td><input type="number" step="any" class="form-control inputs x-offset"></td>
+                        <td><input type="number" step="any" class="form-control inputs y-offset"></td>
+                        <td><input type="number" step="any" class="form-control inputs x-scale"></td>
+                        <td><input type="number" step="any" class="form-control inputs y-scale"></td>
+                        <td><input type="number" step="any" class="form-control inputs inner-stroke"></td>
+                        <td><input type="number" step="any" class="form-control inputs outer-stroke"></td>
+                        <td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td>
+                    </tr>`;
         // $('.front-fst-body').prepend(elem);
         $(tbl_class).prepend(elem);
         refreshMultipleFST();
@@ -321,7 +344,18 @@ $(document).ready(function(){
         var perspective = $(this).data('perspective');
         var tbl_class = '.'+perspective+'-fst-body-sublimated';
         e.preventDefault();
-        var elem = '<tr><td><input type="number" step="any" class="form-control inputs application-number"></td><td><input type="number" step="any" class="form-control inputs input-size"></td><td><input type="number" step="any" class="form-control inputs output-size"></td><td><input type="number" step="any" class="form-control inputs x-offset"></td><td><input type="number" step="any" class="form-control inputs y-offset"></td><td><input type="number" step="any" class="form-control inputs x-scale"></td><td><input type="number" step="any" class="form-control inputs y-scale"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        var elem = `<tr>
+                        <td><input type="number" step="any" class="form-control inputs application-number"></td>
+                        <td><input type="number" step="any" class="form-control inputs input-size"></td>
+                        <td><input type="number" step="any" class="form-control inputs output-size"></td>
+                        <td><input type="number" step="any" class="form-control inputs x-offset"></td>
+                        <td><input type="number" step="any" class="form-control inputs y-offset"></td>
+                        <td><input type="number" step="any" class="form-control inputs x-scale"></td>
+                        <td><input type="number" step="any" class="form-control inputs y-scale"></td>
+                        <td><input type="number" step="any" class="form-control inputs inner-stroke"></td>
+                        <td><input type="number" step="any" class="form-control inputs outer-stroke"></td>
+                        <td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td>
+                    </tr>`;
         // $('.front-fst-body').prepend(elem);
         $(tbl_class).prepend(elem);
         refreshMultipleSublimatedFST();
@@ -354,6 +388,8 @@ $(document).ready(function(){
                     "y_offset" : $(this).find('.y-offset').val(),
                     "x_scale" : $(this).find('.x-scale').val(),
                     "y_scale" : $(this).find('.y-scale').val(),
+                    "inner_stroke": $(this).find('inner-stroke').val(),
+                    "outer_stroke": $(this).find('outer-stroke').val(),
                     "application_number" : $(this).find('.application-number').val()
                 };
 
@@ -387,6 +423,8 @@ $(document).ready(function(){
                     "y_offset" : $(this).find('.y-offset').val(),
                     "x_scale" : $(this).find('.x-scale').val(),
                     "y_scale" : $(this).find('.y-scale').val(),
+                    "inner_stroke" : $(this).find('.inner-stroke').val(),
+                    "outer_stroke" : $(this).find('.outer-stroke').val(),
                     "application_number" : $(this).find('.application-number').val()
                 };
 
@@ -394,7 +432,7 @@ $(document).ready(function(){
             });
             perspectiveData.sizes = temp;
             data.push(perspectiveData);
-
+            console.log(temp);
         });
         // var frontSizes = {
         //     "perspective" : "front"
