@@ -3398,4 +3398,6 @@
 @include('partials.controls.properties.roster')
 @include('partials.controls.properties.player-name')
 @include('partials.controls.properties.team-name')
+@include('partials.controls.properties.stock-logo')
+@include('partials.controls.properties.stock-mascot-modal')
 @include('partials.controls.team-store-products-picker')

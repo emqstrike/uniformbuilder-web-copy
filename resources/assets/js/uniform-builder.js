@@ -2238,6 +2238,8 @@ $(document).ready(function () {
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
                         object_type: "mascot",
+                        logo_type: "stock",
+                        location: _application.layer,
                         type: _application.type,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
@@ -2893,7 +2895,6 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
-
         // use all color if config value is set
 
     };
