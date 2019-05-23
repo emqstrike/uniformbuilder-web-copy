@@ -784,8 +784,8 @@ $(document).ready(function() {
                 console.log('[showing feedback form]');
 
                 // this shows the feedback modal form not the commented fade in above
-                // ub.funcs.centerPatternPopup();
-                $('div.free-feedback-form').fadeIn();
+                ub.funcs.centerPatternPopup();
+                // $('div.free-feedback-form').fadeIn();
                 ub.feedbackForm = true;
 
                 // set value if user is logged in
