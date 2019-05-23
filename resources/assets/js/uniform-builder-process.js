@@ -758,6 +758,7 @@ $(document).ready(function() {
 
     ub.funcs.freeFeedbackForm = function () {
 
+        ub.feedbackForm = false;
         $('a#feedback').on('click', function () {
 
             var data = {};
@@ -769,16 +770,23 @@ $(document).ready(function() {
 
             //     $('div.free-feedback-form').fadeIn();
 
-
-            if($('div.free-feedback-form').css('display') == 'block')
+            if(ub.feedbackForm)
             {
                 // do nothing, dont show form if already shown
                 console.log('[feedback form is already shown]');
+                $('div.free-feedback-form').each(function( index ) {
+                    console.log( index + ": " + $(this) );
+                    if (index !== 0) {
+                        $(this).remove();
+                    }
+                });
             } else {
                 console.log('[showing feedback form]');
 
                 // this shows the feedback modal form not the commented fade in above
-                ub.funcs.centerPatternPopup();
+                // ub.funcs.centerPatternPopup();
+                $('div.free-feedback-form').fadeIn();
+                ub.feedbackForm = true;
 
                 // set value if user is logged in
                 if(ub.user) {
@@ -850,6 +858,7 @@ $(document).ready(function() {
 
                         ub.funcs.submitFeedback(_data);
                         $('div.free-feedback-form').remove();
+                        ub.feedbackForm = false;
                     } else {
                         if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
                         if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
@@ -861,6 +870,7 @@ $(document).ready(function() {
                 $('span.cancel-btn').on('click', function () {
 
                     $('div.free-feedback-form').remove();
+                    ub.feedbackForm = false;
 
                 });
 
