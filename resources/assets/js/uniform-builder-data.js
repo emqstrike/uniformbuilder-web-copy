@@ -11370,8 +11370,12 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Hoodie (eSports)',
             filters: ['All'],
-        }
-          
+        },
+        // end eSports Uniform
+        {
+            sport: 'Track and Field',
+            filters: ['All'],
+        },
     ];
 
     // Todo: Detect this at runtime instead
@@ -11979,6 +11983,12 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Hoodie (eSports)',
                 gender: ['men',],
             },
+            // end eSports
+            {
+                shortCode: 'track-and-field',
+                urlAlias: 'Track and Field',
+                gender: ['men', 'women'],
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12294,6 +12304,7 @@ ub.funcs.fontOffSets = [
             'Game Day Jackets (Apparel)',
             'Compression Pant (Apparel)',
             'Tech Tee (eSports)',
+            'Track and Field'
         ],
         isNonTackleTwill: function (uniformCategory) {
 

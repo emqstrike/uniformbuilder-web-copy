@@ -415,7 +415,7 @@
                                 </select>
                             </div>
                         </div>
-                        <textarea id="item_sizes_string" style="display:none;""> {{$item_sizes_string}} </textarea>
+                        <textarea id="item_sizes_string" style="display:none;"> {{$item_sizes_string}} </textarea>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Qx Sizing Config</label>
                             <div class="col-md-6">
@@ -464,6 +464,18 @@
                                         <option value="inner" >Inner</option>
                                         <option value="outer" >Outer</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Model Name</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control model-name"  name="model_name" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Style Number</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control style-number"  name="style_number" >
                             </div>
                         </div>
                          <div class="form-group">

@@ -243,6 +243,8 @@ class MaterialsController extends Controller
         $reversible_pair_id = $request->input('reversible_pair_id');
         $reversible_type = $request->input('reversible_type');
         $retain_settings = $request->input('retain_settings_from_saved_design');
+        $modelName = $request->input('model_name');
+        $styleNumber = $request->input('style_number');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -307,6 +309,8 @@ class MaterialsController extends Controller
             'retain_settings_from_saved_design' => $retain_settings,
             'block_pattern_option_2' => $request->input('block_pattern_option_2'),
             'block_pattern_option_3' => $request->input('block_pattern_option_3'),
+            'model_name' => $modelName,
+            'style_number' => $styleNumber
         ];
 
         try {
@@ -640,11 +644,12 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
+        $material = $this->client->getMaterial($id);
 
-        $colors = $this->colorsClient->getColors();
+        $colors = $this->colorsClient->getColors($material->brand);
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
-        $fonts = $this->fontClient->getFonts();
+        $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
 
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
@@ -667,7 +672,6 @@ class MaterialsController extends Controller
             }
         }
 
-        $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
 

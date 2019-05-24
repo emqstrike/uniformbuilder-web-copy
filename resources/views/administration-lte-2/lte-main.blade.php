@@ -8,7 +8,6 @@
         <title>Administration | {{ env('APP_TITLE') }}</title>
 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/admin-lte-2/datatables/css/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="/admin-lte-2/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/admin-lte-2/Ionicons/css/ionicons.min.css">
@@ -20,7 +19,10 @@
         <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
         <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker-bs3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
 
         <style>
             #breadcrumbs {
@@ -69,6 +71,7 @@
                 window.customizer_host = "{{ env('CUSTOMIZER_HOST') }}";
                 window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
                 window.accessToken = "{{ Session::get('accessToken') }}";
+                window.app_url = "{{ env('APP_URL') }}";
                 
                 @if (Session::get('isLoggedIn'))
                     window.loggedInUser = {{ Session::get('userId') }};
@@ -89,11 +92,14 @@
         <script type="text/javascript" src="/admin-lte-2/js/libs/spectrum/spectrum.js"></script>
         <script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
         <script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
+        <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
         <script type="text/javascript" src="/js/administration/common.js"></script>
         <script src="/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="/js/libs/axios.js"></script>
         <script src="/js/libs/axios-global-config.js"></script>
+        <script src="https://unpkg.com/vue@2.5.18/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.js"></script>
 
         @yield('scripts')
         @yield('custom-scripts')

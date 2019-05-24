@@ -28,24 +28,18 @@
                         <hr>
 
                         <div id="filter-container" class="pull-left">
-                            <div class="form-group">
+                            <div class="form-inline">
                                 <input type="checkbox" id="unassigned-orders" @if (isset($filters['unassigned'])) checked="checked" @endif>
                                 <label>Unassigned</label>
-                            </div>
 
-                            <div class="form-group">
                                 <input type="checkbox" id="deleted-orders" @if (isset($filters['deleted'])) checked="checked" @endif>
                                 <label>Deleted</label>
-                            </div>
 
-                            <div class="form-group">
                                 <label>DATE RANGE -- From:</label>
-                                <input type="text" id="from-date" value="{{ $from_date }}">
+                                <input type="text" id="from-date" class="form-control" value="{{ $from_date }}">
                                 <label>To:</label>
-                                <input type="text" id="to-date" value="{{ $to_date }}">
-                            </div>
+                                <input type="text" id="to-date" class="form-control" value="{{ $to_date }}">
 
-                            <div class="form-group">
                                 <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
                                 <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
                             </div>
@@ -109,8 +103,9 @@
 
                             <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                             <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
+
                             <td class="td-assigned-sales-rep">
-                                @if (! $order->factory_order_id)
+                                @if ((! $order->factory_order_id) && (is_null($order->deleted_at)))
                                     <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
                                     </select>

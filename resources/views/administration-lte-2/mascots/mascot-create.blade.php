@@ -139,7 +139,6 @@ select:hover {
                                                     </option>
                                                     @endif
                                                 @endforeach
-                                                <option data-color="" value="" id="saved-default-color"></option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -236,7 +235,7 @@ $(document).ready(function(){
             $(this).find('.ma-default-color').removeClass().addClass("ma-default-color");
             $(this).find('.ma-default-color').addClass(thisLayer);
             var default_color_class = ".ma-default-color.layer" + length;
-            $(this).find(default_color_class).addClass('ma-default-color');
+            $(this).find(default_color_class).addClass('form-control ma-default-color');
 
             $(this).find('.ma-options-src').removeClass().addClass("ma-options-src");
             $(this).find('.ma-options-src').addClass(thisLayer);
@@ -317,6 +316,45 @@ $(document).ready(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
+
+    var temp_brand = $('.brand').val();
+    window.colors = null;
+
+    function getColors(brand, callback){
+        var colors;
+        var url = "//" + api_host + "/api/colors/" + brand;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    $(document).on('change', '.brand', function () {
+        var brand = $(this).val();
+        var select = $('.ma-default-color').empty();
+        var opts;
+
+        getColors(brand, function(colors){
+            colors.forEach(function(color) {
+                var opt = `<option data-color="#`+color.hex_code+`" style="background-color: #`+color.hex_code+`; text-shadow: 1px 1px #000;" value="`+color.color_code+`">
+                                `+color.name+`
+                            </option>`
+                opts += opt;
+                select.append(opt)
+            });
+            $('.ma-default-color').trigger('change');
+        });
+    });
+
+    $('.brand').trigger('change');
 });
 </script>
 @endsection

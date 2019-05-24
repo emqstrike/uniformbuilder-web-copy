@@ -84,6 +84,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
                             <input type="hidden" id="gradient_data" value="{{ $material->gradient }}">
+                            <input type="hidden" id="material_brand" value="{{ $material->brand }}">
                             <input type="hidden" name="gradient" id="gradient">
 
                             <div class="row">

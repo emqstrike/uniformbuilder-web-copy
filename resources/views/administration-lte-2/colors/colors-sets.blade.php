@@ -70,6 +70,12 @@
                         Colors Sets
                             <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
+                    <hr>
+                    Brand:
+                    <select class="active-brand">
+                        <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
+                        <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table class='data-table table table-bordered display' id="colors-set-table">
@@ -79,6 +85,7 @@
                             <th>Color Set Name</th>
                             <th>Uniform Application Type</th>
                             <th>Colors</th>
+                            <th>Brand</th>
                             <th>Active Status</th>
                             <th>Action</th>
                         </tr>
@@ -94,6 +101,7 @@
                             </ul>
                                 <textarea class="colors" style="display:none;"><?php echo json_encode($set->colors, JSON_FORCE_OBJECT);?></textarea>
                             </td>
+                            <td class="td-color-set-brand">{{ $set->brand }}</td>
                              <td>
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -112,7 +120,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='3'>
+                            <td colspan='8'>
                                 No Colors Sets
                             </td>
                         </tr>
@@ -136,9 +144,8 @@
 $(document).ready(function(){
 
     window.colors = null;
-
-    getColors(function(colors){ window.colors = colors; });
-
+    var active_brand = $('.active-brand').val();
+    getColors(active_brand, function(colors){ window.colors = colors; });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
@@ -156,11 +163,13 @@ $(document).ready(function(){
         data.id = $(this).parent().parent().find('.td-color-set-id').text();
         data.name = $(this).parent().parent().find('.td-color-set-name').text();
         data.uniform_type = $(this).parent().parent().find('.td-color-set-type').text();
+        data.brand = $(this).parent().parent().find('.td-color-set-brand').text();
         var raw_colors = JSON.parse($(this).parent().parent().find('.colors').val());
         data.colors = raw_colors.replace(/[\[\]'"]+/g, '');
         $('.input-color-id').val(data.id);
         $('.input-color-name').val(data.name);
         $('.input-type').val(data.uniform_type);
+        $('.input-brand').val(data.brand);
         $('.colors-val').val(data.colors);
         $(".input-colors").val(data.colors.split(','));
         $(".input-colors").trigger("change");
@@ -170,6 +179,7 @@ $(document).ready(function(){
         $('.input-color-id').val('');
         $('.input-color-name').val('');
         $('.input-type').val('');
+        $('.input-brand').val('prolook');
         $('.input-colors').val('');
         $('.colors-val').val('');
         $(".input-colors").trigger("change");
@@ -181,9 +191,9 @@ $(document).ready(function(){
         var data = {};
         data.name = $('.input-color-name').val();
         data.uniform_type = $('.input-type').val();
+        data.brand = $('.input-brand').val();
         var raw_colors = $('.colors-val').val();
         data.colors = raw_colors.split(",");
-
         if(window.modal_action == 'add'){
             var url = "//" + api_host +"/api/color_set";
         } else if(window.modal_action == 'update')  {
@@ -205,7 +215,7 @@ $(document).ready(function(){
         $.each(sorted_colors, function(i, item) {
             try {
                 strColors.forEach(function(entry) {
-                    if( entry == item.color_code ){
+                    if( entry === item.color_code ){
                         elem += '<li class="li" style="background-color: #' + item.hex_code +'"><a href="#" style="text-shadow: 1px 1px #000; color: #fff; ">' + item.color_code + '</a></li>';
                     }
                 });
@@ -297,6 +307,10 @@ $(document).ready(function(){
             });
     });
 
+    $(document).on('change', '.active-brand', function() {
+        window.location = "/administration/v1-0/colors_sets/"+$(this).val();
+    });
+
      function addUpdateRecord(data, url){
         $.ajax({
             url: url,
@@ -329,9 +343,9 @@ $(document).ready(function(){
         });
     };
 
-    function getColors(callback){
+    function getColors(brand, callback){
         var colors;
-        var url = "//" +api_host+ "/api/colors";
+        var url = "//" +api_host+ "/api/colors/" + brand;
         $.ajax({
             url: url,
             async: false,

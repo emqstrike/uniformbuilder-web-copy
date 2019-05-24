@@ -776,10 +776,13 @@ $(document).ready(function() {
         //
         // _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
 
-        if (_isFreeFormEnabled) { 
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
             _label = 'Measurements'; _class = "custom"; 
         }
 
@@ -817,13 +820,10 @@ $(document).ready(function() {
             }
 
         }
-        
+
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
