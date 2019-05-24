@@ -462,7 +462,7 @@
                 </div>
                 <div class="uk-width-expand">
                     <div class="cp-padding-tiny bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
-                        <div class="uk-grid-small uk-grid-match uk-child-width-1-2@m con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top stock-mascot-list-container" uk-grid>
+                        <div class="uk-grid-small uk-grid-match uk-child-width-1-3@m uk-flex uk-flex-center con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top stock-mascot-list-container" uk-grid>
                         </div>
                         <div class="uk-width-1-1 stock-mascot-loading-screen">
                             <div class="uk-flex uk-flex-center">

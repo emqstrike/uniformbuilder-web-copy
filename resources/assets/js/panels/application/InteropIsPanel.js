@@ -14,13 +14,14 @@ InteropIsPanel.events = {
             $(".inksoft-existing-design").on("click", ".btn-restore, .btn-archive", that.onChangeMascotStatus);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
             $(".upload-tutorial-container").on("click", ".close-tutorial", that.onCloseTutorial);
-            $(".inksoft-design-studio").on("click", ".cancel-add-uniform", that.cancelAddtoUniform)
+            $("#inksoftEditor, #inksoftUploader").on("click", "a.cancel-add-uniform", that.cancelAddtoUniform)
         }
 
         that.isInit = false;
     },
 
     cancelAddtoUniform: function() {
+        console.log("asdasdas")
         if (!ub.data.isChangeStockLogo) {
             var _settingsObject = ub.data.currentApplication;
             ub.funcs.afterRemoveStockLogo(_settingsObject);
@@ -30,6 +31,7 @@ InteropIsPanel.events = {
 
         UIkit.modal("#inksoftUploader").hide();
         UIkit.modal("#inksoftEditor").hide();
+
     },
 
     onCloseTutorial: function() {
@@ -266,10 +268,10 @@ InteropIsPanel.funcs = {
         } else {
             $(".inksoft-loader.create #embed-inksoft-create").html("")
             launchDesigner('HTML5DS', flashvars, document.querySelector(".inksoft-loader.create #embed-inksoft-create"));
-            InteropIsPanel.events.init();
             UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
             UIkit.modal("#select-mascot-inksoft-modal").show();
         }
+        InteropIsPanel.events.init();
     },
 
     loadDesignerUpload: function(designID, applicationID, uploadOnly = false) {

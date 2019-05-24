@@ -103,12 +103,17 @@ StockMascot.funcs = {
     },
 
     prepareStockMascotCategories: function(categories) {
-        var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-categories-list', {
-            categories: categories.Children
-        });
+        if (_.size(categories.Children) === 0) {
+            $(".inksoft-stock-mascot .stock-mascot-categories").parent().parent().addClass("uk-hidden");
+        } else {
+            var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-categories-list', {
+                categories: categories.Children
+            });
 
-        $(".inksoft-stock-mascot .stock-mascot-categories").html("");
-        $(".inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
+            $(".inksoft-stock-mascot .stock-mascot-categories").html("");
+            $(".inksoft-stock-mascot .stock-mascot-categories").html(renderContainer);
+            $(".inksoft-stock-mascot .stock-mascot-categories").parent().parent().removeClass("uk-hidden");
+        }
     },
 
     prepareStockMascots: function(mascots) {
@@ -145,12 +150,21 @@ StockMascot.funcs = {
 
     loadRichardsonCategories: function(cb) {
         var url = 'https://stores.inksoft.com/richardson_customizer/Api2/GetDesignCategories?Format=JSON';
-        ub.utilities.getJSON(url, function(response) {
-            cb(response);
-        }, function(error) {
-            console.log("ERROR while loading Inksoft Categories");
-            console.log(error)
-        })
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            data: '',
+            processData: false,
+            crossDomain: true,
+            success: function (response) {
+                cb(response);
+            },
+            error: function (error) {
+                console.log("ERROR while loading Inksoft Stock Mascot");
+                console.log(error)
+            }
+        });
     },
 
     loadArtByCategory: function(id, cb) {

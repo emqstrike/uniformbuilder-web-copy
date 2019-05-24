@@ -321,3 +321,24 @@ img.piping-images {
 .uk-grid-small.grid-tiny-1>.uk-grid-margin {
   margin-top: 6px;
 }
+
+// Stock Mascot Modal
+.stock-mascot-categories li.uk-active {
+  background-color: $color-darkerGray;
+  color: $color-white;
+}
+
+.mascot-item a.mascot-btn {
+    h6 {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+}
+
+
+.mascot-item a.mascot-btn.uk-active {
+    h6 {
+      background-color: $color-red;
+      color: $color-white;
+    }
+}

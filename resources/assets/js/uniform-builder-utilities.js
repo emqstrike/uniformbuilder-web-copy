@@ -122,6 +122,7 @@ $(document).ready(function() {
                     if (status == 200) {
                         data = JSON.parse(xhr.responseText);
                         successHandler && successHandler(data);
+                        console.trace()
                     } else {
                         errorHandler && errorHandler(status);
                     }
