@@ -2,7 +2,7 @@
  * NumberPanel.js
  * - handler for the numbers panel
  * @since March 26, 2019
- * @author 
+ * @author
  * - Aron Joshua Bagtas <aaron@qstrike.com>
  *
  * Requirements:
@@ -13,64 +13,66 @@
  *  handle the setup of numbers panel
  */
 
-function NumbersPanel() {}
+function NumbersPanel(element) {
+    this.panel = document.getElementById(element);
 
-NumbersPanel.init = function () {
-    $('#mod_primary_panel > .modifier_main_container').empty();
-    // Filter application with application type of numbers
-    var _Applications = ub.current_material.settings.applications;
-    var _filteredApplications = _.filter(_Applications, function(i) {
-        if (i.application_type === 'front_number' || i.application_type === 'back_number' || i.application_type === 'sleeve_number') {
-            return i;
-        }
-    });
+    this.fontAccents = [];
 
-    var _appData = [];
-
-    // Setup applications
-    _.map(_filteredApplications, function (i) {
-        var objStock = {
-            type: i.application.name.toUpperCase(),
-            application_type: i.application_type,
-            defaultText: i.text,
-            code: i.code,
-            perspective: i.application.views[0].perspective,
-            placeholder: i.text,
-            fonts: true,
-            fontsData: ub.funcs.fontStyleSelection(i, i.application.name.toUpperCase()),
-            slider: true,
-            sliderContainer: ub.funcs.sliderContainer(i.code),
-            colorPicker: true,
-            colorsSelection: ub.funcs.colorsSelection(i.code, 'CHOOSE FONT COLOR'),
-            accents: true,
-            accentsData: ub.funcs.fontAccentSelection(i, 'CHOOSE FONT ACCENT'),
-            isPlayerName: false,
-            status: (typeof i.status === "undefined" || i.status === "on" ? true : false)
-        }
-        _appData.push(objStock);
-    });
-
-    // prepare data
-    var templateData = {
-        title: "number",
-        type: "numbers",
-        applications: _appData,
-        isTackleTwill: ub.funcs.isTackleTwill() ? 'uk-disabled bgc-light' : ''
-    };
-
-    // send to mustache
-    var _htmlBuilder = ub.utilities.buildTemplateString('#m-applications-numbers-uikit', templateData);
-
-    // output to page
-    $('.modifier_main_container').append(_htmlBuilder);
-
-    if (ub.funcs.isTackleTwill()) {
-        ub.funcs.getFreeApplicationsContainer('numbers');
-    }
-
-    // initialize and Bind Events
-    ub.funcs.setupApplicationSettings(_appData);
-    ub.funcs.initializer();
-    ApplicationEvent.events.init();
-    NewApplicationPanel.events.init();
+    // default accent
+    this.setFontAccents(NumbersPanel.FRONT_TYPE);
 }
+
+NumbersPanel.prototype = {
+    constructor: NumbersPanel,
+
+    getPanel: function() {
+        var items = {
+            fontAccents: this.fontAccents
+        };
+
+        var rendered = Mustache.render(this.panel.innerHTML, items);
+        return rendered;
+    },
+
+    setLocations: function() {
+
+    },
+
+    setFontAccents: function(application_type) {
+        if (application_type === NumbersPanel.FRONT_TYPE ||
+            application_type === NumbersPanel.BACK_TYPE ||
+            application_type === NumbersPanel.SLEEVE_TYPE) {
+
+            var applications = ub.current_material.settings.applications;
+
+            var filter_app = _.find(applications, {'application_type': application_type});
+
+            this.fontAccents = _.map(ub.data.accents.items, function(i) {
+                return {
+                    image: "/images/sidebar/" + i.thumbnail,
+                    active: filter_app.accent_obj.id === i.id ? "uk-active" : ""
+                };
+            });
+        } else {
+            console.error("Error: Invalid application type");
+        }
+    },
+
+    getAccents: function() {
+        return this.fontAccents;
+    }
+};
+
+NumbersPanel.FRONT_TYPE = "front_number";
+NumbersPanel.BACK_TYPE = "back_number";
+NumbersPanel.SLEEVE_TYPE = "sleeve_number";
+
+NumbersPanel.events = {
+    is_init: false,
+
+    init: function() {
+        if (!NumbersPanel.events.is_init) {
+            NumbersPanel.events.is_init = true;
+        }
+    }
+};

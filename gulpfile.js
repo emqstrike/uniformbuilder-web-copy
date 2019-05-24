@@ -155,7 +155,10 @@ elixir(function(mix) {
     );
 
     mix.sass([
-        'style.scss'
+        'style.scss',
+        "custom.scss",
+        "datatable-custom.scss",
+        "override-style.scss"
     ],
 
     'public/richardson/css/richardson-builder.css');

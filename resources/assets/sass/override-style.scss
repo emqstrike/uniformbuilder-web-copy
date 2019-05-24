@@ -1,0 +1,66 @@
+@import "variables";
+
+header .main-menu .uk-navbar-nav > li > a {
+  height: 60px;
+  min-height: 0px !important;
+}
+
+#right-main-window.pane-main-window {
+  height: 650px !important;
+  background-color: white !important;
+  border: 1px solid #e6e6e6 !important;
+  width: 500px !important;
+}
+
+@media screen and (min-width: 960px) {
+    .con-thumb-nav-savedesign {
+    max-width: 50px !important;
+  }
+}
+
+.palette {
+  height: 28px !important;
+  width: 28px !important;
+  display: block;
+  border: 1px solid #aaaaaa !important;
+}
+
+.uk-grid-small.grid-tiny > * {
+    padding-left: 6px !important;
+}
+
+.uk-tooltip {
+  font-weight: bolder;
+  padding: 18px 10px !important;
+  border-radius: 0px;
+  line-height: 0px;
+  display: block !important;
+  background-color: $color-darkerGray;
+  text-transform: uppercase;
+  font-family: Abrade-Ultra-Italic;
+
+  &:hover{
+    display: block !important;
+  }
+
+  &:after {
+    z-index: 1000 !important;
+    content: " ";
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    clear: both;
+    border: 0px;
+  }
+
+  &:after:hover {
+    display: block !important;
+  }
+}
+
+.richardson-numbers-container {
+  .box-palette {
+    outline: none;
+  }
+}

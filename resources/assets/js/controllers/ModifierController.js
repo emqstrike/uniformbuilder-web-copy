@@ -75,7 +75,7 @@ ModifierController.prototype = {
         // parts
         // this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
         this.controllers.parts = new PartPanel('m-parts-no-scroll', ub.modifierController.propertiesPanel.parts);
-        
+
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             this.controllers.pipings = new RandomFeedPanel('random-feeds-list');
@@ -84,6 +84,9 @@ ModifierController.prototype = {
             this.controllers.pipings = new PipingPanel('m-piping-with-images');
             this.controllers.pipings.setPipingSetItems();
         }
+
+        // numbers
+        this.controllers.numbers = new NumbersPanel('richardson-numbers');
 
         // logo/brand
         var logo_positions = ub.data.logos;
@@ -240,7 +243,12 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        NumbersPanel.init();
+        // NumbersPanel.init();
+        var number_panel = ub.modifierController.controllers.numbers.getPanel();
+        ub.modifierController.propertiesPanel.setBodyPanel(number_panel);
+
+        NumbersPanel.events.init();
+
         $("#primary_options_container").scrollTo(0);
     },
 
