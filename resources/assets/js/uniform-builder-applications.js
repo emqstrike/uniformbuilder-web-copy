@@ -9309,7 +9309,7 @@ $(document).ready(function () {
         } else if (_settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
         } else if (_settingsObject.logo_type === 'custom_text') {
-            StockMascot.events.init(1000321);
+            StockMascot.events.init(ub.data.customTextCategoryID);
         }
 
         ub.funcs.runAfterUpdate(_id);

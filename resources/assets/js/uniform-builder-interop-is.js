@@ -527,8 +527,12 @@ $(document).ready(function() {
                     ub.data.embellismentDetails.setStatus('designSummary', data);
                 }
 
-                var settingsObject = ub.funcs.getApplicationSettings(applicationID);
-                ub.funcs.renderStockMascot(_settingsObject);
+                if (_settingsObject.logo_type === "custom_text") {
+                    TeamNamePanel.funcs.renderCustomText(_settingsObject);
+                } else {
+                    ub.funcs.renderStockMascot(_settingsObject);
+                }
+
             } else {
                 console.log("Design is not available");
             }

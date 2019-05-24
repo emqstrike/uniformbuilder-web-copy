@@ -206,6 +206,9 @@ $(document).ready(function() {
     ub.data.hasProcessedArtworks    = false;
     ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
 
+    // Stock Mascot Category ID
+    ub.data.stockMascotCategoryID = 1000281;
+    ub.data.customTextCategoryID = 1000321;
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
     ub.data.inkSoftProlookStore     = '/Prolook_Sports';

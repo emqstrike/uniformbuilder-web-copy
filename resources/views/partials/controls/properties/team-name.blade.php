@@ -115,11 +115,15 @@
 </script>
 
 <script type="text/mustache" id="m-custom-text">
-    <div class="uk-padding-small">
+    <div class="uk-padding-small" id="team-name-panel">
+        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
+            Custom Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
+        </h5>
+        <hr>
         <div class="logo-details-container">
             <div class="con-en-disable-me uk-grid-small" uk-grid>
                 <div class="uk-width-1-2 uk-width-1-3@s uk-width-1-2@l uk-width-1-3@xl uk-text-center con-select active-bgc-dark">
-                    <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove change-stock-mascot" 
+                    <button type="button" class="bdr-thin bdr-gray con-img-added-mascot-logo bgc-transparent uk-padding-remove edit-stock-mascot" 
                         data-application-code="@{{ code }}"
                         data-application-logo-type="@{{ logo_type }}"
                         data-application-design-id="@{{ design_id }}"

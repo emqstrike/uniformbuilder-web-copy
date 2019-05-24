@@ -95,7 +95,7 @@ MascotPanel.events = {
         if (settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
         } else if (settingsObject.logo_type === 'custom_text') {
-            StockMascot.events.init(1000321);
+            StockMascot.events.init(ub.data.customTextCategoryID);
         } else {
             InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
         }
@@ -103,11 +103,14 @@ MascotPanel.events = {
 
     onEditStockMascot: function() {
         ub.data.isChangeStockLogo = true;
-        var settingsObject = ub.funcs.getApplicationSettings(application_id);
+        // Get data
         var application_id = $(this).data("application-code");
         var designID = $(this).data("application-design-id");
         var logoType = $(this).data("application-logo-type");
+        // Get Settings object
+        var settingsObject = ub.funcs.getApplicationSettings(application_id);
         ub.data.currentApplication = settingsObject;
+        // Load design
         InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
     },
 

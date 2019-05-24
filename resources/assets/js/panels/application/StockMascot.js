@@ -4,7 +4,7 @@ function StockMascot() {
 
 StockMascot.events = {
     isInit: true,
-    init: function(categoryID = 1000281) {
+    init: function(categoryID = ub.data.stockMascotCategoryID) {
         var that = this;
         if (that.isInit) {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
@@ -80,7 +80,7 @@ StockMascot.events = {
 }
 
 StockMascot.funcs = {
-    loadStockMascot: function(categoryID = 1000281) {
+    loadStockMascot: function(categoryID = ub.data.stockMascotCategoryID) {
         var stockMascotCategoryID = categoryID;
         var that = this;
         that.loadRichardsonCategories(function(response) {
