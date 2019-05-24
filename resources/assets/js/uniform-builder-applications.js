@@ -10775,6 +10775,7 @@ $(document).ready(function () {
                             ub.funcs.saveFontData(_fontID, _size, applicationID, perspective);
 
                         }
+                    });
 
                 var _status = $(this).data('status');
 
