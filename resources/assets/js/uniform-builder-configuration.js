@@ -148,7 +148,7 @@ $(document).ready(function(){
 
     // ignore font rules for twill and subli uniforms, instead use the Sublimated font properties
     ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
-        var brands = [];
+        var brands = ["Richardson"];
         return _.contains(brands, brand);
     }
 
