@@ -141,7 +141,7 @@ function scriptsTask() {
 // Watch task: watch Less and JS files for changes
 // If any change, run less and js tasks simultaneously
 function watchTask() {
-    console.info('----------> IM NOW WATCHING FILES FOR CHANGES 👁👁')
+    console.info('----------> NOW WATCHING FILES FOR CHANGES 👁👁')
     // console.table(_.concat(files.lessPath, files.jsPath));
     watch(files.lessPath, series(stylesTask));
     watch(files.jsPath, series(scriptsTask));
