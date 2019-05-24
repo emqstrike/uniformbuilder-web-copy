@@ -36,11 +36,16 @@ TeamNamePanel.events = {
         var configuration = TeamNamePanel.configuration;
         var type = $(this).data("type")
         var part = ub.funcs.is_pts_cage_jacket() ? "Front Jersey" : "Front Body";
+        var logo_type = type === "embellishments" ? "custom_text" : type;
         
-        ub.funcs.newApplication(configuration.perspective, part, type, configuration.side);
-        var teamNameObj = ub.data.currentApplication;
-        TeamNamePanel.funcs.initializeTeamName(teamNameObj.code);
-        $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='front']").trigger("click");
+        ub.funcs.newApplication(configuration.perspective, part, type, configuration.side, logo_type);
+        if (type === "embellishments") {
+            // embellishments
+        } else {
+            var teamNameObj = ub.data.currentApplication;
+            TeamNamePanel.funcs.initializeTeamName(teamNameObj.code);
+            $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='front']").trigger("click");
+        }
     },
 
     onChangeAccentColor: function() {

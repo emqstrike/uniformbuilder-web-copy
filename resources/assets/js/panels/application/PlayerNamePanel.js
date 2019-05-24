@@ -53,7 +53,7 @@ PlayerNamePanel.events = {
     onClickAddPlayerName: function() {
         var configuration = PlayerNamePanel.configuration;
         var part = ub.funcs.is_pts_cage_jacket() ? "Back Jersey" : "Back Body";
-        ub.funcs.newApplication(configuration.perspective, part, configuration.type, configuration.side);
+        ub.funcs.newApplication(configuration.perspective, part, configuration.type, configuration.side, configuration.type);
         var playerObj = ub.data.currentApplication;
         $("div#left-side-toolbar .perspective .change-perspective-button[data-perspective='back']").trigger("click");
         PlayerNamePanel.funcs.initializePlayerName(playerObj.code);

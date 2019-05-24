@@ -1120,7 +1120,6 @@ $(document).ready(function () {
                         ModifierController.deleteApplicationContainer(_application.code)
                     }
                 }
-
                 ub.funcs.deleteLocation(_application.code);
                 return;
             }
@@ -8779,7 +8778,7 @@ $(document).ready(function () {
     ub.funcs.getSampleTeamName = function () {
 
         if (ub.config.brand.toLowerCase() === "richardson") {
-            _sampleTeamName = "Richardson"
+            _sampleTeamName = "RICHARDSON";
         } else {
             var _sampleTeamName = 'Mustangs';
 
@@ -9271,6 +9270,8 @@ $(document).ready(function () {
             }
         } else if (_settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
+        } else if (_settingsObject.logo_type === 'custom_text') {
+            StockMascot.events.init(1000280);
         }
 
         ub.funcs.runAfterUpdate(_id);
@@ -12153,7 +12154,11 @@ $(document).ready(function () {
 
 
         if (ub.config.brand.toLowerCase() === "richardson") {
-            ub.funcs.changeApplicationType(_newApplication, type, logo_type, part)
+            if (type === "embellishments") {
+                ub.funcs.changeApplicationType(_newApplication, type, logo_type, part)
+            } else {
+                $('div.optionButton[data-type="' + type + '"]').trigger('click');    
+            }
         } else {
             $('div.optionButton[data-type="' + type + '"]').trigger('click');
         }

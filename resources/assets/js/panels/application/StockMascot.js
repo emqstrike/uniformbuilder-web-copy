@@ -4,7 +4,7 @@ function StockMascot() {
 
 StockMascot.events = {
     isInit: true,
-    init: function() {
+    init: function(categoryID = 1000281) {
         var that = this;
         if (that.isInit) {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
@@ -16,7 +16,7 @@ StockMascot.events = {
         }
         that.isInit = false;
 
-        StockMascot.funcs.loadStockMascot();
+        StockMascot.funcs.loadStockMascot(categoryID);
     },
 
     onClickStockMascotCategory: function() {
@@ -80,28 +80,24 @@ StockMascot.events = {
 }
 
 StockMascot.funcs = {
-    loadStockMascot: function() {
-        var stockMascotCategoryID = 1000281;
+    loadStockMascot: function(categoryID = 1000281) {
+        var stockMascotCategoryID = categoryID;
         var that = this;
-        if (typeof ub.data.stockMascot === "undefined") {
-            that.loadRichardsonCategories(function(response) {
-                if (response.StatusCode) {
-                    var richardsonStockMascots = _.find(response.Data, {ID: stockMascotCategoryID});
-                    if (typeof richardsonStockMascots !== "undefined") {
-                        ub.data.stockMascot = richardsonStockMascots;
-                        that.prepareStockMascotCategories(ub.data.stockMascot);
-                        StockMascot.funcs.loadArtByCategory(richardsonStockMascots.ID, function(response) {
-                            if (response.OK) {
-                                StockMascot.funcs.prepareStockMascots(response.Data);
-                            }
-                        });
-                    }
+        that.loadRichardsonCategories(function(response) {
+            if (response.StatusCode) {
+                console.log(response.Data)
+                var richardsonStockMascots = _.find(response.Data, {ID: stockMascotCategoryID});
+                if (typeof richardsonStockMascots !== "undefined") {
+                    ub.data.stockMascot = richardsonStockMascots;
+                    that.prepareStockMascotCategories(ub.data.stockMascot);
+                    StockMascot.funcs.loadArtByCategory(richardsonStockMascots.ID, function(response) {
+                        if (response.OK) {
+                            StockMascot.funcs.prepareStockMascots(response.Data);
+                        }
+                    });
                 }
-            })
-        } else {
-            that.prepareStockMascotCategories(ub.data.stockMascot);
-            $(".inksoft-stock-mascot .mascot-item a").first().trigger("click");
-        }
+            }
+        })
         
         UIkit.modal("#richardson-stock-mascot").show();
     },

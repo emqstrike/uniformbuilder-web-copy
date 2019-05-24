@@ -89,11 +89,7 @@ MascotPanel.events = {
         var settingsObject = ub.funcs.getApplicationSettings(application_id);
 
         ub.data.currentApplication = settingsObject;
-        if (logoType === "custom") {
-            InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
-        } else {
-            StockMascot.events.init();    
-        }
+        InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
     },
 
     onSelectLogoType: function() {
