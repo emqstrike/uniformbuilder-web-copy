@@ -59,6 +59,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand_id" class="form-control">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}" @if ($brand->id == $user->brand_id) selected="selected" @endif>{{ $brand->site_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">State</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control state" name="state" value="{{ $user->state }}">

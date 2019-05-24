@@ -312,6 +312,8 @@
                                                     <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                     <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                     <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                    <th>Inner Stroke <a href="#" data-toggle="tooltip" data-message="Inner Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                    <th>Outer Stroke <a href="#" data-toggle="tooltip" data-message="Outer Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                 </tr>
                                             </thead>
                                             <tbody class="front-fst-body">
@@ -346,6 +348,8 @@
                                                     <th>Y Offset</th>
                                                     <th>X Scale</th>
                                                     <th>Y Scale</th>
+                                                    <th>Inner Stroke</th>
+                                                    <th>Outer Stroke</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="back-fst-body">
@@ -380,6 +384,8 @@
                                                     <th>Y Offset</th>
                                                     <th>X Scale</th>
                                                     <th>Y Scale</th>
+                                                    <th>Inner Stroke</th>
+                                                    <th>Outer Stroke</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="left-fst-body">
@@ -410,6 +416,8 @@
                                                     <th>Y Offset</th>
                                                     <th>X Scale</th>
                                                     <th>Y Scale</th>
+                                                    <th>Inner Stroke</th>
+                                                    <th>Outer Stroke</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="right-fst-body">
@@ -461,6 +469,8 @@
                                                         <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                         <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                         <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                        <th>Inner Stroke <a href="#" data-toggle="tooltip" data-message="Inner Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                        <th>Outer Stroke <a href="#" data-toggle="tooltip" data-message="Outer Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="front-fst-body-sublimated">
@@ -493,6 +503,8 @@
                                                         <th>Y Offset</th>
                                                         <th>X Scale</th>
                                                         <th>Y Scale</th>
+                                                        <th>Inner Stroke</th>
+                                                        <th>Outer Stroke</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="back-fst-body-sublimated">
@@ -525,6 +537,8 @@
                                                         <th>Y Offset</th>
                                                         <th>X Scale</th>
                                                         <th>Y Scale</th>
+                                                        <th>Inner Stroke</th>
+                                                        <th>Outer Stroke</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="left-fst-body-sublimated">
@@ -557,6 +571,8 @@
                                                         <th>Y Offset</th>
                                                         <th>X Scale</th>
                                                         <th>Y Scale</th>
+                                                        <th>Inner Stroke</th>
+                                                        <th>Outer Stroke</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="right-fst-body-sublimated">
@@ -809,7 +825,18 @@
                     var tbl_class = '.'+entry.perspective+'-fst-body';
 
                     entry.sizes.forEach(function(item) {
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                        var elem = `<tr data-app-num="` + item.application_number + `" data-perspective="` + entry.perspective + `">
+                                        <td><input type="number" step="any" class="inputs application-number form-control" value="` + item.application_number + `"></td>
+                                        <td><input type="number" step="any" class="inputs input-size form-control" value="` + item.inputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs form-control output-size" value="` + item.outputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-offset form-control" value="` + item.x_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-offset form-control" value="` + item.y_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-scale form-control" value="` + item.x_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-scale form-control" value="` + item.y_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs inner-stroke form-control" value="` + item.inner_stroke + `"></td>
+                                        <td><input type="number" step="any" class="inputs outer-stroke form-control" value="` + item.outer_stroke + `"></td>
+                                        <td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td>
+                                    </tr>`;
                         $(tbl_class).append(elem);
                     });
 
@@ -827,7 +854,18 @@
                     var tbl_class = '.' + entry.perspective + '-fst-body-sublimated';
 
                     entry.sizes.forEach(function(item) {
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                        var elem = `<tr data-app-num="`+ item.application_number + `" data-perspective="` + entry.perspective + `">
+                                        <td><input type="number" step="any" class="inputs application-number form-control" value="` + item.application_number + `"></td>
+                                        <td><input type="number" step="any" class="inputs input-size form-control" value="` + item.inputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs form-control output-size" value="` + item.outputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-offset form-control" value="` + item.x_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-offset form-control" value="` + item.y_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-scale form-control" value="` + item.x_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-scale form-control" value="` + item.y_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs inner-stroke form-control" value="` + item.inner_stroke + `"></td>
+                                        <td><input type="number" step="any" class="inputs outer-stroke form-control" value="` + item.outer_stroke + `"></td>
+                                        <td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>
+                                    `;
                         $(tbl_class).append(elem);
                     });
 
@@ -865,6 +903,8 @@
                             "y_offset" : $(this).find('.y-offset').val(),
                             "x_scale" : $(this).find('.x-scale').val(),
                             "y_scale" : $(this).find('.y-scale').val(),
+                            "inner_stroke" : $(this).find('.inner-stroke').val(),
+                            "outer_stroke" : $(this).find('.outer-stroke').val(),
                             "application_number" : $(this).find('.application-number').val()
                         };
 
@@ -898,6 +938,9 @@
                             "y_offset" : $(this).find('.y-offset').val(),
                             "x_scale" : $(this).find('.x-scale').val(),
                             "y_scale" : $(this).find('.y-scale').val(),
+                            "y_scale" : $(this).find('.y-scale').val(),
+                            "inner_stroke" : $(this).find('.inner-stroke').val(),
+                            "outer_stroke" : $(this).find('.outer-stroke').val(),
                             "application_number" : $(this).find('.application-number').val()
                         };
 
@@ -925,9 +968,23 @@
                 window.sublimated_backup = old_font_size_tables;
 
                 old_font_size_tables.forEach(function(entry) {
-                    var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
+                    var tbl_class = '.' + entry.perspective + '-fst-body-sublimated';
+
+                    $(tbl_class).empty();
+
                     entry.sizes.forEach(function(item) {
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                        var elem = `<tr data-app-num="` + item.application_number + `" data-perspective="` + entry.perspective + `">
+                                        <td><input type="number" step="any" class="inputs application-number form-control" value="` + item.application_number + `"></td>
+                                        <td><input type="number" step="any" class="inputs input-size form-control" value="` + item.inputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs form-control output-size" value="` + item.outputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-offset form-control" value="` + item.x_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-offset form-control" value="` + item.y_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-scale form-control" value="` + item.x_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-scale form-control" value="` + item.y_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs inner-stroke form-control" value="` + item.inner_stroke + `"></td>
+                                        <td><input type="number" step="any" class="inputs outer-stroke form-control" value="` + item.outer_stroke + `"></td>
+                                        <td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td>
+                                    </tr>`;
                         $(tbl_class).append(elem);
                     });
                 });
@@ -946,7 +1003,18 @@
                 window.backup.forEach(function(entry) {
                     var tbl_class = '.'+entry.perspective+'-fst-body';
                     entry.sizes.forEach(function(item) {
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                        var elem = `<tr data-app-num="` + item.application_number + `" data-perspective="` + entry.perspective + `">
+                                        <td><input type="number" step="any" class="inputs application-number form-control" value="` + item.application_number + `"></td>
+                                        <td><input type="number" step="any" class="inputs input-size form-control" value="` + item.inputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs form-control output-size" value="` + item.outputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-offset form-control" value="` + item.x_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-offset form-control" value="` + item.y_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-scale form-control" value="` + item.x_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-scale form-control" value="` + item.y_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs inner-stroke form-control" value="` + item.inner_stroke + `"></td>
+                                        <td><input type="number" step="any" class="inputs outer-stroke form-control" value="` + item.outer_stroke + `"></td>
+                                        <td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td>
+                                    </tr>`;
                         $(tbl_class).append(elem);
                     });
                 });
@@ -962,7 +1030,19 @@
                 window.sublimated_backup.forEach(function(entry) {
                     var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
                     entry.sizes.forEach(function(item) {
-                        var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number form-control" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size form-control" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs form-control output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset form-control" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset form-control" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale form-control" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale form-control" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                        var elem = `
+                                    <tr data-app-num="` + item.application_number + `" data-perspective="` + entry.perspective + `">
+                                        <td><input type="number" step="any" class="inputs application-number form-control" value="` + item.application_number + `"></td>
+                                        <td><input type="number" step="any" class="inputs input-size form-control" value="` + item.inputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs form-control output-size" value="` + item.outputSize + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-offset form-control" value="` + item.x_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-offset form-control" value="` + item.y_offset + `"></td>
+                                        <td><input type="number" step="any" class="inputs x-scale form-control" value="` + item.x_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs y-scale form-control" value="` + item.y_scale + `"></td>
+                                        <td><input type="number" step="any" class="inputs inner-stroke form-control" value="` + item.inner_stroke + `"></td>
+                                        <td><input type="number" step="any" class="inputs outer-stroke form-control" value="` + item.outer_stroke + `"></td>
+                                        <td><a href="#" class="btn btn-flat btn-xs btn-danger remove-layer">Remove</a></td>
+                                      </tr>`;
                         $(tbl_class).append(elem);
                     });
                 });

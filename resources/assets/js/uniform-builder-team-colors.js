@@ -804,10 +804,18 @@ $(document).ready(function () {
 
             var colors_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker' });
 
+            // return only the designated team colors by brand
+            ub.current_material.settings.team_colors = ub.current_material.settings.team_colors.filter( function (team_color) {
+                return team_color.brand === ub.config.brand.toLocaleLowerCase() || team_color.brand == ub.config.brand;
+            });
+
             _.each(ub.current_material.settings.team_colors, function (color, index) {
 
                 var color_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker', 'color-label': color.color_code });
-                color_btn.attr('data-status','selected');
+                
+                if (typeof color_btn !== 'undefined') { 
+                    color_btn.attr('data-status', 'selected');
+                }
 
             });
 

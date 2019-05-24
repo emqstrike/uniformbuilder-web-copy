@@ -91,7 +91,6 @@ select:hover {
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
                                 <select class="form-control brand" name="brand" required>
-                                        <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
                                 </select>
@@ -170,15 +169,20 @@ select:hover {
 $(document).ready(function(){
 
     window.colors = null;
-    getColors(function(colors){
+
+    $(document).on('change', '.brand', function() {
+        var temp_brand = $(this).val();
+        getColors(temp_brand, function(colors){
         window.colors = colors;
+        });
+        generateColorsDropdown();
     });
 
     window.edit = 0;
 
-    function getColors(callback){
+    function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors";
+        var url = "//" + api_host + "/api/colors/" + brand;
         $.ajax({
             url: url,
             async: false,
@@ -193,20 +197,18 @@ $(document).ready(function(){
         });
     }
 
-    var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(){
+        $('.layer-default-color').empty();
+        var colors_dropdown = '';
         $.each(window.colors, function( key, value ) {
             colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
         });
-        return colors_dropdown;
+        $('.layer-default-color').append(colors_dropdown);
+        layerNumbers();
+        $('.layer-default-color').trigger('change');
     }
 
-    try {
-        $('.layer-default-color').append(colors_dropdown);
-    }
-    catch(err) {
-        console.log(err.message);
-    }
+    $('.brand').trigger('change');
 
     $(document).on('change', function() {
         var length = $('.layers-row').length;
