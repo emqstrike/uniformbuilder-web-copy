@@ -25,8 +25,12 @@ TeamNamePanel.events = {
         }
 
         var teamNameObj = _.find(ub.current_material.settings.applications, {type: "team_name"});
+        var customTeamNameObj = _.find(ub.current_material.settings.applications, {logo_type: "custom_text"});
+        
         if (typeof teamNameObj !== "undefined") {
             TeamNamePanel.funcs.initializeTeamName(teamNameObj.code);
+        } else if (typeof customTeamNameObj !== "undefined") {
+            TeamNamePanel.funcs.initializeTeamName(customTeamNameObj.code);
         } else {
             TeamNamePanel.funcs.loadAddTeamName();
         }
@@ -150,29 +154,58 @@ TeamNamePanel.funcs = {
     initializeTeamName: function(code) {
         var that = this;
         var teamNameObj = ub.funcs.getApplicationSettings(code);
-        var objStock = {
-            application_type: teamNameObj.application_type,
-            type: teamNameObj.application.name.toUpperCase(),
-            defaultText: teamNameObj.text,
-            code: teamNameObj.code,
-            perspective: teamNameObj.application.views[0].perspective,
-            hasAccents: true,
-            accents: that.accent(teamNameObj),
-            hasFontStyle: true,
-            fontStyle: that.fontStyle(teamNameObj),
-            hasTeamLayout: true,
-            teamLayout: that.teamLayout(teamNameObj),
-            hasColors: true,
-            colorContainer: that.colorSelection(teamNameObj, "Team Name Colors"),
-            hasFontSize: true,
-            fontSizeSlider: that.fontSizeSlider(teamNameObj)
+        var _html;
+
+        if (teamNameObj.logo_type !== "custom_text") {
+            var objStock = {
+                application_type: teamNameObj.application_type,
+                type: teamNameObj.application.name.toUpperCase(),
+                defaultText: teamNameObj.text,
+                code: teamNameObj.code,
+                perspective: teamNameObj.application.views[0].perspective,
+                hasAccents: true,
+                accents: that.accent(teamNameObj),
+                hasFontStyle: true,
+                fontStyle: that.fontStyle(teamNameObj),
+                hasTeamLayout: true,
+                teamLayout: that.teamLayout(teamNameObj),
+                hasColors: true,
+                colorContainer: that.colorSelection(teamNameObj, "Team Name Colors"),
+                hasFontSize: true,
+                fontSizeSlider: that.fontSizeSlider(teamNameObj)
+            };
+
+            var _htmlBuilder = ub.utilities.buildTemplateString('#m-team-name-modifier-control', objStock);
+            $(".modifier_main_container").html("");
+            $(".modifier_main_container").html(_htmlBuilder);
+            ub.funcs.initializer();
+        } else {
+            TeamNamePanel.funcs.renderCustomText(teamNameObj);
+        }
+
+        ub.funcs.activateMoveTool(teamNameObj.code);
+    },
+
+    renderCustomText: function(_settingsObject) {
+        var template = document.getElementById("m-custom-text").innerHTML;
+        var objCustom = {
+            thumbnail: _settingsObject.embellishment.png_filename,
+            application_type: _settingsObject.application_type,
+            logo_type: _settingsObject.logo_type,
+            code: _settingsObject.code,
+            perspective: _settingsObject.application.views[0].perspective,
+            name: _settingsObject.embellishment.name,
+            viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
+            viewPrint: _settingsObject.embellishment.svg_filename,
+            flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : "",
+            design_id: _settingsObject.embellishment.design_id,
+            isCustom: _settingsObject.logo_type === "custom" ? true: false
         };
 
-        var _htmlBuilder = ub.utilities.buildTemplateString('#m-team-name-modifier-control', objStock);
+        var renderTemplate = Mustache.render(template, objCustom);
         $(".modifier_main_container").html("");
-        $(".modifier_main_container").html(_htmlBuilder);
-        ub.funcs.activateMoveTool(teamNameObj.code);
-        ub.funcs.initializer();
+        $(".modifier_main_container").html(renderTemplate);
+        MascotPanel.events.init();
     },
 
     accent: function(settingsObject) {

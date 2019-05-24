@@ -9223,12 +9223,12 @@ $(document).ready(function () {
                     _embellishmentID = 1762241;
                 } else if (logo_type === "custom") {
                     _embellishmentID = 1722159;
+                } else if (logo_type === "custom_text") {
+                    _embellishmentID = 1722239;
                 }
             } else {
                 _embellishmentID = 1722159;
             }
-
-            // ub.funcs.getDesignSummary
 
             ub.funcs.deActivateApplications();
             _settingsObject.font_obj = ub.funcs.getSampleFont();
@@ -9271,7 +9271,7 @@ $(document).ready(function () {
         } else if (_settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
         } else if (_settingsObject.logo_type === 'custom_text') {
-            StockMascot.events.init(1000280);
+            StockMascot.events.init(1000321);
         }
 
         ub.funcs.runAfterUpdate(_id);

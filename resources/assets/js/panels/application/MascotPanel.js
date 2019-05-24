@@ -26,7 +26,9 @@ MascotPanel.init = function () {
     var _Applications = ub.current_material.settings.applications;
     var _filteredApplications = _.filter(_Applications, function(i) {
         if (i.application_type === 'mascot' || i.application_type === 'embellishments') {
-            return i;
+            if (i.logo_type !== "custom_text") {
+                return i;
+            }
         }
     });
 
@@ -113,7 +115,7 @@ MascotPanel.events = {
 
         $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
         var _settingsObject = _.find(ub.current_material.settings.applications, {type: _type, location: ub.utilities.titleCase(location)});
-        if (typeof _settingsObject !== "undefined") {
+        if (typeof _settingsObject !== "undefined" && _settingsObject.logo_type !== "custom_text") {
             ub.funcs.renderStockMascot(_settingsObject);
         } else {
             if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {

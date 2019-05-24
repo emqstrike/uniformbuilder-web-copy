@@ -85,7 +85,6 @@ StockMascot.funcs = {
         var that = this;
         that.loadRichardsonCategories(function(response) {
             if (response.StatusCode) {
-                console.log(response.Data)
                 var richardsonStockMascots = _.find(response.Data, {ID: stockMascotCategoryID});
                 if (typeof richardsonStockMascots !== "undefined") {
                     ub.data.stockMascot = richardsonStockMascots;
