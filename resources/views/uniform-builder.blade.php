@@ -112,7 +112,7 @@
     <!-- End Code -->
 
 
-    <script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/ub.min.js?v={{$asset_version}}"></script>
 
 
     <!-- QA Tools -->
