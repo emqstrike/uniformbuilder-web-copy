@@ -1834,8 +1834,7 @@
             <div class="row">
 
                 <div class="col-md-12">
-
-                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong class="feedback-message">This Prolook Uniform Customizer is under continuous development daily to make it better. If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1867,22 +1866,53 @@
             <div class="row">
 
                 <div class="col-md-12">
+                    <strong>This Prolook Uniform Customizer is under continuous development daily to make it better. If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
 
-                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
-                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+                    <div class="row">
+                        <div class="col-md-6 feedback-left-panel">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button class="btn btn-default btn-block upload-btn"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
+                                    <input type="file" id="file-input-upload" style="display:none" accept="image/*"/>
+                                    <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive upload">
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6">
+                            <form id="feedback-form">
+                              <div class="form-group">
+                                <label>Name <span class="required">*</span></label>
+                                <input type="text" class="form-control name" placeholder="Your Name">
+                              </div>
+                              <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" class="form-control email" placeholder="youremail@domain.com">
+                              </div>
+                              <div class="form-group">
+                                <label>Material ID <small class="optional">(optional)</small></label>
+                                <input type="text" class="form-control materialId" placeholder="">
+                              </div>
+                              <div class="form-group">
+                                <label>Saved Design ID <small class="optional">(optional)</small></label>
+                                <input type="text" class="form-control savedDesignId" placeholder="">
+                              </div>
+                              <div class="form-group">
+                                <label>Message <span class="required">*</span></label>
+                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)"></textarea>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
             <div class="row">
-
                 <div class="col-md-12 ok-footer">
-
-                     <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
-
+                     <span class="cancel-btn">CANCEL</span>
+                     <span class="ok-btn">OK</span>
                 </div>
-
             </div>
 
         </div>
@@ -2483,7 +2513,7 @@
             </div>
 
             <br />
-            <label>2. Which part do you want to add the application on?</label>
+            <label>3. Which part do you want to add the application on?</label>
 
             <div class="part-container">
 

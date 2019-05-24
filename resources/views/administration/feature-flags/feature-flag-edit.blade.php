@@ -145,6 +145,15 @@ li.select2-selection__choice {
                             </div>
                         </div>
 
+                        <label class="col-md-4 control-label">Beta</label>
+                            <div class="col-md-6">
+                                <select name='beta' class="form-control">
+                                    <option value='1' @if ($feature_flag->beta == "1") selected="selected"@endif>YES</option>
+                                    <option value='0' @if ($feature_flag->beta == "0") selected="selected"@endif>NO</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">

@@ -692,6 +692,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Model Name</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control model-name"  name="model_name" value="{{ $material->model_name }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Style Number</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control style-number"  name="style_number" value="{{ $material->style_number }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

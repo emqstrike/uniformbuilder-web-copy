@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css?v={{$asset_version}}">
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css"/>
 
     <link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
     <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/rangeSlider.css?v={{$asset_version}}">

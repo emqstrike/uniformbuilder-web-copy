@@ -28,7 +28,6 @@ class ColorsController extends Controller
         }
 
         $colors = $this->client->getColors($active_brand);
-        
         return view('administration-lte-2.colors.colors', [
             'colors' => $colors,
             'active_brand' => $active_brand

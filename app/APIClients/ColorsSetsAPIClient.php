@@ -52,4 +52,19 @@ class ColorsSetsAPIClient extends APIClient
         return null;
     }
 
+    public function getColorSetByBrand($brand = null)
+    {
+
+        $response = $this->get('colors_sets/' . $brand);
+        $result = $this->decoder->decode($response->getBody());
+
+        $colors_sets = [];
+        if ($result->success)
+        {
+            $colors_sets = $result->colors_sets;
+        }
+
+        return $colors_sets;
+    }
+
 }

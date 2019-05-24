@@ -1424,6 +1424,11 @@ img.highlighter {
 .user-profile { 
     margin-top: -52px;
     margin-right: 10px;
+
+    li#enable-beta {
+        //> a:hover { background: lightgrey !important; }
+        //> a:visited {  }
+    }
 }
 
 .gradient_slider {
@@ -2114,6 +2119,12 @@ input.fe_input, select.fe_input {
     background-image: none;
     background-color: @text_color !important;
     border: none;
+
+}
+
+.dropdown-menu li#enable-beta > a:hover{
+
+    color: #ffffff;
 
 }
 
@@ -6963,7 +6974,7 @@ div.header-container.main {
             position: absolute;
 
             width: 500px;
-            height: 400px;
+            height: 460px;
 
             top: 200px;
             left: 300px;
@@ -6999,6 +7010,7 @@ div.header-container.main {
             div.notes {
 
                 font-size: 0.8em;
+                margin-top: 10px;
 
             }
 
@@ -7010,12 +7022,9 @@ div.header-container.main {
 
             div.popup-row {
 
-                display: block;
-                height: 70px;
+                display: inline-block;
                
                 div.inputContainer {
-
-                    padding-top: 10px;
                     
                     div.inputX {
                         float: left;
@@ -9717,7 +9726,8 @@ div.header-container.main {
 
                     width: 150px;
                     padding: 10px;
-                    cursor: pointer;
+
+             *       cursor: pointer;
 
                     margin: 0 auto;
                     margin-top: 10px;
@@ -9740,12 +9750,11 @@ div.header-container.main {
         div.free-feedback-form{
 
             cursor: grab;
-
             padding: 30px;
             display: none;
             position: absolute;
             width: 930px;
-            height: 390px;
+            min-height: 390px;
             top: 200px;
             left: 300px;
             z-index: 2000;
@@ -9755,6 +9764,45 @@ div.header-container.main {
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            //.img-thumbnail:hover {
+            //    cursor: pointer;
+            //}
+
+            .img-label {
+                font-weight: bold;
+                font-style: italic;
+            }
+
+            .required {
+                color: red;
+            }
+
+            .error {
+                border-color: red;
+            }
+
+            .fa-tshirt {
+                font-size: 100px;
+            }
+
+            .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
+                width: 100px;
+            }
+
+            .img-thumbnail.upload {
+                margin-top: 10px;
+                //height: 200px;
+                //width: 200px;
+            }
+
+            .upload-btn {
+                outline: none;
+            }
+
+            .optional {
+                color: #ccc;
+            }
 
             h3 {
 

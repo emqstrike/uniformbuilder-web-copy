@@ -155,7 +155,6 @@ class MascotsController extends Controller
 
     public function addLogoRequestForm($logo_request_id, $logo_index, $logo_request_user_id)
     {
-        $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
         $logo_request = $this->logoRequestsClient->getLogoRequest($logo_request_id);
@@ -176,8 +175,6 @@ class MascotsController extends Controller
         });
 
         return view('administration.logo-requests.upload-logo-request', [
-
-            'colors' => $colors,
             'mascots_categories' => $mascots_categories,
             'logo_request_id' => $logo_request_id,
             'logo_index' => $logo_index,

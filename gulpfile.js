@@ -1,3 +1,5 @@
+"use strict";
+// var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 
 /*
@@ -6,11 +8,10 @@ var elixir = require('laravel-elixir');
  |--------------------------------------------------------------------------
  |
  | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
+ | for your Laravel application. By default, we are compiling the Less
  | file for our application, as well as publishing vendor resources.
  |
  */
-
 
 elixir(function(mix) {
 
@@ -37,9 +38,6 @@ elixir(function(mix) {
             'uniform-builder-endpoints.js',
             'uniform-builder-style-configuration.js',
             'uniform-builder-functions.js',
-
-            // Brand Specific
-            //'uniform-builder-application-ui-new.js',
 
             // Richardson
             'richardson/uniform-builder-richardson-data.js',
@@ -72,6 +70,7 @@ elixir(function(mix) {
             'uniform-builder-placeholder-applications.js',
             'uniform-builder-process.js',
             'uniform-builder-dialogs.js',
+
             'uniform-builder-applications.js',
             'uniform-builder-getters-setters.js',
             'uniform-builder-pipings.js',
@@ -131,7 +130,6 @@ elixir(function(mix) {
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
             'controllers/ModifierController.js',
-
         ],
         // Result
         'public/uniform-builder/js/ub.js'
