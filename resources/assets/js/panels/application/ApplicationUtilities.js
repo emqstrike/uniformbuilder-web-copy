@@ -1298,25 +1298,8 @@ $(function() {
                 // Marker that applications has been initialized
                 $(this).addClass('init')
             }
-            if (ub.funcs.isTackleTwill()) {
-                // Change pips when uniform is tackle twill
-                var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
-                if (applicationSizes.size.length !== 1) {
-                    var value_horizontal = $(this).find(".noUi-value-horizontal");
-                    value_horizontal.each(function(value, index) {
-                        var size = applicationSizes.size[value];
-                        $(index).html("");
-                        $(index).html(size);
-                    });
-                } else {
-                    $(this).find(".noUi-value-horizontal").html("");
-                    $(this).find(".noUi-value-horizontal.noUi-value-sub").html("");
-                    $(this).find(".noUi-value-horizontal.noUi-value-sub").html(applicationSizes.size[0]);
-                }
-            } else {
-                $(this).find('.noUi-value-large').first().html('Small');
-                $(this).find('.noUi-value-large').last().html('Large');
-            }
+            $(this).find('.noUi-value-large').first().html('Small');
+            $(this).find('.noUi-value-large').last().html('Large');
         });
 
         // slider move X
@@ -1428,107 +1411,33 @@ $(function() {
             return;
         }
 
-        if (ub.funcs.isTackleTwill()) {
-            // Get Sizes
-            var applicationSizes = ub.funcs.getRichardsonApplicationSizes(_settingsObject);
-            // Get size index
-            var start = _.indexOf(applicationSizes.size, _settingsObject.font_size.toString());
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-            var range_all_sliders;
-
-            if (applicationSizes.size.length === 1 && _settingsObject.code === "6" && _settingsObject.type === "player_name") {
-                range_all_sliders = {
-                   'min': 1,
-                   'max': 3
-                };
-                start += 1;
-            } else {
-                range_all_sliders = {
-                   'min': 1,
-                   'max': applicationSizes.size.length
-                };
-            }
-
-            // Setup slider for tackle twill
-            noUiSlider.create(element, {
-                start: start + 1,
-                range: range_all_sliders,
-                step: 1,
-                tooltips: [true],
-                format: wNumb({
-                    decimals: 0
-                }),
-                pips: {
-                    mode: 'steps',
-                    stepped: true,
-                    density: 4
-                }
-            });
-
-            if (applicationSizes.size.length === 1) {
-                // To disable
-                element.setAttribute('disabled', true);
-            }
-
-        } else {
-            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-            var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
-            noUiSlider.create(element, {
-                animate: true,
-                animationDuration: 300,
-                start: _start,
-                range: {
-                    min: 1,
-                    max: 100,
-                },
-                tooltips: true,
-                format: wNumb({
-                    decimals: 0
-                }),
-                pips: {
-                    mode: 'steps',
-                    stepped: true,
-                    density: 4
-                }
-            });
-        }
-
-        element.noUiSlider.on('update', function (values, handle) {
-            if (!_flag) { _flag = true; return;}
-
-            if (ub.funcs.isTackleTwill()) {
-                var index = values[0];
-                var value = applicationSizes.size[index - 1];
-                if (typeof value !== "undefined") {
-                    // Change tooltip value
-                    $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
-                    $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
-
-                    // Apply application size
-                    if (_settingsObject.application_type === "mascot") {
-                        ub.funcs.richardsonChangeMascotSize(_settingsObject, value);
-                    } else if (_settingsObject.application_type === "embellishments") {
-                        ub.funcs.richardsonChangeCustomMascotSize(_settingsObject, value);
-                    } else {
-                        ub.funcs.richardsonChangeFontSize(_settingsObject, value);
-                    }
-                }
-            } else {
-                var _value = values[0];
-                ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+        noUiSlider.create(element, {
+            animate: true,
+            animationDuration: 300,
+            start: _start,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0
+            }),
+            pips: {
+                mode: 'steps',
+                stepped: true,
+                density: 4
             }
         });
-
-        if (ub.funcs.isTackleTwill()) {
-            // On Click slider get index size and alter the value of the tooltip
-            element.noUiSlider.on("start", function(values, handle) {
-                var index = values[0];
-                var value = applicationSizes.size[index - 1];
-                $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html("");
-                $(".slider-control-scale[data-id='"+ _settingsObject.code +"']").find(".noUi-tooltip").html(value);
-            });
-        }
+        
+        element.noUiSlider.on('update', function (values, handle) {
+            if (!_flag) { _flag = true; return;}
+            var _value = values[0];
+            ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+        });
     };
 
     ub.funcs.initMovePanelX = function (element, _settingsObject, applicationType) {

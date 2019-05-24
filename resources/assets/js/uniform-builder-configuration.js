@@ -136,7 +136,7 @@ $(document).ready(function(){
 
     // enable application's Scale Tool on Subli and Twill uniforms for the ff. brand
     ub.config.ignoreScaleRulesOnSublimatedAndTwill = function (brand) {
-        var brands = [];
+        var brands = ["richardson"];
 
         // if feature flag for tackle twill's custom sizes is on (cco-156), return false
         if (ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes')) {
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
     // ignore font rules for twill and subli uniforms, instead use the Sublimated font properties
     ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
-        var brands = [];
+        var brands = ["Richardson"];
         return _.contains(brands, brand);
     }
 
