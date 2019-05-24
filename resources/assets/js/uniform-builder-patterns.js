@@ -109,32 +109,19 @@ $(document).ready(function () {
     // End Pattern Data
 
     ub.funcs.getPatternList = function () {
-
-        var _sport = ub.current_material.material.uniform_category;
         var brand = ub.current_material.material.brand;
 
-        var patterns = _.filter(ub.data.patterns.items, {
+        var patternList = _.filter(ub.data.patterns.items, {
             active: "1",
             brand: brand
         });
 
-        // _patternList = _.filter(_patternList, function (pattern) {
-
-        //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
-        //         pattern.blockPatternOptions === null ||
-        //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
-
-        //     return _expression;
-
-        // });
-
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
-             patterns = _.filter(patterns, function (pattern) {
+             patternList = _.filter(patternList, function (pattern) {
                 return _.contains(pattern.blockPatternOptions, ub.neckOption) || pattern.name === "Blank" ;
             });
         }
-
-        return _.sortBy(patterns, 'sortID');
+        return _.sortBy(patternList, 'sortID');
     }
 
 

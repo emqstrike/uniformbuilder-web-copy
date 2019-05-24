@@ -48,9 +48,18 @@ elixir(function(mix) {
             'richardson/RichardsonSaveDesign.js',
             'uniform-builder-fabrics.js',
             'uniform-builder-branding.js',
+
+            // HSEL
+            'uniform-builder-hsel.js',
+
             'uniform-builder-dealership.js',
             'uniform-builder-data.js',
+
             'uniform-builder-patterns.js',
+
+            //picker
+            'uniform-builder-picker.js',
+
             'uniform-builder-ui-data.js',
             'uniform-builder-application-sizes.js',
             'uniform-builder-name-drops.js',

@@ -45,7 +45,7 @@
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
                         <input type="hidden" name="old_font_size_table" id="old_font_size_table" value="{{ $font->font_size_table }}">
-                
+
                         <div class="form-group">
                             <div class="colr-md-6" align="center">
                                 @if ($font->font_path)
@@ -123,7 +123,16 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" >Brand</label>
+                            <div class="col-md-4">
+                                <select name="brand" class="form-control">
+                                    <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
+                                    <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                    <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-5 control-label">Sports</label>
                             <div class="col-md-4">
@@ -140,22 +149,13 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" >Brand</label>
-                            <div class="col-md-4">
-                                <select name="brand" class="form-control">
-                                    <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
-                                    <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
-                                    <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label class="col-md-5 control-label">Block Pattern</label>
+                            <a class="btn btn-primary copy-block btn-xs btn-flat">Copy Block Pattern</a>
+                            <a class="btn btn-success load-block btn-xs btn-flat">Load Block Pattern</a>
                             <div class="col-md-4">
                                 <input type="hidden" class="block-patterns-val" id="block_patterns_value" name="block_patterns_value" value="{{ $font->block_patterns }}">
+                                <input type="text" class="block-pattern-text pull-right" id="block_pattern_text" name="block_pattern_text">
                                 <select name="block_patterns[]" class="form-control block-patterns" multiple="multiple">
                                 </select>
                             </div>
@@ -216,7 +216,7 @@
                                     <a href="#" data-toggle="tooltip" data-message="Bulk update for font size tables values.">
                                         <span class="glyphicon glyphicon-info-sign"></span>
                                     </a>
-                                    
+
                                     <thead>
                                         <tr>
                                             <td>Application #</td>
@@ -273,34 +273,12 @@
                                 </table>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-2 col-md-offset-5">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>Show Twill</td>
-                                        <td>
-                                            <input type="checkbox" class="show-twill">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Show Sublimated</td>
-                                        <td>
-                                            <input type="checkbox" class="show-sublimated">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
                         <hr>
-
                         <div class="form-group twill-fst"> <!-- START -->
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Twill Font Size Tables</h3>
+                                        <h3 style="margin-top: 0;"><a href="#font-twill"class="collapse-fonts" data-toggle="collapse">Twill Font Size Tables </a></h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -309,7 +287,7 @@
                                         <a href="#" class="btn btn-warning btn-flat reset-fst">Reset Font Size Tables data</a>
                                     </div>
                                 </div>
-
+                                <div id="font-twill" class="collapse">
                                 <div class="form-group" style="margin-top: 30px;">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -357,7 +335,7 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        
+
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -391,7 +369,7 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        
+
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -439,6 +417,7 @@
                                         </table>
                                     </div>
                                 </div>
+                                </div>
                             </div>
                         </div> <!-- END -->
 
@@ -448,7 +427,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3 style="margin-top: 0;">Sublimated Font Size Tables</h3>
+                                        <h3 style="margin-top: 0;"><a href="#font-subli" class="collapse-fonts" data-toggle="collapse">Sublimated Font Size Tables </a> </h3>
                                     </div>
 
                                     <div class="col-md-6 text-right">
@@ -460,6 +439,7 @@
                             </div>
 
                             <div class="fluid-container">
+                                <div id="font-subli" class="collapse">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -470,7 +450,7 @@
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
                                             </h3>
-                                            
+
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
@@ -523,7 +503,7 @@
                                 </div>
 
                                 <hr>
-                                    
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -586,10 +566,11 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         </div> <!-- END -->
-                    
+
                         <hr>
-                        
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 <h3>
@@ -597,7 +578,7 @@
                                     <a class="btn btn-flat btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
                                 </h3>
                             </div>
-                                
+
                             <div class="col-md-12">
                                 <table class="table table-bordered">
                                     <thead>
@@ -682,10 +663,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/fonts/fonts.js"></script>
-    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
     <script type="text/javascript" src="/js/libs/autosize.js"></script>
     <script type="text/javascript">
 
@@ -1006,7 +984,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                          
+
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1022,7 +1000,7 @@
                             fields.forEach(function(entry) {
                                 var new_val = null;
                                 var p_val = parseFloat(elem.find(entry).val());
-                     
+
                                 if(action == "add"){
                                     new_val = p_val + value;
                                     elem.find(entry).val(new_val);
@@ -1264,7 +1242,7 @@
 
             $(document).on('click', '.btn-remove-layer', function() {
                 var rowCount = $('.layers-row').length;
-                
+
                 $(this).closest('tr').remove();
                 var newRowCount = $('.layers-row').length;
 
@@ -1277,6 +1255,23 @@
 
             $('.block-patterns').select2().val(bps).trigger('change');
             $('.block-pattern-options').select2().val(bpos).trigger('change');
+
+
+            $(document).on('click', '.copy-block', function() {
+                var block_val = $('.block-patterns-val').val();
+                var input = $('#block_pattern_text');
+                input.val(block_val);
+                input.select();
+                document.execCommand("copy");
+             });
+
+            $(document).on('click', '.load-block', function() {
+                var block_val = $('#block_pattern_text').val();
+                $('.block-patterns-val').val(block_val);
+                var arr_option = block_val.split(',');
+                $('.block-patterns').val(arr_option);
+                $('.block-patterns').trigger('change');
+            });
         });
     </script>
 @endsection

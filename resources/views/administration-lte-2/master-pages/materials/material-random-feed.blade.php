@@ -45,6 +45,15 @@
             left: 70px;
             position: absolute;
         }
+
+        .flex {
+           display: flex;
+           flex-direction: row;
+        }
+        .delete-image a {
+            color: red;
+        }
+
     </style>
 @endsection
 
@@ -55,7 +64,7 @@
                 <div class="box">
                     <div class="box-header">
                         @section('page-title', 'Modify Random Feed')
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <h1>Modify Random Feed</h1>
@@ -67,7 +76,7 @@
                                     Copy
                                 </a>
 
-                                
+
                                 <a href="#" class="btn btn-flat btn-default load-random-feed-modal">Load</a>
                             </div>
                         </div>
@@ -147,7 +156,7 @@
 
                 $('#copy-to-clipboard-tooltip').fadeIn();
 
-                setTimeout(function() { 
+                setTimeout(function() {
                     $('#copy-to-clipboard-tooltip').fadeOut();
                 }, 500);
             });

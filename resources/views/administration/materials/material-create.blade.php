@@ -11,16 +11,7 @@
 
                 </div>
                 <div class="panel-body col-md-8">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/add" enctype="multipart/form-data" id='create-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -52,15 +43,22 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Category</label>
+                            <div class="col-md-8">
+                                <select name='uniform_category_id' class="form-control uniform-category">
+                                @foreach ($uniform_categories as $category)
+                                    @if ($category->active)
+                                    <option value='{{ $category->id }}'>{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-8">
                                 <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern">
-                                    <option value="">None</option>
-                                    @foreach ($block_patterns as $block_pattern)
-                                        @if ($block_pattern->active)
-                                        <option value='{{ $block_pattern->id }}'>{{ $block_pattern->name }}</option>
-                                        @endif
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -70,6 +68,20 @@
                             <div class="col-md-8">
                                 <select class="form-control material-neck-option" name="neck_option" id="neck_option">
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern Option 2</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="block_pattern_option_2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern Option 3</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="block_pattern_option_3">
                             </div>
                         </div>
 <hr>
@@ -123,22 +135,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Uniform Category</label>
-                            <div class="col-md-8">
-                                <select name='uniform_category_id' class="form-control uniform-category">
-                                @foreach ($uniform_categories as $category)
-                                    @if ($category->active)
-                                    <option value='{{ $category->id }}'>{{ $category->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <select name='sports_group_id' class="form-control uniform-category">
+                                <select name='sports_group_id' class="form-control uniform-category-group">
                                 <option value="">None</option>
                                 @foreach ($uniform_categories as $category)
                                     @if ($category->active)
@@ -498,32 +497,32 @@ $( document ).ready(function() {
 
     $('#block_patterns_data').hide();
     var block_patterns_array = $('#block_patterns_data').text();
-
     var z = JSON.parse(block_patterns_array);
 
-    window.block_patterns = _.flatten(z, true);
+    var sport = null;
+    $(document).on('change', '.uniform-category', function() {
+        sport = $('.uniform-category').val();
+        var x = _.filter(z, function(e){ return e.uniform_category_id == sport; });
+        $( '#block_pattern' ).html('');
+        $.each(x, function(i, item) {
+            $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
+        });
+        $('#block_pattern').trigger('change');
+    });
 
     $(document).on('change', '#block_pattern', function() {
-
         var id = $(this).val();
-
         $( '#neck_option' ).html('');
-
-        $.each(z, function(i, item) {
-
-            if( item.id == id ){
-
-                var optx = JSON.parse(item.neck_options);
-
-                $.each(optx, function(i, item) {
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                });
-            } else {
-
-            }
+        var filtered_block_pattern = _.find(z, function( bp ) {
+            return bp.id == id;
         });
-
+        var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
+        $.each(filtered_neck_options, function(i, item) {
+             $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+        });
     });
+
+    $('.uniform-category').trigger('change');
 
     tinymce.init({
 

@@ -2,29 +2,41 @@
 
 namespace App\Http\Controllers\AdministrationV2;
 
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
-use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
+use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\FontsAPIClient;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient as APIClient;
+use App\APIClients\MaterialsOptionsAPIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Utilities\FileUploader;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use Illuminate\Http\Request;
+use \Redirect;
 
 class MaterialsOptionsController extends Controller
 {
     protected $client;
     protected $materialClient;
+    protected $materialOptionClient;
+    protected $applicationsClient;
+    protected $fontClient;
 
     public function __construct(
         APIClient $apiClient,
-        MaterialsAPIClient $materialClient
+        MaterialsAPIClient $materialClient,
+        MaterialsOptionsAPIClient $materialOptionClient,
+        ApplicationsAPIClient $applicationsClient,
+        FontsAPIClient $fontClient
     )
     {
         $this->client = $apiClient;
         $this->materialClient = $materialClient;
+        $this->materialOptionClient = $materialOptionClient;
+        $this->applicationsClient = $applicationsClient;
+        $this->fontClient = $fontClient;
     }
 
     public function updateMaterialOptions(Request $request)
@@ -177,7 +189,7 @@ class MaterialsOptionsController extends Controller
             ];
             $ctr++;
         }
-        
+
         try {
             $materialOptionFiles = $request->file('mo_image');
             $ctr = 0;
@@ -245,10 +257,10 @@ class MaterialsOptionsController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return back()->with('message', $response->message);
+            return redirect()->route('v1_material_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
+            return redirect()->route('v1_material_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
 
@@ -329,7 +341,10 @@ class MaterialsOptionsController extends Controller
             'part_type' => $partType,
             'pattern_opacity' => $pattern_opacity,
             'default_asset' => $default_asset,
-            'fabric_id' => $request->input('fabric_id')
+            'fabric_id' => $request->input('fabric_id'),
+            'insert_fabric' => $request->input('insert_fabric'),
+            'base_fabric' => $request->input('base_fabric'),
+            'sleeve_fabric' => $request->input('sleeve_fabric'),
         ];
 
         try
@@ -413,5 +428,36 @@ class MaterialsOptionsController extends Controller
             Log::info('Failed');
             return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
         }
+    }
+
+    public function getMaterialApplication($id)
+    {
+        $materialOption = $this->materialOptionClient->getMaterialOption($id);
+        $options = $this->materialOptionClient->getByMaterialId($materialOption->material_id);
+        $material = $this->materialClient->getMaterial($materialOption->material_id);
+        $guide = null;
+        foreach ($options as $option) {
+            if ($materialOption->perspective == $option->perspective) {
+                if ($option->name == 'Guide') {
+                    $guide = $option->material_option_path;
+                }
+
+                if ($option->setting_type == 'highlights') {
+                    $highlightPath = $option->material_option_path;
+                }
+            }
+        }
+
+        $applications = $this->applicationsClient->getApplications();
+        $fonts = $this->fontClient->getFonts();
+
+        return view('administration-lte-2.master-pages.materials.material-application', compact(
+            'materialOption',
+            'material',
+            'guide',
+            'highlightPath',
+            'applications',
+            'fonts'
+        ));
     }
 }

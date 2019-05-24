@@ -9,6 +9,8 @@
                     <div class="panel-heading">Edit Material</div>
 
                     <div class="panel-body">
+                        @include('administration.partials.validation-error')
+
                         <form class="form-horizontal" role="form" method="POST" action="/administration/v1-0/material/add" enctype="multipart/form-data" id='edit-material-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
@@ -44,15 +46,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Block Pattern</label>
+                                <label class="col-md-4 control-label">Uniform Category</label>
                                 <div class="col-md-6">
-                                    <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern_id">
-                                        <option value="">None</option>
-                                        @foreach ($block_patterns as $block_pattern)
-                                            @if ($block_pattern->active)
-                                            <option value='{{ $block_pattern->id }}' @if($block_pattern->id == $material->block_pattern_id) selected="selected"@endif>{{ $block_pattern->name }}</option>
+                                    <select name='uniform_category_id' class="form-control uniform-category">
+                                        @foreach ($uniform_categories as $category)
+                                            @if ($category->active)
+                                                <option value='{{ $category->id }}'@if($material->uniform_category_id == $category->id) selected="selected"@endif>{{ $category->name }}</option>
                                             @endif
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern</label>
+                                <div class="col-md-6">
+                                    <input type="hidden" id="existing_block_pattern" value="{{ $material->block_pattern_id }}">
+                                    <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern_id">
                                     </select>
                                 </div>
                             </div>
@@ -63,6 +73,20 @@
                                 <input type="hidden" id="existing_neck_option" value="{{ $material->neck_option }}">
                                     <select class="form-control material-neck-option" name="neck_option" id="neck_option">
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 2</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="block_pattern_option_2" value="{{ $material->block_pattern_option_2 }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern Option 3</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="block_pattern_option_3" value="{{ $material->block_pattern_option_3 }}">
                                 </div>
                             </div>
 
@@ -132,22 +156,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Uniform Category</label>
-                                <div class="col-md-6">
-                                    <select name='uniform_category_id' class="form-control uniform-category">
-                                        @foreach ($uniform_categories as $category)
-                                            @if ($category->active)
-                                                <option value='{{ $category->id }}'@if($material->uniform_category_id == $category->id) selected="selected"@endif>{{ $category->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="col-md-4 control-label">Group</label>
                                 <div class="col-md-6">
-                                    <select name='sports_group_id' class="form-control uniform-category">
+                                    <select name='sports_group_id' class="form-control uniform-category-group">
                                     <option value="">None</option>
                                         @foreach ($uniform_categories as $category)
                                             @if ($category->active)
@@ -727,6 +738,7 @@
 
     <script>
         $( document ).ready(function() {
+
             $('.autosized').autosize({append: "\n"});
 
             window.price_items = null;
@@ -836,37 +848,42 @@
                 });
             }
 
-            var block_pattern_id = $('#block_pattern_id').val();
+            var sport = null;
+            var block_pattern_id = $('#existing_block_pattern').val();
             var existing_neck_option = $('#existing_neck_option').val();
 
-            $.each(window.block_patterns, function(i, item) {
-                if( item.id == block_pattern_id ){
-                    window.neck_options = JSON.parse(item.neck_options);
-                    $.each(window.neck_options, function(i, item) {
-                        if( existing_neck_option == item.name ){
-                            console.log(' IF ');
-                            $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
-                        } else {
-                            console.log(' IF ');
-                            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+            $(document).on('change', '.uniform-category', function() {
+                sport = $('.uniform-category').val();
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
+                    $( '#block_pattern_id' ).html('');
+                    $.each(x, function(i, item) {
+                        if( block_pattern_id == item.id ){
+                            $('#block_pattern_id' ).append( '<option value="' + item.id + '" selected>' + item.name + '</option>' );
+                        }
+                        else {
+                            $('#block_pattern_id' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
                         }
                     });
-                }
+                $('#block_pattern_id').trigger('change');
             });
 
             $(document).on('change', '#block_pattern_id', function() {
                 var id = $(this).val();
                 $( '#neck_option' ).html('');
-
-                $.each(window.block_patterns, function(i, item) {
-                    if( item.id == id ){
-                        window.neck_options = JSON.parse(item.neck_options);
-                        $.each(window.neck_options, function(i, item) {
-                            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                        });
+                var filtered_block_pattern = _.find(window.block_patterns, function( bp ) {
+                    return bp.id == id;
+                });
+                var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
+                $.each(filtered_neck_options, function(i, item) {
+                    if (item.name == existing_neck_option) {
+                        $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+                    } else {
+                        $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                     }
                 });
             });
+
+            $('.uniform-category').trigger('change');
 
             $('.delete-material-image').on('click', function(e){
                 e.preventDefault();
