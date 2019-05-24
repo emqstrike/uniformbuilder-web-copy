@@ -165,10 +165,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
                 </td>
                 <td><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
-                <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
             <tr>
 
@@ -178,10 +178,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
-                <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
             <tr>
                 <td>
@@ -190,10 +190,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
-                <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
         </tbody>
         </table>`;
@@ -281,10 +281,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,selectedFirst)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
-                <td><input type="file" class="form-control file-f-1 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-b-1 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
             <tr>
 
@@ -294,10 +294,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,selectedSecond)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
-                <td><input type="file" class="form-control file-f-2 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-b-2 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-l-2 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-r-2 image" data-img-url=""></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
             <tr>
                 <td>
@@ -306,10 +306,10 @@ function buildSetsDropdown(value){
                     `+ getSelectColorTemplate(colors,selectedThird)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
-                <td><input type="file" class="form-control file-f-3 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-b-3 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-l-3 image" data-img-url=""></td>
-                <td><input type="file" class="form-control file-r-3 image" data-img-url=""></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
             </tr>
         </tbody>
         </table>`;
@@ -323,8 +323,8 @@ function buildSetsDropdown(value){
     function detectImages(){
         $(".image").each(function(i) {
             var val = $(this).data('img-url');
-            if (val == "") {
-                $(this).css('border', '2px solid red');
+            if (val.length == 0) {
+                $(this).parent().find('.delete-image').hide();
             }
         });
     }
@@ -650,4 +650,11 @@ function buildSetsDropdown(value){
         refreshJSON();
     });
 
+    $(document).on('click', '.delete-image', function(e){
+		e.preventDefault();
+		$(this).parent().parent().find(".image").attr("data-img-url", "");
+		refreshJSON();
+		$(this).hide();
+    });
+    
 });

@@ -88,6 +88,7 @@
                         <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
                         <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
                         <input type="hidden" id="material_asset_target" value="{{ $material->asset_target }}">
+                        <input type="hidden" id="material_brand" value="{{ $material->brand }}">
 
                         <table class="col-md-12">
                             <thead>
@@ -136,22 +137,11 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "front")
-                                            <div class="material-option-{{ $option->id }}  material-option-item"
-                                                 data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
-                                                            data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $material->id }}"
-                                                            data-material-brand="{{ $material->brand }}"
-                                                            data-material-option-name="{{ $option->name }}"
-                                                            data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
-                                                            data-material-option-guide="{{ $front_guide }}"
-                                                            data-material-option-path="{{ $option->material_option_path }}"
-                                                            data-material-option-perspective="{{ $option->perspective }}"
-                                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                                        data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                                            role="button">
+                                            <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                                                <a href="{{ route('v1_material_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
+                                                
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-id="{{ $material->id }}"
@@ -211,6 +201,9 @@
                                                         data-build-type="{{ $option->build_type }}"
                                                         data-pattern-opacity="{{ $option->pattern_opacity }}"
                                                         data-default-fabric="{{ $option->fabric_id }}"
+                                                        data-default-base-fabric="{{ $option->base_fabric }}"
+                                                        data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                                        data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                                         data-material-brand="{{ $material->brand }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -226,20 +219,8 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "back")
-                                            <div class="material-option-{{ $option->id }}  material-option-item"
-                                                 data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
-                                                            data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $material->id }}"
-                                                            data-material-brand="{{ $material->brand }}"
-                                                            data-material-option-name="{{ $option->name }}"
-                                                            data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
-                                                            data-material-option-guide="{{ $back_guide }}"
-                                                            data-material-option-path="{{ $option->material_option_path }}"
-                                                            data-material-option-perspective="{{ $option->perspective }}"
-                                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                                        data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                                            role="button">
+                                            <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                                                <a href="{{ route('v1_material_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -316,20 +297,8 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "left")
-                                            <div class="material-option-{{ $option->id }}  material-option-item"
-                                                 data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
-                                                            data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $material->id }}"
-                                                            data-material-brand="{{ $material->brand }}"
-                                                            data-material-option-name="{{ $option->name }}"
-                                                            data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
-                                                            data-material-option-guide="{{ $left_guide }}"
-                                                            data-material-option-path="{{ $option->material_option_path }}"
-                                                            data-material-option-perspective="{{ $option->perspective }}"
-                                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                                        data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                                            role="button">
+                                            <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                                                <a href="{{ route('v1_material_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -406,20 +375,8 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "right")
-                                            <div class="material-option-{{ $option->id }}  material-option-item"
-                                                 data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
-                                                            data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $material->id }}"
-                                                            data-material-brand="{{ $material->brand }}"
-                                                            data-material-option-name="{{ $option->name }}"
-                                                            data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
-                                                            data-material-option-guide="{{ $right_guide }}"
-                                                            data-material-option-path="{{ $option->material_option_path }}"
-                                                            data-material-option-perspective="{{ $option->perspective }}"
-                                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                                        data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                                            role="button">
+                                            <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                                                <a href="{{ route('v1_material_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"

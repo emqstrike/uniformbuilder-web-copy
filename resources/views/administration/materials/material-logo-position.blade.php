@@ -1,6 +1,8 @@
 @extends('administration.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
     <style>
         .logo-position-table td {
             vertical-align: bottom !important;
@@ -45,6 +47,14 @@
             left: 70px;
             position: absolute;
         }
+        .flex {
+           display: flex;
+           flex-direction: row;
+        }
+
+        .delete-image a {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -72,7 +82,7 @@
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_logo_position') }}" enctype="multipart/form-data" id='edit-logo-position-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('update_logo_position') }}" enctype="multipart/form-data" id='edit-logo-position-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
                             <input type="hidden" id="logo_position_data" value="{{ $material->logo_position }}">
@@ -126,6 +136,8 @@
 @section('scripts')
 
     <script type="text/javascript" src="/js/administration/logo-position.js"></script>
+    <script src="/js/libs/select2/select2.min.js"></script>
+    <script src="/underscore/underscore.js"></script>
 
     <script>
         $(document).ready(function() {

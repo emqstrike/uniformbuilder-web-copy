@@ -122,6 +122,7 @@ class MascotsController extends Controller
         $brand = $request->input('brand');
 
         $sports = explode(",", $request->input('sports_value'));
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -243,6 +244,9 @@ class MascotsController extends Controller
         $mascots_categories = array();
         $logo_request = $this->logoRequestsClient->getLogoRequest($logo_request_id);
 
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+
         foreach ($raw_mascots_categories as $mascot_category) {
             if ($mascot_category->active == 1) {
                 $mascots_categories[] = $mascot_category->name;
@@ -261,6 +265,7 @@ class MascotsController extends Controller
             'logo_request_id' => $logo_request_id,
             'logo_index' => $logo_index,
             'logo_request_user_id' => $logo_request_user_id,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -270,6 +275,7 @@ class MascotsController extends Controller
         $code = $request->input('code');
         $category = $request->input('category');
         $layersProperties = $request->input('layers_properties');
+        $sports = explode(",", $request->input('sports_value'));
 
         if ($request->input('artwork_request_id') != null) {
             $artworkRequestID = $request->input('artwork_request_id');
@@ -309,7 +315,8 @@ class MascotsController extends Controller
             'category' => $category,
             'layers_properties' => $layersProperties,
             'user_id' => $artworkUserId,
-            'brand' => $request->input('brand')
+            'brand' => $request->input('brand'),
+            'sports' => $sports
         ];
 
         $id = null;
@@ -330,7 +337,7 @@ class MascotsController extends Controller
                     $filename = Random::randomize(12);
 
                     $data['icon'] = FileUploader::upload($materialOptionFile, $mascotName, 'material_option', "materials", "{$materialFolder}/{$filename}.png");
-                    
+
                     // update artwork data
                     array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
                     $ar_json[$artworkIndex]['updated'] = 1;

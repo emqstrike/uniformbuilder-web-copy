@@ -21,6 +21,54 @@ $(document).ready(function() {
         return dropdown;
     }
 
+    getMaterialOptions = function (material_id) {
+        var parts;
+        var url = "//" + api_host + "/api/materials_options/" + material_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+
+                // Filter by "setting_type" first, only get "name" property, the get unique values
+                parts = _.uniq(_.map(_.where(data.materials_options, {setting_type: "shape"}), function (op) {
+                    return op.name;
+                }));
+                parts = _.without(parts, "Body", "Extra")
+            }
+        });
+        return parts;
+    }
+
+    function buildIntersectingPartsDropdown(selected = null) {
+        var opts;
+        var parts = getMaterialOptions($('input[name=material_id]').val());
+
+        _.each(parts, function (p) {
+
+            if (!_.isNull(selected) && _.contains(selected, p)) {
+                opts += '<option value="'+p+'" selected>'+p+'</option>';
+            } else {
+                opts += '<option value="'+p+'">'+p+'</option>';
+            }
+        });
+
+        return opts;
+    }
+
+    function refreshSelectBoxes(){
+        $(".intersecting-parts").each(function(i) {
+            $(this).select2({
+                placeholder: "Select parts",
+                multiple: true,
+                allowClear: true
+            });
+        });
+    }
+
     $('.copy-logo-position').on('click', function(e){
         var data = $('#logo_position_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
         $('#copy-logo-position-data-modal textarea').val(data);
@@ -81,6 +129,7 @@ $(document).ready(function() {
             }
 
             var position_dropdown = buildPositionDropdown(entry.position);
+            var intersecting_parts = buildIntersectingPartsDropdown(entry.intersecting_parts);
 
             var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
             <tr>
@@ -96,7 +145,12 @@ $(document).ready(function() {
                          `+position_dropdown+`
                     </div>
                 </td>
-                <td colspan="2"></td>
+                <td colspan="2">
+                    <div class="col-md-10">
+                        <label>Intersecting Parts</label>
+                        <select class="form-control intersecting-parts" multiple="multiple">`+intersecting_parts+`</select>
+                    </div>
+                </td>
                 <td>
                     <div>
                         <label>Enable Logo Position</label><br>
@@ -117,31 +171,31 @@ $(document).ready(function() {
                         <label>Layer 1</label>
                         <input type="checkbox" class="layer1" value="`+entry.layer1+`" `+ layer1 +`>
                     </td>
-                    <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
                 <tr>
 
-                <td>
-                    <label>Layer 2</label>
-                    <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
-                </td>
-                    <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+                    <td>
+                        <label>Layer 2</label>
+                        <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
+                    </td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
                 <tr>
-                <td>
-                    <label>Layer 3</label>
-                    <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
-                </td>
-                    <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-                    <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
+                    <td>
+                        <label>Layer 3</label>
+                        <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
+                    </td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                    <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                 </tr>
             </tbody>
             </table>`;
@@ -149,6 +203,7 @@ $(document).ready(function() {
             $('.logo-position-content').append(template);
 
         });
+        refreshSelectBoxes();
         deleteLogoPosition();
         changeImage();
         changeEvent();
@@ -159,6 +214,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var position_dropdown = buildPositionDropdown();
+        var intersecting_parts = buildIntersectingPartsDropdown();
 
         var elem = `<table class="table table-striped table-bordered table-hover logo-position-table">
                         <tr>
@@ -174,7 +230,12 @@ $(document).ready(function() {
                                      `+position_dropdown+`
                                 </div>
                             </td>
-                            <td colspan="2"></td>
+                            <td colspan="2">
+                                <div class="col-md-10">
+                                    <label>Intersecting Parts</label>
+                                    <select class="form-control intersecting-parts" multiple="multiple">`+intersecting_parts+`</select>
+                                </div>
+                            </td>
                             <td>
                                 <div>
                                     <label>Enable Logo Position</label><br>
@@ -195,36 +256,37 @@ $(document).ready(function() {
                                 <label>Layer 1</label>
                                 <input type="checkbox" class="layer1" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Layer 2</label>
                                 <input type="checkbox" class="layer2" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-2 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-2 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Layer 3</label>
                                 <input type="checkbox" class="layer3" value="1">
                             </td>
-                            <td><input type="file" class="form-control file-f-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-b-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-l-3 image" data-img-url=""></td>
-                            <td><input type="file" class="form-control file-r-3 image" data-img-url=""></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
+                            <td><div class="flex"><input type="file" class="form-control-file file-r-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                         </tr>
 
                     </tbody>
                     </table>`;
 
         $('.logo-position-content').prepend(elem);
+        refreshSelectBoxes();
         deleteLogoPosition();
         changeImage();
         changeEvent();
@@ -241,8 +303,8 @@ $(document).ready(function() {
     function detectImages(){
         $(".image").each(function(i) {
             var val = $(this).data('img-url');
-            if (val == "") {
-                $(this).css('border', '2px solid red');
+            if (val.length == 0) {
+                $(this).parent().find('.delete-image').hide();
             }
         });
     }
@@ -264,6 +326,8 @@ $(document).ready(function() {
         $(".logo-position-table").each(function(i) {
             var info = {};
             info.position = $(this).find('.logo-position option:selected').val();
+            info.intersecting_parts = $(this).find('.intersecting-parts').val();
+
             var cbx = $(this).find('.logo-position-toggler');
             if(cbx.is(":checked")){
                 info.enabled = 1;
@@ -424,4 +488,10 @@ $(document).ready(function() {
         });
     }
 
+    $(document).on('click', '.delete-image', function(e){
+        e.preventDefault();
+        $(this).parent().parent().find(".image").attr("data-img-url", "");
+        refreshJSON();
+        $(this).hide();
+    });
 });
