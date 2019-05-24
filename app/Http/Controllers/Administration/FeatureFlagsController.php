@@ -78,6 +78,8 @@ class FeatureFlagsController extends Controller
         $switch = $request->input('switch');
         $state = $request->input('state');
         $users = explode(",", $request->input('users_value'));
+        $beta = $request->input('beta');
+
         $data = [
             'name' => $name,
             'group' => $group,
@@ -90,6 +92,7 @@ class FeatureFlagsController extends Controller
             'state' => $state,
             'sports' => $sports,
             'user_ids' => $users,
+            'beta' => $beta
         ];
         
         $id = null;

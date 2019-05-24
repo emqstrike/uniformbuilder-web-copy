@@ -967,8 +967,17 @@ $(document).ready(function () {
 
         var application = _application;
         var _primaryViewObj = ub.funcs.getPrimaryViewObject(_application.application);
-        var _center = _primaryViewObj.application.center[axis] - _val;
-        var _pivot = _primaryViewObj.application.pivot[axis] - _val;
+
+        var _center;
+        var _pivot;
+
+        if (ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
+            _center = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+            _pivot = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+        } else {
+            _center = _primaryViewObj.application.center[axis] - _val;
+            _pivot = _primaryViewObj.application.pivot[axis] - _val;
+        }
 
         _.each(_application.application.views, function (view) {
 
@@ -6554,7 +6563,9 @@ $(document).ready(function () {
 
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
         // Get the first 2 sizes array value
-        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { var sizes = sizes.slice(0,2); }
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { 
+            var sizes = sizes.slice(0,2); 
+        }
 
         _.each(sizes, function (size) {
 
@@ -6566,7 +6577,7 @@ $(document).ready(function () {
                 _additionalClass = '';
             }
 
-            if (ub.funcs.isFreeFormToolEnabled(_id)) {
+            if (ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
                 if (_additionalClass === "active") {
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"' + '</span>';
                 }
@@ -6629,7 +6640,7 @@ $(document).ready(function () {
 
         // Custom Size
 
-        if (ub.funcs.isFreeFormToolEnabled(_id) && typeof _obj !== "undefined") {
+        if ((ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) && typeof _obj !== "undefined") {
 
             /// Rotate
 
@@ -7897,11 +7908,17 @@ $(document).ready(function () {
             _status = _settingsObject.status;
         }
 
-        var _label = 'Size', _class = '';
-        if (_isFreeFormEnabled) {
-            _label = 'Measurements';
-            _class = "custom";
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+        var _label = 'Size';
+        var _class = '';
+
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
+            _label = 'Measurements'; _class = "custom"; 
         }
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
 
@@ -7935,9 +7952,6 @@ $(document).ready(function () {
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -9836,12 +9850,14 @@ $(document).ready(function () {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
 
-        if (_isFreeFormEnabled) {
-            _label = 'Measurements';
-            _class = "custom";
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
+            _label = 'Measurements'; _class = "custom"; 
         }
 
         // _htmlBuilder += '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>';
@@ -9863,9 +9879,6 @@ $(document).ready(function () {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
         
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -10380,9 +10393,7 @@ $(document).ready(function () {
 
         $('span.patternThumb, span.pattern').unbind('click');
         $('span.patternThumb, span.pattern').on('click', function () {
-
             ub.funcs.createPatternPopupApplications(_settingsObject);
-
         });
 
         $('span.tailSweepThumb, span.tailsweep').on('click', function () {
@@ -10651,7 +10662,119 @@ $(document).ready(function () {
 
             });
 
-            $('span.showFontGuide').on('click', function () {
+            ub.funcs.hideGAFontTool();
+
+            $('span.cog').on('click', function () {
+
+                var _fontID         = _settingsObject.font_obj.id;
+                var _size           = _settingsObject.font_size;
+                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size, ub.active_view, {id: _settingsObject.code});
+
+                var _stroke         = ub.objects[ub.active_view + "_view"]["objects_" + _settingsObject.code].ubFontSizeData;
+
+                var _pixelFontSize  = _fontSizeData.pixelFontSize;
+
+                var _origSizes       = {
+
+                    pixelFontSize: _pixelFontSize,
+                    offSetX: _fontSizeData.xOffset,
+                    offSetY: _fontSizeData.yOffset,
+                    scaleX: _fontSizeData.xScale,
+                    scaleY: _fontSizeData.yScale,
+
+                }
+
+                var _cogBuilder = '';
+
+                $('#cogPopupContainer').remove();
+
+                _cogBuilder += '<div id="cogPopupContainer">';
+                _cogBuilder +=       '<div id="cogPopup">';
+
+                _cogBuilder +=           '<div class="popupHeader">GA Font Tool <i class="fa fa-floppy-o save-font-data" aria-hidden="true"></i></div>';
+                
+                _cogBuilder +=           '<div class="popup-row-top">';
+                _cogBuilder +=               '<label>Inch: </label>';
+                _cogBuilder +=               '<span class="popupValue"> ' + _size + '</span>' + '"';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize gaFontInput" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                      '<div class="notes" style="margin-left: 35px; margin-top: 25px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
+                _cogBuilder +=                   '</div>';                
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset X: </span><input class="offsetX gaFontInput" name="offsetX" value="' + _fontSizeData.xOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset Y: </span><input class="offsetY gaFontInput" name="offsetY" value="' + _fontSizeData.yOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                // Scale
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale X: </span><input class="scaleX gaFontInput" name="scaleX" value="' + _fontSizeData.xScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale Y: </span><input class="scaleY gaFontInput" name="scaleY" value="' + _fontSizeData.yScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                // Stroke
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Inner Stroke: </span><input class="strokeInner gaFontInput" name="scaleX" value="' + _stroke.strokeInner + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Outer Stroke: </span><input class="strokeOuter gaFontInput" name="scaleY" value="' + _stroke.strokeOuter + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
+
+                _cogBuilder +=           '<div class="button-row">';
+                _cogBuilder +=              '<span class="resetButton">';
+                _cogBuilder +=                  'Reset';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="showFontGuide" data-status="hidden">';
+                _cogBuilder +=                  'Font Guide';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="cancelButton">';
+                _cogBuilder +=                  'Close';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="applyButton">';
+                _cogBuilder +=                  'Apply';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=       '</div>';
+                _cogBuilder += '</div">';
+
+                $('body').append(_cogBuilder);
+
+                /// Events
+
+                    $('i.save-font-data').on('click', function (evt){
+
+                        if (evt.altKey) {
+                            
+                            ub.funcs.saveFontData(_fontID, _size, applicationID, perspective);
+
+                        }
 
                 var _status = $(this).data('status');
 
@@ -10690,15 +10813,15 @@ $(document).ready(function () {
             });
 
             $('span.applyButton').on('click', function () {
-
                 var _pixelFontSizeApply = $('input.pixelFontSize').val();
                 var _offsetX = $('input.offsetX').val();
                 var _offsetY = $('input.offsetY').val();
                 var _scaleX = $('input.scaleX').val();
                 var _scaleY = $('input.scaleY').val();
+                var _stokeInner = $('input.strokeInner').val();
+                var _stokeOuter = $('input.strokeOuter').val();
 
-                ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
-
+                ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY, _stokeInner, _stokeOuter);
             });
 
             $('input.gaFontInput').on('keypress', function (e) {
@@ -11084,26 +11207,29 @@ $(document).ready(function () {
         // tackle twill only (custom sizes)
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || tackeTwillCustomSizes) {
+        if (ub.config.uniform_application_type === "sublimated" 
+            || ub.config.uniform_application_type === "knitted" 
+            || tackeTwillCustomSizes 
+            || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
 
-        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+                var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+                var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-        ub.objects[_perspective].scale_tool = _spriteScale;
-        ub[_perspective].addChild(_spriteScale);
+                ub.objects[_perspective].scale_tool = _spriteScale;
+                ub[_perspective].addChild(_spriteScale);
 
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+                var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-        _spriteScale.position.x  = _view.application.center.x;
-        _spriteScale.position.y  = _view.application.center.y;
-        _spriteScale.ubName = 'Scale Tool';
+                _spriteScale.position.x  = _view.application.center.x;
+                _spriteScale.position.y  = _view.application.center.y;
+                _spriteScale.ubName = 'Scale Tool';
 
-        var _x = _xAnchor;
+                var _x = _xAnchor;
 
-        _spriteScale.anchor.set(_x, -2);
-        _spriteScale.zIndex = -1000;
+                _spriteScale.anchor.set(_x, -2);
+                _spriteScale.zIndex = -1000;
 
-        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+                ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
         }
 
@@ -12235,10 +12361,6 @@ $(document).ready(function () {
 
         dialog.init(function () {
 
-            // hide perspective-container
-            $('.perspective-container').prev().hide();;
-            $('.perspective-container').hide();
-
             // Perspectives
 
             $('div.perspective-container > span.perspective').unbind('click');
@@ -12359,19 +12481,19 @@ $(document).ready(function () {
 
                 var _perspective = $('div.perspective-container > span.perspective.active').data('id');
 
-                // exception for Soccer with block pattern of `Champion Seties`
-                // prevent automatic selection of perspective
-                var blockPatternsException = ['Champion Series'];
-
                 $('div.perspective-container > span.perspective').each(function() {
                     
                     var perspective = $(this).text();
 
-                    if (_part.indexOf(perspective) !== -1 && !_.contains(blockPatternsException, ub.config.blockPattern)) {
+                    if (_perspective === "front" || _perspective === "back") {
 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+                        if (_part.indexOf(perspective) !== -1) {
 
+                            $('span.perspective').removeClass('active');
+                            $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+
+                        }
+                        
                     }
 
                 });
@@ -13337,6 +13459,8 @@ $(document).ready(function () {
         var formData = new FormData();
 
         formData.append('file', file);
+
+        console.log('huhu===>', file);
 
         if (typeof $.ajaxSettings.headers !== "undefined") {
             delete $.ajaxSettings.headers["X-CSRF-TOKEN"];

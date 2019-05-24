@@ -566,9 +566,11 @@ $(document).ready(function() {
 		}
 	
 		function getColors(){
+			var brand = $('input[name=material_brand]').val();
+
 			return $.ajax({
 				type: 'GET',
-				url: "//" + api_host + "/api/colors",
+				url: "//" + api_host + "/api/colors/" + brand,
 				async: false,
 				dataType: 'json',
 				data: { action : 'getColors' },
