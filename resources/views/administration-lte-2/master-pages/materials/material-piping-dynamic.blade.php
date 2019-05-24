@@ -45,6 +45,15 @@
             left: 70px;
             position: absolute;
         }
+
+        .flex {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .delete-image a {
+            color: red;
+        }
     </style>
 @endsection
 

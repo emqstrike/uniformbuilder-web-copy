@@ -658,7 +658,7 @@ $(document).ready(function() {
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _sizes              = ub.funcs.getApplicationSizes('mascot', _alias.alias);  // Force Mascot
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
-
+        
         // Change This for Embellishment Specific Size Settings   
 
             if (ub.current_material.material.uniform_category === "Football") {
@@ -813,45 +813,54 @@ $(document).ready(function() {
             }
 
         }
+        
+        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
-        _generateSizes = ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+        _htmlBuilder        +=          '</div>';
 
-        // _htmlBuilder        +=          '</div>';
-        //
-        // _htmlBuilder        +=          '<div class="clearfix"></div>';
-        //
-        // _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
-        // _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
-        // _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';
-        // _htmlBuilder        +=          '</div>';
-        //
-        // _htmlBuilder        +=          '<div class="ui-row">';
-        // _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
-        //
-        // _htmlBuilder        +=              '<div class="sub1">';
-        // _htmlBuilder        +=                  '<br />';
-        // _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
-        // _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';
-        //
-        // if (_settingsObject.embellishment.name === 'Custom Logo') {
-        //     _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-        //     _htmlBuilder        +=                  '<br /><br />';
-        // }
-        //
-        // _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';
-        //
-        // _htmlBuilder        +=              '</div>';
-        //
-        // _htmlBuilder        +=              '<div class="colorContainer">';
-        // _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';
-        // _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';
-        //
-        // if (ub.config.uniform_application_type === "sublimated") {
-        //     _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-        //     _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
-        // }
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-        var _isSublimated = false;
+        if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
+        // Custom size options
+        // Tall, Wide, Best Fit
+        _htmlBuilder        +=          '<div class="ui-row" style="color: white;">'
+        _htmlBuilder        +=          '<label class="applicationLabels font_name"></label>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="tall" style="margin-left: 30px;"><label style="width: 17%;">&nbspTall</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="wide"><label style="width: 17%;">&nbspWide</label></option>'
+        _htmlBuilder        +=          '<input type="radio" class="custom-size-type" name="customSizeType" data-type="bestfit"><label>&nbspBest Fit</label></option>'
+        _htmlBuilder        +=          '</div>'
+        // end custom size options
+        }
+
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
+
+        _htmlBuilder        +=              '<div class="sub1">';
+        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
+        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
+
+        if (_settingsObject.embellishment.name === 'Custom Logo') {
+            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<br /><br />';
+        }
+
+        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>'; 
+        
+        _htmlBuilder        +=              '</div>';
+
+        _htmlBuilder        +=              '<div class="colorContainer">';   
+        _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
+        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
+        
         if (ub.config.uniform_application_type === "sublimated") {
             _isSublimated = true;
         }
@@ -1291,11 +1300,6 @@ $(document).ready(function() {
 
                 }
 
-                // add scale_type flag on application settings
-                // this is to know if the application is using custom scale or not (embellishment application only)
-                var _scaleType = (typeof $(this).data('scale') === 'undefined') ? 'normal' : 'custom';
-                _settingsObject.scale_type = _scaleType;
-
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
 
@@ -1309,6 +1313,19 @@ $(document).ready(function() {
                     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
 
+                }
+
+                // tackle twill only (custom sizes)
+                var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+                if (tackeTwillCustomSizes) {
+                    // select initial option
+                    $('select.customSize option:first').prop('selected', true);
+                    
+                    // reset custom-size-type attr
+                    $('input.custom-size-type').prop('checked', false);
+                    $('input.custom-size-type').attr('disabled', false);
+                    $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
                 }
 
             });
@@ -1392,6 +1409,41 @@ $(document).ready(function() {
    
             });
 
+            $('select.customSize').on('change', function () {
+                
+                var selectedOption = $(this).find(':selected');
+                var selectedSize = selectedOption.val();
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
+                ub.funcs.changeCustomMascotSize(selectedSize, _settingsObject);
+
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+
+                if (typeof _matchingID !== "undefined") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                    ub.funcs.changeMascotSize(selectedSize, _matchingSettingsObject);
+
+                }
+
+                $('input.custom-size-type').prop('checked', false);
+                $('input.custom-size-type').attr('disabled', false);
+
+                $('span.font_size').removeClass('active');
+                $('input.custom-size-type[data-type="bestfit"]').attr('disabled', true);
+
+            });
+
+            $('input.custom-size-type').on('click', function () {
+
+                var customSizeType = $(this).data('type');
+                _settingsObject.custom_size_type = customSizeType;
+
+            });
+
         // End Small Color Pickers
 
         // End Events
@@ -1404,32 +1456,32 @@ $(document).ready(function() {
 
             if(_currentStatus === "on") {
                 s = 'off';
+                ub.funcs.deactivateMoveTool();
             }
             else {
                 s = 'on';
+                ub.funcs.activateMoveTool(_id);
             }
 
             if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
 
-            ub.funcs.toggleApplication(_id,s);    
+            ub.funcs.toggleApplication(_id, s);
 
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
             var _matchingSettingsObject = undefined;
-            
+
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
                 _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                
             }
-            
+
             if (typeof _matchingSettingsObject !== "undefined") {
 
                 if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-                            
                     // Toggle matching mascot if the same mascot is selected 
                     _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
 
@@ -1440,7 +1492,6 @@ $(document).ready(function() {
             if (typeof _matchingID !== "undefined") {
 
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
-                
             }
 
         });
@@ -1449,9 +1500,56 @@ $(document).ready(function() {
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
-        
-        // Is this needed ??? 
+
+        // This will check if the move tool will activated or not!!!!!!
+        ub.funcs.activateDisableMoveTool(_id)
+
+        // Is this needed ???
         // ub.funcs.afterActivateMascots(_id);
+
+        ub.funcs.activateCustomSizeType(_settingsObject);
+
+        // Automatically select bestfit option if scale is custom scale for Tackle twill uniform
+        if (typeof _settingsObject.custom_obj !== 'undefined' && ub.funcs.isTackleTwill() && _settingsObject.custom_obj.active !== false) {
+            $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+            $('input.custom-size-type').attr('disabled', true);
+            $('input.custom-size-type[data-type="bestfit"]').attr('disabled', false);
+        }
+
+    }
+
+    // activate bestfit radio button
+    ub.funcs.activateBestFitOption = function () {
+        $('input.custom-size-type[data-type="bestfit"]').prop('checked', true);
+        $('input.custom-size-type[data-type="tall"]').attr('disabled', true);
+        $('input.custom-size-type[data-type="wide"]').attr('disabled', true);
+        $('input.custom-size-type[data-type="bestfit"]').attr('disabled', false);
+        $('select.customSize option:first').prop('selected', true);
+        $('span.font_size').removeClass('active');
+    }
+
+    // activate the appropiate custom size option
+    ub.funcs.activateCustomSizeType = function (_settingsObject) {
+        if (_settingsObject.custom_size_type === 'bestfit') {
+            ub.funcs.activateBestFitOption();
+        } else if (_settingsObject.custom_size_type === 'wide') {
+            $('input.custom-size-type[data-type="wide"]').prop('checked', true);
+        } else if (_settingsObject.custom_size_type === 'tall') {
+            $('input.custom-size-type[data-type="tall"]').prop('checked', true);
+        } else {
+            $('input.custom-size-type').prop('checked', false);
+        }
+    }
+
+    // resize the right main window panel
+    ub.funcs.resizeRightMainWindow = function () {
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+        if (tackeTwillCustomSizes && ub.funcs.isTackleTwill()) {
+            $('div#right-main-window').css('height','570px');
+        } else {
+            $('div#right-main-window').css('height','530px');
+        }
     }
 
     // ub.status.embellishmentPopupVisible = false;

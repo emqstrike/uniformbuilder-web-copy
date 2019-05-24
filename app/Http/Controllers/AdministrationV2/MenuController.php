@@ -56,7 +56,8 @@ class MenuController extends Controller
                 'icon_class' => $data['icon_class'][$index],
                 'parent_id' => $data['parent_id'][$index],
                 'type' => $data['type'][$index],
-                'order_id' => $data['order_id'][$index]
+                'order_id' => $data['order_id'][$index],
+                'menu_item_code' => $data['menu_item_code'][$index]
             );
         }
 

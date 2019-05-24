@@ -257,8 +257,19 @@ $('.submit-data').on('click', function(e){
     });
 });
 
+function patternCheck() {
+     $(".mo-row").each(function(i) {
+        var part_name = $(this).find('.mo-name').val();
+        if (part_name == 'Highlights' || part_name == 'Shadows' || part_name == 'Extra' || (part_name.match(/Static.*/)) ) {
+            $(this).find('.mo-allow-pattern').prop('checked', false);
+            $(this).find('.mo-team-color-id').val('');
+            $(this).find('.mo-allow-pattern').trigger('change');
+        }
+    });
+}
+
 function refreshJSON(){
-	var data = [];
+ 	var data = [];
 
 	$(".mo-row").each(function(i) {
 		var allow_pattern = 0;
@@ -356,6 +367,7 @@ function buildRows(filesData){
 		refreshColorBG();
         refreshFields();
         autoCheck();
+        patternCheck();
 	});
 	refreshJSON();
 }

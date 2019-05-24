@@ -78,13 +78,13 @@ $(document).ready(function() {
 
             if (sports === null) {
 
-                return true;
+                return;
 
             } else {
 
                 if (sports[0] === "" || sports[0] === "All") {
 
-                    return true;
+                    return;
 
                 } else { 
 

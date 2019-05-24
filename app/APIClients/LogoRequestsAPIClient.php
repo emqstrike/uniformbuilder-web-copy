@@ -23,10 +23,15 @@ class LogoRequestsAPIClient extends APIClient
 
     public function getLogoRequestsPaginated($currentPage, $filters)
     {
+        $id = '';
         $origin = '';
         $type = '';
         $client_name = '';
         $status = '';
+
+        if (isset($filters['id'])) {
+            $id = '&id=' . $filters['id'];
+        }
 
         if (isset($filters['origin'])) {
             $origin = '&origin=' . $filters['origin'];
@@ -44,7 +49,7 @@ class LogoRequestsAPIClient extends APIClient
             $status = '&status=' . $filters['status'];
         }
 
-        $endpoint = env('ENDPOINT_VERSION','v1-0').'/logo_requests/paginate/?page=' . $currentPage . $origin . $type . $client_name . $status;
+        $endpoint = env('ENDPOINT_VERSION','v1-0').'/logo_requests/paginate/?page=' . $currentPage . $id . $origin . $type . $client_name . $status;
 
         $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());

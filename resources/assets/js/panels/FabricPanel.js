@@ -340,7 +340,9 @@ FabricPanel.getBaseSleeveFabricSets = function(default_fabric) {
     var fabric_sets = [];
 
     var fabric = default_fabric.fabric;
-    var thumbnail = fabric.thumbnail || "http://34.212.160.37/img/fabric-texture.jpg";
+    var placeholders = ["fabric-texture.jpg", "fabric-texture-2.jpg", "fabric-texture-3.jpg"];
+
+    var thumbnail = fabric.thumbnail || "/images/placeholder/" + placeholders[_.random(0, placeholders.length - 1)];
 
     fabric_sets.push({
         name: fabric.material,

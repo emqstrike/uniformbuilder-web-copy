@@ -86,8 +86,42 @@ $(document).ready(function () {
             }
   
             if (typeof _scale === "undefined") {
-                ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
-                _result = undefined;
+                
+                // tackle twill only (custom sizes)
+                var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+                if (tackeTwillCustomSizes) {
+
+                    var nearestSize = (size > 1) ? Math.abs((size % 1) - size) : (1 - size % 1) + size;
+                    var secondNearestSize = (size < 12) ? nearestSize + 1 : nearestSize - 1;
+
+                    var nearestScale = _.find(ub.styleValues.mascotScales.match.properties, {size: nearestSize.toString()}).scale;
+                    var secondNearestScale = _.find(ub.styleValues.mascotScales.match.properties, {size: secondNearestSize.toString()}).scale;
+
+                    nearestScale = parseFloat(nearestScale);
+                    secondNearestScale = parseFloat(secondNearestScale);
+
+                    var interpolateScale = secondNearestScale - nearestScale;
+
+                    if (size > 1) {
+                        _result = {
+                            x: (Math.abs(interpolateScale) * (size % 1)) + nearestScale,
+                            y: (Math.abs(interpolateScale) * (size % 1)) + nearestScale
+                        }
+                    } else {
+                        _result = {
+                            x: (Math.abs(interpolateScale) * (size % 1)),
+                            y: (Math.abs(interpolateScale) * (size % 1))
+                        }
+                    }
+
+                    // ub.utilities.info('Mascot Scale for Size ' + size + ' is not found. Using ' + JSON.stringify(_result) + '.' ); 
+
+                } else {
+                    ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
+                    _result = undefined;
+                }
+
             } else {
                 _result = {x: parseFloat(_scale.scale), y: parseFloat(_scale.scale)};
             }
@@ -169,8 +203,42 @@ $(document).ready(function () {
             }
   
             if (typeof _scale === "undefined") {
-                ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
-                _result = undefined;
+
+                // tackle twill only (custom sizes)
+                var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
+                if (tackeTwillCustomSizes) {
+
+                    var nearestSize = (size > 1) ? Math.abs((size % 1) - size) : (1 - size % 1) + size;
+                    var secondNearestSize = (size < 12) ? nearestSize + 1 : nearestSize - 1;
+
+                    var nearestScale = _.find(ub.styleValues.embellishmentScales.match.properties, {size: nearestSize.toString()}).scale;
+                    var secondNearestScale = _.find(ub.styleValues.embellishmentScales.match.properties, {size: secondNearestSize.toString()}).scale;
+
+                    nearestScale = parseFloat(nearestScale);
+                    secondNearestScale = parseFloat(secondNearestScale);
+
+                    var interpolateScale = secondNearestScale - nearestScale;
+
+                    if (size > 1) {
+                        _result = {
+                            x: (Math.abs(interpolateScale) * (size % 1)) + nearestScale,
+                            y: (Math.abs(interpolateScale) * (size % 1)) + nearestScale
+                        }
+                    } else {
+                        _result = {
+                            x: (Math.abs(interpolateScale) * (size % 1)),
+                            y: (Math.abs(interpolateScale) * (size % 1))
+                        }
+                    }
+
+                    // ub.utilities.info('Embellishment Scale for Size ' + size + ' is not found. Using ' + JSON.stringify(_result) + '.' ); 
+
+                } else {
+                    ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
+                    _result = undefined;
+                }
+
             } else {
                 _result = {x: parseFloat(_scale.scale), y: parseFloat(_scale.scale)};
             }

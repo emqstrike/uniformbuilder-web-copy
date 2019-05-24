@@ -150,6 +150,28 @@ $(document).ready(function () {
             var _gender = ub.data.urlAlias.getAlias(ub.config.styles.gender);
             var _sport = ub.data.urlAlias.getAlias(ub.config.styles.sport);
 
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                // exit if url is from HSEL
+                if (ub.config.isFromHSEL === "1") { return; }
+
+                var sport = _sport.urlAlias;
+                var gender = _gender.shortCode;
+
+                if (_sport.urlAlias === 'Football') { sport = 'Football 2017'; }
+                if (_sport.urlAlias === 'Wrestling') { sport = 'Wrestling 2018'; }
+
+                var uniformType = _.find(ub.data.activeSports.items, {name: sport}).type;
+
+                ub.funcs.setV2Gender(gender);
+                ub.funcs.setV2Sport(sport);
+                ub.funcs.setV2UniformType(uniformType);
+                ub.funcs.resetSecondaryBarFilter();
+                ub.funcs.setSideBarSportFilter();
+
+            }
+
             ub.funcs.directLinks(_gender.urlAlias, _sport.urlAlias);
 
         }
@@ -664,6 +686,7 @@ $(document).ready(function () {
 
             // executeAfterLoadFunctionList()
 
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
             ub.funcs.executeAfterLoadFunctionList();
         };
 
@@ -1812,6 +1835,9 @@ $(document).ready(function () {
             ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
             ub.funcs.updateTagStyleCount();
 
+            // Init HSEL
+            ub.funcs.initHSELLogo();
+
         }
 
         ub.load_orders = function (obj, object_name){
@@ -2033,8 +2059,11 @@ $(document).ready(function () {
         var _set = [];
         var _app = view.application;
 
+        // disable `number` and `player_name` for Sublimated Socks
+        var isNotSocks = !ub.funcs.isSocks();
+
         if (_app.hasLogo === 1 || ub.funcs.isSublimated()) { _set.push ('logo'); }
-        if (_app.hasNumber === 1 || ub.funcs.isSublimated()) { _set.push ('number'); }
+        if (_app.hasNumber === 1 || ub.funcs.isSublimated() && isNotSocks) { _set.push ('number'); }
         if (_app.hasPlayerName === 1 || ub.funcs.isSublimated()) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1 || ub.funcs.isSublimated()) { _set.push ('team_name'); }
         if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }
@@ -2596,6 +2625,10 @@ $(document).ready(function () {
 
             if (typeof e.code !== 'undefined') {                
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
+
+                // exit if material is undefined
+                if (typeof _materialOption === 'undefined') { return; };
+
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
                 e.team_color_id     = _team_color_id;
@@ -2733,6 +2766,8 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
+            if (typeof application_obj.originalSize === 'undefined') { application_obj.originalSize = application_obj.font_size; }
+
             if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
                 if (ub.config.hiddenBody && (_hasBody && !_hasFrontBody)) {
@@ -2747,11 +2782,49 @@ $(document).ready(function () {
 
             }
 
-            if (typeof application_obj.patternID === "undefined") {
-                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
-                if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
-            }
             // Application Pattern
+            if (typeof application_obj.patternID === "undefined") {
+
+                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+                
+                var _calibration = 0;
+                var _patternObj;
+
+                // set pattern position
+                if (application_obj.withPattern && application_obj.patternID !== null) {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.patternID});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.patternConfigFromBackend.position.y += _calibration;
+
+                    }
+
+                    ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); 
+                }
+
+                // set pattern position for saved design uniform
+                if (typeof ub.config.savedDesignInfo !== "undefined" && typeof application_obj.pattern_settings !== 'undefined') {
+
+                    _patternObj = _.find(ub.data.patterns.items, {id: application_obj.pattern_obj.id});
+
+                    // if pattern is for calibration, then add the set calibration value to the pattern position `y`
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _patternObj.name)) {
+
+                        _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+                        application_obj.pattern_settings.position.y += _calibration;
+
+                    }
+
+                }
+
+                
+            }
     
             // Application Opacity
             application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);
@@ -5631,6 +5704,18 @@ $(document).ready(function () {
 
         ub.funcs.centerPatternPopup();
 
+        $('input.quickRegistrationEmail').on('focus', function(event) {
+            event.preventDefault();
+            // Unbind drag
+            $('div#primaryQuickRegistrationPopup').unbind('mousedown', ub.funcs.handle_mousedown);
+        });
+
+        $('input.quickRegistrationEmail').on('blur', function(event) {
+            event.preventDefault();
+            // bind drag
+            $('div#primaryQuickRegistrationPopup').bind('mousedown', ub.funcs.handle_mousedown);
+        });
+
         // convenience method
         $('input.quickRegistrationEmail').on('keypress', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
@@ -5781,29 +5866,10 @@ $(document).ready(function () {
 
         $('div.close-popup').on('click', function (){
 
-            $popup.remove();
+            $('div#primaryQuickRegistrationPopup').remove();
             ub.status.quickRegistrationPopup = false;
 
         });
-
-        // $popup.bind('clickoutside', function () {
-
-        //     var _status = $(this).data('status');
-
-        //     if (_status === 'hidden') {
-
-        //         $(this).data('status', 'visible');
-        //         return;
-
-        //     }
-
-        //     $(this).data('status', 'hidden');
-        //     $(this).hide();
-        //     $(this).remove();
-        //     ub.status.quickRegistrationPopup = false;
-
-        // });
-
 
     }
 
@@ -5841,6 +5907,7 @@ $(document).ready(function () {
         ub.funcs.resetHighlights();
 
     }
+
 
     ub.funcs.initOrderProcess = function () {
 
@@ -6735,14 +6802,19 @@ $(document).ready(function () {
 
             if (_picker_type === 'uniforms') {
 
-                ub.funcs.fadeOutElements();
-                $('body').removeClass('pickers-enabled');
+                // ub.funcs.fadeOutElements();
+                // $('body').removeClass('pickers-enabled');
 
-                $('#main-picker-container').hide();
-                $('.header-container').removeClass('forceHide');
+                // $('#main-picker-container').hide();
+                // $('.header-container').removeClass('forceHide');
 
+                // window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                
+                // reopen the uniform in a new page
+                var url = '/builder/0/' + _id;
+                window.open(url, '_blank');
 
-                window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                return;
 
             }
 
@@ -6774,6 +6846,19 @@ $(document).ready(function () {
 
                 }
                 
+            }
+
+            // Version 2 FILTER
+            if (ub.picker.isNew) {
+
+                var uniformType = _.find(ub.data.activeSports.items, {name: _item}).type;
+
+                ub.funcs.setV2Gender(_gender);
+                ub.funcs.setV2Sport(_item);
+                ub.funcs.setV2UniformType(uniformType);
+                ub.funcs.resetSecondaryBarFilter();
+                ub.funcs.setSideBarSportFilter();
+
             }
 
         });
@@ -6828,6 +6913,13 @@ $(document).ready(function () {
 
         $('div#topbar > span.slink[data-picker-type="gender"]').unbind('click');
         $('div#topbar > span.slink[data-picker-type="gender"]').on('click', function () {
+
+            // Picker V2
+            if (ub.picker.isNew) {
+                $('.cd-filter .cd-close').trigger('click');
+                $('main.cd-main-content').css({'display':'none'});
+                ub.funcs.resetSecondaryBarFilter();
+            }
 
             $picker_item = $(this);
 
@@ -6934,7 +7026,6 @@ $(document).ready(function () {
             $('span.slink[data-item="Sublimated"]').show();
         }
 
-
     }
 
     ub.funcs.hideIpadUniforms = function () {
@@ -6951,15 +7042,14 @@ $(document).ready(function () {
 
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
-
-        var _sorted = _.sortBy(items, function (item) { 
-
+        var _sorted = _.sortBy(items, function (item) {
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
-
+            
             // Blank styles goes to the bottom ...
             if (parseInt(item.is_blank) === 1) { _weight += 1000; }
-
+            // Move materials with USA name to the last under Basketball category only
+            if ((item.uniform_category === "Basketball") && (item.neck_option.indexOf('USA') >= 0)){_weight += 100;}
             // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
             // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
             if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
@@ -7079,6 +7169,8 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
 
+                ub.filters.tertiary = _dataItem.toString();
+
                 if (_dataItem === "All") {
 
                     _newSet = window.origItems;
@@ -7179,7 +7271,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.block_pattern === _activeBlockPattern && item.neck_option === _dataItem || item.neck_option_alias === _dataItem;
+                            return item.block_pattern === _activeBlockPattern && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
 
                         });
 
@@ -7225,6 +7317,7 @@ $(document).ready(function () {
 
         ub.filters.primary = "All";
         ub.filters.secondary = "All";
+        ub.filters.tertiary = "All";
 
         $('span.secondary-filters').removeClass('active');
         $('span.primary-filters').removeClass('active');
@@ -7360,26 +7453,46 @@ $(document).ready(function () {
             });
 
            ub.funcs.prepFilters();
-                
+           
         }
 
         if (type === 'uniforms') {
 
             var _sport = gender;
 
-            ub.funcs.prepareSecondaryBar(_sport, actualGender);
-
             var _sizeSec = _.size(items);
 
-            ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
-            ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
-
-            $('div.secondary-bar').fadeIn();
-            $('div.secondary-bar').css('margin-top', "0px");
-
-            var template = $('#m-picker-items-uniforms').html();
+            var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
+
+            if (!ub.picker.isNew) {
+
+                ub.funcs.prepareSecondaryBar(_sport, actualGender);
+
+                ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
+                ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
+
+                template = $('#m-picker-items-uniforms').html()
+
+                $('div.secondary-bar').fadeIn();
+                $('div.secondary-bar').css('margin-top', "0px");
+
+            } else {
+
+                ub.tempItems = ub.funcs.addFilterObject(ub.tempItems);
+
+                ub.funcs.prepareSecondaryBarV2(_sport, actualGender);
+
+                template = $('#m-picker-items-uniforms-v2').html()
+
+                $('main.cd-main-content').css({'display':'block'});
+
+                $scrollerElement = $('section#picker-items-container ul');
+
+            }
+
+            if (typeof gender === 'undefined') { return; }
 
             var data = {
 
@@ -7498,6 +7611,16 @@ $(document).ready(function () {
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
 
+                if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+
+                    _options = ['Belted Pant', 'Elastic Waistband Pant'];
+
+                } else {
+
+                    $('div.quarternary-bar').hide();
+
+                }
+
             } else {
 
                 _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
@@ -7553,7 +7676,6 @@ $(document).ready(function () {
 
             });
 
-
             _.each(_options, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
@@ -7574,9 +7696,13 @@ $(document).ready(function () {
             });
 
             if (typeof fromTertiary !== 'boolean') {
+
+                if (!ub.picker.isNew) {
             
-                ub.funcs.updateTertiaryBar(items, gender);
-                ub.funcs.updateQuarternaryBar(items, gender);
+                    ub.funcs.updateTertiaryBar(items, gender);
+                    ub.funcs.updateQuarternaryBar(items, gender);
+
+                }
 
             }
 
@@ -7589,6 +7715,8 @@ $(document).ready(function () {
 
             $('span.secondary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+                
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
@@ -7685,6 +7813,8 @@ $(document).ready(function () {
 
             $('span.primary-filters').on('click', function () {
 
+                ub.filters.tertiary = 'All';
+
                 var _gender = $(this).data('gender').toLowerCase();
                 var _sport = gender;
                 var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
@@ -7767,7 +7897,14 @@ $(document).ready(function () {
 
             });
 
-            $(window).scrollTop(0);
+            $(window).scrollTop(1);
+
+            if (ub.picker.isNew) {
+                
+                ub.funcs.resetSecondaryBarFilter();
+
+                $('div#main-picker-scroller').fadeOut().html('');
+            }
 
         }
 
@@ -8499,9 +8636,8 @@ $(document).ready(function () {
         ub.funcs.deleteSavedDesign = function (id, name) {
 
             var txt;
-            
             var r = confirm("Are you sure you want to delete '" + name + "'?");
-            
+
             if (r !== true) { return; }
 
             data = {
@@ -8509,112 +8645,86 @@ $(document).ready(function () {
             }
 
             $.ajax({
-
                 url: ub.config.api_host + '/api/saved_design/delete/',
                 data: JSON.stringify(data),
-                type: "POST", 
+                type: "POST",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
-
                 }
-                
             });
-   
         }
+
         ub.funcs.runDataTable = function () {
+            $('.data-table').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                initComplete: function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
 
-            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+                                column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                            });
 
-              $('.data-table').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": false,
-                    "info": true,
-                    "autoWidth": true,
-                    initComplete: function () {
-                        this.api().columns().every( function () {
-
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo( $(column.footer()).empty() )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                } );
-
-                            column.data().unique().sort().each( function ( d, j ) {
-
-                                select.append( '<option value="'+d+'">'+d+'</option>' )
-                            } );
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
                         });
-                        $(".data-table-filter-hide select").hide();                      
-                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
-                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
-                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
-                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
-                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
+                    });
 
-                
-  
-                    }
-                }); 
-            });
-            
-            $(".dropdown-toggle").on('click', function () {                       
-
-                if($( ".btn-group" ).hasClass( "open" )){
-                    $( ".btn-group" ).removeClass("open");
-                }else{
-                    $( ".btn-group" ).addClass("open");
+                    $(".data-table-filter-hide select").hide();
+                    $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                    $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                    $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                    $(".dataTables_filter input").attr( "style","width: 300px; margin-left: 10px;");
                 }
             });
-           
 
+            // $(".dropdown-toggle").on('click', function () {
 
+            //     if($( ".btn-group" ).hasClass( "open" )){
+            //         $( ".btn-group" ).removeClass("open");
+            //     }else{
+            //         $( ".btn-group" ).addClass("open");
+            //     }
+            // });
         }
 
         ub.funcs.rebindSaveButtons = function (data) {
 
             var $container = $('div.saved-designs-list');
             var $imgThumbs = $('img.tview');
-                
-            $imgThumbs.unbind('click');
-            $imgThumbs.on('click', function () {
 
+            $("div.saved-designs-list").on('click', 'img.tview', function () {
                 var _file = $(this).data('file');
                 var _str = "<img src ='" + _file + "' />";
-                
                 ub.showModalTool(_str);
-
             });
 
-            $('span.action-button.view').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.view', function () {
                 var _savedDesignID = $(this).data('saved-design-id');
-
                 var url = '/my-saved-design/' + _savedDesignID + '/render';
                 window.open(url, '_blank');
-                
             });
 
-            $('span.action-button.delete').on('click', function () {
-
+            $('div.saved-designs-list').on('click', 'span.action-button.delete', function () {
                 var _deleteDesignID = $(this).data('saved-design-id');
                 var _name = $(this).data('name');
-
                 ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
             });
 
             bindShareDesigns();
@@ -8692,9 +8802,12 @@ $(document).ready(function () {
                     });
                     
                     ub.funcs.runDataTable();
-
                     ub.funcs.rebindSaveButtons(data); 
             
+                    if (response.saved_designs.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.saved-designs-list table tfoot").hide();
+                    }
                 }
                 
             });
@@ -8773,7 +8886,7 @@ $(document).ready(function () {
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8781,7 +8894,7 @@ $(document).ready(function () {
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    }); 
+                    });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
@@ -8802,6 +8915,11 @@ $(document).ready(function () {
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
+
+                    if (dataSaved.orders.length === 0) {
+                        // hide tfoot and filter select option
+                        $("div.order-list table tfoot").hide();
+                    }
 
                     $('div.order-list.submitted').find('span.action-button.delete, span.action-button.edit').hide();
                     $('div.order-list.saved').find('span.action-button.delete, span.action-button.view').hide();
@@ -9458,19 +9576,20 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
                     if (response.success) {
-
                         // Remove M and JS here ...
                         var _reps = _.without(response.sales_reps, _.findWhere(response.sales_reps, {rep_id: '4321'})); // M
                         _reps = _.without(_reps, _.findWhere(_reps, {rep_id: '179'})); // JS
 
+                        // Filter active sales rep
+                        _reps = _.filter(_reps, function(rep) {
+                            if (rep.active !== 0) {
+                                return rep;
+                            }
+                        });
                         cb(_reps);
-
                     }
-
                 }
-                
             });
 
 
@@ -9566,30 +9685,12 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
-
-                    ub.user.firstName = obj.firstName;
-                    ub.user.lastName = obj.lastName;
-
-                    var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
-
-                    $.ajax({
-                        
-                        url: _url,
-                        type: "PATCH",
-                        data: JSON.stringify(_postData),
-                        datatype: "json",
-                        crossDomain: true,
-                        contentType: "applicatin/json",
-                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-
-                        success: function(response) {
-                            window.location.href = '/my-profile';
-                        }
-
+                    $('button.update-profile').removeAttr('disabled');
+                    $("#myProfileAlert").removeClass('hidden').fadeIn(500, function(){
+                        $("#myProfileAlert").delay(3000).fadeOut(500);
                     });
-
+                    
                 }
-                
             });
 
         };
@@ -9612,8 +9713,8 @@ $(document).ready(function () {
             var markup = Mustache.render(template, data);
             $container.html(markup);
 
-            $('span.update-profile').unbind('click');
-            $('span.update-profile').on('click', function () {
+            $('button.update-profile').unbind('click');
+            $('#myProfile').submit(function () {
 
                 var _firstName = $('input[name="first-name"]').val();
                 var _lastName = $('input[name="last-name"]').val();
@@ -9632,6 +9733,7 @@ $(document).ready(function () {
                     repID: _repID,
 
                 });
+                return false;
 
             });
 
@@ -10082,6 +10184,10 @@ $(document).ready(function () {
             $('span.tab[data-type="pdf"]').unbind('click');
             $('span.tab[data-type="pdf"]').on('click', function () {
 
+                var path = location.pathname;
+                var order_id = path.substring(path.lastIndexOf("/") + 1);
+                var _url = "https://service-pdf.s3.us-west-2.amazonaws.com/pdf/prolook-" + order_id + ".pdf"
+                $('iframe#pdfViewer').attr('src', _url);
                 ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="pdf"]');
                 ub.funcs.showTab('div.order-info', 'div.order-info.pdf');
 
@@ -10635,18 +10741,7 @@ $(document).ready(function () {
         });
     }
 
-    $('.close-share-uniform-design-modal').on('click', function(){
-        $('#open-design-modal').modal('show');
-        $('#share-design-modal .team-email').val('');
-    });
-
     $('.share-uniform-design-by-email').on('click', function(){
-        
-        // var data = {
-        //     email_list: $('#share-design-modal .team-email').val(),
-        //     order_id: $(this).data('order-id'),
-        //     sharer_name: ub.user.fullname
-        // };
 
         var _id = $(this).data('order-id');
 
@@ -10685,7 +10780,7 @@ $(document).ready(function () {
     });
 
     function bindShareDesigns() {
-        $('.share-uniform-design').on('click', function(){
+        $('div.saved-designs-list').on('click', '.share-uniform-design',function(){
             var order_id = $(this).data('saved-design-id');
             $('#open-design-modal').modal('hide');
             $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);

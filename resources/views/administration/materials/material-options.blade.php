@@ -45,6 +45,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
 <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
 <input type="hidden" id="material_asset_target" value="{{ $material->asset_target }}">
+<input type="hidden" id="material_brand" value="{{ $material->brand }}">
 
 
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
@@ -53,24 +54,6 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
     Materials Options (Minified)
 </a>
-
-    <!-- For Block Pattern Export -->
-    <textarea name="material_props_data" style="display:none;" id="material_props_data"><?php echo json_encode($options, JSON_FORCE_OBJECT);?></textarea>
-    <div class="form-group row col-lg-offset-4">
-           <label class="col-lg-3 col-lg-offset-4 control-label">Export Material Properties to Block Pattern</label>
-                <div class="col-lg-3">
-                    <select name="export_block_pattern_id" class="form-control export_block_pattern_id">
-                        @foreach($block_patterns as $block_pattern)
-                            <option value="{{ $block_pattern->id }}">{{ $block_pattern->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-1">
-                    <button type="submit" class="btn btn-default export_material_prop">
-                                    Export <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                    </button>
-                </div>
-    </div>
 
 <center>
 <!-- <img src="{{ $material->thumbnail_path }}"
@@ -231,6 +214,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 data-default-fabric="{{ $option->fabric_id }}"
+                                data-default-base-fabric="{{ $option->base_fabric }}"
+                                data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                 data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -321,6 +307,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 data-default-fabric="{{ $option->fabric_id }}"
+                                data-default-base-fabric="{{ $option->base_fabric }}"
+                                data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                 data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -411,6 +400,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 data-default-fabric="{{ $option->fabric_id }}"
+                                data-default-base-fabric="{{ $option->base_fabric }}"
+                                data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                 data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -501,6 +493,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-build-type="{{ $option->build_type }}"
                                 data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 data-default-fabric="{{ $option->fabric_id }}"
+                                data-default-base-fabric="{{ $option->base_fabric }}"
+                                data-default-insert-fabric="{{ $option->insert_fabric }}"
+                                data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
                                 data-material-brand="{{ $material->brand }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
