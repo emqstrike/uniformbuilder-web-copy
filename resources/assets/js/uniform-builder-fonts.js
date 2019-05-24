@@ -302,17 +302,32 @@ $(document).ready(function() {
 
             ub.data.offSetResult = _perspectiveData;
             _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
+
+            if (ub.config.ignoreFontRulesOnSublimatedAndTwill(ub.config.brand)) {
+                
+                _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
+                _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
+                
+                ub.utilities.info('');
+                ub.utilities.info(ub.config.brand + ' brand is detected. Ignoring font rules between sublimated and twill.');
+                ub.utilities.info('Using sublimated font behavior on application #' + location.toString() + ', size: ' + fontSize + ', perspective: ' + perspective);
+                ub.utilities.info('{ inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ') }');
+
+            }
             
         }
 
         // Not Matching Settings, get a similar size from the front, without specifying the application number
         if (typeof _offsetResult === "undefined") {
-            _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: 'front'});
-            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString()});
+
+            _perspectiveData = _.find(_font.sublimatedParsedFontSizeTables, {perspective: perspective});
+
+            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
+
             ub.utilities.info('');
             ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
             ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
-            ub.utilities.info('{inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ')');
+            ub.utilities.info('{ inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ') }');
             
         }
 
