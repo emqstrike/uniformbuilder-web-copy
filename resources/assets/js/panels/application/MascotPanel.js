@@ -67,6 +67,7 @@ MascotPanel.events = {
             $("#primary_options_container").on("click", ".applicationUIBlockNew .open-inksoft-editor", _this.onChangeEmbellishment);
 
             $("#primary_options_container").on("click", ".logo-details-container .change-stock-mascot", _this.onChangeStockMascot)
+            $("#primary_options_container").on("click", ".logo-details-container .edit-stock-mascot", _this.onEditStockMascot)
             $("#primary_options_container").on("click", ".logo-type-container .btn-selection-choice", _this.onSelectLogoType);
             $("#primary_options_container").on("click", ".logo-location-container .btn-selection-choice", _this.onSelectLocation)
             $('#primary_options_container').on('click', '.logo-details-container .flip-mascot', _this.onFlipMascot);
@@ -89,7 +90,23 @@ MascotPanel.events = {
         var designID = $(this).data("application-design-id");
         var logoType = $(this).data("application-logo-type");
         var settingsObject = ub.funcs.getApplicationSettings(application_id);
+        ub.data.currentApplication = settingsObject;
 
+        if (settingsObject.logo_type === 'stock') {
+            StockMascot.events.init();
+        } else if (settingsObject.logo_type === 'custom_text') {
+            StockMascot.events.init(1000321);
+        } else {
+            InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
+        }
+    },
+
+    onEditStockMascot: function() {
+        ub.data.isChangeStockLogo = true;
+        var settingsObject = ub.funcs.getApplicationSettings(application_id);
+        var application_id = $(this).data("application-code");
+        var designID = $(this).data("application-design-id");
+        var logoType = $(this).data("application-logo-type");
         ub.data.currentApplication = settingsObject;
         InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
     },
