@@ -6,11 +6,13 @@ $(document).ready(function(){
         console.log(err.message);
     }
 
-    $('.part-and-fabrics .fabrics').select2({
-        data: JSON.parse($('#fabrics-list').val()),
-        multiple: true,
-        allowClear: true
-    });
+    if ($('.part-and-fabrics .fabrics').length > 0) {
+        $('.part-and-fabrics .fabrics').select2({
+            data: JSON.parse($('#fabrics-list').val()),
+            multiple: true,
+            allowClear: true
+        });
+    }
 
     var layers_properties = {};
 

@@ -2203,7 +2203,7 @@ $(document).ready(function() {
             },
             { 
                 name: "Tech Tee (eSports)",
-                alias: "gamer-jersey",
+                alias: "gamer-jersey-esports",
             },
 
         ],
@@ -10358,7 +10358,20 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'SFN Jogger (Apparel)',
                 sublimatedPart: 'Extra',
-            }
+            },
+            {
+                sport: 'Polo (eSports)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Hoodie (eSports)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Track and Field',
+                sublimatedPart: 'Extra',
+            },
+
         ],
 
         get: function (sport) {
@@ -11183,8 +11196,19 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech Tee (eSports)',
                 type: 'upper',
-                lowerLabel: ' Jersey',
+                upperLabel: 'Jersey',
             },
+            {
+                sport: 'Polo (eSports)',
+                type: 'upper',
+                upperLabel: 'Jersey',
+            },
+            {
+                sport: 'Hoodie (eSports)',
+                type: 'upper',
+                upperLabel: 'Jersey',
+            },
+            
         ],
         getLabel: function (sport) {
 
@@ -11334,6 +11358,14 @@ ub.funcs.fontOffSets = [
         // eSports Uniform
         {
             sport: 'Tech Tee (eSports)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Polo (eSports)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Hoodie (eSports)',
             filters: ['All'],
         }
           
@@ -11523,6 +11555,7 @@ ub.funcs.fontOffSets = [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
             { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
             { name: 'Test Orders', code: 'testOrders', section: 'uniforms' },
+            { name: 'Tackle Twill Custom Sizes', code: 'tackeTwillCustomSizes', section: 'uniforms' },
         ],
         
         getCode: function (featureFlag) {
@@ -11929,9 +11962,18 @@ ub.funcs.fontOffSets = [
             },
             // eSports
             {
-                shortCode: 'gamer-jersey',
+                shortCode: 'gamer-jersey-esports',
                 urlAlias: 'Tech Tee (eSports)',
-                // thumbFilename: '',
+                gender: ['men',],
+            },
+            {
+                shortCode: 'gamer-polo-esports',
+                urlAlias: 'Polo (eSports)',
+                gender: ['men',],
+            },
+            {
+                shortCode: 'gamer-hoodie-esports',
+                urlAlias: 'Hoodie (eSports)',
                 gender: ['men',],
             },
         ],
@@ -12303,7 +12345,9 @@ ub.funcs.fontOffSets = [
             'Volleyball',
             'Football 2017',
             'Football',
-            'Hockey'
+            'Hockey',
+            'Soccer',
+            'Track and Field',
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12330,7 +12374,8 @@ ub.funcs.fontOffSets = [
             'Yoga Pant (Apparel)',
             'Basketball',
             'SFN Jogger (Apparel)',
-            'Hockey'
+            'Hockey',
+            'Track and Field',
         ],
         isValid: function (uniformCategory) {
 
@@ -12787,4 +12832,32 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.customSizes = [
+        '0.5', 
+        '0.75', 
+        '1',
+        '1.25',
+        '1.5',
+        '2',
+        '2.5',
+        '3',
+        '3.5',
+        '4',
+        '4.5',
+        '5',
+        '5.5',
+        '6',
+        '6.5',
+        '7',
+        '7.5',
+        '8',
+        '8.5',
+        '9',
+        '9.5',
+        '10',
+        '10.5',
+        '11',
+        '11.5',
+        '12',
+   ];
 });

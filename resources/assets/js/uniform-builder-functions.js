@@ -17,7 +17,7 @@ $(document).ready(function() {
 	ub.funcs.addFunctionToAfterloadList = function (func) {
 
 		if (typeof func !== "function") {
-			ub.utilities.progError('Argument func must be of type function...');
+			ub.utilities.proggError('Argument func must be of type function...');
 			return;
 		}
 
