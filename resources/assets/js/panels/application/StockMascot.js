@@ -10,20 +10,19 @@ StockMascot.events = {
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-categories a", that.onClickStockMascotCategory);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-list-container .mascot-item a", that.onClickMascotItem);
             $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .edit-stock-logo", that.onClickEditStockMascot);
-            $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .add-to-uniform", that.onClickAddToUniform);
-            $(".inksoft-stock-mascot").on("click", ".stock-mascot-preview-container .cancel-add-uniform", that.onClickCancel);
+            $(".inksoft-stock-mascot").on("click", ".add-to-uniform", that.onClickAddToUniform);
             $("#richardson-stock-mascot").on("click", ".cancel-add-uniform", that.onClickCancel);
         }
         that.isInit = false;
 
+        $(".inksoft-stock-mascot .stock-mascot-main-content").addClass("uk-hidden")
+        $(".inksoft-stock-mascot .stock-mascot-loading-screen").removeClass("uk-hidden");
         StockMascot.funcs.loadStockMascot(categoryID);
     },
 
     onClickStockMascotCategory: function() {
         var that = this;
         var categoryID = $(this).data("category-id");
-        $(".inksoft-stock-mascot .stock-mascot-list-container").addClass("uk-hidden")
-        $(".inksoft-stock-mascot .stock-mascot-loading-screen").removeClass("uk-hidden");
         StockMascot.funcs.loadArtByCategory(categoryID, function(response) {
             if (response.OK) {
                 StockMascot.funcs.prepareStockMascots(response.Data);
@@ -37,9 +36,12 @@ StockMascot.events = {
     onClickMascotItem: function() {
         var that = this;
         var image = $(this).data("image");
+        var name = $(this).data("name");
         var stockID = $(this).data("stock-mascot-id");
 
-        StockMascot.funcs.previewStockMascotPreview(image, stockID);
+        ub.data.currentStockMascotID = stockID;
+
+        StockMascot.funcs.previewStockMascotPreview(name, image, stockID);
         $(".mascot-item a.uk-active").removeClass("uk-active");
         $(this).addClass("uk-active");
     },
@@ -52,17 +54,21 @@ StockMascot.events = {
 
     onClickAddToUniform: function() {
         var that = this;
-        var stockID = $(this).data("stock-mascot-id");
+        var stockID = ub.data.currentStockMascotID;
 
-        var _settingsObject = ub.data.currentApplication;
-        var _matchingID = undefined;
+        if (typeof stockID !== "undefined") {
+            var _settingsObject = ub.data.currentApplication;
+            var _matchingID = undefined;
 
-        is.isMessage(stockID, _settingsObject.code, true);
-        _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+            is.isMessage(stockID, _settingsObject.code, true);
+            _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-        if (typeof _matchingID !== "undefined") {
-            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            is.isMessage(_designID, _matchingID, true);
+            if (typeof _matchingID !== "undefined") {
+                var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                is.isMessage(_designID, _matchingID, true);
+            }
+        } else {
+            ub.utilities.warn("Missing design id")
         }
 
         UIkit.modal("#richardson-stock-mascot").hide();
@@ -92,6 +98,8 @@ StockMascot.funcs = {
                     StockMascot.funcs.loadArtByCategory(richardsonStockMascots.ID, function(response) {
                         if (response.OK) {
                             StockMascot.funcs.prepareStockMascots(response.Data);
+                            $(".inksoft-stock-mascot .stock-mascot-main-content").removeClass("uk-hidden")
+                            $(".inksoft-stock-mascot .stock-mascot-loading-screen").addClass("uk-hidden");
                         }
                     });
                 }
@@ -129,16 +137,15 @@ StockMascot.funcs = {
             mascots: data
         });
 
-        $(".inksoft-stock-mascot .stock-mascot-list-container").removeClass("uk-hidden")
-        $(".inksoft-stock-mascot .stock-mascot-loading-screen").addClass("uk-hidden");
         $(".inksoft-stock-mascot .stock-mascot-list-container").html("");
         $(".inksoft-stock-mascot .stock-mascot-list-container").html(renderContainer);
 
         $(".inksoft-stock-mascot .mascot-item a").first().trigger("click");
     },
 
-    previewStockMascotPreview: function(image, stock_id) {
+    previewStockMascotPreview: function(name, image, stock_id) {
         var renderContainer = ub.utilities.buildTemplateString('#m-inksoft-stock-mascot-preview', {
+            name: name,
             image: image,
             ID: stock_id
         });

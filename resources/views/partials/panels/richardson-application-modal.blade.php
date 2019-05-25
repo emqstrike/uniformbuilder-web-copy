@@ -448,35 +448,51 @@
 <!-- END TEAM ROSTER -->
 
 <!-- Stock Mascot -->
-<div id="richardson-stock-mascot" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
-    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
-        <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
-        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
-        <div class="inksoft-stock-mascot uk-padding-small">
-            <div class="uk-height-large uk-grid-match" uk-grid>
-                <div class="uk-width-1-4">
-                    <div class="bdr-thin bdr-gray uk-height-max-large uk-overflow-auto">
-                        <ul class="uk-nav uk-list stock-mascot-categories">
-                        </ul>
-                    </div>
-                </div>
-                <div class="uk-width-expand">
-                    <div class="cp-padding-tiny bdr-thin bdr-gray bgc-light uk-height-max-large uk-overflow-auto">
-                        <div class="uk-grid-small uk-grid-match uk-child-width-1-3@m uk-flex uk-flex-center con-palettes uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top stock-mascot-list-container" uk-grid>
-                        </div>
-                        <div class="uk-width-1-1 stock-mascot-loading-screen">
-                            <div class="uk-flex uk-flex-center">
-                                <div uk-spinner="ratio: 5"></div>
+<div id="richardson-stock-mascot" class="bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
+    <div class="uk-modal-dialog uk-width-3-4 uk-margin-auto-vertical inksoft-stock-mascot">
+        <div class="uk-modal-body">
+            <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Richardson Stock Logos</h6>
+            <div class="stock-mascot-main-content">
+                <div class="uk-grid-small uk-grid-match" uk-grid>
+                    <div class="uk-width-expand">
+                        <div class="bdr-thin bdr-gray bgc-lightGray">
+                            <div class="uk-grid-small uk-grid-divider uk-grid-match" uk-grid>
+                                <div class="uk-width-1-3">
+                                    <div class="uk-padding-small">
+                                        <ul class="uk-nav uk-list uk-list-divider stock-mascot-categories uk-height-max-large uk-overflow-auto bdr-thin bdr-gray">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <div class="uk-padding-small">
+                                        <div class="uk-height-max-large uk-overflow-auto">
+                                            <div class="uk-grid-small uk-grid-match uk-child-width-1-4@m uk-padding-small stock-mascot-list-container" uk-grid>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="uk-width-1-4 uk-flex uk-flex-center uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">
-                    <div class="uk-width-1-1@s uk-text-center uk-first-column stock-mascot-preview-container">
-                        
+                    <br><br>
+                    <div class="uk-width-1-4 uk-flex uk-flex-center uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">
+                        <div class="uk-width-1-1@s uk-text-center uk-first-column stock-mascot-preview-container">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="stock-mascot-loading-screen uk-hidden">
+                <div class="uk-width-1-1">
+                    <div class="uk-flex uk-flex-center">
+                        <div uk-spinner="ratio: 8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center">
+            <button class="uk-button uk-button-default cancel-add-uniform uk-text-capitalize" type="button">Cancel</button>
+            <button class="uk-button uk-button-secondary uk-text-capitalize add-to-uniform" type="button">Apply</button>
         </div>
     </div>
 </div>

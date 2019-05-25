@@ -301,7 +301,7 @@ img.piping-images {
 }
 
 .bdr-bottom {
-    border: .5px solid $color-lightGray;
+    border: .5px solid #aaa;
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
@@ -324,7 +324,7 @@ img.piping-images {
 
 // Stock Mascot Modal
 .stock-mascot-categories li.uk-active {
-  background-color: $color-darkerGray;
+  background-color: $color-red;
   color: $color-white;
 }
 
