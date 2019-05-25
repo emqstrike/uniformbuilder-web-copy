@@ -21,6 +21,8 @@ TeamNamePanel.events = {
             $('.modifier_main_container').on('click', '#team-name-panel .teamOptionContainer a.change-font-style', that.onChangeFontStyle);
             $('.modifier_main_container').on('click', '#team-name-panel .remove-team-name', that.onRemovePlayerName);
             $(".modifier_main_container").on('click', '#team-name-panel .select-font-style', that.onCreateFontPopUp);
+            $(".modifier_main_container").on('keypress', '#team-name-panel input.app-letters-input', that.onKeyPressApplicationText);
+            $(".modifier_main_container").on('blur', '#team-name-panel input.app-letters-input', that.onBlurApplicationText);
             that.isInit = false;
         }
 
@@ -137,7 +139,80 @@ TeamNamePanel.events = {
         } else {
             console.log("Error: Application code " + app_code + " is invalid code.");
         }
-    }
+    },
+
+    onKeyPressApplicationText: function(e) {
+        var _val = $(this).val();
+        var id = $(this).closest('#team-name-panel').data('code').toString()
+        var _settingsObject = ub.funcs.getApplicationSettings(id);
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
+
+        if (_val.length === 0) {
+            return;
+        }
+
+        if (e.keyCode === 13) {
+            _settingsObject.text = _val;
+
+            if (typeof _settingsObject.tailsweep !== "undefined") {
+                // Tailsweep, is off for now
+                _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
+
+                _settingsObject.tailsweep.length = _length;
+
+                $('span.sizeItem').removeClass('active');
+                $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+            }
+
+            /// Set Auto Font Size on Team Name, Baseball / Fastpitch
+            if (parseInt(id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
+                if (_settingsObject.application_type === "team_name") {
+                    var _len = _val.length;
+                    var _size = _settingsObject.font_size;
+
+                    if (_len <= 4) {
+                        _size = 4;
+                    } else if (_len >= 5 && _len <= 7) {
+                        _size = 3;
+                    } else if (_len >= 8) {
+                        _size = 2;
+                    }
+
+                    ub.funcs.setAppSize(application_id, _size);
+                    ub.funcs.setAUIActiveSize(_size);
+                }
+            }
+            /// End Set Auto Font Size
+
+            ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+            // cancel automatic changing of application (e.g. all team names changes)
+            if (_isFreeFormEnabled) {
+                return;
+            }
+        }
+    },
+
+    onBlurApplicationText: function() {
+        var _val = $(this).val();
+        ub.status.onText = false;
+
+        if (_val.length === 0) {
+            return;
+        }
+
+        var id = $(this).closest('#team-name-panel').data('code').toString()
+        var _settingsObject = ub.funcs.getApplicationSettings(id);
+        _settingsObject.text = _val;
+
+        var _isFreeFormEnabled = ub.funcs.isFreeFormToolEnabled(id);
+        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+        // cancel automatic changing of application (e.g. all team names changes)
+        if (_isFreeFormEnabled) {
+            return;
+        }
+    },
 
 }
 
