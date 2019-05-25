@@ -470,6 +470,14 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="stock-mascot-loading-screen-content uk-hidden">
+                                        <div class="uk-width-1-1">
+                                            <div class="uk-flex uk-flex-middle uk-flex-center">
+                                                <div uk-spinner="ratio: 5"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

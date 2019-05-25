@@ -1,3 +1,4 @@
+
 /**
  * ApplicationUtilities.js
  * - handler for the application helper function
@@ -1923,9 +1924,10 @@ $(function() {
     }
 
     ub.funcs.afterRemoveStockLogo = function(settingsObj) {
+        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObj.application.views[0].perspective + "']").removeClass("selected");
         $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObj.application.views[0].perspective + "']").removeClass("uk-active");
         $(".modifier_main_container .logo-details-container").html("");
         $("#primary_options_container .location-add-remove-container[data-perspective='" + settingsObj.application.views[0].perspective + "']").html("");
-        $("#primary_options_container .location-add-remove-container[data-perspective='" + settingsObj.application.views[0].perspective + "']").html('<span class="uk-text-center uk-text-small fc-darkGray fc-italic">(Add)</span>');
+        // $("#primary_options_container .location-add-remove-container[data-perspective='" + settingsObj.application.views[0].perspective + "']").html('<span class="uk-text-center uk-text-small fc-darkGray fc-italic">(Add)</span>');
     }
 });

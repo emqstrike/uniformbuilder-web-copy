@@ -24,7 +24,11 @@ InteropIsPanel.events = {
         console.log("asdasdas")
         if (!ub.data.isChangeStockLogo) {
             var _settingsObject = ub.data.currentApplication;
-            ub.funcs.afterRemoveStockLogo(_settingsObject);
+            if (_settingsObject.logo_type === "custom_text") {
+                TeamNamePanel.funcs.loadAddTeamName();
+            } else {
+                ub.funcs.afterRemoveStockLogo(_settingsObject);
+            }
             ub.funcs.deleteLocation(_settingsObject.code);
         }
         ub.data.isChangeStockLogo = false;

@@ -4,7 +4,7 @@
         <div class="mascot-item" data-stock-mascot-id="@{{ ID }}">
             <a class="box-palette uk-link-reset btn-selection-choice uk-text-center mascot-btn" data-name="@{{ Name }}" data-stock-mascot-id="@{{ ID }}" data-image="https://images.inksoft.com@{{ ImageUrl }}">
                 <div class="bgc-white uk-text-right">
-                    <h6 class="uk-text-center uk-margin-remove padding-tiny-vertical">@{{ Name }}</h6>
+                    <h6 class="uk-text-center uk-margin-remove padding-tiny-vertical uk-text-truncate">@{{ Name }}</h6>
                     <div class="uk-inline uk-inline uk-width-1-1 uk-flex uk-flex-center">
                         <div class="uk-padding-small uk-padding-remove-bottom">
                             <img class="uk-height-small" src="https://images.inksoft.com@{{ ImageUrl }}" uk-img>
@@ -17,8 +17,8 @@
 </script>
 
 <script type="text/mustache" id="m-inksoft-stock-mascot-categories-list">
-    <li class="stock-mascot-category cp-padding-tiny bdr-bottom uk-margin-remove uk-active bdr-thin bdr-gray" data-category-id="1000281">
-        <a href="javascript:void(0)" class="uk-link-reset category-btn" data-category-id="1000281">All</a>
+    <li class="stock-mascot-category cp-padding-tiny bdr-bottom uk-margin-remove uk-active bdr-thin bdr-gray" data-category-id="@{{ parentID }}">
+        <a href="javascript:void(0)" class="uk-link-reset category-btn" data-category-id="@{{ parentID }}">All</a>
     </li>
     @{{ #categories }}
         <li class="stock-mascot-category cp-padding-tiny bdr-bottom uk-margin-remove" data-category-id="@{{ ID }}">

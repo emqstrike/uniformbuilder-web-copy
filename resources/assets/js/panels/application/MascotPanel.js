@@ -95,7 +95,7 @@ MascotPanel.events = {
         if (settingsObject.logo_type === 'stock') {
             StockMascot.events.init();
         } else if (settingsObject.logo_type === 'custom_text') {
-            StockMascot.events.init(ub.data.customTextCategoryID);
+            StockMascot.events.init(ub.data.customTextCategoryID, designID);
         } else {
             InteropIsPanel.funcs.loadDesigner(designID, settingsObject.code, true);
         }
@@ -143,6 +143,8 @@ MascotPanel.events = {
             }
         }
 
+        $(this).addClass("selected");
+        $(".logo-location-container .btn-selection-choice.uk-active").removeClass("uk-active");
         $(this).addClass("uk-active");
     },
 

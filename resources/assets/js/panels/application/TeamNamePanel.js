@@ -338,5 +338,5 @@ TeamNamePanel.funcs = {
     fontSizeSlider: function(_settingsObject) {
         var _htmlBuilder = ub.utilities.buildTemplateString('#m-team-name-font-size-slider', {code: _settingsObject.code});
         return _htmlBuilder;
-    }
+    },
 }

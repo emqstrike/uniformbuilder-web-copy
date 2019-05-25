@@ -342,3 +342,15 @@ img.piping-images {
       color: $color-white;
     }
 }
+
+.logo-location-container button.selected {
+    color: #eee !important;
+    background-color: #e32139 !important;
+    border-color: #e32139 !important;
+}
+
+.logo-location-container button.uk-active {
+    color: #eee !important;
+    background-color: #850000 !important;
+    border-color: #850000 !important;
+}
