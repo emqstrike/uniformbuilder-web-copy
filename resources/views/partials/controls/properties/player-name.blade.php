@@ -11,11 +11,11 @@
 </script>
 
 <script type="text/mustache" id="m-player-name-modifier-control">
-    <div class="uk-padding-small" id="player-name-panel">
+    <div class="uk-padding-small" id="player-name-panel" data-code="@{{ code }}">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
             Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
         </h5>
-        <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium uk-text-uppercase app-letters-input uk-disabled" type="text" placeholder="@{{ defaultText }}" value="@{{ defaultText }}">
+        <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium app-letters-input uk-disabled" type="text" placeholder="Player Name" value="@{{ defaultText }}">
         <div class="playerOptionContainer" data-code="@{{ code }}">
             @{{ #hasFontStyle }}
                 @{{{ fontStyle }}}

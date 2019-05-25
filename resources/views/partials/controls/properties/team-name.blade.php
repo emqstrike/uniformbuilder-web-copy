@@ -21,7 +21,7 @@
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
             Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
         </h5>
-        <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium app-letters-input" type="text" placeholder="@{{ defaultText }}" value="@{{ defaultText }}">
+        <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium app-letters-input" type="text" placeholder="Team Name" value="@{{ defaultText }}">
         <div class="teamOptionContainer" data-code="@{{ code }}">
             @{{ #hasFontStyle }}
                 @{{{ fontStyle }}}
