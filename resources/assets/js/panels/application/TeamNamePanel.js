@@ -23,6 +23,7 @@ TeamNamePanel.events = {
             $(".modifier_main_container").on('keypress', '.team-name-panel input.app-letters-input', that.onKeyPressApplicationText);
             $(".modifier_main_container").on('blur', '.team-name-panel input.app-letters-input', that.onBlurApplicationText);
             $('.modifier_main_container').on('click', '.team-name-panel a.remove-team-name', that.onRemovePlayerName);
+            $('.modifier_main_container').on('click', '.team-name-panel .view-all-application', that.onViewAllDecoration);
             that.isInit = false;
         }
 
@@ -36,6 +37,10 @@ TeamNamePanel.events = {
         } else {
             TeamNamePanel.funcs.loadAddTeamName();
         }
+    },
+
+    onViewAllDecoration: function() {
+        ApplicationList.events.init();
     },
 
     onClickAddTeamName: function() {

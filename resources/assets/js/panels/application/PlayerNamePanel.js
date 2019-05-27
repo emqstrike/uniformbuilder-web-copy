@@ -40,6 +40,7 @@ PlayerNamePanel.events = {
             $(".modifier_main_container").on('click', '#player-name-panel .select-font-style', that.onCreateFontPopUp);
             $(".modifier_main_container").on('keypress', '#player-name-panel input.app-letters-input', that.onKeyPressApplicationText);
             $(".modifier_main_container").on('blur', '#player-name-panel input.app-letters-input', that.onBlurApplicationText);
+            $(".modifier_main_container").on('click', '#player-name-panel .view-all-application', that.onViewAllDecoration);
             
             that.isInit = false;
         }
@@ -50,6 +51,10 @@ PlayerNamePanel.events = {
         } else {
             PlayerNamePanel.funcs.loadAddPlayer();
         }
+    },
+
+    onViewAllDecoration: function() {
+        ApplicationList.events.init();
     },
 
     onClickAddPlayerName: function() {

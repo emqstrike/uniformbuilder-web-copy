@@ -72,8 +72,13 @@ MascotPanel.events = {
             $("#primary_options_container").on("click", ".logo-location-container .btn-selection-choice", _this.onSelectLocation)
             $('#primary_options_container').on('click', '.logo-details-container .flip-mascot', _this.onFlipMascot);
             $('#primary_options_container').on('click', '.location-add-remove-container .removeMascot', _this.onRemoveMascot);
+            $('#primary_options_container').on('click', '#mascot-panel .view-all-application', _this.onViewAllDecoration);
             MascotPanel.events.is_init = false;
         }
+    },
+
+    onViewAllDecoration: function() {
+        ApplicationList.events.init();
     },
 
     onRemoveMascot: function() {

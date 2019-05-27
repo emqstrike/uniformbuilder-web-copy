@@ -1,8 +1,16 @@
 <!-- Logo -->
 <script type="text/mustache" id="m-mascot-panel">
-    <div class="uk-padding-small">
-        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Logo</h5>
-
+    <div class="uk-padding-small" id="mascot-panel">
+        <div class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-2">
+                <h5 uk-margin class="uk-margin-remove uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Logo</h5>
+            </div>
+            <div class="uk-width-1-2">
+                <div class="uk-flex uk-flex-right">
+                    <a href="javascript:void(0)" class="uk-text-small fc-italic uk-link-text view-all-application"><span class="fa fa-eye"></span>&nbsp;View all application</a>
+                </div>
+            </div>
+        </div>
         <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center uk-flex uk-flex-middle con-select active-bgc-red logo-type-container" uk-grid>
             <div class="uk-width-1-3">
                 <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" data-type="stock">Stock Mascot</button>

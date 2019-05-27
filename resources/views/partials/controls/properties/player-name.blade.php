@@ -12,9 +12,18 @@
 
 <script type="text/mustache" id="m-player-name-modifier-control">
     <div class="uk-padding-small" id="player-name-panel" data-code="@{{ code }}">
-        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
-            Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
-        </h5>
+        <div class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-2">
+                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
+                    Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-player-name" data-code="@{{ code }}">(remove)</a>
+                </h5>
+            </div>
+            <div class="uk-width-1-2">
+                <div class="uk-flex uk-flex-right">
+                    <a href="javascript:void(0)" class="uk-text-small fc-italic uk-link-text view-all-application"><span class="fa fa-eye"></span>&nbsp;View all application</a>
+                </div>
+            </div>
+        </div>
         <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-medium app-letters-input uk-disabled" type="text" placeholder="Player Name" value="@{{ defaultText }}">
         <div class="playerOptionContainer" data-code="@{{ code }}">
             @{{ #hasFontStyle }}

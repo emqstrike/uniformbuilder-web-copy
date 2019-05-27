@@ -126,6 +126,7 @@ elixir(function(mix) {
             'panels/application/PlayerNamePanel.js',
             'panels/application/TeamNamePanel.js',
             'panels/application/StockMascot.js',
+            'panels/application/ApplicationList.js',
             'panels/SummaryPreviewPanel.js',
             'panels/ColorHexTester.js',
             'panels/RosterPanel.js',
