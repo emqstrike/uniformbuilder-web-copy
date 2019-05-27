@@ -87,6 +87,7 @@ ModifierController.prototype = {
 
         // numbers
         this.controllers.numbers = new NumbersPanel('richardson-numbers');
+        window.codedigs_numbers = this.controllers.numbers;
 
         // logo/brand
         var logo_positions = ub.data.logos;
@@ -204,7 +205,7 @@ ModifierController.prototype = {
             } else {
                 $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ ub.current_part +"']").trigger("click");
             }
-        }, 100)
+        }, 100);
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();

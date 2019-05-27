@@ -7,19 +7,12 @@
             </div>
             <div class="">
                 <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Locations</h6>
-                <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-panel-numbers" uk-grid>
-                    <div class="uk-width-auto uk-width-1-4@m">
-                        <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" uk-toggle="target: .con-panel-numbers > button; cls: btn-active-bgc-red">Back</button>
-                    </div>
-                    <div class="uk-width-auto uk-width-1-4@m">
-                        <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" uk-toggle="target: .con-panel-numbers > button; cls: btn-active-bgc-red">Front</button>
-                    </div>
-                    <div class="uk-width-auto uk-width-1-4@m">
-                        <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" uk-toggle="target: .con-panel-numbers > button; cls: btn-active-bgc-red">R Sleeve</button>
-                    </div>
-                    <div class="uk-width-auto uk-width-1-4@m">
-                        <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" uk-toggle="target: .con-panel-numbers > button; cls: btn-active-bgc-red">L Sleeve</button>
-                    </div>
+                <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-panel-numbers location-buttons" uk-grid>
+                    @{{ #locations }}
+                        <div class="uk-width-auto uk-width-1-4@m">
+                            <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice" uk-toggle="target: .con-panel-numbers > button; cls: btn-active-bgc-red" data-type="@{{ type }}">@{{ location }}</button>
+                        </div>
+                    @{{ /locations }}
                 </div>
 
                 <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small uk-margin-remove-horizontal abrade-black">Choose font Accent</h6>
