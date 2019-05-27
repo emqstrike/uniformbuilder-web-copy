@@ -121,11 +121,23 @@ ApplicationList.events = {
 
     removeApplicationOnList: function() {
         /* Act on the event */
-        var application_id = $(this).data("application-id");
-        var application_type = $(this).data("application-type");
+        var code = $(this).data("application-id");
+        var appObj = ub.funcs.getApplicationSettings(code);
 
-        console.log(application_id, application_type)
+        if (appObj.application_type === "team_name" ||  appObj.logo_type === "custom_text") {
+            TeamNamePanel.funcs.loadAddTeamName();
 
+        } else if (appObj.application_type === "player_name") {
+            PlayerNamePanel.funcs.loadAddPlayer();
+
+        } else if (appObj.logo_type === "custom" || appObj.logo_type === "custom") {
+            ub.funcs.afterRemoveStockLogo(_application);
+
+        } else if (appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" || appObj.application_type === "number") {
+            ModifierController.deleteApplicationContainer(appObj.code)
+        }
+
+        ub.funcs.deleteLocation(appObj.code);
         $("#application-list-modal .application-list li.application-item-" + application_id).fadeOut();
     },
 
@@ -147,12 +159,25 @@ ApplicationList.events = {
 
     onClickApplicationLayer: function() {
         /* Act on the event */
-        var location = $(this).data("location-id");
+        var code = $(this).data("location-id");
         var application_type = $(this).data("application-type");
 
-        console.log("location", location)
-        console.log("location", application_type)
+        var appObj = ub.funcs.getApplicationSettings(code);
 
-        // $("#primary_options_container").scrollTo('li.applicationUIBlockNew[data-application-id="'+ location +'"]', {duration: 700});
+        if (appObj.application_type === "team_name" ||  appObj.logo_type === "custom_text") {
+            $('#property-modifiers-menu .menu-item-letters').trigger('click');
+
+        } else if (appObj.application_type === "player_name") {
+            $('#property-modifiers-menu .menu-item-player').trigger('click')
+
+        } else if (appObj.logo_type === "custom" || appObj.logo_type === "custom") {
+            $('#property-modifiers-menu .menu-item-applications').trigger('click')
+            
+            _.delay(function() {
+                $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObject.application.views[0].perspective + "']").trigger("click");
+            }, 500);
+        } else if (appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" || appObj.application_type === "number") {
+            $('#property-modifiers-menu .menu-item-numbers').trigger('click');
+        }
     },
 }
