@@ -25,7 +25,7 @@ MascotPanel.init = function () {
     // get applications and filter
     var _Applications = ub.current_material.settings.applications;
     var _filteredApplications = _.filter(_Applications, function(i) {
-        if (i.application_type === 'mascot' || i.application_type === 'embellishments') {
+        if (i.application_type === 'mascot' || i.application_type === 'embellishments' || i.application_type === 'front_number' || i.application_type === 'back_number' || i.application_type === 'sleeve_number') {
             if (i.logo_type !== "custom_text") {
                 return i;
             }
@@ -39,9 +39,23 @@ MascotPanel.init = function () {
     $('.modifier_main_container').append(_htmlBuilder);
 
     _.map(_filteredApplications, function(index) {
-        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("selected");
-        $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html("");
-        $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ index.code +'">(remove)</a>');
+        if (index.application_type === "embellishments") {
+            if (index.logo_type === "custom" || index.logo_type === "stock") {
+                $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("selected");
+                $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html("");
+                $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ index.code +'">(remove)</a>');
+            }
+        } else {
+            if (index.application_type === 'sleeve_number') {
+                if (index.application.layer.toLowerCase() === "right sleeve") {
+                    $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='right']").parent().addClass("uk-hidden");
+                }
+
+                if (index.application.layer.toLowerCase() === "left sleeve") {
+                    $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='left']").parent().addClass("uk-hidden");
+                }
+            }
+        }
     });
 
 
