@@ -14,7 +14,7 @@ StockMascot.events = {
             $("#richardson-stock-mascot").on("click", ".cancel-add-uniform", that.onClickCancel);
         }
         that.isInit = false;
-
+        StockMascot.funcs.changeModalTitle(categoryID);
         $(".inksoft-stock-mascot .stock-mascot-main-content").addClass("uk-hidden")
         $(".inksoft-stock-mascot .stock-mascot-loading-screen").removeClass("uk-hidden");
         StockMascot.funcs.loadStockMascot(categoryID, designID);
@@ -108,6 +108,14 @@ StockMascot.funcs = {
                             StockMascot.funcs.prepareStockMascots(response.Data, designID);
                             $(".inksoft-stock-mascot .stock-mascot-main-content").removeClass("uk-hidden")
                             $(".inksoft-stock-mascot .stock-mascot-loading-screen").addClass("uk-hidden");
+                        } else {
+                            $.smkAlert({
+                                text: 'Something went wrong, Please try again',
+                                type: 'warn',
+                                time: 1,
+                                marginTop: '90px'
+                            });
+                            UIkit.modal("#richardson-stock-mascot").hide();
                         }
                     });
                 }
@@ -186,6 +194,13 @@ StockMascot.funcs = {
                 cb(response);
             },
             error: function (error) {
+                $.smkAlert({
+                    text: 'Something went wrong, Please try again',
+                    type: 'warn',
+                    time: 1,
+                    marginTop: '90px'
+                });
+                UIkit.modal("#richardson-stock-mascot").hide();
                 console.log("ERROR while loading Inksoft Stock Mascot");
                 console.log(error)
             }
@@ -205,9 +220,26 @@ StockMascot.funcs = {
                 cb(response);
             },
             error: function (error) {
+                $.smkAlert({
+                    text: 'Something went wrong, Please try again',
+                    type: 'warn',
+                    time: 1,
+                    marginTop: '90px'
+                });
+                UIkit.modal("#richardson-stock-mascot").hide();
                 console.log("ERROR while loading Inksoft Stock Mascot");
                 console.log(error)
             }
         });
+    },
+
+    changeModalTitle: function(id) {
+        $("#richardson-stock-mascot .richardson-stock-mascot-header").html("");
+
+        if (ub.data.customTextCategoryID === id) {
+            $("#richardson-stock-mascot .richardson-stock-mascot-header").html("Richardson Custom Text");
+        } else {
+            $("#richardson-stock-mascot .richardson-stock-mascot-header").html("Richardson Stock Logos");
+        }
     }
 }

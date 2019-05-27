@@ -39,7 +39,7 @@ MascotPanel.init = function () {
     $('.modifier_main_container').append(_htmlBuilder);
 
     _.map(_filteredApplications, function(index) {
-        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("uk-active");
+        $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("selected");
         $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html("");
         $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ index.code +'">(remove)</a>');
     });
@@ -125,7 +125,9 @@ MascotPanel.events = {
         var _perspective = $(this).data("perspective");
         var _part = $(this).data("part");
         var _side;
-        var location = "";  
+        var location = "";
+        var settingsObject = undefined;
+
         if (_part === "Sleeve") {
             _side = $(this).data("side");
             location = _side + " " + _part;
@@ -134,13 +136,16 @@ MascotPanel.events = {
         }
 
         $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
-        var _settingsObject = _.find(ub.current_material.settings.applications, {type: _type, location: ub.utilities.titleCase(location)});
-        if (typeof _settingsObject !== "undefined" && _settingsObject.logo_type !== "custom_text") {
-            ub.funcs.renderStockMascot(_settingsObject);
+        settingsObject = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "custom"});
+        settingsObject = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "stock"});
+
+        if (typeof settingsObject !== "undefined") {
+            ub.funcs.renderStockMascot(settingsObject);
         } else {
             if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
                 ub.funcs.newApplication(_perspective, _part, _type, _side, logo_type);
             }
+            console.log("HERE")
         }
 
         $(this).addClass("selected");
