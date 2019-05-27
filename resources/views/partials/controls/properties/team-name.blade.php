@@ -1,5 +1,5 @@
 <script type="text/mustache" id="m-team-name-container">
-    <div class="uk-padding-small" id="team-name-panel">
+    <div class="uk-padding-small team-name-panel" id="team-name-panel">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Add Team Name</h5>
         <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-select uk-flex uk-flex-middle con-toggle active-bgc-red add-team-name" uk-grid>
             <div class="uk-width-1-3">
@@ -17,7 +17,7 @@
 </script>
 
 <script type="text/mustache" id="m-team-name-modifier-control">
-    <div class="uk-padding-small" id="team-name-panel" data-code="@{{ code }}">
+    <div class="uk-padding-small team-name-panel" id="team-name-panel" data-code="@{{ code }}">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
             Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
         </h5>
@@ -115,7 +115,7 @@
 </script>
 
 <script type="text/mustache" id="m-custom-text">
-    <div class="uk-padding-small" id="team-name-panel">
+    <div class="uk-padding-small team-name-panel" id="team-name-panel">
         <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
             Custom Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
         </h5>

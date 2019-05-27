@@ -15,14 +15,14 @@ TeamNamePanel.events = {
         var that = this;
 
         if (that.isInit) {
-            $(".modifier_main_container").on("click", "#team-name-panel .add-team-name .btn-selection-choice", that.onClickAddTeamName);
-            $('.modifier_main_container').on('click', '#team-name-panel .teamOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
-            $('.modifier_main_container').on('click', '#team-name-panel .m-accents .btn-selection-choice', that.onSelectFontAccent);
-            $('.modifier_main_container').on('click', '#team-name-panel .teamOptionContainer a.change-font-style', that.onChangeFontStyle);
-            $('.modifier_main_container').on('click', '#team-name-panel .remove-team-name', that.onRemovePlayerName);
-            $(".modifier_main_container").on('click', '#team-name-panel .select-font-style', that.onCreateFontPopUp);
-            $(".modifier_main_container").on('keypress', '#team-name-panel input.app-letters-input', that.onKeyPressApplicationText);
-            $(".modifier_main_container").on('blur', '#team-name-panel input.app-letters-input', that.onBlurApplicationText);
+            $(".modifier_main_container").on("click", ".team-name-panel .add-team-name .btn-selection-choice", that.onClickAddTeamName);
+            $('.modifier_main_container').on('click', '.team-name-panel .teamOptionContainer .colorItem[data-object-type="accent"]', that.onChangeAccentColor);
+            $('.modifier_main_container').on('click', '.team-name-panel .m-accents .btn-selection-choice', that.onSelectFontAccent);
+            $('.modifier_main_container').on('click', '.team-name-panel .teamOptionContainer a.change-font-style', that.onChangeFontStyle);
+            $(".modifier_main_container").on('click', '.team-name-panel .select-font-style', that.onCreateFontPopUp);
+            $(".modifier_main_container").on('keypress', '.team-name-panel input.app-letters-input', that.onKeyPressApplicationText);
+            $(".modifier_main_container").on('blur', '.team-name-panel input.app-letters-input', that.onBlurApplicationText);
+            $('.modifier_main_container').on('click', '.team-name-panel a.remove-team-name', that.onRemovePlayerName);
             that.isInit = false;
         }
 

@@ -507,7 +507,7 @@
 <!-- End Stock Mascot -->
 
 <!-- Inksoft Editor -->
-<div id="inksoftEditor" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: true; esc-close: false;">
+<div id="inksoftEditor" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: false; esc-close: false;">
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
@@ -524,7 +524,7 @@
 <!-- End Inksoft Editor -->
 
 <!-- Inksoft Upload -->
-<div id="inksoftUploader" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: true; esc-close: false;">
+<div id="inksoftUploader" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: false; esc-close: false;">
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
