@@ -130,8 +130,8 @@ ApplicationList.events = {
         } else if (appObj.application_type === "player_name") {
             PlayerNamePanel.funcs.loadAddPlayer();
 
-        } else if (appObj.logo_type === "custom" || appObj.logo_type === "custom") {
-            ub.funcs.afterRemoveStockLogo(_application);
+        } else if (appObj.logo_type === "custom" || appObj.logo_type === "stock") {
+            ub.funcs.afterRemoveStockLogo(appObj);
 
         } else if (appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" || appObj.application_type === "number") {
             ModifierController.deleteApplicationContainer(appObj.code)
@@ -170,11 +170,11 @@ ApplicationList.events = {
         } else if (appObj.application_type === "player_name") {
             $('#property-modifiers-menu .menu-item-player').trigger('click')
 
-        } else if (appObj.logo_type === "custom" || appObj.logo_type === "custom") {
+        } else if (appObj.logo_type === "custom" || appObj.logo_type === "stock") {
             $('#property-modifiers-menu .menu-item-applications').trigger('click')
             
             _.delay(function() {
-                $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObject.application.views[0].perspective + "']").trigger("click");
+                $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + appObj.application.views[0].perspective + "']").trigger("click");
             }, 500);
         } else if (appObj.application_type === "front_number" || appObj.application_type === "back_number" || appObj.application_type === "sleeve_number" || appObj.application_type === "number") {
             $('#property-modifiers-menu .menu-item-numbers').trigger('click');
