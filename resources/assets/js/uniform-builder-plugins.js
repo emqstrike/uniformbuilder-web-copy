@@ -1537,7 +1537,7 @@
         }
 
         // fix font stroke for Baseball uniform size 5
-        if (input_object.fontSize <= 5 && ub.config.sport === "Baseball") {
+        if (input_object.fontSize <= 5 && ub.funcs.isCurrentSport('Baseball')) {
             _strokeInner = 7;
             _strokeOuter = 14;
         }
