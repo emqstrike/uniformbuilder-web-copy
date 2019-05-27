@@ -143,13 +143,13 @@ $(document).ready(function(){
             return false;    
         }
 
-        return _.contains(brands, brand);
+        return _.contains(brands, brand.toLowerCase());
     }
 
     // ignore font rules for twill and subli uniforms, instead use the Sublimated font properties
     ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
         var brands = ["richardson"];
-        return _.contains(brands, brand);
+        return _.contains(brands, brand.toLowerCase());
     }
 
     // end Brand Rules
