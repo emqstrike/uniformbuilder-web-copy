@@ -7062,6 +7062,7 @@ $(document).ready(function () {
         return _.uniq(neckOptions);
 
     }
+
     ub.funcs.array_move = function (arr, old_index, new_index) {
         new_index =((new_index % arr.length) + arr.length) % arr.length;
         arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
@@ -7079,14 +7080,28 @@ $(document).ready(function () {
 
             var t = $('#m-tertiary-links').html();
             var _str = '';
+
             var isSoccer = _.filter(items, function (item)  {
                 return (item.uniform_category === 'Soccer');
             });
+
+            var isVolleyball = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Volleyball' && item.gender === 'women');
+            });
+
+            // rearrange block pattern
             if(isSoccer.length > 0){
                 var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
             }else{
                 var d = { block_patterns: _blockPatternsCollection, }
             }
+
+            if(isVolleyball.length > 0){
+                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 2, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 2) }
+            }else{
+                var d = { block_patterns: _blockPatternsCollection, }
+            }
+            // end rearrange block pattern
             
             var m = Mustache.render(t, d);
             $('.tertiary-bar').html(m);

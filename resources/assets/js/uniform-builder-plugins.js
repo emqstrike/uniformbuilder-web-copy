@@ -1536,6 +1536,12 @@
             _strokeOuter = 14;
         }
 
+        // fix font stroke for Baseball uniform size 5
+        if (input_object.fontSize <= 5 && ub.funcs.isCurrentSport('Baseball')) {
+            _strokeInner = 7;
+            _strokeOuter = 14;
+        }
+
         // Stroke
         var customStroke = ub.data.fontStroke.getStroke(ub.config.brand, 
                                                         ub.current_material.material.uniform_category, 
