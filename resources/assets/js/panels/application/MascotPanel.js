@@ -164,7 +164,6 @@ MascotPanel.events = {
             if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
                 ub.funcs.newApplication(_perspective, _part, _type, _side, logo_type);
             }
-            console.log("HERE")
         }
 
         $(this).addClass("selected");

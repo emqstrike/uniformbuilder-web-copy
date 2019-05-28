@@ -431,7 +431,6 @@ $(document).ready(function() {
             setStatus: function (varName, value) {
                 ub.data.embellismentDetails[varName] = value;
                 ub.data.embellismentDetails[varName + 'Loaded'] = true;
-
                 if (typeof skipCreate === "undefined") {
                     if (this.designSummaryLoaded && this.designDetailsLoaded) {
                         ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
@@ -549,11 +548,12 @@ $(document).ready(function() {
                 if (typeof ub.data.embellismentDetails !== "undefined") {
                     ub.data.embellismentDetails.setStatus('designDetails', response.Data);
                 }
+
                 if (typeof _settingsObject.embellishment === "undefined") {
                     _settingsObject.embellishment = {};
                 }
+                
                 _settingsObject.embellishment.design_details = response.Data;
-
             } else {
                 console.log("Design is not available");
             }

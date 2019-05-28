@@ -21,7 +21,7 @@
         <div class="uk-grid-small" uk-grid>
             <div class="uk-width-1-2">
                 <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
-                    Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
+                    Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
                 </h5>
             </div>
             <div class="uk-width-1-2">
@@ -126,12 +126,12 @@
 <script type="text/mustache" id="m-custom-text">
     <div class="uk-padding-small team-name-panel" id="team-name-panel">
         <div class="uk-grid-small" uk-grid>
-            <div class="uk-width-1-2">
+            <div class="uk-width-expand">
                 <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">
-                    Player Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
+                    Custom Team Name <a href="javascript:void(0)" class="fc-red uk-text-small fc-italic uk-text-lowercase remove-team-name" data-code="@{{ code }}">(remove)</a>
                 </h5>
             </div>
-            <div class="uk-width-1-2">
+            <div class="uk-width-auto">
                 <div class="uk-flex uk-flex-right">
                     <a href="javascript:void(0)" class="uk-text-small fc-italic uk-link-text view-all-application"><span class="fa fa-eye"></span>&nbsp;View all application</a>
                 </div>
@@ -163,6 +163,8 @@
                 <div class="uk-width-1-2 uk-width-2-3@s uk-width-1-2@l uk-width-2-3@xl">
                     <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-remove-bottom abrade-black">@{{ logo_type }} Logo</h6>
                     <div>
+                        <a href="@{{ viewArtDetails }}" class="uk-text-small">View&nbsp;Art&nbsp;Details</a>
+                        <br>
                         <a href="@{{ viewPrint }}" class="uk-text-small">View&nbsp;Print&nbsp;Ready&nbsp;File</a>
                     </div>
                 </div>

@@ -64,12 +64,12 @@ StockMascot.events = {
             var _settingsObject = ub.data.currentApplication;
             var _matchingID = undefined;
 
-            is.isMessage(stockID, _settingsObject.code, true);
+            is.isMessage(stockID, _settingsObject.code, undefined);
             _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
             if (typeof _matchingID !== "undefined") {
                 var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                is.isMessage(_designID, _matchingID, true);
+                is.isMessage(stockID, _settingsObject.code, undefined);
             }
         } else {
             ub.utilities.warn("Missing design id")
