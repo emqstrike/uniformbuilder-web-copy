@@ -202,13 +202,15 @@ $(document).ready(function() {
     ub.data.maxLength               = 12;
     ub.data.maxLengthNumbers        = 2;
     ub.data.maxLengthSublimated     = 32;
-
+    
     ub.data.hasProcessedArtworks    = false;
     ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
 
     // Stock Mascot Category ID
     ub.data.stockMascotCategoryID = 1000281;
     ub.data.customTextCategoryID = 1000321;
+    // useThumbnailPath
+    ub.data.useThumbnailPath = true;
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
     ub.data.inkSoftProlookStore     = '/Prolook_Sports';

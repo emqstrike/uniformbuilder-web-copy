@@ -23,7 +23,7 @@ RichardsonSkin.events = {
     init: function() {
         var _this = this;
         if (RichardsonSkin.events.isInit) {
-            $("div#left-side-toolbar").on('click', '.perspective .change-perspective-button', _this.onClickPerspectiveThumbnail);
+            $("div#left-side-toolbar").on('click', '.change-perspective-button', _this.onClickPerspectiveThumbnail);
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onNext', _this.onNextPanel);
             $("#right-pane-column .richardson-footer").on('click', '.richardson-onPrevious', _this.onPreviousPanel);
             $(".richardson-header").on('click', '.change-fabric', _this.onChangeFabric);
@@ -69,8 +69,8 @@ RichardsonSkin.events = {
     },
 
     onClickPerspectiveThumbnail: function(e) {
-        $(".perspective a.active").removeClass('active');
-        $(this).addClass("active")
+        $(".perspective-container a.active").removeClass('active');
+        $(this).closest(".perspective-container .perspective").find("a").addClass("active")
         /* Act on the event */
         var view = $(this).data('perspective');
         if (ub.active_view !== view) {
@@ -80,8 +80,7 @@ RichardsonSkin.events = {
 
         // Generate Thumbnail
         if (e.altKey) {
-            ub.showThumbnail2();
-            $.smkAlert({text: 'Thumbnail Generated for [' + ub.active_view + ' view]' , type:'warning', time: 3, marginTop: '80px'});
+            RichardsonSkin.funcs.generateThumbnail(ub.active_view);
         }
     },
 
@@ -154,13 +153,22 @@ RichardsonSkin.funcs = {
         ub.back_view.visible = true;
         ub.left_view.visible = true;
         ub.right_view.visible = true;
-
         var material = ub.current_material.material;
 
-        var front = !_.isEmpty(material.thumnail_path_front) ? material.thumnail_path_front : ub.getThumbnailImage("front_view");
-        var back = !_.isEmpty(material.thumnail_path_back) ? material.thumnail_path_back : ub.getThumbnailImage("back_view");
-        var left = !_.isEmpty(material.thumnail_path_left) ? material.thumnail_path_left : ub.getThumbnailImage("left_view");
-        var right = !_.isEmpty(material.thumnail_path_right) ? material.thumnail_path_right : ub.getThumbnailImage("right_view");
+        var front, back, left, right;
+        if (!_.isEmpty(material.thumbnail_path_front) && !_.isEmpty(material.thumbnail_path_back) && !_.isEmpty(material.thumbnail_path_left) && !_.isEmpty(material.thumbnail_path_right) && ub.data.useThumbnailPath) {
+            front = material.thumbnail_path_front;
+            back = material.thumbnail_path_back;
+            left = material.thumbnail_path_left;
+            right = material.thumbnail_path_right;
+
+            ub.data.useThumbnailPath = false;
+        } else {
+            front = ub.getThumbnailImage("front_view");
+            back  = ub.getThumbnailImage("back_view");
+            left  = ub.getThumbnailImage("left_view");
+            right  = ub.getThumbnailImage("right_view");
+        }
 
         if (Worker) {
             var worker = new Worker('/workers/image-worker.js');
@@ -286,5 +294,28 @@ RichardsonSkin.funcs = {
 
         styleDescription = uniformaApplicationType + " " + uniformName;
         return styleDescription
+    },
+
+    generateThumbnail: function(view) {
+        var image = ub.getThumbnailImage(view + "_view");
+        if (Worker) {
+            var worker = new Worker('/workers/image-worker.js');
+            worker.postMessage([
+                {
+                    image: image
+                }
+            ]);
+
+            worker.onmessage = function(e) {
+                console.log("Generating using worker");
+                $("#generateThumbnail div.thumbnail img").attr("src", "");
+                $("#generateThumbnail div.thumbnail img").attr("src", e.data[0].image);
+                UIkit.modal("#generateThumbnail").show();
+            };
+        } else {
+            $("#generateThumbnail div.thumbnail img").attr("src", "");
+            $("#generateThumbnail div.thumbnail img").attr("src", image);
+            UIkit.modal("#generateThumbnail").show();
+        }
     }
 }
