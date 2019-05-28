@@ -1,10 +1,12 @@
+window.Event = new Vue();
+
 var nested = {
     template: '#nested-draggable',
     name: 'nested-draggable',
     props: ['menus'],
     methods: {
-        onEnd(event) {
-            console.log('here');
+        removeMenu(menu) {
+            Event.$emit('remove-menu', menu);
         }
     }
 };
@@ -19,10 +21,16 @@ new Vue({
             menus: [],
         }
     },
+    created() {
+        Event.$on('remove-menu', this.removeMenu);
+    },
     mounted() {
         this.getMenuDataFromAPI();
     },
     methods: {
+        removeMenu(menu) {
+            console.log(menu);
+        },
         getMenuDataFromAPI() {
             axios.get('menus/brand/' + window.application_brand).then((response) => {
                 if (response.data.success === true) {
@@ -30,8 +38,5 @@ new Vue({
                 }
             });
         },
-        log: function() {
-            console.log('changed');
-        }
     }
 });
