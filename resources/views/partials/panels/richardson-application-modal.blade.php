@@ -448,7 +448,7 @@
                         <div class="bdr-thin bdr-gray bgc-lightGray">
                             <div class="uk-grid-small uk-grid-divider uk-grid-match" uk-grid>
                                 <div class="uk-width-1-3">
-                                    <div class="uk-padding-small">
+                                    <div class="uk-padding-small uk-padding-remove-right">
                                         <ul class="uk-nav uk-list uk-list-divider stock-mascot-categories uk-height-max-large uk-overflow-auto bdr-thin bdr-gray">
                                         </ul>
                                     </div>

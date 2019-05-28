@@ -328,19 +328,25 @@ img.piping-images {
   color: $color-white;
 }
 
-.mascot-item a.mascot-btn {
-    h6 {
-      background-color: $color-dark;
-      color: $color-white;
-    }
-}
 
-
-.mascot-item a.mascot-btn.uk-active {
+.mascot-item {
+  a.mascot-btn.uk-active {
     h6 {
       background-color: $color-red;
       color: $color-white;
     }
+  }
+
+  a.mascot-btn {
+    h6 {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+  }
+
+  img.mascot-image {
+    height: 90px !important;
+  }
 }
 
 .logo-location-container button.selected {

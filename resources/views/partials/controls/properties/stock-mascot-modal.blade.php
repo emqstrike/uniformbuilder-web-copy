@@ -6,8 +6,8 @@
                 <div class="bgc-white uk-text-right">
                     <h6 class="uk-text-center uk-margin-remove padding-tiny-vertical uk-text-truncate">@{{ Name }}</h6>
                     <div class="uk-inline uk-inline uk-width-1-1 uk-flex uk-flex-center">
-                        <div class="uk-padding-small uk-padding-remove-bottom">
-                            <img class="uk-height-small" src="https://images.inksoft.com@{{ ImageUrl }}" uk-img>
+                        <div class="cp-padding-tiny">
+                            <img class="mascot-image" src="https://images.inksoft.com@{{ ImageUrl }}" uk-img>
                         </div>
                     </div>
                 </div>
