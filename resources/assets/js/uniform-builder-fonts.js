@@ -684,7 +684,6 @@ $(document).ready(function() {
         // and has application_type of 'sublimated' and 'knitted'
         if (!ub.data.sportsMain.currentOk() 
             && (ub.current_material.material.uniform_application_type === "sublimated" || ub.current_material.material.uniform_application_type === "knitted")) {
-                
                 if (ub.current_material.material.one_inch_in_px     !== 0 
                     && ub.current_material.material.one_inch_in_px  !== 'undefined'
                     && ub.current_material.material.one_inch_in_px  !== null) {
@@ -692,11 +691,20 @@ $(document).ready(function() {
                     _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
 
                 }
+        }
 
+        // For font ignore tackle twill. Using pixel in when using tackle twill uniform
+        if (ub.config.brand.toLowerCase() === "richardson" && ub.config.sport === "Baseball" && ub.funcs.isTackleTwill()) {
+            if (ub.current_material.material.one_inch_in_px     !== 0 
+                && ub.current_material.material.one_inch_in_px  !== 'undefined'
+                && ub.current_material.material.one_inch_in_px  !== null) {
+
+                _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+
+            }
         }
 
         return _fontSizeData;
-
     };
 
     ub.funcs.getTailSweepByID = function (id) {
