@@ -141,7 +141,6 @@
                             _beta.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
                         });
                         localStorage.setItem('feature_flags', JSON.stringify(_beta));
-                        console.log('~~~~~~~~~~STORAGE UPDATER FINISHED');
                     }
 
                 }).done(function() {
@@ -152,7 +151,6 @@
             runStorageUpdater();
 
             function runAfterSet() {
-                console.log('~~~~~~~~~~RUNNING AFTER SET');
                 var _switchStorage = JSON.parse(localStorage.getItem('switch'));
                 if(_switchStorage[0].user_ids.includes(ub.user.id.toString()))
                 {
@@ -178,7 +176,6 @@
                 }
 
                 // updating picker value
-                console.log('~~~~~~~~~~UPDATING PICKER VALUE AFTER SET');
                 var _isBeta = localStorage.getItem('beta_features');
                 var _featureFlags = JSON.parse(localStorage.getItem('feature_flags'));
                 var _filterFeatureFlag = _featureFlags.filter(function(i) {return i.name === 'New Filter';});
@@ -187,7 +184,6 @@
                 } else {
                     ub.picker.isNew = false;
                 }
-                console.log('~~~~~~~~~~PICKER ===>', ub.picker.isNew);
 
             }
 
