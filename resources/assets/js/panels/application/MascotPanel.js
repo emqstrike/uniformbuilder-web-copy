@@ -98,9 +98,13 @@ MascotPanel.events = {
     onRemoveMascot: function() {
         var code = $(this).data("application-code");
         var settingsObject = ub.funcs.getApplicationSettings(code);
-        ub.funcs.afterRemoveStockLogo(settingsObject);
-       
-        ub.funcs.deleteLocation(code);
+        
+        UIkit.modal.confirm('Are you sure you want to delete Logo #' + settingsObject.code + '?').then(function() {
+            ub.funcs.afterRemoveStockLogo(settingsObject);
+            ub.funcs.deleteLocation(code);
+        }, function () {
+            console.log('Rejected.') 
+        });
     },
 
     onChangeStockMascot: function() {
@@ -155,13 +159,15 @@ MascotPanel.events = {
         }
 
         $('a.change-view[data-view="'+ _perspective +'"]').trigger('click');
-        settingsObject = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "custom"});
-        settingsObject = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "stock"});
+        var custom = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "custom"});
+        var stock = _.find(ub.current_material.settings.applications, {location: ub.utilities.titleCase(location), logo_type: "stock"});
 
-        if (typeof settingsObject !== "undefined") {
-            ub.funcs.renderStockMascot(settingsObject);
-        } else {
-            if (typeof _type !== "undefined" && typeof _perspective !== "undefined" && typeof _part !== "undefined") {
+        if (typeof custom !== "undefined") {
+            ub.funcs.renderStockMascot(custom);
+        } else if (typeof stock !== "undefined") {
+            ub.funcs.renderStockMascot(stock);
+        } else  {
+            if (typeof custom === "undefined" && typeof stock === "undefined") {
                 ub.funcs.newApplication(_perspective, _part, _type, _side, logo_type);
             }
         }

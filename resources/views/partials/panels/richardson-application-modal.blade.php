@@ -456,7 +456,7 @@
                                 <div class="uk-width-expand">
                                     <div class="uk-padding-small">
                                         <div class="uk-height-max-large uk-overflow-auto">
-                                            <div class="uk-grid-small uk-grid-match uk-child-width-1-4@m uk-padding-small stock-mascot-list-container" uk-grid>
+                                            <div class="uk-grid-small uk-grid-match uk-child-width-1-4@m uk-padding-small stock-mascot-list-container uk-padding-remove-vertical uk-padding-remove-left" uk-grid>
                                             </div>
                                         </div>
                                     </div>
@@ -501,7 +501,7 @@
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
-        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Design Editor</h6>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove abrade-ultra-italic">Design Editor</h6>
         <div class="uk-padding-small">
             <div class="uk-width-1-1 uk-flex uk-flex-center">
                 <div class="inksoft-design-editor">
@@ -518,7 +518,7 @@
     <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
         <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
-        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic">Design Upload</h6>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove abrade-ultra-italic">Design Upload</h6>
         <div class="uk-padding-small">
             <div class="uk-grid-small uk-child-width-1-1@s uk-text-center" uk-grid>
                 <div class="upload-tutorial-container">

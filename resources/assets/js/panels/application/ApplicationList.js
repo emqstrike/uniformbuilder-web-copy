@@ -53,7 +53,7 @@ ApplicationList.events = {
                 zindex: application.zIndex,
                 code: application.code,
                 caption: ub.funcs.getSampleCaption(application),
-                view: ub.funcs.getPrimaryView(application.application).substring(0, 1).toUpperCase(),
+                view: ub.funcs.getPrimaryView(application.application),
                 application_type: applicationType,
                 type: application.application_type
             }
