@@ -37,7 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
 
     <script type="text/x-template" id="nested-draggable">
-        <draggable :tag="'ul'" :menus="menus" class="item"  @end="onEnd">
+        <draggable :list="menus" :tag="'ul'" class="item"  @end="onEnd" :group="{name: 'menus'}">
             <li v-for="menu in menus" :key="menu.menu_text">
                 @{{ menu.menu_text }}
 
