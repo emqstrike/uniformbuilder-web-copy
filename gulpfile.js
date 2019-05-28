@@ -111,7 +111,7 @@ var files = {
 // Less task: compiles less files into uniform-builder.min.css
 function stylesTask() {
     return src(files.lessPath)
-        // .pipe(sourceMaps.init())
+        .pipe(sourceMaps.init())
         .pipe(less({paths: [ path.join(__dirname, 'less', 'includes') ]}))
         .pipe(concat('uniform-builder.css'))
         .pipe(cleanCSS({
