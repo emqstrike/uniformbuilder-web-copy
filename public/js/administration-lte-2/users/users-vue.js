@@ -25,17 +25,7 @@ new Vue({
                 rowsPerPage: 10,
             },
             panelVisible: false,
-            roles: [
-                {id: 'default', name: 'Default'},
-                {id: 'ga', name: 'Graphics Artist'},
-                {id: 'qa', name: 'QA'},
-                {id: 'rep', name: 'Sales Rep'},
-                {id: 'rep_manager', name: 'Manager'},
-                {id: 'dealer', name: 'Dealer'},
-                {id: 'coach', name: 'Coach'},
-                {id: 'dev', name: 'Developer'},
-                {id: 'executive', name: 'Executive'},
-            ],
+            roles: [],
             salesReps: {},
             search: '',
             searchUserFilter: 'name',
@@ -72,7 +62,7 @@ new Vue({
         },
         getAllowedPages: function() {
             let allowedPages = [];
-            let role = this.roles.find(role => role.id === this.user.role);
+            let role = this.roles.find(role => role.code === this.user.role);
 
             if (role.hasOwnProperty('allowed_pages')) {
                 let pages = JSON.parse(role.allowed_pages);
@@ -89,7 +79,7 @@ new Vue({
             }
         },
         getDefaultAllowedPages: function() {
-            let role = this.roles.find(role => role.id === this.user.role);
+            let role = this.roles.find(role => role.code === this.user.role);
 
             if (role.hasOwnProperty('allowed_pages')) {
                 return JSON.parse(role.allowed_pages);
@@ -112,6 +102,7 @@ new Vue({
         });
 
         this.getBrandsData();
+        this.getRoles();
         this.getPageRulesData();
         this.getPagesData();
         this.getSalesRepData();
@@ -120,7 +111,7 @@ new Vue({
         add: function() {
             this.action = 'add';
             this.user = {
-                role: this.roles[0].id,
+                role: this.roles[0].code,
                 type: this.types[0],
                 brand_id: this.brands[0].id
             };
@@ -196,7 +187,7 @@ new Vue({
             this.user.limited_access = JSON.parse(this.user.limited_access);
 
             if (! this.user.role) {
-                this.user.role = this.roles[0].id;
+                this.user.role = this.roles[0].code;
             }
 
             if (! this.user.type) {
@@ -252,8 +243,6 @@ new Vue({
                     url += "&role=" + this.selectedFilterRole;
                 }
 
-                console.log(url);
-
                 axios.get(url).then((response) => {
                     if (response.data.success === true) {
                         let users = response.data.users.data;
@@ -273,11 +262,9 @@ new Vue({
             axios.get('page_rules').then((response) => {
                 if (response.data.success == true) {
                     response.data.page_rules.forEach(function(pageRule) {
-                        let role = self.roles.find(role => role.id === pageRule.role);
+                        let role = self.roles.find(role => role.code === pageRule.role);
 
-                        if ((Object.entries(role).length > 0) && (role.constructor == Object)) {
-                            Vue.set(role, 'allowed_pages', pageRule.allowed_pages);
-                        }
+                        Vue.set(role, 'allowed_pages', pageRule.allowed_pages);
                     });
                 }
             });
@@ -298,6 +285,13 @@ new Vue({
             });
 
             this.v1Pages = pages;
+        },
+        getRoles: function() {
+            axios.get('roles').then((response) => {
+                if (response.data.success === true) {
+                    this.roles = response.data.roles;
+                }
+            });
         },
         getSalesRepData: function() {
             axios.get('sales_reps').then((response) => {
