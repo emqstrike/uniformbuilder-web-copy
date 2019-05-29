@@ -7,6 +7,7 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
     <link rel="stylesheet" href="/css/administration-lte-2/users.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -47,7 +48,7 @@
                                         <option value="id">ID</option>
                                     </select>
 
-                                    <input type="text" class="form-control" v-model="search">
+                                    <input type="text" class="form-control" v-model="search" v-on:keyup.enter="searchUsers()">
                                     <button class="btn btn-flat btn-primary" @click="searchUsers()">Search</button>
                                     <button class="btn btn-flat btn-default" @click="clearSearchUsers()">Clear</button>
                                 </div>
@@ -58,7 +59,7 @@
                     <div class="box-body">
                         <div id="app">
                             <v-app id="inspire">
-                                @include('administration-lte-2.users.components.loading-dialog')
+                                @include('administration-lte-2.partials.components.loading-dialog')
                                 @include('administration-lte-2.users.components.allowed-pages-dialog')
 
                                 <div>
@@ -85,7 +86,7 @@
                                     </v-data-table>
 
                                     <div class="text-xs-center pt-2">
-                                        <v-pagination v-model="pagination.page" :length="pages" :total-visible="15"></v-pagination>
+                                        <v-pagination v-model="pagination.page" :length="pages" :total-visible="10"></v-pagination>
                                     </div>
                                 </div>
                             </v-app>
