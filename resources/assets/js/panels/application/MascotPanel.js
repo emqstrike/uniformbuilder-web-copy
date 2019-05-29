@@ -39,7 +39,7 @@ MascotPanel.init = function () {
     $('.modifier_main_container').append(_htmlBuilder);
 
     _.map(_filteredApplications, function(index) {
-        if (index.application_type === "embellishments") {
+        if (index.application_type === "embellishments" || index.application_type === "mascot") {
             if (index.logo_type === "custom" || index.logo_type === "stock") {
                 $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + index.application.views[0].perspective + "']").addClass("selected");
                 $("#primary_options_container .location-add-remove-container[data-perspective='" + index.application.views[0].perspective + "']").html("");

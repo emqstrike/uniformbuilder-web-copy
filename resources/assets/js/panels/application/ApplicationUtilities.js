@@ -1898,20 +1898,37 @@ $(function() {
 
 
     ub.funcs.renderStockMascot = function (_settingsObject) {
-        var template = document.getElementById("m-mascot-information").innerHTML;
-        var objCustom = {
-            thumbnail: _settingsObject.embellishment.png_filename,
-            application_type: _settingsObject.application_type,
-            logo_type: _settingsObject.logo_type,
-            code: _settingsObject.code,
-            perspective: _settingsObject.application.views[0].perspective,
-            name: _settingsObject.embellishment.name,
-            viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
-            viewPrint: _settingsObject.embellishment.svg_filename,
-            flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : "",
-            design_id: _settingsObject.embellishment.design_id,
-            isCustom: _settingsObject.logo_type === "custom" ? true: false
-        };
+        var objCustom;
+        var template; 
+
+        if (_settingsObject.application_type === "mascot") {
+            objCustom = {
+                thumbnail: _settingsObject.mascot.icon,
+                code: _settingsObject.code,
+                perspective: _settingsObject.application.views[0].perspective,
+                name: _settingsObject.mascot.name,
+                application_type: _settingsObject.application_type,
+                logo_type: _settingsObject.logo_type,
+            };
+            // Template         
+            template = document.getElementById("m-mascot-information-logo").innerHTML;
+        } else {
+            objCustom = {
+                thumbnail: _settingsObject.embellishment.png_filename,
+                application_type: _settingsObject.application_type,
+                logo_type: _settingsObject.logo_type,
+                code: _settingsObject.code,
+                perspective: _settingsObject.application.views[0].perspective,
+                name: _settingsObject.embellishment.name,
+                viewArtDetails: ub.config.host + '/utilities/preview-logo-information/' + _settingsObject.embellishment.design_id,
+                viewPrint: _settingsObject.embellishment.svg_filename,
+                flip: ub.funcs.isFlippedApplication(_settingsObject.code) ? "uk-active" : "",
+                design_id: _settingsObject.embellishment.design_id,
+                isCustom: _settingsObject.logo_type === "custom" ? true: false
+            };
+            // Template
+            template = document.getElementById("m-mascot-information").innerHTML;
+        }
 
         var renderTemplate = Mustache.render(template, objCustom);
         $(".logo-type-container .btn-selection-choice.uk-active").removeClass("uk-active");
