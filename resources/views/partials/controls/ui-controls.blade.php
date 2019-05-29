@@ -3471,6 +3471,29 @@
     </script>
 <!-- End ORDER FORM Error list -->
 
+<!-- GA Thumbnail UI -->
+<script type="text/mustache" id="m-generate-thumbnail-controller">
+    <div class="uk-padding-small">
+        <h5 uk-margin class="uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark abrade-black">Generate Thumbnail</h5>
+        <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand uk-text-center con-select active-bgc-red generate-thumbnail-container" uk-grid>
+            <div>
+                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-view="front">Front</button>
+            </div>
+            <div>
+                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-view="back">Back</button>
+            </div>
+            <div>
+                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-view="left">Left</button>
+            </div>
+            <div>
+                <button href="#" class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice perspective" data-view="right">Right</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- End GA thumbnail UI -->
+
 @include('partials.controls.properties.parts')
 @include('partials.controls.properties.pipings')
 @include('partials.controls.properties.random-feeds')
