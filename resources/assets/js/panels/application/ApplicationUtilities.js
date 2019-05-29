@@ -1937,6 +1937,7 @@ $(function() {
         $(".modifier_main_container .logo-details-container").html(renderTemplate);
         $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html("");
         $("#primary_options_container .location-add-remove-container[data-perspective='" + _settingsObject.application.views[0].perspective + "']").html('<a href="#" class="removeMascot en-disable-me fc-red fc-italic" data-application-code="'+ _settingsObject.code +'">(remove)</a>');
+
         ub.funcs.activateMoveTool(_settingsObject.code)
     }
 

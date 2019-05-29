@@ -12851,30 +12851,62 @@ ub.funcs.fontOffSets = [
     ub.data.logoLocation = {
         items: [
             {
-                perspective: "front",
-                part: "Front Body",
-                alias: "Front",
-                side: undefined
+                type: "upper",
+                locations: [
+                    {
+                        perspective: "front",
+                        part: "Front Body",
+                        alias: "Front",
+                        side: undefined
+                    },
+                    {
+                        perspective: "back",
+                        part: "Back Body",
+                        alias: "Back",
+                        side: undefined
+                    },
+                    {
+                        perspective: "left",
+                        part: "Sleeve",
+                        alias: "L Sleeve",
+                        side: "left"
+                    },
+                    {
+                        perspective: "right",
+                        part: "Sleeve",
+                        alias: "R Sleeve",
+                        side: "right"
+                    }
+                ]
             },
             {
-                perspective: "back",
-                part: "Back Body",
-                alias: "Back",
-                side: undefined
-            },
-            {
-                perspective: "left",
-                part: "Sleeve",
-                alias: "L Sleeve",
-                side: "left"
-            },
-            {
-                perspective: "right",
-                part: "Sleeve",
-                alias: "R Sleeve",
-                side: "right"
+                type: "lower",
+                locations: [
+                    {
+                        perspective: "back",
+                        part: "Tunnel",
+                        alias: "Tunnel",
+                        side: undefined
+                    },
+                    {
+                        perspective: "front",
+                        part: "Base",
+                        alias: "Front Base",
+                        side: undefined
+                    }
+                ]
             }
-        ]
+        ],
+
+        getAvailableLocation: function(type) {
+            var results = _.find(this.items, {type: type});
+
+            if (typeof results !== "undefined") {
+                return results;
+            } else {
+                console.log("No available location")
+            }
+        }
     }
 
     ub.data.customSizes = [

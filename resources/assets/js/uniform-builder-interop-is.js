@@ -525,10 +525,12 @@ $(document).ready(function() {
                     ub.data.embellismentDetails.setStatus('designSummary', data);
                 }
 
-                if (_settingsObject.logo_type === "custom_text") {
-                    TeamNamePanel.funcs.renderCustomText(_settingsObject);
-                } else {
-                    ub.funcs.renderStockMascot(_settingsObject);
+                if (ub.data.afterLoadCalled === 1) {
+                    if (_settingsObject.logo_type === "custom_text") {
+                        TeamNamePanel.funcs.renderCustomText(_settingsObject);
+                    } else {
+                        ub.funcs.renderStockMascot(_settingsObject);
+                    }
                 }
 
             } else {

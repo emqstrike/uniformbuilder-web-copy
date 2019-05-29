@@ -32,8 +32,8 @@ MascotPanel.init = function () {
         }
     });
 
-    var locations = ub.data.logoLocation.items;
-    _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-panel', {locations: locations});
+    var result = ub.data.logoLocation.getAvailableLocation(ub.config.type);
+    _htmlBuilder = ub.utilities.buildTemplateString('#m-mascot-panel', {locations: result.locations});
 
     // output to page
     $('.modifier_main_container').append(_htmlBuilder);

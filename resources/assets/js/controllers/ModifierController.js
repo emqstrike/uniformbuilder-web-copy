@@ -120,6 +120,13 @@ ModifierController.prototype = {
             $('.menu-item-pipings', tabs_el).remove();
         }
 
+        // Remove team name, player name and numbers when the uniform is pants 
+        if (ub.funcs.isLower()) {
+            $('.menu-item-letters', tabs_el).remove();
+            $('.menu-item-numbers', tabs_el).remove();
+            $('.menu-item-player', tabs_el).remove();
+        }
+
         // logo
         if (typeof ub.data.logos === "undefined" || ub.data.logos.length < 1) {
             $('.menu-item-logo', tabs_el).remove();
