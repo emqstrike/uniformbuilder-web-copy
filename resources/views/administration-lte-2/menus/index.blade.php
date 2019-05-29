@@ -48,7 +48,7 @@
 
     <script type="text/x-template" id="nested-draggable">
         <draggable :list="menus" :tag="'ul'" class="item" :group="{name: 'menus'}" swap-threshold="222500" direction="vertical">
-            <li v-for="menu in menus" :key="menu.id">
+            <li v-for="menu, index in menus" :key="menu.id">
                 <div class="menu-container">
                     <div class="row">
                         <div class="col-md-4">
@@ -63,7 +63,7 @@
                                 Edit
                             </button>
 
-                            <button class="btn btn-flat btn-danger btn-xs" @click="removeMenu(menu)">
+                            <button class="btn btn-flat btn-danger btn-xs" @click="removeMenu(menu, index)">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Remove
                             </button>

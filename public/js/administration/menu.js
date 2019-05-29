@@ -5,8 +5,8 @@ var nested = {
     name: 'nested-draggable',
     props: ['menus'],
     methods: {
-        removeMenu(menu) {
-            Event.$emit('remove-menu', menu);
+        removeMenu(menu, index) {
+            Event.$emit('remove-menu', menu, index);
         }
     }
 };
@@ -28,8 +28,32 @@ new Vue({
         this.getMenuDataFromAPI();
     },
     methods: {
-        removeMenu(menu) {
-            console.log(menu);
+        removeMenu(menu, index) {
+            let remove = confirm('Are you sure you want to remove this menu?');
+
+            if (remove === true) {
+                if (menu.parent_id == 0) {
+                    this.$delete(this.menus, index);
+
+                    if (menu.menus.length > 0) {
+                        const self = this;
+
+                        Object.assign([], menu.menus.reverse());
+
+                        menu.menus.forEach(function(key) {
+                            self.menus.splice(index, 0, key);
+                        });
+                    }
+                } else {
+                    var parentMenu = this.menus.find(_menu => _menu.order_id === menu.parent_id);
+                    
+                    parentMenu.menus.forEach(function(value, index) {
+                        if (value.id === menu.id) {
+                            parentMenu.menus.splice(index, 1);
+                        }
+                    });
+                }
+            }
         },
         getMenuDataFromAPI() {
             axios.get('menus/brand/' + window.application_brand).then((response) => {
