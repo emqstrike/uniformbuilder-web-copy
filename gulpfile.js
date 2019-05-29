@@ -131,6 +131,9 @@ elixir(function(mix) {
             'panels/ColorHexTester.js',
             'panels/RosterPanel.js',
 
+            // Utilities
+            'panels/utilities/GenerateThumbnail.js',
+
             // Controllers or Switchers
             'controllers/PerspectiveController.js',
             'controllers/ModifierController.js',
