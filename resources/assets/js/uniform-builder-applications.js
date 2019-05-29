@@ -8657,8 +8657,13 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';                       
-        _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';
+        if (_settingsObject.application_type === "sleeve_number" || _settingsObject.application_type === "back_number" || _settingsObject.application_type === "front_number") {
+            _htmlBuilder        +=              '<input type="number" name="sampleText" class="sampleText" value="' + _sampleText + '" min="0" max="999" oninput="ub.funcs.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">';
+        } else {
+            _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';
+        }
+                         
         _htmlBuilder        +=          '</div>';        
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
@@ -12466,6 +12471,12 @@ $(document).ready(function() {
             $(elem).remove();
         }
     }
+
+    ub.funcs.maxLengthCheck = function (object) {
+        if (object.value.length > object.max.length) {
+            object.value = object.value.slice(0, object.max.length)
+        }
+    };
 
     /// End remove unused elements
 
