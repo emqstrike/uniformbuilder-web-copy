@@ -94,11 +94,31 @@ $(document).ready(function(){
 
     ub.config.setFeatureFlags = function () {
 
+        // old feature flag
         ub.config.setFeatureFlag('Beta Sport Uniforms');
         ub.config.setFeatureFlag('Show price items of uniforms');
         ub.config.setFeatureFlag('Test Orders');
         ub.config.setFeatureFlag('Tackle Twill Custom Sizes');
+        // end old feature flag
+
+        // new feature flag
+        ub.config.newFeatureFlagsInfoDisplay(['New Filter', 'New PDF']);
+        // end new feature flag
+
         
+    }
+
+    ub.config.newFeatureFlagsInfoDisplay = function (features) {
+        console.log('');
+        console.info('[ New Feature Flag Checker ]');
+        _.each(features, function (feature) {
+            ub.funcs.betaFeaturesChecker(feature, function() {
+                console.info('Setting the feature [ ' + feature + ' ] to true');
+            }, function () {
+                console.info('Setting the feature [ ' + feature + ' ] to false');
+            });
+        });
+        console.log('');
     }
 
     ub.config.isFeatureOn = function (namespace, feature) {

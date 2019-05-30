@@ -9058,21 +9058,14 @@ $(document).ready(function () {
             var _applicationType = 'player_name';
             var _size = 2.5;
 
-            if (ub.funcs.isFreeFormToolEnabled(_id)) {
-                _size = 4;
-            }
-
-            if (ub.funcs.isCurrentSport('Baseball')) {
-                _size = 2;
-            }
-
-            if (ub.funcs.isCurrentSport('Fastpitch')) {
-                _size = 2;
-            }
-
             if (ub.funcs.isCurrentSport('Baseball') && ub.config.brand.toLowerCase() === "richardson") {
                 _size = 2.5;
             }
+            
+            if (ub.funcs.isFreeFormToolEnabled(_id)) { _size = 4; }
+            
+            if (ub.funcs.isCurrentSport('Baseball'))    { _size = 5; }
+            if (ub.funcs.isCurrentSport('Fastpitch'))   { _size = 2; }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -9222,6 +9215,9 @@ $(document).ready(function () {
 
             var _applicationType = 'team_name';
             var _size = 2;
+            
+            if (ub.funcs.isCurrentSport('Wrestling')) { _size = 4; }
+            if (ub.funcs.isCurrentSport('Baseball')) { _size = 5; }
 
             if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { 
                 _size = 2.5;
@@ -10688,6 +10684,8 @@ $(document).ready(function () {
                     offSetY: _fontSizeData.yOffset,
                     scaleX: _fontSizeData.xScale,
                     scaleY: _fontSizeData.yScale,
+                    strokeInner: _stroke.strokeInner,
+                    strokeOuter: _stroke.strokeOuter,
 
                 }
 
@@ -10807,6 +10805,13 @@ $(document).ready(function () {
                 //ub.hideFontGuides();
                 $('#cogPopupContainer').remove();
 
+                $('input.pixelFontSize').val(_origSizes.pixelFontSize);
+                $('input.offsetX').val(_origSizes.offSetX);
+                $('input.offsetY').val(_origSizes.offSetY)
+                $('input.scaleX').val(_origSizes.scaleX);
+                $('input.scaleY').val(_origSizes.scaleY);
+                $('input.strokeInner').val(_origSizes.strokeInner);
+                $('input.strokeOuter').val(_origSizes.strokeOuter);
             });
 
             $('span.resetButton').on('click', function () {

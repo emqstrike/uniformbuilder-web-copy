@@ -104,7 +104,11 @@
                             <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                             <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
 
-                            <td class="td-assigned-sales-rep">
+                            @if ($order->factory_order_id)
+                                <td class="td-assigned-sales-rep" data-foid="{{ $order->factory_order_id }}" data-sales-rep-id="{{ $order->sent_to_rep_qx_id }}" data-sales-rep-email="{{ $order->rep_email }}">
+                            @else
+                                <td class="td-assigned-sales-rep">
+                            @endif   
                                 @if ((! $order->factory_order_id) && (is_null($order->deleted_at)))
                                     <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
@@ -185,6 +189,10 @@
 
     <script>
         $(document).ready(function() {
+            getQXSalesReps(function(sales_reps) { 
+                window.sales_reps = sales_reps; 
+            });
+
             $('.data-table').DataTable({
                 "paging": true,
                 "lengthChange": false,
@@ -196,6 +204,22 @@
                     console.log( 'Table redrawn ' );
                     $('.rep-id').html('<option value="0">Select Sales Rep</option>');
                     $('.rep-id').append(window.sales_reps_dd);
+
+                    $('.td-assigned-sales-rep').each(function() {
+                        var foid = $(this).data('foid');
+                        var salesRepEmail = $(this).data('sales-rep-email');
+                        var salesRepID = $(this).data('sales-rep-id');
+                 
+                        if ((foid != undefined) && (salesRepEmail == "")) {
+                            var result = window.sales_reps.filter(salesRep => { 
+                                return salesRep.RepID === salesRepID;  
+                            });
+                            
+                            if (result.length > 0) {
+                                $(this).text(result[0].UserID);
+                            }
+                        }
+                    });
                 },
                 initComplete: function () {
                     this.api().columns('#select-filter').every( function () {
@@ -238,10 +262,6 @@
 
             getSizingConfig(function(item_sizes) { 
                 window.item_sizes = item_sizes; 
-            });
-
-            getQXSalesReps(function(sales_reps) { 
-                window.sales_reps = sales_reps; 
             });
 
             var reps_elem = "";
@@ -1365,6 +1385,8 @@
                     });
                 }
             });
+
+            
         });
     </script>
 @endsection

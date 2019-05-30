@@ -1524,6 +1524,25 @@
             _strokeOuter = 14;
         }
 
+        // fix font stroke for Baseball uniform size 5
+        if (input_object.fontSize <= 5 && ub.funcs.isCurrentSport('Baseball')) {
+            _strokeInner = 7;
+            _strokeOuter = 14;
+        }
+
+        // for future use, requested by web gas
+        // lists all uniform ids that uses innerStroke and outerStroke set on the backend
+        // this is to prevent error from previous styles stroke
+        var validIDs = [];
+        var fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(input_object.font_name, input_object.perspective, input_object.applicationObj.code, input_object.fontSize);
+        if (typeof fontSizeTable.inner_stroke !== 'undefined' && 
+            typeof fontSizeTable.outer_stroke !== 'undefined' &&
+            _.contains(validIDs, ub.current_material.material.id)) {
+                _strokeInner = parseInt(fontSizeTable.inner_stroke);
+                _strokeOuter = parseInt(fontSizeTable.outer_stroke);
+
+        }
+
         // Stroke
         var customStroke = ub.data.fontStroke.getStroke(ub.config.brand, 
                                                         ub.current_material.material.uniform_category, 

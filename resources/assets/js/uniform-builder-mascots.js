@@ -10,24 +10,22 @@ $(document).ready(function() {
 
         // Hide Richardson Mascots #Richardson #BrandSpecific
 
-        if (ub.current_material.material.brand === "prolook") {
-
-            ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
-                
-                // return all prolook mascots together with other mascots which brand set to none
-                if (mascot.brand === 'prolook' || mascot.brand === null || mascot.brand === 'none') {
-                    return mascot;
-                }
-
-            });
-
-        } else {
-
+        if (ub.config.brand.toLowerCase() === "richardson") {
             ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
                 // if (mascot.brand ===ub.current_material.material.brand) { return mascot; }
                 return mascot
             });
+        } else {
+            if (ub.current_material.material.brand === "prolook") {
 
+                ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {   
+                    // return all prolook mascots together with other mascots which brand set to none
+                    if (mascot.brand === 'prolook' || mascot.brand === null || mascot.brand === 'none') {
+                        return mascot;
+                    }
+
+                });
+            }
         }
         
         _.each(ub.data.mascots, function (mascot, index) {
