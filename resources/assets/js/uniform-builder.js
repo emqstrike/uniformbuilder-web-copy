@@ -81,12 +81,12 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
+                ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -1069,14 +1069,13 @@ $(document).ready(function () {
                 ub.current_material[object_name] = obj;
             }
 
-            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
-            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-            if (object_name === 'colors') { ub.funcs.prepareColors(); }
-            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
-            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
-            if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
-            if (object_name === 'fonts') { ub.funcs.processFonts(); }
-            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'colors_sets') { 
+                if (ub.config.brand.toLowerCase() !== "richardson") {
+                    var isThreadColor = true;
+                    // get Thread Colors from the backend API
+                    if (isThreadColor) ub.funcs.getThreadColors();
+                }
+            }
 
             if (object_name === 'block_patterns') {
                 var _items = _.filter(obj, function (block_pattern) {
@@ -1086,18 +1085,18 @@ $(document).ready(function () {
                 ub.pha = _items;
             }
 
-            if (object_name === 'colors_sets') { 
-                if (ub.config.brand.toLowerCase() !== "richardson") {
-                    var isThreadColor = true;
-                    // get Thread Colors from the backend API
-                    if (isThreadColor) ub.funcs.getThreadColors();
-                }
-            }
+            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
+            if (object_name === 'colors') { ub.funcs.prepareColors(); }
+            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+            if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
+            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'fonts') { ub.funcs.processFonts(); }
 
             if (object_name === 'hidden_bodies') { ub.funcs.setupHiddenBody(obj); }
 
             if (object_name === 'cuts_links') {
-
                 ub.current_material.settings.cut_pdf = "";
                 ub.current_material.settings.cuts_links = undefined;
                 ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
@@ -1106,7 +1105,6 @@ $(document).ready(function () {
                     ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
                     ub.config.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf;
                 }
-
             }
 
             if (object_name === "piping_images" && ub.config.sport === "Baseball") {
