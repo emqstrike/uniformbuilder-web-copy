@@ -77,16 +77,19 @@ $(document).ready(function () {
                 ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand.toLowerCase();
 
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-                ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
-                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
-                ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
-                ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
-                ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
-                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
-                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
-                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                
+                _.delay(function() {
+                    ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                    ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
+                    ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                    ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
+                    ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
+                    ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
+                    ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+                    ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                    ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                    ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                }, 1000)
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -2778,11 +2781,15 @@ $(document).ready(function () {
 
             // Application Pattern
             if (typeof application_obj.patternID === "undefined") {
-
                 application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
                 
                 var _calibration = 0;
                 var _patternObj;
+
+                // Use richardson blank
+                if (application_obj.patternID.toString() === "33") {
+                    application_obj.patternID = "318";
+                }
 
                 // set pattern position
                 if (application_obj.withPattern && application_obj.patternID !== null) {
