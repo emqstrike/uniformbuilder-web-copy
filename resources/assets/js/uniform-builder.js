@@ -22,7 +22,7 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             
-            if (window.ub.config.material_id === -1) {
+            if (window.ub.config.material_id === -1 || window.ub.config.material_id === "-1") {
                 if (ub.config.brand.toLowerCase() === "richardson") {
                     if (ub.page === "builder") {
                         ub.funcs.loadPageNotFound();
