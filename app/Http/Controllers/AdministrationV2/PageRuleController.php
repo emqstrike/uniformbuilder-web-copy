@@ -68,12 +68,7 @@ protected $pageRuleClient;
             }
         }
 
-        return view('administration-lte-2.page-rules.index', compact(
-            'pageRules',
-            'availableNormalRoles',
-            'availableAdminRoles',
-            'pages'
-        ));
+        return view('administration-lte-2.page-rules.index');
     }
 
     public function update(PageRuleRequest $request)

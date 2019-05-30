@@ -19,7 +19,6 @@
         <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
         <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker-bs3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
@@ -72,6 +71,7 @@
                 window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
                 window.accessToken = "{{ Session::get('accessToken') }}";
                 window.app_url = "{{ env('APP_URL') }}";
+                window.application_brand = "{{ env('BRAND') }}";
                 
                 @if (Session::get('isLoggedIn'))
                     window.loggedInUser = {{ Session::get('userId') }};
