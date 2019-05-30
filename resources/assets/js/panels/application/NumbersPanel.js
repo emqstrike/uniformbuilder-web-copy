@@ -85,6 +85,8 @@ NumbersPanel.prototype = {
 
             this.fontAccents = _.map(ub.data.accents.items, function(i) {
                 return {
+                    app_code: application.code,
+                    accent_id: i.id,
                     image: "/images/sidebar/" + i.thumbnail,
                     active: application.accent_obj.id === i.id ? "uk-active" : "",
                     title: i.code.replace(/_/g, " ")
@@ -200,6 +202,7 @@ NumbersPanel.events = {
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.PREVIOUS_FONT+"]", NumbersPanel.events.onPreviousFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.NEXT_FONT+"]", NumbersPanel.events.onNextFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar .open-fonts-modal", NumbersPanel.events.onOpenFontsModal);
+            $("#primary_options_container").on("click", "#richardson-numbers-font-accents .change-font-accent", NumbersPanel.events.onChangeFontAccent);
 
             NumbersPanel.events.is_init = true;
         }
@@ -249,6 +252,25 @@ NumbersPanel.events = {
             NumbersPanel.createFontPopup(sample_text, application);
         } else {
             console.log("Error: Application code " + app_code + " is invalid code.");
+        }
+    },
+
+    onChangeFontAccent: function() {
+        $('#richardson-numbers-font-accents .change-font-accent').removeClass("uk-active");
+        $(this).addClass("uk-active");
+
+        var app_code = $(this).data("app-code").toString();
+        var accent_id = $(this).data("accent-id");
+
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+        ub.funcs.changeAccentFromPopup(accent_id, application);
+
+        var matchingID = ub.data.matchingIDs.getMatchingID(app_code);
+
+        if (matchingID !== undefined) {
+            var matchingApp = _.find(ub.current_material.settings.applications, {code: matchingID});
+            ub.funcs.changeAccentFromPopup(accent_id, application);
         }
     }
 };

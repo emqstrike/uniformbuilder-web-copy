@@ -70,7 +70,7 @@
         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small uk-margin-remove-horizontal abrade-black">Choose font Accent</h6>
         <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-5 uk-child-width-1-6@s uk-child-width-1-5@m con-select m-accents active-bdr-red font-accents" uk-grid uk-switcher>
             @{{ #fontAccents }}
-                <button class="uk-inline bgc-transparent box-palette btn-selection-choice @{{ active }}" uk-tooltip="title: @{{ title }}; pos: left;" style="margin-top: 6px;">
+                <button class="uk-inline bgc-transparent box-palette btn-selection-choice change-font-accent @{{ active }}" data-app-code="@{{ app_code }}" data-accent-id="@{{ accent_id }}" uk-tooltip="title: @{{ title }}; pos: left;" style="margin-top: 6px;">
                     <div class=" bdr-thin bdr-gray">
                         <img src="@{{ image }}" uk-img>
                     </div>
