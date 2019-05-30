@@ -54,7 +54,7 @@
         </div>
         <div class="uk-width-expand ">
             <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-bold fc-dark open-fonts-modal" data-app-code="@{{ app_code }}">
-                <span style="font-family: @{{ font_family }} !important">Full Block</span>
+                <span style="font-family: @{{ font_family }} !important">@{{ font_text }}</span>
             </button>
         </div>
         <div class="uk-width-auto ">

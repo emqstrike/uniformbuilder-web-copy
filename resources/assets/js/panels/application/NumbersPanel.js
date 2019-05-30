@@ -275,7 +275,8 @@ NumbersPanel.renderFontsBar = function(app_code, callback) {
             previous_font: NumbersPanel.PREVIOUS_FONT,
             next_font: NumbersPanel.NEXT_FONT,
             app_code: app_code,
-            font_family: application.font_obj.name
+            font_family: application.font_obj.name,
+            font_text: application.font_obj.caption
         };
 
         var tmpl = Mustache.render($('#richardson-numbers-font-bar-tmpl').html(), items);
