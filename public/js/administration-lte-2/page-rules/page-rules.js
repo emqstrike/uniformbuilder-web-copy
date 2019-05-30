@@ -1,195 +1,243 @@
-$(document).ready(function() {
-    $('.allowed-pages').select2({
-        multiple: true,
-        allowClear: true
-    });
+Vue.component('Multiselect', VueMultiselect.default)
 
-    $('.select2-selection__choice').removeAttr('title');
-    $('select').on('change', function (evt) {
-        $('.select2-selection__choice').removeAttr('title');
-    });
-
-    $('.add-page-rule').click(function() {
-        $('#add-page-rule .user-type').trigger('change');
-        $('#add-page-rule').modal('show');
-    });
-
-    $('#add-page-rule .user-type').change(function() {
-        $('#add-page-rule .user-role option').each(function(key, value) {
-            $(this).remove();
-        })
-
-        var html = "";
-        var type = $(this).val();
-        var availableNormalRoles = $('table').data('available-normal-roles');
-        var availableAdminRoles = $('table').data('available-admin-roles');
-
-        if (type == 'administrator') {
-            $.each(availableAdminRoles, function(key, role) {
-                html += "<option value='" + role + "'>" + role + "</option>";
-            });
-        } else if (type == 'normal') {
-            $.each(availableNormalRoles, function(key, role) {
-                html += "<option value='" + role + "'>" + role.replace('_', ' ') + "</option>";
-            });
+new Vue({
+    el: '#application-container',
+    data: function() {
+        return {
+            action: "",
+            dialog: true,
+            errors: [],
+            headers: [
+                {text: 'Type', value: 'type'},
+                {text: 'Role', value: 'role'},
+                {text: 'Action', value: 'action'},
+            ],
+            pages: [],
+            pageRule: {},
+            pageRuleCache: {},
+            pageRuleDialog: false,
+            pageRules: [],
+            roles: [],
+            types: ['administrator', 'normal'],
         }
+    },
+    mounted() {
+        this.getDataFromAPI();
+        this.getPagesData();
+        this.getRoles();
+    },
+    computed: {
+        availableRoles() {
+            let roles = [];
+            let usedAdminRoles = [];
+            let usedNormalRoles = [];
 
-        $('#add-page-rule .user-role').append(html);
-    });
-
-    $('#add-page-rule').on('shown.bs.modal', function (e) {
-        $('#add-page-rule .allowed-pages option').each(function(key, value) {
-            $(this).remove();
-        });
-
-        var html = "";
-        var pages = $('table').data('pages');
-
-        $.each(pages, function(key, page) {
-            html += "<option value='" + page.code + "'>" + page.page_name + " (" +  page.code + ")</option>";
-        });
-
-        $('#add-page-rule .allowed-pages').append(html);
-    });
-
-    $('.save-page-rule').click(function() {
-        var data = {
-            type: $('#add-page-rule .user-type').val(),
-            role: $('#add-page-rule .user-role').val(),
-            allowed_pages: JSON.stringify($('#add-page-rule .allowed-pages').val()),
-            brand: $('#add-page-rule .input-page-rule-brand').val()
-        }
-
-        var url = "//" + api_host + "/api/page_rule/";
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json',
-            success: function(response) {
-                if (response.success == true) {
-                    location.reload();
-
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: response.message,
-                        type: 'error',
-                        hide: true
-                    });
+            this.pageRules.forEach(function(pageRule) {
+                if (pageRule.type == 'administrator') {
+                    usedAdminRoles.push(pageRule.role);
+                } else if (pageRule.type == 'normal') {
+                    usedNormalRoles.push(pageRule.role);
                 }
-            }
-        });
-    });
+            });
 
-    $('.remove-page-rule').click(function() {
-        var id = $(this).data('page-rule-id');
+            let type = this.pageRule.type;
 
-        var url = "//" + api_host + "/api/page_rules/" + id + "/delete";
-
-        $.ajax({
-            url: url,
-            type: 'GET',
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json',
-            success: function(response) {
-                if (response.success == true) {
-                    location.reload();
-
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: response.message,
-                        type: 'error',
-                        hide: true
-                    });
+            this.roles.forEach(function(role) {
+                if ((type == 'administrator') && (usedAdminRoles.indexOf(role.code) < 0)) {
+                    roles.push(role);
+                } else if ((type == 'normal') && (usedNormalRoles.indexOf(role.code) < 0)) {
+                    roles.push(role);
                 }
-            }
-        });
-    });
+            });
 
-    $('.edit-page-rule').click(function() {
-        var html = "";
+            return roles;
+        },
+        getAllowedPages() {
+            let allowedPages = [];
 
-        var id = $(this).data('page-rule-id');
-        var type = $(this).closest('tr').data('type');
-        var role = $(this).closest('tr').data('role');
-        var selectedAllowedPages = $(this).closest('tr').data('allowed-page');
-        var pages = $('table').data('pages');
+            if (this.pageRule.hasOwnProperty('allowed_pages')) {
+                let pageRulePages = this.pageRule.allowed_pages;
 
-        $('#edit-page-rule .input-page-rule-id').val(id);
-        $('#edit-page-rule .user-type').val(type);
-        $('#edit-page-rule .user-role').val(role);
-
-        $.each(pages, function(key, page) {
-            if (selectedAllowedPages.indexOf(page.code) >= 0) {
-                html += "<option value='" + page.code + "' selected='selected'>" + page.page_name + " (" +  page.code + ")</option>";
+                this.pages.forEach(function(page) {
+                    if (pageRulePages.indexOf(page.code) < 0) {
+                        allowedPages.push(page.code);
+                    }
+                });
             } else {
-                html += "<option value='" + page.code + "'>" + page.page_name + " (" +  page.code + ")</option>";
+                this.pages.forEach(function(page) {
+                    allowedPages.push(page.code);
+                });
             }
-        });
 
-        $('#edit-page-rule .allowed-pages').append(html);
-        $('#edit-page-rule').modal('show');
-    });
+            return allowedPages;
+        },
+    },
+    methods: {
+        add(pagRule) {
+            this.pageRule = {
+                type: this.types[0], 
+                role: this.roles[0].code,
+                brand: window.application_brand
+            };
+            
+            this.action = 'add';
+            this.togglePanel();
+        },
+        cancel(pageRule) {
+            Object.assign(pageRule, this.pageRuleCache);
+            this.togglePanel();
+        },
+        edit(pageRule) {
+            this.action = 'edit';
+            this.pageRule = pageRule;
+            this.pageRuleCache = Object.assign({}, pageRule);
+            this.pageRule.allowed_pages = JSON.parse(this.pageRule.allowed_pages);
+            this.togglePanel();
+        },
+        getDataFromAPI() {
+            this.dialog = true;
 
-    $('#edit-page-rule').on('hidden.bs.modal', function (e) {
-        $('#edit-page-rule .allowed-pages option').each(function(key, value) {
-            $(this).remove();
-        });
-
-        $('#edit-page-rule .user-type').val();
-        $('#edit-page-rule .user-role').val();
-    });
-
-    $('.update-page-rule').click(function() {
-        var id = $('#edit-page-rule .input-page-rule-id').val();
-        
-        var data = {
-            allowed_pages: JSON.stringify($('#edit-page-rule .allowed-pages').val())
-        }
-
-        var url = "//" + api_host + "/api/page_rules/" + id + "/update";
-
-        $.ajax({
-            url: url,
-            type: 'PATCH',
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json',
-            success: function(response) {
-                if (response.success == true) {
-                    location.reload();
-
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: response.message,
-                        type: 'error',
-                        hide: true
-                    });
+            return new Promise((resolve, reject) => {
+                axios.get('page_rules/brand/' + window.application_brand).then((response) => {
+                    if (response.data.success === true) {
+                        setTimeout(() => {
+                            this.dialog = false;
+                            this.pageRules = response.data.page_rules;
+                        }, 1000);
+                    }
+                });
+            });
+        },
+        getRoles: function() {
+            axios.get('roles').then((response) => {
+                if (response.data.success === true) {
+                    this.roles = response.data.roles;
                 }
+            });
+        },
+        getPagesData() {
+            axios.get('pages/get_by_brand/' + window.application_brand).then((response) => {
+                if (response.data.success === true) {
+                    this.pages = response.data.pages;
+                }
+            });
+        },
+        remove(pageRule) {
+            this.dialog = true;
+
+            let remove = confirm('Are you sure you want to remove this page?');
+
+            if (remove == true) {
+                axios.get('page_rules/' + pageRule.id + '/delete').then((response) => {
+                    if (response.data.success == true) {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            this.getDataFromAPI();
+
+                            new PNotify({
+                                title: 'Page rule deleted',
+                                type: 'success',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.dialog = false;
+
+                            new PNotify({
+                                title: 'Page rule failed to delete',
+                                type: 'error',
+                                hide: true,
+                                delay: 1000
+                            });
+                        }, 1000);
+                    }
+                });
             }
-        });
-    });
+        },
+        save(pageRule) {
+            this.dialog = true;
+
+            pageRule.allowed_pages = JSON.stringify(pageRule.allowed_pages);
+
+            axios.post('page_rule', pageRule).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.dialog = this.pageRuleDialog = false;
+                        this.errors = [];
+
+                        this.getDataFromAPI();
+
+                        new PNotify({
+                            title: 'Page rule created',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Page rule failed to create',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
+        },
+        togglePanel() {
+            this.pageRuleDialog = ! this.pageRuleDialog;
+        },
+        update(pageRule) {
+            this.dialog = true;
+
+            var data = {
+                allowed_pages: JSON.stringify(pageRule.allowed_pages)
+            }
+
+            axios.patch('page_rules/' + pageRule.id + '/update', data).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.dialog = this.pageRuleDialog = false;
+                        this.errors = [];
+                        pageRule.allowed_pages = response.data.page_rule.allowed_pages;
+
+                        new PNotify({
+                            title: 'Page rule updated',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Page rule failed to update',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
+        }
+    }
 });
