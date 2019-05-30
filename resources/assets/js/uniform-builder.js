@@ -20,6 +20,7 @@ $(document).ready(function () {
 
             // Hide Main Links on Load
             ub.funcs.hideMainLinks();
+
             
             if (window.ub.config.material_id === -1 || window.ub.config.material_id === "-1") {
                 if (ub.config.brand.toLowerCase() === "richardson") {
