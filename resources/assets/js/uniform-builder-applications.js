@@ -10798,13 +10798,14 @@ $(document).ready(function () {
                 //ub.hideFontGuides();
                 $('#cogPopupContainer').remove();
 
-                        $('input.pixelFontSize').val(_origSizes.pixelFontSize);
-                        $('input.offsetX').val(_origSizes.offSetX);
-                        $('input.offsetY').val(_origSizes.offSetY)
-                        $('input.scaleX').val(_origSizes.scaleX);
-                        $('input.scaleY').val(_origSizes.scaleY);
-                        $('input.strokeInner').val(_origSizes.strokeInner);
-                        $('input.strokeOuter').val(_origSizes.strokeOuter);
+                $('input.pixelFontSize').val(_origSizes.pixelFontSize);
+                $('input.offsetX').val(_origSizes.offSetX);
+                $('input.offsetY').val(_origSizes.offSetY)
+                $('input.scaleX').val(_origSizes.scaleX);
+                $('input.scaleY').val(_origSizes.scaleY);
+                $('input.strokeInner').val(_origSizes.strokeInner);
+                $('input.strokeOuter').val(_origSizes.strokeOuter);
+            });
 
             $('span.resetButton').on('click', function () {
 
