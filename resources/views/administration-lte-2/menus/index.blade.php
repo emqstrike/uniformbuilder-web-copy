@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/iconpicker/css/fontawesome-iconpicker.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 
     <style type="text/css">
         ul.item {
@@ -32,14 +33,16 @@
                     </div>
 
                     <div class="box-body">
-                        <nested-draggable :menus="menus"/>
+                        <v-app id="inspire">
+                            @include('administration-lte-2.menus.modal.menu')
+                            
+                            <nested-draggable :menus="menus"/>
+                        </v-app>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    @include('administration-lte-2.menus.modal.icon-picker')
 @endsection
 
 @section('scripts')
@@ -58,12 +61,12 @@
                         </div>
 
                         <div class="col-md-8 text-right">
-                            <button class="btn btn-flat btn-primary btn-xs">
+                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(menu)">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Edit
                             </button>
 
-                            <button class="btn btn-flat btn-danger btn-xs" @click="removeMenu(menu, index)">
+                            <button class="btn btn-flat btn-danger btn-xs" @click="remove(menu, index)">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Remove
                             </button>
@@ -76,5 +79,4 @@
     </script>
 
     <script type="text/javascript" src="/js/administration/menu.js"></script>
-    <script type="text/javascript" src="/iconpicker/js/fontawesome-iconpicker.min.js"></script>
 @endsection
