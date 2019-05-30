@@ -2275,37 +2275,40 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-
                 }
 
-                if (_application.type === "free" && typeof view.application !== "undefined") {
-                    _output             = {};
-
-                    _output = {
-
-                        application_type: _application.type,
-                        application: _application,
-                        code: _application.id,
-                        type: _application.type,
-                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
-                        status: 'off',
-
-                    };
+                // Ignore free application on richardson
+                if (ub.config.brand.toLowerCase() !== "richardson") {
+                    if (_application.type === "free" && typeof view.application !== "undefined") {
+                        _output = {};
+                        _output = {
+                            application_type: _application.type,
+                            application: _application,
+                            code: _application.id,
+                            type: _application.type,
+                            validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
+                            status: 'off',
+                        };
+                    }
                 }
 
                 // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
                 // will be used to count be able to determine the sequence id to be assigned to new applications
-                _output.configurationSource = 'Default'; 
-                ub.current_material.settings.applications[parseInt(_application.id)] = _output;
+                if (ub.config.brand.toLowerCase() !== "richardson") {
+                    _output.configurationSource = 'Default';
+                    ub.current_material.settings.applications[parseInt(_application.id)] = _output;
+                } else {
+                    if (_application.type !== "free") {
+                        _output.configurationSource = 'Default';
+                        ub.current_material.settings.applications[parseInt(_application.id)] = _output;
+                    }
+                }
 
                 /// TODO: This is being executed multiple times
-
             });
-
-        });
+        }); 
 
         ub.funcs.initzIndex();
-
     };
 
     ub.funcs.colorArrayFix = function () {
