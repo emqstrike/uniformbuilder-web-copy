@@ -244,11 +244,11 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        // NumbersPanel.init();
-        var number_panel = ub.modifierController.controllers.numbers.getPanel();
-        ub.modifierController.propertiesPanel.setBodyPanel(number_panel);
+        var numberPanel = ub.modifierController.controllers.numbers;
+        ub.modifierController.propertiesPanel.setBodyPanel(numberPanel.getPanel());
 
-        NumbersPanel.events.init();
+        NumbersPanel.events.init(numberPanel);
+        NumbersPanel.renderLocations(numberPanel.getLocations());
 
         $("#primary_options_container").scrollTo(0);
     },
