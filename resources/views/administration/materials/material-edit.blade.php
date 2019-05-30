@@ -597,6 +597,11 @@
                                 <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
                             </div>
                                 <div class="col-md-2">
+
+                                    <a href="{{ $material->styles_pdf }}" target="_blank" class="btn btn-xs btn-default @if(! $material->styles_pdf ) disabled @endif">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+
                                     <a href="#" class="btn btn-danger btn-xs delete-styles-pdf"
                                         data-material-id="{{ $material->id }}"
                                         data-field="styles_pdf"
