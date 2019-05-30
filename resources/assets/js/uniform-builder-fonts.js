@@ -2,19 +2,7 @@ $(document).ready(function() {
 
     // Custom Stroke
     ub.data.fontStroke = {
-        items: [
-            {
-                brand: 'Prolook',
-                sport: 'Baseball',
-                blockPattern: 'Baseball Jersey Set-In',
-                neckOptions: ['BSB V-Neck', '2 Button'],
-                fontNames: ['Maryland Baseball', 'Astros Baseball'],
-                fontSize: 5,
-                accentName: 'double_outline',
-                strokeInner: 7,
-                strokeOuter: 14
-            },
-        ],
+        items: [],
         getStroke: function (brand, sport, blockPattern, fontSize, accentName, neckOption, fontName) {
             var result = undefined;
             result = _.filter(this.items, {brand: brand, sport: sport, blockPattern: blockPattern, fontSize: fontSize, accentName: accentName}).find(function (items) {

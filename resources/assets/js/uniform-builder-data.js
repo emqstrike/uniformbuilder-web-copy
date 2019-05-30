@@ -9990,6 +9990,14 @@ ub.funcs.fontOffSets = [
 
             }
 
+            // exception on Baseball sublimated uniform
+            if (ub.funcs.isCurrentSport('Baseball') && applicationNumber > 70) {
+
+                _result.size = 5;
+                _result.font_size = 5;
+
+            }
+
             return _result;
 
         }
