@@ -303,10 +303,14 @@ img.piping-images {
 }
 
 .bdr-bottom {
-    border: .5px solid $color-lightGray;
+    border: .5px solid #aaa;
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
+}
+
+.active-bdr-red .uk-active > * {
+  border-color: #e32139 !important;
 }
 
 // Tiny Grid
@@ -321,3 +325,41 @@ img.piping-images {
 
 .bdr-remove-top {
   border-top: none !important; }
+
+// Stock Mascot Modal
+.stock-mascot-categories li.uk-active {
+  background-color: $color-red;
+  color: $color-white;
+}
+
+
+.mascot-item {
+  a.mascot-btn.uk-active {
+    h6 {
+      background-color: $color-red;
+      color: $color-white;
+    }
+  }
+
+  a.mascot-btn {
+    h6 {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+  }
+
+  img.mascot-image {
+    height: 90px !important;
+  }
+}
+
+.logo-location-container button.selected {
+    color: $color-red;
+    border-color: $color-red;
+}
+
+.logo-location-container button.uk-active {
+    color: $color-white;
+    background-color: $color-red;
+    border-color: $color-red;
+}

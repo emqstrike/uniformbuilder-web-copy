@@ -105,7 +105,7 @@ $(document).ready(function() {
         ],
         userItems: [],
         getEmbellismentsByType: function () {},
-        getEmbellishmentByID: function (id) { ub.funcs.getDesignSummary(id); },
+        getEmbellishmentByID: function (id, code) { ub.funcs.getDesignSummary(id, code); },
         getDefaultEmbellishment: function (_settingsObject) {
 
             // TODO: Have embellishment Samples for Each Sport Type
@@ -348,6 +348,8 @@ $(document).ready(function() {
 
         if (ub.config.brand.toLowerCase() === "richardson") {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
+            UIkit.modal("#inksoftEditor").hide();
+            UIkit.modal("#inksoftUploader").hide();
         }
 
         ub.status.render.resumeRendering();
@@ -429,7 +431,6 @@ $(document).ready(function() {
             setStatus: function (varName, value) {
                 ub.data.embellismentDetails[varName] = value;
                 ub.data.embellismentDetails[varName + 'Loaded'] = true;
-
                 if (typeof skipCreate === "undefined") {
                     if (this.designSummaryLoaded && this.designDetailsLoaded) {
                         ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
@@ -520,7 +521,18 @@ $(document).ready(function() {
 
                 _settingsObject.embellishment = _embellishmentOBJ;
                 ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
-                ub.data.embellismentDetails.setStatus('designSummary', data);
+                if (typeof ub.data.embellismentDetails !== "undefined") {
+                    ub.data.embellismentDetails.setStatus('designSummary', data);
+                }
+
+                if (ub.data.afterLoadCalled === 1) {
+                    if (_settingsObject.logo_type === "custom_text") {
+                        TeamNamePanel.funcs.renderCustomText(_settingsObject);
+                    } else {
+                        ub.funcs.renderStockMascot(_settingsObject);
+                    }
+                }
+
             } else {
                 console.log("Design is not available");
             }
@@ -535,13 +547,15 @@ $(document).ready(function() {
 
         ub.utilities.getJSON(_url, function(response) {
             if (response.OK) {
-                ub.data.embellismentDetails.setStatus('designDetails', response.Data);
+                if (typeof ub.data.embellismentDetails !== "undefined") {
+                    ub.data.embellismentDetails.setStatus('designDetails', response.Data);
+                }
 
                 if (typeof _settingsObject.embellishment === "undefined") {
                     _settingsObject.embellishment = {};
                 }
+                
                 _settingsObject.embellishment.design_details = response.Data;
-
             } else {
                 console.log("Design is not available");
             }

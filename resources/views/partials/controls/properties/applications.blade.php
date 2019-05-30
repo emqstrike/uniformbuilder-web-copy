@@ -1,17 +1,19 @@
 <!-- View application layers -->
 <script type="text/mustache" id="m-application-layer-list">
     @{{ #applications }}
-        <li class="layer cp-border-bottom application-item-@{{ code }}" data-location-id="@{{ code }}" data-application-type="@{{ type }}" data-zindex="6">
-            <div class="row cp-margin-remove cp-padding-small">
-                <div class="col-md-10 cp-text-medium cp-padding-remove">
+        <li class="layer application-item-@{{ code }} uk-margin-remove" data-location-id="@{{ code }}" data-application-type="@{{ type }}" data-zindex="6">
+            <div class="uk-grid-small uk-padding-small" uk-grid>
+                <div class="uk-width-expand">
                     <span>#@{{ code }}</span>
                     <span>@{{ application_type }} - @{{ caption }}</span>
                     <span>(@{{ view }})</span>
                 </div>
-                <div class="col-md-2 cp-text-center pull-right cp-padding-remove" style="padding-left: 45px !important;">
-                    <a href="javascript:void(0)" data-application-id="@{{ code }}" data-application-type="@{{ type }}" class="cp-fc-black remove-application-button">
-                        <i class="fa fa-trash"></i>
-                    </a>
+                <div class="uk-width-auto">
+                    <div class="uk-flex uk-flex-right">
+                        <a href="javascript:void(0)" data-application-id="@{{ code }}" data-application-type="@{{ type }}" class="cp-fc-black remove-application-button">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </li>

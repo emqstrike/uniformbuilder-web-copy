@@ -156,13 +156,13 @@ RichardsonSkin.funcs = {
         var material = ub.current_material.material;
 
         var front, back, left, right;
-        if (!_.isEmpty(material.thumbnail_path_front) && !_.isEmpty(material.thumbnail_path_back) && !_.isEmpty(material.thumbnail_path_left) && !_.isEmpty(material.thumbnail_path_right) && ub.data.useThumnailPath) {
+        if (!_.isEmpty(material.thumbnail_path_front) && !_.isEmpty(material.thumbnail_path_back) && !_.isEmpty(material.thumbnail_path_left) && !_.isEmpty(material.thumbnail_path_right) && ub.data.useThumbnailPath) {
             front = material.thumbnail_path_front;
             back = material.thumbnail_path_back;
             left = material.thumbnail_path_left;
             right = material.thumbnail_path_right;
 
-            ub.data.useThumnailPath = false;
+            ub.data.useThumbnailPath = false;
         } else {
             front = ub.getThumbnailImage("front_view");
             back  = ub.getThumbnailImage("back_view");

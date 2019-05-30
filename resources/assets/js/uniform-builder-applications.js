@@ -1105,11 +1105,9 @@ $(document).ready(function () {
             });
 
             ub.funcs.activateMoveTool(application.code);
-
             setTimeout(function () {
                 ub.dragNonce = {applicationID: '', state: false};
             }, 500);
-
         };
 
         sprite.mousedown = sprite.touchstart = function (interactionData) {
@@ -1126,30 +1124,24 @@ $(document).ready(function () {
             ub.status.manipulatorDown = true;
 
             if (sprite.ubName === "Delete Tool") {
-
-                ub.funcs.deleteLocation(_application.code);
                 if(ub.data.useScrollingUI) {
-                    var isLetters = _application.application_type === "player_name" || _application.application_type === "team_name" ? true : false;
                     var isMascots = _application.application_type === "mascot" || _application.application_type === "embellishments" ? true : false;
                     var isNumbers = _application.application_type === "front_number" || _application.application_type === "back_number" || _application.application_type === "sleeve_number" ? true : false;
+                    var isPlayerName = _application.application_type === "player_name" ? true : false;
+                    var isTeamName = _application.application_type === "team_name" ? true : false;
 
-                    var count;
-                    if (isLetters) {
-                        count = ub.funcs.countApplicationByApplicationType("letters");
+                    if (isPlayerName) {
+                        PlayerNamePanel.funcs.loadAddPlayer();
+                    } else if (isTeamName) {
+                        TeamNamePanel.funcs.loadAddTeamName();
                     } else if (isMascots) {
-                        count = ub.funcs.countApplicationByApplicationType("logos");
-                    } else if (isNumbers) {
-                        count = ub.funcs.countApplicationByApplicationType("numbers");
+                        ub.funcs.afterRemoveStockLogo(_application);
+                    } else {
+                        ModifierController.deleteApplicationContainer(_application.code)
                     }
-
-                    if (typeof count.applications === "undefined") {
-                        $(".add-another-application-container").hide();
-                    }
-                    
-                    ModifierController.deleteApplicationContainer(_application.code)
                 }
+                ub.funcs.deleteLocation(_application.code);
                 return;
-
             }
 
             if (sprite.ubName !== "Reset Tool") {
@@ -1548,19 +1540,23 @@ $(document).ready(function () {
             var element = $('.applicationUIBlockNew[data-application-id="'+ application.code +'"]');
             if (element.length !== 0) {
                 ub.funcs.activateApplicationsLetters(application.code);
+            } else if (application.application_type === "player_name") {
+                PlayerNamePanel.funcs.initializePlayerName(application.code);
+                ub.funcs.activateMoveTool(application.code);
+            } else if (application.application_type === "team_name") {
+                TeamNamePanel.funcs.initializeTeamName(application.code);
+                ub.funcs.activateMoveTool(application.code);
+            } else if (application.application_type === "embellishments") {
+                ub.funcs.activateMoveTool(application.code);
             }
         }
-
     }
 
 
     /// MV Functions
-
     ub.funcs.getViewsOfID = function (app_id) {
-
         var views = ub.data.applications_transformed["Body"][app_id].views;
         return views;
-
     };
 
     ub.funcs.getSpritesOfID = function (app_id) {
@@ -8831,10 +8827,14 @@ $(document).ready(function () {
 
     ub.funcs.getSampleTeamName = function () {
 
-        var _sampleTeamName = 'Mustangs';
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            _sampleTeamName = "RICHARDSON";
+        } else {
+            var _sampleTeamName = 'Mustangs';
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-            _sampleTeamName = 'Tigers';
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+                _sampleTeamName = 'Tigers';
+            }
         }
 
         return _sampleTeamName;
@@ -8873,8 +8873,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.changeApplicationType = function (settingsObject, type) {
-
+    ub.funcs.changeApplicationType = function (settingsObject, type, logo_type, location) {
         // delete custom object amd scale type
         // this are use for embellishment applications only
         // TODO: create a cleaup funcs
@@ -9265,57 +9264,65 @@ $(document).ready(function () {
 
             var _applicationType = 'embellishments';
             var _size = 4;
-            var _embellishmentID = 1722159;
-
-            // ub.funcs.getDesignSummary
+            var _embellishmentID;
+            
+            if (ub.config.brand.toLowerCase() === "richardson") {
+                if (logo_type === "stock") {
+                    _embellishmentID = 1762241;
+                } else if (logo_type === "custom") {
+                    _embellishmentID = 1722159;
+                } else if (logo_type === "custom_text") {
+                    _embellishmentID = 1722239;
+                }
+            } else {
+                _embellishmentID = 1722159;
+            }
 
             ub.funcs.deActivateApplications();
-
             _settingsObject.font_obj = ub.funcs.getSampleFont();
             _settingsObject.application_type = _applicationType;
             _settingsObject.type = _applicationType;
             _settingsObject.object_type = _applicationType;
-            _settingsObject.embellishment = window.is.embellishments.getDefaultEmbellishment(_settingsObject); // window.is.embellishments.getEmbellishmentByID(_embellishmentID); // Add support for kollege town, prolook name drops or tailsweeps
             _settingsObject.color_array = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
+            _settingsObject.logo_type = logo_type;
+            _settingsObject.embellishment = window.is.embellishments.getEmbellishmentByID(_embellishmentID, _settingsObject.code); // window.is.embellishments.getEmbellishmentByID(_embellishmentID); // Add support for kollege town, prolook name drops or tailsweeps
 
             ub.funcs.setAppSize(_id, _size);
 
-            /// Include Matching Side code here ...
-
-            //==>
-
-            ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
             ub.current_material.settings.applications[_id] = _settingsObject;
             ub.funcs.LSRSBSFS(parseInt(_id));
-
-            if (ub.data.useScrollingUI) {
-                ub.funcs.activateApplicationsAll(_settingsObject.code);
-            } else {
-                ub.funcs.activateEmbellishments(_settingsObject.code);
-            }
-
             // TODO
             // Create
             // - ub.funcs.update_application_embellishments => from ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
             // - ub.funcs.activateEmbellishments => from ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
             // - ub plugins - $.ub.create_embellishment
+            // ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment);
         }
 
         // Open Richardson Logo Modal for embellishment and mascot only
-        if (_settingsObject.application_type === 'embellishments' || _settingsObject.application_type === 'mascot') {
-            ub.data.currentApplication = _settingsObject;
+        if (location === "Sleeve") {
+            _settingsObject.location = _settingsObject.application.layer;
+        } else {
+            _settingsObject.location = location;
+        }
+
+        ub.data.currentApplication = _settingsObject;
+        if (_settingsObject.logo_type === 'custom') {
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                InteropIsPanel.funcs.loadDesigner(undefined, _settingsObject.code);
+                InteropIsPanel.funcs.loadDesignerUpload(undefined, _settingsObject.code, true);
             } else {
                 InteropIsPanel.funcs.loadExistingDesign(_settingsObject);
             }
+        } else if (_settingsObject.logo_type === 'stock') {
+            StockMascot.events.init();
+        } else if (_settingsObject.logo_type === 'custom_text') {
+            StockMascot.events.init(ub.data.customTextCategoryID);
         }
 
         ub.funcs.runAfterUpdate(_id);
-
     }
 
     ub.funcs.postData = function (data, url) {
@@ -11008,7 +11015,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.activateMoveTool = function (application_id) {
-
         // Guard Expressions
         if ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) {
             return;
@@ -11289,7 +11295,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.deactivateMoveTool = function () {
-
         ub.status.manipulatorDown = false;
 
         if (ub.funcs.isLayersPanelVisible()) {
@@ -12006,7 +12011,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type, side) {
+    ub.funcs.newApplication = function (perspective, part, type, side, logo_type) {
         var _pha = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part = part;
@@ -12312,36 +12317,23 @@ $(document).ready(function () {
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
         ub.funcs.updateLayerTool();
 
-        $('div.optionButton[data-type="' + type + '"]').trigger('click');
+
+        if (ub.config.brand.toLowerCase() === "richardson") {
+            if (type === "embellishments") {
+                ub.funcs.changeApplicationType(_newApplication, type, logo_type, part)
+            } else {
+                $('div.optionButton[data-type="' + type + '"]').trigger('click');    
+            }
+        } else {
+            $('div.optionButton[data-type="' + type + '"]').trigger('click');
+        }
 
         $.smkAlert({
             text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer',
             type: 'success',
-            time: 10,
+            time: 1,
             marginTop: '90px'
         });
-
-        // Initialize New Embellishment Popup
-        if (ub.config.brand.toLowerCase() === "richardson") {
-            if (type === "embellishments" || type === "mascot") {
-                ub.data.currentApplication = _newApplication;
-                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                    InteropIsPanel.funcs.loadDesigner(undefined, _newIDStr);
-                } else {
-                    InteropIsPanel.funcs.loadExistingDesign(_newApplication);
-                }
-            }
-        } else {
-            if (type === "embellishments") {
-                _newApplication.font_size = _newApplication.size;
-                if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-                    is.loadDesigner(undefined, _newIDStr);
-                } else {
-                    ub.funcs.createEmbellishmentSelectionPopup(_newApplication);
-                }
-            }
-        }
-
     }
 
     ub.funcs.addLocation = function (artOnly) {

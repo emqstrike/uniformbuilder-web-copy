@@ -32,6 +32,7 @@ function ModifierController(element, brand) {
         pipings: {},
         letters: {},
         numbers: {},
+        players: {},
         applications: {},
         logo: {}
     };
@@ -55,6 +56,7 @@ ModifierController.prototype = {
         $('#property-modifiers-menu .menu-item-pipings').on('click', _.throttle(this.pipings, 800));
         $('#property-modifiers-menu .menu-item-letters').on('click', this.letters);
         $('#property-modifiers-menu .menu-item-numbers').on('click', this.numbers);
+        $('#property-modifiers-menu .menu-item-player').on('click', this.players);
         $('#property-modifiers-menu .menu-item-applications').on('click', this.applications);
         $('#property-modifiers-menu .menu-item-logo').on('click', this.logo);
         $('#property-modifiers-menu .menu-item-roster').on('click', this.roster);
@@ -120,6 +122,13 @@ ModifierController.prototype = {
             }
         } else {
             $('.menu-item-pipings', tabs_el).remove();
+        }
+
+        // Remove team name, player name and numbers when the uniform is pants 
+        if (ub.funcs.isLower()) {
+            $('.menu-item-letters', tabs_el).remove();
+            $('.menu-item-numbers', tabs_el).remove();
+            $('.menu-item-player', tabs_el).remove();
         }
 
         // logo
@@ -239,7 +248,8 @@ ModifierController.prototype = {
     },
 
     letters: function() {
-        LetterPanel.init();
+        // LetterPanel.init();
+        TeamNamePanel.events.init();
         $("#primary_options_container").scrollTo(0);
     },
 
@@ -251,6 +261,10 @@ ModifierController.prototype = {
         NumbersPanel.renderLocations(numberPanel.getLocations());
 
         $("#primary_options_container").scrollTo(0);
+    },
+
+    players: function() {
+        PlayerNamePanel.events.init();
     },
 
     applications: function() {
@@ -302,22 +316,25 @@ ModifierController.prototype = {
 };
 
 ModifierController.scrollToOptions = function (application_type, application_id, application_code) {
-    // Check if clicked application is TEAM NAME or PLAYER NAME,
-    if (application_type === "team_name" || application_type === "player_name") {
-        $('#property-modifiers-menu .menu-item-letters').trigger('click')
-    } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
-        // Numbers
-        $('#property-modifiers-menu .menu-item-numbers').trigger('click')
-    } else if (application_type === "mascot" || application_type === "embellishments") {
-        // Mascots/Embellishments
-        $('#property-modifiers-menu .menu-item-applications').trigger('click')
+    var settingsObject = ub.funcs.getApplicationSettings(application_code);
+    if (typeof settingsObject !== "undefined") {
+        if (application_type === "team_name" || settingsObject.logo_type === "custom_text") {
+            $('#property-modifiers-menu .menu-item-letters').trigger('click');
+        } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
+            $('#property-modifiers-menu .menu-item-numbers').trigger('click');
+        } else if (application_type === "mascot" || application_type === "embellishments") {
+            // Mascots/Embellishments
+            if (settingsObject.logo_type !== "custom_text") {
+                $('#property-modifiers-menu .menu-item-applications').trigger('click')
+                _.delay(function() {
+                    $("#primary_options_container .logo-location-container .btn-selection-choice[data-perspective='" + settingsObject.application.views[0].perspective + "']").trigger("click");
+                }, 500);
+            }
+            ub.funcs.activateMoveTool(application_code);
+        } else if (application_type === "player_name") {
+            $('#property-modifiers-menu .menu-item-player').trigger('click')
+        }
     }
-
-    _.delay(function() {
-        $('.modifier_main_container').scrollTo($('li[data-application-id=' + application_id + '].applicationUIBlockNew'));
-    }, 500);
-
-    ub.funcs.activateMoveTool(application_code);
 };
 
 ModifierController.deleteApplicationContainer = function (application_id) {

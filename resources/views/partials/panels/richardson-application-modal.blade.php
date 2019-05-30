@@ -1,26 +1,16 @@
 <!-- List of decoration -->
-<div class="bootbox modal fade in" id="application-list-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" style="top: 50% !important; margin-top: -250px !important;">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content cp-padding-remove">
-            <div class="modal-header cp-bgc-light cp-text-center">
-                <div>
-                    <h4 class="modal-title cp-text-uppercase" id="myModalLabel">All Decoration(s)</h4>
-                </div>
-            </div>
-            <div class="modal-body application-list-body cp-padding-medium cp-padding-remove-vertical">
-                <ul class="list-unstyled application-list cp-margin-remove">
+<div id="application-list-modal" class="uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
+        <div class="uk-modal-body uk-padding-small uk-padding-remove-bottom">
+            <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-small-bottom">All Decorations</h6>
+            <div class="">
+                <ul class="uk-list uk-list-divider application-list uk-height-max-medium uk-overflow-auto">
                 </ul>
             </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="button" class="app-btn show-location-markers" data-status="show" >Show Location Marker</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" class="app-btn" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center">
+            <button class="uk-button uk-button-secondary show-location-markers" data-status="show">Show Location Marker</button>
+            <button class="uk-button uk-button-default uk-modal-close" type="button">close</button>
         </div>
     </div>
 </div>
@@ -447,6 +437,116 @@
 </div>
 <!-- END TEAM ROSTER -->
 
+<!-- Stock Mascot -->
+<div id="richardson-stock-mascot" class="bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
+    <div class="uk-modal-dialog uk-width-3-4 uk-margin-auto-vertical inksoft-stock-mascot">
+        <div class="uk-modal-body">
+            <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove-horizontal abrade-ultra-italic richardson-stock-mascot-header">Richardson Stock Logos</h6>
+            <div class="stock-mascot-main-content">
+                <div class="uk-grid-small uk-grid-match" uk-grid>
+                    <div class="uk-width-expand">
+                        <div class="bdr-thin bdr-gray bgc-lightGray">
+                            <div class="uk-grid-small uk-grid-divider uk-grid-match" uk-grid>
+                                <div class="uk-width-1-3">
+                                    <div class="uk-padding-small uk-padding-remove-right">
+                                        <ul class="uk-nav uk-list uk-list-divider stock-mascot-categories uk-height-max-large uk-overflow-auto bdr-thin bdr-gray">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="uk-width-expand">
+                                    <div class="uk-padding-small">
+                                        <div class="uk-height-max-large uk-overflow-auto">
+                                            <div class="uk-grid-small uk-grid-match uk-child-width-1-4@m uk-padding-small stock-mascot-list-container uk-padding-remove-vertical uk-padding-remove-left" uk-grid>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="stock-mascot-loading-screen-content uk-hidden">
+                                        <div class="uk-width-1-1">
+                                            <div class="uk-flex uk-flex-middle uk-flex-center">
+                                                <div uk-spinner="ratio: 5"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="uk-width-1-4 uk-flex uk-flex-center uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">
+                        <div class="uk-width-1-1@s uk-text-center uk-first-column stock-mascot-preview-container">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stock-mascot-loading-screen uk-hidden">
+                <div class="uk-width-1-1">
+                    <div class="uk-flex uk-flex-center">
+                        <div uk-spinner="ratio: 8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center">
+            <button class="uk-button uk-button-default cancel-add-uniform uk-text-capitalize" type="button">Cancel</button>
+            <button class="uk-button uk-button-secondary uk-text-capitalize add-to-uniform" type="button">Apply</button>
+        </div>
+    </div>
+</div>
+<!-- End Stock Mascot -->
+
+<!-- Inksoft Editor -->
+<div id="inksoftEditor" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: false; esc-close: false;">
+    <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
+        <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove abrade-ultra-italic">Design Editor</h6>
+        <div class="uk-padding-small">
+            <div class="uk-width-1-1 uk-flex uk-flex-center">
+                <div class="inksoft-design-editor">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Inksoft Editor -->
+
+<!-- Inksoft Upload -->
+<div id="inksoftUploader" class="uk-modal-container bootbox modal inksoft-design-studio" uk-modal="bg-close: false; stack: false; esc-close: false;">
+    <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-width-1-1">
+        <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
+        <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove abrade-ultra-italic">Design Upload</h6>
+        <div class="uk-padding-small">
+            <div class="uk-grid-small uk-child-width-1-1@s uk-text-center" uk-grid>
+                <div class="upload-tutorial-container">
+                    <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                        <div>
+                            <div class="uk-flex uk-flex-right">
+                                <a href="javascript:void(0)" class="close-tutorial uk-text-muted"><span uk-icon="icon: close"></span></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-flex uk-flex-center">
+                                <img src="{{ $asset_storage }}/richardson/img/upload-me.png" uk-img style="position: absolute; height: 790px !important" class="close-tutorial">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-flex uk-flex-center">
+                        <div class="inksoft-design-uploader">
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Inksoft Upload -->
 
 <!-- Generate Thumbnail -->
 <div id="generateThumbnail" class="uk-modal-container" uk-modal>

@@ -205,7 +205,12 @@ $(document).ready(function() {
     
     ub.data.hasProcessedArtworks    = false;
     ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
-    ub.data.useThumnailPath = true;
+
+    // Stock Mascot Category ID
+    ub.data.stockMascotCategoryID = 1000281;
+    ub.data.customTextCategoryID = 1000321;
+    // useThumbnailPath
+    ub.data.useThumbnailPath = true;
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
     ub.data.inkSoftProlookStore     = '/Prolook_Sports';
@@ -12848,6 +12853,67 @@ ub.funcs.fontOffSets = [
             _result = _.find(this.items, {font: fontName, accentName: accentName, fontSize: fontSize});
 
             return _result;
+        }
+    }
+
+    ub.data.logoLocation = {
+        items: [
+            {
+                type: "upper",
+                locations: [
+                    {
+                        perspective: "front",
+                        part: "Front Body",
+                        alias: "Front",
+                        side: undefined
+                    },
+                    {
+                        perspective: "back",
+                        part: "Back Body",
+                        alias: "Back",
+                        side: undefined
+                    },
+                    {
+                        perspective: "left",
+                        part: "Sleeve",
+                        alias: "L Sleeve",
+                        side: "left"
+                    },
+                    {
+                        perspective: "right",
+                        part: "Sleeve",
+                        alias: "R Sleeve",
+                        side: "right"
+                    }
+                ]
+            },
+            {
+                type: "lower",
+                locations: [
+                    {
+                        perspective: "back",
+                        part: "Tunnel",
+                        alias: "Tunnel",
+                        side: undefined
+                    },
+                    {
+                        perspective: "front",
+                        part: "Base",
+                        alias: "Front Base",
+                        side: undefined
+                    }
+                ]
+            }
+        ],
+
+        getAvailableLocation: function(type) {
+            var results = _.find(this.items, {type: type});
+
+            if (typeof results !== "undefined") {
+                return results;
+            } else {
+                console.log("No available location")
+            }
         }
     }
 

@@ -22,7 +22,7 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             
-            if (window.ub.config.material_id === -1) {
+            if (window.ub.config.material_id === -1 || window.ub.config.material_id === "-1") {
                 if (ub.config.brand.toLowerCase() === "richardson") {
                     if (ub.page === "builder") {
                         ub.funcs.loadPageNotFound();
@@ -2269,6 +2269,8 @@ $(document).ready(function () {
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
                         object_type: "mascot",
+                        logo_type: "stock",
+                        location: _application.layer,
                         type: _application.type,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
@@ -2968,7 +2970,6 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
-
         // use all color if config value is set
 
     };
@@ -9079,6 +9080,8 @@ $(document).ready(function () {
             a.design_summary = JSON.parse(a.design_summary);
             a.design_details = JSON.parse(a.design_details);
 
+            console.log(a)
+
             _filename = ub.data.inkSoftBaseURL + a.design_summary.Canvases[0].SvgRelativeUrl;
 
             $('img.previewSVG').attr('src', _filename);
@@ -9109,7 +9112,7 @@ $(document).ready(function () {
                             if (typeof _result === "undefined") {
                                 _colorCode = 'Color code not found';
                             } else {
-                                _colorCode = _result.color_code;
+                                _colorCode = _result.color_code_alias;
                             }
 
                             returnObject = {
@@ -9143,7 +9146,7 @@ $(document).ready(function () {
                         if (typeof _result === "undefined") {
                             _colorCode = 'Color code not found';
                         } else {
-                            _colorCode = _result.color_code;
+                            _colorCode = _result.color_code_alias;
                         }
 
                         returnObject = {
@@ -9161,7 +9164,7 @@ $(document).ready(function () {
                         if (typeof _result === "undefined") {
                             _colorCode = 'Color code not found';
                         } else {
-                            _colorCode = _result.color_code;
+                            _colorCode = _result.color_code_alias;
                         }
 
                         var returnObject = {
@@ -9193,7 +9196,7 @@ $(document).ready(function () {
 
             if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
 
-            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0});
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: 0, brand: ub.config.brand.toLowerCase()});
 
             return _colorObj;
 
