@@ -252,6 +252,15 @@ $(document).ready(function () {
             ub.funcs.enableAlternativeUI();
         });
 
+        ub.shortcut.add("Alt+6", function () {
+            if (!ub.data.generateThumbnailShown) {
+                GenerateThumbnail.events.init();
+            } else {
+                $('#property-modifiers-menu .menu-item').first().trigger('click');
+                ub.data.generateThumbnailShown = false;
+            }
+        });
+
         ub.shortcut.add("Alt+7", function () {
             if (!ub.data.hexCodeTesterShown) {
                 ColorHexTester.init.init();

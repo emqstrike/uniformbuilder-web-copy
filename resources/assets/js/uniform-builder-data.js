@@ -202,10 +202,10 @@ $(document).ready(function() {
     ub.data.maxLength               = 12;
     ub.data.maxLengthNumbers        = 2;
     ub.data.maxLengthSublimated     = 32;
-
+    
     ub.data.hasProcessedArtworks    = false;
     ub.data.useScrollingUI = false; // False - use the color wheel, True - use the scrollable properties modifier menu
-
+    ub.data.useThumnailPath = true;
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
     ub.data.inkSoftProlookStore     = '/Prolook_Sports';
@@ -9987,6 +9987,14 @@ ub.funcs.fontOffSets = [
                     font_size: 4,
                     sport: ['Default', 'Free Form Tool'],
                 };
+
+            }
+
+            // exception on Baseball sublimated uniform
+            if (ub.funcs.isCurrentSport('Baseball') && applicationNumber > 70) {
+
+                _result.size = 5;
+                _result.font_size = 5;
 
             }
 

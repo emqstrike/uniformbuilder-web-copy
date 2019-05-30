@@ -42,7 +42,7 @@
                 <input class="uk-input roster-form-padding roster-uniform-number" type="text" placeholder="00" value="@{{ number }}" readonly="true">
             </td>
             <td>
-                <input class="uk-input roster-form-padding roster-uniform-qty" type="number" min="0" max="99" value="@{{ qty }}">
+                <input class="uk-input roster-form-padding roster-uniform-qty" type="number" min="0" max="999" value="@{{ qty }}" oninput="ApplicationEvent.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
             </td>
             <td>
                 <a href="javascript:void(0)" class="remove-player-info fc-darkGray" data-number="@{{ number }}" data-category="@{{ category }}">

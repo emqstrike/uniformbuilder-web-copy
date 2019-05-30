@@ -27,8 +27,7 @@ $(document).ready(function() {
 
 	// feature flag checker
 	ub.funcs.betaFeaturesChecker = function (_flag, callback, legacy) {
-        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'));
-        console.log('~~~~~~~~~~FEATURE FLAG CHECKER ===>', feature_flags);
+        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'))
 
         var _flags = ['New PDF', 'New Filter'];
         if (_.contains(_flags, _flag)) {

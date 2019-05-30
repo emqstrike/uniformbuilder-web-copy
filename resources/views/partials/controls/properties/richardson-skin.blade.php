@@ -1,13 +1,15 @@
 <script type="text/mustache" id="m-left-panel-toolbar">
-    <div class="perspective">
+    <div class="perspective-container">
         @{{ #perspectives }}
-            <a href="javascript:void(0)" class="change-perspective-button cp-padding-xs" data-perspective="@{{ perspective }}">
-                <div class="cp-padding-xs cp-width-xs cp-padding-remove-horizontal cp-border">
-                    <div class= cp-padding-xs">
-                        <img src="@{{ image }}" alt="" width="100%" height="50">
+            <div class="perspective change-perspective-button" data-perspective="@{{ perspective }}">
+                <a href="javascript:void(0)" class="change-perspective-button cp-padding-xs" data-perspective="@{{ perspective }}">
+                    <div class="cp-padding-xs cp-width-xs cp-padding-remove-horizontal cp-border">
+                        <div class= cp-padding-xs">
+                            <img src="@{{ image }}" alt="" width="100%" height="50">
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         @{{ /perspectives }}
     </div>
 </script>

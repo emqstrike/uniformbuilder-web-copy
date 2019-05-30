@@ -446,3 +446,15 @@
     </div>
 </div>
 <!-- END TEAM ROSTER -->
+
+
+<!-- Generate Thumbnail -->
+<div id="generateThumbnail" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-flex uk-flex-center uk-flex-middle uk-padding-small thumbnail">
+            <img src="">
+        </div>
+    </div>
+</div>
+<!-- End Generate Thumbnail -->

@@ -94,11 +94,31 @@ $(document).ready(function(){
 
     ub.config.setFeatureFlags = function () {
 
+        // old feature flag
         ub.config.setFeatureFlag('Beta Sport Uniforms');
         ub.config.setFeatureFlag('Show price items of uniforms');
         ub.config.setFeatureFlag('Test Orders');
         ub.config.setFeatureFlag('Tackle Twill Custom Sizes');
+        // end old feature flag
+
+        // new feature flag
+        ub.config.newFeatureFlagsInfoDisplay(['New Filter', 'New PDF']);
+        // end new feature flag
+
         
+    }
+
+    ub.config.newFeatureFlagsInfoDisplay = function (features) {
+        console.log('');
+        console.info('[ New Feature Flag Checker ]');
+        _.each(features, function (feature) {
+            ub.funcs.betaFeaturesChecker(feature, function() {
+                console.info('Setting the feature [ ' + feature + ' ] to true');
+            }, function () {
+                console.info('Setting the feature [ ' + feature + ' ] to false');
+            });
+        });
+        console.log('');
     }
 
     ub.config.isFeatureOn = function (namespace, feature) {
@@ -136,20 +156,20 @@ $(document).ready(function(){
 
     // enable application's Scale Tool on Subli and Twill uniforms for the ff. brand
     ub.config.ignoreScaleRulesOnSublimatedAndTwill = function (brand) {
-        var brands = [];
+        var brands = ["richardson"];
 
         // if feature flag for tackle twill's custom sizes is on (cco-156), return false
         if (ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes')) {
             return false;    
         }
 
-        return _.contains(brands, brand);
+        return _.contains(brands, brand.toLowerCase());
     }
 
     // ignore font rules for twill and subli uniforms, instead use the Sublimated font properties
     ub.config.ignoreFontRulesOnSublimatedAndTwill = function (brand) {
-        var brands = [];
-        return _.contains(brands, brand);
+        var brands = ["richardson"];
+        return _.contains(brands, brand.toLowerCase());
     }
 
     // end Brand Rules

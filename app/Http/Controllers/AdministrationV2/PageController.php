@@ -19,13 +19,6 @@ class PageController extends Controller
     
     public function index()
     {
-        $pages = [];
-        $result = $this->pageClient->getByBrand(env('BRAND'));
-
-        if ($result->success) {
-            $pages = $result->pages;
-        }
-
-        return view('administration-lte-2.pages.index', compact('pages'));
+        return view('administration-lte-2.pages.index');
     }
 }

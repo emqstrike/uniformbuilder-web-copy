@@ -3,28 +3,19 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 
     <style type="text/css">
-        div#box_body {
-            overflow-y: scroll;
-            max-height: 500px;
-        }
-
-        table.data-table {
-            table-layout: fixed;
-            word-wrap: break-word;
-        }
-
-        .modal .row {
-            margin-bottom: 15px;
-        }
-
-        .select2 {
-            width: 100% !important;
-        }
-
         li.select2-selection__choice {
             color: black !important;
+        }
+
+        .v-dialog__content { 
+            z-index: 999999 !important;
+        }
+
+        .v-dialog--fullscreen {
+            overflow-x: hidden !important;
         }
     </style>
 @endsection
@@ -39,55 +30,37 @@
 
                         <h1>Page Rules</h1>
 
-                        <button class='btn btn-flat btn-xs btn-success add-page-rule'>
+                        <button class='btn btn-flat btn-xs btn-success' @click="add(pageRule)">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add new page rule
                         </button>
                     </div>
 
                     <div class="box-body">
-                        @include('administration.partials.flash-message')
+                        <v-app id="inspire">
+                            @include('administration-lte-2.partials.components.loading-dialog')
+                            @include('administration-lte-2.page-rules.modal.page-rule')
 
-                        <table class="data-table table table-bordered patterns" 
-                            data-toggle='data' 
-                            data-available-normal-roles="{{ json_encode($availableNormalRoles) }}" 
-                            data-available-admin-roles="{{ json_encode($availableAdminRoles) }}"
-                            data-pages="{{ json_encode($pages) }}"
-                        >
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+                            <div>
+                                <v-data-table ref="pageRuleTable" :headers="headers" hide-actions :items="pageRules" class="elevation-1" :total-items="100">
+                                    <template slot="items" slot-scope="props">
+                                        <td>@{{ props.item.type }}</td>
+                                        <td>@{{ props.item.role }}</td>
+                                        <td>
+                                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(props.item)">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                                Edit
+                                            </button>
 
-                            <tbody>
-                                @if ($pageRules)
-                                    @foreach ($pageRules as $pageRule)
-                                        <tr data-type="{{ $pageRule->type }}" data-role="{{ $pageRule->role }}" data-allowed-page="{{ $pageRule->allowed_pages }}">
-                                            <td>{{ $pageRule->type }}</td>
-                                            <td>{{ $pageRule->role }}</td>
-                                            <td>
-                                                <button class="btn btn-flat btn-primary btn-xs edit-page-rule" data-page-rule-id="{{ $pageRule->id }}" role="button">
-                                                    <i class="glyphicon glyphicon-edit"></i>
-                                                    Edit
-                                                </button>
-
-                                                <button class="btn btn-flat btn-danger btn-xs remove-page-rule" data-page-rule-id="{{ $pageRule->id }}" role="button">
-                                                    <i class="glyphicon glyphicon-trash"></i>
-                                                    Remove
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="5">No page rules found</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                                            <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </template>
+                                </v-data-table>
+                            </div>
+                        </v-app>
                     </div>
                 </div>
             </di>
