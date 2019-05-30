@@ -74,6 +74,13 @@ class UniformBuilderController extends Controller
         return view('uniform-builder-down', ['asset_storage' => $asset_storage, 'asset_version' => $asset_version]);
     }
 
+    public function reactPage()
+    {
+        $asset_storage = env('ASSET_STORAGE');
+        $asset_version = env('ASSET_VERSION');
+        return view('react', ['asset_storage' => $asset_storage, 'asset_version' => $asset_version]);
+    }
+
     public function showBuilder($config = [])
     {
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))

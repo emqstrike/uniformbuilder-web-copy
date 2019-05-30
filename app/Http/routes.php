@@ -19,7 +19,7 @@ Route::get('/down', function () {
 });
 
 Route::get('down', 'UniformBuilderController@downBuilder');
-
+Route::get('react', 'UniformBuilderController@reactPage');
 Route::post('lrest', 'AuthenticationController@lrest');
 Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
