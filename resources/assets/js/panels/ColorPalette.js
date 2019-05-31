@@ -11,11 +11,16 @@ ColorPalette.funcs = {
         var colors = [];
         var colorSet = _.find(ub.data.colors_sets, { name: name});
 
-        _.map(JSON.parse(colorSet.colors), function(color) {
-            colors.push(ub.funcs.getColorByColorCode(color));
-        });
-
-        return colors;
+        if (typeof colorSet !== "undefined") {
+            _.map(JSON.parse(colorSet.colors), function(color) {
+                colors.push(ub.funcs.getColorByColorCode(color));
+            });
+            
+            return colors;
+        } else {
+            ub.utilities.warn("Cannot find color set " + name);
+            return;
+        }
     },
 
     prepareRichardsonPalette: function() {
