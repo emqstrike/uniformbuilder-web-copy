@@ -37,7 +37,6 @@ function PropertiesPanel(
     };
     this.initModifiers();
     this.initInserts();
-    // this.setDefaultColorsPatterns();
     this.bindEvents();
 }
 

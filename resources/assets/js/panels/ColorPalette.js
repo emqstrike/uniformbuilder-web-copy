@@ -2,6 +2,11 @@ function ColorPalette () {}
 
 ColorPalette.funcs = {
 
+    init: function () {
+        var that = this;
+        that.prepareRichardsonPalette();
+    },
+
     getColorsSets: function (name) {
         var colors = [];
         var colorSet = _.find(ub.data.colors_sets, { name: name});
@@ -17,7 +22,6 @@ ColorPalette.funcs = {
         ub.data.firstColorPalette = ColorPalette.funcs.getColorsSets("Richardson Color Palette 1");
         ub.data.secondaryColorPalette = ColorPalette.funcs.getColorsSets("Richardson Color Palette 2");
         ub.data.tertiaryColorPalette = ColorPalette.funcs.getColorsSets("Richardson Color Palette 3");
-
         return;
     },
 

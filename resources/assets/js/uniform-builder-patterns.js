@@ -1477,36 +1477,36 @@ $(document).ready(function () {
 
         }
 
-        if (materialOption.pattern_id === '33') { return ub.funcs.getPatternObjectFromMaterialOptionBlank(materialOption); }
+        if (materialOption.pattern_id === '33' || materialOption.pattern_id === '318') { 
+            return ub.funcs.getPatternObjectFromMaterialOptionBlank(materialOption);
+        }
 
         var _patternObject  = ub.funcs.getPatternByID(materialOption.pattern_id);
 
         if (typeof _patternObject === 'undefined') {
-
             return undefined;
-
         }
 
         var _materialOption = materialOption;
 
         var _patternObject = {
-                pattern_id: _patternObject.code,
+            pattern_id: _patternObject.code,
+            scale: 0,
+            rotation: ub.funcs.translateAngle(_materialOption.angle),
+            opacity: 0,
+            position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+            pattern_obj : {
+                pattern_id: _patternObject.id,
+                active: _patternObject.active,
+                name: _patternObject.name,
+                code: _patternObject.code,
+                icon: _patternObject.icon,
+                layers: [],
                 scale: 0,
-                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                rotation: 0,
                 opacity: 0,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                pattern_obj : {
-                    pattern_id: _patternObject.id,
-                    active: _patternObject.active,
-                    name: _patternObject.name,
-                    code: _patternObject.code,
-                    icon: _patternObject.icon,
-                    layers: [],
-                    scale: 0,
-                    rotation: 0,
-                    opacity: 0,
-                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                }
+            }
         };
 
         _.each (patternPropertiesParsed, function (_property) {
@@ -1563,23 +1563,23 @@ $(document).ready(function () {
         var _materialOption = materialOption;
 
         var _patternObject  = {
-                pattern_id: _patternDefaultObject.code,
+            pattern_id: _patternDefaultObject.code,
+            scale: 0,
+            rotation: ub.funcs.translateAngle(_materialOption.angle),
+            opacity: 0,
+            position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+            pattern_obj : {
+                pattern_id: _patternDefaultObject.id,
+                active: _patternDefaultObject.active,
+                name: _patternDefaultObject.name,
+                code: _patternDefaultObject.code,
+                icon: _patternDefaultObject.icon,
+                layers: [],
                 scale: 0,
-                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                rotation: 0,
                 opacity: 0,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                pattern_obj : {
-                    pattern_id: _patternDefaultObject.id,
-                    active: _patternDefaultObject.active,
-                    name: _patternDefaultObject.name,
-                    code: _patternDefaultObject.code,
-                    icon: _patternDefaultObject.icon,
-                    layers: [],
-                    scale: 0,
-                    rotation: 0,
-                    opacity: 0,
-                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                }    
+            }
         };
 
         
@@ -1617,23 +1617,23 @@ $(document).ready(function () {
 
         var _materialOption = materialOption;
         var _patternObject  = {
-                pattern_id: patternObject.code,
+            pattern_id: patternObject.code,
+            scale: 0,
+            rotation: ub.funcs.translateAngle(_materialOption.angle),
+            opacity: 0,
+            position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+            pattern_obj : {
+                pattern_id: patternObject.id,
+                active: patternObject.active,
+                name: patternObject.name,
+                code: patternObject.code,
+                icon: patternObject.icon,
+                layers: [],
                 scale: 0,
-                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                rotation: 0,
                 opacity: 0,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                pattern_obj : {
-                    pattern_id: patternObject.id,
-                    active: patternObject.active,
-                    name: patternObject.name,
-                    code: patternObject.code,
-                    icon: patternObject.icon,
-                    layers: [],
-                    scale: 0,
-                    rotation: 0,
-                    opacity: 0,
-                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
-                }    
+            }
         };
 
         _.each (patternObject.layers, function (_property) {

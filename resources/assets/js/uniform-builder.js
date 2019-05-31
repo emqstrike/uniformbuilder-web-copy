@@ -1144,9 +1144,8 @@ $(document).ready(function () {
                 
             }
 
-            var ok = 
-                    typeof(ub.data.patterns) !== 'undefined' && _.size(ub.data.patterns) !== 0 &&
-                    typeof(ub.data.colors) !== 'undefined' &&
+            var ok = typeof(ub.data.patterns) !== 'undefined' && _.size(ub.data.patterns) !== 0 &&
+                    typeof(ub.data.colors) !== 'undefined' && _.size(ub.data.colors) !== 0 &&
                     typeof(ub.current_material.material) !== 'undefined' &&
                     typeof(ub.current_material.materials_options) !== 'undefined' &&
                     typeof(ub.current_material.fabrics) !== 'undefined' &&
@@ -1164,9 +1163,9 @@ $(document).ready(function () {
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
-                ub.init_style();
                 ub.funcs.optimize();
                 ub.funcs.setupRetain();
+                ub.init_style();
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
             }
@@ -2566,15 +2565,11 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
-        ub.current_material.settings            = settings;
-        var uniform_type                        = ub.current_material.material.type;
-        var _hasFrontBody                       = false;
-        var _hasBody                            = false;
-        ub.data.freeAppplicationClone = [];
+        ub.current_material.settings = settings;
+        var uniform_type = ub.current_material.material.type;
+        var _hasFrontBody = false;
+        var _hasBody = false;
         ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
-
-        // Prepare Color pallete
-        ColorPalette.funcs.prepareRichardsonPalette();
         
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
@@ -2720,8 +2715,10 @@ $(document).ready(function () {
         ub.utilities.info(_patternLog);
         ub.utilities.info('--------------------');
 
-        /// Transform Applications
+        // Prepare Color pallete
+        ColorPalette.funcs.init();
 
+        /// Transform Applications
         if (typeof ub.temp === "undefined") {
 
             ub.data.convertDefaultApplications();
@@ -2735,7 +2732,8 @@ $(document).ready(function () {
         /// End Apply Data Patches 
 
         ub.funcs.showLocations();
-
+        ub.funcs.removeLocations();
+        
         // if (ub.config.material_id === 731) {
 
         //     ub.current_material.settings.applications[1].tailsweep = {
@@ -2860,15 +2858,6 @@ $(document).ready(function () {
                 }
             }
 
-            if (application_obj.type === "free") {
-                if (ub.data.afterLoadCalled !== 1) {
-                    var clone_output = _.clone(application_obj);
-                    clone_output.application = _.clone(application_obj.application)
-                    JSON.stringify(clone_output);
-                    ub.data.freeAppplicationClone.push(clone_output);
-                }
-            }
-
             if (application_obj.type === "embellishments") {
 
                 ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
@@ -2968,6 +2957,7 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
+
         // use all color if config value is set
 
     };
