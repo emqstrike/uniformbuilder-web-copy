@@ -68,7 +68,7 @@
 <script type="mustache/x-tmpl" id="richardson-numbers-font-accents-tmpl">
     @{{ #fontAccentsFlag }}
         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-small uk-margin-remove-horizontal abrade-black">Choose font Accent</h6>
-        <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-1-5 uk-child-width-1-6@s uk-child-width-1-5@m con-select m-accents active-bdr-red font-accents" uk-grid uk-switcher>
+        <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-expand con-select m-accents active-bdr-red font-accents" uk-grid uk-switcher>
             @{{ #fontAccents }}
                 <button class="uk-inline bgc-transparent box-palette btn-selection-choice change-font-accent @{{ active }}" data-app-code="@{{ app_code }}" data-accent-id="@{{ accent_id }}" uk-tooltip="title: @{{ title }}; pos: left;" style="margin-top: 6px;">
                     <div class=" bdr-thin bdr-gray">
@@ -107,15 +107,20 @@
                 </div>
             @{{ /fontColors }}
         </div>
-        <ul class="uk-switcher uk-margin uk-padding-remove">
+        <ul class="uk-switcher uk-margin uk-padding-remove font-colors">
             @{{ #fontColors }}
                 <li>
                     <div class="con-select con-palettes">
                         <div class="uk-grid-small grid-tiny uk-grid-match uk-child-width-auto uk-text-center m-palette-color" uk-grid>
                             @{{ #colors }}
                                 <div>
-                                    <button class="uk-inline box-palette btn-selection-choice palette-color" style="margin-bottom: 6px;">
-                                        <div class="palette" style="background-color: #@{{ color.hex_code }};"></div>
+                                    <button class="uk-inline box-palette btn-selection-choice palette-color change-font-color" style="margin-bottom: 6px;"
+                                        data-app-code="@{{ app_code }}"
+                                        data-layer-name="@{{ layer_name }}"
+                                        data-layer-number="@{{ layer_number }}"
+                                        data-color-code="@{{ color_code }}">
+
+                                        <div class="palette" style="background-color: #@{{ hex_code }};"></div>
 
                                         @{{ #active }}
                                             <span class="fa fa-check fa-1x cp-check-color-font-size uk-position-cover" style="color:#ffffff; padding-top: 5px;"></span>
@@ -133,4 +138,8 @@
     @{{ ^fontColorsFlag }}
         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">No Font Colors</h6>
     @{{ /fontColorsFlag }}
+</script>
+
+<script type="mustache/x-tmpl" id="richardson-numbers-font-colors-active-state-tmpl">
+    <span class="fa fa-check fa-1x cp-check-color-font-size uk-position-cover" style="color:#ffffff; padding-top: 5px;"></span>
 </script>

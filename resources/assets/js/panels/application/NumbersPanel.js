@@ -143,15 +143,19 @@ NumbersPanel.prototype = {
 
                     if (searched_layer === undefined) {
                         _this.fontColors.push({
+                            app_code: application.code,
                             layer_name: layer.name,
+                            layer_number: layer.layer_no,
                             colors: [{
-                                color: team_color,
+                                hex_code: team_color.hex_code,
+                                color_code: team_color.color_code,
                                 active: color.color_code === team_color.color_code
-                            }]
+                            }],
                         });
                     } else {
                         searched_layer.colors.push({
-                            color: team_color,
+                            hex_code: team_color.hex_code,
+                            color_code: team_color.color_code,
                             active: color.color_code === team_color.color_code
                         });
                     }
@@ -203,6 +207,7 @@ NumbersPanel.events = {
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.NEXT_FONT+"]", NumbersPanel.events.onNextFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar .open-fonts-modal", NumbersPanel.events.onOpenFontsModal);
             $("#primary_options_container").on("click", "#richardson-numbers-font-accents .change-font-accent", NumbersPanel.events.onChangeFontAccent);
+            $("#primary_options_container").on("click", "#richardson-numbers-font-colors .font-colors .change-font-color", NumbersPanel.events.onChangeFontColor);
 
             NumbersPanel.events.is_init = true;
         }
@@ -266,11 +271,62 @@ NumbersPanel.events = {
 
         ub.funcs.changeAccentFromPopup(accent_id, application);
 
-        var matchingID = ub.data.matchingIDs.getMatchingID(app_code);
+        if (ub.data.matchingIDs !== undefined) {
+            var matchingID = ub.data.matchingIDs.getMatchingID(app_code);
 
-        if (matchingID !== undefined) {
-            var matchingApp = _.find(ub.current_material.settings.applications, {code: matchingID});
-            ub.funcs.changeAccentFromPopup(accent_id, application);
+            if (matchingID !== undefined) {
+                var matchingApp = _.find(ub.current_material.settings.applications, {code: matchingID});
+                ub.funcs.changeAccentFromPopup(accent_id, application);
+            }
+        }
+
+        // update font colors
+        NumbersPanel.numbersPanel.setFontColors(application);
+
+        $('#richardson-numbers-font-colors').hide();
+        NumbersPanel.renderFontColors(function() {
+            $('#richardson-numbers-font-colors').fadeIn();
+        });
+    },
+
+    onChangeFontColor: function() {
+        $('#richardson-numbers-font-colors .font-colors .change-font-color span').remove();
+        $(this).append($('#richardson-numbers-font-colors-active-state-tmpl').html());
+
+        var app_code = $(this).data("app-code").toString();
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+        if (application !== undefined) {
+            var layer_name = $(this).data("layer-name");
+            var layer = _.find(application.accent_obj.layers, {name: layer_name});
+
+            if (layer !== undefined) {
+                var layer_number = $(this).data("layer-number");
+                var color_code = $(this).data("color-code");
+
+                var colorObj = ub.funcs.getColorByColorCode(color_code);
+
+                layer.default_color = colorObj.hex_code;
+                application.color_array[layer_number - 1] = colorObj;
+
+                ub.funcs.changeFontFromPopup(application.font_obj.id, application);
+
+                if (ub.data.matchingIDs !== undefined) {
+                    var matchingID = ub.data.matchingIDs.getMatchingID(app_code);
+
+                    if (matchingID !== undefined) {
+                        var matchingApp = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
+                        var matchingLayer = _.find(matchingApp.accent_obj.layers, {name: layer_name});
+
+                        matchingLayer.default_color = colorObj.hex_code;
+                        matchingApp.color_array[layer_number - 1] = colorObj;
+                    }
+                }
+            } else {
+                console.error("Error: Layer name " + layer_name + " is invalid.");
+            }
+        } else {
+            console.error("Error: Application code " + app_code + " is invalid.");
         }
     }
 };
@@ -355,8 +411,6 @@ NumbersPanel.changeFontStyle = function(app_code, direction, font_id) {
 
         ub.funcs.changeFontFromPopup(font_id, application);
         var font_style_el = $("#richardson-numbers-font-bar .open-fonts-modal");
-
-        console.log(newFont);
 
         $("span", font_style_el).text(newFont.caption);
         $("span", font_style_el).css('font-family', newFont.name);
