@@ -211,6 +211,9 @@ $(document).ready(function() {
     ub.data.customTextCategoryID = 1000321;
     // useThumbnailPath
     ub.data.useThumbnailPath = true;
+
+    // IS ASSEST HAS BEEN LOADED
+    ub.data.loadedAssets = true;
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
     ub.data.inkSoftProlookStore     = '/Prolook_Sports';

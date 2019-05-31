@@ -77,19 +77,16 @@ $(document).ready(function () {
                 ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand.toLowerCase();
 
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                
-                _.delay(function() {
-                    ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-                    ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
-                    ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
-                    ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
-                    ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
-                    ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
-                    ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
-                    ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-                    ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
-                    ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                }, 1000)
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.fabrics, 'fabrics', ub.callback);
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
+                ub.loader(ub.current_material.piping_images, 'piping_images', ub.callback);
+                ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
 
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
@@ -1865,68 +1862,70 @@ $(document).ready(function () {
         }
 
         ub.load_assets = function () {
+            if (ub.data.loadedAssets) {
+                ub.assets = {};
+                ub.assets.folder_name = '/images/builder-assets/'
+                ub.assets.blank = ub.assets.folder_name + 'blank.png';
 
-            ub.assets = {};
-            ub.assets.folder_name = '/images/builder-assets/'
-            ub.assets.blank = ub.assets.folder_name + 'blank.png';
+                var material = {};
+                
+                material = ub.current_material.material;
+                material.options = ub.current_material.materials_options;
 
-            var material = {};
-            
-            material = ub.current_material.material;
-            material.options = ub.current_material.materials_options;
+                _.each(ub.views, function (view) {
 
-            _.each(ub.views, function (view) {
+                    var v = view;
 
-                var v = view;
+                    if (v === 'left' || v === 'right') {
+                        v =  v + '_side_view';
+                    }
+                    else {
+                        v = v + '_view';
+                    }    
 
-                if (v === 'left' || v === 'right') {
-                    v =  v + '_side_view';
+                    var view_name = view + '_view';
+
+                    ub.assets[view_name] = {};
+                    // ub.assets[view_name].shape = material[v + '_shape'];
+
+                });
+
+                /// Materials
+                
+                ub.assets.pattern = {};
+                ub.assets.pattern.layers = [];
+                ub.objects.pattern_view = {};
+
+                ub.funcs.load_fonts();
+                ub.setup_views();
+                ub.setup_material_options(); 
+                ub.pass = 0;
+
+                requestAnimationFrame(ub.render_frames);
+
+                var material_name = ub.current_material.material.name
+                $('span#design_name_input').text(material_name);
+                $('input[name="design_name"]').val(material_name);
+
+                ub.funcs.showViewports();
+
+                $('#main-row').fadeIn();
+                $('div#design_name_container').fadeIn();
+
+                var _hold = 500;
+
+                if (ub.render !== "1" && ub.status.fullView.getStatus()) {
+                    ub.funcs.setVisibleView('front');    
+                } else {
+                    _hold = 3000;
                 }
-                else {
-                    v = v + '_view';
-                }    
+                
+                setTimeout(function () {
+                    ub.funcs.afterLoad(); 
+                }, _hold);
 
-                var view_name = view + '_view';
-
-                ub.assets[view_name] = {};
-                // ub.assets[view_name].shape = material[v + '_shape'];
-
-            });
-
-            /// Materials
-            
-            ub.assets.pattern = {};
-            ub.assets.pattern.layers = [];
-            ub.objects.pattern_view = {};
-
-            ub.funcs.load_fonts();
-            ub.setup_views();
-            ub.setup_material_options(); 
-            ub.pass = 0;
-
-            requestAnimationFrame(ub.render_frames);
-
-            var material_name = ub.current_material.material.name
-            $('span#design_name_input').text(material_name);
-            $('input[name="design_name"]').val(material_name);
-
-            ub.funcs.showViewports();
-
-            $('#main-row').fadeIn();
-            $('div#design_name_container').fadeIn();
-
-            var _hold = 500;
-
-            if (ub.render !== "1" && ub.status.fullView.getStatus()) {
-                ub.funcs.setVisibleView('front');    
-            } else {
-                _hold = 3000;
+                ub.data.loadedAssets = false;
             }
-            
-            setTimeout(function () {
-                ub.funcs.afterLoad(); 
-            }, _hold);
-
         }
 
         ub.funcs.setVisibleView = function (viewStr) {
