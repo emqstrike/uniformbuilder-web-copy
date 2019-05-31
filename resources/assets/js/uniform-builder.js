@@ -91,14 +91,15 @@ $(document).ready(function () {
                 // Get the Color Sets from the backend API
                 ub.current_material.colors_sets = ub.config.api_host + '/api/colors_sets/';
                 ub.loader(ub.current_material.colors_sets, 'colors_sets', ub.callback);
+                
+                // Application Sizes
+                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
                 ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
 
-                // Application Sizes
-                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
-                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);
 
                 // Hidden Bodies
                 ub.current_material.hidden_bodies_url = window.ub.config.api_host + '/api/v1-0/hidden_bodies/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option + '/' + ub.config.type;
