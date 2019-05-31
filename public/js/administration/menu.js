@@ -11,7 +11,10 @@ var nested = {
         },
         remove(menu, index) {
             Event.$emit('remove', menu, index);
-        }
+        },
+        updateMenuData(event) {
+            Event.$emit('update-menu-data', event);
+        },
     }
 };
 
@@ -33,6 +36,7 @@ new Vue({
     created() {
         Event.$on('edit', this.edit);
         Event.$on('remove', this.remove);
+        Event.$on('update-menu-data', this.updateMenuData);
     },
     mounted() {
         this.getMenuDataFromAPI();
@@ -97,6 +101,9 @@ new Vue({
         toggleDialog() {
             this.menuDialog = ! this.menuDialog;
         },
+        updateMenuData(event) {
+            this.updateOrderId();
+        },
         updateOrderId() {
             let self = this;
             let parentMenuOrderCount = submenuOrderCount = 1;
@@ -107,11 +114,14 @@ new Vue({
                 if (menu.hasOwnProperty('menus')) {
                     menu.menus.forEach(function(_menu) {
                         _menu.order_id = submenuOrderCount++;
+                        _menu.parent_id = menu.order_id;
                     });
                 }
 
                 submenuOrderCount = 1;
             });
+
+            this.$forceUpdate();
         },
     }
 });
