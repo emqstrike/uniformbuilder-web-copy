@@ -681,11 +681,9 @@ $(document).ready(function () {
 
             if (ub.fabric.fabricSelectionBlocks.isFabricSelectionEnabled().length > 0) { ub.fabric.fabricInitSample(); }
 
-            ub.funcs.changeControls();
-
             // executeAfterLoadFunctionList()
-
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.changeControls);
             ub.funcs.executeAfterLoadFunctionList();
         };
 
@@ -2733,7 +2731,7 @@ $(document).ready(function () {
 
         ub.funcs.showLocations();
         ub.funcs.removeLocations();
-        
+
         // if (ub.config.material_id === 731) {
 
         //     ub.current_material.settings.applications[1].tailsweep = {

@@ -238,7 +238,6 @@ $(document).ready(function () {
 
     ub.funcs.changeControls = function() {
         if (ub.funcs.isAlternativeUIEnabled()) {
-
             // Overwrite config's brand
             if (ub.current_material.material.brand.toLowerCase() == 'richardson') {
                 ub.config.brand = ub.current_material.material.brand;

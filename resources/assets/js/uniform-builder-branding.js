@@ -22,16 +22,14 @@ $(document).ready(function() {
     ub.funcs.initBrands = function () {
 
     	// Detect and Run this via a brand flag from the backend 
-		if (ub.config.brand === "Richardson") {
+		if (ub.config.brand.toLowerCase() === "richardson") {
             ub.richardson.funcs.init();
         }
 
     }
 
     ub.funcs.enableAlternativeUI = function () {
-
         ub.branding.useAlternativeUI = true;
-
     }
 
     ub.funcs.isAlternativeUIEnabled = function () {
