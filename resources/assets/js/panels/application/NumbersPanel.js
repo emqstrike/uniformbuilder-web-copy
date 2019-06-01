@@ -193,7 +193,10 @@ NumbersPanel.events = {
         if (!NumbersPanel.events.is_init) {
             NumbersPanel.numbersPanel = numbersPanel;
 
-            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button", NumbersPanel.events.onLocationChange);
+            $('#primary_options_container').on("keyUp", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
+            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
+            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
+            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button", NumbersPanel.events.onChangeLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.PREVIOUS_FONT+"]", NumbersPanel.events.onPreviousFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.NEXT_FONT+"]", NumbersPanel.events.onNextFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar .open-fonts-modal", NumbersPanel.events.onOpenFontsModal);
@@ -210,6 +213,7 @@ NumbersPanel.events = {
             }
 
             $('#richardson-numbers-locations .location-buttons button.uk-active:first').click();
+            $('#richardson-numbers-locations .location-buttons button.uk-active:first').prop('disabled', true);
 
             if ($('#richardson-numbers-font-bar').html().trim() !== "") {
                 $('#richardson-numbers-loading').addClass("hide");
@@ -218,12 +222,59 @@ NumbersPanel.events = {
         }, 300);
     },
 
-    onLocationChange: function() {
+    onNumberChanging: function(e) {
+        var ENTER = 13;
+        var number = parseInt($(this).val());
+
+        if (number >= 0 && number <= 99) {
+            if (e.keyCode === ENTER) {
+            }
+        } else {
+            var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
+
+            if (location_el.length !== 0) {
+                var app_code = location_el.data("app-code").toString();
+                var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+                $(this).val(application.text);
+            }
+        }
+    },
+
+    onAddLocation: function() {
+
+    },
+
+    onRemoveLocation: function() {
+        var _this = this;
+
+        UIkit.modal.confirm("Are you sure you want to remove this location?").then(function() {
+            var app_code = $(_this).data("app-code").toString();
+            var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+            if (application !== undefined) {
+                $(_this).addClass("invisible");
+                $(_this).prev().removeClass("uk-active btn-enabled");
+
+                ub.funcs.deleteLocation(application.code);
+            } else {
+                console.error("Error: Application code " + app_code + " is invalid.");
+            }
+        });
+
+    },
+
+    onChangeLocation: function() {
         $('.richardson-numbers-container .location-buttons button').prop("disabled", true);
-        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active");
-        $(this).addClass("uk-active");
+        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active").prop('disabled', false);
+        $(this).addClass("uk-active").prop('disabled', true);
 
         var app_code = $(this).data("app-code").toString();
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+        if (application !== undefined) {
+            $('#richardson-numbers-input-number').val(application.text);
+        }
 
         NumbersPanel.numbersPanel.setFontAccents(app_code);
         NumbersPanel.renderFontsBar(app_code, function() { // render fonts bar

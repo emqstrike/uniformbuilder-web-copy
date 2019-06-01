@@ -40,7 +40,7 @@
                     <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice uk-btn @{{ #enabled }}btn-enabled@{{ /enabled }} @{{ #active }}uk-active@{{ /active }}"
                         data-app-code="@{{ code }}">@{{ text }}</button>
 
-                    <a href="#" class="removeMascot en-disable-me fc-red fc-italic remove-location @{{ ^enabled }}invisible@{{ /enabled }}">(remove)</a>
+                    <a href="javascript:void(0)" class="removeMascot en-disable-me fc-red fc-italic remove-location @{{ ^enabled }}invisible@{{ /enabled }}" data-app-code="@{{ code }}">(remove)</a>
                 </div>
             @{{ /locations }}
         </div>
