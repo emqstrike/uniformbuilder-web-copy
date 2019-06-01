@@ -258,7 +258,7 @@ ModifierController.prototype = {
         ub.modifierController.propertiesPanel.setBodyPanel(numberPanel.getPanel());
 
         NumbersPanel.events.init(numberPanel);
-        NumbersPanel.renderLocations(numberPanel.getLocations());
+        NumbersPanel.renderLocations();
 
         $("#primary_options_container").scrollTo(0);
     },

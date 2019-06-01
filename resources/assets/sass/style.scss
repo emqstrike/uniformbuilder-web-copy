@@ -485,7 +485,8 @@ img.custom-logo-upload-preview {
 }
 
 .uk-btn {
- &.uk-active {
+ &.uk-active,
+ &.uk-active.btn-enabled {
    color: $color-light;
    background-color: $color-red;
    border-color: $color-red;

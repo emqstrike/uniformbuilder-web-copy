@@ -32,57 +32,47 @@ NumbersPanel.prototype = {
     },
 
     setLocations: function() {
-        var application_types = _.pluck(ub.current_material.settings.applications, "application_type");
         var applications = ub.current_material.settings.applications;
-        var application;
 
-        if (_.contains(application_types, NumbersPanel.FRONT_TYPE)) {
-            this.locations.push({
-                location: NumbersPanel.FRONT_LOCATION,
-                type: NumbersPanel.FRONT_TYPE
-            });
+        this.locations.push({
+            text: NumbersPanel.LOCATION_FRONT.text,
+            code: NumbersPanel.LOCATION_FRONT.code,
+            enabled: _.find(applications, {code: NumbersPanel.LOCATION_FRONT.code}) !== undefined
+        });
 
-            application = _.find(ub.current_material.settings.applications, {application_type: NumbersPanel.FRONT_TYPE});
+        this.locations.push({
+            text: NumbersPanel.LOCATION_BACK.text,
+            code: NumbersPanel.LOCATION_BACK.code,
+            enabled: _.find(applications, {code: NumbersPanel.LOCATION_BACK.code}) !== undefined
+        });
 
-            if (application !== undefined) {
-                this.locations[this.locations.length - 1].application_code = application.code;
-            }
-        }
+        this.locations.push({
+            text: NumbersPanel.LOCATION_BOTTOM_PANEL.text,
+            code: NumbersPanel.LOCATION_BOTTOM_PANEL.code,
+            enabled: _.find(applications, {code: NumbersPanel.LOCATION_BOTTOM_PANEL.code}) !== undefined
+        });
 
-        if (_.contains(application_types, NumbersPanel.BACK_TYPE)) {
-            this.locations.push({
-                location: NumbersPanel.BACK_LOCATION,
-                type: NumbersPanel.BACK_TYPE
-            });
+        this.locations.push({
+            text: NumbersPanel.LOCATION_LEFT_SLEEVE.text,
+            code: NumbersPanel.LOCATION_LEFT_SLEEVE.code,
+            enabled: _.find(applications, {code: NumbersPanel.LOCATION_LEFT_SLEEVE.code}) !== undefined
+        });
 
-            application = _.find(ub.current_material.settings.applications, {application_type: NumbersPanel.BACK_TYPE});
+        this.locations.push({
+            text: NumbersPanel.LOCATION_RIGHT_SLEEVE.text,
+            code: NumbersPanel.LOCATION_RIGHT_SLEEVE.code,
+            enabled: _.find(applications, {code: NumbersPanel.LOCATION_RIGHT_SLEEVE.code}) !== undefined
+        });
 
-            if (application !== undefined) {
-                this.locations[this.locations.length - 1].application_code = application.code;
-            }
-        }
-
-        if (_.contains(application_types, NumbersPanel.SLEEVE_TYPE)) {
-            this.locations.push({
-                location: NumbersPanel.SLEEVE_LOCATION,
-                type: NumbersPanel.SLEEVE_TYPE
-            });
-
-            application = _.find(ub.current_material.settings.applications, {application_type: NumbersPanel.SLEEVE_TYPE});
-
-            if (application !== undefined) {
-                this.locations[this.locations.length - 1].application_code = application.code;
-            }
-        }
+        // active the first enable
+        var location = _.find(this.locations, {enabled: true});
+        location.active = true;
     },
 
-    setFontAccents: function(application_type) {
-        if (application_type === NumbersPanel.FRONT_TYPE ||
-            application_type === NumbersPanel.BACK_TYPE ||
-            application_type === NumbersPanel.SLEEVE_TYPE) {
+    setFontAccents: function(app_code) {
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
-            var application = _.find(ub.current_material.settings.applications, {'application_type': application_type});
-
+        if (application !== undefined) {
             this.fontAccents = _.map(ub.data.accents.items, function(i) {
                 return {
                     app_code: application.code,
@@ -96,7 +86,7 @@ NumbersPanel.prototype = {
             // set font colors
             this.setFontColors(application);
         } else {
-            console.error("Error: Invalid application type");
+            console.error("Error: Invalid application code");
         }
     },
 
@@ -179,16 +169,17 @@ NumbersPanel.prototype = {
 
 NumbersPanel.FRONT_TYPE = "front_number";
 NumbersPanel.BACK_TYPE = "back_number";
-NumbersPanel.SLEEVE_TYPE = "sleeve_number";
 NumbersPanel.MASCOT_TYPE = "mascot";
 NumbersPanel.LOGO_TYPE = "logo";
 NumbersPanel.MASCOT_TYPE_ID = 1039;
 
-NumbersPanel.FRONT_LOCATION = "Front";
-NumbersPanel.BACK_LOCATION = "Back";
-NumbersPanel.SLEEVE_LOCATION = "Sleeve";
-
 NumbersPanel.LAYERS_TO_BE_IGNORE = ["Mask", "Pseudo Shadow"];
+
+NumbersPanel.LOCATION_FRONT = {text: "Front", code: "72"};
+NumbersPanel.LOCATION_BACK = {text: "Back", code: "73"};
+NumbersPanel.LOCATION_BOTTOM_PANEL = {text: "BPanel", code: "74"};
+NumbersPanel.LOCATION_LEFT_SLEEVE = {text: "LSleeve", code: "75"};
+NumbersPanel.LOCATION_RIGHT_SLEEVE = {text: "RSleeve", code: "76"};
 
 NumbersPanel.PREVIOUS_FONT = "previous";
 NumbersPanel.NEXT_FONT = "next";
@@ -211,15 +202,30 @@ NumbersPanel.events = {
 
             NumbersPanel.events.is_init = true;
         }
+
+        // active the first location
+        var activateFirstLocationTime = setInterval(function() {
+            if ($('#richardson-numbers-loading').hasClass("hide")) {
+                $('#richardson-numbers-loading').removeClass("hide");
+            }
+
+            $('#richardson-numbers-locations .location-buttons button.uk-active:first').click();
+
+            if ($('#richardson-numbers-font-bar').html().trim() !== "") {
+                $('#richardson-numbers-loading').addClass("hide");
+                clearInterval(activateFirstLocationTime);
+            }
+        }, 300);
     },
 
     onLocationChange: function() {
         $('.richardson-numbers-container .location-buttons button').prop("disabled", true);
+        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active");
+        $(this).addClass("uk-active");
 
-        var type = $(this).data("type");
-        var app_code = $(this).data("app-code");
+        var app_code = $(this).data("app-code").toString();
 
-        NumbersPanel.numbersPanel.setFontAccents(type);
+        NumbersPanel.numbersPanel.setFontAccents(app_code);
         NumbersPanel.renderFontsBar(app_code, function() { // render fonts bar
             NumbersPanel.renderFontAccents(function() { // render font accents
                 NumbersPanel.renderFontColors(function() { // render font colors
@@ -234,18 +240,18 @@ NumbersPanel.events = {
     },
 
     onPreviousFont: function() {
-        var app_code = $(this).data("app-code");
+        var app_code = $(this).data("app-code").toString();
         NumbersPanel.changeFontStyle(app_code, NumbersPanel.PREVIOUS_FONT);
     },
 
     onNextFont: function() {
-        var app_code = $(this).data("app-code");
+        var app_code = $(this).data("app-code").toString();
         NumbersPanel.changeFontStyle(app_code, NumbersPanel.NEXT_FONT);
     },
 
     onOpenFontsModal: function() {
-        var app_code = $(this).data('app-code');
-        var application = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
+        var app_code = $(this).data('app-code').toString();
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
         if (typeof application !== "undefined") {
             var sample_text = $('#richardson-numbers-input-number').val();
@@ -331,7 +337,9 @@ NumbersPanel.events = {
     }
 };
 
-NumbersPanel.renderLocations = function(locations) {
+NumbersPanel.renderLocations = function() {
+    var locations = NumbersPanel.numbersPanel.getLocations();
+
     var items = {
         locationsFlag: locations.length > 0,
         locations: locations
@@ -346,7 +354,7 @@ NumbersPanel.renderFontsBar = function(app_code, callback) {
     $('#richardson-numbers-font-accents').hide();
     $('#richardson-numbers-font-colors').hide();
 
-    var application = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
+    var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
     if (application !== undefined) {
         var items = {
@@ -396,7 +404,7 @@ NumbersPanel.renderFontColors = function(callback) {
 };
 
 NumbersPanel.changeFontStyle = function(app_code, direction, font_id) {
-    var application = _.find(ub.current_material.settings.applications, {code: app_code.toString()});
+    var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
     var newFont;
 

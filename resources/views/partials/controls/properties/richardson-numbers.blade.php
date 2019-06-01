@@ -22,6 +22,10 @@
                 <div id="richardson-numbers-font-colors" class="uk-margin-small">
                     @{{! to be fill of js }}
                 </div>
+
+                <div id="richardson-numbers-loading" style="position: relative; height: 300px;">
+                    <div class="uk-position-cover uk-flex uk-flex-center"" uk-spinner="ratio: 5"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,8 +36,11 @@
         <h6 class="uk-text-small uk-text-uppercase uk-text-bold uk-margin-top uk-margin-small-bottom abrade-black">Locations</h6>
         <div class="uk-grid-small grid-tiny uk-grid-match uk-text-center con-panel-numbers location-buttons uk-margin-" uk-grid>
             @{{ #locations }}
-                <div class="uk-width-auto uk-width-1-4@m">
-                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice uk-btn" data-type="@{{ type }}" data-app-code="@{{ application_code }}">@{{ location }}</button>
+                <div class="uk-width-auto uk-width-1-5@m">
+                    <button class="uk-button uk-button-small uk-width-1-1 uk-button-default uk-text-capitalize btn-selection-choice uk-btn @{{ #enabled }}btn-enabled@{{ /enabled }} @{{ #active }}uk-active@{{ /active }}"
+                        data-app-code="@{{ code }}">@{{ text }}</button>
+
+                    <a href="#" class="removeMascot en-disable-me fc-red fc-italic remove-location @{{ ^enabled }}invisible@{{ /enabled }}">(remove)</a>
                 </div>
             @{{ /locations }}
         </div>
