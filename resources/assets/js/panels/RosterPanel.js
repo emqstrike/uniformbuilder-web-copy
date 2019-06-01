@@ -21,6 +21,9 @@ RosterPanel.events = {
             $("#richardson-team-roster").on("beforehide", function() {
                 $("#property-modifiers-menu .menu-item").first().trigger("click");
             })
+
+            $("#richardson-team-roster").on("change", ".application-sizing-container .application-sizing-item select", that.onChangeSize)
+            $("#richardson-team-roster").on("click", ".application-sizing-container .application-sizing-item .application-size-type", that.onChangeApplicationSizeType);
             
             that.isInit = false;
         }
@@ -29,7 +32,9 @@ RosterPanel.events = {
     onShowRoster: function() {
         RosterPanel.events.prepareUniformSizes();
         RosterPanel.events.preparePlayerNumbers();
+        RosterPanel.events.prepareApplicationSizing();
         UIkit.modal("#richardson-team-roster").show();
+        UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(0);
     },
 
     onClickManageRoster: function() {
@@ -146,7 +151,7 @@ RosterPanel.events = {
         });
 
         ub.data.rosterIsChange = true;
-        UIkit.modal("#richardson-team-roster").hide();
+        UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(1);
     },
 
     onClickSummaryPlayerNumber: function() {
@@ -206,6 +211,37 @@ RosterPanel.events = {
         var category = container.data("category");
         
         RosterPanel.events.updateRoster(size, last_name, number, quantity, category);
+    },
+
+    // Application Sizing Events
+    onChangeApplicationSizeType: function() {
+        var code = $(this).closest(".application-sizing-item").data("code");
+        var type = $(this).val();
+
+        var settingsObject = ub.funcs.getApplicationSettings(code);
+        if (typeof settingsObject !== "undefined") {
+            settingsObject.size_type = type;
+        }
+
+        var sizingObject = RosterPanel.events.getApplicationSizingObject(code);
+        if (typeof sizingObject !== "undefined") {
+            sizingObject.size_type = type;
+        }
+    },
+
+    onChangeSize: function () {
+        var code = $(this).closest(".application-sizing-item").data("code");
+        var size = $(this).val();
+
+        var settingsObject = ub.funcs.getApplicationSettings(code);
+        if (typeof settingsObject !== "undefined") {
+            settingsObject.application_size = size;
+        }
+
+        var sizingObject = RosterPanel.events.getApplicationSizingObject(code);
+        if (typeof sizingObject !== "undefined") {
+            sizingObject.application_size = size;
+        }
     },
 
     prepareUniformSizes: function() {
@@ -345,4 +381,95 @@ RosterPanel.events = {
             $("#richardson-team-roster .player-info-preview").html("")
         })
     },
+
+    prepareApplicationSizing: function () {
+        var that = this;
+        var applications = [];
+        _.map(ub.current_material.settings.applications, function(app) {
+            var obj = {};
+            var appSizes = ub.funcs.getRichardsonApplicationSizes(app)
+
+            if (typeof app.application_size === "undefined") {
+                app.application_size = "best_fit";
+            }
+
+            if (typeof app.size_type === "undefined") {
+                app.size_type = "tall";
+            }
+
+            if (app.application_type === "team_name" || app.application_type === "player_name") {
+                obj = {
+                    code: app.code,
+                    type: app.application.name,
+                    accent: app.accent_obj.title,
+                    thumbnail: '/images/sidebar/' + app.accent_obj.thumbnail,
+                    text: app.text,
+                    font: app.font_obj.name,
+                    colors: app.color_array,
+                    isEmbellishment: false,
+                    sizes: appSizes.sizes,
+                    size_type: app.size_type,
+                    application_size: app.application_size
+
+                }
+            } else if (app.application_type === "front_number" || app.application_type === "back_number" || app.application_type === "sleeve_number") {
+                obj = {
+                    code: app.code,
+                    type: app.application.name,
+                    accent: app.accent_obj.title,
+                    thumbnail: '/images/sidebar/' + app.accent_obj.thumbnail,
+                    text: app.text,
+                    font: app.font_obj.name,
+                    colors: app.color_array,
+                    isEmbellishment: false,
+                    sizes: appSizes.sizes,
+                    size_type: app.size_type,
+                    application_size: app.application_size
+                }
+            } else if (app.application_type === "embellishments") {
+                obj = {
+                    code: app.code,
+                    type: app.logo_type + " " + "logo",
+                    name: app.embellishment.name,
+                    thumbnail: app.embellishment.png_filename,
+                    details: ub.config.host + '/utilities/preview-logo-information/' + app.embellishment.design_id,
+                    isEmbellishment: true,
+                    sizes: appSizes.sizes,
+                    size_type: app.size_type,
+                    application_size: app.application_size
+                }
+            }
+
+            applications.push(obj);
+            ub.current_material.settings.applicationSizing.push({
+                code: app.code,
+                size_type: app.size_type,
+                application_size: app.application_size
+            });
+        });
+
+        var template = document.getElementById("m-richardson-application-item").innerHTML;
+        var render = Mustache.render(template, {applications: applications});
+        $(".application-sizing-container table.applications-sizing-table tbody").html("");
+        $(".application-sizing-container table.applications-sizing-table tbody").html(render);
+
+        _.delay(function() {
+            RosterPanel.events.setupApplicationSizing();
+        }, 1000)
+    },
+
+    getApplicationSizingObject: function(code) {
+        var sizing = _.find(ub.current_material.settings.applicationSizing, {code: code.toString()});
+        return sizing;
+    },
+
+    setupApplicationSizing: function() {
+        var sizing = ub.current_material.settings.applicationSizing;
+        _.map(sizing, function(size) {
+            var container = $("#richardson-team-roster .application-sizing-container table.applications-sizing-table tbody tr.application-sizing-item[data-code='"+ size.code +"']");
+            container.find(".application-size-type[value='"+ size.size_type +"']").trigger("click")
+            container.find("select option[value='"+ size.application_size +"']").prop("selected", true);
+        });
+    }
+
 }

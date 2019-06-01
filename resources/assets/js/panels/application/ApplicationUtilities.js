@@ -1745,14 +1745,6 @@ $(function() {
         if (typeof _sizesFromConfig !== "undefined") {
             // Debug Info
             if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_settingsObject.code);
-                ub.utilities.info('Using sizes from backend: ');
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
-
                 // add sort for sizes
                 _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function (obj) {
                     return parseFloat(obj.size)

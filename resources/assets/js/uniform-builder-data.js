@@ -170,6 +170,7 @@ $(document).ready(function() {
     ub.current_material.settings.randomFeeds    = {};
     ub.current_material.settings.logos          = {};
     ub.current_material.settings.gradients      = {};
+    ub.current_material.settings.applicationSizing = [];
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",

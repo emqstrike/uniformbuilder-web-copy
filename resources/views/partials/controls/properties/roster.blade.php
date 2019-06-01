@@ -79,3 +79,98 @@
     @{{ /rosters }}
 </script>
 
+<script type="text/mustache" id="m-richardson-application-item">
+    @{{ #applications }}
+        @{{ #isEmbellishment }}
+            <tr class="application-sizing-item" data-code="@{{ code }}">
+                <td class="uk-table-link">
+                    <span class="uk-text-uppercase">@{{ type }}</span>
+                </td>
+                <td>
+                    <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <img src="@{{ thumbnail }}" width="80" height="80">
+                        </div>
+                        <div class="uk-width-expand">
+                            <ul class="uk-list">
+                                <li class="uk-margin-remove">Name:<span> @{{ name }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="uk-form-controls">
+                        <select class="uk-select application-size">
+                            <option value="best_fit">Best Fit</option>
+                            @{{ #sizes }}
+                                <option value="@{{ size }}">@{{ size }}"</option>
+                            @{{ /sizes }}
+                        </select>
+                    </div>
+
+                    <form>
+                        <div class="uk-margin-small-top uk-grid-small uk-child-width-auto uk-grid uk-flex uk-flex-middle" uk-grid>
+                            <label><input class="uk-radio uk-margin-remove application-size-type" name="application-size-type" value="tall" type="radio"> Tall</label>
+                            <label><input class="uk-radio uk-margin-remove application-size-type" name="application-size-type" value="wide" type="radio"> Wide</label>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <a href="@{{ details }}" class="uk-text-small" target="_blank">View&nbsp;Art&nbsp;Details</a>
+                </td>
+                <td class="">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                </td>
+            </tr>
+
+        @{{ /isEmbellishment }}
+
+        @{{ ^isEmbellishment }}
+            <tr class="application-sizing-item" data-code="@{{ code }}">
+                <td class="uk-table-link">
+                    <span class="uk-text-uppercase">@{{ type }}</span>
+                </td>
+                <td>
+                    <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <img src="@{{ thumbnail }}" width="80" height="80">
+                        </div>
+                        <div class="uk-width-expand">
+                            <ul class="uk-list">
+                                <li class="uk-margin-remove">Accent:<span> @{{ accent }}</span></li>
+                                <li class="uk-margin-remove">Font:<span> @{{ font }} </span></li>
+                                <li class="uk-margin-remove">Text:<span> @{{ text }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="uk-form-controls">
+                        <select class="uk-select application-size">
+                            <option value="best_fit">Best Fit</option>
+                            @{{ #sizes }}
+                                <option value="@{{ size }}">@{{ size }}"</option>
+                            @{{ /sizes }}
+                        </select>
+                    </div>
+
+                    <form>
+                        <div class="uk-margin-small-top uk-grid-small uk-child-width-auto uk-grid uk-flex uk-flex-middle" uk-grid>
+                            <label><input class="uk-radio uk-margin-remove application-size-type" name="application-size-type" value="tall" type="radio"> Tall</label>
+                            <label><input class="uk-radio uk-margin-remove application-size-type" name="application-size-type" value="wide" type="radio"> Wide</label>
+                        </div>
+                    </form>
+                </td>
+                <td class="uk-text-uppercase">
+                    @{{ #colors }}
+                        @{{ color_code_alias }}/
+                    @{{ /colors }}
+                </td>
+                <td class="">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                </td>
+            </tr>
+        @{{ /isEmbellishment }}
+    @{{ /applications }}
+</script>
+
