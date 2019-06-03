@@ -4155,6 +4155,13 @@ $(document).ready(function() {
         var labelsToHide = ['neck_tape_2'];
         ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
 
+        // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
+        // `Quick Turn` block pattern
+        if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
+            ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+        }
+
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
 
@@ -7563,7 +7570,7 @@ $(document).ready(function() {
 
         }
 
-    },
+    }
 
     ub.data.markerBitField = {};
     ub.funcs.highlightMarker = function (code, view) {

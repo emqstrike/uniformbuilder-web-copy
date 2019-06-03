@@ -12232,6 +12232,7 @@ ub.funcs.fontOffSets = [
             "3 inch Stir Up Sock", 
             "7 inch Stir Up Sock",
             "9 inch Stir Up Sock",
+            "Quick Turn",
         ],
 
         isExempted: function (option) {
@@ -12487,7 +12488,8 @@ ub.funcs.fontOffSets = [
     ub.data.hideMaterialOptionOnSportModifierLabels = {
         items: [
             'PTS Cage Jacket (Apparel)',
-            'PTS Hoodie (Apparel)'
+            'PTS Hoodie (Apparel)',
+            'Socks (Apparel)'
         ],
         isValid: function (uniformCategory, modifierLabels, materialOption) {
 
