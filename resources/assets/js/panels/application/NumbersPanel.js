@@ -530,42 +530,46 @@ NumbersPanel.renderFontColors = function(callback) {
 NumbersPanel.changeFontStyle = function(app_code, direction, font_id) {
     var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
-    var newFont;
+    if (application !== undefined) {
+        var newFont;
 
-    if (direction !== false) {
-        newFont = ub.funcs.getFontObj(direction, application.font_obj);
-    } else {
-        newFont = _.find(ub.data.fonts, {id: font_id.toFixed()});
-    }
+        if (direction !== false) {
+            newFont = ub.funcs.getFontObj(direction, application.font_obj);
+        } else {
+            newFont = _.find(ub.data.fonts, {id: font_id.toFixed()});
+        }
 
-    if (typeof newFont !== 'undefined') {
-        font_id = newFont.id;
+        if (typeof newFont !== 'undefined') {
+            font_id = newFont.id;
 
-        ub.funcs.changeFontFromPopup(font_id, application);
-        var font_style_el = $("#richardson-numbers-font-bar .open-fonts-modal");
+            ub.funcs.changeFontFromPopup(font_id, application);
+            var font_style_el = $("#richardson-numbers-font-bar .open-fonts-modal");
 
-        $("span", font_style_el).text(newFont.caption);
-        $("span", font_style_el).css('font-family', newFont.name);
-    } else {
-        // No Font!
-        return;
-    }
+            $("span", font_style_el).text(newFont.caption);
+            $("span", font_style_el).css('font-family', newFont.name);
+        } else {
+            // No Font!
+            return;
+        }
 
-    if (application.type === NumbersPanel.LOCATION_FRONT.type || application.type === NumbersPanel.LCOATION_BACK.type) {
-        _.each(ub.current_material.settings.applications, function (application) {
-            if (application.type !== application.application_type && application.type !== NumbersPanel.LOGO_TYPE && application.type !== NumbersPanel.MASCOT_TYPE) {
-                if (application.type.indexOf('number') !== -1 && application.type.indexOf('number') !== -1) {
-                    ub.funcs.changeFontFromPopup(font_id, application);
+        if (application.type === NumbersPanel.LOCATION_FRONT.type || application.type === NumbersPanel.LOCATION_BACK.type) {
+            _.each(ub.current_material.settings.applications, function (application) {
+                if (application.type !== application.application_type && application.type !== NumbersPanel.LOGO_TYPE && application.type !== NumbersPanel.MASCOT_TYPE) {
+                    if (application.type.indexOf('number') !== -1 && application.type.indexOf('number') !== -1) {
+                        ub.funcs.changeFontFromPopup(font_id, application);
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
-    var matchingID = ub.data.matchingIDs.getMatchingID(app_code.toString());
+        var matchingID = ub.data.matchingIDs.getMatchingID(app_code.toString());
 
-    if (typeof matchingID !== "undefined") {
-        var matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
-        ub.funcs.changeFontFromPopup(font_id, matchingSettingsObject);
+        if (typeof matchingID !== "undefined") {
+            var matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: matchingID.toString()});
+            ub.funcs.changeFontFromPopup(font_id, matchingSettingsObject);
+        }
+    } else {
+        console.error("Error: Application code " + app_code + " is invalid.");
     }
 };
 
@@ -576,7 +580,7 @@ NumbersPanel.createFontPopup = function(sampleText, settingsObj) {
     var sampleSize = '1.9em';
     var paddingTop = '40px';
 
-    if (applicationType === NumbersPanel.LOCATION_FRONT.type || applicationType === NumbersPanel.LCOATION_BACK.type) {
+    if (applicationType === NumbersPanel.LOCATION_FRONT.type || applicationType === NumbersPanel.LOCATION_BACK.type) {
         sampleSize = '3.3em';
         paddingTop = '30px';
     }
