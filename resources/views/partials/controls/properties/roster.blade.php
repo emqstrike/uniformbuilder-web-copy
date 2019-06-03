@@ -19,7 +19,7 @@
     <div class="uk-grid-small uk-child-width-1-6@s uk-child-width-1-6@m uk-child-width-auto@l grid-tiny uk-grid-match uk-padding-small uk-flex-center uk-padding-remove-horizontal" uk-grid>
         @{{ #numbers }}
             <div>
-                <a href="javascript:void(0)" class="player-number-button fc-dark @{{ status }}" data-status="@{{ status }}" data-number="@{{ number }}" data-size="@{{ size }}" data-category="@{{ category }}">
+                <a href="javascript:void(0)" class="player-number-button fc-dark" data-status="@{{ status }}" data-number="@{{ number }}" data-size="@{{ size }}" data-category="@{{ category }}">
                     <div class="numbers-circle uk-text-center uk-text-uppercase">
                         <p class="uk-margin-remove oswald-regular">@{{ number }}</p>
                     </div>

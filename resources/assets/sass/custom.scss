@@ -365,11 +365,15 @@ img.piping-images {
 
 #richardson-team-roster .active-bgc-red-switcher {
   .uk-active a {
-    background-color: $color-red;
-    border-color: $color-red;
+    background-color: $color-lightGray;
+    border-color: $color-lightGray;
 
     h6 {
-      color: $color-white;
+      color: $color-dark;
     }
   }
+}
+
+.uk-radio:checked, .uk-checkbox:checked, .uk-checkbox:indeterminate {
+  background-color: $color-red;
 }

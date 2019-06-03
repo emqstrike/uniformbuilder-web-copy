@@ -35,6 +35,7 @@ RosterPanel.events = {
         RosterPanel.events.prepareApplicationSizing();
         UIkit.modal("#richardson-team-roster").show();
         UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(0);
+        RosterPanel.events.onHoverPlayerNumberActive();
     },
 
     onClickManageRoster: function() {
@@ -63,8 +64,8 @@ RosterPanel.events = {
                 $("#richardson-team-roster .remove-player-info[data-number='"+ number +"'][data-category='"+ category +"']").trigger("click");
                 $(this).removeClass("uk-active");
             } else {
-                var findNumber = _.find(ub.data.playerNumbers, {number: number.toString(), status: "selected"});
-                if (typeof findNumber === "undefined") {
+                var findNumber = _.find(ub.data.playerNumbers, {number: number.toString()});
+                if (typeof findNumber !== "undefined") {
                     numbers.push({
                         size: active_size,
                         number: $(this).data("number").toString(),
@@ -321,10 +322,9 @@ RosterPanel.events = {
 
     saveRosterData: function (size, category, rosters) {
         var find = this.find(size, category);
-
         if (typeof find !== "undefined") {
             _.each(rosters, function(item) {
-                var isPresent = _.find(find.rosters, {number: item.number.toString()});
+                var isPresent = _.find(find.rosters, {size: item.size, number: item.number.toString(), category: item.category});
                 if (typeof isPresent === "undefined") {
                     find.rosters.push(item);
                 }
@@ -360,8 +360,8 @@ RosterPanel.events = {
         $("#richardson-team-roster .player-number-button").unbind("hover");
         $("#richardson-team-roster .player-number-button").hover(function() {
             var number = $(this).data("number");
-            var active_size = $(this).data("size");
-            var category = $(this).data("category");
+            var active_size = $(".roster-uniform-size-container .uniform-size-button.uk-active").data("size");
+            var category = $(".roster-uniform-size-container .uniform-size-button.uk-active").data("category");
             var html =  "";
             var info;
 
