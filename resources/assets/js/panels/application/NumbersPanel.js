@@ -337,11 +337,15 @@ NumbersPanel.events = {
         $('.richardson-numbers-container .location-buttons button').removeClass("uk-active");
 
         var app_code = $(this).data("app-code").toString();
+        var perspective = $(this).data("perspective");
         var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
         if (application !== undefined) {
             $('#richardson-numbers-input-number').val(application.text);
         }
+
+        var perspectiveController = new PerspectiveController();
+        perspectiveController.setPerspective(perspective);
 
         NumbersPanel.numbersPanel.setFontAccents(app_code);
         NumbersPanel.renderFontsBar(app_code, function() { // render fonts bar
