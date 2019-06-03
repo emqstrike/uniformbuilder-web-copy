@@ -112,9 +112,7 @@ $(document).ready(function() {
         });
 
         _.each(ub.data.fonts, function (font) {
-
             font.caption = font.alias;
-
         });
 
         // Hide Richardson Fonts #Richardson
@@ -123,7 +121,11 @@ $(document).ready(function() {
         // }
 
         var _brand = ub.config.brand.toLowerCase();
-        ub.data.fonts = _.filter(ub.data.fonts, {brand: _brand});
+        
+        // Filter Fonts per BRAND
+        ub.data.fonts = _.filter(ub.data.fonts, {
+            brand: _brand
+        });
 
     };
 
@@ -180,8 +182,11 @@ $(document).ready(function() {
             
             // filter for Hockey Socks block pattern fonts
             // get all fonts dedicated for `Hockey Socks` block pattern only
-            var material = ub.current_material.material;
-            if (material.uniform_category === "Hockey" && material.block_pattern === "Hockey Socks") { 
+            // var material = ub.current_material.material;
+            var _uniform_category = ub.config.sport;
+            var _block_pattern = ub.config.blockPattern;
+
+            if (_uniform_category === "Hockey" && _block_pattern === "Hockey Socks") { 
                 ub.data.fonts = _.filter(ub.data.fonts, function(font) {
                     var parsedBlockPatterns = JSON.parse(font.block_patterns);
                     if(_.isEqual(parsedBlockPatterns, 'Hockey Socks')) {
