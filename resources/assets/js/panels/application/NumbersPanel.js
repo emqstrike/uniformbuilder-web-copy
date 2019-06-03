@@ -217,7 +217,7 @@ NumbersPanel.events = {
         if (!NumbersPanel.events.is_init) {
             NumbersPanel.numbersPanel = numbersPanel;
 
-            $('#primary_options_container').on("keyUp", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
+            $('#primary_options_container').on("keyup blur", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
@@ -252,6 +252,18 @@ NumbersPanel.events = {
 
         if (number >= 0 && number <= 99) {
             if (e.keyCode === ENTER) {
+                var filteredApps = _.filter(ub.current_material.settings.applications, function(app) {
+                    if (app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type) {
+                        return _.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.layer, NumbersPanel.LOCATION_RIGHT_SLEEVE.layer], app.application.layer);
+                    }
+
+                    return _.contains([NumbersPanel.LOCATION_FRONT.type, NumbersPanel.LOCATION_BACK.type], app.application_type);
+                });
+
+                _.each(filteredApps, function(app) {
+                    app.text = number.toString();
+                    ub.funcs.changeFontFromPopup(app.font_obj.id, app);
+                });
             }
         } else {
             var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
@@ -311,7 +323,6 @@ NumbersPanel.events = {
                 $(_this).prev().removeClass("uk-active btn-enabled");
 
                 ub.funcs.deleteLocation(application.code, NumbersPanel.showHideRemoveButton);
-
             } else {
                 console.error("Error: Application code " + app_code + " is invalid.");
             }

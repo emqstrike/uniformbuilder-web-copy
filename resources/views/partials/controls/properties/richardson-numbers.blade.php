@@ -3,7 +3,7 @@
         <div class="uk-padding-small">
             <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-uppercase uk-text-bold fc-darker abrade-ultra-italic">Numbers</h5>
             <div class="">
-                <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-xsmall" type="text" placeholder="00" id="richardson-numbers-input-number">
+                <input class="en-disable-me uk-input bgc-light bdr-lightGray uk-form-width-xsmall" type="text" placeholder="00" id="richardson-numbers-input-number" min="0" max="99">
             </div>
 
             <div class="">
