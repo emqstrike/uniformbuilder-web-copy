@@ -36,25 +36,12 @@
                         <span>@{{ props.option.icon }}</span>
                     </template>
                 </multiselect>
-
-                {{-- <div>
-                    <multiselect v-model="menu.icon_class" placeholder="Fav No Man’s Sky path" label="icon" track-by="icon" :options="options" :option-height="104" :show-labels="false">
-                        <template slot="singleLabel" slot-scope="props">
-                            <span :class="props.option.icon"></span>
-                            <span>@{{ props.option.icon }}</span>
-                        </template>
-
-                        <template slot="option" slot-scope="props">
-                            <span :class="props.option.icon"></span>
-                            <span>@{{ props.option.icon }}</span>
-                        </template>
-                    </multiselect>
-                </div> --}}
             </div>
         </v-card-text>
 
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="update(menu)">Update</v-btn>
             <v-btn color="blue darken-1" flat @click="cancel(menu)">Close</v-btn>
         </v-card-actions>
     </v-card>
