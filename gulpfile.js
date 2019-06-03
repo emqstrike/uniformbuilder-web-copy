@@ -1,23 +1,23 @@
 "use strict";
 
 // Importing specific gulp API functions lets us write them below as series() instead of gulp.series()
-var { src, dest, watch, series, parallel } = require('gulp');
+const { src, dest, watch, series, parallel } = require('gulp');
 
 // Importing all the Gulp-related packages we want to use
-var less = require('gulp-less');
-var rename = require("gulp-rename");
-var concat = require('gulp-concat');
-var cleanCSS = require('gulp-clean-css');
-var postCss = require('gulp-postcss');
-var autoPrefixer = require('autoprefixer');
-var sourceMaps = require('gulp-sourcemaps');
-var uglify =  require('gulp-uglify');
-var cssNano = require("cssnano");
-var path = require('path');
-var _ = require('lodash');
+const less = require('gulp-less');
+const rename = require("gulp-rename");
+const concat = require('gulp-concat');
+const cleanCSS = require('gulp-clean-css');
+const postCss = require('gulp-postcss');
+const autoPrefixer = require('autoprefixer');
+const sourceMaps = require('gulp-sourcemaps');
+const uglify =  require('gulp-uglify');
+const cssNano = require("cssnano");
+const path = require('path');
+const _ = require('lodash');
 
 // File paths
-var files = {
+let files = {
     lessPath: [
         // Third-party
         'resources/assets/less/third-party/tipped/tipped.less',
@@ -109,7 +109,7 @@ var files = {
 };
 
 // Less task: compiles less files into uniform-builder.min.css
-function stylesTask() {
+const stylesTask = () => {
     return src(files.lessPath)
         .pipe(sourceMaps.init())
         .pipe(less({paths: [ path.join(__dirname, 'less', 'includes') ]}))
@@ -127,20 +127,20 @@ function stylesTask() {
         .pipe(sourceMaps.write('.'))
         .pipe(rename({ suffix: ".min" }))
         .pipe(dest('./public/uniform-builder/css'));
-}
+};
 
 // JS task: concatenates and uglifies JS files to ub.min.js
-function scriptsTask() {
+const scriptsTask = () => {
     return src(files.jsPath)
         .pipe(concat('ub.js'))
         .pipe(uglify())
         .pipe(rename({ suffix: ".min" }))
         .pipe(dest('./public/uniform-builder/js'));
-}
+};
 
 // Watch task: watch Less and JS files for changes
 // If any change, run less and js tasks simultaneously
-function watchTask() {
+const watchTask = () => {
     console.info('💬 NOW WATCHING LESS & JS FILES FOR CHANGES 👁👁')
     // console.table(_.concat(files.lessPath, files.jsPath));
     watch(files.lessPath, series(stylesTask));
