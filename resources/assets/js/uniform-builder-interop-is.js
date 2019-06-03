@@ -2351,8 +2351,11 @@ $(document).ready(function() {
 
             var appIdStr = appId.toString();
             var fontSizeStr = settingsObj.font_size.toString();
+            var embellishmentScales = ub.styleValues.embellishmentScales;
 
-            var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
+            if (typeof embellishmentScales.match !== 'undefined') {
+                embellishmentScales = embellishmentScales.match.properties;
+            }
 
             _.each(views, function(view) {
 
