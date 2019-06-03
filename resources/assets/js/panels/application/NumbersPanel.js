@@ -33,40 +33,43 @@ NumbersPanel.prototype = {
 
     setLocations: function() {
         var applications = ub.current_material.settings.applications;
+        var temp_app;
 
+        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_FRONT.type});
         this.locations.push({
             text: NumbersPanel.LOCATION_FRONT.text,
-            code: NumbersPanel.LOCATION_FRONT.code,
-            enabled: _.find(applications, {code: NumbersPanel.LOCATION_FRONT.code}) !== undefined
+            enabled: temp_app !== undefined,
+            code: temp_app !== undefined ? temp_app.code : "",
+            perspective: NumbersPanel.LOCATION_FRONT.perspective,
+            part: NumbersPanel.LOCATION_FRONT.part
         });
 
+        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_BACK.type});
         this.locations.push({
             text: NumbersPanel.LOCATION_BACK.text,
-            code: NumbersPanel.LOCATION_BACK.code,
-            enabled: _.find(applications, {code: NumbersPanel.LOCATION_BACK.code}) !== undefined
+            enabled: temp_app !== undefined,
+            code: temp_app !== undefined ? temp_app.code : "",
+            perspective: NumbersPanel.LOCATION_BACK.perspective,
+            part: NumbersPanel.LOCATION_BACK.part
         });
 
-        this.locations.push({
-            text: NumbersPanel.LOCATION_BOTTOM_PANEL.text,
-            code: NumbersPanel.LOCATION_BOTTOM_PANEL.code,
-            enabled: _.find(applications, {code: NumbersPanel.LOCATION_BOTTOM_PANEL.code}) !== undefined
-        });
-
+        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_LEFT_SLEEVE.type, layer: NumbersPanel.LOCATION_LEFT_SLEEVE.layer});
         this.locations.push({
             text: NumbersPanel.LOCATION_LEFT_SLEEVE.text,
-            code: NumbersPanel.LOCATION_LEFT_SLEEVE.code,
-            enabled: _.find(applications, {code: NumbersPanel.LOCATION_LEFT_SLEEVE.code}) !== undefined
+            enabled: temp_app !== undefined,
+            code: temp_app !== undefined ? temp_app.code : "",
+            perspective: NumbersPanel.LOCATION_LEFT_SLEEVE.perspective,
+            part: NumbersPanel.LOCATION_LEFT_SLEEVE.part
         });
 
+        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_RIGHT_SLEEVE.type, layer: NumbersPanel.LOCATION_RIGHT_SLEEVE.layer});
         this.locations.push({
             text: NumbersPanel.LOCATION_RIGHT_SLEEVE.text,
-            code: NumbersPanel.LOCATION_RIGHT_SLEEVE.code,
-            enabled: _.find(applications, {code: NumbersPanel.LOCATION_RIGHT_SLEEVE.code}) !== undefined
+            enabled: temp_app !== undefined,
+            code: temp_app !== undefined ? temp_app.code : "",
+            perspective: NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective,
+            part: NumbersPanel.LOCATION_RIGHT_SLEEVE.part
         });
-
-        // active the first enable
-        var location = _.find(this.locations, {enabled: true});
-        location.active = true;
     },
 
     setFontAccents: function(app_code) {
@@ -167,19 +170,40 @@ NumbersPanel.prototype = {
     }
 };
 
-NumbersPanel.FRONT_TYPE = "front_number";
-NumbersPanel.BACK_TYPE = "back_number";
 NumbersPanel.MASCOT_TYPE = "mascot";
 NumbersPanel.LOGO_TYPE = "logo";
 NumbersPanel.MASCOT_TYPE_ID = 1039;
 
 NumbersPanel.LAYERS_TO_BE_IGNORE = ["Mask", "Pseudo Shadow"];
 
-NumbersPanel.LOCATION_FRONT = {text: "Front", code: "72"};
-NumbersPanel.LOCATION_BACK = {text: "Back", code: "73"};
-NumbersPanel.LOCATION_BOTTOM_PANEL = {text: "BPanel", code: "74"};
-NumbersPanel.LOCATION_LEFT_SLEEVE = {text: "LSleeve", code: "75"};
-NumbersPanel.LOCATION_RIGHT_SLEEVE = {text: "RSleeve", code: "76"};
+NumbersPanel.LOCATION_FRONT = {
+    text: "Front",
+    type: "front_number",
+    perspective: "front",
+    part: "Front Body"
+};
+NumbersPanel.LOCATION_BACK = {
+    text: "Back",
+    type: "back_number",
+    perspective: "back",
+    part: "Back Body"
+};
+NumbersPanel.LOCATION_LEFT_SLEEVE = {
+    text: "LSleeve",
+    type: "sleeve_number",
+    layer: "Left Sleeve",
+    perspective: "left",
+    part: "Sleeve"
+};
+NumbersPanel.LOCATION_RIGHT_SLEEVE = {
+    text: "RSleeve",
+    type: "sleeve_number",
+    layer: "Right Sleeve",
+    perspective: "right",
+    part: "Sleeve"
+};
+
+NumbersPanel.APPLICATION_TYPE = "player_number";
 
 NumbersPanel.PREVIOUS_FONT = "previous";
 NumbersPanel.NEXT_FONT = "next";
@@ -196,7 +220,7 @@ NumbersPanel.events = {
             $('#primary_options_container').on("keyUp", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
-            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button", NumbersPanel.events.onChangeLocation);
+            $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.PREVIOUS_FONT+"]", NumbersPanel.events.onPreviousFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar a[data-direction="+NumbersPanel.NEXT_FONT+"]", NumbersPanel.events.onNextFont);
             $("#primary_options_container").on("click", "#richardson-numbers-font-bar .open-fonts-modal", NumbersPanel.events.onOpenFontsModal);
@@ -212,8 +236,8 @@ NumbersPanel.events = {
                 $('#richardson-numbers-loading').removeClass("hide");
             }
 
-            $('#richardson-numbers-locations .location-buttons button.uk-active:first').click();
-            $('#richardson-numbers-locations .location-buttons button.uk-active:first').prop('disabled', true);
+            $('#richardson-numbers-locations .location-buttons button.btn-enabled:first').click();
+            $('#richardson-numbers-locations .location-buttons button.btn-enabled:first').prop('disabled', true);
 
             if ($('#richardson-numbers-font-bar').html().trim() !== "") {
                 $('#richardson-numbers-loading').addClass("hide");
@@ -242,7 +266,37 @@ NumbersPanel.events = {
     },
 
     onAddLocation: function() {
+        var _this = this;
 
+        // disable location buttons
+        $('.richardson-numbers-container .location-buttons button').prop("disabled", true);
+        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active");
+
+        var removeBtnEl = $(this).next();
+        removeBtnEl.removeClass("invisible");
+
+        var perspective = $(this).data("perspective");
+        var part = $(this).data("part");
+        var type = NumbersPanel.APPLICATION_TYPE;
+        var side;
+        var logo_type = type;
+
+        if (_.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.perspective, NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective], perspective)) {
+            side = perspective;
+        }
+
+        ub.funcs.newApplication(perspective, part, type, side, logo_type, function() {
+            var new_code = _.last(Object.keys(ub.current_material.settings.applications));
+            removeBtnEl.data('app-code', new_code);
+
+            $(_this).data('app-code', new_code);
+            $(_this).addClass("btn-enabled");
+
+            $(_this).prop('disabled', false);
+            $(_this).click();
+
+            NumbersPanel.showHideRemoveButton();
+        });
     },
 
     onRemoveLocation: function() {
@@ -256,18 +310,20 @@ NumbersPanel.events = {
                 $(_this).addClass("invisible");
                 $(_this).prev().removeClass("uk-active btn-enabled");
 
-                ub.funcs.deleteLocation(application.code);
+                ub.funcs.deleteLocation(application.code, NumbersPanel.showHideRemoveButton);
+
             } else {
                 console.error("Error: Application code " + app_code + " is invalid.");
             }
         });
-
     },
 
     onChangeLocation: function() {
+        var _this = this;
+
+        // disable location buttons
         $('.richardson-numbers-container .location-buttons button').prop("disabled", true);
-        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active").prop('disabled', false);
-        $(this).addClass("uk-active").prop('disabled', true);
+        $('.richardson-numbers-container .location-buttons button').removeClass("uk-active");
 
         var app_code = $(this).data("app-code").toString();
         var application = _.find(ub.current_material.settings.applications, {code: app_code});
@@ -280,7 +336,9 @@ NumbersPanel.events = {
         NumbersPanel.renderFontsBar(app_code, function() { // render fonts bar
             NumbersPanel.renderFontAccents(function() { // render font accents
                 NumbersPanel.renderFontColors(function() { // render font colors
+                    // enable location buttons
                     $('.richardson-numbers-container .location-buttons button').prop("disabled", false);
+                    $(_this).prop("disabled", true).addClass("uk-active");
 
                     $('#richardson-numbers-font-bar').fadeIn();
                     $('#richardson-numbers-font-accents').fadeIn();
@@ -478,7 +536,7 @@ NumbersPanel.changeFontStyle = function(app_code, direction, font_id) {
         return;
     }
 
-    if (application.type === NumbersPanel.FRONT_TYPE || application.type === NumbersPanel.BACK_TYPE) {
+    if (application.type === NumbersPanel.LOCATION_FRONT.type || application.type === NumbersPanel.LCOATION_BACK.type) {
         _.each(ub.current_material.settings.applications, function (application) {
             if (application.type !== application.application_type && application.type !== NumbersPanel.LOGO_TYPE && application.type !== NumbersPanel.MASCOT_TYPE) {
                 if (application.type.indexOf('number') !== -1 && application.type.indexOf('number') !== -1) {
@@ -503,7 +561,7 @@ NumbersPanel.createFontPopup = function(sampleText, settingsObj) {
     var sampleSize = '1.9em';
     var paddingTop = '40px';
 
-    if (applicationType === NumbersPanel.FRONT_TYPE || applicationType === NumbersPanel.BACK_TYPE) {
+    if (applicationType === NumbersPanel.LOCATION_FRONT.type || applicationType === NumbersPanel.LCOATION_BACK.type) {
         sampleSize = '3.3em';
         paddingTop = '30px';
     }
@@ -561,4 +619,26 @@ NumbersPanel.createFontPopup = function(sampleText, settingsObj) {
         $(this).remove();
         ub.status.fontPopupVisible = false;
     });
+};
+
+NumbersPanel.showHideRemoveButton = function() {
+    var enabledBtnEl = $('#richardson-numbers-locations .location-buttons button.btn-enabled');
+
+    $(enabledBtnEl).first().click();
+    $(enabledBtnEl).first().prop('disabled', true);
+
+    // hide remove button if number of enabled is only 1
+    if (enabledBtnEl.length === 1) {
+        var removeBtnEl = enabledBtnEl.next();
+        removeBtnEl.addClass("invisible");
+    }
+
+    // show remove button if number of enabled is above 1
+    if (enabledBtnEl.length > 1) {
+        $(enabledBtnEl).each(function(index, el) {
+            if ($(el).next().hasClass("invisible")) {
+                $(el).next().removeClass("invisible");
+            }
+        });
+    }
 };

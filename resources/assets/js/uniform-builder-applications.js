@@ -11807,7 +11807,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.deleteLocation = function (locationID) {
+    ub.funcs.deleteLocation = function (locationID, callback) {
 
         // ub.funcs.activateBody();
 
@@ -11852,6 +11852,9 @@ $(document).ready(function () {
         // ub.funcs.gotoFirstMaterialOption();
         $('body').css('cursor', 'auto');
 
+        if (_.isFunction(callback)) {
+            callback();
+        }
     };
 
     ub.funcs.activateBody = function () {
@@ -12011,7 +12014,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type, side, logo_type) {
+    ub.funcs.newApplication = function (perspective, part, type, side, logo_type, callback) {
         var _pha = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
         var _part = part;
@@ -12334,6 +12337,10 @@ $(document).ready(function () {
             time: 1,
             marginTop: '90px'
         });
+
+        if (_.isFunction(callback)) {
+            callback();
+        }
     }
 
     ub.funcs.addLocation = function (artOnly) {
