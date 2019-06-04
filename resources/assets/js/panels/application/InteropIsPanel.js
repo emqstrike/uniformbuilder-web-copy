@@ -174,15 +174,13 @@ InteropIsPanel.events = {
 InteropIsPanel.funcs = {
     loadDesigner: function(designID, applicationID, editorOnly = false) {
         var nextUrl = '';
-        var mainIframe = window.parent.mainIframe
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
-        
-        if (typeof window.parent.mainIframe !== "undefined") {
-            let win = window;
-            nextUrl = "javascript:designID=0;win.is.isMessage(designID," + _applicationID + ");";
-        } else  {
+
+        // if (typeof InteropIsPanel.parentWindow.mainFrame !== "undefined") {
             nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
-        }
+        // } else  {
+        //     nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
+        // }
 
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -272,6 +270,8 @@ InteropIsPanel.funcs = {
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
+
+        console.log(flashvars)
 
         if (editorOnly) {
             $("#inksoftEditor .inksoft-design-editor").html("")
