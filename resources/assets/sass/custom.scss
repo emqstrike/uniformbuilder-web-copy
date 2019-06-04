@@ -381,3 +381,7 @@ img.piping-images {
 .uk-radio:checked, .uk-checkbox:checked, .uk-checkbox:indeterminate {
   background-color: $color-red;
 }
+
+.application-list-maxheight {
+  max-height: 675px !important;
+}

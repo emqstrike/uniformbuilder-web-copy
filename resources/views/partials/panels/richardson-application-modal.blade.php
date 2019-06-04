@@ -575,7 +575,7 @@
             </li>
             <li>
                 <div class="application-sizing-container">
-                    <div class="uk-overflow-auto uk-height-max-xlarge">
+                    <div class="uk-overflow-auto application-list-maxheight">
                         <table class="uk-table uk-table-large uk-table-hover uk-table-middle uk-table-divider applications-sizing-table">
                             <thead class="uk-text-uppercase">
                                 <tr>
