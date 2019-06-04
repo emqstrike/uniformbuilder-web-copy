@@ -3,8 +3,6 @@
 @import "colors";
 @import "palette";
 @import "font-style";
-@import "datatable-custom";
-@import "custom";
 
 .abrade-black {
   font-family: Abrade-Black !important;
@@ -32,6 +30,7 @@ body {
   font-family: Abrade-Book;
 }
 
+
 .btn-icon {
   padding: 8px;
   line-height: 0px;
@@ -47,25 +46,21 @@ body {
 .bdr-remove-right {
   border-right: none !important; }
 
-.bdr-remove-top {
-  border-top: none !important; }
-
 .bdr-thin {
   border: .5px solid; }
 
 .bdr-reg {
-  border: 1px solid !important; }
+  border: 1px solid; }
 
 .bdrr-none {
   border-radius: 0; }
 
 header .main-menu .uk-navbar-nav > li > a {
-  height: 60px;
-  min-height: 0px !important;
-}
+  height: 60px; }
 
 header .uk-grid-divider > :not(.uk-first-column)::before {
   border-left: solid 1.5px #aaa; }
+
 
 .bottom-arrow > *.uk-active:after {
   content: " ";
@@ -92,17 +87,18 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 .bac-dark > *.uk-active:after {
   background-color: #343434 !important; }
 
-.active-fc-red .uk-active a {
+.active-fc-red .uk-active > * {
   color: $color-red;}
 
-.active-bgc-red .uk-active a {
+.active-bgc-red .uk-active > * ,
+.btn-active-bgc-red {
   color: $color-light;
   background-color: $color-red; }
 
-.active-bdr-red .uk-active a {
+.active-bdr-red .uk-active > * {
   border-color: $color-red; }
 
-.active-bgc-dark .uk-active a {
+.active-bgc-dark .uk-active > * {
   color: $color-light;
   background-color: $color-dark; }
 
@@ -185,11 +181,6 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   border-left: 1px solid #353535;
   background: url(https://richardsonsports.com/customizer/images/css/arrow-r.png) no-repeat center center; }
 
-.thumb-nav-savedesign {
-  max-width: 50px;
-  padding: 5px 8px;
-  border-color: $color-lightGray;}
-
 .thumbnail-small {
   width: 44px;
   padding: 5px 8px; }
@@ -200,9 +191,9 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   border-radius: 0px;
 }
 .palette {
-  height: 30px !important;
-  width: 30px !important;
-  display: block !important;
+  height: 28px;
+  width: 28px;
+  display: block;
   border: 1px solid #aaaaaa !important;
 }
 
@@ -292,11 +283,12 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
   font-size: 18px;
 }
 
+
 .uk-tooltip {
   font-weight: bolder;
-  line-height: 0px;
-  padding: 18px 15px !important;
+  padding: 18px 10px;
   border-radius: 0px;
+  line-height: 0px;
   display: block !important;
   background-color: $color-darkerGray;
   text-transform: uppercase;
@@ -324,7 +316,7 @@ header .uk-grid-divider > :not(.uk-first-column)::before {
 
 .uk-tooltip.uk-transform-origin-center-right {
   &:after {
-    margin-right: -15px !important;
+    margin-right: -14.9px !important;
     top: 50% !important;
     right: 0px;
     border-bottom: 18px solid transparent;
@@ -422,7 +414,6 @@ nav.main-menu ul li.sd {
 .hov-red{
   &:hover {
     background-color: $color-red;
-    color: $color-white;
   }
 }
 
@@ -465,13 +456,6 @@ img.custom-logo-upload-preview {
 }
 
 
-#right-main-window.pane-main-window {
-  height: 650px !important;
-  background-color: white !important;
-  border: 1px solid #e6e6e6 !important;
-  width: 500px !important;
-}
-
 @media screen and (min-width: 640px) {
 
   .left-nav {
@@ -486,17 +470,11 @@ img.custom-logo-upload-preview {
   }
 
   .con-preview-pane-thumb-nav {
-    max-width: 80px !important;
+    max-width: 80px;
   }
 
   .wer {
     margin-left: 36px;
-  }
-
-}
-@media screen and (min-width: 960px) {
-    .con-thumb-nav-savedesign {
-    max-width: 50px !important;
   }
 }
 
@@ -506,4 +484,15 @@ img.custom-logo-upload-preview {
   }
 }
 
-
+.uk-btn {
+ &.uk-active,
+ &.uk-active.btn-enabled {
+   color: $color-light;
+   background-color: $color-red;
+   border-color: $color-red;
+ }
+ &.btn-enabled {
+   color: $color-red;
+   border-color: $color-red;
+ }
+}

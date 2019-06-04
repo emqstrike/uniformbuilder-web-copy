@@ -77,7 +77,7 @@ ModifierController.prototype = {
         // parts
         // this.controllers.parts = new PartPanel('m-parts', ub.modifierController.propertiesPanel.parts);
         this.controllers.parts = new PartPanel('m-parts-no-scroll', ub.modifierController.propertiesPanel.parts);
-        
+
         // pipings
         if (ub.funcs.isSocks()) { // display random feeds
             this.controllers.pipings = new RandomFeedPanel('random-feeds-list');
@@ -86,6 +86,10 @@ ModifierController.prototype = {
             this.controllers.pipings = new PipingPanel('m-piping-with-images');
             this.controllers.pipings.setPipingSetItems();
         }
+
+        // numbers
+        this.controllers.numbers = new NumbersPanel('richardson-numbers');
+        window.codedigs_numbers = this.controllers.numbers;
 
         // logo/brand
         var logo_positions = ub.data.logos;
@@ -210,7 +214,7 @@ ModifierController.prototype = {
             } else {
                 $(".modifier_main_container #primary_options_colors .jersey-location-buttons[data-modifier-index='"+ ub.current_part +"']").trigger("click");
             }
-        }, 100)
+        }, 100);
 
         // Bind Events
         ub.modifierController.propertiesPanel.bindEvents();
@@ -250,7 +254,12 @@ ModifierController.prototype = {
     },
 
     numbers: function() {
-        NumbersPanel.init();
+        var numberPanel = ub.modifierController.controllers.numbers;
+        ub.modifierController.propertiesPanel.setBodyPanel(numberPanel.getPanel());
+
+        NumbersPanel.events.init(numberPanel);
+        NumbersPanel.renderLocations();
+
         $("#primary_options_container").scrollTo(0);
     },
 

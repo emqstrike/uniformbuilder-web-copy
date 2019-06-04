@@ -1,3 +1,5 @@
+@import "variables";
+
 .my-designs-list img {
   height: 100% !important;
 }
@@ -322,8 +324,10 @@ img.piping-images {
   padding-left: 6px; }
 
 .uk-grid-small.grid-tiny-1>.uk-grid-margin {
-  margin-top: 6px;
-}
+  margin-top: 6px;}
+
+.bdr-remove-top {
+  border-top: none !important; }
 
 // Stock Mascot Modal
 .stock-mascot-categories li.uk-active {

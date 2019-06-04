@@ -83,3 +83,16 @@
     </div>
 </div>
 </script>
+
+<script type="x-tmpl-mustache" id="richardson-font-accent-tmpl">
+    <div>
+        <button class="uk-inline bgc-transparent box-palette btn-selection-choice">
+            <div class=" bdr-thin bdr-gray">
+                <img src="@{{accent}}" uk-img>
+            </div>
+            <div class="uk-position-cover choice-icon bdr-lightGray">
+                <span uk-icon="icon: check; ratio: 1.5" class="uk-text-bold uk-position-center uk-overlay-primary "></span>
+            </div>
+        </button>
+    </div>
+</script>
