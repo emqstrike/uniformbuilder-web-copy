@@ -2487,6 +2487,17 @@ $(document).ready(function() {
             _applicationObj = ub.current_material.settings.applications[app_id].application;
 
             var _settingsObject     = ub.funcs.getSettingsObject(app_id);
+
+            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
+            // delete embellishment if ID `1710`
+            if (typeof ub.config.savedDesignInfo === 'object' &&
+                typeof _settingsObject.mascot !== 'undefined' 
+                && ub.config.sport === "Volleyball"
+                && ub.config.blockPattern === "Ace Crew Neck"
+                && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
+                    delete ub.current_material.settings.applications[_settingsObject.code];
+                    return;
+            }
             
             _.each(ub.views, function(_view) {
 
@@ -10367,6 +10378,17 @@ $(document).ready(function() {
 
          _.each (_locations, function (location) {
 
+            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
+            // delete embellishment if ID `1710`
+            if (typeof ub.config.savedDesignInfo === 'object' &&
+                typeof location.mascot !== 'undefined' 
+                && ub.config.sport === "Volleyball"
+                && ub.config.blockPattern === "Ace Crew Neck"
+                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
+                    delete ub.current_material.settings.applications[location.code];
+                    return;
+            }
+
             if (location.type === "free") { 
 
                 /// Todo: Handle Here ....
@@ -10427,7 +10449,7 @@ $(document).ready(function() {
 
     ub.funcs.showLocations = function (alphaOff) {
 
-        var _locations = ub.current_material.settings.applications;  
+        var _locations = ub.current_material.settings.applications;
         ub.showLocation = true;
 
         // Don't process this function when there's no application
