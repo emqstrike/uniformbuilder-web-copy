@@ -203,6 +203,8 @@ NumbersPanel.LOCATION_RIGHT_SLEEVE = {
     part: "Sleeve"
 };
 
+NumbersPanel.SAMPLE_NUMBER = "85";
+
 NumbersPanel.APPLICATION_TYPE = "player_number";
 
 NumbersPanel.PREVIOUS_FONT = "previous";
@@ -297,8 +299,12 @@ NumbersPanel.events = {
             side = perspective;
         }
 
+        var number_el = $('#richardson-numbers-input-number');
+        var number_val = number_el.val();
+
         ub.funcs.newApplication(perspective, part, type, side, logo_type, function() {
             var new_code = _.last(Object.keys(ub.current_material.settings.applications));
+            var application = _.find(ub.current_material.settings.applications, {code: new_code.toString()});
             removeBtnEl.data('app-code', new_code);
 
             $(_this).data('app-code', new_code);
@@ -306,6 +312,11 @@ NumbersPanel.events = {
 
             $(_this).prop('disabled', false);
             $(_this).click();
+
+            application.text = !_.isEmpty(number_val) ? number_val.toString() : NumbersPanel.SAMPLE_NUMBER;
+            number_el.val(application.text);
+
+            ub.funcs.changeFontFromPopup(application.font_obj.id, application);
 
             NumbersPanel.showHideRemoveButton();
         });
