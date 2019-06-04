@@ -422,6 +422,7 @@ $(document).ready(function() {
     }
 
     window.is.isMessage = function (designID, applicationID, skipCreate) {
+        console.log("IS MESSAGE HERE")
         ub.data.embellismentDetails = {
             designSummary: {},
             designSummaryLoaded: false, 

@@ -21,7 +21,6 @@ InteropIsPanel.events = {
     },
 
     cancelAddtoUniform: function() {
-        console.log("asdasdas")
         if (!ub.data.isChangeStockLogo) {
             var _settingsObject = ub.data.currentApplication;
             if (_settingsObject.logo_type === "custom_text") {
@@ -174,7 +173,17 @@ InteropIsPanel.events = {
 
 InteropIsPanel.funcs = {
     loadDesigner: function(designID, applicationID, editorOnly = false) {
+        var nextUrl = '';
+        var mainIframe = window.parent.mainIframe
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
+        
+        if (typeof window.parent.mainIframe !== "undefined") {
+            let win = window;
+            nextUrl = "javascript:designID=0;win.is.isMessage(designID," + _applicationID + ");";
+        } else  {
+            nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
+        }
+
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -223,7 +232,7 @@ InteropIsPanel.funcs = {
             SSLDomain: "stores.inksoft.com",
             StoreURI: "richardson_customizer",
             Admin: "",
-            NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
+            NextURL: nextUrl,
             CartURL: "https://stores.inksoft.com/richardson_customizer/Cart",
             OrderSummary: true,
             VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
