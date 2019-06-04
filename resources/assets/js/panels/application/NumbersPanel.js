@@ -219,7 +219,7 @@ NumbersPanel.events = {
         if (!NumbersPanel.events.is_init) {
             NumbersPanel.numbersPanel = numbersPanel;
 
-            $('#primary_options_container').on("keyup blur", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
+            $('#primary_options_container').on("keyup focusout", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
@@ -252,30 +252,28 @@ NumbersPanel.events = {
         var ENTER = 13;
         var number = parseInt($(this).val());
 
-        if (number >= 0 && number <= 99) {
-            if (e.keyCode === ENTER) {
-                var filteredApps = _.filter(ub.current_material.settings.applications, function(app) {
-                    if (app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type) {
-                        return _.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.layer, NumbersPanel.LOCATION_RIGHT_SLEEVE.layer], app.application.layer);
+        switch(e.type) {
+            case "keyup":
+                if (number >= 0 && number <= 99) {
+                    if (e.keyCode === ENTER) {
+                        NumbersPanel.changeNumber(number);
                     }
+                } else {
+                    var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
 
-                    return _.contains([NumbersPanel.LOCATION_FRONT.type, NumbersPanel.LOCATION_BACK.type], app.application_type);
-                });
+                    if (location_el.length !== 0) {
+                        var app_code = location_el.data("app-code").toString();
+                        var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
-                _.each(filteredApps, function(app) {
-                    app.text = number.toString();
-                    ub.funcs.changeFontFromPopup(app.font_obj.id, app);
-                });
-            }
-        } else {
-            var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
+                        $(this).val(application.text);
+                    }
+                }
 
-            if (location_el.length !== 0) {
-                var app_code = location_el.data("app-code").toString();
-                var application = _.find(ub.current_material.settings.applications, {code: app_code});
+                break;
 
-                $(this).val(application.text);
-            }
+            case "focusout":
+                NumbersPanel.changeNumber(number);
+                break;
         }
     },
 
@@ -671,4 +669,21 @@ NumbersPanel.showHideRemoveButton = function() {
             }
         });
     }
+};
+
+NumbersPanel.changeNumber = function(number) {
+    var filteredApps = _.filter(ub.current_material.settings.applications, function(app) {
+        if (app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type) {
+            return _.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.layer, NumbersPanel.LOCATION_RIGHT_SLEEVE.layer], app.application.layer);
+        }
+
+        return _.contains([NumbersPanel.LOCATION_FRONT.type, NumbersPanel.LOCATION_BACK.type], app.application_type);
+    });
+
+    _.each(filteredApps, function(app) {
+        if (app.text !== number.toString()) {
+            app.text = number.toString();
+            ub.funcs.changeFontFromPopup(app.font_obj.id, app);
+        }
+    });
 };
