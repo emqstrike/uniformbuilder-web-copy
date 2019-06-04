@@ -385,9 +385,17 @@ RosterPanel.events = {
     prepareApplicationSizing: function () {
         var that = this;
         var applications = [];
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+
         _.map(ub.current_material.settings.applications, function(app) {
             var obj = {};
-            var appSizes = ub.funcs.getRichardsonApplicationSizes(app)
+            var appSizes = ub.funcs.getRichardsonApplicationSizes(app);
+
+            if (typeof appSizes === "undefined") {
+                appSizes = {};
+                appSizes.sizes = ub.data.defaultApplicationSizes;
+            }
 
             if (typeof app.application_size === "undefined") {
                 app.application_size = "best_fit";
