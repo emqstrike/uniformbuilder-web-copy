@@ -226,7 +226,7 @@ NumbersPanel.events = {
             NumbersPanel.numbersPanel = numbersPanel;
 
             $('#primary_options_container').on("keyup", "#richardson-numbers-input-number", NumbersPanel.events.onChangingNumber);
-            $('#primary_options_container').on("keyup focusout", "#richardson-numbers-input-number", NumbersPanel.events.onLeaveNumber);
+            $('#primary_options_container').on("focusout", "#richardson-numbers-input-number", NumbersPanel.events.onLeaveNumber);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
@@ -257,14 +257,14 @@ NumbersPanel.events = {
 
     onChangingNumber: function(e) {
         var ENTER = 13;
-        var input = $(this).val();
+        var input = $(this).val().trim();
 
-        if (!_.isEmpty(input)) {
+        if (input !== "") {
             if (isNaN(input)) {
                 $(this).val(input.slice(0, -1)); // remove last character
-            } else if (number >= 0 && number <= 99) {
+            } else if (input >= 0 && input <= 99) {
                 if (e.keyCode === ENTER) {
-                    NumbersPanel.changeNumber(number);
+                    NumbersPanel.changeNumber(input);
                 }
             } else {
                 NumbersPanel.setNumberToDefault();
@@ -273,11 +273,16 @@ NumbersPanel.events = {
     },
 
     onLeaveNumber: function() {
-        var input = $(this).val();
+        var input = $(this).val().trim();
 
-        if (!_.isEmpty()) {
-            NumbersPanel.changeNumber(number);
+        if (input !== "") {
+            if (!isNaN(input)) {
+                NumbersPanel.changeNumber(input);
+                return;
+            }
         }
+
+        NumbersPanel.setNumberToDefault();
     },
 
     onAddLocation: function() {
@@ -698,6 +703,6 @@ NumbersPanel.setNumberToDefault = function() {
         var app_code = location_el.data("app-code").toString();
         var application = _.find(ub.current_material.settings.applications, {code: app_code});
 
-        $(this).val(application.text);
+        $('#richardson-numbers-input-number').val(application.text);
     }
 };
