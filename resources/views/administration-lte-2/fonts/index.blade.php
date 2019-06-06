@@ -38,13 +38,13 @@
                                     <td>@{{ props.item.brand }}</td>
                                     <td>@{{ props.item.updated_at }}</td>
                                     <td>
-                                        <button class="btn btn-default btn btn-xs btn-flat" :disabled="props.item.active == 0">Disable</button>
-                                        <button class="btn btn-primary btn btn-xs btn-flat" :disabled="props.item.active == 1">Enable</button>
+                                        <button class="btn btn-default btn btn-xs btn-flat" :disabled="props.item.active == 0" @click="toggleActiveStatus(props.item)">Disable</button>
+                                        <button class="btn btn-primary btn btn-xs btn-flat" :disabled="props.item.active == 1" @click="toggleActiveStatus(props.item)">Enable</button>
                                     </td>
 
                                     <td>
                                         <button class="btn btn-flat btn-primary btn-xs">Edit</button>
-                                        <button class="btn btn-flat btn-default btn-xs">Clone</button>
+                                        <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
                                         <button class="btn btn-flat btn-danger btn-xs">Remove</button>
                                     </td>
                                 </template>

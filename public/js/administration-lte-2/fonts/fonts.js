@@ -56,6 +56,35 @@ new Vue({
         },
     },
     methods: {
+        clone(font) {
+            this.dialog = true;
+
+            axios.post('font/duplicate', {id: font.id}).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.getData();
+
+                        new PNotify({
+                            title: 'Font is now cloned',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Failed to clone font',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
+        },
         getData() {
             this.getFontsDataFromAPI().then(data => {
                 this.fonts = data.fonts;
@@ -87,6 +116,49 @@ new Vue({
             }
 
             return "No";
+        },
+        toggleActiveStatus(font) {
+            this.dialog = true;
+
+            var _url = successMesage = errorMessage = null;
+
+            if (font.active) {
+                _url = 'font/disable';
+                successMessage = "Font is now disabled";
+                errorMessage =  "Failed to disable font";
+            } else {
+                _url = 'font/enable';
+                successMessage = "Font is now enabled";
+                errorMessage = "Failed to enable font";
+            }
+
+            axios.post(_url, {id: font.id}).then((response) => {
+                if (response.data.success === true) {
+                    font.active = ! font.active;
+
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: successMessage,
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: errorMessage,
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
         }
     }
 })
