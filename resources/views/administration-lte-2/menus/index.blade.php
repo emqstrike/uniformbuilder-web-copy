@@ -121,8 +121,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
 
     <script type="text/x-template" id="nested-draggable">
-        <draggable :list="menus" :tag="'ul'" class="item" :group="{name: 'menus'}" swap-threshold="222500" direction="vertical" @end="updateMenuData">
-            <li v-for="menu, index in menus" :key="menu.id">
+        <draggable :list="menus" :tag="'ul'" class="item" :group="{name: 'menus'}" swap-threshold="222500" direction="vertical" @end="updateMenuData" @choose="choose"  :move="move">
+            <li v-for="menu, index in menus" :key="menu.id" :id="menu.id">
                 <div class="menu-container">
                     <div class="row">
                         <div class="col-md-4">

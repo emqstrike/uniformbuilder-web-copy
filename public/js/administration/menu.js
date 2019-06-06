@@ -4,6 +4,11 @@ window.Event = new Vue();
 var nested = {
     template: '#nested-draggable',
     name: 'nested-draggable',
+    data() {
+        return {
+            result: true
+        }
+    },
     props: ['menus'],
     methods: {
         edit(menu) {
@@ -14,6 +19,41 @@ var nested = {
         },
         updateMenuData(event) {
             Event.$emit('update-menu-data', event);
+        },
+        choose(event) {
+            const self = this;
+            self.result = true;
+        },
+        move(event) {
+            const self = this;
+
+            var parentId = event.to.parentElement.id;
+
+            if (parentId != undefined) {
+                removeSubMenu(this.$parent.$root.menus, parentId);
+
+                if (self.result === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function removeSubMenu(menus, id) {
+                menus.forEach((menu) => {
+                    if (menu.id == id) {
+                        if (menu.parent_id != 0) {
+                            self.result = false;
+                        } else {
+                            self.result = true;
+                        }
+                    }
+
+                    if ((menu.hasOwnProperty('menus')) && (menu.menus.length > 0)) {
+                        removeSubMenu(menu.menus, id);
+                    }
+                });
+            }
         },
     }
 };
