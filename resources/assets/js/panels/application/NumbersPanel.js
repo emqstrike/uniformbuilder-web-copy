@@ -70,6 +70,12 @@ NumbersPanel.prototype = {
             perspective: NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective,
             part: NumbersPanel.LOCATION_RIGHT_SLEEVE.part
         });
+
+        // disable remove button if there's only one location enabled
+        if (_.filter(this.locations, {enabled: true}).length === 1) {
+            var location = _.find(this.locations, {enabled: true});
+            location.only_one = true;
+        }
     },
 
     setFontAccents: function(app_code) {
@@ -219,7 +225,8 @@ NumbersPanel.events = {
         if (!NumbersPanel.events.is_init) {
             NumbersPanel.numbersPanel = numbersPanel;
 
-            $('#primary_options_container').on("keyup focusout", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
+            $('#primary_options_container').on("keyup", "#richardson-numbers-input-number", NumbersPanel.events.onChangingNumber);
+            $('#primary_options_container').on("keyup focusout", "#richardson-numbers-input-number", NumbersPanel.events.onLeaveNumber);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
@@ -248,32 +255,28 @@ NumbersPanel.events = {
         }, 300);
     },
 
-    onNumberChanging: function(e) {
+    onChangingNumber: function(e) {
         var ENTER = 13;
-        var number = parseInt($(this).val());
+        var input = $(this).val();
 
-        switch(e.type) {
-            case "keyup":
-                if (number >= 0 && number <= 99) {
-                    if (e.keyCode === ENTER) {
-                        NumbersPanel.changeNumber(number);
-                    }
-                } else {
-                    var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
-
-                    if (location_el.length !== 0) {
-                        var app_code = location_el.data("app-code").toString();
-                        var application = _.find(ub.current_material.settings.applications, {code: app_code});
-
-                        $(this).val(application.text);
-                    }
+        if (!_.isEmpty(input)) {
+            if (isNaN(input)) {
+                $(this).val(input.slice(0, -1)); // remove last character
+            } else if (number >= 0 && number <= 99) {
+                if (e.keyCode === ENTER) {
+                    NumbersPanel.changeNumber(number);
                 }
+            } else {
+                NumbersPanel.setNumberToDefault();
+            }
+        }
+    },
 
-                break;
+    onLeaveNumber: function() {
+        var input = $(this).val();
 
-            case "focusout":
-                NumbersPanel.changeNumber(number);
-                break;
+        if (!_.isEmpty()) {
+            NumbersPanel.changeNumber(number);
         }
     },
 
@@ -686,4 +689,15 @@ NumbersPanel.changeNumber = function(number) {
             ub.funcs.changeFontFromPopup(app.font_obj.id, app);
         }
     });
+};
+
+NumbersPanel.setNumberToDefault = function() {
+    var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
+
+    if (location_el.length !== 0) {
+        var app_code = location_el.data("app-code").toString();
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+        $(this).val(application.text);
+    }
 };
