@@ -174,13 +174,15 @@ InteropIsPanel.events = {
 InteropIsPanel.funcs = {
     loadDesigner: function(designID, applicationID, editorOnly = false) {
         var nextUrl = '';
+        var parentWindow = window.parent;
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
 
-        // if (typeof InteropIsPanel.parentWindow.mainFrame !== "undefined") {
+        // When the customizer is embedded create function in the parent window to handle the event
+        if (typeof parentWindow.mainFrame !== "undefined") {
+            nextUrl = "javascript:;designID=0;window.isMessage(designID," + _applicationID + ");";
+        } else  {
             nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
-        // } else  {
-        //     nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
-        // }
+        }
 
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -266,12 +268,10 @@ InteropIsPanel.funcs = {
             StoreName: "Richardson Customizer",
             StoreEmail: "jared@prolook.com",
             EnableEZD: false,
-            EmbedType: "iframe",
+            EmbedType: "object",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
-
-        console.log(flashvars)
 
         if (editorOnly) {
             $("#inksoftEditor .inksoft-design-editor").html("")
@@ -284,11 +284,21 @@ InteropIsPanel.funcs = {
             UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
             UIkit.modal("#select-mascot-inksoft-modal").show();
         }
+
         InteropIsPanel.events.init();
     },
 
     loadDesignerUpload: function(designID, applicationID, uploadOnly = false) {
+        var nextUrl = '';
+        var parentWindow = window.parent;
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
+
+        if (typeof parentWindow.mainFrame !== "undefined") {
+            nextUrl = "javascript:;designID=0;window.isMessage(designID," + _applicationID + ");";
+        } else  {
+            nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
+        }
+
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -337,7 +347,7 @@ InteropIsPanel.funcs = {
             SSLDomain: "stores.inksoft.com",
             StoreURI: "richardson_customizer",
             Admin: "",
-            NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
+            NextURL: nextUrl,
             CartURL: "https://stores.inksoft.com/richardson_customizer/Cart",
             OrderSummary: true,
             VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
@@ -373,7 +383,7 @@ InteropIsPanel.funcs = {
             StoreName: "Richardson Customizer",
             StoreEmail: "jared@prolook.com",
             EnableEZD: false,
-            EmbedType: "iframe",
+            EmbedType: "object",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
