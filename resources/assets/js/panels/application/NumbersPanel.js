@@ -19,8 +19,6 @@ function NumbersPanel(element) {
     this.locations = [];
     this.fontAccents = [];
     this.fontColors = [];
-
-    this.setLocations();
 }
 
 NumbersPanel.prototype = {
@@ -34,6 +32,8 @@ NumbersPanel.prototype = {
     setLocations: function() {
         var applications = ub.current_material.settings.applications;
         var temp_app;
+
+        this.locations = [];
 
         temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_FRONT.type});
         this.locations.push({
@@ -54,7 +54,9 @@ NumbersPanel.prototype = {
         });
 
         if (!ub.funcs.is_sleeveless()) {
-            temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_LEFT_SLEEVE.type, layer: NumbersPanel.LOCATION_LEFT_SLEEVE.layer});
+            temp_app = _.find(applications, function(app) {
+                            return app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type && app.application.layer === NumbersPanel.LOCATION_LEFT_SLEEVE.layer;
+                        });
             this.locations.push({
                 text: NumbersPanel.LOCATION_LEFT_SLEEVE.text,
                 enabled: temp_app !== undefined,
@@ -63,7 +65,9 @@ NumbersPanel.prototype = {
                 part: NumbersPanel.LOCATION_LEFT_SLEEVE.part
             });
 
-            temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_RIGHT_SLEEVE.type, layer: NumbersPanel.LOCATION_RIGHT_SLEEVE.layer});
+            temp_app = _.find(applications, function(app) {
+                            return app.application_type === NumbersPanel.LOCATION_RIGHT_SLEEVE.type && app.application.layer === NumbersPanel.LOCATION_RIGHT_SLEEVE.layer;
+                        });
             this.locations.push({
                 text: NumbersPanel.LOCATION_RIGHT_SLEEVE.text,
                 enabled: temp_app !== undefined,
