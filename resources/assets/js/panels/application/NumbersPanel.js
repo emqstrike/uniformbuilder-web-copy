@@ -70,6 +70,12 @@ NumbersPanel.prototype = {
             perspective: NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective,
             part: NumbersPanel.LOCATION_RIGHT_SLEEVE.part
         });
+
+        // disable remove button if there's only one location enabled
+        if (_.filter(this.locations, {enabled: true}).length === 1) {
+            var location = _.find(this.locations, {enabled: true});
+            location.only_one = true;
+        }
     },
 
     setFontAccents: function(app_code) {
@@ -203,6 +209,8 @@ NumbersPanel.LOCATION_RIGHT_SLEEVE = {
     part: "Sleeve"
 };
 
+NumbersPanel.SAMPLE_NUMBER = "85";
+
 NumbersPanel.APPLICATION_TYPE = "player_number";
 
 NumbersPanel.PREVIOUS_FONT = "previous";
@@ -217,7 +225,8 @@ NumbersPanel.events = {
         if (!NumbersPanel.events.is_init) {
             NumbersPanel.numbersPanel = numbersPanel;
 
-            $('#primary_options_container').on("keyup blur", "#richardson-numbers-input-number", NumbersPanel.events.onNumberChanging);
+            $('#primary_options_container').on("keyup", "#richardson-numbers-input-number", NumbersPanel.events.onChangingNumber);
+            $('#primary_options_container').on("focusout", "#richardson-numbers-input-number", NumbersPanel.events.onLeaveNumber);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button:not(.btn-enabled)", NumbersPanel.events.onAddLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons .remove-location", NumbersPanel.events.onRemoveLocation);
             $("#primary_options_container").on("click", "#richardson-numbers-locations .location-buttons button.btn-enabled", NumbersPanel.events.onChangeLocation);
@@ -246,35 +255,34 @@ NumbersPanel.events = {
         }, 300);
     },
 
-    onNumberChanging: function(e) {
+    onChangingNumber: function(e) {
         var ENTER = 13;
-        var number = parseInt($(this).val());
+        var input = $(this).val().trim();
 
-        if (number >= 0 && number <= 99) {
-            if (e.keyCode === ENTER) {
-                var filteredApps = _.filter(ub.current_material.settings.applications, function(app) {
-                    if (app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type) {
-                        return _.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.layer, NumbersPanel.LOCATION_RIGHT_SLEEVE.layer], app.application.layer);
-                    }
-
-                    return _.contains([NumbersPanel.LOCATION_FRONT.type, NumbersPanel.LOCATION_BACK.type], app.application_type);
-                });
-
-                _.each(filteredApps, function(app) {
-                    app.text = number.toString();
-                    ub.funcs.changeFontFromPopup(app.font_obj.id, app);
-                });
-            }
-        } else {
-            var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
-
-            if (location_el.length !== 0) {
-                var app_code = location_el.data("app-code").toString();
-                var application = _.find(ub.current_material.settings.applications, {code: app_code});
-
-                $(this).val(application.text);
+        if (input !== "") {
+            if (isNaN(input)) {
+                $(this).val(input.slice(0, -1)); // remove last character
+            } else if (input >= 0 && input <= 99) {
+                if (e.keyCode === ENTER) {
+                    NumbersPanel.changeNumber(input);
+                }
+            } else {
+                NumbersPanel.setNumberToDefault();
             }
         }
+    },
+
+    onLeaveNumber: function() {
+        var input = $(this).val().trim();
+
+        if (input !== "") {
+            if (!isNaN(input)) {
+                NumbersPanel.changeNumber(input);
+                return;
+            }
+        }
+
+        NumbersPanel.setNumberToDefault();
     },
 
     onAddLocation: function() {
@@ -297,8 +305,12 @@ NumbersPanel.events = {
             side = perspective;
         }
 
+        var number_el = $('#richardson-numbers-input-number');
+        var number_val = number_el.val();
+
         ub.funcs.newApplication(perspective, part, type, side, logo_type, function() {
             var new_code = _.last(Object.keys(ub.current_material.settings.applications));
+            var application = _.find(ub.current_material.settings.applications, {code: new_code.toString()});
             removeBtnEl.data('app-code', new_code);
 
             $(_this).data('app-code', new_code);
@@ -306,6 +318,11 @@ NumbersPanel.events = {
 
             $(_this).prop('disabled', false);
             $(_this).click();
+
+            application.text = !_.isEmpty(number_val) ? number_val.toString() : NumbersPanel.SAMPLE_NUMBER;
+            number_el.val(application.text);
+
+            ub.funcs.changeFontFromPopup(application.font_obj.id, application);
 
             NumbersPanel.showHideRemoveButton();
         });
@@ -659,5 +676,33 @@ NumbersPanel.showHideRemoveButton = function() {
                 $(el).next().removeClass("invisible");
             }
         });
+    }
+};
+
+NumbersPanel.changeNumber = function(number) {
+    var filteredApps = _.filter(ub.current_material.settings.applications, function(app) {
+        if (app.application_type === NumbersPanel.LOCATION_LEFT_SLEEVE.type) {
+            return _.contains([NumbersPanel.LOCATION_LEFT_SLEEVE.layer, NumbersPanel.LOCATION_RIGHT_SLEEVE.layer], app.application.layer);
+        }
+
+        return _.contains([NumbersPanel.LOCATION_FRONT.type, NumbersPanel.LOCATION_BACK.type], app.application_type);
+    });
+
+    _.each(filteredApps, function(app) {
+        if (app.text !== number.toString()) {
+            app.text = number.toString();
+            ub.funcs.changeFontFromPopup(app.font_obj.id, app);
+        }
+    });
+};
+
+NumbersPanel.setNumberToDefault = function() {
+    var location_el = $('#richardson-numbers-locations .location-buttons button.uk-active');
+
+    if (location_el.length !== 0) {
+        var app_code = location_el.data("app-code").toString();
+        var application = _.find(ub.current_material.settings.applications, {code: app_code});
+
+        $('#richardson-numbers-input-number').val(application.text);
     }
 };
