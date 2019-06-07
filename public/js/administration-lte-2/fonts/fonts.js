@@ -117,6 +117,42 @@ new Vue({
 
             return "No";
         },
+        remove(font) {
+            let remove = confirm('Are you sure you want to remove this font?');
+
+            if (remove === true) {
+                this.dialog = true;
+
+                this.removeMultipleFonts({id: [font.id]});
+            }
+        },
+        removeMultipleFonts(fonts) {
+            axios.post('font/delete_fonts', fonts).then((response) => {
+                if (response.data.success === true) {
+                    setTimeout(() => {
+                        this.getData();
+
+                        new PNotify({
+                            title: 'Font is now deleted',
+                            type: 'success',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        this.dialog = false;
+
+                        new PNotify({
+                            title: 'Failed to delete font',
+                            type: 'error',
+                            hide: true,
+                            delay: 1000
+                        });
+                    }, 1000);
+                }
+            });
+        },
         toggleActiveStatus(font) {
             this.dialog = true;
 

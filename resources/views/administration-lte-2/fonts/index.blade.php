@@ -45,7 +45,7 @@
                                     <td>
                                         <button class="btn btn-flat btn-primary btn-xs">Edit</button>
                                         <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
-                                        <button class="btn btn-flat btn-danger btn-xs">Remove</button>
+                                        <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">Remove</button>
                                     </td>
                                 </template>
                             </v-data-table>
