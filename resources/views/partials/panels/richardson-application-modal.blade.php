@@ -358,85 +358,6 @@
     </div>
 </div>
 
-<!-- TEAM ROSTER -->
-<div id="richardson-team-roster" class="bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
-    <div class="uk-modal-dialog uk-modal-body uk-width-3-4@m uk-margin-auto-vertical">
-        <button class="uk-modal-close-outside" type="button" uk-close></button>
-        <h6 class="uk-padding-small bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-bottom">Team Roster</h6>
-        <div class="uk-grid-small" uk-grid>
-            <div class="uk-width-1-2@m uk-width-1-5@l">
-                <div class="uk-width-1-1@m uk-width-1-1@l">
-                    <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                        <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
-                        <div class="roster-uniform-size-container">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-width-1-2@m uk-width-1-3@l">
-                    <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                        <h5 uk-margin class="uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
-                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red player-info-preview"></span></h6>
-                        <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
-                            <div class="bdr-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <div class="uk-width-1-1@m uk-width-expand@l">
-                <div class="uk-grid-small" uk-grid>
-                    <div class="uk-width-1-1@l">
-                        <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Edit Roster</h5>
-                            <table class="uk-table uk-table-small uk-table-divider roster-player-list-table uk-margin-remove-top fixed_header">
-                                <thead>
-                                    <tr>
-                                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Size</th>
-                                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Last Name</th>
-                                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Number</th>
-                                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Quantity</th>
-                                        <th class="fc-dark uk-padding-remove-top uk-table-shrink"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="uk-width-1-1@l">
-                        <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
-                            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
-                            <div class="uk-width-1-1">
-                                <div class="uk-grid-small uk-grid-match" uk-grid>
-                                    <div class="uk-width-1-3">
-                                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Sizes</h6>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark uk-text-center">Player Numbers</h6>
-                                    </div>
-                                </div>
-                                <div class="bdr-top uk-padding-small summary-list-height uk-overflow-auto"> 
-                                    <ul class="uk-list uk-list-divider roster-summary">
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="uk-modal-footer uk-padding-remove-bottom uk-text-center">
-            <button class="uk-button uk-button-secondary save-roster">Save Roster</button>
-        </div>
-    </div>
-</div>
-<!-- END TEAM ROSTER -->
-
 <!-- Stock Mascot -->
 <div id="richardson-stock-mascot" class="bootbox modal" uk-modal="bg-close: false; stack: false; esc-close: false;">
     <div class="uk-modal-dialog uk-width-3-4 uk-margin-auto-vertical inksoft-stock-mascot">
@@ -558,3 +479,123 @@
     </div>
 </div>
 <!-- End Generate Thumbnail -->
+
+
+<!-- Team Roster-->
+<div id="richardson-team-roster" class="bootbox modal" uk-modal="bg-close: false; stack: true; esc-close: false;">
+    <div class="uk-modal-dialog uk-modal-body uk-width-3-4 uk-margin-auto-vertical">
+        <button class="uk-modal-close-outside" type="button" uk-close></button>
+
+        <div class="uk-grid-collapse uk-child-width-expand active-bgc-red-switcher" uk-switcher uk-grid>
+            <div>
+                <a class="uk-button uk-button-default uk-width-1-1">
+                    <h6 class="uk-padding-small uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase">Team Roster</h6>
+                </a>
+            </div>
+            <div>
+                <a class="uk-button uk-button-default uk-width-1-1">
+                    <h6 class="uk-padding-small uk-margin-remove uk-text-bold uk-text-center uk-text-uppercase">Applications Sizing</h6>
+                </a>
+            </div>
+        </div>
+
+        <ul class="uk-switcher uk-margin uk-padding-remove">
+            <li>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-2@m uk-width-1-5@l">
+                        <div class="uk-width-1-1@m uk-width-1-1@l">
+                            <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
+                                <div class="roster-uniform-size-container">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-2@m uk-width-1-3@l">
+                            <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                                <h5 uk-margin class="uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Player Number</h5>
+                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Preview: <span class="fc-red player-info-preview"></span></h6>
+                                <div class="uk-grid-small uk-child-width-1-1@m grid-tiny uk-grid-match">
+                                    <div class="bdr-top uk-height-max-xlarge uk-overflow-auto player-numbers-container">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="uk-width-1-1@m uk-width-expand@l">
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-1-1@l">
+                                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Edit Roster</h5>
+                                    <table class="uk-table uk-table-small uk-table-divider roster-player-list-table uk-margin-remove-top fixed_header">
+                                        <thead>
+                                            <tr>
+                                                <th class="fc-dark uk-padding-remove-top uk-width-1-6">Size</th>
+                                                <th class="fc-dark uk-padding-remove-top uk-width-expand">Last Name</th>
+                                                <th class="fc-dark uk-padding-remove-top uk-width-1-6">Number</th>
+                                                <th class="fc-dark uk-padding-remove-top uk-width-expand">Quantity</th>
+                                                <th class="fc-dark uk-padding-remove-top uk-table-shrink"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="uk-width-1-1@l">
+                                <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">
+                                    <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Summary</h5>
+                                    <div class="uk-width-1-1">
+                                        <div class="uk-grid-small uk-grid-match" uk-grid>
+                                            <div class="uk-width-1-3">
+                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Sizes</h6>
+                                            </div>
+                                            <div class="uk-width-2-3">
+                                                <h6 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark uk-text-center">Player Numbers</h6>
+                                            </div>
+                                        </div>
+                                        <div class="bdr-top uk-padding-small summary-list-height uk-overflow-auto"> 
+                                            <ul class="uk-list uk-list-divider roster-summary">
+                                                
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-padding-remove-bottom uk-text-center">
+                    <button class="uk-button uk-button-secondary save-roster">Save Roster</button>
+                    <button class="uk-button uk-button-secondary save-roster">Next</button>
+                </div>
+            </li>
+            <li>
+                <div class="application-sizing-container">
+                    <div class="uk-overflow-auto application-list-maxheight">
+                        <table class="uk-table uk-table-large uk-table-hover uk-table-middle uk-table-divider applications-sizing-table">
+                            <thead class="uk-text-uppercase">
+                                <tr>
+                                    <th class="uk-width-small">App&nbsp;Type</th>
+                                    <th class="uk-width-1-4">Font&nbsp;/&nbsp;Logo Details</th>
+                                    <th class="uk-width-1-6">Select&nbsp;size</th>
+                                    <th class="uk-width-1-5">Colors&nbsp;/&nbsp;Pattern</th>
+                                    <th class="uk-table-expand">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fc-dark uk-text-small">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="uk-modal-footer uk-padding-remove-bottom uk-text-center">
+                        <button class="uk-button uk-button-secondary save-application-sizing uk-modal-close">Save Application Sizing</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- End Team Roster-->

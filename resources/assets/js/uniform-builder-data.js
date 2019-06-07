@@ -170,6 +170,7 @@ $(document).ready(function() {
     ub.current_material.settings.randomFeeds    = {};
     ub.current_material.settings.logos          = {};
     ub.current_material.settings.gradients      = {};
+    ub.current_material.settings.applicationSizing = [];
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -12947,5 +12948,53 @@ ub.funcs.fontOffSets = [
         '11',
         '11.5',
         '12',
-   ];
+    ];
+
+    ub.data.defaultApplicationSizes = [
+        {
+            size: 0.5
+        },
+        {
+            size: 1
+        },
+        {
+            size: 1.5
+        },
+        {
+            size: 2
+        },
+        {
+            size: 2.5
+        },
+        {
+            size: 3
+        },
+        {
+            size: 4
+        },
+        {
+            size: 5
+        },
+        {
+            size: 6
+        },
+        {
+            size: 7
+        },
+        {
+            size: 8
+        },
+        {
+            size: 9
+        },
+        {
+            size: 10
+        },
+        {
+            size: 11
+        },
+        {
+            size: 12
+        },
+    ]
 });

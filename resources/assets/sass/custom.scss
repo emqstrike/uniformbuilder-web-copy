@@ -118,17 +118,20 @@ div.debug-panel {
   }
 }
 
-.uk-active {
-  .numbers-circle {
-    background-color: $color-red;
-    color: $color-white;
-  }
+.roster-uniform-size-container, .player-numbers-container {
+  .uk-active {
+    .numbers-circle {
+      background-color: $color-red;
+      color: $color-white;
+    }
 
-  .size-circle {
-    background-color: $color-red;
-    color: $color-white;
+    .size-circle {
+      background-color: $color-red;
+      color: $color-white;
+    }
   }
 }
+
 
 .selected.uk-active {
   .numbers-circle {
@@ -362,4 +365,23 @@ img.piping-images {
     color: $color-white;
     background-color: $color-red;
     border-color: $color-red;
+}
+
+#richardson-team-roster .active-bgc-red-switcher {
+  .uk-active a {
+    background-color: $color-lightGray;
+    border-color: $color-lightGray;
+
+    h6 {
+      color: $color-dark;
+    }
+  }
+}
+
+.uk-radio:checked, .uk-checkbox:checked, .uk-checkbox:indeterminate {
+  background-color: $color-red;
+}
+
+.application-list-maxheight {
+  max-height: 675px !important;
 }

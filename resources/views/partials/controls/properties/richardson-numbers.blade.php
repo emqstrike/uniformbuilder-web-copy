@@ -45,7 +45,7 @@
                         @{{ /code }}
                     >@{{ text }}</button>
 
-                    <a href="javascript:void(0)" class="removeMascot en-disable-me fc-red fc-italic remove-location @{{ ^enabled }}invisible@{{ /enabled }}"
+                    <a href="javascript:void(0)" class="removeMascot en-disable-me fc-red fc-italic remove-location @{{ ^enabled }}invisible@{{ /enabled }} @{{ #only_one }}invisible@{{ /only_one }}"
                         @{{ #code }}
                             data-app-code="@{{ code }}"
                         @{{ /code }}
