@@ -115,7 +115,7 @@ MascotPanel.events = {
         var settingsObject = ub.funcs.getApplicationSettings(application_id);
         ub.data.currentApplication = settingsObject;
 
-        if (settingsObject.logo_type === 'stock') {
+        if (settingsObject.logo_type === 'stock' || settingsObject.logo_type === 'custom') {
             StockMascot.events.init();
         } else if (settingsObject.logo_type === 'custom_text') {
             StockMascot.events.init(ub.data.customTextCategoryID, designID);
