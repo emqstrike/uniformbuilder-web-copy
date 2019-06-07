@@ -350,6 +350,12 @@ $(document).ready(function() {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
             UIkit.modal("#inksoftEditor").hide();
             UIkit.modal("#inksoftUploader").hide();
+
+            // Remove Inksoft On CLose of Modal
+            $(".inksoft-loader.create #embed-inksoft-create").html("");
+            $("#inksoftEditor .inksoft-design-editor").html("");
+            $("#inksoftUploader .inksoft-design-uploader").html("");
+            $(".inksoft-loader.upload #embed-inksoft-upload").html("");
         }
 
         ub.status.render.resumeRendering();
