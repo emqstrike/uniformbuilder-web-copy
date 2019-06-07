@@ -13,11 +13,18 @@
                     richardsonWindow.is.isMessage(designID, applicationID);
                 }
             }
+
+            window.addEventListener('message', receiver, false);
+            // Add Event receiver to access the redirect event of Inksoft
+            function receiver(e) {
+                // Remove the RedirectTo in the data.
+                var url = e.data.replace("redirectTo:", "");
+                // Redirect with request redirect from inksoft
+                window.location = url;
+            }
         })
     </script>
     <div class="uk-section uk-padding-remove main-builder">
         <iframe src="{{ env("CUSTOMIZER_HOST"). "/builder/0/". $uniform_id }}"width="100%" style="height: 100vh !important;"></iframe>
     </div>
-
-
 @endsection

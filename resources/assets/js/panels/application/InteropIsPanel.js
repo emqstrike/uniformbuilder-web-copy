@@ -34,7 +34,7 @@ InteropIsPanel.events = {
 
         UIkit.modal("#inksoftUploader").hide();
         UIkit.modal("#inksoftEditor").hide();
-
+        $("iframe[name='__privateStripeMetricsController0']").remove();
     },
 
     onCloseTutorial: function() {
@@ -179,7 +179,7 @@ InteropIsPanel.funcs = {
 
         // When the customizer is embedded create function in the parent window to handle the event
         if (typeof parentWindow.customizerIframe !== "undefined") {
-            nextUrl = "javascript:;designID=0;window.isMessage(designID," + _applicationID + ");";
+            nextUrl = "javascript:designID=0;window.isMessage(designID," + _applicationID + ");";
         } else  {
             nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
         }
@@ -245,13 +245,13 @@ InteropIsPanel.funcs = {
             AutoZoom: true,
             EnableNameNumbers: true,
             AddThisPublisherId: "xa-4fccb0966fef0ba7",
-            EnableCartPricing: true,
+            EnableCartPricing: false,
             EnableCartCheckout: false,
             EnableCartBilling: false,
-            EnableCartShipping: true,
+            EnableCartShipping: false,
             PaymentDisabled: false,
-            PaymentRequired: true,
-            BillingAddressRequired: true,
+            PaymentRequired: false,
+            BillingAddressRequired: false,
             PasswordLength: "4",
             DefaultCountryCode: "PH",
             CurrencyCode: "USD",
@@ -268,7 +268,7 @@ InteropIsPanel.funcs = {
             StoreName: "Richardson Customizer",
             StoreEmail: "jared@prolook.com",
             EnableEZD: false,
-            EmbedType: "object",
+            EmbedType: "iframe",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
@@ -383,7 +383,7 @@ InteropIsPanel.funcs = {
             StoreName: "Richardson Customizer",
             StoreEmail: "jared@prolook.com",
             EnableEZD: false,
-            EmbedType: "object",
+            EmbedType: "iframe",
             ArtCategoryID: "1000002",
             DesignCategoryID: "1000004"
         };
