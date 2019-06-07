@@ -425,7 +425,7 @@
         <h6 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin uk-margin-remove abrade-ultra-italic">Design Editor</h6>
         <div class="uk-padding-small">
             <div class="uk-width-1-1 uk-flex uk-flex-center">
-                <div class="inksoft-design-editor">
+                <div class="inksoft-design-editor bdr-thin bdr-gray uk-padding-small">
                     
                 </div>
             </div>
@@ -458,7 +458,7 @@
                 </div>
                 <div>
                     <div class="uk-flex uk-flex-center">
-                        <div class="inksoft-design-uploader">
+                        <div class="inksoft-design-uploader bdr-thin bdr-gray uk-padding-small">
                     
                         </div>
                     </div>

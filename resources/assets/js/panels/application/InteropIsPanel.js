@@ -21,7 +21,6 @@ InteropIsPanel.events = {
     },
 
     cancelAddtoUniform: function() {
-        console.log("asdasdas")
         if (!ub.data.isChangeStockLogo) {
             var _settingsObject = ub.data.currentApplication;
             if (_settingsObject.logo_type === "custom_text") {
@@ -35,7 +34,7 @@ InteropIsPanel.events = {
 
         UIkit.modal("#inksoftUploader").hide();
         UIkit.modal("#inksoftEditor").hide();
-
+        $("iframe[name='__privateStripeMetricsController0']").remove();
     },
 
     onCloseTutorial: function() {
@@ -174,7 +173,17 @@ InteropIsPanel.events = {
 
 InteropIsPanel.funcs = {
     loadDesigner: function(designID, applicationID, editorOnly = false) {
+        var nextUrl = '';
+        var parentWindow = window.parent;
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
+
+        // When the customizer is embedded create function in the parent window to handle the event
+        if (typeof parentWindow.customizerIframe !== "undefined") {
+            nextUrl = "javascript:designID=0;window.isMessage(designID," + _applicationID + ");";
+        } else  {
+            nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
+        }
+
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -223,7 +232,7 @@ InteropIsPanel.funcs = {
             SSLDomain: "stores.inksoft.com",
             StoreURI: "richardson_customizer",
             Admin: "",
-            NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
+            NextURL: nextUrl,
             CartURL: "https://stores.inksoft.com/richardson_customizer/Cart",
             OrderSummary: true,
             VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
@@ -236,13 +245,13 @@ InteropIsPanel.funcs = {
             AutoZoom: true,
             EnableNameNumbers: true,
             AddThisPublisherId: "xa-4fccb0966fef0ba7",
-            EnableCartPricing: true,
+            EnableCartPricing: false,
             EnableCartCheckout: false,
             EnableCartBilling: false,
-            EnableCartShipping: true,
+            EnableCartShipping: false,
             PaymentDisabled: false,
-            PaymentRequired: true,
-            BillingAddressRequired: true,
+            PaymentRequired: false,
+            BillingAddressRequired: false,
             PasswordLength: "4",
             DefaultCountryCode: "PH",
             CurrencyCode: "USD",
@@ -275,11 +284,21 @@ InteropIsPanel.funcs = {
             UIkit.switcher("#select-mascot-inksoft-modal .modal-menu-mascot-header").show(1);
             UIkit.modal("#select-mascot-inksoft-modal").show();
         }
+
         InteropIsPanel.events.init();
     },
 
     loadDesignerUpload: function(designID, applicationID, uploadOnly = false) {
+        var nextUrl = '';
+        var parentWindow = window.parent;
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
+
+        if (typeof parentWindow.customizerIframe !== "undefined") {
+            nextUrl = "javascript:;designID=0;window.isMessage(designID," + _applicationID + ");";
+        } else  {
+            nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
+        }
+
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -328,7 +347,7 @@ InteropIsPanel.funcs = {
             SSLDomain: "stores.inksoft.com",
             StoreURI: "richardson_customizer",
             Admin: "",
-            NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
+            NextURL: nextUrl,
             CartURL: "https://stores.inksoft.com/richardson_customizer/Cart",
             OrderSummary: true,
             VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
