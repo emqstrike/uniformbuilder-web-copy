@@ -17,7 +17,7 @@
             window.addEventListener('message', receiver, false);
             // Add Event receiver to access the redirect event of Inksoft
             function receiver(e) {
-                if (e.origin === "http://stores.inksoft.com") {
+                if (e.origin === "http://stores.inksoft.com" || e.origin === "https://stores.inksoft.com") {
                     // Remove the RedirectTo in the data.
                     var url = e.data.replace("redirectTo:", "");
                     // Redirect with request redirect from inksoft
