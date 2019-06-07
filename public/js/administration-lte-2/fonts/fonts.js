@@ -3,7 +3,6 @@ new Vue({
     data: function() {
         return {
             dialog: false,
-
             fonts: [],
             headers: [
                 {text: 'ID', value: 'id'},
@@ -23,6 +22,7 @@ new Vue({
                 rowsPerPage: 10,
             },
             search: "",
+            selected: [],
             sportsFilter: [],
             totalItems: 0,
         };
@@ -56,6 +56,11 @@ new Vue({
         },
     },
     methods: {
+        sample(props, event) {
+            if (event.target.className == "v-input--selection-controls__ripple accent--text") {
+                props.selected = ! props.selected
+            }
+        },
         clone(font) {
             this.dialog = true;
 
@@ -118,40 +123,58 @@ new Vue({
             return "No";
         },
         remove(font) {
-            let remove = confirm('Are you sure you want to remove this font?');
+            
 
-            if (remove === true) {
-                this.dialog = true;
-
-                this.removeMultipleFonts({id: [font.id]});
-            }
+            this.removeMultipleFonts({id: [font.id]});
         },
-        removeMultipleFonts(fonts) {
-            axios.post('font/delete_fonts', fonts).then((response) => {
-                if (response.data.success === true) {
-                    setTimeout(() => {
-                        this.getData();
+        removeMultipleFonts(fonts = []) {
+            let _fonts = null;
+            let ids = [];
 
-                        new PNotify({
-                            title: 'Font is now deleted',
-                            type: 'success',
-                            hide: true,
-                            delay: 1000
-                        });
-                    }, 1000);
-                } else {
-                    setTimeout(() => {
-                        this.dialog = false;
+            if ((fonts.length == 0) && (this.selected.length > 0)) {
+                this.selected.forEach((font) => {
+                    ids.push(font.id);
+                });
 
-                        new PNotify({
-                            title: 'Failed to delete font',
-                            type: 'error',
-                            hide: true,
-                            delay: 1000
-                        });
-                    }, 1000);
+                _fonts = {
+                    id: ids
+                };
+            } else {
+                _fonts = fonts;
+            }
+
+            if ((_fonts.hasOwnProperty('id')) && (_fonts.id.length > 0)) {
+                this.dialog = true;
+                let remove = confirm('Are you sure you want to remove this font?');
+
+                if (remove === true) {
+                    axios.post('font/delete_fonts', _fonts).then((response) => {
+                        if (response.data.success === true) {
+                            setTimeout(() => {
+                                this.getData();
+
+                                new PNotify({
+                                    title: 'Font is now deleted',
+                                    type: 'success',
+                                    hide: true,
+                                    delay: 1000
+                                });
+                            }, 1000);
+                        } else {
+                            setTimeout(() => {
+                                this.dialog = false;
+
+                                new PNotify({
+                                    title: 'Failed to delete font',
+                                    type: 'error',
+                                    hide: true,
+                                    delay: 1000
+                                });
+                            }, 1000);
+                        }
+                    });
                 }
-            });
+            }
         },
         toggleActiveStatus(font) {
             this.dialog = true;
@@ -195,6 +218,13 @@ new Vue({
                     }, 1000);
                 }
             });
-        }
+        },
+        toggleAll () {
+            if (this.selected.length) {
+                this.selected = [];
+            } else {
+                this.selected = this.fonts.slice();
+            }
+        },
     }
 })

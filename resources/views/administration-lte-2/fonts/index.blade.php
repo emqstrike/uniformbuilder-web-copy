@@ -11,14 +11,23 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Fonts')
-                    <h1>
-                        Fonts
 
-                        <button class='btn btn-flat btn-xs btn-success'>
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            Add New Font
-                        </button>
-                    </h1>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h1>
+                                Fonts
+
+                                <button class='btn btn-flat btn-xs btn-success'>
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    Add New Font
+                                </button>
+                            </h1>
+                        </div>
+
+                        <div class="col-md-8 text-right" style="margin-top: 25px;">
+                            <button class="btn btn-flat btn-danger btn-sm" @click="removeMultipleFonts()">Delete selected fonts</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -26,27 +35,44 @@
                         @include('administration-lte-2.partials.components.loading-dialog')
 
                         <div>
-                            <v-data-table ref="fontsTable" :headers="headers" :items="fonts" :search="search" hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
-                                <template slot="items" slot-scope="props">
-                                    <td>@{{ props.item.id }}</td>
-                                    <td>@{{ props.item.name }}</td>
-                                    <td>@{{ getValue(props.item.tail_sweep) }}</td>
-                                    <td>@{{ getValue(props.item.script) }}</td>
-                                    <td>@{{ getValue(props.item.block_font) }}</td>
-                                    <td>@{{ getValue(props.item.sports) }}</td>
-                                    <td>@{{ getValue(props.item.block_patterns) }}</td>
-                                    <td>@{{ props.item.brand }}</td>
-                                    <td>@{{ props.item.updated_at }}</td>
-                                    <td>
-                                        <button class="btn btn-default btn btn-xs btn-flat" :disabled="props.item.active == 0" @click="toggleActiveStatus(props.item)">Disable</button>
-                                        <button class="btn btn-primary btn btn-xs btn-flat" :disabled="props.item.active == 1" @click="toggleActiveStatus(props.item)">Enable</button>
-                                    </td>
+                            <v-data-table v-model="selected" ref="fontsTable" :headers="headers" :items="fonts" :search="search" select-all hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
+                                <template v-slot:headers="props">
+                                    <tr>
+                                        <th>
+                                            <v-checkbox :input-value="props.all" :indeterminate="props.indeterminate" primary hide-details @click.stop="toggleAll"></v-checkbox>
+                                        </th>
 
-                                    <td>
-                                        <button class="btn btn-flat btn-primary btn-xs">Edit</button>
-                                        <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
-                                        <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">Remove</button>
-                                    </td>
+                                        <th v-for="header in props.headers" :key="header.text">
+                                            @{{ header.text }}
+                                        </th>
+                                    </tr>
+                                </template>
+                                <template slot="items" slot-scope="props">
+                                    <tr :active="props.selected" @click="sample(props, $event)">
+                                        <td>
+                                            <v-checkbox :input-value="props.selected" primary hide-details></v-checkbox>
+                                        </td>
+
+                                        <td>@{{ props.item.id }}</td>
+                                        <td>@{{ props.item.name }}</td>
+                                        <td>@{{ getValue(props.item.tail_sweep) }}</td>
+                                        <td>@{{ getValue(props.item.script) }}</td>
+                                        <td>@{{ getValue(props.item.block_font) }}</td>
+                                        <td>@{{ getValue(props.item.sports) }}</td>
+                                        <td>@{{ getValue(props.item.block_patterns) }}</td>
+                                        <td>@{{ props.item.brand }}</td>
+                                        <td>@{{ props.item.updated_at }}</td>
+                                        <td>
+                                            <button class="btn btn-default btn btn-xs btn-flat" :disabled="props.item.active == 0" @click="toggleActiveStatus(props.item)">Disable</button>
+                                            <button class="btn btn-primary btn btn-xs btn-flat" :disabled="props.item.active == 1" @click="toggleActiveStatus(props.item)">Enable</button>
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-flat btn-primary btn-xs">Edit</button>
+                                            <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
+                                            <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">Remove</button>
+                                        </td>
+                                    </tr>
                                 </template>
                             </v-data-table>
 

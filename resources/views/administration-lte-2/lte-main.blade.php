@@ -98,7 +98,7 @@
         <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="/js/libs/axios.js"></script>
         <script src="/js/libs/axios-global-config.js"></script>
-        <script src="https://unpkg.com/vue@2.5.18/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.js"></script>
 
         @yield('scripts')
