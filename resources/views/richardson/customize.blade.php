@@ -17,10 +17,14 @@
             window.addEventListener('message', receiver, false);
             // Add Event receiver to access the redirect event of Inksoft
             function receiver(e) {
-                // Remove the RedirectTo in the data.
-                var url = e.data.replace("redirectTo:", "");
-                // Redirect with request redirect from inksoft
-                window.location = url;
+                if (e.origin === "http://stores.inksoft.com") {
+                    // Remove the RedirectTo in the data.
+                    var url = e.data.replace("redirectTo:", "");
+                    // Redirect with request redirect from inksoft
+                    window.location = url;
+                } else {
+                    return;
+                }
             }
         })
     </script>
