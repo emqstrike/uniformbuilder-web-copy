@@ -2,6 +2,7 @@ new Vue({
     el: '#application-container',
     data: function() {
         return {
+            brands: [],
             dialog: false,
             fonts: [],
             headers: [
@@ -23,12 +24,16 @@ new Vue({
             },
             search: "",
             selected: [],
-            sportsFilter: [],
+            selectedBrandFilter: 'all',
+            selectedSportFilter: 'all',
+            sports: [],
             totalItems: 0,
         };
     },
     created() {
-       this.getData();
+        this.getData();
+        this.getBrandingsData();
+        this.getSportsData();
     },
     computed: {
         computedPagination: {
@@ -56,11 +61,6 @@ new Vue({
         },
     },
     methods: {
-        sample(props, event) {
-            if (event.target.className == "v-input--selection-controls__ripple accent--text") {
-                props.selected = ! props.selected
-            }
-        },
         clone(font) {
             this.dialog = true;
 
@@ -90,6 +90,15 @@ new Vue({
                 }
             });
         },
+        getBrandingsData() {
+            axios.get('v1-0/brandings').then((response) => {
+                if (response.data.success === true) {
+                    response.data.brandings.forEach((brand) => {
+                        this.brands.push(brand.site_name.toLowerCase());
+                    });
+                }
+            });
+        },
         getData() {
             this.getFontsDataFromAPI().then(data => {
                 this.fonts = data.fonts;
@@ -102,7 +111,7 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                axios.get('fonts/filter/all/all?page=' + page).then((response) => {
+                axios.get('fonts/filter/' + this.selectedSportFilter + '/' + this.selectedBrandFilter + '?page=' + page).then((response) => {
                     if (response.data.success === true) {
                         let fonts = response.data.fonts.data;
                         const total = response.data.fonts.total;
@@ -115,6 +124,25 @@ new Vue({
                 });
             });
         },
+        getSportsData() {
+            axios.get('categories').then((response) => {
+                if (response.data.success === true) {
+                    response.data.categories.sort((firstCategory, secondCategory) => {
+                        if (firstCategory.name < secondCategory.name) {
+                            return -1;
+                        } 
+
+                        if (firstCategory.name > secondCategory.name) {
+                            return 1;
+                        } 
+
+                        return 0;
+                    });
+
+                    this.sports = response.data.categories;
+                }
+            });
+        },
         getValue(value) {
             if (value == true) {
                 return "Yes";
@@ -122,9 +150,11 @@ new Vue({
 
             return "No";
         },
+        filter() {
+            this.pagination.page = 1;
+            this.getData();
+        },
         remove(font) {
-            
-
             this.removeMultipleFonts({id: [font.id]});
         },
         removeMultipleFonts(fonts = []) {
@@ -174,6 +204,11 @@ new Vue({
                         }
                     });
                 }
+            }
+        },
+        select(props, event) {
+            if (event.target.className == "v-input--selection-controls__ripple accent--text") {
+                props.selected = ! props.selected
             }
         },
         toggleActiveStatus(font) {

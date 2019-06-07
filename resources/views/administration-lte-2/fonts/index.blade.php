@@ -3,6 +3,23 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+
+    <style>
+        select {
+            text-transform: capitalize;
+            -webkit-appearance: menulist !important;
+        }
+
+        #filter-container label {
+            margin-left: 10px;
+        }
+
+        td button {
+            display: block !important;
+            margin: 5px 0 !important;
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -28,6 +45,26 @@
                             <button class="btn btn-flat btn-danger btn-sm" @click="removeMultipleFonts()">Delete selected fonts</button>
                         </div>
                     </div>
+
+                    <div id="filter-container" style="margin-top: 30px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-inline">
+                                    <label>Sport</label>
+                                    <select v-model="selectedSportFilter" class="form-control" @change="filter">
+                                        <option value="all">all</option>
+                                        <option v-for="sport in sports" :value="sport.name" v-if="sport.name != ''">@{{ sport.name }}</option>
+                                    </select>
+
+                                    <label>Brand</label>
+                                    <select v-model="selectedBrandFilter" class="form-control" @change="filter">
+                                        <option value="all">all</option>
+                                        <option v-for="brand in brands" :value="brand">@{{ brand }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -48,7 +85,7 @@
                                     </tr>
                                 </template>
                                 <template slot="items" slot-scope="props">
-                                    <tr :active="props.selected" @click="sample(props, $event)">
+                                    <tr :active="props.selected" @click="select(props, $event)">
                                         <td>
                                             <v-checkbox :input-value="props.selected" primary hide-details></v-checkbox>
                                         </td>
@@ -58,8 +95,8 @@
                                         <td>@{{ getValue(props.item.tail_sweep) }}</td>
                                         <td>@{{ getValue(props.item.script) }}</td>
                                         <td>@{{ getValue(props.item.block_font) }}</td>
-                                        <td>@{{ getValue(props.item.sports) }}</td>
-                                        <td>@{{ getValue(props.item.block_patterns) }}</td>
+                                        <td>@{{ props.item.sports }}</td>
+                                        <td>@{{ props.item.block_patterns }}</td>
                                         <td>@{{ props.item.brand }}</td>
                                         <td>@{{ props.item.updated_at }}</td>
                                         <td>
