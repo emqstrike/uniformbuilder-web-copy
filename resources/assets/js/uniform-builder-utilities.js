@@ -349,6 +349,10 @@ $(document).ready(function() {
             return ub.config.type === "lower";
         };
 
+        ub.funcs.is_sleeveless = function() {
+            return ub.config.blockPattern.toLowerCase().indexOf("sleeveless") !== -1;
+        };
+
     /// End Benchmarks
 
     /// After Load Scripts 

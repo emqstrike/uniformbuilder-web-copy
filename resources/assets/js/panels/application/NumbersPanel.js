@@ -53,23 +53,25 @@ NumbersPanel.prototype = {
             part: NumbersPanel.LOCATION_BACK.part
         });
 
-        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_LEFT_SLEEVE.type, layer: NumbersPanel.LOCATION_LEFT_SLEEVE.layer});
-        this.locations.push({
-            text: NumbersPanel.LOCATION_LEFT_SLEEVE.text,
-            enabled: temp_app !== undefined,
-            code: temp_app !== undefined ? temp_app.code : "",
-            perspective: NumbersPanel.LOCATION_LEFT_SLEEVE.perspective,
-            part: NumbersPanel.LOCATION_LEFT_SLEEVE.part
-        });
+        if (!ub.funcs.is_sleeveless()) {
+            temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_LEFT_SLEEVE.type, layer: NumbersPanel.LOCATION_LEFT_SLEEVE.layer});
+            this.locations.push({
+                text: NumbersPanel.LOCATION_LEFT_SLEEVE.text,
+                enabled: temp_app !== undefined,
+                code: temp_app !== undefined ? temp_app.code : "",
+                perspective: NumbersPanel.LOCATION_LEFT_SLEEVE.perspective,
+                part: NumbersPanel.LOCATION_LEFT_SLEEVE.part
+            });
 
-        temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_RIGHT_SLEEVE.type, layer: NumbersPanel.LOCATION_RIGHT_SLEEVE.layer});
-        this.locations.push({
-            text: NumbersPanel.LOCATION_RIGHT_SLEEVE.text,
-            enabled: temp_app !== undefined,
-            code: temp_app !== undefined ? temp_app.code : "",
-            perspective: NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective,
-            part: NumbersPanel.LOCATION_RIGHT_SLEEVE.part
-        });
+            temp_app = _.find(applications, {application_type: NumbersPanel.LOCATION_RIGHT_SLEEVE.type, layer: NumbersPanel.LOCATION_RIGHT_SLEEVE.layer});
+            this.locations.push({
+                text: NumbersPanel.LOCATION_RIGHT_SLEEVE.text,
+                enabled: temp_app !== undefined,
+                code: temp_app !== undefined ? temp_app.code : "",
+                perspective: NumbersPanel.LOCATION_RIGHT_SLEEVE.perspective,
+                part: NumbersPanel.LOCATION_RIGHT_SLEEVE.part
+            });
+        }
 
         // disable remove button if there's only one location enabled
         if (_.filter(this.locations, {enabled: true}).length === 1) {
