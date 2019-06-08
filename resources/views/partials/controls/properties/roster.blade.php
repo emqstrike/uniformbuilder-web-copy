@@ -172,5 +172,48 @@
             </tr>
         @{{ /isEmbellishment }}
     @{{ /applications }}
+
+    @{{ ^applications }}
+        <tr class="application-sizing-item uk-text-center" data-code="@{{ code }}">
+            <td colspan="5"><h5>No applications</h5></td>
+        </tr>
+    @{{ /applications }}
+</script>
+
+
+<script type="text/mustache" id="m-richardson-roster-pants">
+    <div class="uk-width-1-2@m uk-width-1-3@l">
+        <div class="uk-width-1-1@m uk-width-1-1@l">
+            <div class="uk-padding-small uk-padding-remove-vertical">
+                <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Select Sizes</h5>
+                <div class="roster-uniform-size-container">
+                    
+                </div>
+                <div class="uk-padding-small uk-padding-remove-horizontal">
+                    <button class="uk-button uk-button-secondary uk-text-capitalize add-player">Add Player</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-1-2@m uk-width-expand@l">
+        <div class="uk-padding-small uk-padding-remove-vertical">
+            <h5 uk-margin class="uk-margin-remove-top uk-margin-small-bottom uk-text-bold uk-text-uppercase fc-dark">Edit Roster</h5>
+            <table class="uk-table uk-table-small uk-table-divider roster-player-list-table uk-margin-remove-top fixed_header">
+                <thead>
+                    <tr>
+                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Size</th>
+                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Last Name</th>
+                        <th class="fc-dark uk-padding-remove-top uk-width-1-6">Number</th>
+                        <th class="fc-dark uk-padding-remove-top uk-width-expand">Quantity</th>
+                        <th class="fc-dark uk-padding-remove-top uk-table-shrink"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </script>
 

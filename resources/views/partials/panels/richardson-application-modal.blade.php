@@ -501,7 +501,7 @@
 
         <ul class="uk-switcher uk-margin uk-padding-remove">
             <li>
-                <div class="uk-grid-small" uk-grid>
+                <div class="uk-grid-small roster-main-container" uk-grid>
                     <div class="uk-width-1-2@m uk-width-1-5@l">
                         <div class="uk-width-1-1@m uk-width-1-1@l">
                             <div class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-left">

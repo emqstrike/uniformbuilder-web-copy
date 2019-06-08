@@ -24,18 +24,44 @@ RosterPanel.events = {
 
             $("#richardson-team-roster").on("change", ".application-sizing-container .application-sizing-item select", that.onChangeSize)
             $("#richardson-team-roster").on("click", ".application-sizing-container .application-sizing-item .application-size-type", that.onChangeApplicationSizeType);
-            
+            $("#richardson-team-roster").on("click", ".add-player", that.onClickAddPlayer);
             that.isInit = false;
         }
     },
     // Show roster
     onShowRoster: function() {
-        RosterPanel.events.prepareUniformSizes();
-        RosterPanel.events.preparePlayerNumbers();
+        if (ub.funcs.isLower()) {
+            RosterPanel.events.setupRosterForPant();
+            RosterPanel.events.prepareUniformSizes();
+        } else {
+            RosterPanel.events.prepareUniformSizes();
+            RosterPanel.events.preparePlayerNumbers();
+            RosterPanel.events.onHoverPlayerNumberActive();
+        }
+
         RosterPanel.events.prepareApplicationSizing();
         UIkit.modal("#richardson-team-roster").show();
         UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(0);
-        RosterPanel.events.onHoverPlayerNumberActive();
+    },
+
+    onClickAddPlayer: function() {
+        var active_size = $("#richardson-team-roster .uniform-size-button.uk-active").data("size");
+        var category = $("#richardson-team-roster .uniform-size-button.uk-active").data("category");
+
+        if (typeof active_size !== "undefined" && typeof category !== "undefined") {
+            var data = [];
+            data.push({
+                size: active_size,
+                number: "-",
+                qty: 1,
+                lastName: "",
+                category: category
+            });
+
+            RosterPanel.events.saveRosterData(active_size, category, data);
+            var roster = RosterPanel.events.find(active_size, category);
+            RosterPanel.events.prepareRosterList(roster.rosters);
+        }
     },
 
     onClickManageRoster: function() {
@@ -97,22 +123,43 @@ RosterPanel.events = {
         var category = $(this).data("category");
         $(".roster-uniform-size-container .uniform-size-button.uk-active").removeClass("uk-active");
         $(this).addClass("uk-active");
-        RosterPanel.events.preparePlayerNumbers(size, category);
-
-        var roster = RosterPanel.events.find(size, category);
-        if (typeof roster !== "undefined") {
-            _.delay(function() {
-                _.each(roster.rosters, function(roster) {
-                    $("#richardson-team-roster .player-number-button[data-number='"+ roster.number +"']").removeClass("selected").addClass("uk-active");
+        if (ub.funcs.isLower()) {
+            // Add 
+            var roster = RosterPanel.events.find(size, category);
+            if (typeof roster !== "undefined") {
+                RosterPanel.events.prepareRosterList(roster.rosters);
+            } else {
+                var data = [];
+                data.push({
+                    size: size,
+                    number: "-",
+                    qty: 1,
+                    lastName: "",
+                    category: category
                 });
-            }, 100);
+                RosterPanel.events.saveRosterData(size, category, data);
+                var roster = RosterPanel.events.find(size, category);
+                RosterPanel.events.prepareRosterList(roster.rosters);
+            }
 
-            RosterPanel.events.prepareRosterList(roster.rosters);
+            $(this).addClass("selected");
         } else {
-            $("#richardson-team-roster .roster-player-list-table tbody").html("");
-        }
+            RosterPanel.events.preparePlayerNumbers(size, category);
+            var roster = RosterPanel.events.find(size, category);
+            if (typeof roster !== "undefined") {
+                _.delay(function() {
+                    _.each(roster.rosters, function(roster) {
+                        $("#richardson-team-roster .player-number-button[data-number='"+ roster.number +"']").removeClass("selected").addClass("uk-active");
+                    });
+                }, 100);
 
-        RosterPanel.events.onHoverPlayerNumberActive();
+                RosterPanel.events.prepareRosterList(roster.rosters);
+            } else {
+                $("#richardson-team-roster .roster-player-list-table tbody").html("");
+            }
+
+            RosterPanel.events.onHoverPlayerNumberActive();
+        }
     },
 
     onClickSaveRoster: function() {
@@ -210,8 +257,10 @@ RosterPanel.events = {
         var number = container.find(".roster-uniform-number").val();
         var quantity = container.find(".roster-uniform-qty").val();
         var category = container.data("category");
+        var index = $(this).closest('tr').index();
+
         
-        RosterPanel.events.updateRoster(size, last_name, number, quantity, category);
+        RosterPanel.events.updateRoster(size, last_name, number, quantity, category, index);
     },
 
     // Application Sizing Events
@@ -324,9 +373,13 @@ RosterPanel.events = {
         var find = this.find(size, category);
         if (typeof find !== "undefined") {
             _.each(rosters, function(item) {
-                var isPresent = _.find(find.rosters, {size: item.size, number: item.number.toString(), category: item.category});
-                if (typeof isPresent === "undefined") {
+                if (ub.funcs.isLower()) {
                     find.rosters.push(item);
+                } else {
+                    var isPresent = _.find(find.rosters, {size: item.size, number: item.number.toString(), category: item.category});
+                    if (typeof isPresent === "undefined") {
+                        find.rosters.push(item);
+                    }
                 }
             })
         } else {
@@ -342,10 +395,18 @@ RosterPanel.events = {
         return _.find(RosterPanel.teamRoster, {size: size, category: category});
     },
 
-    updateRoster: function(size, last_name, number, quantity, category) {
+    updateRoster: function(size, last_name, number, quantity, category, index) {
         var roster = this.find(size, category);
+        var info;
         if (typeof roster !== "undefined") {
-            var info = _.find(roster.rosters, {size: size, number: number.toString()});
+            if (ub.funcs.isLower()) {
+                info = roster.rosters[index];
+            } else {
+                info = _.find(roster.rosters, {size: size, number: number.toString()});
+            }
+
+            console.log(info)
+
             _.delay(function() {
                 if (typeof info !== "undefined") {
                     info.number = number.toString();
@@ -457,7 +518,9 @@ RosterPanel.events = {
         });
 
         var template = document.getElementById("m-richardson-application-item").innerHTML;
-        var render = Mustache.render(template, {applications: applications});
+        var render = Mustache.render(template, {
+            applications: applications,
+        });
         $(".application-sizing-container table.applications-sizing-table tbody").html("");
         $(".application-sizing-container table.applications-sizing-table tbody").html(render);
 
@@ -478,6 +541,13 @@ RosterPanel.events = {
             container.find(".application-size-type[value='"+ size.size_type +"']").trigger("click")
             container.find("select option[value='"+ size.application_size +"']").prop("selected", true);
         });
+    },
+
+    setupRosterForPant: function() {
+        var template = document.getElementById("m-richardson-roster-pants").innerHTML;
+        var render = Mustache.render(template);
+        $("#richardson-team-roster .roster-main-container").html("");
+        $("#richardson-team-roster .roster-main-container").html(render);
     }
 
 }
