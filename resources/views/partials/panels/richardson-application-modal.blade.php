@@ -591,7 +591,7 @@
                         </table>
                     </div>
                     <div class="uk-modal-footer uk-padding-remove-bottom uk-text-center">
-                        <button class="uk-button uk-button-secondary save-application-sizing uk-modal-close">Save Application Sizing</button>
+                        <button class="uk-button uk-button-secondary save-application-sizing">Save Application Sizing</button>
                     </div>
                 </div>
             </li>

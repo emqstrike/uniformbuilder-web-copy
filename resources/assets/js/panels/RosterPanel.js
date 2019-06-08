@@ -25,6 +25,7 @@ RosterPanel.events = {
             $("#richardson-team-roster").on("change", ".application-sizing-container .application-sizing-item select", that.onChangeSize)
             $("#richardson-team-roster").on("click", ".application-sizing-container .application-sizing-item .application-size-type", that.onChangeApplicationSizeType);
             $("#richardson-team-roster").on("click", ".add-player", that.onClickAddPlayer);
+            $("#richardson-team-roster").on("click", ".save-application-sizing", that.onSaveApplicationSizing);
             that.isInit = false;
         }
     },
@@ -42,6 +43,11 @@ RosterPanel.events = {
         RosterPanel.events.prepareApplicationSizing();
         UIkit.modal("#richardson-team-roster").show();
         UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(0);
+    },
+
+    onSaveApplicationSizing: function() {
+        UIkit.modal("#richardson-team-roster").hide();
+        $("#right-pane-column .richardson-footer .uniform-summary-preview").trigger("click");
     },
 
     onClickAddPlayer: function() {
