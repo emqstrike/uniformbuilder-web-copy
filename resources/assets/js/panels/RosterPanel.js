@@ -46,8 +46,17 @@ RosterPanel.events = {
     },
 
     onSaveApplicationSizing: function() {
-        UIkit.modal("#richardson-team-roster").hide();
-        $("#right-pane-column .richardson-footer .uniform-summary-preview").trigger("click");
+        
+        if (_.size(ub.current_material.settings.roster) <= 0) {
+            $.smkAlert({
+                text: 'Please edit your roster',
+                type: 'info'
+            });
+            UIkit.switcher("#richardson-team-roster .active-bgc-red-switcher").show(0);
+        } else {
+            UIkit.modal("#richardson-team-roster").hide();
+            $("#right-pane-column .richardson-footer .uniform-summary-preview").trigger("click");
+        }
     },
 
     onClickAddPlayer: function() {
