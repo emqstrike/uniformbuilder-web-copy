@@ -322,7 +322,12 @@ ModifierController.scrollToOptions = function (application_type, application_id,
         if (application_type === "team_name" || settingsObject.logo_type === "custom_text") {
             $('#property-modifiers-menu .menu-item-letters').trigger('click');
         } else if (application_type === "front_number" || application_type === "back_number" || application_type === "sleeve_number" || application_type === "number") {
-            $('#property-modifiers-menu .menu-item-numbers').trigger('click');
+            $('#property-modifiers-menu .menu-item-numbers').click();
+
+            var locationBtnEl = $('#richardson-numbers-locations .location-buttons button[data-app-code="'+application_code+'"]');
+            if (locationBtnEl.length > 0) {
+                locationBtnEl.click();
+            }
         } else if (application_type === "mascot" || application_type === "embellishments") {
             // Mascots/Embellishments
             if (settingsObject.logo_type !== "custom_text") {
