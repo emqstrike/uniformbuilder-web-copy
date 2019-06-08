@@ -259,7 +259,6 @@ RosterPanel.events = {
         var category = container.data("category");
         var index = $(this).closest('tr').index();
 
-        
         RosterPanel.events.updateRoster(size, last_name, number, quantity, category, index);
     },
 
@@ -399,14 +398,7 @@ RosterPanel.events = {
         var roster = this.find(size, category);
         var info;
         if (typeof roster !== "undefined") {
-            if (ub.funcs.isLower()) {
-                info = roster.rosters[index];
-            } else {
-                info = _.find(roster.rosters, {size: size, number: number.toString()});
-            }
-
-            console.log(info)
-
+            info = roster.rosters[index];
             _.delay(function() {
                 if (typeof info !== "undefined") {
                     info.number = number.toString();
