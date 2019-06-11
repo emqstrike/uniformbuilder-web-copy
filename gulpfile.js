@@ -124,17 +124,19 @@ function stylesTask() {
             },
         }))
         .pipe(postCss([autoPrefixer(), cssNano()]))
-        .pipe(sourceMaps.write('.'))
         .pipe(rename({ suffix: ".min" }))
+        .pipe(sourceMaps.write('.'))
         .pipe(dest('./public/uniform-builder/css'));
 }
 
 // JS task: concatenates and uglifies JS files to ub.min.js
 function scriptsTask() {
     return src(files.jsPath)
+        .pipe(sourceMaps.init())
         .pipe(concat('ub.js'))
         .pipe(uglify())
         .pipe(rename({ suffix: ".min" }))
+        .pipe(sourceMaps.write('.'))
         .pipe(dest('./public/uniform-builder/js'));
 }
 
