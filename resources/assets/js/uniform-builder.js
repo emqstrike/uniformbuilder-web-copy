@@ -7153,8 +7153,14 @@ $(document).ready(function () {
 
     }
 
+    // omit neck options from _optionsCollection basketball filter
     ub.funcs.omitNeckOptionsOnBasketballFilter = function () {
-        var omitOptions = ['Cavaliers Neck', 'Lakers Neck', 'Round Neck', 'V-Neck', 'Infuse Short (M)', 'SFN Short (M)', 'Side Seam Jersey', 'Back Panel Jersey', 'Sublimated Short'];
+        var omitOptions = [];
+        // Basketball Men
+        omitOptions.push('Cavaliers Neck', 'Lakers Neck', 'Round Neck', 'V-Neck', 'Infuse Short (M)', 'SFN Short (M)', 'Side Seam Jersey', 'Back Panel Jersey', 'Sublimated Short');
+        // Basketball Women
+        omitOptions.push('Gold State Neck', 'Infuse Short (W)', 'SFN Short (W)');
+
         _optionsCollection = _.omit(_optionsCollection, function (option) {
             return _.contains(omitOptions, option.item);
         });
