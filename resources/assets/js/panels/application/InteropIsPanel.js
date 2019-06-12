@@ -179,7 +179,7 @@ InteropIsPanel.funcs = {
 
         // When the customizer is embedded create function in the parent window to handle the event
         if (typeof parentWindow.customizerIframe !== "undefined") {
-            nextUrl = "javascript:designID=0;window.isMessage(designID," + _applicationID + ");";
+            nextUrl = "javascript:designID=0;window.isMessagePassThrough(designID," + _applicationID + ");";
         } else  {
             nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
         }
@@ -294,7 +294,7 @@ InteropIsPanel.funcs = {
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
 
         if (typeof parentWindow.customizerIframe !== "undefined") {
-            nextUrl = "javascript:;designID=0;window.isMessage(designID," + _applicationID + ");";
+            nextUrl = "javascript:;designID=0;window.isMessagePassThrough(designID," + _applicationID + ");";
         } else  {
             nextUrl = "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");";
         }

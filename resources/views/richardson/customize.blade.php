@@ -5,7 +5,7 @@
             // Add main Frame to know that the customizer is embeded
             window.customizerIframe = document.querySelector(".main-builder iframe")
             // Create function the will handle that will get the design ID and Application
-            window.isMessage = function(designID, applicationID) {
+            window.isMessagePassThrough = function(designID, applicationID) {
                 // Get the window of the customizer
                 var richardsonWindow = customizerIframe.contentWindow;
                 if (typeof richardsonWindow !== "undefined") {
