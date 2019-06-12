@@ -1553,10 +1553,10 @@ $(document).ready(function() {
                     sport: 'basketball',
                     sizes:  [
                                 {
-                                    size: 4,
+                                    size: 3,
                                 },
                                 {
-                                    size: 6,
+                                    size: 4,
                                 },
                             ],
                     type: 'adult',
