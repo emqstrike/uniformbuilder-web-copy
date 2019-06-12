@@ -8552,7 +8552,7 @@ $(document).ready(function() {
         var _title              = _applicationType.toTitleCase();
         var _sampleText         = _settingsObject.text;
         var _sizes;
-        var _uniformCategory    = ub.current_material.material.uniform_category
+        var _uniformCategory    = ub.current_material.material.uniform_category;
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
