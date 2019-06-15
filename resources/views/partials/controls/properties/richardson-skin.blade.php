@@ -30,6 +30,7 @@
 </script>
 
 <script type="text/mustache" id="m-richardson-footer">
+    @{{ #userData }}
     <div class="richardson-footer">
         <div class="uk-padding-small bgc-light">
             <div class="uk-grid-collapse uk-text-center" uk-grid>
@@ -49,25 +50,23 @@
                         </div>
                     </div>
                 </a>
-                @{{ #user }}
+                @{{ #isLoggedIn }}
                     <div class="uk-width-1-1">
                         <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
-                            <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-right uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
+                            @{{ #isDealer }}
+                                <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-right uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
+                            @{{ /isDealer}}
                             <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-left uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">Save Design</a>
                         </div>
                     </div>
-                @{{ /user }}
-
-                @{{ ^user }}
-                    <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
-                @{{ /user }}
+                @{{ /isLoggedIn }}
+                    <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
                 
-                <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
             </div>
 
             <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic uk-flex uk-flex-right" uk-grid>
                 <div class="uk-width-auto">
-                    @{{ #user }}
+                    @{{ #isLoggedIn }}
                         <div class="uk-inline">
                             <button class="uk-button uk-button-default cp-border-none fc-red uk-text-capitalize" type="button">Welcome, @{{ user.firstName }}</button>
                             <div class="uk-padding-small" uk-dropdown="pos: top-justify; mode: click">
@@ -78,16 +77,17 @@
                                 </ul>
                             </div>
                         </div>
-                    @{{ /user }}
-                    @{{ ^user }}
+                    @{{ /isLoggedIn }}
+                    @{{ ^isLoggedIn }}
                         <div class="uk-width-auto">
                             <a href="javascript:void(0)" class="uk-link-reset fc-red abrade-ultra-italic uk-text-middle user-login"><span uk-icon="icon: user"></span>&nbsp;User Login</a>
                         </div>
-                    @{{ /user }}
+                    @{{ /isLoggedIn }}
                 </div>
             </div>
         </div>
     </div>
+    @{{ /userData }}
 </script>
 
 <script type="text/mustache" id="m-error-message">

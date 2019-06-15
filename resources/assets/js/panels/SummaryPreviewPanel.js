@@ -8,22 +8,26 @@ SummaryPreviewPanel.events = {
         var _this = this;
         if (SummaryPreviewPanel.events.is_init_events_called === 0) {
             $("#right-pane-column").on('click', '.richardson-footer .uniform-summary-preview', function(event) {
-                event.preventDefault();
-                // Show loader
-                $(".pdf-iframe-container").hide();
-                $(".loading").show();
+                // event.preventDefault();
+                // // Show loader
+                // $(".pdf-iframe-container").hide();
+                // $(".loading").show();
 
-                // Check if all thumbnails uploaded
-                if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
-                    _this.prepareThumbnails();
-                } else {
-                    $(".pdf-iframe-container").show();
-                    $(".loading").hide();
-                }
+                // // Check if all thumbnails uploaded
+                // if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
+                //     _this.prepareThumbnails();
+                // } else {
+                //     $(".pdf-iframe-container").show();
+                //     $(".loading").hide();
+                // }
 
-                // Show Modal
-                UIkit.modal("#richardson-summary-preview").show();
+                // // Show Modal
+                // UIkit.modal("#richardson-summary-preview").show();
+
+                RichardsonSaveDesign.events.showSaveDesgin();
+                UIkit.modal("#richardson-saving-option").show();
             });
+
             SummaryPreviewPanel.events.is_init_events_called = 1
         }
     },

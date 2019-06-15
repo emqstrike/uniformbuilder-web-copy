@@ -353,6 +353,24 @@ $(document).ready(function() {
             return ub.config.blockPattern.toLowerCase().indexOf("sleeveless") !== -1;
         };
 
+        ub.funcs.isPlayer = function() {
+            var user = ub.user;
+            if (typeof user !== "undefined") {
+                return user.type === "player" || parseInt(user.id) === 4014;
+            }
+        }
+
+        ub.funcs.isDealer = function() {
+            var user = ub.user;
+            if (typeof user !== "undefined") {
+                return user.type === "dealer" || parseInt(user.id) === 2974;
+            }
+        }
+
+        ub.funcs.isLoggedIn = function() {
+            return ub.user;
+        }
+
     /// End Benchmarks
 
     /// After Load Scripts 

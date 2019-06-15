@@ -97,9 +97,22 @@ RichardsonLogin.events = {
                     };
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
                     ub.id = response.userID;
+
+                    // Temporary COde to test the user roles
+                    if (parseInt(response.userID) === 2974) {
+                        ub.user.type === "dealer";
+                    } else if (parseInt(response.userID) === 4019) {
+                        ub.user.type === "player";
+                    }
+
                     ub.funcs.afterLogin();
                     UIkit.modal("#richardson-user-login").hide();
                     $(".richardson-footer .user-login").hide();
+
+                    if (ub.user.type === "dealer") {
+                        $("#property-modifiers-menu .menu-item-roster").show();
+                    }
+
                     RichardsonSkin.funcs.setupFooter();
                     RichardsonSaveDesign.events.init();
                 } else {

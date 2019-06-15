@@ -113,10 +113,15 @@ RichardsonSkin.funcs = {
     setupFooter: function() {
         $("div#right-main-window.pane-main-window.footer_buttons_container").remove();
 
-        var user = ub.user;
+        var data = {
+            isLoggedIn: ub.funcs.isLoggedIn(),
+            isDealer: ub.funcs.isDealer(),
+            isPlayer: ub.funcs.isPlayer(),
+            user: ub.user
+        };
 
         var richardson_footer = document.getElementById("m-richardson-footer");
-        var render_footer = Mustache.render(richardson_footer.innerHTML, {user: user});
+        var render_footer = Mustache.render(richardson_footer.innerHTML, {userData: data});
         if ($("#right-pane-column .richardson-footer").length !== 0) {
             $("#right-pane-column .richardson-footer").remove();
         }

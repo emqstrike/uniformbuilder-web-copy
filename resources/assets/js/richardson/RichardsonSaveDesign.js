@@ -64,6 +64,8 @@ RichardsonSaveDesign.events = {
             }
         }
 
+        $("#richardson-saving-option #design-id").val(ub.config.material_id);
+
         ub.funcs.removeLocations();
         this.uploadThumbnailSaveDesign('front_view');
         this.uploadThumbnailSaveDesign('back_view');
