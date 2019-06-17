@@ -19,6 +19,26 @@
             margin: 5px 0 !important;
             width: 100%;
         }
+
+        .v-dialog__content { 
+            z-index: 999999 !important;
+        }
+
+        .v-dialog--fullscreen {
+            overflow-x: hidden !important;
+        }
+
+        a.v-list__tile:hover {
+            text-decoration: none;
+        }
+
+        #general-details .row {
+            margin-bottom: 15px !important;
+        }
+
+        .form-control {
+            height: auto !important;
+        }
     </style>
 @endsection
 
@@ -70,6 +90,7 @@
                 <div class="box-body">
                     <v-app id="inspire">
                         @include('administration-lte-2.partials.components.loading-dialog')
+                        @include('administration-lte-2.fonts.modal.font')
 
                         <div>
                             <v-data-table v-model="selected" ref="fontsTable" :headers="headers" :items="fonts" :search="search" select-all hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
@@ -105,7 +126,7 @@
                                         </td>
 
                                         <td>
-                                            <button class="btn btn-flat btn-primary btn-xs">Edit</button>
+                                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(props.item)">Edit</button>
                                             <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
                                             <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">Remove</button>
                                         </td>
