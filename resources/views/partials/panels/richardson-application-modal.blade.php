@@ -604,7 +604,7 @@
 <div id="richardson-saving-option" class="uk-modal-container uk-flex-top bootbox modal" uk-modal="esc-close: false; bg-close: false">
     <div class="uk-modal-dialog uk-width-1-2@s uk-padding-small">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div>
+        <div class="uniform-thumbnail-container uk-hidden">
             <h3 class="uk-heading uk-text-uppercase uk-text-bold abrade-ultra-italic uk-text-center">YOUR DESIGN IS COMPLETE, WHAT'S NEXT?</h3>
             <div class="uk-grid-small" uk-grid>
                 <div class="uk-margin-bottom uk-width-1-2@s">
@@ -665,94 +665,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
-                        <div uk-spinner="ratio: 8">
-                        </div>
-                        <div>
-                            <p>Uploading images .... </p>
-                        </div>
-                    </div>
                     <div>
+                        <div class="pdf-container">
+                            
+                        </div>
                         <h5 class="uk-margin-small fc-red">Before emailing to a dealer, please SAVE the design first to your <br>Player account or your Dealer's account.</h5>
                     </div>
                 </div>
 
-                <div class="uk-margin-bottom uk-width-1-2@s">
-                    <div class="uk-padding-small">
-                        <h6 class="uk-text-bold uk-text-uppercase uk-margin-small"><span class="number-circle bgc-darkGray abrade-ultra-italic">1</span> Save Design</h6>
-                        <form id="save-design-form">
-                            <div class="uk-grid-small" uk-grid>
-                                <div class="uk-width-2-3">
-                                    <label class="uk-form-label" for="form-stacked-text">Design Name</label>
-                                    <div class="uk-form-controls">
-                                        <input class="uk-input uk-form-small" id="design-name" type="text" placeholder="Design Name">
-                                    </div>
-                                </div>
-
-                                <div class="uk-width-1-3">
-                                    <label class="uk-form-label" for="form-stacked-text">ID</label>
-                                    <div class="uk-form-controls">
-                                        <input class="uk-input uk-form-small" id="design-id" type="text" placeholder="0000" readonly="true">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="uk-margin-small">
-                                <label class="uk-form-label" for="form-stacked-text">Notes</label>
-                                <div class="uk-form-controls">
-                                    <textarea class="uk-textarea" id="design-notes" rows="3" style="resize: none !important"></textarea>
-                                </div>
-                            </div>
-                            <button class="uk-button uk-button-small fc-white save bgc-darkGray abrade-ultra-italic" type="button">Save</button>
-                        </form>
-                        <hr class="uk-margin-small">
-                        <h6 class="uk-text-bold uk-text-uppercase uk-margin-small"><span class="number-circle bgc-darkGray abrade-ultra-italic">2</span> Add to Cart</h6>
-                        <div class="uk-flex uk-flex-right">
-                            <div class="uk-width-1-2">
-                                <button href="javascript:void(0)" class="uk-button uk-button-small abrade-ultra-italic bgc-darkGray fc-white uk-text-uppercase uk-width-1-1 uk-margin-small-bottom">Add To Cart</button>
-                                <button href="javascript:void(0)" class="uk-button uk-button-small abrade-ultra-italic bgc-darkGray fc-white uk-text-uppercase uk-width-1-1 uk-margin-small-bottom">Go to cart</button>
-                                <button href="javascript:void(0)" class="uk-button uk-button-small abrade-ultra-italic bgc-darkGray fc-white uk-text-uppercase uk-width-1-1">back to designer</button>
-                            </div>
-                        </div>
-                        <hr class="uk-margin-small">
-                        <h6 class="uk-text-bold uk-text-uppercase uk-margin-small"><span class="number-circle bgc-darkGray abrade-ultra-italic">3</span> Email</h6>
-                        <form id="save-design-form">
-                            <div class="uk-grid-small" uk-grid>
-                                <div class="uk-width-1-1">
-                                    <label class="uk-form-label" for="form-stacked-text">Email Address</label>
-                                    <div class="uk-form-controls">
-                                        <input class="uk-input uk-form-small" type="email">
-                                    </div>
-                                </div>
-                                <div class="uk-width-1-2">
-                                    <label class="uk-form-label" for="form-stacked-text">Your Name</label>
-                                    <div class="uk-form-controls">
-                                        <input class="uk-input uk-form-small" type="email">
-                                    </div>
-                                </div>
-
-                                <div class="uk-width-1-2">
-                                    <label class="uk-form-label" for="form-stacked-text">Your Email Address</label>
-                                    <div class="uk-form-controls">
-                                        <input class="uk-input uk-form-small" type="email">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="uk-margin-small">
-                                <label class="uk-form-label" for="form-stacked-text">Message</label>
-                                <div class="uk-form-controls">
-                                    <textarea class="uk-textarea" id="design-notes" rows="2" style="resize: none !important"></textarea>
-                                </div>
-                            </div>
-                            <button class="uk-button uk-button-small fc-white save bgc-darkGray abrade-ultra-italic" type="button">Send</button>
-                        </form>
-                        <hr class="uk-margin-small">
-                        <h6 class="uk-text-bold uk-text-uppercase uk-margin-small"><span class="number-circle bgc-darkGray abrade-ultra-italic">4</span> Share</h6>
-                        <div>
-                            <a href="" class="uk-icon-button uk-margin-small-right bgc-darkGray fc-white" uk-icon="facebook"></a>
-                            <a href="" class="uk-icon-button  uk-margin-small-right bgc-darkGray fc-white" uk-icon="linkedin"></a>
-                        </div>
-                    </div>
+                <div class="uk-margin-bottom uk-width-1-2@s summary-content">
+                    
                 </div>
+            </div>
+        </div>
+        <div class="uk-child-width-1-1 save-design-loading uk-flex uk-flex-center uk-text-center" uk-grid>
+            <div uk-spinner="ratio: 8">
+            </div>
+            <div>
+                <p>Uploading images .... </p>
             </div>
         </div>
     </div>

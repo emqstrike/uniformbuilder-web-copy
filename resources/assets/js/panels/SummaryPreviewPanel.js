@@ -8,25 +8,47 @@ SummaryPreviewPanel.events = {
         var _this = this;
         if (SummaryPreviewPanel.events.is_init_events_called === 0) {
             $("#right-pane-column").on('click', '.richardson-footer .uniform-summary-preview', function(event) {
-                // event.preventDefault();
                 // // Show loader
-                // $(".pdf-iframe-container").hide();
-                // $(".loading").show();
+                // Check if all thumbnails uploaded
+                if (_this.isUniformChange() || ub.data.rosterIsChange) {
+                    $("#richardson-saving-option .uniform-thumbnail-container").addClass("uk-hidden");
+                    $('#richardson-saving-option .save-design-loading').fadeIn();
+                    if (typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
+                        _this.prepareThumbnails();
+                    }
+                } else {
+                    $("#richardson-saving-option .uniform-thumbnail-container").removeClass("uk-hidden");
+                    $('#richardson-saving-option .save-design-loading').fadeOut();
+                }
 
-                // // Check if all thumbnails uploaded
-                // if (_this.isUniformChange() || typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
-                //     _this.prepareThumbnails();
-                // } else {
-                //     $(".pdf-iframe-container").show();
-                //     $(".loading").hide();
-                // }
+                var template = '';
+                if (ub.funcs.isDealer()) {
+                    template = document.getElementById("m-summary-dealer").innerHTML;
+                } else if (ub.funcs.isPlayer()) {
+                    template = document.getElementById("m-summary-player").innerHTML;
+                } else {
+                    template = document.getElementById("m-summary-guest").innerHTML;
+                }
 
-                // // Show Modal
-                // UIkit.modal("#richardson-summary-preview").show();
+                var renderTemplate = Mustache.render(template);
+                $("#richardson-saving-option .summary-content").html("");
+                $("#richardson-saving-option .summary-content").html(renderTemplate);
 
-                RichardsonSaveDesign.events.showSaveDesgin();
+                // RichardsonSaveDesign.events.showSaveDesgin();
                 UIkit.modal("#richardson-saving-option").show();
             });
+
+            $("#richardson-saving-option").on("click", ".switch-reg-login", function() {
+                var type = $(this).data("type");
+
+                if (type === "login") {
+                    $("#richardson-saving-option .login-container").removeClass("uk-hidden");
+                    $("#richardson-saving-option .registration-container").addClass("uk-hidden");
+                } else {
+                    $("#richardson-saving-option .registration-container").removeClass("uk-hidden");
+                    $("#richardson-saving-option .login-container").addClass("uk-hidden");
+                }
+            })
 
             SummaryPreviewPanel.events.is_init_events_called = 1
         }
@@ -78,10 +100,13 @@ SummaryPreviewPanel.events = {
             },
             success: function (response) {
                 if (response.success) {
-                    $(".pdf-iframe-container").show();
-                    $(".loading").hide();
-                    $(".pdf-iframe-container .pdf-iframe").prop('src', response.pdfUrl)
+                    $('#richardson-saving-option .save-design-loading').fadeOut();
+                    $("#richardson-saving-option .design-preview").removeClass("uk-hidden");
+                    $("#richardson-saving-option .uniform-thumbnail-container").removeClass("uk-hidden");
                     ub.current_material.settings.uniformPreviewPdf = response.pdfUrl;
+
+                    $("#richardson-saving-option .pdf-container").html("");
+                    $("#richardson-saving-option .pdf-container").html('<span class="uk-text-bold">PDF: </span> <a href="'+ response.pdfUrl +'" class="pdf-link" target="_blank">'+ response.pdfUrl +'</a>');
                     ub.data.rosterIsChange = false;
                 } else {
                     $.smkAlert({
@@ -90,6 +115,7 @@ SummaryPreviewPanel.events = {
                     });
 
                     UIkit.modal("#richardson-summary-preview").hide();
+                    UIkit.modal("#richardson-saving-option").hide();
                 }
             },
 
@@ -100,6 +126,7 @@ SummaryPreviewPanel.events = {
                 });
 
                 UIkit.modal("#richardson-summary-preview").hide();
+                UIkit.modal("#richardson-saving-option").hide();
             }
         });
     },
@@ -156,8 +183,17 @@ SummaryPreviewPanel.events = {
             success: function (response){
                 if(response.success) {
                     ub.current_material.settings.thumbnails[view] = response.filename;
+                    $("#richardson-saving-option .uniform-thumbnail-container ." + view + " img").attr('src', response.filename);
                     if (ub.funcs.thumbnailsUploaded()) {
-                        _.delay(function(){SummaryPreviewPanel.events.pdfBuilder();}, 1000)
+                        _.delay(function() {
+                            if (ub.funcs.isDealer()) {
+                                SummaryPreviewPanel.events.pdfBuilder();
+                            } else {
+                                $('#richardson-saving-option .save-design-loading').fadeOut();
+                                $("#richardson-saving-option .design-preview").removeClass("uk-hidden");
+                                $("#richardson-saving-option .uniform-thumbnail-container").removeClass("uk-hidden");
+                            }
+                        }, 1000);
                     }
                 } else {
                     console.log('Error generating thumbnail for ' + view);

@@ -3506,6 +3506,7 @@
 @include('partials.controls.properties.richardson-skin')
 @include('partials.controls.properties.roster')
 @include('partials.controls.properties.richardson-numbers')
+@include('partials.controls.properties.summary')
 
 @include('partials.controls.properties.player-name')
 @include('partials.controls.properties.team-name')
