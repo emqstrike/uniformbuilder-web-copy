@@ -10,9 +10,12 @@ SummaryPreviewPanel.events = {
             $("#right-pane-column").on('click', '.richardson-footer .uniform-summary-preview', function(event) {
                 // // Show loader
                 // Check if all thumbnails uploaded
+                $("#richardson-saving-option form#save-design-form").trigger("reset");
                 if (_this.isUniformChange() || ub.data.rosterIsChange) {
                     $("#richardson-saving-option .uniform-thumbnail-container").addClass("uk-hidden");
                     $('#richardson-saving-option .save-design-loading').fadeIn();
+                    $("#richardson-saving-option .loading-message").html("");
+                    $("#richardson-saving-option .loading-message").html("Uploading images......");
                     if (typeof ub.current_material.settings.uniformPreviewPdf === "undefined" || ub.data.rosterIsChange) {
                         _this.prepareThumbnails();
                     }
@@ -33,8 +36,7 @@ SummaryPreviewPanel.events = {
                 var renderTemplate = Mustache.render(template);
                 $("#richardson-saving-option .summary-content").html("");
                 $("#richardson-saving-option .summary-content").html(renderTemplate);
-
-                // RichardsonSaveDesign.events.showSaveDesgin();
+                $("#richardson-saving-option .design-id").val(ub.config.material_id);
                 UIkit.modal("#richardson-saving-option").show();
             });
 
@@ -48,7 +50,9 @@ SummaryPreviewPanel.events = {
                     $("#richardson-saving-option .registration-container").removeClass("uk-hidden");
                     $("#richardson-saving-option .login-container").addClass("uk-hidden");
                 }
-            })
+            });
+
+            $("#richardson-saving-option").on("click", ".summary-content .save", _this.onSaveToMyDesign);
 
             SummaryPreviewPanel.events.is_init_events_called = 1
         }
@@ -187,6 +191,8 @@ SummaryPreviewPanel.events = {
                     if (ub.funcs.thumbnailsUploaded()) {
                         _.delay(function() {
                             if (ub.funcs.isDealer()) {
+                                $("#richardson-saving-option .loading-message").html("");
+                                $("#richardson-saving-option .loading-message").html("Generating PDF......");
                                 SummaryPreviewPanel.events.pdfBuilder();
                             } else {
                                 $('#richardson-saving-option .save-design-loading').fadeOut();
@@ -222,5 +228,95 @@ SummaryPreviewPanel.events = {
 
             return isChangeThumbnails;
         }
-    }
+    },
+
+    onSaveToMyDesign: function() {
+        var _userID = ub.user.id;
+        var _designName = $('#richardson-saving-option #save-design-form input.design-name').val();
+        var _materialID = ub.current_material.material.id;
+        var _builderCustomizations = ub.current_material.settings;
+        var _sport = ub.current_material.material.uniform_category;
+        var _frontView = ub.current_material.settings.thumbnails.front_view;
+        var _backView = ub.current_material.settings.thumbnails.back_view;
+        var _leftView = ub.current_material.settings.thumbnails.left_view;
+        var _rightView = ub.current_material.settings.thumbnails.right_view;
+        var _notes = $('#richardson-saving-option #save-design-form .design-notes').val();
+
+        var _data = {
+            user_id: _userID.toString(),
+            name: _designName,
+            material_id: _materialID,
+            material_name: ub.current_material.material.name,
+            user: ub.user.fullname,
+            builder_customizations: _builderCustomizations,
+            sport: _sport,
+            front_thumbnail: _frontView,
+            back_thumbnail: _backView,
+            left_thumbnail: _leftView,
+            right_thumbnail: _rightView,
+            notes: _notes
+        };
+
+        if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+            
+            _data.id = ub.config.savedDesignInfo.savedDesignID;
+            _data.builder_customizations = _data.builder_customizations;
+
+            delete _data.user;
+            delete _data.material_name;
+
+        }
+
+        // Add flag
+        if (typeof($('#is_add_to_team_store').val()) !== "undefined") {
+            _data.is_add_to_team_store = $('#is_add_to_team_store:checked').length;
+        }
+
+        // Add store code if exists
+        if (ub.store_code) {
+            _data.store_code = ub.store_code;
+        }
+
+        $("#richardson-saving-option .uniform-thumbnail-container").addClass("uk-hidden");
+        $('#richardson-saving-option .save-design-loading').fadeIn();
+        $("#richardson-saving-option .loading-message").html("");
+        $("#richardson-saving-option .loading-message").html("Saving design......");
+        SummaryPreviewPanel.events.postSaveDesign(_data);
+    },
+
+    postSaveDesign: function(data) {
+        var _url = window.ub.config.api_host + '/api/saved_design'
+
+        if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+            _url = window.ub.config.api_host + '/api/saved_design/update';
+        }
+
+        // Skip notification when coming from local
+        if (ub.config.app_env === 'local') { data.test_data = '1'; }
+        
+        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+        $.ajax({
+            url: _url,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(data),
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                if (response.success) {
+                    UIkit.modal("#richardson-saving-option").hide();
+                    $("#richardson-saving-option .uniform-thumbnail-container").removeClass("uk-hidden");
+                    $('#richardson-saving-option .save-design-loading').fadeOut();
+                    $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+                } else {
+                    console.log('Error Saving Design.');
+                    console.log(response.message);
+                    UIkit.modal("#richardson-saving-option").hide();
+                }
+            }
+        });
+    },
 }

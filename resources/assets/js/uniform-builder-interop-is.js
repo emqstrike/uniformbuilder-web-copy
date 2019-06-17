@@ -531,7 +531,7 @@ $(document).ready(function() {
                     ub.data.embellismentDetails.setStatus('designSummary', data);
                 }
 
-                if (ub.data.afterLoadCalled === 1) {
+                if (ub.data.afterLoadCalled === 1 || ub.page !== "saved-design") {
                     if (_settingsObject.logo_type === "custom_text") {
                         TeamNamePanel.funcs.renderCustomText(_settingsObject);
                     } else {

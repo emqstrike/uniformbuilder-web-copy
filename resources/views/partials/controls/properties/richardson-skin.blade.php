@@ -51,17 +51,21 @@
                     </div>
                 </a>
                 @{{ #isLoggedIn }}
-                    <div class="uk-width-1-1">
-                        <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
-                            @{{ #isDealer }}
+                    @{{ #isDealer }}
+                        <div class="uk-width-1-1">
+                            <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
                                 <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-right uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
-                            @{{ /isDealer}}
-                            <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-left uk-text-bold uk-text-capitalize abrade-ultra-italic save-uniform">Save Design</a>
+                            </div>
                         </div>
-                    </div>
+                        <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
+                    @{{ /isDealer}}
+                    @{{ ^isDealer }}
+                        <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
+                    @{{ /isDealer }}
                 @{{ /isLoggedIn }}
-                    <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
-                
+                @{{ ^isLoggedIn }}
+                    <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>
+                @{{ /isLoggedIn }}
             </div>
 
             <div class="uk-grid-small uk-text-bold fc-red abrade-ultra-italic uk-flex uk-flex-right" uk-grid>

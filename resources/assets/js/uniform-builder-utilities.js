@@ -356,7 +356,7 @@ $(document).ready(function() {
         ub.funcs.isPlayer = function() {
             var user = ub.user;
             if (typeof user !== "undefined") {
-                return user.type === "player" || parseInt(user.id) === 4014;
+                return user.type === "player" || parseInt(user.id) === 4017;
             }
         }
 

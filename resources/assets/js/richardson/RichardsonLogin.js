@@ -101,7 +101,7 @@ RichardsonLogin.events = {
                     // Temporary COde to test the user roles
                     if (parseInt(response.userID) === 2974) {
                         ub.user.type === "dealer";
-                    } else if (parseInt(response.userID) === 4019) {
+                    } else if (parseInt(response.userID) === 4017) {
                         ub.user.type === "player";
                     }
 

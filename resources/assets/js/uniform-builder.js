@@ -2783,7 +2783,7 @@ $(document).ready(function () {
                 var _patternObj;
 
                 // Use richardson blank
-                if (application_obj.patternID.toString() === "33") {
+                if (typeof application_obj.patternID !== "undefined" && application_obj.patternID.toString() === "33") {
                     application_obj.patternID = "318";
                 }
 

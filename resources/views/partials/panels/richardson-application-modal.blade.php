@@ -682,7 +682,7 @@
             <div uk-spinner="ratio: 8">
             </div>
             <div>
-                <p>Uploading images .... </p>
+                <p class="loading-message">Uploading images .... </p>
             </div>
         </div>
     </div>
