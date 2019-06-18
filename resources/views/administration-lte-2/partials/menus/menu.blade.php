@@ -24,9 +24,9 @@
             @endif
         </a>
 
-        @if (isset($menu['subMenu']))
+        @if (isset($menu['menus']))
             <ul class="treeview-menu">
-                @foreach ($menu['subMenu'] as $menu)
+                @foreach ($menu['menus'] as $menu)
                     @include('administration-lte-2.partials.menus.menu')
                 @endforeach
             </ul>

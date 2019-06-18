@@ -179,7 +179,7 @@
                 var _isBeta = localStorage.getItem('beta_features');
                 var _featureFlags = JSON.parse(localStorage.getItem('feature_flags'));
                 var _filterFeatureFlag = _featureFlags.filter(function(i) {return i.name === 'New Filter';});
-                if(_isBeta === 'true' && _filterFeatureFlag.length !== 0) {
+                if(_isBeta === 'true' && _filterFeatureFlag.length !== 0 && _filterFeatureFlag[0].user_ids.includes(ub.user.id.toString())) {
                     ub.picker.isNew = true;
                 } else {
                     ub.picker.isNew = false;
