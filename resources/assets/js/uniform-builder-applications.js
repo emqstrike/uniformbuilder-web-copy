@@ -9301,9 +9301,8 @@ $(document).ready(function() {
             ub.status.onText = false;
 
             $('input.sampleText').on('focus', function () {
-
                 var _val = $(this).val();
-                if (_val.length < 0) {
+                if (_val.length !== 0) {
                     ub.status.onText = true;
 
                     _settingsObject.text = _val;
@@ -9313,8 +9312,7 @@ $(document).ready(function() {
 
             $('input.sampleText').on('blur', function () {
                 var _val = $(this).val();
-
-                if (_val.length < 0) {
+                if (_val.length !== 0) {
                     ub.status.onText = false;
 
                     _settingsObject.text = _val;
@@ -9337,10 +9335,8 @@ $(document).ready(function() {
             });
 
             $('input.sampleText').on('keypress', function (e) {
-
                 var _val = $(this).val();
-
-                if (_val.length < 0) {
+                if (_val.length !== 0) {
                     if (e.keyCode === 13) {
                         _settingsObject.text = _val;
 
