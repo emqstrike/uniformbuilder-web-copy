@@ -185,11 +185,32 @@ $(document).ready(function(){
     $('.sport').trigger('change');
 
     var z = window.block_patterns;
-    $(document).on('change', '#block_pattern', function() {
+
+    if($('#neck_option_value').val()){
+        var bpos = JSON.parse($('#neck_option_value').val());
+    }
+
+    $('.material-neck-option').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+
+    $('.block-pattern').select2({
+        placeholder: "Select block pattern",
+        multiple: true,
+        allowClear: true
+    }).on('select2:select', function(event) {
+        var bps = $(this).val();
+        updateNeckOptionDropdown(bps, event);
+    }).on('select2:unselect', function(event) {
+        var bps = $(this).val();
+        updateNeckOptionDropdown(bps, event);
+    });
+
+    function updateNeckOptionDropdown(bps, event) {
         var options = [];
-        var bps = $('#block_pattern_value').val();
-        var bps_name = bps.toString().split(",");
-            bps_name.forEach( function(item_name) {
+            bps.forEach( function(item_name) {
                 var name = item_name;
                 $.each(z, function(i, item) {
                    if( item.name == name ){
@@ -204,20 +225,28 @@ $(document).ready(function(){
 
         var y = _.sortBy(_.uniq(options));
         $( '#neck_option' ).html('');
+
         y.forEach(function(i) {
             $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
-        $('.material-neck-option').trigger('change');
-    });
 
-    if($('#neck_option_value').val()){
-        var bpos = JSON.parse($('#neck_option_value').val());
+        var neckOption = $('#neck_option_value').val();
+
+        if (neckOption) {
+            neckOption = neckOption.split(",");
+
+            if (event.type == 'select2:select') {
+                $('#neck_option').val(neckOption);
+            } else if (event.type == 'select2:unselect') {
+                $('#neck_option').val(neckOption);
+                $('#neck_option_value').val($('#neck_option').val());
+            }
+
+            if (event == 'edit') {
+                $('#neck_option').val(neckOption);
+            }
+        }
     }
-    $('.material-neck-option').select2({
-        placeholder: "Select block pattern option",
-        multiple: true,
-        allowClear: true
-    });
 
     $(".material-neck-option").change(function() {
         $('#neck_option_value').val($(this).val());
@@ -229,11 +258,7 @@ $(document).ready(function(){
     if($('#block_pattern_value').val()){
         var bp = JSON.parse($('#block_pattern_value').val());
     }
-    $('.block-pattern').select2({
-        placeholder: "Select block pattern",
-        multiple: true,
-        allowClear: true
-    });
+    
 
     $(".block-pattern").change(function() {
         $('#block_pattern_value').val($(this).val());
@@ -379,6 +404,9 @@ $(document).ready(function(){
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
 
+        var blockPatterns = data.block_pattern.split(",");
+        $('#neck_option_value').val(data.neck_option);
+        updateNeckOptionDropdown(blockPatterns, 'edit');
 
         if (data.properties != null) {
             loadProperties(data.properties);
