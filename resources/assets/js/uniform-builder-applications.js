@@ -9301,40 +9301,36 @@ $(document).ready(function() {
             ub.status.onText = false;
 
             $('input.sampleText').on('focus', function () {
-
                 var _val = $(this).val();
-                ub.status.onText = true;
+                if (_val.length < 0) {
+                    ub.status.onText = true;
 
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
+                    _settingsObject.text = _val;
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                }
             });
 
             $('input.sampleText').on('blur', function () {
 
                 var _val = $(this).val();
-                ub.status.onText = false;
+                if (_val.length < 0) {
+                    ub.status.onText = false;
 
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                    _settingsObject.text = _val;
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
-                // cancel automatic changing of application (e.g. all team names changes)
-                if (_isFreeFormEnabled)  { return; }
+                    // cancel automatic changing of application (e.g. all team names changes)
+                    if (_isFreeFormEnabled)  { return; }
 
-                _.each (ub.current_material.settings.applications, function (_application) {
-
-                    if (_application.type !== "logo" && _application.type !== "mascot") {
-
-                        if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
-                            _application.text = _val;
-                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-
+                    _.each (ub.current_material.settings.applications, function (_application) {
+                        if (_application.type !== "logo" && _application.type !== "mascot") {
+                            if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                            }
                         }
-
-                    }
-                        
-                });
+                    });
+                }
 
             });
 
@@ -9342,7 +9338,8 @@ $(document).ready(function() {
 
                 var _val = $(this).val();
 
-                if (e.keyCode === 13) {
+                if (_val.length < 0) {
+                    if (e.keyCode === 13) {
 
                     _settingsObject.text = _val;
 
@@ -9407,7 +9404,7 @@ $(document).ready(function() {
                         }
                         
                     });
-
+                }
                 }
 
             });
