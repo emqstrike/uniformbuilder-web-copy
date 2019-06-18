@@ -775,7 +775,7 @@ $(document).ready(function() {
                 // do nothing, dont show form if already shown
                 console.log('[feedback form is already shown]');
                 $('div.free-feedback-form').each(function( index ) {
-                    console.log( index + ": " + $(this) );
+                    // console.log( index + ": " + $(this) );
                     if (index !== 0) {
                         $(this).remove();
                     }
@@ -785,6 +785,7 @@ $(document).ready(function() {
 
                 // this shows the feedback modal form not the commented fade in above
                 ub.funcs.centerPatternPopup();
+
                 // $('div.free-feedback-form').fadeIn();
                 ub.feedbackForm = true;
 

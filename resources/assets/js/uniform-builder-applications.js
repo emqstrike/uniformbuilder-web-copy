@@ -2487,6 +2487,17 @@ $(document).ready(function() {
             _applicationObj = ub.current_material.settings.applications[app_id].application;
 
             var _settingsObject     = ub.funcs.getSettingsObject(app_id);
+
+            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
+            // delete embellishment if ID `1710`
+            if (typeof ub.config.savedDesignInfo === 'object' &&
+                typeof _settingsObject.mascot !== 'undefined' 
+                && ub.config.sport === "Volleyball"
+                && ub.config.blockPattern === "Ace Crew Neck"
+                && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
+                    delete ub.current_material.settings.applications[_settingsObject.code];
+                    return;
+            }
             
             _.each(ub.views, function(_view) {
 
@@ -4154,6 +4165,13 @@ $(document).ready(function() {
         // omit `neck_tape_1` on ub.data.modifierLabels
         var labelsToHide = ['neck_tape_2'];
         ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+
+        // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
+        // `Quick Turn` block pattern
+        if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
+            ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+        }
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
@@ -7563,7 +7581,7 @@ $(document).ready(function() {
 
         }
 
-    },
+    }
 
     ub.data.markerBitField = {};
     ub.funcs.highlightMarker = function (code, view) {
@@ -8534,7 +8552,7 @@ $(document).ready(function() {
         var _title              = _applicationType.toTitleCase();
         var _sampleText         = _settingsObject.text;
         var _sizes;
-        var _uniformCategory    = ub.current_material.material.uniform_category
+        var _uniformCategory    = ub.current_material.material.uniform_category;
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
@@ -10365,6 +10383,17 @@ $(document).ready(function() {
 
          _.each (_locations, function (location) {
 
+            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
+            // delete embellishment if ID `1710`
+            if (typeof ub.config.savedDesignInfo === 'object' &&
+                typeof location.mascot !== 'undefined' 
+                && ub.config.sport === "Volleyball"
+                && ub.config.blockPattern === "Ace Crew Neck"
+                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
+                    delete ub.current_material.settings.applications[location.code];
+                    return;
+            }
+
             if (location.type === "free") { 
 
                 /// Todo: Handle Here ....
@@ -10425,7 +10454,7 @@ $(document).ready(function() {
 
     ub.funcs.showLocations = function (alphaOff) {
 
-        var _locations = ub.current_material.settings.applications;  
+        var _locations = ub.current_material.settings.applications;
         ub.showLocation = true;
 
         // Don't process this function when there's no application

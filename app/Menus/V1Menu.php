@@ -93,9 +93,9 @@ class V1Menu
                                 'type' => $menu->type,
                             ];
 
-                            if (isset($menu->subMenu)) {
-                                if (count($menu->subMenu) > 0) {
-                                    $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                            if (isset($menu->menus)) {
+                                if (count($menu->menus) > 0) {
+                                    $_menus[$key]['menus'] = $this->getV1Menus($menu->menus);
                                 }
                             }
                         }
@@ -109,9 +109,9 @@ class V1Menu
                         'type' => $menu->type,
                     ];
 
-                    if (isset($menu->subMenu)) {
-                        if ( count( (array) $menu->subMenu) > 0) {
-                            $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                    if (isset($menu->menus)) {
+                        if ( count( (array) $menu->menus) > 0) {
+                            $_menus[$key]['menus'] = $this->getV1Menus($menu->menus);
                         }
                     }
                 }
@@ -126,7 +126,7 @@ class V1Menu
         $_menus = [];
 
         foreach ($menus as $key => $menu) {
-            if (((isset($menu['subMenu'])) && (count($menu['subMenu']) > 0)) || ($menu['route_name'] != '#') || ($menu['type'] == self::HEADER_TYPE)) {
+            if (((isset($menu['menus'])) && (count($menu['menus']) > 0)) || ($menu['route_name'] != '#') || ($menu['type'] == self::HEADER_TYPE)) {
                 $_menus[] = $menu;
             }
         }
