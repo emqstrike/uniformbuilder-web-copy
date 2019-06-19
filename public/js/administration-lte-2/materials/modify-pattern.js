@@ -26,7 +26,9 @@ new Vue({
         },
         addPattern() {
             this.patternDetails.push({
+                isCheckAll: false,
                 layers: [{
+                    id: 1,
                     layer_color_id: 0,
                     team_color_id: null,
                     front: null,
@@ -35,6 +37,7 @@ new Vue({
                     right: null
                 }],
                 pattern_id: 0,
+                selectedLayers: [],
                 thumbnail: null
             });
         },
@@ -63,6 +66,34 @@ new Vue({
         },
         removePatternDetail(index) {
             Vue.delete(this.patternDetails, index);
+        },
+        removeSelectedLayers(patternDetailIndex) {
+            if (this.patternDetails[patternDetailIndex].selectedLayers.length > 0) {
+                var index = this.patternDetails[patternDetailIndex].selectedLayers.length;
+
+                while(index--) {
+                    Vue.delete(this.patternDetails[patternDetailIndex].layers, this.patternDetails[patternDetailIndex].selectedLayers[index]);
+                }
+            }
+
+            this.patternDetails[patternDetailIndex].selectedLayers = [];
+        },
+        selectLayer(patternDetailIndex) {
+            if (this.patternDetails[patternDetailIndex].selectedLayers.length == this.patternDetails[patternDetailIndex].layers.length) {
+                this.patternDetails[patternDetailIndex].isCheckAll = true;
+            } else {
+                this.patternDetails[patternDetailIndex].isCheckAll = false;
+            }
+        },
+        toggleCheckbox(patternDetailIndex) {
+            this.patternDetails[patternDetailIndex].isCheckAll = ! this.patternDetails[patternDetailIndex].isCheckAll;
+            Vue.set(this.patternDetails[patternDetailIndex], 'selectedLayers', []);
+
+            if (this.patternDetails[patternDetailIndex].isCheckAll) {
+                for (var key in this.patternDetails[patternDetailIndex].layers) {
+                    this.patternDetails[patternDetailIndex].selectedLayers.push(parseInt(key));
+                }
+            }
         }
     }
 });

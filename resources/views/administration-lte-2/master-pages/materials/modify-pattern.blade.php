@@ -53,7 +53,7 @@
                                         <h4 style="display: inline;">Pattern Details</h4>
 
                                         <button class="btn btn-flat btn-sm btn-danger pull-right" @click="removePatternDetail(patternDetailIndex)">Remove</button>
-                                        <button class="btn btn-flat btn-sm btn-danger pull-right">Remove Selected</button>
+                                        <button class="btn btn-flat btn-sm btn-danger pull-right" @click="removeSelectedLayers(patternDetailIndex)">Remove Selected</button>
                                         <button class="btn btn-flat btn-sm btn-primary pull-right" @click="addLayer(patternDetailIndex)">Add Layer</button>
                                     </th>
                                 </tr>
@@ -96,7 +96,9 @@
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
+                                                    <th>
+                                                        <input v-model="patternDetail.isCheckAll" type="checkbox" @click="toggleCheckbox(patternDetailIndex)">
+                                                    </th>
                                                     <th>Layer Property</th>
                                                     <th>Team Color ID</th>
                                                     <th>Front</th>
@@ -109,7 +111,7 @@
                                             <tbody>
                                                 <tr v-for="(layer, layerIndex) in patternDetail.layers">
                                                     <td>
-                                                        <input type="checkbox">
+                                                        <input v-model="patternDetail.selectedLayers" type="checkbox" @change="selectLayer(patternDetailIndex)" :value="layerIndex">
                                                     </td>
                                                     <td>
                                                         <label>Layer Color @{{ layerIndex + 1 }}</label>
