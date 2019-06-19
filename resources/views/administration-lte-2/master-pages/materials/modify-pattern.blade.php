@@ -96,6 +96,7 @@
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Layer Property</th>
                                                     <th>Team Color ID</th>
                                                     <th>Front</th>
@@ -107,6 +108,9 @@
 
                                             <tbody>
                                                 <tr v-for="(layer, layerIndex) in patternDetail.layers">
+                                                    <td>
+                                                        <input type="checkbox">
+                                                    </td>
                                                     <td>
                                                         <label>Layer Color @{{ layerIndex + 1 }}</label>
 
