@@ -681,21 +681,11 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
-                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
 
-                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
-                $('span.perspective[data-id="left"]').text('Inside');
-                $('span.perspective[data-id="right"]').text('Outside');
-
-                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
-                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
-                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
-                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
-
-                    $('span.perspective[data-id="left"]').text('Outside');
-                    $('span.perspective[data-id="right"]').text('Inside');
-                }
+                $('span.perspective[data-id="left"]').text('Outside');
+                $('span.perspective[data-id="right"]').text('Inside');
             }
 
         }
