@@ -297,6 +297,8 @@ $(document).ready(function () {
 				$('a.footer-buttons.change-view[data-view="left"]').html('L<br /><span>Left View</span>');
 				$('a.footer-buttons.change-view[data-view="right"]').html('R<br /><span>Right View</span>');
 
+				ub.funcs.updateLabels();
+
 				$('a.footer-buttons.change-view[data-view="zoom"]').html('<i class="fa fa-search"></i><br /><span>Zoom</span>');
 
 			}
