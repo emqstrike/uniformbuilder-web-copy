@@ -838,4 +838,13 @@ class MaterialsController extends Controller
                     ->with('message', $response->message);
         }
     }
+
+    public function modifyPattern($id)
+    {
+        $material = $this->client->getMaterial($id);
+
+        return view('administration-lte-2.master-pages.materials.modify-pattern', [
+            'material' => $material
+        ]);
+    }
 }
