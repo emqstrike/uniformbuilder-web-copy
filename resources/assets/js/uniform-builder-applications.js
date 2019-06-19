@@ -8675,8 +8675,13 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';                       
-        _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';
+        if (_settingsObject.application_type === "sleeve_number" || _settingsObject.application_type === "back_number" || _settingsObject.application_type === "front_number") {
+            _htmlBuilder        +=              '<input type="number" name="sampleText" class="sampleText" value="' + _sampleText + '" min="0" max="999" oninput="ub.funcs.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">';
+        } else {
+            _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';
+        }
+                         
         _htmlBuilder        +=          '</div>';        
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
@@ -9296,115 +9301,105 @@ $(document).ready(function() {
             ub.status.onText = false;
 
             $('input.sampleText').on('focus', function () {
-
                 var _val = $(this).val();
-                ub.status.onText = true;
+                if (_val.length !== 0) {
+                    ub.status.onText = true;
 
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
+                    _settingsObject.text = _val;
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                }
             });
 
             $('input.sampleText').on('blur', function () {
-
                 var _val = $(this).val();
-                ub.status.onText = false;
-
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
-                // cancel automatic changing of application (e.g. all team names changes)
-                if (_isFreeFormEnabled)  { return; }
-
-                _.each (ub.current_material.settings.applications, function (_application) {
-
-                    if (_application.type !== "logo" && _application.type !== "mascot") {
-
-                        if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
-                            _application.text = _val;
-                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-
-                        }
-
-                    }
-                        
-                });
-
-            });
-
-            $('input.sampleText').on('keypress', function (e) {
-
-                var _val = $(this).val();
-
-                if (e.keyCode === 13) {
+                if (_val.length !== 0) {
+                    ub.status.onText = false;
 
                     _settingsObject.text = _val;
-
-                    if (typeof _settingsObject.tailsweep !== "undefined") {
-
-                        // Tailsweep, is off for now
-                        // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
-                        // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
-                        // if (_settingsObject.text.length > 7) { _length = 'long'; } 
-
-                        _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
-
-                        _settingsObject.tailsweep.length = _length;
-
-                        $('span.sizeItem').removeClass('active');
-                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
-
-                    }
-
-                    /// Set Auto Font Size on Team Name, Baseball / Fastpitch
-                    
-                    if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
-
-                        if (_settingsObject.application_type === "team_name") {
-
-                            var _len = _val.length;
-                            var _size = _settingsObject.font_size;
-
-                            if (_len <= 4) {
-                                _size = 4;
-                            } else if (_len >= 5 && _len <= 7) {
-                                _size = 3;
-                            } else if (_len >= 8) {
-                                _size = 2;
-                            }
-
-                            ub.funcs.setAppSize(application_id, _size);
-                            ub.funcs.setAUIActiveSize(_size);
-
-                        }
-
-                    }
-
-                    /// End Set Auto Font Size
-
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)
-                    if (_isFreeFormEnabled) { return; }
-                
+                    if (_isFreeFormEnabled)  { return; }
+
                     _.each (ub.current_material.settings.applications, function (_application) {
 
                         if (_application.type !== "logo" && _application.type !== "mascot") {
 
                             if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
                                 _application.text = _val;
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                            }
+                        }   
+                    });
+                }
+            });
+
+            $('input.sampleText').on('keypress', function (e) {
+                var _val = $(this).val();
+                if (_val.length !== 0) {
+                    if (e.keyCode === 13) {
+                        _settingsObject.text = _val;
+
+                        if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                            // Tailsweep, is off for now
+                            // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                            // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                            // if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                            _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
+
+                            _settingsObject.tailsweep.length = _length;
+
+                            $('span.sizeItem').removeClass('active');
+                            $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                        }
+
+                        /// Set Auto Font Size on Team Name, Baseball / Fastpitch
+                        
+                        if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
+
+                            if (_settingsObject.application_type === "team_name") {
+
+                                var _len = _val.length;
+                                var _size = _settingsObject.font_size;
+
+                                if (_len <= 4) {
+                                    _size = 4;
+                                } else if (_len >= 5 && _len <= 7) {
+                                    _size = 3;
+                                } else if (_len >= 8) {
+                                    _size = 2;
+                                }
+
+                                ub.funcs.setAppSize(application_id, _size);
+                                ub.funcs.setAUIActiveSize(_size);
 
                             }
 
                         }
-                        
-                    });
 
+                        /// End Set Auto Font Size
+
+                        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+                        // cancel automatic changing of application (e.g. all team names changes)
+                        if (_isFreeFormEnabled) { return; }
+                    
+                        _.each (ub.current_material.settings.applications, function (_application) {
+
+                            if (_application.type !== "logo" && _application.type !== "mascot") {
+
+                                if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+
+                                    _application.text = _val;
+                                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                                }
+                            } 
+                        });
+                    }
                 }
-
             });
 
             ub.funcs.hideGAFontTool();
@@ -12495,6 +12490,12 @@ $(document).ready(function() {
             $(elem).remove();
         }
     }
+
+    ub.funcs.maxLengthCheck = function (object) {
+        if (object.value.length > object.max.length) {
+            object.value = object.value.slice(0, object.max.length)
+        }
+    };
 
     /// End remove unused elements
 
