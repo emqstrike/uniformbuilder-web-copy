@@ -49,6 +49,10 @@
             text-transform: capitalize;
             -webkit-appearance: menulist !important;
         }
+
+        input[type='file'] {
+            height: auto !important;
+        }
     </style>
 @endsection
 
