@@ -18,6 +18,30 @@
             text-shadow: 0px 1px #000000 !important;
             -webkit-text-shadow: 0px 1px #000000 !important;
         }
+
+        .thumbnail-container {
+            position: relative;
+        }
+
+        .thumbnail-container:hover .remove-thumbnail-container {
+            visibility: visible;
+        }
+
+        .remove-thumbnail-container {
+            display: table;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            width: 100%;
+        }
+
+        .remove-thumbnail {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
 @endsection
 
@@ -67,12 +91,23 @@
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <div v-if="patternDetail.thumbnail == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                        <img v-else-if="patternDetail.thumbnail" :src="patternDetail.thumbnail" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+
+                                                        <div v-else-if="patternDetail.thumbnail" style="border: 1px solid #ccc; height: 50px; width: 50px;" class="thumbnail-container">
+                                                            <div class="remove-thumbnail-container">
+                                                                <div class="remove-thumbnail">
+                                                                    <button class="btn btn-xs btn-flat btn-danger" style="margin: 0px;" @click="patternDetail.thumbnail = null">
+                                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <img :src="patternDetail.thumbnail" style="height: 50px; width: 50px;">
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <label>Upload thumbnail</label>
-                                                        <input :data-pattern-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" type="file" class="form-control" @change="onFileChange($event)">
+                                                        <input type="file" class="form-control" @change="onFileChange($event, patternDetail)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,11 +169,22 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.front == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="layer.front" :src="layer.front" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+
+                                                                <div v-else-if="layer.front" class="thumbnail-container"  style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                    <div class="remove-thumbnail-container">
+                                                                        <div class="remove-thumbnail">
+                                                                            <button class="btn btn-xs btn-flat btn-danger" style="margin: 0px;" @click="layer.front = null">
+                                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img :src="layer.front" style="height: 50px; width: 50px;">
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control"  :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="front" @change="onFileChange($event)">
+                                                                <input type="file" class="form-control" @change="onFileChange($event, layer, 'front')">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -147,11 +193,22 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.back == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="layer.back" :src="layer.back" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                
+                                                                <div v-else-if="layer.back" class="thumbnail-container"  style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                    <div class="remove-thumbnail-container">
+                                                                        <div class="remove-thumbnail">
+                                                                            <button class="btn btn-xs btn-flat btn-danger" style="margin: 0px;" @click="layer.back = null">
+                                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img :src="layer.back" style="height: 50px; width: 50px;">
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="back" @change="onFileChange($event)">
+                                                                <input type="file" class="form-control" @change="onFileChange($event, layer, 'back')">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -160,11 +217,22 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.left == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="layer.left" :src="layer.left" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                
+                                                                <div v-else-if="layer.left" class="thumbnail-container"  style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                    <div class="remove-thumbnail-container">
+                                                                        <div class="remove-thumbnail">
+                                                                            <button class="btn btn-xs btn-flat btn-danger" style="margin: 0px;" @click="layer.left = null">
+                                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img :src="layer.left" style="height: 50px; width: 50px;">
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="left" @change="onFileChange($event)">
+                                                                <input type="file" class="form-control" @change="onFileChange($event, layer, 'left')">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -173,11 +241,22 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.right == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="! layer.right" :src="layer.right" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                
+                                                                <div v-else-if="layer.right" class="thumbnail-container"  style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                    <div class="remove-thumbnail-container">
+                                                                        <div class="remove-thumbnail">
+                                                                            <button class="btn btn-xs btn-flat btn-danger" style="margin: 0px;" @click="layer.right = null">
+                                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img :src="layer.right" style="height: 50px; width: 50px;">
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="right" @change="onFileChange($event)">
+                                                                <input type="file" class="form-control" @change="onFileChange($event, layer, 'right')">
                                                             </div>
                                                         </div>
                                                     </td>

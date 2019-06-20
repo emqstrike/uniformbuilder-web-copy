@@ -64,7 +64,7 @@ new Vue({
                 }
             });
         },
-        onFileChange(event) {
+        onFileChange(event, object, perspective = null) {
             var files = event.target.files || event.dataTransfer.files;
 
             if (! files.length) {
@@ -76,21 +76,13 @@ new Vue({
 
             axios.post('fileUpload', formData).then((response) => {
                 if (response.data.success === true) {
-                    var fileName = response.data.filename;
-                    var patternDetailIndex = event.target.getAttribute('data-pattern-detail-index');
-
-                    if (event.target.getAttribute('data-pattern-thumbnail') == 'true') {
-                        this.patternDetails[patternDetailIndex].thumbnail = fileName;
+                    if (perspective == null) {
+                        object.thumbnail = response.data.filename;
+                    } else {
+                        Vue.set(object, perspective, response.data.filename);
                     }
 
-                    if (event.target.getAttribute('data-layer-thumbnail') == 'true') {
-                        var perspective = event.target.getAttribute('data-perspective');
-                        var layerIndex = event.target.getAttribute('data-layer-index');
-
-                        console.log('here');
-
-                        Vue.set(this.patternDetails[patternDetailIndex].layers[layerIndex], perspective, fileName);
-                    }
+                    event.target.value = "";
                 }
             });
         },
@@ -98,30 +90,36 @@ new Vue({
             Vue.delete(this.patternDetails, index);
         },
         removeSelectedLayers(patternDetailIndex) {
-            if (this.patternDetails[patternDetailIndex].selectedLayers.length > 0) {
-                var index = this.patternDetails[patternDetailIndex].selectedLayers.length;
+            var patternDetail = this.patternDetails[patternDetailIndex];
 
-                while(index--) {
-                    Vue.delete(this.patternDetails[patternDetailIndex].layers, this.patternDetails[patternDetailIndex].selectedLayers[index]);
+            if (patternDetail.selectedLayers.length > 0) {
+                var index = patternDetail.selectedLayers.length;
+
+                while (index--) {
+                    Vue.delete(patternDetail.layers, patternDetail.selectedLayers[index]);
                 }
             }
 
-            this.patternDetails[patternDetailIndex].selectedLayers = [];
+            patternDetail.selectedLayers = [];
         },
         selectLayer(patternDetailIndex) {
-            if (this.patternDetails[patternDetailIndex].selectedLayers.length == this.patternDetails[patternDetailIndex].layers.length) {
-                this.patternDetails[patternDetailIndex].isCheckAll = true;
+            var patternDetail = this.patternDetails[patternDetailIndex];
+
+            if (patternDetail.selectedLayers.length == patternDetail.layers.length) {
+                patternDetail.isCheckAll = true;
             } else {
-                this.patternDetails[patternDetailIndex].isCheckAll = false;
+                patternDetail.isCheckAll = false;
             }
         },
         toggleCheckbox(patternDetailIndex) {
-            this.patternDetails[patternDetailIndex].isCheckAll = ! this.patternDetails[patternDetailIndex].isCheckAll;
-            Vue.set(this.patternDetails[patternDetailIndex], 'selectedLayers', []);
+            var patternDetail = this.patternDetails[patternDetailIndex];
 
-            if (this.patternDetails[patternDetailIndex].isCheckAll) {
-                for (var key in this.patternDetails[patternDetailIndex].layers) {
-                    this.patternDetails[patternDetailIndex].selectedLayers.push(parseInt(key));
+            patternDetail.isCheckAll = ! patternDetail.isCheckAll;
+            Vue.set(patternDetail, 'selectedLayers', []);
+
+            if (patternDetail.isCheckAll) {
+                for (var key in patternDetail.layers) {
+                    patternDetail.selectedLayers.push(parseInt(key));
                 }
             }
         }
