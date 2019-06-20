@@ -4,8 +4,11 @@ new Vue({
     el: '#application-container',
     data: function() {
         return {
+            copyModifyPatternDialog: false,
             colors: [],
-            patternDetails: [],
+            loadModifyPattern: null,
+            loadModifyPatternDialog: false,
+            patternDetails: patternDetailsData,
             patterns: []
         }
     },
@@ -40,6 +43,15 @@ new Vue({
                 selectedLayers: [],
                 thumbnail: null
             });
+        },
+        applyData() {
+            try {
+                this.patternDetails = JSON.parse(this.loadModifyPattern);
+                this.loadModifyPatternDialog = false;
+                this.loadModifyPattern = null;
+            } catch (e) {
+                return false;
+            }
         },
         backgroundColor(colorId) {
             var color = this.colors.find(color => color.id === colorId);

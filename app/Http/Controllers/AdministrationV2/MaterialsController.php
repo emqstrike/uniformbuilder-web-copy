@@ -847,4 +847,15 @@ class MaterialsController extends Controller
             'material' => $material
         ]);
     }
+
+    public function saveModifyPattern(Request $request)
+    {
+        $response = $this->client->saveModifyPattern($request->all());
+
+        if ($response->success) {
+            return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', 'Successfully saved changes');
+        }
+
+        return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
+    }
 }
