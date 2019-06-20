@@ -64,6 +64,36 @@ new Vue({
                 }
             });
         },
+        onFileChange(event) {
+            var files = event.target.files || event.dataTransfer.files;
+
+            if (! files.length) {
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('file', files[0]);
+
+            axios.post('fileUpload', formData).then((response) => {
+                if (response.data.success === true) {
+                    var fileName = response.data.filename;
+                    var patternDetailIndex = event.target.getAttribute('data-pattern-detail-index');
+
+                    if (event.target.getAttribute('data-pattern-thumbnail') == 'true') {
+                        this.patternDetails[patternDetailIndex].thumbnail = fileName;
+                    }
+
+                    if (event.target.getAttribute('data-layer-thumbnail') == 'true') {
+                        var perspective = event.target.getAttribute('data-perspective');
+                        var layerIndex = event.target.getAttribute('data-layer-index');
+
+                        console.log('here');
+
+                        Vue.set(this.patternDetails[patternDetailIndex].layers[layerIndex], perspective, fileName);
+                    }
+                }
+            });
+        },
         removePatternDetail(index) {
             Vue.delete(this.patternDetails, index);
         },

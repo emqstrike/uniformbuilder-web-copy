@@ -67,12 +67,12 @@
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <div v-if="patternDetail.thumbnail == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                        <img v-else-if="! patternDetail.thumbnail" :src="patternDetail.thumbnail" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                        <img v-else-if="patternDetail.thumbnail" :src="patternDetail.thumbnail" style="border: 1px solid #ccc; height: 50px; width: 50px;">
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <label>Upload thumbnail</label>
-                                                        <input type="file" class="form-control">
+                                                        <input :data-pattern-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" type="file" class="form-control" @change="onFileChange($event)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,11 +134,11 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.front == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="! layer.front" :src="layer.front" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                <img v-else-if="layer.front" :src="layer.front" style="border: 1px solid #ccc; height: 50px; width: 50px;">
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control">
+                                                                <input type="file" class="form-control"  :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="front" @change="onFileChange($event)">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -147,11 +147,11 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.back == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="! layer.back" :src="layer.back" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                <img v-else-if="layer.back" :src="layer.back" style="border: 1px solid #ccc; height: 50px; width: 50px;">
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control">
+                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="back" @change="onFileChange($event)">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -160,11 +160,11 @@
                                                         <div class="row">
                                                             <div class="col-md-2">
                                                                 <div v-if="layer.left == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
-                                                                <img v-else-if="! layer.left" :src="layer.left" style="border: 1px solid #ccc; height: 50px; width: 50px;">
+                                                                <img v-else-if="layer.left" :src="layer.left" style="border: 1px solid #ccc; height: 50px; width: 50px;">
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control">
+                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="left" @change="onFileChange($event)">
                                                             </div>
                                                         </div>
                                                     </td>
@@ -177,7 +177,7 @@
                                                             </div>
 
                                                             <div class="col-md-10">
-                                                                <input type="file" class="form-control">
+                                                                <input type="file" class="form-control" :data-layer-thumbnail="true" :data-pattern-detail-index="patternDetailIndex" :data-layer-index="layerIndex" data-perspective="right" @change="onFileChange($event)">
                                                             </div>
                                                         </div>
                                                     </td>
