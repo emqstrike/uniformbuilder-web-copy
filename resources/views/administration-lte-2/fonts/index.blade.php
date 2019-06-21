@@ -14,7 +14,7 @@
             margin-left: 10px;
         }
 
-        td button {
+        td button, td a {
             display: block !important;
             margin: 5px 0 !important;
             width: 100%;
@@ -38,6 +38,19 @@
 
         .form-control {
             height: auto !important;
+        }
+
+        [type='number'] {
+            width: 100% !important;
+        }
+
+        #font-size-table .form-inline {
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        #font-size-table .form-inline .form-control {
+            width: 90px !important;
         }
     </style>
 @endsection
@@ -126,7 +139,7 @@
                                         </td>
 
                                         <td>
-                                            <button class="btn btn-flat btn-primary btn-xs" @click="edit(props.item)">Edit</button>
+                                            <a :href="'/administration/v1-0/font/edit/' + props.item.id" class="btn btn-flat btn-primary btn-xs">Edit</a>
                                             <button class="btn btn-flat btn-default btn-xs" @click="clone(props.item)" :disabled="props.item.active == 0">Clone</button>
                                             <button class="btn btn-flat btn-danger btn-xs" @click="remove(props.item)">Remove</button>
                                         </td>

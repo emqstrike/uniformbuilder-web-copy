@@ -7,7 +7,6 @@ new Vue({
             activeMenu: 'general-details',
             blockPatterns: [],
             brands: [],
-            navigationDrawer: null,
             dialog: false,
             font: {},
             fontCache: {},
@@ -163,6 +162,11 @@ new Vue({
 
             if (this.font.block_pattern_options) {
                 this.font.block_pattern_options = this.font.block_pattern_options.replace(/['"]+/g, '').split(",");
+            }
+
+            if (this.font.font_size_table) {
+                let fontSizeTable = this.font.font_size_table.substring(1, this.font.font_size_table.length - 1);
+                this.font.font_size_table = JSON.parse(fontSizeTable);
             }
 
             this.togglePanel();
@@ -347,7 +351,6 @@ new Vue({
         },
         toggleMenu(menu) {
             this.activeMenu = menu;
-            this.navigationDrawer = ! this.navigationDrawer;
         },
         togglePanel() {
             this.fontDialog = ! this.fontDialog;

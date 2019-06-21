@@ -62,16 +62,9 @@ class FontsController extends Controller
     public function editFontForm($id)
     {
         $font = $this->client->getFont($id);
-        $fonts = $this->client->getDefaultFonts();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
-        $uniformCategories = $categoriesAPIClient->getUniformCategories();
-        $font->block_pattern_options = str_replace('"', "", $font->block_pattern_options);
-        $font->block_patterns = str_replace('"', "", $font->block_patterns);
 
         return view('administration-lte-2.fonts.edit', [
-            'fonts' => $fonts,
-            'font' => $font,
-            'categories' => $uniformCategories
+            'font' => json_encode($font),
         ]);
     }
 
