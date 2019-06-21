@@ -104,12 +104,13 @@ jQuery(document).ready(function($){
 	  	delay(function(){
 	    	inputText = $(".cd-filter-content input[type='search']").val().toLowerCase();
 	   		// Check to see if input field is empty
-	    	if ((inputText.length) > 0) {            
+	    	if ((inputText.length) > 0) {
 	      		$('.mix').each(function() {
 		        	var $this = $(this);
-		        
-		        	// add item to be filtered out if input text matches items inside the title   
-		        	if($this.attr('data-name').toLowerCase().match(inputText)) {
+		        	var $type = $('.cd-tab-filter li a.picker-slink.selected').data('type');
+
+		        	// add item to be filtered out if input text matches items inside the title
+		        	if($this.attr('data-name').toLowerCase().match(inputText) && ($this.hasClass($type) || $type === 'all')) {
 		          		$matching = $matching.add(this);
 		        	} else {
 		          		// removes any previously matched item
@@ -119,7 +120,27 @@ jQuery(document).ready(function($){
 	      		$('.cd-gallery ul').mixItUp('filter', $matching);
 	    	} else {
 	      		// resets the filter to show all item if input is empty
-	      		$('.cd-gallery ul').mixItUp('filter', 'all');
+	      		var type = $('.cd-tab-filter li a.picker-slink.selected').data('type');
+
+	      		if (type === 'all') {
+		      		$('.cd-gallery ul').mixItUp('filter', 'all');
+		      		$('.cd-tab-filter li a.picker-slink.selected').removeClass('selected');
+		      		$('.cd-tab-filter li a.picker-slink[data-type="all"]').addClass('selected');
+		      	} else {
+		      		$('.mix').each(function() {
+			        	var $this = $(this);
+			        	var $type = $('.cd-tab-filter li a.picker-slink.selected').data('type');
+
+			        	// add item to be filtered out if input text matches items inside the title
+			        	if($this.attr('data-name').toLowerCase().match(inputText) && ($this.hasClass($type) || $type === 'all')) {
+			          		$matching = $matching.add(this);
+			        	} else {
+			          		// removes any previously matched item
+			          		$matching = $matching.not(this);
+			        	}
+		      		});
+		      		$('.cd-gallery ul').mixItUp('filter', $matching);
+		      	}
 	    	}
 	  	}, 200 );
 	});
