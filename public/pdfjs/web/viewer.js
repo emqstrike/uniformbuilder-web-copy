@@ -7160,7 +7160,8 @@ var HOSTED_VIEWER_ORIGINS = ['null',
   'http://builder.local',
   'http://localhost:5000',
   'http://romack.staging.prolook.com',
-  'http://uniformbuilder-web.local'
+  'http://uniformbuilder-web.local',
+  'https://customizer.web'
 ];
 function validateFileURL(file) {
   try {
