@@ -4,6 +4,7 @@ new Vue({
     el: '#application-container',
     data: function() {
         return {
+            activeMenu: 'general-details',
             blockPatterns: [],
             brands: [],
             font: font,
@@ -22,6 +23,16 @@ new Vue({
 
         if (this.font.block_patterns) {
             this.font.block_patterns = this.font.block_patterns.replace(/['"]+/g, '').split(",");
+        }
+
+        if (this.font.font_size_table) {
+            let fontSizeTable = this.font.font_size_table.substring(1, this.font.font_size_table.length - 1);
+            this.font.font_size_table = JSON.parse(fontSizeTable);
+        }
+
+        if (this.font.font_size_tables) {
+            let fontSizeTables = this.font.font_size_tables;
+            this.font.font_size_tables = JSON.parse(fontSizeTables);
         }
 
         this.getBlockPatternsData();
@@ -110,6 +121,9 @@ new Vue({
                     this.sports = response.data.categories;
                 }
             });
+        },
+        toggleMenu(menu) {
+            this.activeMenu = menu;
         },
     }
 });
