@@ -2490,14 +2490,14 @@ $(document).ready(function() {
 
             // fix saved design error on `Volleyball` Ace Crew Neck block pattern
             // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof _settingsObject.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[_settingsObject.code];
-                    return;
-            }
+            // if (typeof ub.config.savedDesignInfo === 'object' &&
+            //     typeof _settingsObject.mascot !== 'undefined' 
+            //     && ub.config.sport === "Volleyball"
+            //     && ub.config.blockPattern === "Ace Crew Neck"
+            //     && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
+            //         delete ub.current_material.settings.applications[_settingsObject.code];
+            //         return;
+            // }
             
             _.each(ub.views, function(_view) {
 
