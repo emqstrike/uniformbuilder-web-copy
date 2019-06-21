@@ -298,6 +298,9 @@
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <button type="submit" class="btn btn-flat btn-primary">Update Pattern</button>
+                                        <a href="{{ route('v1_materials_index') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
+                                            Cancel
+                                        </a>
                                     </div>
                                 </div>
                             </form>
