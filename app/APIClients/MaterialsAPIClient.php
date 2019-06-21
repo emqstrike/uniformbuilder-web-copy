@@ -201,4 +201,13 @@ class MaterialsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
+
+    public function saveModifyPattern($data)
+    {
+        $response = $this->post('material/save_modify_pattern', [
+            'json' => $data
+        ]);
+        
+        return $this->decoder->decode($response->getBody());
+    }
 }
