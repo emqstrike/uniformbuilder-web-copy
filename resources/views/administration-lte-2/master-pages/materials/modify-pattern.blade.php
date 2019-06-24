@@ -134,7 +134,7 @@
 
                                                             <div class="col-md-6">
                                                                 <label>Upload thumbnail</label>
-                                                                <input type="file" class="form-control" @change="onFileChange($event, patternDetail)">
+                                                                <input type="file" class="form-control" @change="onFileChange($event, patternDetail)" @click="clear($event)">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -211,7 +211,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-10">
-                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'front')">
+                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'front')" @click="clear($event)">
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -235,7 +235,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-10">
-                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'back')">
+                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'back')" @click="clear($event)">
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -259,7 +259,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-10">
-                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'left')">
+                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'left')" @click="clear($event)">
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -283,7 +283,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-10">
-                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'right')">
+                                                                        <input type="file" class="form-control" @change="onFileChange($event, layer, 'right')" @click="clear($event)">
                                                                     </div>
                                                                 </div>
                                                             </td>

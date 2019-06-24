@@ -62,6 +62,9 @@ new Vue({
 
             return 'ffffff';
         },
+        clear(event) {
+            event.target.value = "";
+        },
         getColorsData() {
             axios.get('colors').then((response) => {
                 if (response.data.success === true) {
@@ -93,8 +96,6 @@ new Vue({
                     } else {
                         Vue.set(object, perspective, response.data.filename);
                     }
-
-                    event.target.value = "";
                 }
             });
         },
