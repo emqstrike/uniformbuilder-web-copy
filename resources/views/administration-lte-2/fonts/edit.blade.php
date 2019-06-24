@@ -28,6 +28,11 @@
         #font-size-table .form-inline .form-control {
             width: 90px !important;
         }
+
+        .v-tabs__div a:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
     </style>
 @endsection
 
@@ -78,6 +83,7 @@
                         <form class="form-horizontal">
                             @include('administration-lte-2.fonts.components.general-details')
                             @include('administration-lte-2.fonts.components.font-size-table')
+                            @include('administration-lte-2.fonts.components.twill-font-size-table')
                         </form>
                     </div>
                 </div>

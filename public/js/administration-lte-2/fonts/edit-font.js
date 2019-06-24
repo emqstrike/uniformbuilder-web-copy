@@ -15,6 +15,7 @@ new Vue({
                 {value: 'accent', description: 'Accent (3D) --- a child of a "default"-type font'},
                 {value: 'tail sweeps', description: 'Tail Sweep --- a child of a "default"-type font'},
             ],
+            perspectives: ['font', 'back', 'left', 'right'],
             sports: [],
         }
     },
