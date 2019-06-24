@@ -114,9 +114,9 @@
                                         <tr>
                                             <td colspan="6">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="row">
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 <div v-if="patternDetail.thumbnail == null" style="border: 1px solid #ccc; height: 50px; width: 50px;"></div>
 
                                                                 <div v-else-if="patternDetail.thumbnail" style="border: 1px solid #ccc; height: 50px; width: 50px;" class="thumbnail-container">
@@ -139,7 +139,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <label>Pattern Name</label>
                                                         <select v-model="patternDetail.pattern_id" class="form-control" style="width: auto">
                                                             <option value="0">None</option>
@@ -148,6 +148,11 @@
                                                                 @{{ pattern.name }}
                                                             </option>
                                                         </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <input type="checkbox" v-model="patternDetail.enabled">
+                                                        <label>Enable Pattern</label>
                                                     </div>
                                                 </div>
                                             </td>

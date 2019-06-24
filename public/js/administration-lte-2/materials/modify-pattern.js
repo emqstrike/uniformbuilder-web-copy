@@ -29,6 +29,7 @@ new Vue({
         },
         addPattern() {
             this.patternDetails.push({
+                enabled: false,
                 isCheckAll: false,
                 layers: [{
                     id: 1,
