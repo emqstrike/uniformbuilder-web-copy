@@ -7548,6 +7548,14 @@ $(document).ready(function () {
 
                     }
 
+                    if ($(this).data('option') === "Quick Turn" && $(this).hasClass('Socks')) {
+
+                        var quick_turn = '<img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;">';
+                        $('.uniform-name').html(quick_turn + ' - ' + $(this).data('item'));
+                        $('.callForTeamPricing').text('Ships within 7 business days');
+
+                    }
+
                 })
 
             );
