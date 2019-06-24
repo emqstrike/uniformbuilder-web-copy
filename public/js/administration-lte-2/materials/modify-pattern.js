@@ -105,10 +105,12 @@ new Vue({
             var patternDetail = this.patternDetails[patternDetailIndex];
 
             if (patternDetail.selectedLayers.length > 0) {
-                var index = patternDetail.selectedLayers.length;
+                var selectedLayers = patternDetail.selectedLayers.sort();
+
+                var index = selectedLayers.length;
 
                 while (index--) {
-                    Vue.delete(patternDetail.layers, patternDetail.selectedLayers[index]);
+                    Vue.delete(patternDetail.layers, selectedLayers[index]);
                 }
             }
 
