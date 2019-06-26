@@ -548,7 +548,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\SavedDesignsController@index']);
 
     // Tailsweeps
-    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index']);
+    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index'])->name('index_tailsweeps');
     Route::get('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@create']);
     Route::post('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
     Route::get('tailsweep/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@editTailsweepForm']);
