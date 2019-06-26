@@ -80,8 +80,10 @@ new Vue({
                     response.data.patterns.forEach(pattern => {
                         var sports = JSON.parse(pattern.sports);
 
-                        if (sports.indexOf(this.materialSport) >= 0) {
-                            this.patterns.push(pattern);
+                        if (sports) {
+                            if (sports.indexOf(this.materialSport) >= 0) {
+                                this.patterns.push(pattern);
+                            }
                         }
                     });
                 }
