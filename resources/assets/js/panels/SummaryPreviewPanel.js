@@ -52,10 +52,51 @@ SummaryPreviewPanel.events = {
                 }
             });
 
-            $("#richardson-saving-option").on("click", ".summary-content .save", _this.onSaveToMyDesign);
+            $("#richardson-saving-option").on("click", ".save-design-container .summary-content .save-my-design", _this.onSaveToMyDesign);
+
+            $("#richardson-saving-option").on("submit", "form#send-email", _this.onSubmitFormSendEmail);
+            $("#richardson-saving-option").on("submit", "form#login-customer", _this.onSubmitFormLoginCustomer);
+            $("#richardson-saving-option").on("submit", "form#registration-form", _this.onSubmitFormRegistration);
 
             SummaryPreviewPanel.events.is_init_events_called = 1
         }
+    },
+
+    onSubmitFormSendEmail: function(event) {
+        event.preventDefault();
+        var mainFormElement = $("#richardson-saving-option form#send-email");
+        var data = {
+            "receiverEmail": $("input.receiver-email", mainFormElement).val(),
+            "senderEmail": $("input.sender-email", mainFormElement).val(),
+            "senderName": $("input.sender-name", mainFormElement).val(),
+            "senderMessage": $("textarea.sender-message", mainFormElement).val()
+        };
+    },
+
+    onSubmitFormLoginCustomer: function(event) {
+        event.preventDefault();
+        var mainFormElement = $("#richardson-saving-option form#login-customer");
+
+        var data = {
+            "email": $("input.email", mainFormElement).val(),
+            "password": $("input.password", mainFormElement).val(),
+        }
+
+        console.log(data)
+    },
+
+    onSubmitFormRegistration: function(event) {
+        event.preventDefault();
+        var mainFormElement = $("#richardson-saving-option form#registration-form");
+
+        var data = {
+            "name": $("input.name", mainFormElement).val(),
+            "email": $("input.email", mainFormElement).val(),
+            "password": $("input.password", mainFormElement).val(),
+            "confirm-password": $("input.confirm-password", mainFormElement).val(),
+        }
+
+        console.log(data)
     },
 
     // Generate PDF
