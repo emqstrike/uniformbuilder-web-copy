@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New tailsweep</div>
+                <div class="panel-heading">Edit tailsweep</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/administration/tailsweep/update" enctype="multipart/form-data" id='create-tailsweep-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -56,6 +56,19 @@
                             <label class="col-md-4 control-label">Long</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control tailsweep-long" name="long" value="{{ $tailsweep->long }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand_id" class="form-control">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}" @if ($brand->id == $tailsweep->brand_id) selected="selected" @endif>
+                                            {{ $brand->site_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
