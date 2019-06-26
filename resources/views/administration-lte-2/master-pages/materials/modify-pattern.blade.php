@@ -320,9 +320,14 @@
 @section('scripts')
     <script>
         var patternDetailsData = [];
+        var materialSport = null;
 
         @if ($material->patterns)
             patternDetailsData = {!! $material->patterns !!};
+        @endif
+
+        @if ($material->uniform_category)
+            materialSport = '{{ $material->uniform_category }}';
         @endif
     </script>
 

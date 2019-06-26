@@ -8,6 +8,7 @@ new Vue({
             colors: [],
             loadModifyPattern: null,
             loadModifyPatternDialog: false,
+            materialSport: materialSport,
             patternDetails: patternDetailsData,
             patterns: []
         }
@@ -76,7 +77,13 @@ new Vue({
         getPatternsData() {
             axios.get('patterns').then((response) => {
                 if (response.data.success === true) {
-                    this.patterns = response.data.patterns;
+                    response.data.patterns.forEach(pattern => {
+                        var sports = JSON.parse(pattern.sports);
+
+                        if (sports.indexOf(this.materialSport) >= 0) {
+                            this.patterns.push(pattern);
+                        }
+                    });
                 }
             });
         },
