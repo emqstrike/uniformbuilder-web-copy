@@ -1387,11 +1387,11 @@
                     </td>
 
                     <td class="PlayerNumberInput">
-                        <input type="text" name="number" value="@{{number}}" class="number" maxlength="5" />
+                        <input type="number" name="number" value="@{{number}}" class="number" min="0" max="99999" oninput="ub.utilities.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>
                     </td>
 
                     <td>
-                       <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />  
+                       <input type="number" name="quantity" value="1" class="quantity" min="0" max="99999" oninput="ub.utilities.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>  
                     </td>
 
                     <td class="sleevetype">
