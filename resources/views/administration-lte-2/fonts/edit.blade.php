@@ -33,6 +33,10 @@
             color: #ffffff;
             text-decoration: none;
         }
+
+        .v-tabs .v-window {
+            margin-top: 30px;
+        }
     </style>
 @endsection
 
@@ -84,6 +88,7 @@
                             @include('administration-lte-2.fonts.components.general-details')
                             @include('administration-lte-2.fonts.components.font-size-table')
                             @include('administration-lte-2.fonts.components.twill-font-size-table')
+                            @include('administration-lte-2.fonts.components.sublimated-font-size-table')
                         </form>
                     </div>
                 </div>

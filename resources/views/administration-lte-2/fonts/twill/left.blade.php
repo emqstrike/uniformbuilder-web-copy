@@ -1,7 +1,7 @@
 <h4>
-    Front
+    Left
     
-    <button class="btn btn-flat btn-xs btn-primary add-font-size" @click.prevent="addTwillLayer('front')">
+    <button class="btn btn-flat btn-xs btn-primary add-font-size" @click.prevent="addTwillLayer('left')">
         <span class="glyphicon glyphicon-plus"></span>
     </button>
 </h4>
@@ -110,7 +110,7 @@
         </tr>
     </thead>
 
-    <tbody v-for="data in font.font_size_tables.filter(obj => { return obj.perspective === 'front' })">
+    <tbody v-for="data in font.font_size_tables.filter(obj => { return obj.perspective === 'left' })">
         <tr v-for="(fontData, index) in data.sizes">
             <td>
                 <input type="number" v-model="fontData.application_number" class="form-control">
@@ -149,7 +149,7 @@
             </td>
 
             <td>
-                <button class="btn btn-sm btn-flat btn-danger" @click.prevent="removeTwillLayer(index, 'front')">Remove</button>
+                <button class="btn btn-sm btn-flat btn-danger" @click.prevent="removeTwillLayer(index, 'left')">Remove</button>
             </td>
         </tr>
     </tbody>

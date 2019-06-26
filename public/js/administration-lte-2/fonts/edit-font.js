@@ -8,6 +8,16 @@ new Vue({
             blockPatterns: [],
             brands: [],
             font: font,
+            fontLayer: {
+                application_number: 0,
+                inner_stroke: 0,
+                outer_stroke: 0,
+                outputSize: 0,
+                x_offset: 0,
+                x_scale: 0,
+                y_offset: 0,
+                y_scale: 0
+            },
             fontTypes: [
                 {value: 'default', description: 'Default'},
                 {value: 'base', description: 'Base (IN) --- a child of a "default"-type font'},
@@ -15,11 +25,11 @@ new Vue({
                 {value: 'accent', description: 'Accent (3D) --- a child of a "default"-type font'},
                 {value: 'tail sweeps', description: 'Tail Sweep --- a child of a "default"-type font'},
             ],
-            perspectives: ['font', 'back', 'left', 'right'],
+            perspectives: ['front', 'back', 'left', 'right'],
             sports: [],
         }
     },
-    mounted() {
+    created() {
         this.font.sports = JSON.parse(this.font.sports);
 
         if (this.font.block_patterns) {
@@ -34,6 +44,11 @@ new Vue({
         if (this.font.font_size_tables) {
             let fontSizeTables = this.font.font_size_tables;
             this.font.font_size_tables = JSON.parse(fontSizeTables);
+        }
+
+        if (this.font.sublimated_font_size_tables) {
+            let sublimatedFontSizeTables = this.font.sublimated_font_size_tables;
+            this.font.sublimated_font_size_tables = JSON.parse(sublimatedFontSizeTables);
         }
 
         this.getBlockPatternsData();
@@ -88,6 +103,20 @@ new Vue({
         }
     },
     methods: {
+        addSublimatedLayer(perspective) {
+            var _perspective = this.font.sublimated_font_size_tables.filter(obj => {
+                return obj.perspective == perspective;
+            });
+
+            _perspective[0].sizes.unshift(this.fontLayer);
+        },
+        addTwillLayer(perspective) {
+            var _perspective = this.font.font_size_tables.filter(obj => {
+                return obj.perspective == perspective;
+            });
+
+            _perspective[0].sizes.unshift(this.fontLayer);
+        },
         getBlockPatternsData() {
             axios.get('block_patterns').then((response) => {
                 if (response.data.success === true) {
@@ -122,6 +151,20 @@ new Vue({
                     this.sports = response.data.categories;
                 }
             });
+        },
+        removeSublimatedLayer(index, perspective) {
+            var _perspective = this.font.sublimated_font_size_tables.filter(obj => {
+                return obj.perspective == perspective;
+            });
+
+            Vue.delete(_perspective[0].sizes, index);
+        },
+        removeTwillLayer(index, perspective) {
+            var _perspective = this.font.font_size_tables.filter(obj => {
+                return obj.perspective == perspective;
+            });
+
+            Vue.delete(_perspective[0].sizes, index);
         },
         toggleMenu(menu) {
             this.activeMenu = menu;
