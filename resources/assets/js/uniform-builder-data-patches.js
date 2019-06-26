@@ -16,6 +16,8 @@ $(document).ready(function () {
 		var _id5924 = ["5924"];
 		var _id11214 = ["11214"];
 
+		var _id43030 = ["43030"];
+
 		// Volg
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
 			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["B", "W"]);
@@ -110,6 +112,17 @@ $(document).ready(function () {
 
 			console.error('---- End Patch ----');
 			
+		}
+
+		// 43030
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id43030, ub.config.savedDesignInfo.savedDesignID)) {
+
+			var omitPerspectives = ['left', 'right'];
+			_.each(ub.current_material.settings.applications, function (application) {
+				application.application.views = _.omit(application.application.views, function (app) {
+					return _.contains(omitPerspectives, app.perspective);
+				});
+			});
 		}
 
 	}

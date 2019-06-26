@@ -1714,7 +1714,7 @@
                         <div class="col-md-6 feedback-left-panel">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button class="btn btn-default btn-block upload-btn"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
+                                    <button class="btn btn-default btn-block upload-btn"  tabindex="6"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
                                     <input type="file" id="file-input-upload" style="display:none" accept="image/*"/>
                                     <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive upload">
                                 </div>
@@ -1725,23 +1725,23 @@
                             <form id="feedback-form">
                               <div class="form-group">
                                 <label>Name <span class="required">*</span></label>
-                                <input type="text" class="form-control name" placeholder="Your Name">
+                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1">
                               </div>
                               <div class="form-group">
                                 <label>Email <span class="required">*</span></label>
-                                <input type="email" class="form-control email" placeholder="youremail@domain.com">
+                                <input type="email" class="form-control email" placeholder="youremail@domain.com" tabindex="2">
                               </div>
                               <div class="form-group">
                                 <label>Material ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control materialId" placeholder="">
+                                <input type="text" class="form-control materialId" placeholder="" tabindex="3">
                               </div>
                               <div class="form-group">
                                 <label>Saved Design ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control savedDesignId" placeholder="">
+                                <input type="text" class="form-control savedDesignId" placeholder="" tabindex="4">
                               </div>
                               <div class="form-group">
                                 <label>Message <span class="required">*</span></label>
-                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)"></textarea>
+                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)" tabindex="5"></textarea>
                               </div>
                             </form>
                         </div>
@@ -1754,8 +1754,8 @@
             <div class="row">
 
                 <div class="col-md-12 ok-footer">
-                     <span class="cancel-btn">CANCEL</span>
-                     <span class="ok-btn">OK</span>
+                     <span class="cancel-btn" tabindex="7">CANCEL</span>
+                     <span class="ok-btn" tabindex="8">OK</span>
                 </div>
                 
             </div>

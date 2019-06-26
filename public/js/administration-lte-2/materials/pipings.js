@@ -526,6 +526,8 @@ function buildSetsDropdown(value){
         var formData = new FormData();
         var x = elem;
 
+        console.log('this is the file ', _file);
+
         formData.append('file', file);
 
         if (typeof $.ajaxSettings.headers !== "undefined") {

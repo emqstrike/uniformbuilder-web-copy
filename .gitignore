@@ -13,3 +13,10 @@ aliases
 npm-debug.log
 public/node_modules
 public/richardson
+public/uniform-builder/js/ub\.min\.js
+
+public/uniform-builder/css/uniform-builder\.css\.min\.map
+
+public/uniform-builder/dist/
+
+public/uniform-builder/js/ub\.min\.js\.map

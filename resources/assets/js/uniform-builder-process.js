@@ -775,7 +775,7 @@ $(document).ready(function() {
                 // do nothing, dont show form if already shown
                 console.log('[feedback form is already shown]');
                 $('div.free-feedback-form').each(function( index ) {
-                    console.log( index + ": " + $(this) );
+                    // console.log( index + ": " + $(this) );
                     if (index !== 0) {
                         $(this).remove();
                     }
@@ -785,6 +785,7 @@ $(document).ready(function() {
 
                 // this shows the feedback modal form not the commented fade in above
                 ub.funcs.centerPatternPopup();
+
                 // $('div.free-feedback-form').fadeIn();
                 ub.feedbackForm = true;
 
@@ -890,8 +891,31 @@ $(document).ready(function() {
                 // triggering click on images for file upload
                 $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
 
+                // image validation - inksoft supported file types are: [png/bmp/jpeg/jpg/tiff/pdf/eps/svg/ai]
+                // isImage() returns boolean.
+                function isImage(file) {
+                   var imageTypes = [ 
+                       'image/png', 
+                       'image/bmp', 
+                       'image/jpeg', 
+                       'image/tiff', 
+                       'image/gif', 
+                       'image/svg+xml', 
+                       // 'application/postscript', 
+                       // 'application/pdf'
+                       ];
+                    return imageTypes.includes(file.type);
+                }
+
                 // onchange file input value
                 $('#file-input-upload').on('change', function(){
+                    // validate file if image.
+                    if (isImage(this.files[0]) === false) {
+                        var message = 'You have uploaded an invalid image file type.';
+                        $.smkAlert({text: message, type:'warning', time: 5, marginTop: '80px'});
+                        return false;
+                    }
+
                     $('.upload-btn').find('i').removeClass('fa-cloud-upload').addClass('fa-refresh fa-spin');
                     ub.funcs.imageUpload(this.files[0], function(filename) {
                         if (typeof filename === 'undefined') {

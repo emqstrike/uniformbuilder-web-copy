@@ -681,21 +681,11 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
-                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
 
-                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
-                $('span.perspective[data-id="left"]').text('Inside');
-                $('span.perspective[data-id="right"]').text('Outside');
-
-                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
-                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
-                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
-                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
-
-                    $('span.perspective[data-id="left"]').text('Outside');
-                    $('span.perspective[data-id="right"]').text('Inside');
-                }
+                $('span.perspective[data-id="left"]').text('Outside');
+                $('span.perspective[data-id="right"]').text('Inside');
             }
 
         }
@@ -6721,14 +6711,6 @@ $(document).ready(function () {
             }
 
             if (_picker_type === 'uniforms') {
-
-                // ub.funcs.fadeOutElements();
-                // $('body').removeClass('pickers-enabled');
-
-                // $('#main-picker-container').hide();
-                // $('.header-container').removeClass('forceHide');
-
-                // window.location.href = window.ub.config.host + '/builder/0/' + _id;
                 
                 // reopen the uniform in a new page
                 var url = '/builder/0/' + _id;
@@ -6798,7 +6780,6 @@ $(document).ready(function () {
             function() {
 
                var $caption = $(this).find('span.main-picker-item-caption');
-               //$caption.css('margin-top', '-336px');
 
                if ($(this).data('picker-type') === 'uniforms') {
 
@@ -7162,9 +7143,24 @@ $(document).ready(function () {
 
     }
 
+    // omit neck options from _optionsCollection basketball filter
+    ub.funcs.omitNeckOptionsOnBasketballFilter = function () {
+        var omitOptions = [];
+        // Basketball Men
+        omitOptions.push('Cavaliers Neck', 'Lakers Neck', 'Round Neck', 'V-Neck', 'V-neck', 'Infuse Short (M)', 'SFN Short (M)', 'Sfn Short (M)', 'Side Seam Jersey', 'Back Panel Jersey', 'Sublimated Short');
+        // Basketball Women
+        omitOptions.push('Gold State Neck', 'Infuse Short (W)', 'SFN Short (W)');
+
+        _optionsCollection = _.omit(_optionsCollection, function (option) {
+            return _.contains(omitOptions, option.alias);
+        });
+    }
+
     ub.funcs.updateQuarternaryBar = function (items, gender, dataItem) {
 
         setTimeout(function () {
+
+            ub.funcs.omitNeckOptionsOnBasketballFilter();
 
             $('.quarternary-bar').html('');
 
@@ -7177,6 +7173,7 @@ $(document).ready(function () {
             var isSoccer = _.filter(items, function (item)  {
                 return (item.uniform_category === 'Soccer');
             });
+
             if(isSoccer.length > 0){
                 var d = { block_patterns: _optionsCollection.reverse(), }
             }else{
@@ -7191,7 +7188,7 @@ $(document).ready(function () {
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
-            if (_optionsCollection.length > 0) {
+            if (_.size(_optionsCollection) > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
 
