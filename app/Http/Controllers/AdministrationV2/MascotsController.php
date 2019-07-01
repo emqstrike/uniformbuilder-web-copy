@@ -11,6 +11,7 @@ use App\APIClients\MascotsCategoriesAPIClient;
 use App\APIClients\OrdersAPIClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\MascotRequest;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
 use App\Utilities\Log;
@@ -113,7 +114,7 @@ class MascotsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(MascotRequest $request)
     {
         $mascotName = $request->input('name');
         $code = $request->input('code');
