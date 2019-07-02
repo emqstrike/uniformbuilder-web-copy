@@ -674,6 +674,7 @@ $(document).ready(function () {
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
             ub.funcs.executeAfterLoadFunctionList();
 
         };
@@ -6383,6 +6384,15 @@ $(document).ready(function () {
             _.each(clone.layers, function (layer, index) {
 
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+
+                if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                    var qtFilename = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id}).layers[index][v];
+
+                    if (typeof qtFilename !== 'undefined') {
+                        layer.filename = qtFilename;
+                    }
+                }
+
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
                 var sprite = container.sprites[index];
@@ -7535,6 +7545,14 @@ $(document).ready(function () {
 
                         $(this).find('span.adultPrice').addClass('hide');                        
                         $(this).find('span.adultPriceSale').addClass('hide');                        
+
+                    }
+
+                    if ($(this).data('option') === "Quick Turn" && $(this).hasClass('Socks')) {
+
+                        var quick_turn = '<img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;">';
+                        $('.uniform-name').html(quick_turn + ' - ' + $(this).data('item'));
+                        $('.callForTeamPricing').text('Ships within 7 business days');
 
                     }
 

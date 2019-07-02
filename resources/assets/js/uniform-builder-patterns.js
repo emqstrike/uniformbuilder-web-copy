@@ -792,12 +792,16 @@ $(document).ready(function () {
         var _patternID                  = patternID.toString();
         var _currentPart                = currentPart;
         var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+
+        if (ub.current_material.material.block_pattern === 'Quick Turn') {
+            _patternObject =  _.find(ub.data.qtPatterns.items, {id: _patternID.toString()});
+        }
         
         _.each (_patternObject.layers, function (layer)  {
 
             var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
 
-            if (typeof team_color !== 'undefined') {
+            if (typeof team_color !== 'undefined' && ub.current_material.material.block_pattern !== 'Quick Turn') {
 
                 layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
 
@@ -816,6 +820,7 @@ $(document).ready(function () {
 
             materialOption              = _materialOptions[0];
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
 
@@ -834,6 +839,10 @@ $(document).ready(function () {
         if ($('div#primaryPatternPopup').length === 0) {
 
             var _patternList = ub.funcs.getPatternList();
+
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                _patternList = ub.data.qtPatterns.items;
+            }
 
             var data = {
                 label: 'Choose Patterns: ',
@@ -1208,6 +1217,10 @@ $(document).ready(function () {
             var _defaultColor   = layer.color;
             var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
             var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
+
+            if (ub.current_material.material.block_pattern === 'Quick Turn' && _patternName !== 'Blank') { 
+                _localName = "/images/patterns/" + ub.current_material.material.block_pattern + "/" + _patternName + "/" + _layer_no + ".png";
+            }
 
             fabric.Image.fromURL(_localName, function (oImg) {
                 
@@ -1586,6 +1599,10 @@ $(document).ready(function () {
         };
 
         _.each (patternObject.layers, function (_property) {
+            
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                _property.filename = _property[ub.active_view];
+            }
 
             var _defaultColor = _property.default_color;
 
@@ -1646,6 +1663,102 @@ $(document).ready(function () {
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
 
+    }
+
+    // process Socks (Apparel) `Quick Turn` pattern
+    ub.funcs.processQuickTurnPattern = function () {
+
+        if (ub.current_material.material.block_pattern !== 'Quick Turn') { return; }
+
+        ub.data.qtPatterns = JSON.parse(ub.current_material.material.patterns);
+
+        // get blank pattern
+        var blank = ub.funcs.getPatternByID('33');
+
+        var _container = [];
+
+        _.each(ub.data.qtPatterns, function (_object, index) {
+
+            var sort_id = index + 1;
+
+            var id = _object.pattern_id.toString();
+
+            _newObject = {
+                sortID: sort_id,
+                id: id,
+                active: "1",
+                isEnabled: _object.enabled,
+                name: ub.funcs.getPatternByID(id).name,
+                code: ub.funcs.getPatternByID(id).name.toLowerCase(),
+                icon: _object.thumbnail,
+                layers: []
+            };
+
+            _.each(_object.layers, function (layer, index) {
+                
+                var index = index + 1;
+                var _layer = {
+
+                     default_color: ub.funcs.getHexColorById(layer.layer_color_id.toString()),
+                     layer_no: parseInt(index),
+                     front: layer.front,
+                     back: layer.back,
+                     left: layer.left,
+                     right: layer.right,
+                     team_color_id: layer.team_color_id,
+
+                };
+
+                _newObject.layers.push(_layer);
+
+            });
+
+            _container.push(_newObject);
+
+            ub.data.qtPatterns = {
+                items: _container,
+            }
+
+        });
+
+        ub.data.qtPatterns.items.unshift({
+                sortID: blank.sortID,
+                id: blank.id,
+                active: "1",
+                isEnabled: false,
+                name: blank.name,
+                code: blank.code,
+                icon: blank.icon,
+                layers: [{
+                    default_color: blank.layers[0].default_color,
+                    layer_no: parseInt(blank.layers[0].layer_no),
+                    front: blank.layers[0].filename,
+                    back: blank.layers[0].filename,
+                    left: blank.layers[0].filename,
+                    right: blank.layers[0].filename,
+                    team_color_id: blank.layers[0].team_color_id,
+                }]
+            });
+
+        ub.funcs.activateEnableQtPattern();
+    }
+
+    // activate enabled pattern on Quick Turn's `Sublimated` part
+    ub.funcs.activateEnableQtPattern = function () {
+        var patternObject =  _.find(ub.data.qtPatterns.items, {isEnabled: true});
+
+        if (typeof patternObject !== 'undefined') {
+            var settingsObject = ub.funcs.getMaterialOptionSettingsObject('Sublimated');
+            var materialOptions = ub.funcs.getMaterialOptions('Sublimated');
+            var materialOption = materialOptions[0];
+
+            var outputPatternObject = ub.funcs.convertPatternObjectForMaterialOption(patternObject, materialOption);
+
+            settingsObject.pattern = outputPatternObject;
+            e = settingsObject;
+
+            ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+        }
     }
 
 });
