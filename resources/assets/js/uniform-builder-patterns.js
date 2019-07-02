@@ -1675,7 +1675,7 @@ $(document).ready(function () {
         // get blank pattern
         var blank = ub.funcs.getPatternByID('33');
 
-        var _container           = [];
+        var _container = [];
 
         _.each(ub.data.qtPatterns, function (_object, index) {
 

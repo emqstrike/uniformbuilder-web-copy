@@ -4047,6 +4047,12 @@ $(document).ready(function() {
 
             var _obj = _.find(ub.data.modifierLabels, {fullname: tempName});
 
+            // exit if `_obj` is undefined
+            if (typeof _obj === 'undefined') { 
+                console.warn(tempName + ' label not found!');
+                return; 
+            }
+
             _index = _obj.index;
 
         }
@@ -4169,7 +4175,7 @@ $(document).ready(function() {
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
         if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
-            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt', 'gutter'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }
 
