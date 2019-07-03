@@ -932,11 +932,17 @@ $(document).ready(function () {
             var fill        = 'white';
             var layerID     = layer.layer_no;
 
+            var y = -50;
+
             _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="350" xlink:href=""></image></pattern></defs>';
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                y = 46;
+            }
+
+            _htmlBuilder    += '<defs><pattern id="image" x="50" y="' + y + '" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="250" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
@@ -1020,7 +1026,8 @@ $(document).ready(function () {
 
         var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
 
-        if (inputPattern.pattern_id === "blank") {
+        // `Quick Turn` should not have pattern slider bacause its pattern layout/layer differs from the other.
+        if (inputPattern.pattern_id === "blank" || ub.current_material.material.block_pattern === 'Quick Turn') {
 
             $('input#part-pattern-slider').hide();
 
@@ -1219,7 +1226,7 @@ $(document).ready(function () {
             var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
 
             if (ub.current_material.material.block_pattern === 'Quick Turn' && _patternName !== 'Blank') { 
-                _localName = "/images/patterns/" + ub.current_material.material.block_pattern + "/" + _patternName + "/" + _layer_no + ".png";
+                _localName = "/images/patterns/Quick Turn/" + _patternName + "/" + _layer_no + ".png";
             }
 
             fabric.Image.fromURL(_localName, function (oImg) {

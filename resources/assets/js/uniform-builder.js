@@ -7069,6 +7069,8 @@ $(document).ready(function () {
             $('.tertiary-bar').hide();
             $('.tertiary-bar').css('margin-top','-50px');
 
+            var d = { block_patterns: _blockPatternsCollection, };
+
             var t = $('#m-tertiary-links').html();
             var _str = '';
 
@@ -7082,15 +7084,11 @@ $(document).ready(function () {
 
             // rearrange block pattern
             if(isSoccer.length > 0){
-                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
-            }else{
-                var d = { block_patterns: _blockPatternsCollection, }
+                d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
             }
 
             if(isVolleyball.length > 0){
-                var d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 2, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 2) }
-            }else{
-                var d = { block_patterns: _blockPatternsCollection, }
+                d = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 2, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 2) }
             }
             // end rearrange block pattern
             
@@ -7460,6 +7458,12 @@ $(document).ready(function () {
 
             if (typeof gender === 'undefined') { return; }
 
+            // ub.tempItems = _.each(ub.tempItems, function(item) {
+            //     if (item.block_pattern === 'Quick Turn') {
+            //         item.
+            //     }
+            // });
+
             var data = {
 
                 sport: gender,
@@ -7548,13 +7552,13 @@ $(document).ready(function () {
 
                     }
 
-                    if ($(this).data('option') === "Quick Turn" && $(this).hasClass('Socks')) {
+                    // if ($(this).data('option') === "Quick Turn" && $(this).hasClass('Socks')) {
 
-                        var quick_turn = '<img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;">';
-                        $('.uniform-name').html(quick_turn + ' - ' + $(this).data('item'));
-                        $('.callForTeamPricing').text('Ships within 7 business days');
+                    //     var quick_turn = '<img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;">';
+                    //     $('.uniform-name').html(quick_turn + ' - ' + $(this).data('item'));
+                    //     $('.callForTeamPricing').text('Ships within 7 business days');
 
-                    }
+                    // }
 
                 })
 
