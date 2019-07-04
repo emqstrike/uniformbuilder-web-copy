@@ -60,16 +60,14 @@
             <div class="form-group">
                 <label class="control-label">Piping Set</label>
                 <select v-model="randomFeedImage.set" class="form-control">
-                    <option value="Center Piping">Center Piping</option>
-                    <option value="End of Sleeve Piping">End of Sleeve Piping</option>
-                    <option value="Neck Piping">Neck Piping</option>
-                    <option value="Raglan Piping">Raglan Piping</option>
-                    <option value="Set-in Piping">Set-in Piping</option>
-                    <option value="Sleeve Piping 1 inch up">Sleeve Piping 1 inch up</option>
-                    <option value="Yoke Piping">Yoke Piping</option>
-                    <option value="Back Insert Piping">Back Insert Piping</option>
-                    <option value="Pant Piping">Pant Piping</option>
-                    <option value="Tunnel Piping">Tunnel Piping</option>
+                    <option value="Top Welt">Top Welt</option>
+                    <option value="Arch">Arch</option>
+                    <option value="Padding">Padding</option>
+                    <option value="Body">Body</option>
+                    <option value="Toe">Toe</option>
+                    <option value="Heel">Heel</option>
+                    <option value="Ankle Padding">Ankle Padding</option>
+                    <option value="Main Foot">Main Foot</option>
                 </select>
             </div>
 
