@@ -192,7 +192,7 @@ new Vue({
             });
         },
         remove(randomFeedImage) {
-            let remove = confirm('Are you sure you want to remove this page?');
+            let remove = confirm('Are you sure you want to remove this random feed image?');
 
             if (remove === true) {
                 this.dialog = true;
