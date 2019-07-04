@@ -15,6 +15,7 @@ new Vue({
             action: "",
             blockPatterns: [],
             dialog: false,
+            errors: [],
             headers: [
                 {text: 'ID', value: 'id'},
                 {text: 'Sport', value: 'sport_id'},
@@ -106,7 +107,15 @@ new Vue({
     methods: {
         add() {
             this.action = 'add';
-            this.randomFeedImage = randomFeedImageProperties;
+            this.randomFeedImage = {
+                sport_id: null,
+                block_pattern_id: null,
+                block_pattern_id: null,
+                block_pattern_option: null,
+                thumbnail: null,
+                set: null,
+                alias: null,
+            };
             this.randomFeedImageDialog = true;
         },
         cancel(randomFeedImage) {
@@ -235,6 +244,7 @@ new Vue({
 
                     setTimeout(() => {
                         this.dialog = this.randomFeedImageDialog = false;
+                        this.errors = [];
 
                         new PNotify({
                             title: 'Random feed image saved',
@@ -243,7 +253,12 @@ new Vue({
                             delay: 1000
                         });
                     }, 1000);
-                } else {
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                }  else {
                     setTimeout(() => {
                         this.dialog = false;
 
@@ -264,6 +279,7 @@ new Vue({
                 if (response.data.success === true) {
                     setTimeout(() => {
                         this.dialog = this.randomFeedImageDialog = false;
+                        this.errors = [];
 
                         new PNotify({
                             title: 'Random feed image updated',
@@ -272,7 +288,12 @@ new Vue({
                             delay: 1000
                         });
                     }, 1000);
-                } else {
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                }  else {
                     setTimeout(() => {
                         this.dialog = false;
 

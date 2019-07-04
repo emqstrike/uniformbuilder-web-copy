@@ -6,6 +6,12 @@
         </v-card-title>
 
         <v-card-text>
+            <v-alert :value="true" color="error" v-if="errors.length">
+                <ul>
+                    <li v-for="error in errors">@{{ error }}</li>
+                </ul>
+            </v-alert>
+
             <div class="form-group">
                 <label class="control-label">Sport</label>
                 <select v-model="randomFeedImage.sport_id" class="form-control">
