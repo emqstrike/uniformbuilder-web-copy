@@ -1,7 +1,6 @@
 let randomFeedImageProperties = {
-    sport_id: null,
-    block_pattern_id: null,
-    block_pattern_id: null,
+    sport: null,
+    block_pattern: null,
     block_pattern_option: null,
     thumbnail: null,
     set: null,
@@ -18,8 +17,8 @@ new Vue({
             errors: [],
             headers: [
                 {text: 'ID', value: 'id'},
-                {text: 'Sport', value: 'sport_id'},
-                {text: 'Block Pattern', value: 'block_pattern_id'},
+                {text: 'Sport', value: 'sport'},
+                {text: 'Block Pattern', value: 'block_pattern'},
                 {text: 'Block Pattern Option', value: 'block_pattern_option'},
                 {text: 'Thumbnail', value: 'thumbnail'},
                 {text: 'Set', value: 'set'},
@@ -49,7 +48,7 @@ new Vue({
 
             this.blockPatterns.forEach(blockPattern => {
                 if (Object.keys(this.randomFeedImage).length != 0) {
-                    if (this.randomFeedImage.sport_id == blockPattern.uniform_category_id) {
+                    if (this.randomFeedImage.sport == blockPattern.uniform_category) {
                         blockPatterns.push(blockPattern);
                     }
                 }
@@ -62,7 +61,7 @@ new Vue({
 
             this.blockPatterns.forEach(blockPattern => {
                 if (Object.keys(this.randomFeedImage).length != 0) {
-                    if (this.randomFeedImage.sport_id == blockPattern.uniform_category_id) {
+                    if (this.randomFeedImage.sport == blockPattern.uniform_category) {
                         let _blockPatternOption = JSON.parse(blockPattern.neck_options);
 
                         try {
@@ -108,9 +107,8 @@ new Vue({
         add() {
             this.action = 'add';
             this.randomFeedImage = {
-                sport_id: null,
-                block_pattern_id: null,
-                block_pattern_id: null,
+                sport: null,
+                block_pattern: null,
                 block_pattern_option: null,
                 thumbnail: null,
                 set: null,
@@ -157,7 +155,7 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                axios.get('random_feed_images?page=' + page).then((response) => {
+                axios.get('random_feed_images/paginate?page=' + page).then((response) => {
                     if (response.data.success === true) {
                         let randomFeedImages = response.data.random_feed_images.data;
                         const total = response.data.random_feed_images.total;
