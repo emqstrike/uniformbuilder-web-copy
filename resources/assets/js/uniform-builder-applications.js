@@ -4511,13 +4511,6 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.getPatternByID = function (id) {
-
-      var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
-      return _patternObject;
-
-    }
-
     ub.funcs.activateColorPickers = function () {
 
         ub.funcs.clearPatternUI();

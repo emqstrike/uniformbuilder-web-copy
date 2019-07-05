@@ -1225,10 +1225,6 @@ $(document).ready(function () {
             var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
             var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
 
-            if (ub.current_material.material.block_pattern === 'Quick Turn' && _patternName !== 'Blank') { 
-                _localName = "/images/patterns/Quick Turn/" + _patternName + "/" + _layer_no + ".png";
-            }
-
             fabric.Image.fromURL(_localName, function (oImg) {
                 
                 ub.data.previewContainer[_layer_no] = oImg;
@@ -1689,6 +1685,9 @@ $(document).ready(function () {
             var sort_id = index + 1;
 
             var id = _object.pattern_id.toString();
+
+            // exit if `undefined`
+            if (typeof ub.funcs.getPatternByID(id) === 'undefined') { return; }
 
             _newObject = {
                 sortID: sort_id,
