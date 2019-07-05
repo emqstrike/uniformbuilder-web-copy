@@ -2469,11 +2469,15 @@
     <div class="rotation-container">
 
         <label>Code:</label><strong class="number">@{{applicationCode}}</strong>
+        @{{#notSavedDesign}}
+        <strong class="number">Pattern Position: @{{patternPosition}} </strong> 
+        @{{/notSavedDesign}}
         <br /><br />
 
         <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong> 
         <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong> 
         <br />
+        
         <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
         <br /> 
 
