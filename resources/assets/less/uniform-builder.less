@@ -3726,7 +3726,7 @@ div.header-container.main {
         color: red;
     }
 
-    div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer, div#order-status {
+    div#uniform-price-item-codes, div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer, div#order-status {
 
         position: absolute;
         color: @ubBlack;
@@ -3788,7 +3788,64 @@ div.header-container.main {
 
     }
 
+    div#uniform-price-item-codes {
+        margin-top: 10.1em;
+
+        .dropdown.bootstrap-select.bs3 {
+            background-color: #1e1e1e;
+            color: #fbfbfb;
+            text-transform: uppercase;
+            font-size: .9em;
+            border: #000;
+            border-radius: 0;
+            font-family: Gotham-Book;
+            
+            button {
+                font-size: 1em;
+                font-weight: bold;
+                background-color: #1e1e1e;
+                color: #e7e7e7;
+                padding: .1em 1em;
+            }
+
+            .dropdown-menu>li>a {
+                padding: .1em 1em;
+                font-size: .85em;
+            }
+
+            a.selected.active {
+                background: none;
+                color: #3f3f3f;
+            }
+
+            a.selected.active:hover {
+                color: white;
+            }
+
+            div.filter-option-inner-inner {
+                text-shadow: none;
+            }
+
+            ul.dropdown-menu.inner {
+                font-size: .9em;
+            }
+
+            div.dropdown-menu.open {
+                position: absolute;
+                z-index: 1001;
+                left: 0;
+            }
+        }
+
+        option {
+            background-color: #fbfbfb;
+            color: #1e1e1e;
+        }
+
+    }
+
     div#uniform-price-call-for-team-pricing.single { margin-top: 6.8em; }
+    div#uniform-price-item-codes.single { margin-top: 8.3em; }
 
     div#return-to-customizer {
 
@@ -9745,7 +9802,7 @@ div.header-container.main {
 
         div.free-feedback-form{
 
-            cursor: grab;
+            // cursor: grab;
             padding: 30px;
             display: none;
             position: absolute;

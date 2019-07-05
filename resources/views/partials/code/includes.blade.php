@@ -50,3 +50,6 @@
 <script src="{{$asset_storage}}/codyhouse-content-filter/js/jquery.mixitup.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/codyhouse-content-filter/js/main.js?v={{$asset_version}}"></script> <!-- Resource jQuery -->
 <!-- end CD content filter -->
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{{$asset_storage}}/bootstrap-select-1.13.9/js/bootstrap-select.min.js?v={{$asset_version}}"></script>

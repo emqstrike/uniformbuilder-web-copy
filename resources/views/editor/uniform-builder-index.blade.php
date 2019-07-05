@@ -43,6 +43,8 @@
             <div id="uniform-price-youth"></div>
             <div id="uniform-price-adult"></div>
             <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
+            <div id="uniform-price-item-codes"><select></select></div>
+
             <div id="saved_design_name"></div>
 
             <div id="order-status"></div>

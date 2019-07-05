@@ -16,6 +16,7 @@ $(document).ready(function() {
         $('div#left-side-toolbar').hide();
         $('div#livechat-compact-container').hide();
         $('div#main_container').css('margin-top','0px');
+        $('div#uniform-price-item-codes').hide();
         $('button#button-return-to-customizer').show();
         $('button#button-return-to-customizer').html('<i class="fa fa-arrow-left" aria-hidden="true"></i> Go back to Customizer [ESC]');
         
@@ -172,6 +173,7 @@ $(document).ready(function() {
         $('div#livechat-compact-container').show();
         $('div#left-side-toolbar').show();
         $('div#main_container').css('margin-top','70px');
+        $('div#uniform-price-item-codes').show();
         $('button#button-return-to-customizer').hide();
 
         $('nav.navbar').show();

@@ -1642,7 +1642,10 @@ $(document).ready(function () {
 
         });
 
-        var $layerTool = $popup;
+        // set draggable pop-up
+        var draggables = $('div#primaryPatternPopup, div#primaryMascotPopup, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
+
+        var $layerTool = draggables;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
 

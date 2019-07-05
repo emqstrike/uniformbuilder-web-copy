@@ -457,11 +457,14 @@ $(document).ready(function () {
                 $('span.youthPriceCustomizerSale').hide();
                 $('span.adult-label').html('Price starts from ');
                 $('div#uniform-price-youth').hide();
+                // $('div#uniform-price-item-code-youth').hide();
 
                 $('span.adult-str').html('Price Starts ');
 
+                //$('div#uniform-price-item-code-adult').addClass('single');
                 $('div#uniform-price-adult').addClass('single');
                 $('div#uniform-price-call-for-team-pricing').addClass('single');
+                $('div#uniform-price-item-codes').addClass('single');
 
             }
 
@@ -472,6 +475,71 @@ $(document).ready(function () {
             ub.funcs.updateEmbellishmentList();
 
         };
+
+        ub.funcs.getPriceItemCodes = function (priceProperties) {
+            var data = _.chain(priceProperties)
+            .groupBy('price_item')
+            .map(function(value, key) { 
+                return {
+                    price_item: key, 
+                    sizes: _.pluck(value, 'size')
+                }
+            })
+            return data.value();
+        }
+
+        ub.funcs.showPriceItemCodes = function () {
+
+            // wrapped obj and formatted using underscore js _.chain() for some apparels
+            var youthPriceItemCodes = ub.funcs.getPriceItemCodes(JSON.parse(ub.current_material.material.pricing).properties.youth);
+            var adultPriceItemCodes = ub.funcs.getPriceItemCodes(JSON.parse(ub.current_material.material.pricing).properties.adult);
+            // pricing properties 
+            var pricingProperties = JSON.parse(ub.current_material.material.pricing);
+
+            if (ub.funcs.isSocks() === false && ub.sport !== "Cinch Sack (Apparel)") {
+
+                if (youthPriceItemCodes.length === 1) {
+                    $('#uniform-price-item-codes select').append('<option>'+_.first(youthPriceItemCodes[0].sizes)+'-'+_.last(youthPriceItemCodes[0].sizes)+' ('+ youthPriceItemCodes[0].price_item+')'+'</option>');
+                }else{
+                    youthPriceItemCodes.forEach(function(data) {
+                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
+                    });
+                };
+
+                if (adultPriceItemCodes.length === 1) {
+                    $('#uniform-price-item-codes select').append('<option>'+_.first(adultPriceItemCodes[0].sizes)+'-'+_.last(adultPriceItemCodes[0].sizes)+' ('+ adultPriceItemCodes[0].price_item+')'+'</option>');
+                }else{
+                    adultPriceItemCodes.forEach(function(data) {
+                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
+                    });
+                };
+            };
+
+            if (ub.funcs.isSocks()) {
+                pricingProperties.properties.youth.forEach(function(data) {
+                    $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                });
+
+                pricingProperties.properties.adult.forEach(function(data) {
+                    $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                });
+            };
+
+            if (ub.sport === "Cinch Sack (Apparel)") {
+                if (youthPriceItemCodes.length == 1) {
+                    $('#uniform-price-item-codes select').append('<option>'+_.first(youthPriceItemCodes[0].sizes)+' ('+youthPriceItemCodes[0].price_item+')'+'</option>');
+                };
+
+                if (adultPriceItemCodes.length == 1) {
+                    $('#uniform-price-item-codes select').append('<option>'+_.first(adultPriceItemCodes[0].sizes)+' ('+adultPriceItemCodes[0].price_item+')'+'</option>');
+                }
+            };
+
+            // bootstrap-select
+            $('#uniform-price-item-codes select').selectpicker({
+                width: 'auto'
+            });
+        }
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
@@ -498,6 +566,8 @@ $(document).ready(function () {
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
+
+            ub.funcs.showPriceItemCodes();
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
