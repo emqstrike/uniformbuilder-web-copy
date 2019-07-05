@@ -105,7 +105,7 @@ new Vue({
     },
     methods: {
         add() {
-            this.action = 'add';
+            this.errors = [];
             this.randomFeedImage = {
                 sport: null,
                 block_pattern: null,
@@ -117,6 +117,7 @@ new Vue({
             this.randomFeedImageDialog = true;
         },
         cancel(randomFeedImage) {
+            this.action = 'add';
             Object.assign(randomFeedImage, this.randomFeedImageCache);
             this.randomFeedImageDialog = false;
         },
