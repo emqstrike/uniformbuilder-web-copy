@@ -509,6 +509,22 @@ $(document).ready(function () {
                 scaleY: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.y.toFixed(4),
             };
 
+            // for Pattern Position info display
+            if (typeof ub.config.savedDesignInfo !== 'object') {
+                var temp = 0;
+                var calibration = 0;
+
+                if (_.contains(ub.uiData.patternSliderRange.forCalibration, _application.pattern_obj.name)) {
+                    calibration = ub.uiData.patternSliderRange.adjustedStart;
+                }
+
+                temp = _application.pattern_settings.position.y - calibration;
+                _primaryView.application.appDefPatternPosition = '' + temp;
+
+                data.notSavedDesign = (typeof ub.config.savedDesignInfo !== 'object' && typeof _application.pattern_settings !== 'undefined');
+                data.patternPosition = _primaryView.application.appDefPatternPosition;
+            }
+
             var markup = Mustache.render(template, data);
             $('div.preview-panel > div.body').html(markup);
 

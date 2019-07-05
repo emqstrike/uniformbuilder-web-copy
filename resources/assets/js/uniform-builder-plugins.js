@@ -3074,6 +3074,10 @@
 
                 _container.position.y = _applicationSettings.pattern_settings.position.y;
 
+                if (typeof ub.config.savedDesignInfo !== 'object') {
+                    _container.position.y = _calibration + _applicationSettings.pattern_settings.position.y;
+                }
+
             } else {
 
                 _position = {x: 0, y: 0};
