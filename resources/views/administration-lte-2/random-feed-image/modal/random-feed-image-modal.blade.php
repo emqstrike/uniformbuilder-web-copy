@@ -6,17 +6,23 @@
         </v-card-title>
 
         <v-card-text>
+            <v-alert :value="true" color="error" v-if="errors.length">
+                <ul>
+                    <li v-for="error in errors">@{{ error }}</li>
+                </ul>
+            </v-alert>
+
             <div class="form-group">
                 <label class="control-label">Sport</label>
-                <select v-model="randomFeedImage.sport_id" class="form-control">
-                    <option v-for="sport in sports" v-if="sport.name != ''" :value="sport.id">@{{ sport.name }}</option>
+                <select v-model="randomFeedImage.sport" class="form-control">
+                    <option v-for="sport in sports" v-if="sport.name != ''" :value="sport.name">@{{ sport.name }}</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label class="control-label">Block Pattern</label>
-                <select v-model="randomFeedImage.block_pattern_id" class="form-control">
-                    <option v-for="blockPattern in blockPatternOptions" :value="blockPattern.id">
+                <select v-model="randomFeedImage.block_pattern" class="form-control">
+                    <option v-for="blockPattern in blockPatternOptions" :value="blockPattern.name">
                         @{{ blockPattern.name }}
                     </option>
                 </select>
