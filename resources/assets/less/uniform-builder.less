@@ -2649,6 +2649,12 @@ div#main-picker-container {
 
     }
 
+    @media only screen and (max-width: 1536px) {
+      div.secondary-bar > span.slink {
+        width: 200px;
+      }
+    }
+
 /// Tertiary Bar 
 
     div.tertiary-bar, div.quarternary-bar  {
@@ -9866,7 +9872,14 @@ div.header-container.main {
                 }
 
             }
+            
+            // parsley error msg
+            .parsley-error { border-color: red; }
+            ul.parsley-errors-list.filled {
+                color: red;
 
+                li { float: right; }
+            }
         }
 
     /* End Feedback Form */
