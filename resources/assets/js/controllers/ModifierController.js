@@ -133,13 +133,15 @@ ModifierController.prototype = {
 
         // logo
         if (typeof ub.data.logos === "undefined" || ub.data.logos.length < 1) {
-            $('.menu-item-logo', tabs_el).hide();
+            $('.menu-item-logo', tabs_el).remove();
         }
 
         // If user is not a dealer remove roster
 
         if (!ub.funcs.isDealer()) {
-            $('.menu-item-roster', tabs_el).remove();
+            $('.menu-item-roster', tabs_el).hide();
+        } else {
+            $('.menu-item-roster', tabs_el).show();
         }
 
         $('a', tabs_el).each(function(index, el) {

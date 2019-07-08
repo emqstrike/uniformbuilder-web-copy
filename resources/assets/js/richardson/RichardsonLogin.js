@@ -108,11 +108,7 @@ RichardsonLogin.events = {
                     ub.funcs.afterLogin();
                     UIkit.modal("#richardson-user-login").hide();
                     $(".richardson-footer .user-login").hide();
-
-                    if (ub.user.type === "dealer") {
-                        $("#property-modifiers-menu .menu-item-roster").show();
-                    }
-
+                    ub.modifierController.setMenus();
                     RichardsonSkin.funcs.setupFooter();
                     RichardsonSaveDesign.events.init();
                 } else {
