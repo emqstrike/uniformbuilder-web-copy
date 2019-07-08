@@ -54,7 +54,7 @@
                     @{{ #isDealer }}
                         <div class="uk-width-1-1">
                             <div class="uk-grid-collapse uk-child-width-expand@s" uk-grid>
-                                <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-top-right uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
+                                <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-darkerGray fc-light bdr-none uk-text-bold uk-text-capitalize abrade-ultra-italic manage-team-roster">Manage Roster</a>
                             </div>
                         </div>
                         <a href="javascript:void(0)" class="link-reset uk-padding-remove-horizontal padding-tiny-vertical bgc-red fc-light uk-text-bold uk-width-1-1 uk-text-capitalize abrade-ultra-italic uniform-summary-preview">Finish / View &nbsp;Summary</a>

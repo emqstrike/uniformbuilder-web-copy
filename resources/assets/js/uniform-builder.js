@@ -475,9 +475,13 @@ $(document).ready(function () {
         }
 
         ub.funcs.afterLogin = function () {
-
             ub.funcs.updateEmbellishmentList();
 
+            if (ub.config.brand.toLowerCase() === "richardson") {
+                ub.modifierController.setMenus();
+                RichardsonSkin.funcs.setupFooter();
+                RichardsonSaveDesign.events.init();
+            }
         };
 
         ub.data.afterLoadCalled = 0;

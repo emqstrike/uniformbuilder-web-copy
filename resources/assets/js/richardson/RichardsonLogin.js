@@ -95,6 +95,7 @@ RichardsonLogin.events = {
                         defaultRepID: response.default_rep_id,
                         headerValue: response.accessToken,
                     };
+                    
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
                     ub.id = response.userID;
 
@@ -106,11 +107,8 @@ RichardsonLogin.events = {
                     }
 
                     ub.funcs.afterLogin();
+                    // Hide Login Modal
                     UIkit.modal("#richardson-user-login").hide();
-                    $(".richardson-footer .user-login").hide();
-                    ub.modifierController.setMenus();
-                    RichardsonSkin.funcs.setupFooter();
-                    RichardsonSaveDesign.events.init();
                 } else {
                     $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
                     $("#r-login input[name='email']").addClass('uk-form-danger')
