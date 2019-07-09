@@ -213,6 +213,11 @@ $(document).ready(function(){``
 
     $(document).on('click', '.clone-row', function() {
         var x = $( ".layers-row:first" ).clone();
+        x.find('.layer-default-color').removeAttr('style');
+        
+        var clonedDefaultValue = x.find('.layer-default-color option:first').val();
+        x.find('.layer-default-color').val(clonedDefaultValue);
+
         y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
         $('#layers-row-container').append(x);
         $(x).append(y);
@@ -226,14 +231,6 @@ $(document).ready(function(){``
         });
 
         var length = $('.layers-row').length;
-
-        $(".layer-default-color").each(function(i) {
-            $(this).html('');
-            var thisElem = $(this);
-            $(this).append(colors_dropdown);
-        });
-
-
     });
 
     for( var i = 0; i <= 10; i++ ){
@@ -377,17 +374,20 @@ $(document).ready(function(){``
             }
 
             var colors_dropdown = '';
+            var backgroundColor = '';
+
             $.each(window.colors, function( key, value ) {
                 var selected = '';
                 if( data[x].default_color == value.color_code ){
                     selected = 'selected';
+                    backgroundColor =  '#' + value.hex_code;
                 }
                 colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" ' + selected + '>' + value.name + '</option>';
             });
 
             var open            = '<tr class="layers-row">';
             var layer           = '<td><input type="text" class="ma-layer layer' + x + '" value="' + x + '" size="3" disabled></td>';
-            var default_color   = '<td><select class="layer-default-color layer' + x + '">' + colors_dropdown + '</select></td>';
+            var default_color   = '<td><select class="layer-default-color layer' + x + '" style="background: ' + backgroundColor +'; color: #ffffff; text-shadow: 1px 1px #000;">' + colors_dropdown + '</select></td>';
             var new_file        = '<td><input type="file" class="pattern-layer-file layer' + x + '" name="pattern_layer_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].file_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" class="pattern-source layer' + x + '" value="' + data[x]['file_path'] + '"></td>';
             var lowres_new_file        = '<td><input type="file" class="pattern-lowres-layer-file layer' + x + '" name="pattern_lowres_layer_image[]"></td>';
