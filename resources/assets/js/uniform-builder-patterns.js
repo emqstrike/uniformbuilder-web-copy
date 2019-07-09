@@ -426,6 +426,9 @@ $(document).ready(function () {
 
                     ub.funcs.changePatternPosition(settingsObj.code, data.from);
 
+                    // update Specs panel (info container for ga)
+                    ub.updateApplicationSpecsPanel(settingsObj.code);
+
                 },
 
             });

@@ -8587,15 +8587,15 @@ $(document).ready(function() {
             // Debug Info
             if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_id);
+                // console.log('Default Sizes: ');
+                // console.log(_sizes);
+                // console.log('Application #: ');
+                // console.log(_id);
 
-                ub.utilities.info('Using sizes from backend: ');
+                // ub.utilities.info('Using sizes from backend: ');
 
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
+                // console.log(_sizesFromConfig);
+                // console.log(_sizesFromConfig.sizes);
                 //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
                 // add sort for sizes

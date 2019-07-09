@@ -250,6 +250,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@index'])->name('v1_menus');
             Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@store'])->name('v1_store_new_menu');
 
+            // Random Feed Images
+            Route::get('random_feed_images', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\RandomFeedImageController@index'])->name('v1_index_random_feed_image');
+
             // Pages
             Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
 
