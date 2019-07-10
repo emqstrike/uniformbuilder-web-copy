@@ -1645,10 +1645,7 @@ $(document).ready(function () {
 
         });
 
-        // set draggable pop-up
-        var draggables = $('div#primaryPatternPopup, div#primaryMascotPopup, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
-
-        var $layerTool = draggables;
+        var $layerTool = $popup;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
 

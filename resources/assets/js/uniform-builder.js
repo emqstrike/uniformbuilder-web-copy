@@ -1,7 +1,7 @@
 // UBJS
 $(document).ready(function () {
  
-    /// NEW RENDERER ///
+    /// NEW RENDERER /// 
 
         /// Initialize Uniform Builder
 
@@ -7482,6 +7482,86 @@ $(document).ready(function () {
            
         }
 
+        /**
+        *  Function for price item code tooltips
+        */
+    
+        // check
+        function isUniform(index, uniformCategory) {
+            var uniformCategories = _.pluck(ub.tempItems, 'uniform_category');
+
+            if (uniformCategories[index] === uniformCategory) { return true; }
+            else { return false; }
+        }
+
+        // get price item codes on a object
+        function getObjectPriceItemCode(object) {
+            return _.map(object, function(value) {
+                return _.mapObject(value.parsedPricingTable.properties,function(data) {
+                    return _.chain(data)
+                    .groupBy('price_item')
+                    .map(function(value, key) { 
+                            return { price_item : key, sizes: _.pluck(value, 'size') }
+                    }).value();
+                });
+            })
+        }
+
+        // for uniforms and search result function
+        function showPriceItemCodesTooltip(index, div) {
+
+            var title = '';
+
+            // uniforms
+            if (!isUniform(index, "Cinch Sack (Apparel)") && !isUniform(index, "Socks (Apparel)") && !isUniform(index, "Crew Socks (Apparel)")) {
+                // youth price item codes
+                if (typeof priceItemCodes[index].youth !== 'undefined') {
+                    priceItemCodes[index].youth.forEach(function(data) {
+                        title += _.first(data.sizes)+' - '+_.last(data.sizes)+' ('+data.price_item+') \n';
+                    })
+                };
+                // adult price item codes
+                if (typeof priceItemCodes[index].adult !== 'undefined') { 
+                    priceItemCodes[index].adult.forEach(function(data) {
+                        title += _.first(data.sizes)+' - '+_.last(data.sizes)+' ('+data.price_item+') \n';
+                    })
+                };
+            }
+
+            // Socks tooltip format
+            if (isUniform(index, "Socks (Apparel)") || isUniform(index, "Crew Socks (Apparel)")) {
+                if (typeof priceItemCodes[index].youth !== 'undefined') {
+                    priceItemCodes[index].youth.forEach(function(data) {
+                        title +='Youth: ('+data.price_item+') \n';
+                    })
+                };
+                // adult price item codes
+                if (typeof priceItemCodes[index].adult !== 'undefined') { 
+                    priceItemCodes[index].adult.forEach(function(data) {
+                        title +='Adult:  ('+data.price_item+') \n';
+                    })
+                };
+            };
+
+            // Cinch Sack (Apparel)
+            if (isUniform(index, "Cinch Sack (Apparel)")) { 
+                if (typeof priceItemCodes[index].youth !== 'undefined') {
+                    priceItemCodes[index].youth.forEach(function(data) {
+                        title +='1 Size: ('+data.price_item+') \n';
+                    })
+                };
+                // adult price item codes
+                if (typeof priceItemCodes[index].adult !== 'undefined') { 
+                    priceItemCodes[index].adult.forEach(function(data) {
+                        title +='1 Size: ('+data.price_item+') \n';
+                    })
+                };
+            };
+
+            div.attr('title', title);
+        }
+
+
         if (type === 'uniforms') {
 
             var _sport = gender;
@@ -7543,10 +7623,11 @@ $(document).ready(function () {
 
             }
 
+            var priceItemCodes = getObjectPriceItemCode(ub.tempItems); // Used for showPriceItemCodesTooltip(index, div) !important
             var markup = Mustache.render(template, data);
             $.when($scrollerElement.html(markup)).then(
 
-                $('.main-picker-items').each(function(item) {
+                $('.main-picker-items.grow').each(function(index, item) {
 
                     var imgt = $(this).find('img');
 
@@ -7608,8 +7689,12 @@ $(document).ready(function () {
 
                     }
 
-                })
+                    // show the price item codes when mouseovered on a div.main-item-picker
+                    if (typeof $(this).data('id') !== 'undefined') {
+                        showPriceItemCodesTooltip(index, $(this));
+                    }
 
+                })  
             );
 
             ub.funcs.hideIpadUniforms();
@@ -7949,11 +8034,11 @@ $(document).ready(function () {
 
             } 
 
-            _transformedUnique = _.uniq(_transformed);
+            ub.tempItems = _.uniq(_transformed);
                 
             var data = {
                 picker_type: type,
-                picker_items: _transformedUnique,
+                picker_items: ub.tempItems,
                 uniform_type: function () {
 
                     return function (text, render) {
@@ -7969,10 +8054,11 @@ $(document).ready(function () {
                 }
             }
 
+            var priceItemCodes = getObjectPriceItemCode(ub.tempItems); // Used for showPriceItemCodesTooltip(index, div) !important
             var markup = Mustache.render(template, data);
             $.when($scrollerElement.html(markup)).then(
 
-                $('.main-picker-items').each(function(item) {
+                $('.main-picker-items.grow').each(function(index, item) {
 
                     var imgt = $(this).find('img');
 
@@ -8034,6 +8120,11 @@ $(document).ready(function () {
 
                     }
 
+                    // show the price item codes when mouseovered on a div.main-item-picker
+                    if (typeof $(this).data('id') !== 'undefined') {
+                        showPriceItemCodesTooltip(index, $(this));
+                    }
+
                 })
 
             );
@@ -8058,13 +8149,13 @@ $(document).ready(function () {
 
             if (!_betaUniformsOk ) {
 
-                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+                ub.tempItems = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
 
             } 
                 
             var data = {
                 picker_type: type,
-                picker_items: uniques,
+                picker_items: ub.tempItems,
                 uniform_type: function () {
 
                     return function (text, render) {
@@ -8080,10 +8171,11 @@ $(document).ready(function () {
                 }
             }
 
+            var priceItemCodes = getObjectPriceItemCode(ub.tempItems); // Used for showPriceItemCodesTooltip(index, div) !important
             var markup = Mustache.render(template, data);
             $.when($scrollerElement.html(markup)).then(
 
-                $('.main-picker-items').each(function(item) {
+                $('.main-picker-items.grow').each(function(index, item) {
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
@@ -8105,6 +8197,10 @@ $(document).ready(function () {
                         }
                     }
 
+                    // show the price item codes when mouseovered on a div.main-item-picker
+                    if (typeof $(this).data('id') !== 'undefined') {
+                        showPriceItemCodesTooltip(index, $(this));
+                    }
                 })
 
             );
