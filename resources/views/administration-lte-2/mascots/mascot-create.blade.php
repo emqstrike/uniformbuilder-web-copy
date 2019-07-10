@@ -41,6 +41,15 @@ select:hover {
                                 <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}" >
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-alias" name="alias" value="{{ old('alias') }}" >
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Category</label>
                             <div class="col-md-6">

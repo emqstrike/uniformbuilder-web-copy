@@ -79,6 +79,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Code</th>
+                            <th>Alias</th>
                             <th id="select-filter">Category</th>
                             <th>Sports</th>
                             <th>Icon</th>
@@ -99,6 +100,9 @@
                             </td>
                             <td class="col-md-1">
                                 {{ $mascot->code }}
+                            </td>
+                            <td class="col-md-1">
+                                {{ $mascot->alias }}
                             </td>
                             <td class="col-md-2">
                                 {{ $mascot->category }}
