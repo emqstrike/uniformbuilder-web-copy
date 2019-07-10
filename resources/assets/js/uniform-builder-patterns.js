@@ -796,8 +796,6 @@ $(document).ready(function () {
         if (ub.current_material.material.block_pattern === 'Quick Turn') {
             _patternObject =  _.find(ub.data.qtPatterns.items, {id: _patternID.toString()});
         }
-
-        console.log('patternObj => ', _patternObject);
         
         _.each (_patternObject.layers, function (layer)  {
 
