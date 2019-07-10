@@ -130,7 +130,8 @@ class MascotsController extends Controller
             'category' => $category,
             'layers_properties' => $layersProperties,
             'sports' => $sports,
-            'brand' => $brand
+            'brand' => $brand,
+            'alias' => $request->input('alias')
         ];
 
         $id = null;
