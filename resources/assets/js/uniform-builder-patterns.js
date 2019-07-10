@@ -796,12 +796,14 @@ $(document).ready(function () {
         if (ub.current_material.material.block_pattern === 'Quick Turn') {
             _patternObject =  _.find(ub.data.qtPatterns.items, {id: _patternID.toString()});
         }
+
+        console.log('patternObj => ', _patternObject);
         
         _.each (_patternObject.layers, function (layer)  {
 
             var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
 
-            if (typeof team_color !== 'undefined' && ub.current_material.material.block_pattern !== 'Quick Turn') {
+            if (typeof team_color !== 'undefined') {
 
                 layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
 
@@ -933,6 +935,7 @@ $(document).ready(function () {
             var layerID     = layer.layer_no;
 
             var y = -50;
+            var height = 350;
 
             _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
@@ -940,9 +943,10 @@ $(document).ready(function () {
 
             if (ub.current_material.material.block_pattern === 'Quick Turn') {
                 y = 46;
+                height = 250;
             }
 
-            _htmlBuilder    += '<defs><pattern id="image" x="50" y="' + y + '" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="250" xlink:href=""></image></pattern></defs>';
+            _htmlBuilder    += '<defs><pattern id="image" x="50" y="' + y + '" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="' + height + '" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
