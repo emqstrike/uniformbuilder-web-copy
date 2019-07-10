@@ -1644,8 +1644,8 @@ $(document).ready(function () {
             left: _left,
 
         });
-
-        var $layerTool = $popup;
+        var draggable = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
+        var $layerTool = draggable;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
 
