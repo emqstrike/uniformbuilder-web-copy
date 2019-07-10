@@ -1,7 +1,6 @@
 let randomFeedImageProperties = {
-    sport_id: null,
-    block_pattern_id: null,
-    block_pattern_id: null,
+    sport: null,
+    block_pattern: null,
     block_pattern_option: null,
     thumbnail: null,
     set: null,
@@ -15,10 +14,11 @@ new Vue({
             action: "",
             blockPatterns: [],
             dialog: false,
+            errors: [],
             headers: [
                 {text: 'ID', value: 'id'},
-                {text: 'Sport', value: 'sport_id'},
-                {text: 'Block Pattern', value: 'block_pattern_id'},
+                {text: 'Sport', value: 'sport'},
+                {text: 'Block Pattern', value: 'block_pattern'},
                 {text: 'Block Pattern Option', value: 'block_pattern_option'},
                 {text: 'Thumbnail', value: 'thumbnail'},
                 {text: 'Set', value: 'set'},
@@ -48,7 +48,7 @@ new Vue({
 
             this.blockPatterns.forEach(blockPattern => {
                 if (Object.keys(this.randomFeedImage).length != 0) {
-                    if (this.randomFeedImage.sport_id == blockPattern.uniform_category_id) {
+                    if (this.randomFeedImage.sport == blockPattern.uniform_category) {
                         blockPatterns.push(blockPattern);
                     }
                 }
@@ -61,7 +61,7 @@ new Vue({
 
             this.blockPatterns.forEach(blockPattern => {
                 if (Object.keys(this.randomFeedImage).length != 0) {
-                    if (this.randomFeedImage.sport_id == blockPattern.uniform_category_id) {
+                    if (this.randomFeedImage.sport == blockPattern.uniform_category) {
                         let _blockPatternOption = JSON.parse(blockPattern.neck_options);
 
                         try {
@@ -105,11 +105,19 @@ new Vue({
     },
     methods: {
         add() {
-            this.action = 'add';
-            this.randomFeedImage = randomFeedImageProperties;
+            this.errors = [];
+            this.randomFeedImage = {
+                sport: null,
+                block_pattern: null,
+                block_pattern_option: null,
+                thumbnail: null,
+                set: null,
+                alias: null,
+            };
             this.randomFeedImageDialog = true;
         },
         cancel(randomFeedImage) {
+            this.action = 'add';
             Object.assign(randomFeedImage, this.randomFeedImageCache);
             this.randomFeedImageDialog = false;
         },
@@ -148,7 +156,7 @@ new Vue({
             return new Promise((resolve, reject) => {
                 const { sortBy, descending, page, rowsPerPage } = this.pagination;
 
-                axios.get('random_feed_images?page=' + page).then((response) => {
+                axios.get('random_feed_images/paginate?page=' + page).then((response) => {
                     if (response.data.success === true) {
                         let randomFeedImages = response.data.random_feed_images.data;
                         const total = response.data.random_feed_images.total;
@@ -235,6 +243,7 @@ new Vue({
 
                     setTimeout(() => {
                         this.dialog = this.randomFeedImageDialog = false;
+                        this.errors = [];
 
                         new PNotify({
                             title: 'Random feed image saved',
@@ -243,7 +252,12 @@ new Vue({
                             delay: 1000
                         });
                     }, 1000);
-                } else {
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                }  else {
                     setTimeout(() => {
                         this.dialog = false;
 
@@ -264,6 +278,7 @@ new Vue({
                 if (response.data.success === true) {
                     setTimeout(() => {
                         this.dialog = this.randomFeedImageDialog = false;
+                        this.errors = [];
 
                         new PNotify({
                             title: 'Random feed image updated',
@@ -272,7 +287,12 @@ new Vue({
                             delay: 1000
                         });
                     }, 1000);
-                } else {
+                } else if ((response.data.success === false) && (response.data.errors.length > 0)) {
+                    setTimeout(() => {
+                        this.dialog = false;
+                        this.errors = response.data.errors;
+                    }, 1000);
+                }  else {
                     setTimeout(() => {
                         this.dialog = false;
 

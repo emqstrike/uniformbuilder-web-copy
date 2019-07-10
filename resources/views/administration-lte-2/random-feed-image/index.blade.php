@@ -59,8 +59,8 @@
                                 <v-data-table :headers="headers" :items="randomFeedImages" hide-actions :pagination.sync="computedPagination" :total-items="totalItems" class="elevation-1">
                                     <template slot="items" slot-scope="props">
                                         <td>@{{ props.item.id }}</td>
-                                        <td>@{{ getSportName(props.item.sport_id) }}</td>
-                                        <td>@{{ getBlockPatternName(props.item.block_pattern_id) }}</td>
+                                        <td>@{{ props.item.sport }}</td>
+                                        <td>@{{ props.item.block_pattern }}</td>
                                         <td>@{{ props.item.block_pattern_option }}</td>
                                         <td>
                                             <a :href="props.item.thumbnail" target="_blank">

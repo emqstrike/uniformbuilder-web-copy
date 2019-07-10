@@ -93,6 +93,7 @@ select:hover {
                                 <select class="form-control brand" name="brand" required>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
+                                        <option value="riddell">Riddell</option>
                                 </select>
                               </div>
                         </div>
@@ -286,6 +287,8 @@ $(document).ready(function(){
 
     $(document).on('click', '.clone-row', function() {
         var x = $( ".layers-row:first" ).clone();
+        x.find('.layer-default-color').removeAttr('style');
+
         y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
         $('#layers-row-container').append(x);
         $(x).append(y);
@@ -300,14 +303,6 @@ $(document).ready(function(){
         });
 
         var length = $('.layers-row').length;
-
-        $(".layer-default-color").each(function(i) {
-            $(this).html('');
-            var thisElem = $(this);
-            $(this).append(colors_dropdown);
-        });
-
-
     });
 
     for( var i = 0; i <= 10; i++ ){

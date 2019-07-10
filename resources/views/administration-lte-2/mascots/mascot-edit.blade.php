@@ -47,6 +47,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-alias" name="alias" value="{{ $mascot->alias }}" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">Category</label>
                             <div class="col-md-6">
                                 <select name='category' class="form-control mascot-category" required="true">
