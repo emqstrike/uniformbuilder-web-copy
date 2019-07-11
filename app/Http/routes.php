@@ -172,6 +172,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
             Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm'])->name('v1_edit_piping');
             Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings'])->name('v1_piping_add');
+            Route::get('material/{id}/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@modifyPattern'])->name('v1_modify_pattern');
+            Route::post('material/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@saveModifyPattern'])->name('v1_save_modify_pattern');
             Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed'])->name('v1_random_feed');
             Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping'])->name('v1_update_single_piping');
             Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings'])->name('v1_update_piping');
@@ -247,6 +249,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             // Menu
             Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@index'])->name('v1_menus');
             Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@store'])->name('v1_store_new_menu');
+
+            // Random Feed Images
+            Route::get('random_feed_images', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\RandomFeedImageController@index'])->name('v1_index_random_feed_image');
 
             // Pages
             Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
@@ -546,7 +551,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\SavedDesignsController@index']);
 
     // Tailsweeps
-    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index']);
+    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index'])->name('index_tailsweeps');
     Route::get('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@create']);
     Route::post('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
     Route::get('tailsweep/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@editTailsweepForm']);

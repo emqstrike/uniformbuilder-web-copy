@@ -2490,14 +2490,14 @@ $(document).ready(function() {
 
             // fix saved design error on `Volleyball` Ace Crew Neck block pattern
             // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof _settingsObject.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[_settingsObject.code];
-                    return;
-            }
+            // if (typeof ub.config.savedDesignInfo === 'object' &&
+            //     typeof _settingsObject.mascot !== 'undefined' 
+            //     && ub.config.sport === "Volleyball"
+            //     && ub.config.blockPattern === "Ace Crew Neck"
+            //     && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
+            //         delete ub.current_material.settings.applications[_settingsObject.code];
+            //         return;
+            // }
             
             _.each(ub.views, function(_view) {
 
@@ -4047,6 +4047,12 @@ $(document).ready(function() {
 
             var _obj = _.find(ub.data.modifierLabels, {fullname: tempName});
 
+            // exit if `_obj` is undefined
+            if (typeof _obj === 'undefined') { 
+                console.warn(tempName + ' label not found!');
+                return; 
+            }
+
             _index = _obj.index;
 
         }
@@ -4169,7 +4175,7 @@ $(document).ready(function() {
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
         if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
-            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt', 'gutter'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }
 
@@ -4504,13 +4510,6 @@ $(document).ready(function() {
         }
 
     };
-
-    ub.funcs.getPatternByID = function (id) {
-
-      var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
-      return _patternObject;
-
-    }
 
     ub.funcs.activateColorPickers = function () {
 
@@ -8587,15 +8586,15 @@ $(document).ready(function() {
             // Debug Info
             if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_id);
+                // console.log('Default Sizes: ');
+                // console.log(_sizes);
+                // console.log('Application #: ');
+                // console.log(_id);
 
-                ub.utilities.info('Using sizes from backend: ');
+                // ub.utilities.info('Using sizes from backend: ');
 
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
+                // console.log(_sizesFromConfig);
+                // console.log(_sizesFromConfig.sizes);
                 //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
                 // add sort for sizes

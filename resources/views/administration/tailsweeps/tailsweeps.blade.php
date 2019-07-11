@@ -23,6 +23,21 @@
                             </a>
                         </small>
                     </h1>
+
+                    <div id="filter" style="margin-top: 35px;">
+                        <div class="form-inline">
+                            <label>Brands</label>
+                            <select id="brandsFilter" class="form-control">
+                                <option value="all">All</option>
+
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}" @if (isset($filters['brand']) && ($filters['brand'] == $brand->id)) selected="selected" @endif>
+                                        {{ $brand->site_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' class='table table-bordered tailsweeps'>
@@ -31,6 +46,7 @@
                             <th>ID</th>
                             <th>Tailsweep Name</th>
                             <th>Code</th>
+                            <th>Brand</th>
                             <th>Title</th>
                             <th>Thumbnail</th>
                             <th>Short</th>
@@ -52,6 +68,13 @@
                             </td>
                             <td>
                                 {{ $tailsweep->code }}
+                            </td>
+                            <td>
+                                @foreach ($brands as $brand)
+                                    @if ($brand->id == $tailsweep->brand_id)
+                                        {{ $brand->site_name }}
+                                    @endif
+                                @endforeach
                             </td>
                             <td>
                                 {{ $tailsweep->title }}
@@ -115,6 +138,11 @@
 <!-- <script type="text/javascript" src="/js/administration/tailsweeps.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('#brandsFilter').change(function() {
+        var url = "{{ route('index_tailsweeps') }}/?brand=" + $(this).val();
+        window.location.href = url;
+    });
 
     $(document).on('click', '.delete-tailsweep', function() {
 

@@ -41,6 +41,15 @@ select:hover {
                                 <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}" >
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-alias" name="alias" value="{{ old('alias') }}" >
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Category</label>
                             <div class="col-md-6">
@@ -100,6 +109,7 @@ select:hover {
                                     <thead>
                                         <tr>
                                             <th>Layer</th>
+                                            <th>Layer Name</th>
                                             <th>Team Color ID</th>
                                             <th>File</th>
                                             <th>Default Color</th>
@@ -113,6 +123,11 @@ select:hover {
                                                     <option value = '1' class="layer-number">1</option>
                                                 </select>
                                             </td>
+
+                                            <td>
+                                                <input type="text" class="form-control ma-layer-name layer1" name="ma_layer_name[]">
+                                            </td>
+
                                             <td>
                                                 <select class="ma-team-color-id layer1" name="ma_team_color_id[]">
                                                     <option value="1">1</option>
@@ -127,18 +142,20 @@ select:hover {
                                                     <option value="10">10</option>
                                                 </select>
                                             </td>
+
                                             <td>
                                                 <input type="file" class="ma-options-src layer1" name="ma_image[]" required="true">
                                             </td>
+
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                                @foreach ($colors as $color)
-                                                    @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
-                                                        {{ $color->name }}
-                                                    </option>
-                                                    @endif
-                                                @endforeach
+                                                    @foreach ($colors as $color)
+                                                        @if ($color->active)
+                                                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                            {{ $color->name }}
+                                                        </option>
+                                                        @endif
+                                                    @endforeach
                                                 </select>
                                             </td>
                                         </tr>
@@ -227,6 +244,10 @@ $(document).ready(function(){
             $(this).find('.ma-layer').addClass(thisLayer);
             $(this).find(layer_class).addClass('ma-layer');
 
+            $(this).find('.ma-layer-name').removeClass().addClass('ma-layer-name').addClass(thisLayer);
+            var layer_name_class = ".ma-layer-name.layer" + length;
+            $(this).find(layer_name_class).addClass('ma-layer-name');
+
             $(this).find('.ma-team-color-id').removeClass().addClass("ma-team-color-id");
             $(this).find('.ma-team-color-id').addClass(thisLayer);
             var team_color_id_class = ".ma-team-color-id.layer" + length;
@@ -250,11 +271,13 @@ $(document).ready(function(){
 
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
-             layers_properties[length]['filename'] = $(this).find('.default_img').val();
-            if($(this).find(src_class).val()){
-            layers_properties[length]['filename'] = $(this).find(src_class).val();
+            layers_properties[length]['filename'] = $(this).find('.default_img').val();
+            
+            if ($(this).find(src_class).val()) {
+                layers_properties[length]['filename'] = $(this).find(src_class).val();
+            }
 
-                }
+            layers_properties[length]['layer_name'] = $(this).find(layer_name_class).val();
 
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 

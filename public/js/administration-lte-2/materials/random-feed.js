@@ -9,7 +9,8 @@ window.random_feed_sets = [
                     "Body",
                     "Toe",
                     "Heel",
-                    "Ankle Padding"
+                    "Ankle Padding",
+                    "Main Foot"
                 ];
 
 function buildSetsDropdown(value){
