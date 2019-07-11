@@ -6361,7 +6361,7 @@ $(document).ready(function () {
            var _adjustment    = {x: 0, y: 0};
 
            _adjustment        = ub.funcs.coordinateAdjustments(target_name, clone, v);
-           _extra = ub.getAngleofPattern(v, target_name)
+           _extra = ub.getAngleofPattern(v, target_name);
 
             if (typeof _extra !== 'undefined') {
 
@@ -6372,6 +6372,14 @@ $(document).ready(function () {
 
                 _rotationAngle = 0;
 
+            }
+
+            // ignore pattern angle (rotation) for Quick Turn
+            // Geometric Fade, Net Fade, NS
+            var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
+            if (_.contains(ignoreRotation, clone.name) 
+                && ub.current_material.material.block_pattern === 'Quick Turn') {
+                    _rotationAngle = 0;
             }
 
             pattern_settings.containers[v] = {};

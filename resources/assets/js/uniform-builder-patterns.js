@@ -1603,6 +1603,14 @@ $(document).ready(function () {
                 }    
         };
 
+        // ignore pattern angle (rotation) for Quick Turn
+        // Geometric Fade, Net Fade, NS
+        var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
+        if (_.contains(ignoreRotation, _patternObject.pattern_obj.name) 
+            && ub.current_material.material.block_pattern === 'Quick Turn') {
+                _patternObject.rotation = 0;
+        }
+
         _.each (patternObject.layers, function (_property) {
             
             if (ub.current_material.material.block_pattern === 'Quick Turn') {
@@ -1623,7 +1631,7 @@ $(document).ready(function () {
                     y: 308 + ub.offset.y * 3.3,
                 },
                 container_opacity: 1,
-                container_rotation: ub.funcs.translateAngle(_materialOption.angle),
+                container_rotation: _patternObject.rotation,
                 container_scale: { x:1,y:1 },
             }
 
