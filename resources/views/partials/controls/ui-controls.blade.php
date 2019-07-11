@@ -539,8 +539,18 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;"> - @{{name}}
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
@@ -586,8 +596,18 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>

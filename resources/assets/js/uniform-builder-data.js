@@ -2662,6 +2662,7 @@ $(document).ready(function() {
     ub.data.mascots = undefined;
 
     ub.data.patterns = {};
+    ub.data.qtPatterns = {};
 
     ub.data.genders = [
         {
