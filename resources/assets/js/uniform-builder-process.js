@@ -829,9 +829,9 @@ $(document).ready(function() {
 
                 $('span.ok-btn').on('click', function () {
                     
-                    // parsley validation js plugins
+                    // initialized plugin and validate feedback form fields using parsley.js, a client side validation plugin.
                     $('#feedback-form').parsley().validate();
-                    if($('#feedback-form').parsley().isValid() === false) { return false; };
+                    if($('#feedback-form').parsley().isValid() === false) { return false; }; 
 
                     // console.log('feedback ======> ' + $('#feedback-form').parsley().isValid());
                     // return false;
@@ -866,6 +866,8 @@ $(document).ready(function() {
                     ub.funcs.submitFeedback(_data);
                     $('div.free-feedback-form').remove();
                     ub.feedbackForm = false;
+                    $.smkAlert({text:'Your message has been successfully sent.', type:'success', time:5});
+
                     // } else {
                     //     if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
                     //     if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
