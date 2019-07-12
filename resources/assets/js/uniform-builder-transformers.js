@@ -125,4 +125,17 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.getHexColorById = function (id) {
+
+        var id = id;
+        var color = _.find(ub.data.colors, {id: id});
+
+        if (typeof color == 'undefined') {
+            return undefined;
+        }
+
+        return color.hex_code;
+
+    };
+
 });
