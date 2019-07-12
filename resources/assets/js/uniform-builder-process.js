@@ -828,43 +828,49 @@ $(document).ready(function() {
                 }
 
                 $('span.ok-btn').on('click', function () {
+                    
+                    // parsley validation js plugins
+                    $('#feedback-form').parsley().validate();
+                    if($('#feedback-form').parsley().isValid() === false) { return false; };
+
+                    // console.log('feedback ======> ' + $('#feedback-form').parsley().isValid());
+                    // return false;
 
                     var _name = $('#feedback-form .name').val().trim();
                     var _email = $('#feedback-form .email').val().trim();
                     var _message = $('#feedback-form .message').val().trim();
-
                     var _materialId = $('#feedback-form .materialId').val().trim();
                     var _savedDesignId = $('#feedback-form .savedDesignId').val().trim();
 
-                    function validateEmail(_email) {
-                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                        return re.test(String(_email).toLowerCase());
-                    }
+                    // function validateEmail(_email) {
+                    //     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    //     return re.test(String(_email).toLowerCase());
+                    // }
 
-                    if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
-                        $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
+                    // if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
+                    //     $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
 
-                        var _upload = $('img.img-thumbnail.upload')[0].src;
+                    var _upload = $('img.img-thumbnail.upload')[0].src;
 
-                        if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
+                    if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
 
-                        var _data = {
-                            name: _name,
-                            email: _email,
-                            message: _message,
-                            screenshot: _upload,
-                            material_id: _materialId,
-                            saved_design_id: _savedDesignId
-                        };
+                    var _data = {
+                        name: _name,
+                        email: _email,
+                        message: _message,
+                        screenshot: _upload,
+                        material_id: _materialId,
+                        saved_design_id: _savedDesignId
+                    };
 
-                        ub.funcs.submitFeedback(_data);
-                        $('div.free-feedback-form').remove();
-                        ub.feedbackForm = false;
-                    } else {
-                        if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
-                        if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
-                        if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
-                    }
+                    ub.funcs.submitFeedback(_data);
+                    $('div.free-feedback-form').remove();
+                    ub.feedbackForm = false;
+                    // } else {
+                    //     if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
+                    //     if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
+                    //     if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
+                    // }
 
                 });
 
@@ -875,18 +881,18 @@ $(document).ready(function() {
 
                 });
 
-                // when typing occurs on fields remove error class
-                $('#feedback-form .name').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
+                // // when typing occurs on fields remove error class
+                // $('#feedback-form .name').on('keyup', function(){
+                //     if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+                // });
 
-                $('#feedback-form .email').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
+                // $('#feedback-form .email').on('keyup', function(){
+                //     if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+                // });
 
-                $('#feedback-form .message').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
+                // $('#feedback-form .message').on('keyup', function(){
+                //     if ($(this).val().length !== 0) { $(this).removeClass('error'); }
+                // });
 
                 // triggering click on images for file upload
                 $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
