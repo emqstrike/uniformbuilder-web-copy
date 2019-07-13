@@ -4175,7 +4175,7 @@ $(document).ready(function() {
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
         if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
-            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt', 'gutter'];
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }
 
