@@ -476,6 +476,7 @@ $(document).ready(function () {
 
         };
 
+        // get price item code 
         ub.funcs.getPriceItemCodes = function (priceProperties) {
             var data = _.chain(priceProperties)
             .groupBy('price_item')
@@ -497,18 +498,13 @@ $(document).ready(function () {
             var pricingProperties = JSON.parse(ub.current_material.material.pricing);
 
             if (ub.funcs.isSocks() === false && ub.sport !== "Cinch Sack (Apparel)") {
-
-                if (youthPriceItemCodes.length === 1) {
-                    $('#uniform-price-item-codes select').append('<option>'+_.first(youthPriceItemCodes[0].sizes)+'-'+_.last(youthPriceItemCodes[0].sizes)+' ('+ youthPriceItemCodes[0].price_item+')'+'</option>');
-                }else{
+                if (typeof youthPriceItemCodes !== 'undefined') {
                     youthPriceItemCodes.forEach(function(data) {
                         $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
                     });
                 };
 
-                if (adultPriceItemCodes.length === 1) {
-                    $('#uniform-price-item-codes select').append('<option>'+_.first(adultPriceItemCodes[0].sizes)+'-'+_.last(adultPriceItemCodes[0].sizes)+' ('+ adultPriceItemCodes[0].price_item+')'+'</option>');
-                }else{
+                if (typeof adultPriceItemCodes.length !== 'undefined') {
                     adultPriceItemCodes.forEach(function(data) {
                         $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
                     });
@@ -516,28 +512,31 @@ $(document).ready(function () {
             };
 
             if (ub.funcs.isSocks()) {
-                pricingProperties.properties.youth.forEach(function(data) {
-                    $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
-                });
+                if (typeof pricingProperties.properties.youth !== 'undefined') {
+                    pricingProperties.properties.youth.forEach(function(data) {
+                        $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                    });
+                }
 
-                pricingProperties.properties.adult.forEach(function(data) {
-                    $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
-                });
+                if (typeof pricingProperties.properties.adult !== 'undefined') {
+                    pricingProperties.properties.adult.forEach(function(data) {
+                        $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                    });
+                }
             };
-
+            
             if (ub.sport === "Cinch Sack (Apparel)") {
-                if (youthPriceItemCodes.length == 1) {
-                    $('#uniform-price-item-codes select').append('<option>'+_.first(youthPriceItemCodes[0].sizes)+' ('+youthPriceItemCodes[0].price_item+')'+'</option>');
-                };
-
-                if (adultPriceItemCodes.length == 1) {
-                    $('#uniform-price-item-codes select').append('<option>'+_.first(adultPriceItemCodes[0].sizes)+' ('+adultPriceItemCodes[0].price_item+')'+'</option>');
+                if (typeof youthPriceItemCodes === 'undefined') { };
+                if (typeof adultPriceItemCodes !== 'undefined') {
+                    adultPriceItemCodes.forEach(function(data) {
+                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+' ('+ data.price_item+')'+'</option>');
+                    })
                 }
             };
 
-            // bootstrap-select
+            // initialize bootstrap-select plugin for cuztomization page
             $('#uniform-price-item-codes select').selectpicker({
-                width: 'auto'
+                width: 'auto' 
             });
         }
 
