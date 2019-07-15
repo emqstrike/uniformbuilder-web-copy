@@ -478,63 +478,67 @@ $(document).ready(function () {
 
         // get price item code 
         ub.funcs.getPriceItemCodes = function (priceProperties) {
-            var data = _.chain(priceProperties)
+            return _.chain(priceProperties)
             .groupBy('price_item')
             .map(function(value, key) { 
                 return {
                     price_item: key, 
                     sizes: _.pluck(value, 'size')
                 }
-            })
-            return data.value();
+            }).value();
         }
 
+        // show price item code in the customization page.
         ub.funcs.showPriceItemCodes = function () {
-
             // wrapped obj and formatted using underscore js _.chain() for some apparels
-            var youthPriceItemCodes = ub.funcs.getPriceItemCodes(JSON.parse(ub.current_material.material.pricing).properties.youth);
-            var adultPriceItemCodes = ub.funcs.getPriceItemCodes(JSON.parse(ub.current_material.material.pricing).properties.adult);
-            // pricing properties 
-            var pricingProperties = JSON.parse(ub.current_material.material.pricing);
+            var youthPriceItemCodes = ub.funcs.getPriceItemCodes(ub.current_material.material.parsedPricingTable.properties.youth);
+            var adultPriceItemCodes = ub.funcs.getPriceItemCodes(ub.current_material.material.parsedPricingTable.properties.adult);
+            var selectOption = $('#uniform-price-item-codes select');
 
-            if (ub.funcs.isSocks() === false && ub.sport !== "Cinch Sack (Apparel)") {
-                if (typeof youthPriceItemCodes !== 'undefined') {
-                    youthPriceItemCodes.forEach(function(data) {
-                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
+            if (ub.funcs.isSocks() === false && ub.sport !== "Cinch Sack (Apparel)"){
+                // youth
+                if (typeof youthPriceItemCodes !== 'undefined'){
+                    _.each(youthPriceItemCodes, function(data){
+                        selectOption.append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
                     });
                 };
-
-                if (typeof adultPriceItemCodes.length !== 'undefined') {
-                    adultPriceItemCodes.forEach(function(data) {
-                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
+                // adult
+                if (typeof adultPriceItemCodes.length !== 'undefined'){
+                    _.each(adultPriceItemCodes, function(data){
+                        selectOption.append('<option> '+_.first(data.sizes)+'-'+_.last(data.sizes)+' ('+ data.price_item+')'+'</option>');
                     });
                 };
             };
 
-            if (ub.funcs.isSocks()) {
-                if (typeof pricingProperties.properties.youth !== 'undefined') {
-                    pricingProperties.properties.youth.forEach(function(data) {
-                        $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+            // Cinch Sack
+            if (ub.sport === "Cinch Sack (Apparel)") {
+                if (typeof youthPriceItemCodes === 'undefined') { };
+                if (typeof adultPriceItemCodes !== 'undefined'){
+                    _.each(adultPriceItemCodes, function(data){
+                        selectOption.append('<option> '+_.first(data.sizes)+' ('+ data.price_item+')'+'</option>');
                     });
                 }
+            };
 
+            // pricing properties 
+            var pricingProperties = ub.current_material.material.parsedPricingTable;
+
+            if (ub.funcs.isSocks()) {
+                // youth
+                if (typeof pricingProperties.properties.youth !== 'undefined') {
+                    _.each(pricingProperties.properties.youth, function(data){
+                        selectOption.append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                    });
+                }
+                // adult
                 if (typeof pricingProperties.properties.adult !== 'undefined') {
-                    pricingProperties.properties.adult.forEach(function(data) {
-                        $('#uniform-price-item-codes select').append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
+                    _.each(pricingProperties.properties.adult, function(data){
+                        selectOption.append('<option>'+data.size+ ' ('+ data.price_item+')'+'</option>');
                     });
                 }
             };
             
-            if (ub.sport === "Cinch Sack (Apparel)") {
-                if (typeof youthPriceItemCodes === 'undefined') { };
-                if (typeof adultPriceItemCodes !== 'undefined') {
-                    adultPriceItemCodes.forEach(function(data) {
-                        $('#uniform-price-item-codes select').append('<option> '+_.first(data.sizes)+' ('+ data.price_item+')'+'</option>');
-                    })
-                }
-            };
-
-            // initialize bootstrap-select plugin for cuztomization page
+            // initialize bootstrap-select plugin for cuztomization page.
             $('#uniform-price-item-codes select').selectpicker({
                 width: 'auto' 
             });
@@ -566,7 +570,7 @@ $(document).ready(function () {
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
-            ub.funcs.showPriceItemCodes();
+            ub.funcs.showPriceItemCodes(); //
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
@@ -7485,15 +7489,14 @@ $(document).ready(function () {
         *  Function for price item code tooltips
         */
     
-        // check
+        // for checking uniform_category, used in getObjectPriceItemCode(object)
         function isUniform(index, uniformCategory) {
             var uniformCategories = _.pluck(ub.tempItems, 'uniform_category');
-
-            if (uniformCategories[index] === uniformCategory) { return true; }
-            else { return false; }
+            return uniformCategories[index] === uniformCategory;
         }
 
-        // get price item codes on a object
+        // get and format the ub.tempItems for item-picker tooltip
+        // object is passed ub.tempItems
         function getObjectPriceItemCode(object) {
             return _.map(object, function(value) {
                 return _.mapObject(value.parsedPricingTable.properties,function(data) {
@@ -7506,54 +7509,53 @@ $(document).ready(function () {
             })
         }
 
-        // for uniforms and search result function
+        // show the item price code in item picker as a tooltip.
+        // this function is looped inside the type = 'uniform' ,'serach-result', and 'favorites'
         function showPriceItemCodesTooltip(index, div) {
-
             var title = '';
-
             // uniforms
             if (!isUniform(index, "Cinch Sack (Apparel)") && !isUniform(index, "Socks (Apparel)") && !isUniform(index, "Crew Socks (Apparel)")) {
                 // youth price item codes
                 if (typeof priceItemCodes[index].youth !== 'undefined') {
-                    priceItemCodes[index].youth.forEach(function(data) {
+                    _.each(priceItemCodes[index].youth, function(data){
                         title += _.first(data.sizes)+' - '+_.last(data.sizes)+' ('+data.price_item+') \n';
-                    })
+                    });
                 };
                 // adult price item codes
-                if (typeof priceItemCodes[index].adult !== 'undefined') { 
-                    priceItemCodes[index].adult.forEach(function(data) {
+                if (typeof priceItemCodes[index].adult !== 'undefined') {
+                    _.each(priceItemCodes[index].adult, function(data){
                         title += _.first(data.sizes)+' - '+_.last(data.sizes)+' ('+data.price_item+') \n';
-                    })
+                    });
                 };
             }
 
             // Socks tooltip format
             if (isUniform(index, "Socks (Apparel)") || isUniform(index, "Crew Socks (Apparel)")) {
                 if (typeof priceItemCodes[index].youth !== 'undefined') {
-                    priceItemCodes[index].youth.forEach(function(data) {
+                    _.each(priceItemCodes[index].youth, function(data){
                         title +='Youth: ('+data.price_item+') \n';
-                    })
+                    });
                 };
                 // adult price item codes
-                if (typeof priceItemCodes[index].adult !== 'undefined') { 
-                    priceItemCodes[index].adult.forEach(function(data) {
+                if (typeof priceItemCodes[index].adult !== 'undefined') {
+                    _.each(priceItemCodes[index].adult, function(data){
                         title +='Adult:  ('+data.price_item+') \n';
-                    })
+                    });
                 };
             };
 
             // Cinch Sack (Apparel)
             if (isUniform(index, "Cinch Sack (Apparel)")) { 
                 if (typeof priceItemCodes[index].youth !== 'undefined') {
-                    priceItemCodes[index].youth.forEach(function(data) {
+                    _.each(priceItemCodes[index].youth, function(data){
                         title +='1 Size: ('+data.price_item+') \n';
-                    })
+                    });
                 };
                 // adult price item codes
-                if (typeof priceItemCodes[index].adult !== 'undefined') { 
-                    priceItemCodes[index].adult.forEach(function(data) {
+                if (typeof priceItemCodes[index].adult !== 'undefined') {
+                    _.each(priceItemCodes[index].adult, function(data){
                         title +='1 Size: ('+data.price_item+') \n';
-                    })
+                    });
                 };
             };
 
