@@ -95,6 +95,7 @@ select:hover {
                                 <select class="form-control brand" name="brand">
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
+                                        <option value="riddell">Riddell</option>
                                 </select>
                               </div>
                         </div>
