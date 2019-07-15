@@ -539,8 +539,18 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;"> - @{{name}}
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
@@ -586,8 +596,18 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
@@ -1722,26 +1742,33 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form id="feedback-form">
+                            <form id="feedback-form" data-parsley-validate>
                               <div class="form-group">
                                 <label>Name <span class="required">*</span></label>
-                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1">
+                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1" 
+                                data-parsley-required 
+                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
+                                data-parsley-pattern-message="This value should be alphanumeric.">
                               </div>
                               <div class="form-group">
                                 <label>Email <span class="required">*</span></label>
-                                <input type="email" class="form-control email" placeholder="youremail@domain.com" tabindex="2">
+                                <input type="email" class="form-control email" placeholder="youremail@domain.com" tabindex="2" data-parsley-required data-parsley-type="email">
                               </div>
                               <div class="form-group">
                                 <label>Material ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control materialId" placeholder="" tabindex="3">
+                                <input type="text" class="form-control materialId" placeholder="" tabindex="3" 
+                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
+                                data-parsley-pattern-message="This value should be alphanumeric.">
                               </div>
                               <div class="form-group">
                                 <label>Saved Design ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control savedDesignId" placeholder="" tabindex="4">
+                                <input type="text" class="form-control savedDesignId" placeholder="" tabindex="4" 
+                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
+                                data-parsley-pattern-message="This value should be alphanumeric.">
                               </div>
                               <div class="form-group">
                                 <label>Message <span class="required">*</span></label>
-                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)" tabindex="5"></textarea>
+                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)" tabindex="5" data-parsley-required></textarea>
                               </div>
                             </form>
                         </div>

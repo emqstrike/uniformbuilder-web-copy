@@ -52,4 +52,5 @@
 <!-- end CD content filter -->
 
 <!-- Latest compiled and minified JavaScript -->
+<script src="{{$asset_storage}}/parsley/dist/parsley.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap-select-1.13.9/js/bootstrap-select.min.js?v={{$asset_version}}"></script>
