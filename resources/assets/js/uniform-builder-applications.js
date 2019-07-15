@@ -4175,7 +4175,7 @@ $(document).ready(function() {
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
         if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
-            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt', 'gutter'];
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }
 
@@ -4488,7 +4488,7 @@ $(document).ready(function() {
 
                 if(application.application_type !== "embellishments" && application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
-                    if (application.color_array.length >= 2) {
+                    if (application.color_array.length > 2) {
 
                         application.color_array[0] = colorObj;
                         _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
