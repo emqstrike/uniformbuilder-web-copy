@@ -4175,7 +4175,7 @@ $(document).ready(function() {
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
         if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
-            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt', 'gutter'];
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }
 
@@ -4488,7 +4488,7 @@ $(document).ready(function() {
 
                 if(application.application_type !== "embellishments" && application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
-                    if (application.color_array.length >= 2) {
+                    if (application.color_array.length > 2) {
 
                         application.color_array[0] = colorObj;
                         _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
@@ -10371,23 +10371,6 @@ $(document).ready(function() {
         var _locations = ub.current_material.settings.applications;
 
          _.each (_locations, function (location) {
-
-            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
-            // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof location.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[location.code];
-                    return;
-            }
-
-            if (location.type === "free") { 
-
-                /// Todo: Handle Here ....
-
-            }
 
             _.each(location.application.views, function (view, index) {
 
