@@ -490,6 +490,8 @@ $(document).ready(function () {
 
         // show price item code in the customization page.
         ub.funcs.showPriceItemCodes = function () {
+            // show select button
+            $('div#uniform-price-item-codes').show();
             // wrapped obj and formatted using underscore js _.chain() for some apparels
             var youthPriceItemCodes = ub.funcs.getPriceItemCodes(ub.current_material.material.parsedPricingTable.properties.youth);
             var adultPriceItemCodes = ub.funcs.getPriceItemCodes(ub.current_material.material.parsedPricingTable.properties.adult);
@@ -570,7 +572,10 @@ $(document).ready(function () {
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
-            ub.funcs.showPriceItemCodes(); //
+            // show price item code id user is a sales represenative
+            if (ub.user.role === 'rep') {
+                ub.funcs.showPriceItemCodes();
+            }
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
@@ -7744,8 +7749,11 @@ $(document).ready(function () {
                     }
 
                     // show the price item codes when mouseovered on a div.main-item-picker
-                    if (typeof $(this).data('id') !== 'undefined') {
-                        showPriceItemCodesTooltip(index, $(this));
+                    // show only if user is a sales representative
+                    if (ub.user.role === 'rep') {
+                        if (typeof $(this).data('id') !== 'undefined') {
+                            showPriceItemCodesTooltip(index, $(this));
+                        }
                     }
 
                 })  
@@ -8175,8 +8183,11 @@ $(document).ready(function () {
                     }
 
                     // show the price item codes when mouseovered on a div.main-item-picker
-                    if (typeof $(this).data('id') !== 'undefined') {
-                        showPriceItemCodesTooltip(index, $(this));
+                    // show only if user is a sales representative
+                    if (ub.user.role === 'rep') {
+                        if (typeof $(this).data('id') !== 'undefined') {
+                            showPriceItemCodesTooltip(index, $(this));
+                        }
                     }
 
                 })
@@ -8252,8 +8263,11 @@ $(document).ready(function () {
                     }
 
                     // show the price item codes when mouseovered on a div.main-item-picker
-                    if (typeof $(this).data('id') !== 'undefined') {
-                        showPriceItemCodesTooltip(index, $(this));
+                    // show only if user is a sales representative
+                    if (ub.user.role === 'rep') {
+                        if (typeof $(this).data('id') !== 'undefined') {
+                            showPriceItemCodesTooltip(index, $(this));
+                        }
                     }
                 })
 
