@@ -674,7 +674,13 @@ $(document).ready(function () {
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
-            ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
+
+            // preprocess `Quick Turn` pattern for unsaved design uniform
+            // prevent afterLoad's looping error from saved design uniform
+            if (typeof ub.config.savedDesignInfo !== 'object') {
+                ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
+            }
+            
             ub.funcs.executeAfterLoadFunctionList();
 
         };
