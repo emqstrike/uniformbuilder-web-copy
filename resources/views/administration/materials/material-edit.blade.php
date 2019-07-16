@@ -649,6 +649,7 @@
                                         <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($material->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($material->brand == 'riddell') selected="selected" @endif>Riddell</option>
                                 </select>
                             </div>
                         </div>

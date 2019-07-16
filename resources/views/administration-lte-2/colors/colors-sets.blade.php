@@ -75,6 +75,7 @@
                     <select class="active-brand">
                         <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
                         <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                        <option value='riddell' @if ($active_brand == 'riddell') selected @endif>Riddell</option>
                     </select>
                 </div>
                 <div class="box-body">
