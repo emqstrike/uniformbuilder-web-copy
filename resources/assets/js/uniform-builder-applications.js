@@ -10372,23 +10372,6 @@ $(document).ready(function() {
 
          _.each (_locations, function (location) {
 
-            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
-            // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof location.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[location.code];
-                    return;
-            }
-
-            if (location.type === "free") { 
-
-                /// Todo: Handle Here ....
-
-            }
-
             _.each(location.application.views, function (view, index) {
 
                 var _perspective    = view.perspective + '_view';

@@ -1776,6 +1776,10 @@ $(document).ready(function () {
             settingsObject.pattern = outputPatternObject;
             e = settingsObject;
 
+            // exit if undefined
+            // prevent error from saved design uniform
+            if (typeof e.pattern === 'undefined') { return; }
+
             ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
         }
     }
