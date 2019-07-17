@@ -75,6 +75,7 @@
                             <th>ID</th>
                             <th class="no-sort">Name</th>
                             <th class="no-sort">Code</th>
+                            <th class="no-sort">Brand</th>
                             <th class="no-sort">Men</th>
                             <th class="no-sort">Women</th>
                             <th>Men's Ordering</th>
@@ -93,6 +94,13 @@
                             <td class="td-category-id col-md-1">{{ $category->id }}</td>
                             <td class="td-category-name col-md-1">{{ $category->name }}</td>
                             <td class="td-category-code col-md-1">{{ $category->code }}<input type="hidden" class="td-category-alias" value="{{ $category->alias }}"></td>
+                            <td class="td-category-brand col-md-1" data-category-brand="{{ $category->brand }}">
+                                @if ($category->brand)
+                                    {{ ucwords($category->brand) }}
+                                @else
+                                    None
+                                @endif
+                            </td>
                             <td align="center"><input type="hidden" name="" class="td-category-thumbnail-male" value="{{ $category->thumbnail_male }}">
                             @if ($category->thumbnail_male)
                                 <img src="{{ $category->thumbnail_male }}" style="height: 100px; width: 110px;">
@@ -208,6 +216,7 @@ $(document).ready(function(){
         data.id = $(this).parent().parent().parent().find('.td-category-id').text();
         data.name = $(this).parent().parent().parent().find('.td-category-name').text();
         data.code = $(this).parent().parent().parent().find('.td-category-code').text();
+        data.brand = $(this).parent().parent().parent().find('.td-category-brand').data('category-brand');
         data.alias = $(this).parent().parent().parent().find('.td-category-alias').val();
         data.type = $(this).parent().parent().parent().find('.td-category-type').text();
         data.active_type = $(this).parent().parent().parent().find('.td-active-type').text();
@@ -236,6 +245,7 @@ $(document).ready(function(){
 
         $('.input-category-id').val(data.id);
         $('.input-category-name').val(data.name);
+        $('.input-brand').val(data.brand);
         $('.input-category-alias').val(data.alias);
         $('.input-category-code').val(data.code);
         $('.input-category-type').val(data.type);
@@ -255,6 +265,7 @@ $(document).ready(function(){
         data.sizes = $('.sizes_props').val();
         data.sort_order_male = $('.sort-order-male').val();
         data.sort_order_female = $('.sort-order-female').val();
+        data.brand = $('.input-brand').val();
 
         var formData = new FormData();
         var male_th_file = null;
