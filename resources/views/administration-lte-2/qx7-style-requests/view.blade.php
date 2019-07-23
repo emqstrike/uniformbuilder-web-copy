@@ -9,7 +9,7 @@
     .box-header {
         background-color: #f2f2f2;
     }
-    .box-header > h2 {
+    .box-header > h2, .box-header > h3 {
         margin-top: 0;
         margin-bottom: 0;
     }
@@ -46,7 +46,7 @@
 </style>
 @endsection
 @section('content')
-<section class="content">
+<section class="content row">
     <div class="sr-container col-xs-12">
         <!-- Style request -->
         <div class="box box-solid">
