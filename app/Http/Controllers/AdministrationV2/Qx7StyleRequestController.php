@@ -24,4 +24,9 @@ class Qx7StyleRequestController extends Controller
         return view('administration-lte-2.qx7-style-requests.view');
 
     }
+
+    public function main()
+    {
+        return view('administration-lte-2.qx7-style-requests.main');
+    }
 }

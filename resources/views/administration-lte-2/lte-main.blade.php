@@ -53,7 +53,7 @@
 
                 @include('administration-lte-2.lte-main-topbar')
                 @include('administration-lte-2.lte-side-menu')
-                
+
                 <div class="content-wrapper">
                     <section class="content">
                         @include('administration-lte-2.partials.breadcrumb')
@@ -72,7 +72,7 @@
                 window.accessToken = "{{ Session::get('accessToken') }}";
                 window.app_url = "{{ env('APP_URL') }}";
                 window.application_brand = "{{ env('BRAND') }}";
-                
+                window.qx7_host = "{{ env('QX7_HOST') }}";
                 @if (Session::get('isLoggedIn'))
                     window.loggedInUser = {{ Session::get('userId') }};
                 @endif
