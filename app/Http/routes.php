@@ -258,6 +258,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             // Page Rules
             Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules');
+
+            // QX7 Style Requests
+            Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
         });
     });
 
