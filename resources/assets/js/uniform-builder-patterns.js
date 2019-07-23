@@ -426,6 +426,9 @@ $(document).ready(function () {
 
                     ub.funcs.changePatternPosition(settingsObj.code, data.from);
 
+                    // update Specs panel (info container for ga)
+                    ub.updateApplicationSpecsPanel(settingsObj.code);
+
                 },
 
             });
@@ -792,6 +795,10 @@ $(document).ready(function () {
         var _patternID                  = patternID.toString();
         var _currentPart                = currentPart;
         var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+
+        if (ub.current_material.material.block_pattern === 'Quick Turn') {
+            _patternObject =  _.find(ub.data.qtPatterns.items, {id: _patternID.toString()});
+        }
         
         _.each (_patternObject.layers, function (layer)  {
 
@@ -816,6 +823,7 @@ $(document).ready(function () {
 
             materialOption              = _materialOptions[0];
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
 
@@ -834,6 +842,10 @@ $(document).ready(function () {
         if ($('div#primaryPatternPopup').length === 0) {
 
             var _patternList = ub.funcs.getPatternList();
+
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                _patternList = ub.data.qtPatterns.items;
+            }
 
             var data = {
                 label: 'Choose Patterns: ',
@@ -923,11 +935,19 @@ $(document).ready(function () {
             var fill        = 'white';
             var layerID     = layer.layer_no;
 
+            var y = -50;
+            var height = 350;
+
             _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="350" xlink:href=""></image></pattern></defs>';
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                y = 46;
+                height = 250;
+            }
+
+            _htmlBuilder    += '<defs><pattern id="image" x="50" y="' + y + '" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="' + height + '" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
@@ -1011,7 +1031,8 @@ $(document).ready(function () {
 
         var _partSettingsObject = ub.funcs.getMaterialOptionSettingsObject(materialOption.name);
 
-        if (inputPattern.pattern_id === "blank") {
+        // `Quick Turn` should not have pattern slider bacause its pattern layout/layer differs from the other.
+        if (inputPattern.pattern_id === "blank" || ub.current_material.material.block_pattern === 'Quick Turn') {
 
             $('input#part-pattern-slider').hide();
 
@@ -1585,7 +1606,19 @@ $(document).ready(function () {
                 }    
         };
 
+        // ignore pattern angle (rotation) for Quick Turn
+        // Geometric Fade, Net Fade, NS
+        var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
+        if (_.contains(ignoreRotation, _patternObject.pattern_obj.name) 
+            && ub.current_material.material.block_pattern === 'Quick Turn') {
+                _patternObject.rotation = 0;
+        }
+
         _.each (patternObject.layers, function (_property) {
+            
+            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                _property.filename = _property[ub.active_view];
+            }
 
             var _defaultColor = _property.default_color;
 
@@ -1601,7 +1634,7 @@ $(document).ready(function () {
                     y: 308 + ub.offset.y * 3.3,
                 },
                 container_opacity: 1,
-                container_rotation: ub.funcs.translateAngle(_materialOption.angle),
+                container_rotation: _patternObject.rotation,
                 container_scale: { x:1,y:1 },
             }
 
@@ -1641,11 +1674,114 @@ $(document).ready(function () {
             left: _left,
 
         });
-
-        var $layerTool = $popup;
+        var draggable = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
+        var $layerTool = draggable;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
 
+    }
+
+    // process Socks (Apparel) `Quick Turn` pattern
+    ub.funcs.processQuickTurnPattern = function () {
+
+        if (ub.current_material.material.block_pattern !== 'Quick Turn') { return; }
+
+        ub.data.qtPatterns = JSON.parse(ub.current_material.material.patterns);
+
+        // get blank pattern
+        var blank = ub.funcs.getPatternByID('33');
+
+        var _container = [];
+
+        _.each(ub.data.qtPatterns, function (_object, index) {
+
+            var sort_id = index + 1;
+
+            var id = _object.pattern_id.toString();
+
+            // exit if `undefined`
+            if (typeof ub.funcs.getPatternByID(id) === 'undefined') { return; }
+
+            _newObject = {
+                sortID: sort_id,
+                id: id,
+                active: "1",
+                isEnabled: _object.enabled,
+                name: ub.funcs.getPatternByID(id).name,
+                code: ub.funcs.getPatternByID(id).name.toLowerCase(),
+                icon: _object.thumbnail,
+                layers: []
+            };
+
+            _.each(_object.layers, function (layer, index) {
+                
+                var index = index + 1;
+                var _layer = {
+
+                     default_color: ub.funcs.getHexColorById(layer.layer_color_id.toString()),
+                     layer_no: parseInt(index),
+                     front: layer.front,
+                     back: layer.back,
+                     left: layer.left,
+                     right: layer.right,
+                     team_color_id: layer.team_color_id,
+
+                };
+
+                _newObject.layers.push(_layer);
+
+            });
+
+            _container.push(_newObject);
+
+            ub.data.qtPatterns = {
+                items: _container,
+            }
+
+        });
+
+        ub.data.qtPatterns.items.unshift({
+                sortID: blank.sortID,
+                id: blank.id,
+                active: "1",
+                isEnabled: false,
+                name: blank.name,
+                code: blank.code,
+                icon: blank.icon,
+                layers: [{
+                    default_color: blank.layers[0].default_color,
+                    layer_no: parseInt(blank.layers[0].layer_no),
+                    front: blank.layers[0].filename,
+                    back: blank.layers[0].filename,
+                    left: blank.layers[0].filename,
+                    right: blank.layers[0].filename,
+                    team_color_id: blank.layers[0].team_color_id,
+                }]
+            });
+
+        ub.funcs.activateEnableQtPattern();
+    }
+
+    // activate enabled pattern on Quick Turn's `Sublimated` part
+    ub.funcs.activateEnableQtPattern = function () {
+        var patternObject =  _.find(ub.data.qtPatterns.items, {isEnabled: true});
+
+        if (typeof patternObject !== 'undefined') {
+            var settingsObject = ub.funcs.getMaterialOptionSettingsObject('Sublimated');
+            var materialOptions = ub.funcs.getMaterialOptions('Sublimated');
+            var materialOption = materialOptions[0];
+
+            var outputPatternObject = ub.funcs.convertPatternObjectForMaterialOption(patternObject, materialOption);
+
+            settingsObject.pattern = outputPatternObject;
+            e = settingsObject;
+
+            // exit if undefined
+            // prevent error from saved design uniform
+            if (typeof e.pattern === 'undefined') { return; }
+
+            ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+        }
     }
 
 });

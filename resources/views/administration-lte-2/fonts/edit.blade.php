@@ -130,6 +130,7 @@
                                     <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
                                     <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
                                     <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                    <option value="riddell" @if($font->brand == 'riddell') selected="selected" @endif>Riddell</option>
                                 </select>
                             </div>
                         </div>

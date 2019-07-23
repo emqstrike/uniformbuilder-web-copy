@@ -4047,6 +4047,12 @@ $(document).ready(function() {
 
             var _obj = _.find(ub.data.modifierLabels, {fullname: tempName});
 
+            // exit if `_obj` is undefined
+            if (typeof _obj === 'undefined') { 
+                console.warn(tempName + ' label not found!');
+                return; 
+            }
+
             _index = _obj.index;
 
         }
@@ -4482,7 +4488,7 @@ $(document).ready(function() {
 
                 if(application.application_type !== "embellishments" && application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
-                    if (application.color_array.length >= 2) {
+                    if (application.color_array.length > 2) {
 
                         application.color_array[0] = colorObj;
                         _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
@@ -4504,13 +4510,6 @@ $(document).ready(function() {
         }
 
     };
-
-    ub.funcs.getPatternByID = function (id) {
-
-      var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
-      return _patternObject;
-
-    }
 
     ub.funcs.activateColorPickers = function () {
 
@@ -8587,15 +8586,15 @@ $(document).ready(function() {
             // Debug Info
             if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_id);
+                // console.log('Default Sizes: ');
+                // console.log(_sizes);
+                // console.log('Application #: ');
+                // console.log(_id);
 
-                ub.utilities.info('Using sizes from backend: ');
+                // ub.utilities.info('Using sizes from backend: ');
 
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
+                // console.log(_sizesFromConfig);
+                // console.log(_sizesFromConfig.sizes);
                 //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
                 // add sort for sizes
@@ -10372,23 +10371,6 @@ $(document).ready(function() {
         var _locations = ub.current_material.settings.applications;
 
          _.each (_locations, function (location) {
-
-            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
-            // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof location.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[location.code];
-                    return;
-            }
-
-            if (location.type === "free") { 
-
-                /// Todo: Handle Here ....
-
-            }
 
             _.each(location.application.views, function (view, index) {
 

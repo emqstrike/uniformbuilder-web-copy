@@ -23,15 +23,22 @@ class TailsweepsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
-       public function getAllTailsweeps()
+    
+    public function getAllTailsweeps($filters)
     {
-        $response = $this->get('tailsweeps');
+        if ((isset($filters['brand'])) && ($filters['brand'] != 'all')) {
+            $response = $this->get('tailsweeps?brand=' . $filters['brand']);
+        } else {
+            $response = $this->get('tailsweeps');
+        }
+
         $result = $this->decoder->decode($response->getBody());
         $tailsweeps = [];
-        if ($result->success)
-        {
+
+        if ($result->success) {
             $tailsweeps = $result->tailsweeps;
         }
+
         return $tailsweeps;
     }
 

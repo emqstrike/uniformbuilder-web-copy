@@ -250,6 +250,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@index'])->name('v1_menus');
             Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@store'])->name('v1_store_new_menu');
 
+            // Random Feed Images
+            Route::get('random_feed_images', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\RandomFeedImageController@index'])->name('v1_index_random_feed_image');
+
             // Pages
             Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
 
@@ -548,7 +551,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\SavedDesignsController@index']);
 
     // Tailsweeps
-    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index']);
+    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index'])->name('index_tailsweeps');
     Route::get('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@create']);
     Route::post('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
     Route::get('tailsweep/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@editTailsweepForm']);

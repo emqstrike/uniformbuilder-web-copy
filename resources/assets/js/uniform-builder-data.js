@@ -2662,6 +2662,7 @@ $(document).ready(function() {
     ub.data.mascots = undefined;
 
     ub.data.patterns = {};
+    ub.data.qtPatterns = {};
 
     ub.data.genders = [
         {
@@ -10385,6 +10386,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Track and Field',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Training  101',
+                sublimatedPart: 'Extra',
+            },
 
         ],
 
@@ -12479,6 +12484,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Hockey',
                 blockPattern: 'Hockey Socks',
+            },
+            {
+                sport: 'Basketball',
+                blockPattern: '2018 Basketball Jersey',
             }
         ],
         isExempted: function (sport, blockPattern) {
