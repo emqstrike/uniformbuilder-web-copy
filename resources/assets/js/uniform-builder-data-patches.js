@@ -16,8 +16,6 @@ $(document).ready(function () {
 		var _id5924 = ["5924"];
 		var _id11214 = ["11214"];
 
-		var _id43030 = ["43030"];
-
 		// Volg
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
 			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["B", "W"]);
@@ -114,21 +112,38 @@ $(document).ready(function () {
 			
 		}
 
-		// 43030
-		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id43030, ub.config.savedDesignInfo.savedDesignID)) {
+	}
 
-			var omitPerspectives = ['left', 'right'];
+	ub.dataPatches.patchForPerspectiveIssues = function() {
+		// Add the savedDesignId and the perspective/s that will be omitted. @var _savedDesigns
+		var _savedDesigns = [
+			{ 
+				"savedDesignID" : "43030", 
+				"omitPerspectives"	: ['left', 'right'],
+			}, { 
+				"savedDesignID" : "44473", 
+				"omitPerspectives"	: ['left', 'right'],
+			},
+		];
+
+		if (typeof ub.config.savedDesignInfo === "object" &&  !_.isEmpty(ub.config.savedDesignInfo)) {
+			var data = _.findWhere(_savedDesigns, {"savedDesignID" : ub.config.savedDesignInfo.savedDesignID});
 			_.each(ub.current_material.settings.applications, function (application) {
 				application.application.views = _.omit(application.application.views, function (app) {
-					return _.contains(omitPerspectives, app.perspective);
+					return _.contains(data.omitPerspectives, app.perspective);
 				});
 			});
-		}
 
+			console.groupCollapsed('%c ----- A Patch is Detected for this Saved Design Item. -----', 'background: #222; color: #bada55');
+			console.info("Design: %s is not covered with latest changes in the application, a patch for this design will be applied.", data.savedDesignID);
+			console.info("Saved Design Successfully Patched!");
+			console.groupEnd();
+		}
 	}
 
 	ub.dataPatches.run = function () {
 		ub.dataPatches.patch4874to5728();
+		ub.dataPatches.patchForPerspectiveIssues();
 	};
 
 	ub.dataPatches.forRandomFeedPatching = function () {
