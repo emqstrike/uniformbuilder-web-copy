@@ -16,7 +16,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table-bordered display' id='qx7-style-requests'>
+                    <table class="table data-table table-bordered table-hover display" id="qx7-style-requests" width="100%">
                         <thead>
                             <tr>
                                 <th>Style Name</th>
