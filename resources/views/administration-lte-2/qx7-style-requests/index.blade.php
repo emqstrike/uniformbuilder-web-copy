@@ -20,6 +20,17 @@
                         <thead>
                             <tr>
                                 <th>Style Name</th>
+                                <th>Brand</th>
+                                <th>Gender</th>
+                                <th>Sport</th>
+                                <th>Application Type</th>
+                                <th>Style Category</th>
+                                <th>Item ID</th>
+                                <th>Design Sheet</th>
+                                <th>Priority</th>
+                                <th>Deadline</th>
+                                <th>Requested By:</th>
+                                <th>Notes</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -49,9 +60,21 @@ $(document).ready(function(){
     function generateStyleRequests() {
         var elem = '';
         _.each(window.style_requests, function (request) {
+            console.log(request);
             elem += `
                 <tr>
                     <td>` + request.style_name + `</td>
+                    <td>` + request.brand.brand + `</td>
+                    <td>` + request.gender.gender + `</td>
+                    <td>` + request.sport.sport_name + `</td>
+                    <td>` + request.application_type.application_type + `</td>
+                    <td>` + request.style_category.style_category + `</td>
+                    <td>` + request.quickstrike_item_id + `</td>
+                    <td>` + request.design_sheet + `</td>
+                    <td>` + request.priority + `</td>
+                    <td>` + request.deadline + `</td>
+                    <td>` + request.sport.sport_name + `</td>
+                    <td>` + request.notes + `</td>
                     <td><a href="#" class="btn btn-info btn-xs" data-style-request-id="1" role="button">View</a></td>
                 </tr>
             `;
@@ -75,7 +98,7 @@ $(document).ready(function(){
 
     function getQx7StyleRequests(callback){
             var style_requests;
-            var url = "//" + qx7_host + "/api/style_requests";
+            var url = "//" + qx7_host + "/api/style_requests/formatted";
             $.ajax({
                 url: url,
                 async: false,
