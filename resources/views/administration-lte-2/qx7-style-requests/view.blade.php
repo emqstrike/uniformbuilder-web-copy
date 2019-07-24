@@ -68,59 +68,59 @@
                     <tbody >
                         <tr>
                             <td style="border-left: 0!important">
-                                <h4 class="text-bold">Name: <small class=""> STYLE REQUEST</small></h4> 
-                                <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class=""> STYLE REQUEST</small></h4> 
-                                <h4 class="text-bold" style="margin-top: 30px;">Gender: <small class=""> STYLE REQUEST</small></h4> 
-                                <h4 class="text-bold" style="margin-top: 30px;">Sport: <small class=""> STYLE REQUEST</small></h4> 
-                                <h4 class="text-bold" style="margin-top: 30px;">Application: <small class=""> STYLE REQUEST</small></h4> 
+                                <h4 class="text-bold">Name: <small class=""> STYLE REQUEST</small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class=""> STYLE REQUEST</small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Gender: <small class=""> STYLE REQUEST</small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Sport: <small class=""> STYLE REQUEST</small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Application: <small class=""> STYLE REQUEST</small></h4>
                                 <h4 class="text-bold" style="margin-top: 30px;">Style Category: <small class=""> STYLE REQUEST</small></h4>
                             </td>
                             <td>
-                                <h4 class="text-bold">Filter Flags</h4> 
+                                <h4 class="text-bold">Filter Flags</h4>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Neck Filter</label>
                                     BSB V-neck 2 Button Full Button
-                                </div> 
+                                </div>
                                 <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Sleeve Filters</label>
                                     SLeeveless Set-In Raglan
-                                </div> 
+                                </div>
                                 <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Hemline Filter</label>
                                     Straight Baseball Curved
-                                </div> 
+                                </div>
                             </td>
                             <td>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Factory</label>
                                     <p>Billerby</p>
-                                </div> 
+                                </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Quick Strike Item ID</label>
                                     <p>2341</p>
-                                </div> 
+                                </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Priority</label>
                                     <p>High</p>
-                                </div> 
-                                
+                                </div>
+
                                 <div class="form-group">
                                     <label class="h4 text-bold">Deadline</label>
                                     <p class="display-data" style="border: 0 !important">01/01/19</p>
-                                </div> 
-                                
-                                
+                                </div>
+
+
                             </td>
                             <td style="border-right: 0!important">
                                 <div class="form-group">
                                     <a href="#" class="h4 text-primary">Design Sheet</a>
-                                </div> 
+                                </div>
                                 <div class="form-group" style="margin-top: 50px;">
                                     <label class="h4 text-bold">Notes</label>
                                     <p>Sample Note</p>
-                                </div> 
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -138,7 +138,7 @@
                     <tbody >
                         <tr>
                             <td style="border-left: 0!important">
-                                <h4 class="text-bold">Size Spec Sheet: <small class=""> BLB Mens Basketball Jersey</small></h4> 
+                                <h4 class="text-bold">Size Spec Sheet: <small class=""> BLB Mens Basketball Jersey</small></h4>
                                 <div class="form-group" style="margin-top: 30px;">
                                     <label class="h4 text-bold">Sizes</label>
                                     YXS YS YM YL YXL XSS M L XL 2XL 3XL
@@ -152,24 +152,24 @@
                                 <div class="form-group">
                                     <label class="h4 text-bold">Accents</label>
                                     <p>Drop Shadow Outlined</p>
-                                </div> 
+                                </div>
                                 <!-- <hr> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Fonts</label>
                                     <p>Basketball</p>
-                                </div> 
+                                </div>
                                 <!-- <hr> -->
                             </td>
                             <td style="border-right: 0!important">
                                 <div class="form-group">
                                     <label class="h4 text-bold">Digital</label>
                                     <p>Billerby</p>
-                                </div> 
+                                </div>
                                 <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Configurations</label>
                                     <p>Vert. Arch Bookend ARC STRAIGHT</p>
-                                </div> 
+                                </div>
                                 <!-- <hr/> -->
                             </td>
                         </tr>
@@ -194,8 +194,8 @@
                         <p>9 Left Sleeve</p>
                         <p>10 Right Sleeve</p>
                         <p>4 Front Neck Base</p>
-                    </div> 
-                    
+                    </div>
+
                     <hr/>
                 </div>
                 <div class="col-xs-7">
@@ -277,5 +277,33 @@
 
 
 @section('scripts')
+<script>
+$(document).ready(function(){
+
+    getQx7StyleRequest(id function (style_requests) {
+        window.style_requests = style_requests;
+    });
+
+
+
+    function getQx7StyleRequests(id, callback){
+            var style_request;
+            var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    style_request = data['style_request'];
+                    if(typeof callback === "function") callback(style_request);
+                }
+            });
+    }
+
+});
+</script>
 
 @endsection

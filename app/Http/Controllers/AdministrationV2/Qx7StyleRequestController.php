@@ -20,13 +20,11 @@ class Qx7StyleRequestController extends Controller
 
     public function index()
     {
-
-        return view('administration-lte-2.qx7-style-requests.view');
-
+        return view('administration-lte-2.qx7-style-requests.index');
     }
 
-    public function main()
+    public function show($id)
     {
-        return view('administration-lte-2.qx7-style-requests.main');
+        return view('administration-lte-2.qx7-style-requests.view');
     }
 }
