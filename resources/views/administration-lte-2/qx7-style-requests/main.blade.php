@@ -52,7 +52,7 @@ $(document).ready(function(){
             elem += `
                 <tr>
                     <td>` + request.style_name + `</td>
-                    <td><a href="#" class="" data-style-request-id="1" role="button">View</a></td>
+                    <td><a href="#" class="btn btn-info btn-xs" data-style-request-id="1" role="button">View</a></td>
                 </tr>
             `;
         });
