@@ -181,7 +181,7 @@
         <!-- Parts and Application Rules -->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-5">
                     <h3 class="col-12 text-bold" style="margin-top: 0">Parts &amp; Application Rules</h3>
                     <hr/>
                     <div class="form-group allowed-apps">
@@ -198,7 +198,7 @@
                     
                     <hr/>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-7">
                     <!-- Parts -->
                     <table class="table text-center parts-pipings-table">
                         <thead>
