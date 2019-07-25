@@ -61,7 +61,6 @@ $(document).ready(function(){
     function generateStyleRequests() {
         var elem = '';
         _.each(window.style_requests, function (request) {
-            console.log(request);
             elem += `
                 <tr>
                     <td>` + request.style_name + `</td>
@@ -78,7 +77,7 @@ $(document).ready(function(){
                     <td>` + request.notes + `</td>
                     <td>
                         <a href="#" class="btn btn-default btn-xs" role="button">View</a>
-                        <a href="#" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>
+                        <a href="/administration/v1-0/qx7_style_requests/create_style/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>
                     </td>
                 </tr>
             `;

@@ -17,7 +17,8 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Sytle Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control material-name" name="name">
+                                    <input type="hidden" class="form-control style-id" value="{{ $id }}">
+                                    <input type="text" class="form-control style-name" name="name">
                                 </div>
                             </div>
                             <hr>
@@ -90,6 +91,43 @@
 @section('scripts')
 
 <script type="text/javascript">
+$(document).ready(function(){
 
+    window.style_request = null;
+    var id = $('.style-id').val();
+
+    getQx7StyleRequest(id, function (style_request) {
+        window.style_request = style_request;
+    });
+
+    var style_request = window.style_request[0];
+    console.log(style_request);
+    $('.style-name').val(style_request.style_name);
+    $('.style-brand').val(style_request.brand.brand);
+    $('.style-gender').val(style_request.gender.gender);
+    $('.style-sport').val(style_request.sport.sport_name);
+    $('.style-application-type').val(style_request.application_type.application_type);
+    $('.style-category').val(style_request.style_category.style_category);
+    $('.style-item-id').val(style_request.quickstrike_item_id);
+    $('.style-factory').val(style_request.factory.factory_code);
+
+    function getQx7StyleRequest(id, callback){
+            var style_request;
+            var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    style_request = data['style_request'];
+                    if(typeof callback === "function") callback(style_request);
+                }
+            });
+    }
+
+});
 </script>
 @endsection
