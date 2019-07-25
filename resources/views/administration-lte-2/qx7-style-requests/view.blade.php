@@ -50,7 +50,7 @@
         padding: 0 20px 10px 0;
 
     }
-    .allowed-apps {
+    .rl-allowed-apps {
         padding:30px;
     }
 </style>
@@ -58,6 +58,7 @@
 @section('content')
 <section class="content row">
     <div class="sr-container col-xs-12">
+        <input type="hidden" id="srid" value="{{ $id }}" readonly/>
         <!-- Style request -->
         <div class="box box-solid">
             <div class="box-header">
@@ -68,47 +69,45 @@
                     <tbody >
                         <tr>
                             <td style="border-left: 0!important">
-                                <h4 class="text-bold">Name: <small class=""> STYLE REQUEST</small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class=""> STYLE REQUEST</small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Gender: <small class=""> STYLE REQUEST</small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Sport: <small class=""> STYLE REQUEST</small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Application: <small class=""> STYLE REQUEST</small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Style Category: <small class=""> STYLE REQUEST</small></h4>
+                                <h4 class="text-bold">Name: <small class="sr-name"></small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class="sr-brand"></small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Gender: <small class="sr-gender"></small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Sport: <small class="sr-sport"></small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Application: <small class="sr-app"></small></h4>
+                                <h4 class="text-bold" style="margin-top: 30px;">Style Category: <small class="sr-style-category"></small></h4>
                             </td>
-                            <td>
+                            <td class="sr-filter-flags">
                                 <h4 class="text-bold">Filter Flags</h4>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="h4 text-bold">Neck Filter</label>
                                     BSB V-neck 2 Button Full Button
                                 </div>
-                                <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Sleeve Filters</label>
                                     SLeeveless Set-In Raglan
                                 </div>
-                                <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Hemline Filter</label>
                                     Straight Baseball Curved
-                                </div>
+                                </div> -->
                             </td>
                             <td>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Factory</label>
-                                    <p>Billerby</p>
+                                    <p class="sr-factory">Billerby</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Quick Strike Item ID</label>
-                                    <p>2341</p>
+                                    <p class="sr-qxid">2341</p>
                                 </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Priority</label>
-                                    <p>High</p>
+                                    <p class="sr-priority">High</p>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="h4 text-bold">Deadline</label>
-                                    <p class="display-data" style="border: 0 !important">01/01/19</p>
+                                    <p class="sr-deadline" style="border: 0 !important">01/01/19</p>
                                 </div>
 
 
@@ -119,7 +118,7 @@
                                 </div>
                                 <div class="form-group" style="margin-top: 50px;">
                                     <label class="h4 text-bold">Notes</label>
-                                    <p>Sample Note</p>
+                                    <p class="sr-notes"></p>
                                 </div>
                             </td>
                         </tr>
@@ -138,37 +137,38 @@
                     <tbody >
                         <tr>
                             <td style="border-left: 0!important">
-                                <h4 class="text-bold">Size Spec Sheet: <small class=""> BLB Mens Basketball Jersey</small></h4>
+                                <h4 class="text-bold">Size Spec Sheet: <small class="rl-spec-sheet"> </small></h4>
                                 <div class="form-group" style="margin-top: 30px;">
                                     <label class="h4 text-bold">Sizes</label>
-                                    YXS YS YM YL YXL XSS M L XL 2XL 3XL
+                                    <p class="rl-sizes"></p>
                                 </div>
                                 <div class="form-group" style="margin-top: 30px;">
                                     <label class="h4 text-bold">3D Block Pattern</label>
-                                    YXS YS YM YL YXL XSS M L XL 2XL 3XL
+                                    <p class="rl-bp"></p>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Accents</label>
-                                    <p>Drop Shadow Outlined</p>
+                                    <p class="rl-accents"></p>
                                 </div>
                                 <!-- <hr> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Fonts</label>
-                                    <p>Basketball</p>
+                                    <p class="rl-fonts"></p>
                                 </div>
                                 <!-- <hr> -->
                             </td>
                             <td style="border-right: 0!important">
                                 <div class="form-group">
-                                    <label class="h4 text-bold">Digital</label>
-                                    <p>Billerby</p>
+                                    <label class="h4 text-bold">Patterns</label>
+                                    <p class="rl-patterns"></p>
                                 </div>
                                 <!-- <hr/> -->
                                 <div class="form-group">
                                     <label class="h4 text-bold">Configurations</label>
-                                    <p>Vert. Arch Bookend ARC STRAIGHT</p>
+                                    <p class="rl-ln-configurations"></p>
+                                    <p class="rl-tn-configurations"></p>
                                 </div>
                                 <!-- <hr/> -->
                             </td>
@@ -183,20 +183,19 @@
             <div class="row">
                 <div class="col-xs-5">
                     <h3 class="col-12 text-bold" style="margin-top: 0">Parts &amp; Application Rules</h3>
-                    <hr/>
-                    <div class="form-group allowed-apps">
+                    <!-- <hr/> -->
+                    <div class="form-group rl-allowed-apps">
                         <h3 class="col-12 text-bold">Allowed Application Locations</h3>
-                        <p>1 Front Chest Upper</p>
+                        <!-- <p>1 Front Chest Upper</p>
                         <p>2 Front Chest Center</p>
                         <p>5 Back Body Center</p>
                         <p>7 Back Upper Center</p>
                         <p>6 Back Name</p>
                         <p>9 Left Sleeve</p>
                         <p>10 Right Sleeve</p>
-                        <p>4 Front Neck Base</p>
+                        <p>4 Front Neck Base</p> -->
                     </div>
-
-                    <hr/>
+                    <!-- <hr/> -->
                 </div>
                 <div class="col-xs-7">
                     <!-- Parts -->
@@ -279,12 +278,7 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-
-    getQx7StyleRequest(id function (style_requests) {
-        window.style_requests = style_requests;
-    });
-
-
+    srid = $('#srid').val();
 
     function getQx7StyleRequests(id, callback){
             var style_request;
@@ -302,6 +296,97 @@ $(document).ready(function(){
                 }
             });
     }
+
+    function populateFields (style_request) {
+        // Style Request fields
+        $('.sr-name').text(style_request.style_name);
+        $('.sr-brand').text(style_request.brand.brand);
+        $('.sr-gender').text(style_request.gender.gender);
+        $('.sr-sport').text(style_request.sport.sport_name);
+        $('.sr-app').text(style_request.application_type.application_type);
+        $('.sr-style-category').text(style_request.style_category.style_category);
+        $('.sr-factory').text(style_request.factory.factory);
+        $('.sr-qxid').text(style_request.quickstrike_item_id);
+        $('.sr-priority').text(style_request.priority);
+
+        var deadline = style_request.deadline.split('-');
+        var formattedDeadline = '';
+        _.each(deadline.reverse(), function(dt){
+            formattedDeadline += dt + '/';
+        });
+        $('.sr-deadline').text(formattedDeadline.slice(0, -1));
+        $('.sr-notes').text(style_request.notes);
+
+        if(!_.isNull(style_request.filter_flags)) {
+            var flags = JSON.parse(JSON.parse(style_request.filter_flags));
+            _.each(flags, function (value, key) {
+                console.log(JSON.stringify(value))
+                if(value != "") {
+                    $('.sr-filter-flags').append(`
+                        <div class="form-group">
+                            <label class="h4 text-bold">`+key.replace('_', ' ')+`</label>
+                            <p>`+JSON.stringify(value).replace(/\{|\}|\"|\[|\]|,/g, function(match){
+                                return match === ',' ? ', ' : '';
+                            })+`</p>
+                        </div>`
+                    );    
+                }
+            });
+        }
+
+        // Rules fields
+        if(!_.isNull(style_request.rules)) {
+            var rules = style_request.rule;
+
+            if(!_.isNull(rules.sizes) && !_.isEmpty(rules.sizes) ) {
+                var sizes = rules.sizes.replace(/\{|\}|\"|\[|\]|,/g, '');
+                $('.rl-sizes').text(sizes);   
+            
+            }
+
+            if(!_.isNull(rules.accents) && !_.isEmpty(rules.accents) ) {
+                var accents = rules.accents.replace(/\{|\}|\"|\[|\]|,/g, function(match){
+                                return match === ',' ? ', ' : '';
+                            });
+                $('.rl-accents').text(accents);   
+            
+            }
+
+            if(!_.isNull(rules.last_name_configurations) && !_.isEmpty(rules.last_name_configurations) ) {
+                var last_name_configurations = rules.last_name_configurations.replace(/\{|\}|\"|\[|\]|,/g, function(match){
+                                return match === ',' ? ', ' : '';
+                            });
+                $('.rl-ln-configurations').text(last_name_configurations);   
+            }
+
+            if(!_.isNull(rules.team_name_configurations) && !_.isEmpty(rules.team_name_configurations) ) {
+                var team_name_configurations = rules.team_name_configurations.replace(/\{|\}|\"|\[|\]|,/g, function(match){
+                                return match === ',' ? ', ' : '';
+                            });
+                $('.rl-tn-configurations').text(team_name_configurations);   
+            }
+
+            // Allowed app locations
+            if(!_.isNull(rules.allowed_application_locations) && !_.isEmpty(rules.allowed_application_locations) ) {
+                var app_locations = JSON.parse(rules.allowed_application_locations);
+                _.each(app_locations, function (value, key) {
+                    console.log(key, value)
+                    $('.rl-allowed-apps').append(`
+                        <p>`+value +`</p>`
+                    );    
+                });
+            }
+        }
+
+        
+
+    }
+
+    getQx7StyleRequests(srid, function (style_requests) {
+        window.style_requests = style_requests;
+        populateFields(style_requests[0])
+    });
+
 
 });
 </script>

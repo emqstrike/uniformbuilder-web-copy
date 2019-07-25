@@ -48,11 +48,13 @@ $(document).ready(function(){
 
     function generateStyleRequests() {
         var elem = '';
+        var url = "qx7_style_request/";
         _.each(window.style_requests, function (request) {
+            link = url + request.id
             elem += `
                 <tr>
                     <td>` + request.style_name + `</td>
-                    <td><a href="#" class="btn btn-info btn-xs" data-style-request-id="1" role="button">View</a></td>
+                    <td><a href="`+link+`" class="btn btn-info btn-xs" role="button">View</a></td>
                 </tr>
             `;
         });
