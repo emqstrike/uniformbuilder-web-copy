@@ -262,6 +262,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             // QX7 Style Requests
             Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
             Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@show'])->name('v1_qx7_style_request');
+            Route::get('qx7_style_requests/create_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@createStyle'])->name('v1_qx7_create_style');
         });
     });
 

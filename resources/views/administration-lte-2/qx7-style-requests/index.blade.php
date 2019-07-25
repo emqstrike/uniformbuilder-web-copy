@@ -53,8 +53,9 @@ $(document).ready(function(){
         window.style_requests = style_requests;
     });
 
-    $(document).on('click', '.view-style', function(e) {
+    $(document).on('click', '.open-design-sheet', function(e) {
         e.preventDefault();
+
     });
 
     function generateStyleRequests() {
@@ -70,12 +71,15 @@ $(document).ready(function(){
                     <td>` + request.application_type.application_type + `</td>
                     <td>` + request.style_category.style_category + `</td>
                     <td>` + request.quickstrike_item_id + `</td>
-                    <td>` + request.design_sheet + `</td>
+                    <td> <a href="#" class="btn btn-default btn-xs open-design-sheet" data-url="` + request.design_sheet + `" role="button">Open</a></td>
                     <td>` + request.priority + `</td>
                     <td>` + request.deadline + `</td>
-                    <td>` + request.sport.sport_name + `</td>
+                    <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
                     <td>` + request.notes + `</td>
-                    <td><a href="#" class="btn btn-info btn-xs" data-style-request-id="1" role="button">View</a></td>
+                    <td>
+                        <a href="#" class="btn btn-default btn-xs" role="button">View</a>
+                        <a href="#" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>
+                    </td>
                 </tr>
             `;
         });

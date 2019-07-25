@@ -27,4 +27,9 @@ class Qx7StyleRequestController extends Controller
     {
         return view('administration-lte-2.qx7-style-requests.view');
     }
+
+    public function createStyle($id)
+    {
+        return view('administration-lte-2.qx7-style-requests.create-style');
+    }
 }
