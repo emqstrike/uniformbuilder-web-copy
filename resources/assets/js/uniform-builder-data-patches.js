@@ -125,9 +125,10 @@ $(document).ready(function () {
 				"omitPerspectives"	: ['left', 'right'],
 			},
 		];
+		
+		var data = _.findWhere(_savedDesigns, {"savedDesignID" : ub.config.savedDesignInfo.savedDesignID});
 
-		if (typeof ub.config.savedDesignInfo === "object" &&  !_.isEmpty(ub.config.savedDesignInfo)) {
-			var data = _.findWhere(_savedDesigns, {"savedDesignID" : ub.config.savedDesignInfo.savedDesignID});
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.isEmpty(data) === false) {
 			_.each(ub.current_material.settings.applications, function (application) {
 				application.application.views = _.omit(application.application.views, function (app) {
 					return _.contains(data.omitPerspectives, app.perspective);
