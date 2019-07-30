@@ -12197,9 +12197,9 @@ ub.funcs.fontOffSets = [
                 sport: ['Football', 'Football 2017'],
                 uniformApplicationType: 'tackle_twill',
                 excludedColors: [
-                    'PK',
-                    'NP',
-                    'Y',
+                    // 'PK',
+                    // 'NP',
+                    // 'Y',
                     'LG',
                     'DG',
                     'CR',
