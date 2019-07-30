@@ -2608,7 +2608,13 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 colors = data['colors'];
+
                 if(typeof callback === "function") callback(colors);
+
+                if ((colors.length == 0) && brand == 'riddell') {
+                    console.log('here');
+                    getColors(window.brand,  function(colors){ window.colors = colors; });
+                }
             }
         });
     }
