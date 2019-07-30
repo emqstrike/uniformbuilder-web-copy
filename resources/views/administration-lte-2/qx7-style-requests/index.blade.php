@@ -76,9 +76,14 @@ $(document).ready(function(){
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
                     <td>` + request.notes + `</td>
                     <td>
-                        <a href="#" class="btn btn-default btn-xs" role="button">View</a>
-                        <a href="/administration/v1-0/qx7_style_requests/create_style/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>
-                    </td>
+                        <a href="#" class="btn btn-default btn-xs" role="button">View</a>`
+                        if (request.style_id == null) {
+                            elem += `<a href="/administration/v1-0/qx7_style_requests/create_style/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>`
+                        } else {
+                            elem += `<a href="/administration/v1-0/qx7_style_requests/edit/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Update Style</a>`
+                        }
+
+                    `</td>
                 </tr>
             `;
         });
