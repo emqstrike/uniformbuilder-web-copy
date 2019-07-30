@@ -4,7 +4,7 @@
 
     <div class="signup-container">
 
-       <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form' data-parsley-validate>
+       <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form'>
 
                 <div id="div-forms">
                     <form id="register-form">
@@ -29,14 +29,12 @@
                                         
                                             <div class="col-md-6">
                                                 <label for="first_name">First Name</label>
-                                                <input name="first_name" class="form-control" type="text" placeholder="First Name" 
-                                                data-parsley-required>                                
+                                                <input name="first_name" class="form-control" type="text" placeholder="First Name" required>                                
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="last_name">Last Name</label>
-                                                <input name="last_name" class="form-control" type="text" placeholder="Last Name" 
-                                                data-parsley-required>
+                                                <input name="last_name" class="form-control" type="text" placeholder="Last Name" required>
                                             </div>
 
                                         </div>
@@ -45,9 +43,7 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="email">Email</label>
-                                                <input name="email" class="form-control" type="text" placeholder="E-mail" 
-                                                data-parsley-required
-                                                data-parsley-type="email">
+                                                <input name="email" class="form-control" type="text" placeholder="e-mail" required>
                                             </div>
                                         </div>
 
@@ -55,9 +51,7 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="password">Password</label>
-                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password"
-                                                data-parsley-required
-                                                data-parsley-minlength="6">
+                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password" required>
                                             </div>
                                         </div>
 
@@ -65,9 +59,7 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="password">Retype Password</label>
-                                                <input name="retype-password" id="retype-password" class="form-control" type="password" placeholder="Retype Password" 
-                                                data-parsley-required
-                                                data-parsley-equalto="#password">
+                                                <input name="retype-password" id="retype-password" class="form-control" type="password" placeholder="Retype Password" required>
                                             </div>
                                         </div>
 
@@ -128,7 +120,7 @@
                                             <div class="col-md-12">
 
                                                 <label for="state">State</label>
-                                                <input name="state" class="form-control" type="text" placeholder="State" data-parsley-required>                                
+                                                <input name="state" class="form-control" type="text" placeholder="State" required>                                
 
                                             </div>
 
@@ -136,14 +128,14 @@
 
                                                 <br />
                                                 <label for="zip">Zip</label>
-                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code" data-parsley-required>                                
+                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code" required>                                
 
                                             </div>
 
                                              <div class="col-md-12">
 
                                                 <br />
-                                                <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" data-parsley-required>                                
+                                                <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" required>                                
                                                 <br /><br />
                                                 <span class="message-rep"></span>
 

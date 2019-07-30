@@ -231,22 +231,19 @@
             // clear storage
             localStorage.clear();
 
-            window.ub.user = false; 
+            window.ub.user = false;
             $('.register').on('click', function() {
 
-                $('#user-signup-form').parsley().validate();
+                var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
+                var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
 
-                if ($('#user-signup-form').parsley().isValid() === false) { return false; }
+                if (_emailLength === 0 || _passwordLength === 0) {
 
-                // var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
-                // var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
+                    $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    $('.smk-alert-content').children().not(':last').remove(); // remove smoke duplicate
+                    return false;
 
-                // if (_emailLength === 0 || _passwordLength === 0) {
-
-                //     $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                //     return false;
-
-                // }
+                }
 
                 var captcha_response = $('.g-recaptcha-response').val();
 
@@ -256,12 +253,13 @@
                     return false;
                 }
 
-                // if($('input#password').val() !== $('input#retype-password').val()){
+                if($('input#password').val() !== $('input#retype-password').val()){
 
-                //    $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                //    return false;
+                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   $('.smk-alert-content').children().not(':last').remove(); // remove smoke duplicate
+                   return false;
 
-                // }
+                }
 
                 return true;
 
