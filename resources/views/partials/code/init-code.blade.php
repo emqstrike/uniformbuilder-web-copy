@@ -231,32 +231,37 @@
             // clear storage
             localStorage.clear();
 
-            window.ub.user = false;
+            window.ub.user = false; 
             $('.register').on('click', function() {
 
-                var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
-                var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
+                $('#user-signup-form').parsley().validate();
 
-                if (_emailLength === 0 || _passwordLength === 0) {
+                if ($('#user-signup-form').parsley().isValid() === false) { return false; }
 
-                    $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                    return false;
+                // var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
+                // var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
 
-                }
+                // if (_emailLength === 0 || _passwordLength === 0) {
+
+                //     $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                //     return false;
+
+                // }
 
                 var captcha_response = $('.g-recaptcha-response').val();
 
                 if (captcha_response.length == 0) {
                     $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    $('.smk-alert-content').children().not(':last').remove(); // remove smoke duplicate
                     return false;
                 }
 
-                if($('input#password').val() !== $('input#retype-password').val()){
+                // if($('input#password').val() !== $('input#retype-password').val()){
 
-                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                   return false;
+                //    $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                //    return false;
 
-                }
+                // }
 
                 return true;
 
