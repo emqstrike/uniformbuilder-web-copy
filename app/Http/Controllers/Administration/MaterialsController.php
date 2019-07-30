@@ -122,6 +122,11 @@ class MaterialsController extends Controller
         $options = $this->optionsClient->getByMaterialId($id);
         $material = $this->client->getMaterial($id);
         $colors = $this->colorsClient->getColors($material->brand);
+
+        if (empty($colors) && ($material->brand == 'riddell')) {
+            $colors = $this->colorsClient->getColors(strtolower(env('BRAND')));
+        }
+
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
