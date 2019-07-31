@@ -9913,9 +9913,9 @@ $(document).ready(function() {
         _spriteCenter.alpha = 0;
 
         // Center Point Adjustment
-
-        _spriteCenter.position.x -= _appObj.width / 4;
-        _spriteCenter.position.y -= _appObj.height / 4;
+        var divisor = 12 // default is 4
+        _spriteCenter.position.x -= _appObj.width / divisor;
+        _spriteCenter.position.y -= _appObj.height / divisor;
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
