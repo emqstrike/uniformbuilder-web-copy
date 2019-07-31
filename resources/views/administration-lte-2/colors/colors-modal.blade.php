@@ -45,6 +45,7 @@
                       <select class="form-control input-brand">
                         <option value="prolook">Prolook</option>
                         <option value="richardson">Richardson</option>
+                        <option value="riddell">Riddell</option>
                       </select>
                   </div>
                   <div class="form-group">

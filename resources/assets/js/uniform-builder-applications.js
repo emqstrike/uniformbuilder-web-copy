@@ -9913,9 +9913,9 @@ $(document).ready(function() {
         _spriteCenter.alpha = 0;
 
         // Center Point Adjustment
-
-        _spriteCenter.position.x -= _appObj.width / 4;
-        _spriteCenter.position.y -= _appObj.height / 4;
+        var divisor = 12 // default is 4
+        _spriteCenter.position.x -= _appObj.width / divisor;
+        _spriteCenter.position.y -= _appObj.height / divisor;
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
@@ -10371,23 +10371,6 @@ $(document).ready(function() {
         var _locations = ub.current_material.settings.applications;
 
          _.each (_locations, function (location) {
-
-            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
-            // delete embellishment if ID `1710`
-            if (typeof ub.config.savedDesignInfo === 'object' &&
-                typeof location.mascot !== 'undefined' 
-                && ub.config.sport === "Volleyball"
-                && ub.config.blockPattern === "Ace Crew Neck"
-                && (location.mascot.id === "1710" || location.mascot.id === 1710)) {
-                    delete ub.current_material.settings.applications[location.code];
-                    return;
-            }
-
-            if (location.type === "free") { 
-
-                /// Todo: Handle Here ....
-
-            }
 
             _.each(location.application.views, function (view, index) {
 
@@ -11244,7 +11227,8 @@ $(document).ready(function() {
             if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
                 // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
-                $('span.optionButton[data-type="player_number"]').hide();
+                $('span.optionButton[data-type="player_number"]').hide(); // player # option
+                $('span.optionButton[data-type="player_name"]').hide(); //player name option
 
             }
 

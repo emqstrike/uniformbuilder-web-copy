@@ -101,6 +101,7 @@
                                         <option value="none" @if($mascot->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($mascot->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($mascot->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($mascot->brand == "riddell") selected="selected"@endif>Riddell</option>
                                 </select>
                             </div>
                         </div>

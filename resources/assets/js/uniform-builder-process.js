@@ -170,6 +170,13 @@ $(document).ready(function() {
 
         }
 
+        // hide the the table row 'Sleeve Type' and 'Last Name Application' in roster form if the uniform is Socks and except for Hockey Socks.
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
+            // header th td
+            $('td.sleevetype, th.wide.sleevetype').hide();
+            $('td.lastnameapplication, th.wide.lastnameapplication').hide();
+        }
+
         // Hide Player Number on Wrestling and Socks
         if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isSocks()) {
 

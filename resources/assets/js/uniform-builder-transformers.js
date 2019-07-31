@@ -101,6 +101,11 @@ $(document).ready(function () {
 
         });
 
+        // preprocess `Quick Turn` pattern for saved design uniform
+        if (ub.config.option === 'Quick Turn' && typeof ub.config.savedDesignInfo === 'object') {
+            ub.funcs.processQuickTurnPattern();
+        }
+
     };
 
     ub.funcs.getHexColorByCode = function (code) {
