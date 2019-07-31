@@ -4,7 +4,7 @@
 
     <div class="signup-container">
 
-       <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form'>
+       <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form' data-parsley-validate>
 
                 <div id="div-forms">
                     <form id="register-form">
@@ -29,12 +29,18 @@
                                         
                                             <div class="col-md-6">
                                                 <label for="first_name">First Name</label>
-                                                <input name="first_name" class="form-control" type="text" placeholder="First Name" required>                                
+                                                <input name="first_name" class="form-control" type="text" placeholder="First Name"
+                                                data-parsley-required 
+                                                data-parsley-pattern="^[a-zA-Z0-9 ]*$" 
+                                                data-parsley-pattern-message="This value should be alphanumeric.">                                
                                             </div>
 
                                             <div class="col-md-6">
                                                 <label for="last_name">Last Name</label>
-                                                <input name="last_name" class="form-control" type="text" placeholder="Last Name" required>
+                                                <input name="last_name" class="form-control" type="text" placeholder="Last Name" 
+                                                data-parsley-required
+                                                data-parsley-pattern="^[a-zA-Z0-9 ]*$" 
+                                                data-parsley-pattern-message="This value should be alphanumeric.">
                                             </div>
 
                                         </div>
@@ -43,7 +49,9 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="email">Email</label>
-                                                <input name="email" class="form-control" type="text" placeholder="e-mail" required>
+                                                <input name="email" class="form-control" type="text" placeholder="E-mail" 
+                                                data-parsley-required
+                                                data-parsley-type="email">
                                             </div>
                                         </div>
 
@@ -51,7 +59,9 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="password">Password</label>
-                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password" required>
+                                                <input name="password" id="password" class="form-control" type="password" placeholder="Password" 
+                                                data-parsley-required
+                                                data-parsley-minlength="6">
                                             </div>
                                         </div>
 
@@ -59,7 +69,10 @@
                                             <div class="col-md-12">
                                                 <br />
                                                 <label for="password">Retype Password</label>
-                                                <input name="retype-password" id="retype-password" class="form-control" type="password" placeholder="Retype Password" required>
+                                                <input name="retype-password" id="retype-password" class="form-control" type="password" placeholder="Retype Password" 
+                                                data-parsley-required
+                                                data-parsley-equalto="#password"
+                                                data-parsley-equalto-message="Passwords do not match.">
                                             </div>
                                         </div>
 
@@ -120,7 +133,10 @@
                                             <div class="col-md-12">
 
                                                 <label for="state">State</label>
-                                                <input name="state" class="form-control" type="text" placeholder="State" required>                                
+                                                <input name="state" class="form-control" type="text" placeholder="State" 
+                                                data-parsley-required
+                                                data-parsley-pattern="^[a-zA-Z0-9 ]*$" 
+                                                data-parsley-pattern-message="This value should be alphanumeric.">                                
 
                                             </div>
 
@@ -128,14 +144,17 @@
 
                                                 <br />
                                                 <label for="zip">Zip</label>
-                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code" required>                                
+                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code"   
+                                                data-parsley-required
+                                                data-parsley-pattern="^[0-9- ]*$" 
+                                                data-parsley-pattern-message="This value should be a valid integer.">                                
 
                                             </div>
 
                                              <div class="col-md-12">
 
                                                 <br />
-                                                <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" required>                                
+                                                <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep">                                
                                                 <br /><br />
                                                 <span class="message-rep"></span>
 
