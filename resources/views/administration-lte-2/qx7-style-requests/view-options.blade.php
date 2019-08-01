@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="box-body">
-                        <input type="hidden" name="cleanup_material_id" value="1">
+                        <input type="hidden" name="cleanup_material_id" value="{{ $style_id }}">
                         <input type="hidden" id="material_block_pattern" value="test">
                         <input type="hidden" id="material_neck_option" value="test">
                         <input type="hidden" id="material_uniform_category" value="Baseball">

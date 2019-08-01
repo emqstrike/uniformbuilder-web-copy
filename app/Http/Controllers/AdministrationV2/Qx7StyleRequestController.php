@@ -140,4 +140,34 @@ class Qx7StyleRequestController extends Controller
             'style_id'
         ));
     }
+
+    public function saveApplications(Request $request)
+    {
+        $styleID = $request->input('material_id');
+        $materialOptionId = $request->input('app_material_option_id');
+        $materialObject = null;
+
+        $applications_properties = $request->input('applications_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'style_id' => $styleID,
+            'applications_properties' => $applications_properties
+        ];
+
+        $response = null;
+        if (!empty($materialOptionId)) {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->optionsClient->updateApplications($data);
+        }
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
+        }
+    }
 }
