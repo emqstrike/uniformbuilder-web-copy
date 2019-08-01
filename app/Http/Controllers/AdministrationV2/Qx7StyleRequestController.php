@@ -108,4 +108,36 @@ class Qx7StyleRequestController extends Controller
 
         ]);
     }
+
+    public function getStyleApplication($id)
+    {
+        $materialOption = $this->optionsClient->getMaterialOption($id);
+        $options = $this->optionsClient->getByStyleId($materialOption->style_id);
+        // $material = $this->materialClient->getMaterial($materialOption->material_id);
+        $guide = null;
+        $highlightPath = null;
+        foreach ($options as $option) {
+            if ($materialOption->perspective == $option->perspective) {
+                if ($option->name == 'Guide') {
+                    $guide = $option->material_option_path;
+                }
+
+                if ($option->setting_type == 'highlights') {
+                    $highlightPath = $option->material_option_path;
+                }
+            }
+        }
+
+        $applications = $this->applicationClient->getApplications();
+        $fonts = $this->fontClient->getFonts();
+        $style_id = 1;
+        return view('administration-lte-2.master-pages.materials.style-application', compact(
+            'materialOption',
+            'guide',
+            'highlightPath',
+            'applications',
+            'fonts',
+            'style_id'
+        ));
+    }
 }

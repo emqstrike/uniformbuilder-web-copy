@@ -54,9 +54,9 @@
                     <div class="box-body">
                         <div class="col-md-12">
                             <form action="{{ route('v1_save_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
-                                data-material-id="{{ $material->id }}"
-                                data-material-name="{{ $material->name }}"
-                                data-material-brand="{{ $material->brand }}"
+                                data-material-id="{{ $style_id }}"
+                                data-material-name="Style name"
+                                data-material-brand="prolook"
                                 data-material-option-id="{{ $materialOption->id }}"
                                 data-material-option-name="{{ $materialOption->name }}"
                                 data-material-option-setting-type="{{ $materialOption->setting_type }}"
@@ -68,16 +68,16 @@
                                 data-material-option-guide="{{ $guide }}"
                             >
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" class="material-id" name="material_id" value="{{ $material->id }}">
+                                <input type="hidden" class="material-id" name="material_id" value="{{ $style_id }}">
                                 <input type="hidden" id="app_option_id" class="material-option-id" name="app_material_option_id" value="{{ $materialOption->id }}">
                                 <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop value" value="{{ $materialOption->applications_properties }}">
                                 <input type="hidden" id="app-saved-perspective" value="{{ $materialOption->perspective }}">
                                 <input type="hidden" id="app-material-option-name" value="{{ $materialOption->name }}">
-                                <input type="hidden" id="app-material-brand" value="{{ $material->brand }}">
+                                <input type="hidden" id="app-material-brand" value="prolook">
 
-                                <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
-                                <input type="hidden" id="material_asset_target" value="{{ $material->asset_target }}">
-                                <input type="hidden" id="material_brand" value="{{ $material->brand }}">
+                                <input type="hidden" id="material_uniform_category" value="Baseball">
+                                <input type="hidden" id="material_asset_target" value="Web">
+                                <input type="hidden" id="material_brand" value="prolook">
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -258,5 +258,5 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/ddslick.min.js"></script>
     <script type="text/javascript" src="/underscore/underscore.js"></script>
-    <script type="text/javascript" src="/js/administration-lte-2/materials/material-application.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials/style-application.js"></script>
 @endsection
