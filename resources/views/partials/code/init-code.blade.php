@@ -234,29 +234,15 @@
 
             window.ub.user = false;
             $('.register').on('click', function() {
-
-                var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
-                var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
-
-                if (_emailLength === 0 || _passwordLength === 0) {
-
-                    $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                    return false;
-
-                }
-
+                var isValidated      = $('#user-signup-form').parsley().validate(); // forms parsley instance and validation()
                 var captcha_response = $('.g-recaptcha-response').val();
 
+                if (isValidated === false) { return false; }
+
                 if (captcha_response.length == 0) {
-                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '80px'});
+                    $('.smk-alert-content').children().not(':last').remove(); // remove smoke duplicate
                     return false;
-                }
-
-                if($('input#password').val() !== $('input#retype-password').val()){
-
-                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                   return false;
-
                 }
 
                 return true;
@@ -273,12 +259,12 @@
 
                 }
 
-                if($('input#forgot-password-email').val() === ""){
-                   //alert('Password do not match');
-                   $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                // if($('input#forgot-password-email').val() === ""){
+                //    //alert('Password do not match');
+                //    $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
 
-                   return false;
-                }
+                //    return false;
+                // }
 
                 var captcha_response = $('.g-recaptcha-response').val();
                 if (captcha_response.length == 0) {
