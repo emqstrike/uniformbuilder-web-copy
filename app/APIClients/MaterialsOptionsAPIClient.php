@@ -114,6 +114,18 @@ class MaterialsOptionsAPIClient extends APIClient
         return null;
     }
 
+    public function getByStyleId($styleId)
+    {
+        $response = $this->get('styles_options/' . $styleId);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->materials_options;
+        }
+        return null;
+    }
+
     public function isExist($name, $id = null)
     {
         $material_option = $this->getByName($name);
@@ -145,7 +157,7 @@ class MaterialsOptionsAPIClient extends APIClient
         if ($result->success) {
             return $result->material_option;
         }
-        
+
         return null;
     }
 }
