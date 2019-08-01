@@ -263,6 +263,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
             Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@show'])->name('v1_qx7_style_request');
             Route::get('qx7_style_requests/create_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@createStyle'])->name('v1_qx7_create_style');
+            Route::get('qx7_style_requests/options/dropzone/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@dropZone'])->name('v1_qx7_dropzone');
+            Route::get('qx7_style_requests/view_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getOptions'])->name('v1_qx7_style_options');
         });
     });
 
