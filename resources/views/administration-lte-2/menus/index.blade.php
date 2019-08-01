@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/iconpicker/css/fontawesome-iconpicker.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css" rel="stylesheet">
 
     <style type="text/css">
         ul.item {
