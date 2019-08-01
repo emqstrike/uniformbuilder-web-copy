@@ -6,6 +6,11 @@
         padding: 10px !important;
         background-color: #fff;
     }
+    .box.box-solid, .container-fluid {
+        padding: 25px;
+        margin: 0;
+        box-shadow: none !important;
+    }
     .box-header {
         background-color: #f2f2f2;
     }
@@ -51,7 +56,7 @@
 
     }
     .rl-allowed-apps {
-        padding:30px;
+        padding:20px;
     }
 </style>
 @endsection
@@ -62,7 +67,15 @@
         <!-- Style request -->
         <div class="box box-solid">
             <div class="box-header">
-                <h2 class="col-12 text-bold">STYLE REQUEST</h2>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h2 class="text-bold" style="margin:0">STYLE REQUEST</h2>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <!-- BRAND LOGO HERE -->
+                        <img src="https://qx7.s3-us-west-2.amazonaws.com/riddell_logo.png" alt="logo" height=30/>
+                    </div>
+                </div>
             </div>
             <div class="box-body">
                 <table class="table style-request-rules">
@@ -70,53 +83,35 @@
                         <tr>
                             <td style="border-left: 0!important">
                                 <h4 class="text-bold">Name: <small class="sr-name"></small></h4>
-                                <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class="sr-brand"></small></h4>
+                                <!-- <h4 class="text-bold" style="margin-top: 30px;">Brand: <small class="sr-brand"></small></h4> -->
                                 <h4 class="text-bold" style="margin-top: 30px;">Gender: <small class="sr-gender"></small></h4>
                                 <h4 class="text-bold" style="margin-top: 30px;">Sport: <small class="sr-sport"></small></h4>
                                 <h4 class="text-bold" style="margin-top: 30px;">Application: <small class="sr-app"></small></h4>
                                 <h4 class="text-bold" style="margin-top: 30px;">Style Category: <small class="sr-style-category"></small></h4>
                             </td>
-                            <td class="sr-filter-flags">
-                                <h4 class="text-bold">Filter Flags</h4>
-                                <!-- <div class="form-group">
-                                    <label class="h4 text-bold">Neck Filter</label>
-                                    BSB V-neck 2 Button Full Button
-                                </div>
-                                <div class="form-group">
-                                    <label class="h4 text-bold">Sleeve Filters</label>
-                                    SLeeveless Set-In Raglan
-                                </div>
-                                <div class="form-group">
-                                    <label class="h4 text-bold">Hemline Filter</label>
-                                    Straight Baseball Curved
-                                </div> -->
-                            </td>
                             <td>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Factory</label>
-                                    <p class="sr-factory">Billerby</p>
+                                    <p class="sr-factory"></p>
                                 </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Quick Strike Item ID</label>
-                                    <p class="sr-qxid">2341</p>
+                                    <p class="sr-qxid"></p>
                                 </div>
                                 <div class="form-group">
                                     <label class="h4 text-bold">Priority</label>
-                                    <p class="sr-priority">High</p>
+                                    <p class="sr-priority" style="text-transform:capitalize"></p>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="h4 text-bold">Deadline</label>
-                                    <p class="sr-deadline" style="border: 0 !important">01/01/19</p>
+                                    <p class="sr-deadline"></p>
                                 </div>
 
 
                             </td>
                             <td style="border-right: 0!important">
                                 <div class="form-group">
-                                    <a href="#" class="h4 text-primary">Design Sheet</a>
-                                </div>
-                                <div class="form-group" style="margin-top: 50px;">
                                     <label class="h4 text-bold">Notes</label>
                                     <p class="sr-notes"></p>
                                 </div>
@@ -137,14 +132,9 @@
                     <tbody >
                         <tr>
                             <td style="border-left: 0!important">
-                                <h4 class="text-bold">Size Spec Sheet: <small class="rl-spec-sheet"> </small></h4>
-                                <div class="form-group" style="margin-top: 30px;">
-                                    <label class="h4 text-bold">Sizes</label>
-                                    <p class="rl-sizes"></p>
-                                </div>
-                                <div class="form-group" style="margin-top: 30px;">
-                                    <label class="h4 text-bold">3D Block Pattern</label>
-                                    <p class="rl-bp"></p>
+                                <div class="form-group">
+                                    <label class="h4 text-bold">Size Spec Sheet</label>
+                                    <p class="rl-spec-sheet"></p>
                                 </div>
                             </td>
                             <td>
@@ -154,21 +144,16 @@
                                 </div>
                                 <!-- <hr> -->
                                 <div class="form-group">
-                                    <label class="h4 text-bold">Fonts</label>
-                                    <p class="rl-fonts"></p>
+                                    <label class="h4 text-bold">Team Name Configuration</label>
+                                    <p class="rl-tn-configurations"></p>
                                 </div>
                                 <!-- <hr> -->
                             </td>
                             <td style="border-right: 0!important">
-                                <div class="form-group">
-                                    <label class="h4 text-bold">Patterns</label>
-                                    <p class="rl-patterns"></p>
-                                </div>
                                 <!-- <hr/> -->
                                 <div class="form-group">
-                                    <label class="h4 text-bold">Configurations</label>
+                                    <label class="h4 text-bold">Last Name Configuration</label>
                                     <p class="rl-ln-configurations"></p>
-                                    <p class="rl-tn-configurations"></p>
                                 </div>
                                 <!-- <hr/> -->
                             </td>
@@ -181,9 +166,9 @@
         <!-- Parts and Application Rules -->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-5">
+                <div class="col-xs-4">
                     <h3 class="col-12 text-bold" style="margin-top: 0">Parts &amp; Application Rules</h3>
-                    <!-- <hr/> -->
+                    <hr/>
                     <div class="form-group rl-allowed-apps">
                         <h3 class="col-12 text-bold">Allowed Application Locations</h3>
                         <!-- <p>1 Front Chest Upper</p>
@@ -195,67 +180,33 @@
                         <p>10 Right Sleeve</p>
                         <p>4 Front Neck Base</p> -->
                     </div>
-                    <!-- <hr/> -->
+                    <hr/>
                 </div>
-                <div class="col-xs-7">
-                    <!-- Parts -->
-                    <table class="table text-center parts-pipings-table">
-                        <thead>
-                            <tr>
-                                <th colspan=3 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Parts</h3></th>
-                            </tr>
-                            <tr>
-                                <th>Body Part Name</th>
-                                <th>Color Set</th>
-                                <th>Brand Fabric Name</th>
-                            </tr>
-                        </thead>
-                        <tbody >
-                            <tr>
-                               <td>Front Body</td>
-                               <td>Prolook Sublimated 1</td>
-                               <td>LTX Testured ProFit</td>
-                            </tr>
-                            <tr>
-                               <td>Back Body</td>
-                               <td>Prolook Sublimated 1</td>
-                               <td>LTX Testured ProFit</td>
-                            </tr>
-                            <tr>
-                               <td>Sleeves Body</td>
-                               <td>Prolook Sublimated 1</td>
-                               <td>LTX Testured ProFit</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                <div class="col-xs-8" style="padding-left:5%;padding-right:5%">
                     <!-- Pipings -->
                     <table class="table text-center parts-pipings-table">
                         <thead>
                             <tr>
-                                <th colspan=5 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Pipings</h3></th>
+                                <th colspan=4 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Pipings</h3></th>
                             </tr>
                             <tr>
                                 <th>Body Part Name</th>
                                 <th>1/8</th>
                                 <th>1/4</th>
                                 <th>1/2</th>
-                                <th></th>
                             </tr>
                         </thead>
-                        <tbody >
-                            <tr>
+                        <tbody>
+                            <!-- <tr>
                                <td>Neck Piping</td>
                                <td>3 Colors</td>
                                <td>3 Colors</td>
                                <td>1 Color</td>
-                               <td></td>
                             </tr>
                             <tr>
                                <td>BCenter Piping</td>
                                <td>3 Colors</td>
                                <td>2 Colors</td>
-                               <td></td>
                                <td></td>
                             </tr>
                             <tr>
@@ -263,8 +214,7 @@
                                <td></td>
                                <td></td>
                                <td></td>
-                               <td></td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -320,7 +270,6 @@ $(document).ready(function(){
         if(!_.isNull(style_request.filter_flags)) {
             var flags = JSON.parse(JSON.parse(style_request.filter_flags));
             _.each(flags, function (value, key) {
-                console.log(JSON.stringify(value))
                 if(value != "") {
                     $('.sr-filter-flags').append(`
                         <div class="form-group">
@@ -368,18 +317,37 @@ $(document).ready(function(){
 
             // Allowed app locations
             if(!_.isNull(rules.allowed_application_locations) && !_.isEmpty(rules.allowed_application_locations) ) {
-                var app_locations = JSON.parse(rules.allowed_application_locations);
+                var app_locations = JSON.parse(rules.application_locations);
                 _.each(app_locations, function (value, key) {
-                    console.log(key, value)
                     $('.rl-allowed-apps').append(`
                         <p>`+value +`</p>`
                     );    
                 });
             }
+
+            // Spec sheet
+            if(!_.isNull(rules.spec_sheet) && !_.isEmpty(rules.spec_sheet) ) {
+                $('.rl-spec-sheet').text(rules.spec_sheet.spec_sheet_name); 
+            }
+
+            // Allowed piping locations
+            if(!_.isNull(rules.allowed_piping_locations) && !_.isEmpty(rules.allowed_piping_locations) ) {
+                var pipings = JSON.parse(JSON.parse(rules.allowed_piping_locations));
+                _.each(pipings, function (piping) {
+                    console.log(piping)
+                    console.log(piping['Allow'])
+                    $('.parts-pipings-table tbody').append(`
+                            <tr>
+                               <td>`+piping['Piping Location']+`</td>
+                               <td>`+piping['1/2 Colors'].length+` Colors</td>
+                               <td>`+piping['1/4 Colors'].length+` Colors</td>
+                               <td>`+piping['1/8 Colors'].length+` Colors</td>
+                            </tr>
+                    `);    
+
+                });
+            }
         }
-
-        
-
     }
 
     getQx7StyleRequests(srid, function (style_requests) {
