@@ -50,7 +50,7 @@ class Qx7StyleRequestController extends Controller
 
     public function show($id)
     {
-        return view('administration-lte-2.qx7-style-requests.view');
+        return view('administration-lte-2.qx7-style-requests.view', compact('id'));
     }
 
     public function createStyle($id)
