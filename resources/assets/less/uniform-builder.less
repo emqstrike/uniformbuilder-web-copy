@@ -31,6 +31,13 @@
 
 // End Tables
 
+div#signup {
+    form#user-signup-form {
+        // parsley error
+        input.form-control.parsley-error{ border-color: red; }
+        ul.parsley-errors-list  { color: red; }
+    }
+}
 
 .message-list () {
 
@@ -10521,7 +10528,7 @@ div#team-store-toolbox.visible {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 3000;
+        z-index: 1000;
 
         border: solid 1px #888888;
 
@@ -10773,7 +10780,7 @@ div#team-store-toolbox.visible {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 3000;
+        z-index: 1000;
 
         border: solid 1px #888888;
 
