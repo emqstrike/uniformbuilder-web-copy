@@ -32,7 +32,7 @@
                                 <th>Requested By:</th>
                                 <th>Notes</th>
                                 <th>Style ID</th>
-                                <th>Action</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="style-request-row">

@@ -170,4 +170,15 @@ class Qx7StyleRequestController extends Controller
             return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
+
+    public function styleOptionsSetup($id)
+    {
+        // $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByStyleId($id);
+
+        return view('administration-lte-2.master-pages.materials.style-options-setup', [
+            // 'material' => $material,
+            'options' => $options,
+        ]);
+    }
 }
