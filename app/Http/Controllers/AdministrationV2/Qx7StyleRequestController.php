@@ -92,7 +92,7 @@ class Qx7StyleRequestController extends Controller
         }
 
         $gradients = $this->gradientClient->getGradients();
-        $id = 1;
+
         return view('administration-lte-2.qx7-style-requests.view-options', [
             'options' => $options,
             'colors' => $colors,
@@ -105,7 +105,6 @@ class Qx7StyleRequestController extends Controller
             'left_guide' => $left_guide,
             'right_guide' => $right_guide,
             'style_id' => $id
-
         ]);
     }
 
@@ -181,5 +180,16 @@ class Qx7StyleRequestController extends Controller
             'style_id' => $style_id,
             'options' => $options,
         ]);
+    }
+
+    public function importBoundingBox(Request $request)
+    {
+        $response = $this->optionsClient->importBoundingBox($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
+        }
+
+        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
 }
