@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-info">
-                    @section('page-title', 'Create Material')
-                    <div class="panel-heading">Create Material</div>
+                    @section('page-title', 'Create Style')
+                    <div class="panel-heading">Create Style</div>
 
                     <div class="panel-body">
                         @include('administration.partials.validation-error')
@@ -15,7 +15,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Sytle Name</label>
+                                <label class="col-md-4 control-label">Style Name</label>
                                 <div class="col-md-6">
                                     <input type="hidden" class="form-control style-id" value="{{ $id }}">
                                     <input type="hidden" class="form-control style-rule-id">
@@ -152,7 +152,6 @@ $(document).ready(function(){
         });
     }
 
-
     function updateStyleId(style_id) {
         var style_request_id = $('.style-id').val();
         var data = {};
@@ -168,6 +167,7 @@ $(document).ready(function(){
             contentType: 'application/json;',
             success: function (data) {
                 if(data.success) {
+                window.location.replace("/administration/v1-0/qx7_style_requests");
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -175,7 +175,7 @@ $(document).ready(function(){
         });
     }
 
-    function getQx7StyleRequest(id, callback){
+    function getQx7StyleRequest(id, callback) {
             var style_request;
             var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
             $.ajax({
@@ -185,7 +185,7 @@ $(document).ready(function(){
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
-                success: function(data){
+                success: function(data) {
                     style_request = data['style_request'];
                     if(typeof callback === "function") callback(style_request);
                 }

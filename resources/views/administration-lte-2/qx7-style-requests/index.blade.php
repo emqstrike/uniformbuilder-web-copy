@@ -31,6 +31,7 @@
                                 <th>Deadline</th>
                                 <th>Requested By:</th>
                                 <th>Notes</th>
+                                <th>Customizer ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -77,6 +78,7 @@ $(document).ready(function(){
                     <td>` + request.deadline + `</td>
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
                     <td>` + request.notes + `</td>
+                    <td>` + request.style_id + `</td>
                     <td>
                         <a href="`+link+`" class="btn btn-default btn-xs" role="button">View</a>`
                         if (request.style_id == null) {
