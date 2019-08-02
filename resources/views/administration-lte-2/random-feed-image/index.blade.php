@@ -1,7 +1,7 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.16/vuetify.css" rel="stylesheet">
 
     <style>
         input[type='file'] {

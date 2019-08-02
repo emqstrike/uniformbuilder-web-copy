@@ -88,7 +88,7 @@
                         <td class="style-option">{{ $style_request->block_pattern_option }}</td>
                         <td class="style-brand">{{ $style_request->brand }}</td>
                         <td>
-                            <input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="{{ $style_request->design_sheet_url }}">
+                            <input type="hidden" name="style_design_sheet_url" class="style-design-sheet-url" value="{{ $style_request->design_sheet_url }}">
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
                         </td>
                         <td class="style-qstrike-item-id">{{ $style_request->qstrike_item_id }}</td>
