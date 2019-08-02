@@ -1807,7 +1807,7 @@
                     <td>Sport</td>
                     <td>Name / Notes</td>
                     <td>Thumbnails</td>
-                    <td>&nbsp;</td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
