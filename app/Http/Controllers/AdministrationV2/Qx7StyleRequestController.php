@@ -92,7 +92,6 @@ class Qx7StyleRequestController extends Controller
         }
 
         $gradients = $this->gradientClient->getGradients();
-        $id = 1;
         return view('administration-lte-2.qx7-style-requests.view-options', [
             'options' => $options,
             'colors' => $colors,
@@ -130,7 +129,7 @@ class Qx7StyleRequestController extends Controller
 
         $applications = $this->applicationClient->getApplications();
         $fonts = $this->fontClient->getFonts();
-        $style_id = 1;
+        $style_id = $id;
         return view('administration-lte-2.qx7-style-requests.style-application', compact(
             'materialOption',
             'guide',

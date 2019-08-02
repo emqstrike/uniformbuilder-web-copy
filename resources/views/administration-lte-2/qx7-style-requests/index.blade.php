@@ -81,6 +81,9 @@ $(document).ready(function(){
                     <td>` + request.style_id + `</td>
                     <td>
                         <a href="/administration/v1-0/qx7_style_requests/view_options/`+ request.id + `" class="btn btn-xs btn-flat btn-default">
+                            Options
+                        </a>
+                        <a href="/administration/v1-0/qx7_style_requests/view_options_setup/`+ request.id + `" class="btn btn-xs btn-flat btn-default">
                             <i class="fa fa-gear" aria-hidden="true"></i>
                         </a>
                         <a href="/administration/v1-0/qx7_style_requests/options/dropzone/`+ request.id + `" class="btn btn-xs btn-flat btn-default">

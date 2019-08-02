@@ -31,10 +31,10 @@
                     <div class="box-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Back
                                 </a>
-                                <a href="{{ route('v1_materials_options_setup', ['id' => $style_id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('v1_qx7_style_options_setup', ['id' => $style_id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Options (Minified)
                                 </a>
                             </div>
@@ -44,7 +44,7 @@
 
                         <h1>Style Options of: Style name</h1>
 
-                        <a href="{{ route('v1_material_edit', ['id' => $style_id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
+                        <a href="{{ route('v1_qx7_edit_style', ['id' => $style_id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
                             Edit
                         </a>
                         <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style_id }}">
@@ -472,22 +472,48 @@
         </script>
     @endif
 
-    <script>
-        $(document).ready(function() {
-            $('#applications_table_container').scroll(function() {
-                var tableHeaderPosition = "translate(0," + $(this).scrollTop() + "px)";
-                var tableHeaderColumnPosition = "translate(" + $(this).scrollLeft() + "px, " + $(this).scrollTop() + "px)";
-                var tableColumnPosition = "translate(" + $(this).scrollLeft() + "px, 0)";
+<script>
+$(document).ready(function() {
+    $('#applications_table_container').scroll(function() {
+        var tableHeaderPosition = "translate(0," + $(this).scrollTop() + "px)";
+        var tableHeaderColumnPosition = "translate(" + $(this).scrollLeft() + "px, " + $(this).scrollTop() + "px)";
+        var tableColumnPosition = "translate(" + $(this).scrollLeft() + "px, 0)";
 
-                var secondColumnPosition = $(this).scrollLeft() + 218;
-                secondColumnPosition = "translate(" + secondColumnPosition  + "px, 0)";
+        var secondColumnPosition = $(this).scrollLeft() + 218;
+        secondColumnPosition = "translate(" + secondColumnPosition  + "px, 0)";
 
-                $('#applications_table_container th:first-child').css('transform', tableColumnPosition);
-                $('#applications_table_container th:nth-child(2)').css('transform', tableColumnPosition);
+        $('#applications_table_container th:first-child').css('transform', tableColumnPosition);
+        $('#applications_table_container th:nth-child(2)').css('transform', tableColumnPosition);
 
-                $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
-                $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
-            });
-        });
-    </script>
+        $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
+        $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
+    });
+
+    window.style_request = null;
+
+    getQx7StyleRequest(id, function (style_request) {
+        window.style_request = style_request;
+    });s
+
+    function getQx7StyleRequest(id, callback) {
+        var style_request;
+        var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data) {
+                style_request = data['style_request'];
+                if(typeof callback === "function") callback(style_request);
+            }
+    });
+}
+
+});
+
+
+</script>
 @endsection
