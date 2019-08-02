@@ -16,6 +16,7 @@
 @endsection
 
 @section('custom-styles')
+
     @foreach ($fonts as $font)
         @font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
     @endforeach
@@ -34,7 +35,7 @@
                                 <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Back
                                 </a>
-                                <a href="{{ route('v1_qx7_style_options_setup', ['id' => $style_id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('v1_qx7_style_options_setup', ['id' => $style->id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Options (Minified)
                                 </a>
                             </div>
@@ -44,10 +45,10 @@
 
                         <h1>Style Options of: Style name</h1>
 
-                        <a href="{{ route('v1_qx7_edit_style', ['id' => $style_id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
+                        <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
                             Edit
                         </a>
-                        <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style_id }}">
+                        <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style->id }}">
                             Reset Properties
                         </a>
                         <a href="#" class='btn btn-flat btn-xs btn-default delete-multiple-material-option'>
@@ -56,10 +57,10 @@
                     </div>
 
                     <div class="box-body">
-                        <input type="hidden" name="cleanup_material_id" value="{{ $style_id }}">
+                        <input type="hidden" name="cleanup_material_id" value="{{ $style->id }}">
                         <input type="hidden" id="material_block_pattern" value="test">
                         <input type="hidden" id="material_neck_option" value="test">
-                        <input type="hidden" id="material_uniform_category" value="Baseball">
+                        <input type="hidden" id="material_uniform_category" value="Football">
                         <input type="hidden" id="material_asset_target" value="Web">
                         <input type="hidden" id="material_brand" value="prolook">
 
@@ -67,7 +68,7 @@
                             <thead>
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style_id }}" data-add-to-perspective="front">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style->id }}" data-add-to-perspective="front">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         FRONT
@@ -77,7 +78,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="back">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="back">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         BACK
@@ -87,7 +88,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="left">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="left">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         LEFT
@@ -97,7 +98,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="right">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="right">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         RIGHT
@@ -117,7 +118,7 @@
 
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -143,7 +144,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -198,7 +199,7 @@
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -224,7 +225,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -276,7 +277,7 @@
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -302,7 +303,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -354,7 +355,7 @@
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -380,7 +381,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"

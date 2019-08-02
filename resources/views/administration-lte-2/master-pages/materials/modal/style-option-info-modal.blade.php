@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form action="/administration/v1-0/material_option/save" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" class="material-id" name="material_id">
+            <input type="hidden" class="material-id" name="style_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">

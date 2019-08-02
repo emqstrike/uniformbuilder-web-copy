@@ -6,6 +6,7 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\GradientsAPIClient;
+use App\APIClients\StylesAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 
 use \Session;
@@ -23,6 +24,7 @@ class Qx7StyleRequestController extends Controller
     protected $fontClient;
     protected $gradientClient;
     protected $optionsClient;
+    protected $stylesClient;
 
     public function __construct(
         // APIClient $apiClient
@@ -31,7 +33,8 @@ class Qx7StyleRequestController extends Controller
         ColorsAPIClient $colorsAPIClient,
         FontsAPIClient $fontsAPIClient,
         GradientsAPIClient $gradientsAPIClient,
-        MaterialsOptionsAPIClient $optionsClient
+        MaterialsOptionsAPIClient $optionsClient,
+        StylesAPIClient $stylesClient
     )
     {
         // $this->client = $apiClient;
@@ -41,6 +44,7 @@ class Qx7StyleRequestController extends Controller
         $this->fontClient = $fontsAPIClient;
         $this->gradientClient = $gradientsAPIClient;
         $this->optionsClient = $optionsClient;
+        $this->stylesClient = $stylesClient;
     }
 
     public function index()
@@ -65,12 +69,12 @@ class Qx7StyleRequestController extends Controller
 
     public function getOptions($id)
     {
+        $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
         $colors = $this->colorsClient->getColors("prolook");
-
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
-        $fonts = $this->fontClient->getFilteredFonts("Baseball", "prolook");
+        $fonts = $this->fontClient->getFilteredFonts("Football", "prolook");
 
         $front_guide = null;
         $back_guide = null;
@@ -92,6 +96,7 @@ class Qx7StyleRequestController extends Controller
         }
 
         $gradients = $this->gradientClient->getGradients();
+
         return view('administration-lte-2.qx7-style-requests.view-options', [
             'options' => $options,
             'colors' => $colors,
@@ -103,7 +108,7 @@ class Qx7StyleRequestController extends Controller
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
             'right_guide' => $right_guide,
-            'style_id' => $id
+            'style' => $style
 
         ]);
     }
@@ -112,7 +117,7 @@ class Qx7StyleRequestController extends Controller
     {
         $materialOption = $this->optionsClient->getMaterialOption($id);
         $options = $this->optionsClient->getByStyleId($materialOption->style_id);
-        // $material = $this->materialClient->getMaterial($materialOption->material_id);
+        $style = $this->stylesClient->getStyle($materialOption->style_id);
         $guide = null;
         $highlightPath = null;
         foreach ($options as $option) {
@@ -129,14 +134,14 @@ class Qx7StyleRequestController extends Controller
 
         $applications = $this->applicationClient->getApplications();
         $fonts = $this->fontClient->getFonts();
-        $style_id = $id;
+
         return view('administration-lte-2.qx7-style-requests.style-application', compact(
             'materialOption',
             'guide',
             'highlightPath',
             'applications',
             'fonts',
-            'style_id'
+            'style'
         ));
     }
 

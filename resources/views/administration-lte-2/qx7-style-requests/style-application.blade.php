@@ -42,7 +42,7 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="col-md-12">
-                            @section('page-title', 'Material Options')
+                            @section('page-title', 'Style Options')
 
                             @include('administration.partials.flash-message')
 
@@ -54,8 +54,8 @@
                     <div class="box-body">
                         <div class="col-md-12">
                             <form action="{{ route('v1_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
-                                data-material-id="{{ $style_id }}"
-                                data-material-name="Style name"
+                                data-material-id="{{ $style->id }}"
+                                data-material-name="{{ $style->name }}"
                                 data-material-brand="prolook"
                                 data-material-option-id="{{ $materialOption->id }}"
                                 data-material-option-name="{{ $materialOption->name }}"
@@ -68,14 +68,14 @@
                                 data-material-option-guide="{{ $guide }}"
                             >
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" class="material-id" name="material_id" value="{{ $style_id }}">
+                                <input type="hidden" class="material-id" name="material_id" value="{{ $style->id }}">
                                 <input type="hidden" id="app_option_id" class="material-option-id" name="app_material_option_id" value="{{ $materialOption->id }}">
                                 <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop value" value="{{ $materialOption->applications_properties }}">
                                 <input type="hidden" id="app-saved-perspective" value="{{ $materialOption->perspective }}">
                                 <input type="hidden" id="app-material-option-name" value="{{ $materialOption->name }}">
                                 <input type="hidden" id="app-material-brand" value="prolook">
 
-                                <input type="hidden" id="material_uniform_category" value="Baseball">
+                                <input type="hidden" id="material_uniform_category" value="Football">
                                 <input type="hidden" id="material_asset_target" value="Web">
                                 <input type="hidden" id="material_brand" value="prolook">
 
