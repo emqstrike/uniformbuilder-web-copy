@@ -16,7 +16,7 @@
     <section class="content">
         <form action="{{ route('v1_update_material_options') }}"  method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="cleanup_material_id" id="material_id" value="{{ $tyle_id }}">
+            <input type="hidden" name="cleanup_material_id" id="material_id" value="{{ $style_id }}">
 
             <input type="hidden" id="material_block_pattern" value="">
             <input type="hidden" id="material_neck_option" value="">
@@ -30,7 +30,7 @@
                                     <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
                                         Back
                                     </a>
-                                    <a href="{{ route('v1_view_material_option', ['id' => $material->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                    <a href="{{ route('v1_view_material_option', ['id' => $style_id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
                                         Materials Options
                                     </a>
                                 </div>
