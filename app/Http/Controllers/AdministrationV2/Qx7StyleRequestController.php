@@ -131,7 +131,7 @@ class Qx7StyleRequestController extends Controller
         $applications = $this->applicationClient->getApplications();
         $fonts = $this->fontClient->getFonts();
         $style_id = 1;
-        return view('administration-lte-2.master-pages.materials.style-application', compact(
+        return view('administration-lte-2.qx7-style-requests.style-application', compact(
             'materialOption',
             'guide',
             'highlightPath',
@@ -169,5 +169,17 @@ class Qx7StyleRequestController extends Controller
             Log::info('Failed');
             return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
+    }
+
+    public function styleOptionsSetup($id)
+    {
+        // $material = $this->client->getMaterialQS($id);
+        $style_id = 1;
+        $options = $this->optionsClient->getByStyleId($id);
+
+        return view('administration-lte-2.qx7-style-requests.style-options-setup', [
+            'style_id' => $style_id,
+            'options' => $options,
+        ]);
     }
 }

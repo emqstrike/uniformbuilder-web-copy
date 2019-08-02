@@ -31,7 +31,8 @@
                                 <th>Deadline</th>
                                 <th>Requested By:</th>
                                 <th>Notes</th>
-                                <th>Action</th>
+                                <th>Style ID</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="style-request-row">
@@ -77,12 +78,19 @@ $(document).ready(function(){
                     <td>` + request.deadline + `</td>
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
                     <td>` + request.notes + `</td>
+                    <td>` + request.style_id + `</td>
                     <td>
+                        <a href="/administration/v1-0/qx7_style_requests/view_options/`+ request.id + `" class="btn btn-xs btn-flat btn-default">
+                            <i class="fa fa-gear" aria-hidden="true"></i>
+                        </a>
+                        <a href="/administration/v1-0/qx7_style_requests/options/dropzone/`+ request.id + `" class="btn btn-xs btn-flat btn-default">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                        </a>
                         <a href="`+link+`" class="btn btn-default btn-xs" role="button">View</a>`
                         if (request.style_id == null) {
-                            elem += `<a href="/administration/v1-0/qx7_style_requests/create_style/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>`
+                            elem += `<a href="/administration/v1-0/qx7_style_requests/create_style/` + request.id + `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>`
                         } else {
-                            elem += `<a href="/administration/v1-0/qx7_style_requests/edit/`+request.id+ `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Update Style</a>`
+                            elem += `<a href="/administration/v1-0/qx7_style_requests/edit/`+ request.id + `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Update Style</a>`
                         }
                     `</td>
                 </tr>
