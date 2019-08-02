@@ -67,6 +67,7 @@
         <!-- Style request -->
         <div class="box box-solid">
             <div class="box-header">
+                @section('page-title', 'Qx7 Style Requests')
                 <div class="row">
                     <div class="col-xs-6">
                         <h2 class="text-bold" style="margin:0">STYLE REQUEST</h2>
@@ -339,9 +340,9 @@ $(document).ready(function(){
                     $('.parts-pipings-table tbody').append(`
                             <tr>
                                <td>`+piping['Piping Location']+`</td>
-                               <td>`+piping['1/2 Colors'].length+` Colors</td>
-                               <td>`+piping['1/4 Colors'].length+` Colors</td>
                                <td>`+piping['1/8 Colors'].length+` Colors</td>
+                               <td>`+piping['1/4 Colors'].length+` Colors</td>
+                               <td>`+piping['1/2 Colors'].length+` Colors</td>
                             </tr>
                     `);    
 
