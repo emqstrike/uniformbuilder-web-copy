@@ -5,12 +5,13 @@ $(document).ready(function() {
     ub.funcs.transformMascots = function () {
 
         var _one = '1';
+        var _brand = ub.config.brand.toLowerCase(); 
 
         ub.data.mascots = _.filter (ub.data.mascots, {active: _one});
 
         // Hide Richardson Mascots #Richardson #BrandSpecific
 
-        if (ub.current_material.material.brand === "prolook") {
+        if ( _brand === "prolook") {
 
             ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
                 
@@ -24,7 +25,7 @@ $(document).ready(function() {
         } else {
 
             ub.data.mascots = _.filter(ub.data.mascots, function (mascot) {
-                if (mascot.brand ===ub.current_material.material.brand) { return mascot; }
+                if (mascot.brand === _brand) { return mascot; }
             });
 
         }
