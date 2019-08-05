@@ -81,7 +81,7 @@ class Qx7StyleRequestController extends Controller
         $left_guide = null;
         $right_guide = null;
 
-        foreach($options as $option){
+        foreach($options as $option) {
             $default_color = $option->default_color;
             $sublimated_default_color = $option->sublimated_default_color;
             if($option->perspective == "front" && $option->name =="Guide"){
@@ -178,12 +178,153 @@ class Qx7StyleRequestController extends Controller
     public function styleOptionsSetup($id)
     {
         // $material = $this->client->getMaterialQS($id);
-        $style_id = 1;
+        $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
 
         return view('administration-lte-2.qx7-style-requests.style-options-setup', [
-            'style_id' => $style_id,
+            'style' => $style,
             'options' => $options,
         ]);
+    }
+
+    public function saveOption(Request $request)
+    {
+        $styleId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+        $patternId = $request->input('pattern_id');
+        $pattern_properties = $request->input('pattern_properties');
+        if (!is_null($styleId))
+        {
+            $style = $this->stylesClient->getStyle($styleId);
+        }
+
+        $materialFolder = null;
+        if (!is_null($materialObject))
+        {
+            $materialFolder = $materialObject->slug;
+        }
+
+        $materialOptionName = $request->input('name');
+        $settingType = $request->input('setting_type');
+        $partType = $request->input('part_type');
+        $layerLevel = $request->input('layer_level');
+        $teamColorId = $request->input('team_color_id');
+        $groupId = $request->input('group_id');
+        $defaultColor = $request->input('default_color');
+        $sublimatedDefaultColor = $request->input('sublimated_default_color');
+        $perspective = $request->input('perspective');
+        $colors = $request->input('colors');
+        $sublimated_colors = $request->input('sublimated_colors');
+        $gradients = $request->input('gradients');
+        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
+        $allow_pattern = is_null($request->input('allow_pattern')) ? 0 : 1;
+        $allow_gradient = is_null($request->input('allow_gradient')) ? 0 : 1;
+        $allow_color = is_null($request->input('allow_color')) ? 0 : 1;
+        $boundary_properties = $request->input('boundary_properties');
+        $applications_properties = $request->input('applications_properties');
+        $default_display = $request->input('default_display');
+        $build_type = $request->input('build_type');
+        $pattern_opacity = $request->input('pattern_opacity');
+        $fabric_id = $request->input('fabric_id');
+        $insert_fabric = $request->input('insert_fabric');
+        $base_fabric = $request->input('base_fabric');
+        $sleeve_fabric = $request->input('sleeve_fabric');
+
+        if ($request->input('default_asset') == 'on') {
+            $default_asset = true;
+        } else {
+            $default_asset = false;
+        }
+
+        if( is_null($default_display) ){
+            $default_display = "color";
+        }
+
+        $data = [
+            'material_id' => $styleId,
+            'name' => $materialOptionName,
+            'setting_type' => $settingType,
+            // 'origin' => $origin,
+            'layer_level' => $layerLevel,
+            'team_color_id' => $teamColorId,
+            'group_id' => $groupId,
+            'default_color' => $defaultColor,
+            'sublimated_default_color' => $sublimatedDefaultColor,
+            'perspective' => $perspective,
+            'colors' => $colors,
+            'sublimated_colors' => $sublimated_colors,
+            'gradients' => $gradients,
+            'is_blend' => $is_blend,
+            'allow_pattern' => $allow_pattern,
+            'allow_gradient' => $allow_gradient,
+            'allow_color' => $allow_color,
+            'boundary_properties' => $boundary_properties,
+            'applications_properties' => $applications_properties,
+            'pattern_id' => $patternId,
+            'pattern_properties' => $pattern_properties,
+            'default_display' => $default_display,
+            'build_type' => $build_type,
+            'part_type' => $partType,
+            'pattern_opacity' => $pattern_opacity,
+            'default_asset' => $default_asset,
+            'fabric_id' => $fabric_id,
+            'base_fabric' => $base_fabric,
+            'insert_fabric' => $insert_fabric,
+            'sleeve_fabric' => $sleeve_fabric,
+            'style_id' => $styleId,
+
+        ];
+        try
+        {
+
+            $materialOptionFile = $request->file('material_option_path');
+            if (!is_null($materialOptionFile))
+            {
+                if ($materialOptionFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['material_option_path'] = FileUploader::upload(
+                                                                $materialOptionFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        $response = null;
+        if (!empty($materialOptionId))
+        {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->optionsClient->update($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new Material Option ' . json_encode($data));
+            $response = $this->optionsClient->create($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+                            ->with('message', 'There was a problem saving your material option');
+        }
     }
 }

@@ -43,7 +43,7 @@
 
                         @section('page-title', 'Style Options')
 
-                        <h1>Style Options of: Style name</h1>
+                        <h1>Style Options of: {{ $style->name }}</h1>
 
                         <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
                             Edit
@@ -168,7 +168,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -249,7 +249,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -327,7 +327,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -405,7 +405,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
