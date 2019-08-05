@@ -14,7 +14,7 @@
 
 @section('content')
     <section class="content">
-        <form action="{{ route('v1_update_material_options') }}"  method="POST" enctype="multipart/form-data">
+        <form action="{{ route('v1_qx7_update_option') }}"  method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="cleanup_material_id" id="material_id" value="{{ $style->id }}">
 

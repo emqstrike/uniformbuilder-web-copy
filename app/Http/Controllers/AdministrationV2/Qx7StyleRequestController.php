@@ -69,6 +69,7 @@ class Qx7StyleRequestController extends Controller
 
     public function getOptions($id)
     {
+
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
         $colors = $this->colorsClient->getColors("prolook");
@@ -109,7 +110,6 @@ class Qx7StyleRequestController extends Controller
             'left_guide' => $left_guide,
             'right_guide' => $right_guide,
             'style' => $style
-
         ]);
     }
 
@@ -149,7 +149,6 @@ class Qx7StyleRequestController extends Controller
     {
         $styleID = $request->input('material_id');
         $materialOptionId = $request->input('app_material_option_id');
-        $materialObject = null;
 
         $applications_properties = $request->input('applications_properties');
 
@@ -297,7 +296,7 @@ class Qx7StyleRequestController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/v1-0/qx7_style_requests')
                             ->with('message', 'There was a problem uploading your files');
         }
 
@@ -325,6 +324,117 @@ class Qx7StyleRequestController extends Controller
             Log::info('Failed');
             return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', 'There was a problem saving your material option');
+        }
+    }
+
+    public function updateOption(Request $request)
+    {
+        $data = [];
+        $optionIds = $request->input('option_id');
+        $optionLayerLevels = $request->input('layer_level');
+        $optionNames = $request->input('name');
+        $materialID = $request->input('cleanup_material_id');
+        $groupIDs = $request->input('group_id');
+        $teamColorIDs = $request->input('team_color_id');
+        $deafaultColors = $request->input('default_color');
+        $allowPatterns = $request->input('allow_pattern');
+
+        $ctr = 0;
+        foreach ($optionIds as $optionId) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item] = [
+                'id' => $optionId,
+            ];
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($optionLayerLevels as $optionLayerLevel) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['layer_level'] = $optionLayerLevel;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($optionNames as $optionName) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['name'] = $optionName;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($groupIDs as $groupID) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['group_id'] = $groupID;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($teamColorIDs as $teamColorID) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['team_color_id'] = $teamColorID;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($deafaultColors as $color) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['default_color'] = $color;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($allowPatterns as $allow) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['allow_pattern'] = $allow;
+            $ctr++;
+        }
+
+        $data['input'] = json_encode($data['info']);
+        // dd($data);
+        $response = null;
+
+        $response = $this->optionsClient->updateMaterialOptions($data);
+
+        return redirect()->route('v1_qx7_style_options_setup', ['id' => $materialID])->with('message', 'Update saved');
+
+    }
+
+    public function saveBoundary(Request $request)
+    {
+        $styleId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+
+        $boundary_properties = $request->input('boundary_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $styleId,
+            'boundary_properties' => $boundary_properties,
+            'style_id' => $styleId
+        ];
+
+        $response = null;
+        if (!empty($materialOptionId)) {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->optionsClient->updateBoundary($data);
+        }
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', $response->message);
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
         }
     }
 }

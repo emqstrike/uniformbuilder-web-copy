@@ -433,7 +433,7 @@
 
 
     @include('administration-lte-2.master-pages.materials.modal.add-multiple-options-modal')
-    @include('administration-lte-2.master-pages.materials.modal.material-option-boundary-modal')
+    @include('administration-lte-2.master-pages.materials.modal.style-option-boundary-modal')
     @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
     @include('administration-lte-2.master-pages.materials.modal.style-option-info-modal')
     @include('administration.materials.material-option-modal')

@@ -42,7 +42,7 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="col-md-12">
-                            @section('page-title', 'Style Options')
+                            @section('page-title', 'Style Option Application')
 
                             @include('administration.partials.flash-message')
 
