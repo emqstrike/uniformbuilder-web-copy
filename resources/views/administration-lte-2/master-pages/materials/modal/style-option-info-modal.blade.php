@@ -2,7 +2,7 @@
 <div class="modal fade" id="save-material-option-info-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/administration/v1-0/material_option/save" role="form" method="POST" enctype="multipart/form-data">
+            <form action="/administration/v1-0/qx7_style_requests/option/save" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
