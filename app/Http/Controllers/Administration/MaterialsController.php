@@ -124,7 +124,7 @@ class MaterialsController extends Controller
         $colors = $this->colorsClient->getColors($material->brand);
 
         if (empty($colors) && ($material->brand == 'riddell')) {
-            $colors = $this->colorsClient->getColors(strtolower(env('BRAND')));
+            $colors = $this->colorsClient->getColors('prolook');
         }
 
         $applications = $this->applicationClient->getApplications();
