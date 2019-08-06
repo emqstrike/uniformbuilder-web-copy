@@ -110,7 +110,6 @@ class MaterialsOptionsController extends Controller
         }
 
         $data['input'] = json_encode($data['info']);
-        // dd($data);
         $response = null;
 
         $response = $this->client->updateMaterialOptions($data);
