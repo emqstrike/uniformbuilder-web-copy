@@ -112,7 +112,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "front")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
 
@@ -194,7 +194,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "back")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -272,7 +272,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "left")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -350,7 +350,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "right")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
