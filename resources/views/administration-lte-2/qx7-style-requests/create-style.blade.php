@@ -132,7 +132,7 @@ $(document).ready(function(){
 
     function addRecord(data) {
         var style_id;
-        var url = "//" + api_host +"/api/v1-0/style/create";
+        var url = "//" + api_host +"/api/v1-0/qx7_style/create";
         $.ajax({
             url: url,
             type: "POST",
