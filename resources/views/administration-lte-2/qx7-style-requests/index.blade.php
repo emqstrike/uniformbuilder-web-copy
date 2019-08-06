@@ -56,7 +56,9 @@ $(document).ready(function(){
 
     $(document).on('click', '.open-design-sheet', function(e) {
         e.preventDefault();
-
+        var url = $(this).data('url');
+        var win = window.open(url, '_blank');
+        win.focus();
     });
 
     function generateStyleRequests() {
@@ -64,7 +66,7 @@ $(document).ready(function(){
         var url = "qx7_style_request/";
         _.each(window.style_requests, function (request) {
             link = url + request.id
-            elem += `
+            elem = `
                 <tr>
                     <td>` + request.style_name + `</td>
                     <td>` + request.brand.brand + `</td>
@@ -73,7 +75,8 @@ $(document).ready(function(){
                     <td>` + request.application_type.application_type + `</td>
                     <td>` + request.style_category.style_category + `</td>
                     <td>` + request.quickstrike_item_id + `</td>
-                    <td> <a href="#" class="btn btn-default btn-xs open-design-sheet" data-url="` + request.design_sheet + `" role="button">Open</a></td>
+                    <td class="td-design-sheet">
+                    </td>
                     <td>` + request.priority + `</td>
                     <td>` + request.deadline + `</td>
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
@@ -98,9 +101,13 @@ $(document).ready(function(){
                     `</td>
                 </tr>
             `;
+            design_elem = '';
+             _.each(JSON.parse(request.design_sheet), function(design) {
+                design_elem += `<a href="#" class="btn btn-default btn-xs open-design-sheet" data-url="` + design + `" role="button">Open</a>`;
+            });
+            $('.style-request-row').append(elem);
+            $('.td-design-sheet').last().append(design_elem);
         });
-
-        $('.style-request-row').append(elem);
         refreshDatatable();
     }
 
