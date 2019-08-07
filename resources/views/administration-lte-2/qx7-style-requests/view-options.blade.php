@@ -68,9 +68,9 @@
                             <thead>
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style->id }}" data-add-to-perspective="front">
+                              <!--           <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style->id }}" data-add-to-perspective="front">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         FRONT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".frontCb" type="checkbox" value="">
@@ -78,9 +78,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="back">
+                            <!--             <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="back">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         BACK
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".backCb" type="checkbox" value="">
@@ -88,9 +88,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="left">
+                     <!--                    <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="left">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         LEFT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".leftCb" type="checkbox" value="">
@@ -98,9 +98,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="right">
+                     <!--                    <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="right">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         RIGHT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".rightCb" type="checkbox" value="">
