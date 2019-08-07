@@ -437,7 +437,7 @@
     @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
     @include('administration-lte-2.master-pages.materials.modal.style-option-info-modal')
     @include('administration.materials.material-option-modal')
-    @include('administration.materials.cleanup-material-modal')
+    @include('administration.materials.cleanup-style-modal')
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])

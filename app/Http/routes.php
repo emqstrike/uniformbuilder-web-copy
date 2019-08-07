@@ -272,6 +272,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('qx7_style_requests/option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveOption'])->name('v1_qx7_save_option');
             Route::post('qx7_style_requests/option/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateOption'])->name('v1_qx7_update_option');
             Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveBoundary'])->name('v1_qx7_save_bounding_box');
+            Route::post('qx7_style_requests/option/purgeOption', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@purgeOption'])->name('v1_qx7_cleanup_style');
 
         });
     });
