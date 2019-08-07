@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-    // var item_id = $('#item_id').val();
-
-    // getQuestions(function(questions){ window.questions = questions; });
-
 	var frontLength = 0;
 	var backLength = 0;
 	var leftLength = 0;

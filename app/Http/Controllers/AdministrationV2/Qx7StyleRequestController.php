@@ -437,4 +437,17 @@ class Qx7StyleRequestController extends Controller
             return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
         }
     }
+
+    public function purgeOption(Request $request)
+    {
+        $mo_material_id = $request->input('cleanup_material_id');
+        $data = [
+            'id' => $mo_material_id
+        ];
+
+        Log::info('Attempts to cleanup properties' . json_encode($data));
+        $response = $this->optionsClient->purge($data);
+
+        return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$mo_material_id);
+    }
 }

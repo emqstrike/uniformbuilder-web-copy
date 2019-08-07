@@ -1173,7 +1173,7 @@ $(document).ready(function() {
     });
 
     $('.cleanup-material').on('click', function(){
-        $('#cleanup-material-modal').modal('show');
+        $('#cleanup-style-modal').modal('show');
         var id = $(this).data('id');
         $('#cleanup_material_id').val(id);
     });
@@ -2362,7 +2362,6 @@ $(document).ready(function() {
         var description = "Lorem Ipsum Yaddah";
 
         var url = "//" + api_host + "/api/application";
-       // var url = "//localhost:8888/api/application";
         var name = "App-"+applications_properties['id'];
         var myData={
             "name":name,

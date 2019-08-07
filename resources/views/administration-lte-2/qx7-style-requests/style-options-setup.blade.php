@@ -39,9 +39,9 @@
                             @section('page-title', 'Style Options Setup')
 
                             <h1>Material Options of: {{ $style->name }}</h1>
-                            <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
+        <!--                     <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
                                 Edit
-                            </a>
+                            </a> -->
                             <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
                                 Delete Selected
                             </a>

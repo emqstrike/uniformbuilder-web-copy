@@ -53,7 +53,7 @@
 
                     <div class="box-body">
                         <div class="col-md-12">
-                            <form action="{{ route('v1_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
+                            <form action="{{ route('v1_qx7_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
                                 data-material-id="{{ $style->id }}"
                                 data-material-name="{{ $style->name }}"
                                 data-material-brand="prolook"
