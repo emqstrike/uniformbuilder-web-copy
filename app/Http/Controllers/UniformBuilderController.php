@@ -305,7 +305,7 @@ class UniformBuilderController extends Controller
             $params['styles'] = $config['styles'];
             $params['sport'] = $config['sport'];
             $params['gender'] = $config['gender'];
-            $params['type'] = $config['type'];
+            $params['blockPattern'] = $config['blockPattern'];
             $params['isFromHSEL'] = isset($config['hsel']) ? true : false;
 
         }
@@ -525,13 +525,13 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null, $type = null, $org = null)
+    public function styles($gender = null, $sport = null, $blockPattern = null, $org = null)
     {
         $config = [
             'styles' => true,
             'sport' => $sport,
             'gender' => $gender,
-            'type' => $type,
+            'blockPattern' => $blockPattern,
         ];
 
         // For HSEL

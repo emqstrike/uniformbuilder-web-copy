@@ -7151,13 +7151,15 @@ $(document).ready(function () {
             window.origItems = items;
 
             // from directLink with type. ex: socks/quick-turn
-            if (_.isEmpty(ub.config.styles.type) === false) {
-                var title =  ub.funcs.slugToTitleCase(ub.config.styles.type) // slug to string
-                _.delay(function() {
-                    $('.tertiary.main-picker-items[data-item="' + title +'"]')
-                    .trigger("click")
-                    .addClass('active');
-                }, 100)
+            if (typeof ub.config.styles !== 'undefined') {
+                if (_.isEmpty(ub.config.styles.blockPattern) === false) {
+                    var title =  ub.funcs.slugToTitleCase(ub.config.styles.blockPattern) // slug to string
+                    _.delay(function() {
+                        $('.tertiary.main-picker-items[data-item="' + title +'"]')
+                        .trigger("click")
+                        .addClass('active');
+                    }, 100)
+                }
             }
             
             $('span.slink-small.tertiary').unbind('click');
