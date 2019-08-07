@@ -45,6 +45,7 @@
                 load: "{{ isset($styles) ? $styles : false }}",
                 gender: "{{ isset($gender) ? $gender : undefined }}",
                 sport: "{{ isset($sport) ? $sport : null }}",
+                blockPattern: "{{ isset($blockPattern) ? $blockPattern : null }}",
             },
             @endif
 

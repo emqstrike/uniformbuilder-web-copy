@@ -6683,6 +6683,7 @@ $(document).ready(function () {
         ub.funcs.prepFilters();
         ub.funcs.prepPickers();
 
+
         $('span.slink[data-item="' + gender + '"]').addClass('active');
 
         if (sport === '') {
@@ -7114,6 +7115,17 @@ $(document).ready(function () {
         return blockPattern;
     }
 
+    ub.funcs.slugToTitleCase = function(slug) {
+        var words = slug.split('-');
+
+        for(var i = 0; i < words.length; i++) {
+          var word = words[i];
+          words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+        }
+
+        return words.join(' ');
+    }
+
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
@@ -7137,6 +7149,18 @@ $(document).ready(function () {
             $('div.tertiary-bar').css('margin-top', "0px");
 
             window.origItems = items;
+
+            // from directLink with type. ex: socks/quick-turn
+            if (typeof ub.config.styles !== 'undefined') {
+                if (_.isEmpty(ub.config.styles.blockPattern) === false) {
+                    var title =  ub.funcs.slugToTitleCase(ub.config.styles.blockPattern) // slug to string
+                    _.delay(function() {
+                        $('.tertiary.main-picker-items[data-item="' + title +'"]')
+                        .trigger("click")
+                        .addClass('active');
+                    }, 100)
+                }
+            }
             
             $('span.slink-small.tertiary').unbind('click');
             $('span.slink-small.tertiary').on('click', function () {
