@@ -72,9 +72,12 @@
 
                             {{ csrf_field() }}
 
-                            <label>Material ID</label>
+                            <select name="type" class="form-control">
+                                <option value="material">Material ID</option>
+                                <option value="style">Style ID</option>
+                            </select>
 
-                            <input type="number" class="form-control" name="material_id">
+                            <input type="number" class="form-control" name="id">
                             <input type="hidden" name="style_id" value="{{ $style_id }}">
                             <button type="submit" class="btn btn-flat btn-success">Import bounding box</button>
                         </form>
