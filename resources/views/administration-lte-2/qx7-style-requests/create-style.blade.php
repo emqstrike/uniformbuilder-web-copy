@@ -113,7 +113,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Customizer Available</label>
                                 <div class="col-md-2">
-                                    <select name="customizer_available" class="form-control">
+                                    <select name="customizer_available" class="form-control style-customizer-available">
                                         <option value="1">Yes</option>
                                         <option value="0" selected>No</option>
                                     </select>
@@ -209,7 +209,7 @@ $(document).ready(function(){
         }
 
         try {
-            var thumbnail_path_left = $('.style-thumbnail-file-back')[0].files[0];
+            var thumbnail_path_left = $('.style-thumbnail-file-left')[0].files[0];
             if(thumbnail_path_left != undefined) {
                 formData.append('file', thumbnail_path_left);
                 fileUpload(formData, function (filename) { thumbnail_file_left = filename });
@@ -219,7 +219,7 @@ $(document).ready(function(){
         }
 
         try {
-            var thumbnail_path_right = $('.style-thumbnail-file-back')[0].files[0];
+            var thumbnail_path_right = $('.style-thumbnail-file-right')[0].files[0];
             if(thumbnail_path_right != undefined) {
                 formData.append('file', thumbnail_path_right);
                 fileUpload(formData, function (filename) { thumbnail_file_right = filename });
@@ -234,8 +234,8 @@ $(document).ready(function(){
         if(thumbnail_file_back != null) {
             data.thumbnail_path_back = thumbnail_file_back;
         }
-        if(thumbnail_path_left != null) {
-            data.thumbnail_path_left = thumbnail_path_left;
+        if(thumbnail_file_left != null) {
+            data.thumbnail_path_left = thumbnail_file_left;
         }
         if(thumbnail_file_right != null) {
             data.thumbnail_path_right = thumbnail_file_right;
