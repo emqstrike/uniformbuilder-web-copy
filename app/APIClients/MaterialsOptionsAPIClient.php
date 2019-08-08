@@ -160,4 +160,13 @@ class MaterialsOptionsAPIClient extends APIClient
 
         return null;
     }
+
+    public function importBoundingBox($data)
+    {
+        $response = $this->post('material_options/bounding_box/import', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
 }

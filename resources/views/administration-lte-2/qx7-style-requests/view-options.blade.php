@@ -64,6 +64,25 @@
                         <input type="hidden" id="material_asset_target" value="Web">
                         <input type="hidden" id="material_brand" value="prolook">
 
+                        <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" style="margin: 50px 0;" method="POST">
+                            @if (Session::has('message'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ Session::get('message') }}
+                                </div>
+                            @endif
+
+                            {{ csrf_field() }}
+
+                            <select name="type" class="form-control">
+                                <option value="material">Material ID</option>
+                                <option value="style">Style ID</option>
+                            </select>
+
+                            <input type="number" class="form-control" name="id">
+                            <input type="hidden" name="style_id" value="{{ $style_id }}">
+                            <button type="submit" class="btn btn-flat btn-success">Import bounding box</button>
+                        </form>
+
                         <table class="col-md-12">
                             <thead>
                                 <th>
