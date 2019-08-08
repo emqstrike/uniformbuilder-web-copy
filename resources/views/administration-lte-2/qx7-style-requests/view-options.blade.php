@@ -79,7 +79,7 @@
                             </select>
 
                             <input type="number" class="form-control" name="id">
-                            <input type="hidden" name="style_id" value="{{ $style_id }}">
+                            <input type="hidden" name="style_id" value="{{ $style->id }}">
                             <button type="submit" class="btn btn-flat btn-success">Import bounding box</button>
                         </form>
 
