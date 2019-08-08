@@ -2620,7 +2620,6 @@ $(document).ready(function() {
                 if(typeof callback === "function") callback(colors);
 
                 if ((colors.length == 0) && brand == 'riddell') {
-                    console.log('here');
                     getColors(window.brand,  function(colors){ window.colors = colors; });
                 }
             }

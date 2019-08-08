@@ -1570,7 +1570,6 @@ $(document).ready(function() {
 
         $.each(window.fabrics, function(i, fabric) {
             if(fabric.id == material.option.fabric_id) {
-                console.log('selected shit');
                 fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
             } else {
                 fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
