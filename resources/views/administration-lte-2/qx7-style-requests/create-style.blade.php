@@ -70,12 +70,63 @@
                             </div>
                             <hr>
                             <div class="form-group">
+                                <label class="col-md-4 control-label">Inch in Pixels</label>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control style-inch-in-px" step="any" name="inch_in_px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Design Type</label>
+                                <div class="col-md-6">
+                                    <select class="form-control style-design-type" name="design_type" id="design-type">
+                                        <option value="style_sheet">Style Sheet</option>
+                                        <option value="block_pattern">Block Pattern</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Thumbnail File</label>
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control style-thumbnail-file" name="thumbnail_path" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Thumbnail File Back</label>
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control style-thumbnail-file-back" name="thumbnail_path_back" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Thumbnail File Left</label>
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control style-thumbnail-file-left" name="thumbnail_path_left" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Thumbnail File Right</label>
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control style-thumbnail-file-right" name="thumbnail_path_right" accept="image/*">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Customizer Available</label>
+                                <div class="col-md-2">
+                                    <select name="customizer_available" class="form-control">
+                                        <option value="1">Yes</option>
+                                        <option value="0" selected>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary create-style">
+                                    <button type="submit" class="btn btn-primary btn-flat create-style">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Create Record
                                     </button>
-                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-danger">
+                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-danger btn-flat">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
@@ -127,6 +178,69 @@ $(document).ready(function(){
         data.factory = $('.style-factory').val();
         data.item_id = $('.style-item-id').val();
         data.rule_id = $('.style-rule-id').val();
+        data.inch_in_px = $('.style-inch-in-px').val();
+        data.design_type = $('.style-design-type').val();
+        data.customizer_available = $('.style-customizer-available').val();
+
+        var formData = new FormData();
+        var thumbnail_file = null;
+        var thumbnail_file_back = null;
+        var thumbnail_file_left = null;
+        var thumbnail_file_right = null;
+
+        try {
+            var thumbnail_path = $('.style-thumbnail-file')[0].files[0];
+            if(thumbnail_path != undefined) {
+                formData.append('file', thumbnail_path);
+                fileUpload(formData, function (filename) { thumbnail_file = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        try {
+            var thumbnail_path_back = $('.style-thumbnail-file-back')[0].files[0];
+            if(thumbnail_path_back != undefined) {
+                formData.append('file', thumbnail_path_back);
+                fileUpload(formData, function (filename) { thumbnail_file_back = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        try {
+            var thumbnail_path_left = $('.style-thumbnail-file-back')[0].files[0];
+            if(thumbnail_path_left != undefined) {
+                formData.append('file', thumbnail_path_left);
+                fileUpload(formData, function (filename) { thumbnail_file_left = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        try {
+            var thumbnail_path_right = $('.style-thumbnail-file-back')[0].files[0];
+            if(thumbnail_path_right != undefined) {
+                formData.append('file', thumbnail_path_right);
+                fileUpload(formData, function (filename) { thumbnail_file_right = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+
+        if(thumbnail_file != null) {
+            data.thumbnail_path = thumbnail_file;
+        }
+        if(thumbnail_file_back != null) {
+            data.thumbnail_path_back = thumbnail_file_back;
+        }
+        if(thumbnail_path_left != null) {
+            data.thumbnail_path_left = thumbnail_path_left;
+        }
+        if(thumbnail_file_right != null) {
+            data.thumbnail_path_right = thumbnail_file_right;
+        }
+
         addRecord(data);
     });
 
@@ -191,6 +305,29 @@ $(document).ready(function(){
                 }
             });
     }
+
+    function fileUpload(postData, callback){
+        var file;
+        $.ajax({
+            url: "//" + api_host + "/api/v1-0/file/uploader",
+            type: "POST",
+            data: postData,
+            processData: false,
+            contentType: false,
+            crossDomain: true,
+            async: false,
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    file = data.file;
+                    if(typeof callback === "function") callback(file);
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    };
 
 });
 </script>
