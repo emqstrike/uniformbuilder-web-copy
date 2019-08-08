@@ -16,6 +16,7 @@
 @endsection
 
 @section('custom-styles')
+
     @foreach ($fonts as $font)
         @font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
     @endforeach
@@ -31,10 +32,10 @@
                     <div class="box-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Back
                                 </a>
-                                <a href="{{ route('v1_materials_options_setup', ['id' => $style_id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('v1_qx7_style_options_setup', ['id' => $style->id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Options (Minified)
                                 </a>
                             </div>
@@ -42,12 +43,12 @@
 
                         @section('page-title', 'Style Options')
 
-                        <h1>Style Options of: Style name</h1>
+                        <h1>Style Options of: {{ $style->name }}</h1>
 
-                        <a href="{{ route('v1_material_edit', ['id' => $style_id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
+          <!--               <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
                             Edit
-                        </a>
-                        <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style_id }}">
+                        </a> -->
+                        <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style->id }}">
                             Reset Properties
                         </a>
                         <a href="#" class='btn btn-flat btn-xs btn-default delete-multiple-material-option'>
@@ -56,10 +57,10 @@
                     </div>
 
                     <div class="box-body">
-                        <input type="hidden" name="cleanup_material_id" value="{{ $style_id }}">
+                        <input type="hidden" name="cleanup_material_id" value="{{ $style->id }}">
                         <input type="hidden" id="material_block_pattern" value="test">
                         <input type="hidden" id="material_neck_option" value="test">
-                        <input type="hidden" id="material_uniform_category" value="Baseball">
+                        <input type="hidden" id="material_uniform_category" value="Football">
                         <input type="hidden" id="material_asset_target" value="Web">
                         <input type="hidden" id="material_brand" value="prolook">
 
@@ -86,9 +87,9 @@
                             <thead>
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style_id }}" data-add-to-perspective="front">
+                              <!--           <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-style-id="{{ $style->id }}" data-add-to-perspective="front">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         FRONT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".frontCb" type="checkbox" value="">
@@ -96,9 +97,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="back">
+                            <!--             <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="back">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         BACK
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".backCb" type="checkbox" value="">
@@ -106,9 +107,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="left">
+                     <!--                    <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="left">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         LEFT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".leftCb" type="checkbox" value="">
@@ -116,9 +117,9 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style_id }}" data-add-to-perspective="right">
+                     <!--                    <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $style->id }}" data-add-to-perspective="right">
                                             <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
+                                        </a> -->
                                         RIGHT
                                     </h3>
                                     <input class="material-options-Checkbox" data-checkboxselected=".rightCb" type="checkbox" value="">
@@ -130,13 +131,13 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "front")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
 
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -162,7 +163,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -186,7 +187,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -212,12 +213,12 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "back")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -243,7 +244,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -267,7 +268,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -290,12 +291,12 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "left")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -321,7 +322,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -345,7 +346,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -368,12 +369,12 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "right")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
                                                             data-material-option-id="{{ $option->id }}"
-                                                            data-material-id="{{ $style_id }}"
+                                                            data-material-id="{{ $style->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -399,7 +400,7 @@
                                                 <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                                  data-placement="right"
                                                         data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                                        data-material-uniform-category="Baseball"
+                                                        data-material-uniform-category="Football"
                                                         data-material-option-applications-properties="{{ $option->applications_properties }}"
                                                         data-material-option-name="{{ $option->name }}"
                                                         data-material-option-part-type="{{ $option->part_type }}"
@@ -423,7 +424,7 @@
                                                         data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                                         data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                                         data-material-option-default-asset='{{ ($option->default_asset) ? "yes" : "no" }}'
-                                                        data-material-id="{{ $option->material_id }}"
+                                                        data-material-id="{{ $option->style_id }}"
                                                         data-pattern-id="{{ $option->pattern_id }}"
                                                         data-pattern-properties="{{ $option->pattern_properties }}"
                                                         data-default-display="{{ $option->default_display }}"
@@ -451,11 +452,11 @@
 
 
     @include('administration-lte-2.master-pages.materials.modal.add-multiple-options-modal')
-    @include('administration-lte-2.master-pages.materials.modal.material-option-boundary-modal')
+    @include('administration-lte-2.master-pages.materials.modal.style-option-boundary-modal')
     @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
     @include('administration-lte-2.master-pages.materials.modal.style-option-info-modal')
     @include('administration.materials.material-option-modal')
-    @include('administration.materials.cleanup-material-modal')
+    @include('administration.materials.cleanup-style-modal')
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])
@@ -491,22 +492,48 @@
         </script>
     @endif
 
-    <script>
-        $(document).ready(function() {
-            $('#applications_table_container').scroll(function() {
-                var tableHeaderPosition = "translate(0," + $(this).scrollTop() + "px)";
-                var tableHeaderColumnPosition = "translate(" + $(this).scrollLeft() + "px, " + $(this).scrollTop() + "px)";
-                var tableColumnPosition = "translate(" + $(this).scrollLeft() + "px, 0)";
+<script>
+$(document).ready(function() {
+    $('#applications_table_container').scroll(function() {
+        var tableHeaderPosition = "translate(0," + $(this).scrollTop() + "px)";
+        var tableHeaderColumnPosition = "translate(" + $(this).scrollLeft() + "px, " + $(this).scrollTop() + "px)";
+        var tableColumnPosition = "translate(" + $(this).scrollLeft() + "px, 0)";
 
-                var secondColumnPosition = $(this).scrollLeft() + 218;
-                secondColumnPosition = "translate(" + secondColumnPosition  + "px, 0)";
+        var secondColumnPosition = $(this).scrollLeft() + 218;
+        secondColumnPosition = "translate(" + secondColumnPosition  + "px, 0)";
 
-                $('#applications_table_container th:first-child').css('transform', tableColumnPosition);
-                $('#applications_table_container th:nth-child(2)').css('transform', tableColumnPosition);
+        $('#applications_table_container th:first-child').css('transform', tableColumnPosition);
+        $('#applications_table_container th:nth-child(2)').css('transform', tableColumnPosition);
 
-                $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
-                $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
-            });
-        });
-    </script>
+        $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
+        $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
+    });
+
+    window.style_request = null;
+
+    getQx7StyleRequest(id, function (style_request) {
+        window.style_request = style_request;
+    });s
+
+    function getQx7StyleRequest(id, callback) {
+        var style_request;
+        var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data) {
+                style_request = data['style_request'];
+                if(typeof callback === "function") callback(style_request);
+            }
+    });
+}
+
+});
+
+
+</script>
 @endsection

@@ -56,7 +56,15 @@ $(document).ready(function() {
     getColors(temp_brand,  function(colors){ window.colors = colors; });
     getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
-    getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
+    if (temp_brand == 'riddell') {
+        window.pl_patterns = null;
+        window.rdl_patterns = null;
+        getPatterns('prolook', function(pl_patterns){ window.pl_patterns = pl_patterns; });
+        getPatterns('riddell', function(rdl_patterns){ window.rdl_patterns = rdl_patterns; });
+        window.patterns = window.pl_patterns.concat(window.rdl_patterns);
+    } else {
+        getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
+    }
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
