@@ -24,6 +24,13 @@
                             </div>
                             <hr>
                             <div class="form-group">
+                                <label class="col-md-4 control-label">Block Pattern</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control style-block-pattern" name="block_pattern">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control style-brand" name="brand">
@@ -157,6 +164,7 @@ $(document).ready(function(){
     var style_request = window.style_request[0];
     $('.style-id').val(style_request.id);
     $('.style-name').val(style_request.style_name);
+    $('.style-block-pattern').val(style_request.rule.block_pattern.block_pattern_name);
     $('.style-brand').val(style_request.brand.brand);
     $('.style-gender').val(style_request.gender.gender);
     $('.style-sport').val(style_request.sport.sport_name);
@@ -170,6 +178,7 @@ $(document).ready(function(){
         e.preventDefault();
         var data = {};
         data.name = $('.style-name').val();
+        data.block_pattern = $('.style-block-pattern').val();
         data.brand = $('.style-brand').val();
         data.gender = $('.style-gender').val();
         data.sport = $('.style-sport').val();
