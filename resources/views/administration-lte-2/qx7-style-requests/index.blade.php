@@ -104,6 +104,9 @@ $(document).ready(function(){
                                     </a>
                                     <a href="/administration/v1-0/qx7_style_requests/options/dropzone/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                         <i class="fa fa-upload" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="/administration/v1-0/qx7_style_requests/pipings/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <i class="fa fa-barcode" aria-hidden="true"></i>
                                     </a>`
                         }
                     `</td>
