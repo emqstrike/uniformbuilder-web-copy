@@ -62,7 +62,7 @@
                         <input type="hidden" id="material_neck_option" value="test">
                         <input type="hidden" id="material_uniform_category" value="Football">
                         <input type="hidden" id="material_asset_target" value="Web">
-                        <input type="hidden" id="material_brand" value="prolook">
+                        <input type="hidden" id="material_brand" value="riddell">
 
                         <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" style="margin: 50px 0;" method="POST">
                             @if (Session::has('message'))
@@ -197,7 +197,7 @@
                                                         data-default-base-fabric="{{ $option->base_fabric }}"
                                                         data-default-insert-fabric="{{ $option->insert_fabric }}"
                                                         data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
-                                                        data-material-brand="prolook"
+                                                        data-material-brand="riddell"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -508,30 +508,6 @@ $(document).ready(function() {
         $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
         $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
     });
-
-    window.style_request = null;
-
-    getQx7StyleRequest(id, function (style_request) {
-        window.style_request = style_request;
-    });s
-
-    function getQx7StyleRequest(id, callback) {
-        var style_request;
-        var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data) {
-                style_request = data['style_request'];
-                if(typeof callback === "function") callback(style_request);
-            }
-    });
-}
-
 });
 
 
