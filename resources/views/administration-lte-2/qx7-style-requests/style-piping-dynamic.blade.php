@@ -87,7 +87,7 @@
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
                             <input type="hidden" id="pipings_data" value="{{ $style->pipings }}">
                             <input type="hidden" name="pipings" id="pipings">
-                            <input type="hidden" name="brand" value="{{ $style->brand }}">
+                            <input type="hidden" name="material_brand" value="{{ $style->brand }}">
 
                             <div class="row">
                                 <div class="col-md-12">
