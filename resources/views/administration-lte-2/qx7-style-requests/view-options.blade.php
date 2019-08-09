@@ -509,28 +509,28 @@ $(document).ready(function() {
         $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
     });
 
-    window.style_request = null;
+//     window.style_request = null;
 
-    getQx7StyleRequest(id, function (style_request) {
-        window.style_request = style_request;
-    });s
+//     getQx7StyleRequest(id, function (style_request) {
+//         window.style_request = style_request;
+//     });s
 
-    function getQx7StyleRequest(id, callback) {
-        var style_request;
-        var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data) {
-                style_request = data['style_request'];
-                if(typeof callback === "function") callback(style_request);
-            }
-    });
-}
+//     function getQx7StyleRequest(id, callback) {
+//         var style_request;
+//         var url = "//" + qx7_host + "/api/style_request/"+ id + "/formatted_data";
+//         $.ajax({
+//             url: url,
+//             async: false,
+//             type: "GET",
+//             dataType: "json",
+//             crossDomain: true,
+//             contentType: 'application/json',
+//             success: function(data) {
+//                 style_request = data['style_request'];
+//                 if(typeof callback === "function") callback(style_request);
+//             }
+//     });
+// }
 
 });
 

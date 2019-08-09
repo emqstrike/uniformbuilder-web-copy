@@ -50,4 +50,12 @@ class StylesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updatePipings($data)
+    {
+        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'qx7_style/updatePipings', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
 }

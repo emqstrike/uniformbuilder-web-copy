@@ -196,7 +196,7 @@ class Qx7StyleRequestController extends Controller
 
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
-    
+
     public function saveOption(Request $request)
     {
         $styleId = $request->input('material_id');
@@ -409,7 +409,6 @@ class Qx7StyleRequestController extends Controller
         }
 
         $data['input'] = json_encode($data['info']);
-        // dd($data);
         $response = null;
 
         $response = $this->optionsClient->updateMaterialOptions($data);
@@ -460,5 +459,36 @@ class Qx7StyleRequestController extends Controller
         $response = $this->optionsClient->purge($data);
 
         return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$mo_material_id);
+    }
+
+    public function pipings($id)
+    {
+        $style = $this->stylesClient->getStyle($id);
+        return view('administration-lte-2.qx7-style-requests.style-piping-dynamic', [
+            'style' => $style
+        ]);
+    }
+
+    public function updatePipings(Request $request)
+    {
+        $style_id = $request->input('style_id');
+        $pipings = $request->input('pipings');
+
+        $data = [
+            'id' => $style_id,
+            'pipings' => $pipings
+        ];
+
+        $response = $this->stylesClient->updatePipings($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+                    ->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+                    ->with('message', $response->message);
+        }
     }
 }
