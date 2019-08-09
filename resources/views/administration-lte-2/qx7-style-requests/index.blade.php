@@ -31,7 +31,6 @@
                                 <th>Priority</th>
                                 <th>Deadline</th>
                                 <th>Requested By:</th>
-                                <th>Notes</th>
                                 <th>Style ID</th>
                                 <th>Actions</th>
                             </tr>
@@ -89,7 +88,6 @@ $(document).ready(function(){
                     <td>` + request.priority + `</td>
                     <td>` + request.deadline + `</td>
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
-                    <td>` + request.notes + `</td>
                     <td>` + request.style_id + `</td>
                     <td>
                         <a href="`+link+`" class="btn btn-default btn-xs" role="button">View</a>`
