@@ -204,12 +204,14 @@ class Qx7StyleRequestController extends Controller
         $materialObject = null;
         $patternId = $request->input('pattern_id');
         $pattern_properties = $request->input('pattern_properties');
+
         if (!is_null($styleId))
         {
             $style = $this->stylesClient->getStyle($styleId);
         }
 
         $materialFolder = null;
+
         if (!is_null($materialObject))
         {
             $materialFolder = $materialObject->slug;
@@ -285,14 +287,12 @@ class Qx7StyleRequestController extends Controller
             'style_id' => $styleId,
 
         ];
-        try
-        {
 
+        try {
             $materialOptionFile = $request->file('material_option_path');
-            if (!is_null($materialOptionFile))
-            {
-                if ($materialOptionFile->isValid())
-                {
+
+            if (!is_null($materialOptionFile)) {
+                if ($materialOptionFile->isValid()) {
                     $filename = Random::randomize(12);
                     $data['material_option_path'] = FileUploader::upload(
                                                                 $materialOptionFile,
@@ -303,35 +303,28 @@ class Qx7StyleRequestController extends Controller
                                                             );
                 }
             }
-        }
-        catch (S3Exception $e)
-        {
+        }  catch (S3Exception $e) {
             $message = $e->getMessage();
             return Redirect::to('/administration/v1-0/qx7_style_requests')
                             ->with('message', 'There was a problem uploading your files');
         }
 
         $response = null;
-        if (!empty($materialOptionId))
-        {
+
+        if (! empty($materialOptionId)) {
             Log::info('Attempts to update MaterialOption#' . $materialOptionId);
             $data['id'] = $materialOptionId;
             $response = $this->optionsClient->update($data);
-        }
-        else
-        {
+        } else {
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->optionsClient->create($data);
         }
 
-        if ($response->success)
-        {
+        if ($response->success) {
             Log::info('Success');
             return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', $response->message);
-        }
-        else
-        {
+        } else {
             Log::info('Failed');
             return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', 'There was a problem saving your material option');

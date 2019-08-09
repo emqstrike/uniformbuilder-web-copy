@@ -45,6 +45,7 @@ $(document).ready(function() {
     window.fonts = null;
     window.mascots = null;
     window.patterns = null;
+    window.brandPatterns = null;
 
     var temp_category= $('#material_uniform_category').val();
     var temp_brand  = $('#material_brand').val();
@@ -61,22 +62,25 @@ $(document).ready(function() {
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
 
-    console.log(window.tailsweeps);
+    getBrandPatterns(function(brandPatterns) {
+        window.brandPatterns = brandPatterns;
+    });
 
     // START
     $(".edit-material-option-info").each(function(i) {
         var default_color_code = $(this).data('material-option-default-color');
         var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
-        console.log(default_color_code);
         var uc_default_color_code = default_color_code.toUpperCase();
 
-        var dcc_item = _.find(window.colors, function (o) { return o.color_code == uc_default_color_code; });
+        var dcc_item = _.find(window.colors, function (o) { 
+            return o.color_code == uc_default_color_code; 
+        });
+
         var default_color_name = dcc_item.name;
         var default_color_hex = dcc_item.hex_code;
 
         var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
         var sublimated_default_color_name = sdcc_item.name;
-        console.log(dcc_item);
 
         $(this).attr('data-material-option-default-color-name', default_color_name);
         $(this).attr('data-material-option-sublimated-default-color-name', sublimated_default_color_name);
@@ -148,7 +152,7 @@ $(document).ready(function() {
                 window.current_pattern_properties[x].team_color_id = $(this).val();
                 x++;
             });
-            console.log( JSON.stringify(window.current_pattern_properties) );
+
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
@@ -160,7 +164,7 @@ $(document).ready(function() {
                 window.current_pattern_properties[x].default_color = $(this).val();
                 x++;
             });
-            console.log( JSON.stringify(window.current_pattern_properties) );
+
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
@@ -175,66 +179,58 @@ $(document).ready(function() {
     }
 
     function loadPatternLayers(id, loaded_pattern){
-        console.log('ID: ' + id + ", LP: " + loaded_pattern);
-
         var tcids = '<option value="">None</option>';
 
         if(loaded_pattern == 1){
-            console.log('IF');
             var pval = $('#pattern_properties').val();
-            console.log('VALUE: ' + pval);
             var xstring = "";
             if( pval.charAt(pval.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = pval.substring(0, pval.length - 1);
             } else {
                 xstring = pval;
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
             if( xstring.charAt(xstring.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = xstring.substring(0, xstring.length - 1);
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
-            console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
 
             window.current_pattern_properties = pattern_props;
-            console.log('PATTERN_PROPS' + pattern_props);
+
             var x = 1;
+            
             $.each(pattern_props, function(i, item) {
-                console.log(' Color Code : ' + item.default_color);
+
                 var colors = generateColorsDropdown(item.default_color);
                 var label = '<b>Layer #<b>' + x;
                 var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
                 var tcids = generateTeamColorsIDDropdown(item.team_color_id);
                 var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
                 var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
+                
                 $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
+                
                 refreshColors();
                 refreshTID();
                 refreshColorBG();
                 x++;
             });
         } else {
-            console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
                     var pattern_props = JSON.parse( item.pattern_properties );
                     window.current_pattern_properties = pattern_props;
                     var x = 1;
                     $.each(pattern_props, function(i, item) {
-                        console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var tcid = generateTeamColorsIDDropdown(item.team_color_id);
                         var label = '<b>Layer #</b>' + x;
@@ -251,7 +247,6 @@ $(document).ready(function() {
                 }
             });
         }
-        console.log('P Props> ' + JSON.stringify(window.current_pattern_properties));
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
@@ -291,7 +286,6 @@ $(document).ready(function() {
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].team_color_id = $(this).parent().find(".app-layer-team-color-id.layer"+x).val();
             }
-            // console.log( JSON.stringify(window.app_current_pattern_properties) );
             $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
         });
     }
@@ -304,7 +298,7 @@ $(document).ready(function() {
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].default_color = $(this).parent().find(".app-layer-default-color.layer"+x).val();
             }
-            // console.log( JSON.stringify(window.app_current_pattern_properties) );
+
             $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
         });
     }
@@ -319,45 +313,33 @@ $(document).ready(function() {
     }
 
     function loadAppPatternLayers(thisObj, id, loaded_pattern){
-        console.log('ID: ' + id + ", LP: " + loaded_pattern);
-
         var tcids = '<option value="">None</option>';
 
         if(loaded_pattern == 1){
-            console.log('IF');
             var pval = thisObj.parent().find('.app-pattern-properties').val();
-            console.log('VALUE: ' + pval);
             var xstring = "";
             if( pval.charAt(pval.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = pval.substring(0, pval.length - 1);
             } else {
                 xstring = pval;
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
             if( xstring.charAt(xstring.length - 1) === '"' ){
-                console.log('*** IF 1');
                 xstring = xstring.substring(0, xstring.length - 1);
             }
 
             if( xstring.charAt(0) === '"' ){
-                console.log('*** IF 2');
                 xstring = xstring.substring(1, xstring.length);
             }
 
-            console.log('STRING >>>>> ' + xstring);
             var app_pattern_props = JSON.parse( xstring );
-            console.log(app_pattern_props);
             window.app_current_pattern_properties = app_pattern_props;
-            console.log('PATTERN_PROPS' + app_pattern_props);
             var x = 1;
             $.each(app_pattern_props, function(i, item) {
-                console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
                 var label = '<b>Layer #</b>' + x;
                 var select = ' <select class="app-layer-default-color layer' + x + '">' + colors + '</select>';
@@ -370,14 +352,12 @@ $(document).ready(function() {
                 x++;
             });
         } else {
-            console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
                     var app_pattern_props = JSON.parse( item.pattern_properties );
                     window.app_current_pattern_properties = app_pattern_props;
                     var x = 1;
                     $.each(app_pattern_props, function(i, item) {
-                        console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var tcid = generateTeamColorsIDDropdown(item.team_color_id);
                         var label = '<b>Layer #</b>' + x;
@@ -393,13 +373,8 @@ $(document).ready(function() {
                 }
             });
         }
-        console.log('App P Props> ' + JSON.stringify(window.app_current_pattern_properties));
         thisObj.parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
     }
-
-    $('.btn-fix-app').on('click', function(){
-        console.log( canvasFront.item(0) );
-    });
 
     $('.confirm_no').on('click', function(){
 
@@ -535,7 +510,6 @@ $(document).ready(function() {
     function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
-            console.log(i);
             if(0<i){
                 $(this).find(".remove-row").show();
 
@@ -574,7 +548,6 @@ $(document).ready(function() {
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
         var font_size = 30;
-        console.log("Font: "+font);
         $(this).css('font-family', font);
         $(this).css('font-size', font_size);
 
@@ -598,7 +571,6 @@ $(document).ready(function() {
     });
 
     $('.app-rotation-flip').on('click', function(){
-        console.log('FLIP ADD');
         var id = $(this).data('id');
         flipApplication(id);
     });
@@ -838,7 +810,6 @@ $(document).ready(function() {
             item['selected'] = false;
             item['description'] = 'Accent';
             item['imageSrc'] = item.thumbnail;
-            console.log(item.secondary_id);
         });
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
@@ -850,7 +821,6 @@ $(document).ready(function() {
             imagePosition: "left",
             selectText: "Select Accent",
             onSelected: function (data) {
-               console.log(data);
                 var rowIndex = data.original[0].outerHTML;
                 rowIndex = $.parseHTML(rowIndex);
                 rowIndex = $(rowIndex).data("id");
@@ -901,7 +871,6 @@ $(document).ready(function() {
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
-            console.log('FLIP ADD');
             var id = $(this).data('id');
             flipApplication(id);
         });
@@ -977,7 +946,6 @@ $(document).ready(function() {
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     }
     catch(err) {
-        console.log(err.message);
     }
 
     try {
@@ -989,7 +957,6 @@ $(document).ready(function() {
         });
     }
     catch(err) {
-        console.log(err.message);
     }
 
     // window.materialOptionSettings = null;
@@ -1013,7 +980,6 @@ $(document).ready(function() {
 
     $('#front-default-item').change(function(){
         var def_name = $(this).find("option:selected").text();
-        console.log(def_name);
         $('#application_name').val(def_name);
     });
 
@@ -1093,7 +1059,6 @@ $(document).ready(function() {
                     elem2.attr('src',this.result);
                     elem2.data('img',this.result);
 
-                    console.log('change file: '+this.result);
                     $(this).parent().siblings().find('.mo-name').val(this.result);
                 }
             }
@@ -1231,9 +1196,6 @@ $(document).ready(function() {
         $('.material-option-id').val(material.option.id);
         $('.material-id').val(material.id);
 
-        console.log('MO ID: '+material.option.id);
-        console.log('MAT ID: '+material.option.material_id);
-
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
 
@@ -1254,8 +1216,6 @@ $(document).ready(function() {
         } else {
             $('#is-blend').attr('checked', 'unchecked');
         }
-
-        // console.log('B prop val >>'+$('.b-prop').val());
 
         if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
             canvas.clear();
@@ -1433,8 +1393,8 @@ $(document).ready(function() {
                 insert_fabric: ($(this).data('default-insert-fabric')),
             }
         };
-        console.log('TESTER' + material.option.pattern_properties);
-        console.log('asset target' + material.option.asset_target);
+
+
         $('#pattern_properties').val(material.option.pattern_properties);
 
         if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
@@ -1444,14 +1404,12 @@ $(document).ready(function() {
         var build_type_dropdown = '<option value="">None</option>';
         var build_types = ["twill", "sublimated", "infused"];
         build_types.forEach(function(entry) {
-            console.log(entry);
             if(entry == material.option.build_type){
                 build_type_dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
             } else {
                 build_type_dropdown += '<option value="'+entry+'">'+entry+'</option>';
             }
         });
-        console.log(build_type_dropdown);
         $(".build-type").append(build_type_dropdown);
 
         $('.material-id').prop("value", material.id);
@@ -1570,7 +1528,6 @@ $(document).ready(function() {
 
         $.each(window.fabrics, function(i, fabric) {
             if(fabric.id == material.option.fabric_id) {
-                console.log('selected shit');
                 fabric_dropdown += '<option value="' + fabric.id + '" selected>' + fabric.material + '</option>';
             } else {
                 fabric_dropdown += '<option value="' + fabric.id + '" >' + fabric.material + '</option>';
@@ -1609,46 +1566,30 @@ $(document).ready(function() {
         escaped_material_uc = escaped_material_uc.replace(")", "\\)");
         var myStr = '^.*'+escaped_material_uc+'.*$';
         var regexstr = new RegExp(myStr);
-        console.log('REGEX STR');
-        console.log(regexstr);
+
         var escaped_material_bpo = material.block_pattern_options;
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
+
         try {
-            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+            var active_patterns = _.filter(window.patterns, function(p) { 
+                return p.active == 1 
+            });
+
+            patterns_dropdown += "<option value='0'>None</option>";
+
             $.each(active_patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
 
-                if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                        }
-                    }
-                    else if(item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
-                        ctr++;
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                        }
-                    }
+                if (window.brandPatterns.indexOf(item.id) >= 0) {
+                    patterns_dropdown += `<option value="` + item.id + `">` + item.name + `</option>`;
                 }
             });
-        if (ctr>0) {
-            patterns_dropdown = patterns_dropdown_bpomatch;
-        }
-        else {
-            patterns_dropdown = patterns_dropdown_nobpomatch;
-        }
-            console.log('Material Option Pattern ID: '+material.option.pattern_id);
+
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
         }
         catch(err) {
-            console.log(err.message);
         }
 
         var team_color_id_dropdown = '<option value="">None</option>';
@@ -1705,8 +1646,6 @@ $(document).ready(function() {
 
 
     function appendApplications(app_properties){
-        // console.log(app_properties);
-
         var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
@@ -2258,9 +2197,6 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2306,10 +2242,6 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2372,16 +2304,8 @@ $(document).ready(function() {
             "applications_properties": '"'+JSON.stringify(data)+'"'
         };
 
-        console.log(applications_properties);
-        console.log("data"+data);
+
         if($(this).attr('disabled') != 'disabled'){
-
-            console.log('SAVE TEMPLATE!');
-            console.log('myData: '+JSON.stringify(myData));
-
-            console.log(myData);
-            console.log('"'+JSON.stringify(data)+'"');
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2411,7 +2335,6 @@ $(document).ready(function() {
     */
 
     $('.delete-material-option').on('click', function(){
-        console.log('DELETE');
         var id = $(this).data('material-option-id');
         var name = $(this).data('material-option-name');
         modalConfirm(
@@ -2443,7 +2366,7 @@ $(document).ready(function() {
             }
 
         });
-        console.log(checkedMaterialOptionsIDs);
+
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
@@ -2648,6 +2571,40 @@ $(document).ready(function() {
         });
     }
 
+    function getBrandPatterns(callback) {
+        var ids = [];
+
+        var id = 3;
+
+        if ($('#material_brand').val() == 'riddell') {
+            id = 5;
+        }
+
+        var url = "//" + qx7_host + "/api/brand_patterns/" + id ;
+
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data) {
+                if (data.success === true) {
+                    if (typeof callback === 'function') {
+                        data.brand_patterns.forEach(brandPattern => {
+                            if ((brandPattern.customizer_id != null) && (ids.indexOf(brandPattern.customizer_id) < 0)) {
+                                ids.push(brandPattern.customizer_id);
+                            }
+                        });
+
+                        callback(ids);
+                    }
+                }
+            }
+        });
+    }
+
     function getMascots(callback){
         var mascots;
         var url = "//" + api_host + "/api/mascots";
@@ -2703,10 +2660,6 @@ $(document).ready(function() {
         return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
     };
 
-    $(document).on('change', '#block_pattern', function() {
-        console.log('Changed' + $(this).val());
-    });
-
     $(document).on('change', '.app-id', function() {
         var itemIdx = $(this).data('id');
         var newId = $(this).val();
@@ -2726,7 +2679,7 @@ $(document).ready(function() {
         if( va_prop_val == '"{}"' || va_prop_val == null ){
             va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
         }
-        console.log('VA_PROP_VAL' + va_prop_val);
+
         var output = va_prop_val.substring(1, va_prop_val.length-1);
         polyData = JSON.parse(output);
         loadPolygon(polyData);
@@ -3159,7 +3112,6 @@ $(document).ready(function() {
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
-        console.log("MOS: "+moProperties);
     }
 
     function updateCoordinatesXYR() {
@@ -3173,12 +3125,10 @@ $(document).ready(function() {
         var angle = thisGroup.getAngle();
         var newAngle = 360 - angle;
 
-        // console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
         try{
             thisGroup.setAngle(newAngle).setCoords();
             canvasFront.renderAll();
         } catch( err ){
-            console.log(err.message);
         }
 
     }
@@ -3226,7 +3176,6 @@ $(document).ready(function() {
         var x = 0;
         circles.forEach(function(entry) {
             var getCenterPoint = entry.getCenterPoint();
-            console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
             var groups = canvas.getObjects('group');
             if( x == 0 ){
@@ -3245,7 +3194,6 @@ $(document).ready(function() {
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
-        console.log('BPROPxs: '+boundaryProperties);
 
         // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
     }
@@ -3448,7 +3396,7 @@ try {
         updateCoordinatesXYR();
     });
 }
-catch(err) { console.log(err.message); }
+catch(err) { }
 
     bindColorsSelect2();
     bindGradientsSelect2();
@@ -3463,7 +3411,6 @@ canvas.observe('object:rotating', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
@@ -3472,18 +3419,14 @@ canvas.observe('object:rotating', function (e) {
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
-    coords.forEach(function(entry) {
-        console.log('Entry: '+entry['x']+', '+entry['y']);
-    });
-    console.log(JSON.stringify(coords));
-    console.log("JSON"+canvas.toJSON());
+
+
     updateCoordinates();
     $('#pattern_angle').val(parseFloat(groups[0].getAngle().toFixed(2)));
 });
 
 canvas.observe('object:moving', function (e) {
     var p = e.target;
-    console.log('Moving ' + p.name);
 
     if (p.hasOwnProperty("text") === true) {
         //move text label to new circle location
@@ -3529,7 +3472,7 @@ canvas.observe('object:moving', function (e) {
             }
         }
     }
-    console.log(p.name + ' moved!');
+ 
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
     var groups = canvas.getObjects('group');
@@ -3537,7 +3480,7 @@ canvas.observe('object:moving', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        // console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+    
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
@@ -3546,32 +3489,32 @@ canvas.observe('object:moving', function (e) {
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
-    console.log(JSON.stringify(coords));
+
     updateCoordinates();
     });
 }
-catch(err) { console.log(err.message); }
+catch(err) {  }
 
 function loadPolygon(data){
-    console.log("PolyData >> "+JSON.stringify(data));
+  
     var angle;
     canvas.clear();
     var z = 0;
     window.px = 0;
     window.py = 0;
-    // console.log('POLY TEST >> '+data[0].angle);
+ 
     $.each(data, function(i, item) {
         var xcoord = item.x / 2;
         var ycoord = item.y / 2;
 
         if( z == 0 && item.angle != undefined ){
-            console.log('ITEM ANGLE: '+item.angle);
+     
             angle = item.angle;
             if(item.px){
                 window.px = item.px / 2;
                 window.py = item.py / 2;
             }
-            console.log('PX > '+ window.px + 'PY > ' + window.py);
+    
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -3593,21 +3536,18 @@ function loadPolygon(data){
 
         x++;
     });
-    console.log('Line Index: ' + lineIdx);
+ 
     loadCase = 1;
 
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     }
-    catch(err) { console.log(err.message); }
+    catch(err) { }
 
     if( window.px == 0 || window.px == null ){
-        console.log('IF');
         window.px = 453;
         window.py = 362;
     }
-
-    console.log('WIN PX' + window.px);
 
     var rect = new fabric.Rect({
         left: window.px,
@@ -3642,12 +3582,10 @@ function loadPolygon(data){
 $(".app-rotation").click(function(){
 
     sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
-    console.log(sampleAccents);
 });
 $(".dd-selected-value").click(function(){
 
     sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
-    console.log(sampleAccents);
 });
 
 
@@ -3698,9 +3636,6 @@ function updateApplicationsJSON(){
 
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
 
-        console.log('ACCENT >>>>>>' + applicationAccents);
-        console.log('MASCOT >>>>>>' + applicationMascot);
-        console.log('TAILSWEEP >>>>>>' + applicationTailsweep);
         fontData = window.fontData;
 
         if(isPrimary.prop( "checked" )){
@@ -3897,22 +3832,18 @@ function updateApplicationsJSON(){
                 $(this).val(thisGroup.getAngle());
             } else {
                 applicationProperties[itemIdx].rotation = rotation_val;
-                console.log("ROTATION VALUE: >>>> " + rotation_val);
             }
         } catch(err){
-            console.log(err.message);
         }
         cx++;
         canvasFront.renderAll();
     });
 
     var appProperties = JSON.stringify(applicationProperties);
-    // console.log(appProperties);
     appProperties = '"'+appProperties+'"';
     $('#a-application-properties').val(appProperties);
     window.ap = appProperties;
 
-    console.log("APP PROPS: "+window.ap);
 }
 
 
@@ -3969,8 +3900,6 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 }
 
     $(document).on('click', '.material-options-Checkbox,.multiple-options-Checkbox', function() {
-        console.log($(this).data("checkboxselected"));
-        console.log("click");
         if($(this).is(':checked')){
             $($(this).data("checkboxselected")).prop('checked', true);
         }else{
@@ -3986,8 +3915,6 @@ function accentMascotSelect(data,accentMascot,rowIndex){
             return subject.charAt(0).toUpperCase() + subject.slice(1);
         }
         subject = capitalizeFirstLetter(subject);
-        console.log($(".app-def-item").index( this ));
-        console.log(subject);
 
         $(".app-def-name").eq($(".app-def-item").index( this )).val(subject);
 
@@ -4026,12 +3953,9 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                     }else{
                          $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
                     }
-
-               console.log(filteredMascots);
         });
 
     function bringingPointToFront(){
-        console.log('being to front');
          canvas.forEachObject(function(key,obj){
 
             var subjectName = ""+ canvas.item(obj).name +"";
@@ -4043,11 +3967,9 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
             // canvas.sendToBack(canvas.item(obj));
 
-            console.log('line');
              canvas.item(obj).evented = false;
              canvas.item(obj).selectable = false;
             } else if(subjectName != "unde") {
-            console.log('unde');
                // canvas.sendToFront(canvas.item(obj));
                canvas.item(obj).evented = true;
              canvas.item(obj).selectable = true;
@@ -4067,7 +3989,6 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
         var str2 = $("#filter_boundary").val().toLowerCase();
        str2 = str2.split(' ');
-       console.log(str2);
         $( ".load-boundaries-template option" ).hide();
 
         $.each(str2, function( index, value ) {
@@ -4084,10 +4005,8 @@ function accentMascotSelect(data,accentMascot,rowIndex){
     });
 
      $(document).on('click','.load-applications-template',function(){
-        console.log($("#filter_app_template").val());
         var str2 = $("#filter_app_template").val();
        str2 = str2.split(' ');
-       console.log(str2);
         $( ".load-applications-template option" ).hide();
 
         $.each(str2, function( index, value ) {
@@ -4112,7 +4031,6 @@ function accentMascotSelect(data,accentMascot,rowIndex){
             if (stringSport.indexOf(Sports) > -1)
                 {
                  $(this).show();
-                 console.log("");
                 }
         });
     });
@@ -4122,7 +4040,6 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         var material_prop = $('#material_props_data').text();
         var url = "//" + api_host + "/api/block_pattern/update";
         var data = JSON.stringify({id: bp_id, material_reference_properties: material_prop});
-        // console.log(data);
          $.ajax({
                url: url,
                type: "POST",
@@ -4142,6 +4059,5 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                    }
                }
            });
-
     });
 });

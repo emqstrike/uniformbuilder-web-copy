@@ -67,10 +67,17 @@ $(document).ready(function(){
         var url = "qx7_style_request/";
         _.each(window.style_requests, function (request) {
             link = url + request.id
+
+            var blockPatternName = "";
+
+            if (request.rule.hasOwnProperty('block_pattern')) {
+                blockPatternName = request.rule.block_pattern.block_pattern_name;
+            }
+
             elem = `
                 <tr>
                     <td>` + request.style_name + `</td>
-                    <td>` + request.rule.block_pattern.block_pattern_name + `</td>
+                    <td>` + blockPatternName + `</td>
                     <td>` + request.brand.brand + `</td>
                     <td>` + request.gender.gender + `</td>
                     <td>` + request.sport.sport_name + `</td>
