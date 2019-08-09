@@ -58,6 +58,14 @@
     .rl-allowed-apps {
         padding:20px;
     }
+    .table.style-request-rules .notes-table tr > * {
+        padding: 3px!important;
+        border: none!important;
+    }
+    .fixed-header {
+        overflow: auto;
+        max-height: 200px;
+    }
 </style>
 @endsection
 @section('content')
@@ -115,6 +123,21 @@
                                 <div class="form-group">
                                     <label class="h4 text-bold">Notes</label>
                                     <p class="sr-notes"></p>
+                                    <div class="form-group">
+                                    <!-- <textarea class="form-control" name="notes" id="notes" hidden></textarea> -->
+                                        <div class="fixed-header">
+                                            <table class="table text-left text-secondary notes-table" hidden>
+                                                <thead>
+                                                    <tr class="text-secondary">
+                                                        <th class="w-50" style="width:50%">Message</th>
+                                                        <th class="text-nowrap">Updated by</th>
+                                                        <th class="text-nowrap">Updated on</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -266,7 +289,9 @@ $(document).ready(function(){
             formattedDeadline += dt + '/';
         });
         $('.sr-deadline').text(formattedDeadline.slice(0, -1));
-        $('.sr-notes').text(style_request.notes);
+        // $('.sr-notes').text(style_request.notes);
+        // $('#notes').val(style_request.notes);
+        loadNotes(style_request.notes);
 
         if(!_.isNull(style_request.filter_flags)) {
             var flags = JSON.parse(JSON.parse(style_request.filter_flags));
@@ -349,6 +374,37 @@ $(document).ready(function(){
                 });
             }
         }
+    }
+
+    var loadNotes = function (sr_notes) {
+        var notes = !_.isEmpty(sr_notes) ? JSON.parse(sr_notes) : null;
+       
+        if (!_.isNull(notes)) {
+            var tableHead = $('.notes-table thead tr:first-child')
+            var tableBody = $('.notes-table tbody')
+            var rows = '';
+
+            if (!_.isNull(notes)) {
+                _.each(notes, function(note) {
+                    rows += `<tr>
+                                <td>`
+                                    +note.note.replace(/\n/g, '<br/>')+
+                                `</td>
+                                <td class="text-nowrap">`
+                                    +note.user+
+                                `</td>
+                                <td class="text-nowrap">`
+                                    +note.date+
+                                `</td>
+                            </tr>`;
+                });
+
+                // show table
+                tableBody.append(rows)
+                $('.notes-table').show()
+            }
+        }
+
     }
 
     getQx7StyleRequests(srid, function (style_requests) {
