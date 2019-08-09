@@ -6730,6 +6730,9 @@ $(document).ready(function () {
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 }
+
+                // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
+                if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
                 
                 ub.funcs.initUniformsPicker(_item, _gender);
 
@@ -7115,15 +7118,49 @@ $(document).ready(function () {
         return blockPattern;
     }
 
-    ub.funcs.slugToTitleCase = function(slug) {
-        var words = slug.split('-');
+    // get the url parameter
+    ub.funcs.getUrlParameter = function(urlParameter) {
+        var pageURL = window.location.search.substring(1);
+        var urlVariable = pageURL.split('&');
+        var parameterName;
+        var i;
 
-        for(var i = 0; i < words.length; i++) {
-          var word = words[i];
-          words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+        for (i = 0; i < urlVariable.length; i++) {
+            parameterName = urlVariable[i].split('=');
+
+            if (parameterName[0] === urlParameter) {
+                return parameterName[1] === undefined ? true : decodeURIComponent(parameterName[1]);
+            }
         }
+    }
 
-        return words.join(' ');
+    ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
+        if (_.isEmpty(ub.config.styles.blockPattern) === false) {
+            var blockPattern = _.find(blockPatternsCollection, function(data) {
+                return (data.item.replace(/[_\W]+/g, '').toLowerCase() === ub.config.styles.blockPattern.replace(/[_\W]+/g, '').toLowerCase());
+            })
+            // if the blockPattern is not empty
+            if (_.isEmpty(blockPattern) === false) {
+                _.delay(function() {
+                    $('.tertiary.main-picker-items[data-item="' + blockPattern.item +'"]').trigger("click").addClass('active');
+                }, 100)
+            }
+        }
+    }
+
+    ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
+        var urlParameter = ub.funcs.getUrlParameter('option');
+        if (typeof urlParameter !== 'undefined' && _.isEmpty(ub.config.styles.blockPattern) === false) {
+            var option = _.find(optionsCollection, function(data) {
+                return (data.item.replace(/[_\W]+/g, '').toLowerCase() === urlParameter.replace(/[_\W]+/g, '').toLowerCase());
+            })
+            // if the blockPattern is not empty
+            if (typeof option !== 'undefined') {
+                _.delay(function() {
+                    $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
+                }, 100)
+            }
+        }
     }
 
     ub.funcs.updateTertiaryBar = function (items, gender) {
@@ -7150,17 +7187,9 @@ $(document).ready(function () {
 
             window.origItems = items;
 
-            // from directLink with type. ex: socks/quick-turn
-            if (typeof ub.config.styles !== 'undefined') {
-                if (_.isEmpty(ub.config.styles.blockPattern) === false) {
-                    var title =  ub.funcs.slugToTitleCase(ub.config.styles.blockPattern) // slug to string
-                    _.delay(function() {
-                        $('.tertiary.main-picker-items[data-item="' + title +'"]')
-                        .trigger("click")
-                        .addClass('active');
-                    }, 100)
-                }
-            }
+            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
+            if (typeof ub.config.styles !== 'undefined') ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
+            
             
             $('span.slink-small.tertiary').unbind('click');
             $('span.slink-small.tertiary').on('click', function () {
@@ -7207,6 +7236,9 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
+                
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                if (typeof ub.config.styles !== 'undefined') ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
