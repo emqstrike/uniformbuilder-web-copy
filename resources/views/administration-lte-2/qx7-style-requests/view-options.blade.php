@@ -80,7 +80,13 @@
 
                             <input type="number" class="form-control" name="id">
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
-                            <button type="submit" class="btn btn-flat btn-success">Import bounding box</button>
+
+                            <select name="import_type" class="form-control">
+                                <option value="bounding_box">Import Bounding Box</option>
+                                <option value="applications_properties">Import Application</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-flat btn-success">Submit</button>
                         </form>
 
                         <table class="col-md-12">
