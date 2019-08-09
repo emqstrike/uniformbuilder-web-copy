@@ -275,7 +275,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveBoundary'])->name('v1_qx7_save_bounding_box');
             Route::post('qx7_style_requests/option/purgeOption', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@purgeOption'])->name('v1_qx7_cleanup_style');
             Route::get('qx7_style_requests/pipings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@pipings'])->name('v1_qx7_pipings');
-            Route::post('qx7_style_requests/piping/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updatePiping'])->name('v1_qx7_update_piping');
+            Route::post('qx7_style_requests/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updatePipings'])->name('v1_qx7_update_piping');
         });
     });
 
