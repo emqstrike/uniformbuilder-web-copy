@@ -7144,10 +7144,13 @@ $(document).ready(function () {
     ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
         if (typeof ub.config.styles !== 'undefined') {
             if (!_.isEmpty(ub.config.styles.blockPattern)) {
+
                 var blockPattern = ub.config.styles.blockPattern;
+
                 var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
                     return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
                 })
+
                 // if the blockPattern is not empty
                 setTimeout(function() {
                     if (!_.isEmpty(searchedBlockPattern)) {
@@ -7162,19 +7165,20 @@ $(document).ready(function () {
 
     ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
         var urlParameter = ub.funcs.getUrlParameter('option');
-        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern)) {
+        var blockPattern = ub.config.styles.blockPattern;
+        var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
+        var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
+
+        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
             var option = _.find(optionsCollection, function(data) {
                 return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
             })
+
             // if the blockPattern is not empty
             setTimeout(function(){
-                if (typeof option !== 'undefined' && ub.config.blockPattern !== 'all') {
+                if (typeof option !== 'undefined') {
                     $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
-                }
-                if (ub.config.blockPattern === 'all') {
-                    $('span.slink-small.quarternary').removeClass('active');
-                    $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
-                }
+                } 
             }, 100)
         }
     }
@@ -7220,9 +7224,6 @@ $(document).ready(function () {
 
                     _newSet = window.origItems;
 
-                    // For Directlink - set ..styles to all
-                    if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = 'all';
-
                 } else {
                     
                     _newSet = _.filter(window.origItems, function (item) {
@@ -7258,6 +7259,8 @@ $(document).ready(function () {
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
                 
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
@@ -7382,8 +7385,6 @@ $(document).ready(function () {
                 $('span.slink-small.quarternary').removeClass('active');
                 $(this).addClass('active');
 
-                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
-                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
