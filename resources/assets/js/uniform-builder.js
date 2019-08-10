@@ -7134,15 +7134,27 @@ $(document).ready(function () {
         }
     }
 
+    // remove symbols, spaces, and convert string to single word lowercase format. 
+    // Example: quick-turn-socks to quickturnsocks
+    // used for searching purposes.
+    ub.funcs.formatStringToWord = function(string) {
+        return string.replace(/[_\W]+/g, '').toLowerCase();
+    }
+
     ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
-        if (_.isEmpty(ub.config.styles.blockPattern) === false) {
-            var blockPattern = _.find(blockPatternsCollection, function(data) {
-                return (data.item.replace(/[_\W]+/g, '').toLowerCase() === ub.config.styles.blockPattern.replace(/[_\W]+/g, '').toLowerCase());
-            })
-            // if the blockPattern is not empty
-            if (_.isEmpty(blockPattern) === false) {
-                _.delay(function() {
-                    $('.tertiary.main-picker-items[data-item="' + blockPattern.item +'"]').trigger("click").addClass('active');
+        if (typeof ub.config.styles !== 'undefined') {
+            if (!_.isEmpty(ub.config.styles.blockPattern)) {
+                var blockPattern = ub.config.styles.blockPattern;
+                var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
+                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
+                })
+                // if the blockPattern is not empty
+                setTimeout(function() {
+                    if (!_.isEmpty(searchedBlockPattern)) {
+                        $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
+                    } else {
+                        $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                    }    
                 }, 100)
             }
         }
@@ -7150,16 +7162,20 @@ $(document).ready(function () {
 
     ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
         var urlParameter = ub.funcs.getUrlParameter('option');
-        if (typeof urlParameter !== 'undefined' && _.isEmpty(ub.config.styles.blockPattern) === false) {
+        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern)) {
             var option = _.find(optionsCollection, function(data) {
-                return (data.item.replace(/[_\W]+/g, '').toLowerCase() === urlParameter.replace(/[_\W]+/g, '').toLowerCase());
+                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
             })
             // if the blockPattern is not empty
-            if (typeof option !== 'undefined') {
-                _.delay(function() {
+            setTimeout(function(){
+                if (typeof option !== 'undefined' && ub.config.blockPattern !== 'all') {
                     $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
-                }, 100)
-            }
+                }
+                if (ub.config.blockPattern === 'all') {
+                    $('span.slink-small.quarternary').removeClass('active');
+                    $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                }
+            }, 100)
         }
     }
 
@@ -7187,11 +7203,13 @@ $(document).ready(function () {
 
             window.origItems = items;
 
-            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
-            if (typeof ub.config.styles !== 'undefined') ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
             
             
             $('span.slink-small.tertiary').unbind('click');
+
+            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
+            ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
+
             $('span.slink-small.tertiary').on('click', function () {
                 
                 var _dataItem = $(this).data('item');
@@ -7201,6 +7219,9 @@ $(document).ready(function () {
                 if (_dataItem === "All") {
 
                     _newSet = window.origItems;
+
+                    // For Directlink - set ..styles to all
+                    if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = 'all';
 
                 } else {
                     
@@ -7237,8 +7258,6 @@ $(document).ready(function () {
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
                 
-                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
-                if (typeof ub.config.styles !== 'undefined') ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
@@ -7363,6 +7382,8 @@ $(document).ready(function () {
                 $('span.slink-small.quarternary').removeClass('active');
                 $(this).addClass('active');
 
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
