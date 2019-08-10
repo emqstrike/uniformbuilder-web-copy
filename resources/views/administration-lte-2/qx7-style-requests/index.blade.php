@@ -31,7 +31,6 @@
                                 <th>Priority</th>
                                 <th>Deadline</th>
                                 <th>Requested By:</th>
-                                <th>Notes</th>
                                 <th>Style ID</th>
                                 <th>Actions</th>
                             </tr>
@@ -67,10 +66,17 @@ $(document).ready(function(){
         var url = "qx7_style_request/";
         _.each(window.style_requests, function (request) {
             link = url + request.id
+
+            var blockPatternName = "";
+
+            if (request.rule.hasOwnProperty('block_pattern')) {
+                blockPatternName = request.rule.block_pattern.block_pattern_name;
+            }
+
             elem = `
                 <tr>
                     <td>` + request.style_name + `</td>
-                    <td>` + request.rule.block_pattern.block_pattern_name + `</td>
+                    <td>` + blockPatternName + `</td>
                     <td>` + request.brand.brand + `</td>
                     <td>` + request.gender.gender + `</td>
                     <td>` + request.sport.sport_name + `</td>
@@ -82,7 +88,6 @@ $(document).ready(function(){
                     <td>` + request.priority + `</td>
                     <td>` + request.deadline + `</td>
                     <td>` + request.user.first_name + ` `+ request.user.last_name + `</td>
-                    <td>` + request.notes + `</td>
                     <td>` + request.style_id + `</td>
                     <td>
                         <a href="`+link+`" class="btn btn-default btn-xs" role="button">View</a>`
@@ -97,6 +102,9 @@ $(document).ready(function(){
                                     </a>
                                     <a href="/administration/v1-0/qx7_style_requests/options/dropzone/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                         <i class="fa fa-upload" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="/administration/v1-0/qx7_style_requests/pipings/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <i class="fa fa-barcode" aria-hidden="true"></i>
                                     </a>`
                         }
                     `</td>

@@ -568,6 +568,10 @@ function buildSetsDropdown(value){
 
     function getColors(){
         var brand = $('input[name=material_brand]').val();
+        if(brand == 'Riddell') {
+            brand = 'prolook';
+        }
+         console.log(brand);
 
         return $.ajax({
             type: 'GET',
@@ -660,5 +664,5 @@ function buildSetsDropdown(value){
 		refreshJSON();
 		$(this).hide();
     });
-    
+
 });
