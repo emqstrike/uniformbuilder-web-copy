@@ -850,7 +850,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isSocks())) { return; }
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isSocks() || _.contains(ub.data.riddellSportWithPipings, ub.config.sport) )) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 

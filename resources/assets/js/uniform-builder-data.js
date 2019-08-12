@@ -12556,4 +12556,16 @@ ub.funcs.fontOffSets = [
         '12',
    ];
 
+
+   /*
+   *
+   * RIDDELL DATA
+   *
+   */
+
+   ub.data.riddellSportWithPipings = [
+        'RDL Baseball',
+   ];
+
+
 });
