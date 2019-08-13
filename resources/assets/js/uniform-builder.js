@@ -6730,6 +6730,9 @@ $(document).ready(function () {
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 }
+
+                // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
+                if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
                 
                 ub.funcs.initUniformsPicker(_item, _gender);
 
@@ -7115,15 +7118,69 @@ $(document).ready(function () {
         return blockPattern;
     }
 
-    ub.funcs.slugToTitleCase = function(slug) {
-        var words = slug.split('-');
+    // get the url parameter
+    ub.funcs.getUrlParameter = function(urlParameter) {
+        var pageURL = window.location.search.substring(1);
+        var urlVariable = pageURL.split('&');
+        var parameterName;
+        var i;
 
-        for(var i = 0; i < words.length; i++) {
-          var word = words[i];
-          words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+        for (i = 0; i < urlVariable.length; i++) {
+            parameterName = urlVariable[i].split('=');
+
+            if (parameterName[0] === urlParameter) {
+                return parameterName[1] === undefined ? true : decodeURIComponent(parameterName[1]);
+            }
         }
+    }
 
-        return words.join(' ');
+    // remove symbols, spaces, and convert string to single word lowercase format. 
+    // Example: quick-turn-socks to quickturnsocks
+    // used for searching purposes.
+    ub.funcs.formatStringToWord = function(string) {
+        return string.replace(/[_\W]+/g, '').toLowerCase();
+    }
+
+    ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
+        if (typeof ub.config.styles !== 'undefined') {
+            if (!_.isEmpty(ub.config.styles.blockPattern)) {
+
+                var blockPattern = ub.config.styles.blockPattern;
+
+                var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
+                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
+                })
+
+                // if the blockPattern is not empty
+                setTimeout(function() {
+                    if (!_.isEmpty(searchedBlockPattern)) {
+                        $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
+                    } else {
+                        $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                    }    
+                }, 100)
+            }
+        }
+    }
+
+    ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
+        var urlParameter = ub.funcs.getUrlParameter('option');
+        var blockPattern = ub.config.styles.blockPattern;
+        var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
+        var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
+
+        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
+            var option = _.find(optionsCollection, function(data) {
+                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
+            })
+
+            // if the blockPattern is not empty
+            setTimeout(function(){
+                if (typeof option !== 'undefined') {
+                    $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
+                } 
+            }, 100)
+        }
     }
 
     ub.funcs.updateTertiaryBar = function (items, gender) {
@@ -7150,19 +7207,13 @@ $(document).ready(function () {
 
             window.origItems = items;
 
-            // from directLink with type. ex: socks/quick-turn
-            if (typeof ub.config.styles !== 'undefined') {
-                if (_.isEmpty(ub.config.styles.blockPattern) === false) {
-                    var title =  ub.funcs.slugToTitleCase(ub.config.styles.blockPattern) // slug to string
-                    _.delay(function() {
-                        $('.tertiary.main-picker-items[data-item="' + title +'"]')
-                        .trigger("click")
-                        .addClass('active');
-                    }, 100)
-                }
-            }
+            
             
             $('span.slink-small.tertiary').unbind('click');
+
+            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
+            ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
+
             $('span.slink-small.tertiary').on('click', function () {
                 
                 var _dataItem = $(this).data('item');
@@ -7207,6 +7258,9 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
+                
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
