@@ -1633,7 +1633,7 @@ $(document).ready(function() {
         var current_asset_target = $('#material_asset_target').val();
         var current_sport = $('#material_uniform_category').val();
         var current_brand = $('#material_brand').val();
-        if (current_brand == 'riddell') {
+    if (current_brand == 'riddell') {
             try {
                 var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
                 var input_patterns = _.filter(active_patterns, function(pattern) {

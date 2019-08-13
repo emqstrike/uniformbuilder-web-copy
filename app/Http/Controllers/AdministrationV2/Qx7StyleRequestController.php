@@ -484,4 +484,35 @@ class Qx7StyleRequestController extends Controller
                     ->with('message', $response->message);
         }
     }
+
+    public function gradient($id)
+    {
+        $style = $this->stylesClient->getStyle($id);
+        return view('administration-lte-2.qx7-style-requests.style-gradient', [
+            'style' => $style
+        ]);
+    }
+
+    public function updateGradient(Request $request)
+    {
+        $style_id = $request->input('style_id');
+        $gradient = $request->input('gradient');
+
+        $data = [
+            'id' => $style_id,
+            'gradient' => $gradient
+        ];
+
+        $response = $this->stylesClient->updateGradient($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+                    ->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+                    ->with('message', $response->message);
+        }
+    }
 }
