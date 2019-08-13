@@ -161,7 +161,7 @@ $(document).ready(function(){
     });
 
 
-    var style_request = window.style_request[0];
+    var style_request = window.style_request;
     $('.style-id').val(style_request.id);
     $('.style-name').val(style_request.style_name);
     $('.style-block-pattern').val(style_request.rule.block_pattern.block_pattern_name);
