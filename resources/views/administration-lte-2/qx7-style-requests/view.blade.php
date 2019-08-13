@@ -409,7 +409,7 @@ $(document).ready(function(){
 
     getQx7StyleRequests(srid, function (style_requests) {
         window.style_requests = style_requests;
-        populateFields(style_requests[0])
+        populateFields(style_requests)
     });
 
 
