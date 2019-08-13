@@ -105,6 +105,9 @@ $(document).ready(function(){
                                     </a>
                                     <a href="/administration/v1-0/qx7_style_requests/pipings/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                         <i class="fa fa-barcode" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="/administration/v1-0/qx7_style_requests/gradient/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <i class="fa fa-square" aria-hidden="true"></i>
                                     </a>`
                         }
                     `</td>
