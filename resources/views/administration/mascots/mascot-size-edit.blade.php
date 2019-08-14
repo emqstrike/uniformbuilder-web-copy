@@ -28,7 +28,7 @@ select:hover {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New Mascot Size</div>
+                <div class="panel-heading">Edit Mascot Size</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/administration/mascot_size/update" enctype="multipart/form-data" id='update-mascot-size-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -97,6 +97,7 @@ select:hover {
                                         <option value="none" @if($mascot_size->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($mascot_size->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($mascot_size->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($mascot_size->brand == "riddell") selected="selected"@endif>Riddell</option>
                                 </select>
                             </div>
                         </div>
