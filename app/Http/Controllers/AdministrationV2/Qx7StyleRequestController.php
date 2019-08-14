@@ -197,6 +197,17 @@ class Qx7StyleRequestController extends Controller
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
 
+    public function matchRulePartName(Request $request)
+    {
+        $response = $this->optionsClient->matchRulePartName($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
+    }
+
     public function saveOption(Request $request)
     {
         $styleId = $request->input('material_id');
