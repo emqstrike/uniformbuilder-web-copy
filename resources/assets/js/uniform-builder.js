@@ -44,7 +44,13 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts' + '/' + ub.config.brand;
+                //console.log("==================>" + ub.current_material.material.brand);
+                
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand;
+
+                if (ub.config.uniform_brand === 'riddell') {
+                    ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
+                }
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
                 // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
