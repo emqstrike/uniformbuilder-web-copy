@@ -19,6 +19,7 @@
 
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+            uniform_brand: "{{ isset($material->brand) ? $material->brand : 'prolook' }}",
 
             uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
