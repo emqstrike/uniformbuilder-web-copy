@@ -270,6 +270,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('qx7_style_requests/style_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getStyleApplication'])->name('v1_qx7_style_application');
             Route::post('qx7_style_requests/options/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveApplications'])->name('v1_qx7_save_style_applications');
             Route::post('qx7_style_requests/bounding_box/import', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@importBoundingBox'])->name('v1_import_bounding_box');
+            Route::post('qx7_style_requests/options/match_rule_part_name', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@matchRulePartName'])->name('v1_match_rule_part_name');
             Route::post('qx7_style_requests/option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveOption'])->name('v1_qx7_save_option');
             Route::post('qx7_style_requests/option/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateOption'])->name('v1_qx7_update_option');
             Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveBoundary'])->name('v1_qx7_save_bounding_box');

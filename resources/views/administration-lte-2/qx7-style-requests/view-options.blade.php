@@ -64,30 +64,46 @@
                         <input type="hidden" id="material_asset_target" value="Web">
                         <input type="hidden" id="material_brand" value="riddell">
 
-                        <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" style="margin: 50px 0;" method="POST">
+                        <div style="margin: 50px 0;">
                             @if (Session::has('message'))
                                 <div class="alert alert-success" role="alert">
                                     {{ Session::get('message') }}
                                 </div>
                             @endif
 
-                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" method="POST">
+                            
+                                        {{ csrf_field() }}
 
-                            <select name="type" class="form-control">
-                                <option value="material">Material ID</option>
-                                <option value="style">Style ID</option>
-                            </select>
+                                        <select name="type" class="form-control">
+                                            <option value="material">Material ID</option>
+                                            <option value="style">Style ID</option>
+                                        </select>
 
-                            <input type="number" class="form-control" name="id">
-                            <input type="hidden" name="style_id" value="{{ $style->id }}">
+                                        <input type="number" class="form-control" name="id">
+                                        <input type="hidden" name="style_id" value="{{ $style->id }}">
 
-                            <select name="import_type" class="form-control">
-                                <option value="bounding_box">Import Bounding Box</option>
-                                <option value="applications_properties">Import Application</option>
-                            </select>
+                                        <select name="import_type" class="form-control">
+                                            <option value="bounding_box">Import Bounding Box</option>
+                                            <option value="applications_properties">Import Application</option>
+                                        </select>
 
-                            <button type="submit" class="btn btn-flat btn-success">Submit</button>
-                        </form>
+                                        <button type="submit" class="btn btn-flat btn-success">Submit</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form action="{{ route('v1_match_rule_part_name') }}" class="form-inline" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="style_id" value="{{ $style->id }}">
+
+                                        <button type="submit" class="btn btn-flat btn-success pull-right">Match rule part name</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                         <table class="col-md-12">
                             <thead>
