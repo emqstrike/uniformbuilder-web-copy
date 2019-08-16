@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th>Style Name</th>
+                                <th>Rule ID</th>
                                 <th>Block Pattern</th>
                                 <th>Brand</th>
                                 <th>Gender</th>
@@ -76,6 +77,7 @@ $(document).ready(function(){
             elem = `
                 <tr>
                     <td>` + request.style_name + `</td>
+                    <td>` + request.rule_id + `</td>
                     <td>` + blockPatternName + `</td>
                     <td>` + request.brand.brand + `</td>
                     <td>` + request.gender.gender + `</td>
