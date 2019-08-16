@@ -19,6 +19,7 @@
                     <table class="table data-table table-bordered table-hover display" id="qx7-style-requests" width="100%">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Style Name</th>
                                 <th>Rule ID</th>
                                 <th>Block Pattern</th>
@@ -76,6 +77,7 @@ $(document).ready(function(){
 
             elem = `
                 <tr>
+                    <td>` + request.id + `</td>
                     <td>` + request.style_name + `</td>
                     <td>` + request.rule_id + `</td>
                     <td>` + blockPatternName + `</td>
