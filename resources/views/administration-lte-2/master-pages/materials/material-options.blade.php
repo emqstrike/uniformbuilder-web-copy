@@ -80,6 +80,40 @@
                         <a href="#" class='btn btn-flat btn-xs btn-default delete-multiple-material-option'>
                             Delete Selected
                         </a>
+
+                        <div style="margin: 50px 0;">
+                            @if (Session::has('message'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ Session::get('message') }}
+                                </div>
+                            @elseif (Session::has('errors'))
+                                <div class="alert alert-error" role="alert">
+                                    {{ Session::get('errors') }}
+                                </div>
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form action="{{ route('v1_import_material_options_data') }}" class="form-inline" method="POST">
+                                        {{ csrf_field() }}
+
+                                        
+                                        <input type="hidden" name="current_material_id" value="{{ $material->id }}">
+
+                                        <label>Import Material by ID:</label>
+                                        <input type="number" class="form-control" name="import_id">
+
+                                        <label>Import Type:</label>
+                                        <select name="import_type" class="form-control">
+                                            <option value="bounding_box">Bounding Box</option>
+                                            <option value="applications_properties">Application</option>
+                                        </select>
+
+                                        <button type="submit" class="btn btn-flat btn-success">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="box-body">
