@@ -163,7 +163,16 @@ class MaterialsOptionsAPIClient extends APIClient
 
     public function importBoundingBox($data)
     {
-        $response = $this->post('material_options/bounding_box/import', [
+        $response = $this->post('qx7_material_options/bounding_box/import', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function importMaterialOptionsData($data)
+    {
+        $response = $this->post('material_options/import_data', [
             'json' => $data
         ]);
 

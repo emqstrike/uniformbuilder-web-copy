@@ -858,4 +858,15 @@ class MaterialsController extends Controller
 
         return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
     }
+
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $response->message);
+    }
 }
