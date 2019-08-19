@@ -239,7 +239,7 @@ $(document).ready(function() {
             console.log('no');
         } else {
             console.log('duplicate');
-            var url = "//" + api_host + "/api/material/duplicate/"+id;
+            var url = "//" + api_host + "/api/material/duplicate/";
             $.ajax({
                 url: url,
                 type: "POST",
