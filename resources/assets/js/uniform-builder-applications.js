@@ -3717,7 +3717,7 @@ $(document).ready(function() {
                 if (ub.config.uniform_brand === 'prolook') {
                     boundaries_one_dimensional[shape.perspective].push({
                         name: shape.name,
-                        alias: shape.name.replace('Left', '').replace('Right',''),
+                        alias: shape.name.replace('Left ', '').replace('Right ',''),
                         boundaries: cObj,
                         layer_no: shape.layer_level,
                         group_id: shape.group_id,
@@ -3730,7 +3730,7 @@ $(document).ready(function() {
                     if (shape.name === 'Front Left Body Panel' || shape.name === 'Front Right Body Panel') {
                         boundaries_one_dimensional[shape.perspective].push({
                             name: shape.name,
-                            alias: shape.name.replace('Body', ''),
+                            alias: shape.name.replace('Body ', ''),
                             boundaries: cObj,
                             layer_no: shape.layer_level,
                             group_id: shape.group_id,
@@ -3739,7 +3739,7 @@ $(document).ready(function() {
                     } else {
                         boundaries_one_dimensional[shape.perspective].push({
                             name: shape.name,
-                            alias: shape.name.replace('Left', '').replace('Right',''),
+                            alias: shape.name.replace('Left ', '').replace('Right ',''),
                             boundaries: cObj,
                             layer_no: shape.layer_level,
                             group_id: shape.group_id,

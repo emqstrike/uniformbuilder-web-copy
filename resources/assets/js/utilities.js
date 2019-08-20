@@ -164,7 +164,6 @@ $( document ).ready(function() {
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();
-        console.log("======>" + fullStringValue);
         var _result = '';        
         
         _result = fullStringValue.replace(' ', '');
@@ -180,7 +179,7 @@ $( document ).ready(function() {
 
             if (_result === 'front_left_body_panel' || _result === 'front_right_body_panel') {
 
-                _result = fullStringValue.replace('_body', '')
+                _result = fullStringValue;
 
             } else if (_result === 'back_left_body_panel' || _result === 'back_left_body_panel') {
 
