@@ -175,12 +175,16 @@ $( document ).ready(function() {
         }
 
         if (ub.config.uniform_brand === 'riddell' && (_result === 'front_left_body_panel' || _result === 'front_right_body_panel')) {
-
-            _result = fullStringValue;
+            
+            _result = fullStringValue.replace('_body', '')
 
         } else {
 
-            _result = fullStringValue.replace('left_','').replace('right_','');
+            _result = fullStringValue
+            .replace('_body', '')
+            .replace('left_','')
+            .replace('right_','');
+            //.replace('_panel','');
 
         }
        // _result = fullStringValue.replace('left_','').replace('right_','');
