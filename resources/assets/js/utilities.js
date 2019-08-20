@@ -164,6 +164,7 @@ $( document ).ready(function() {
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();
+        console.log("======>" + fullStringValue);
         var _result = '';        
         
         _result = fullStringValue.replace(' ', '');
@@ -171,22 +172,28 @@ $( document ).ready(function() {
         if (ub.config.uniform_brand === 'prolook') {
 
             _result = fullStringValue.replace('left_','').replace('right_','');
-        
-        }
-
-        if (ub.config.uniform_brand === 'riddell' && (_result === 'front_left_body_panel' || _result === 'front_right_body_panel')) {
-            
-            _result = fullStringValue.replace('_body', '')
-
-        } else {
-
-            _result = fullStringValue
-            .replace('_body', '')
-            .replace('left_','')
-            .replace('right_','');
-            //.replace('_panel','');
 
         }
+
+        // TEMPORARY FOR RIDDELL
+        if (ub.config.uniform_brand === 'riddell') {
+
+            if (_result === 'front_left_body_panel' || _result === 'front_right_body_panel') {
+
+                _result = fullStringValue.replace('_body', '')
+
+            } else if (_result === 'back_left_body_panel' || _result === 'back_left_body_panel') {
+
+                _result = fullStringValue.replace('left_','').replace('right_','');
+
+            } else {
+
+                _result = fullStringValue.replace('left_','').replace('right_','');
+
+            }
+
+        }
+
        // _result = fullStringValue.replace('left_','').replace('right_','');
         _result = _result.toTitleCase();
 

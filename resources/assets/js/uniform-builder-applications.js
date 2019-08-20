@@ -3647,7 +3647,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.makeActive = function (name) {
-
         var _ht = name;
         var _label = name.prepareModifierLabel();
         _group_id = ub.data.modifierLabels[_label].group_id;
@@ -3737,15 +3736,6 @@ $(document).ready(function() {
                             group_id: shape.group_id,
                             polygon: boundary_properties,
                         });  
-                    } else if (shape.name === 'Back Left Body Panel' || shape.name === 'Back Right Body Panel' || shape.name === 'Back Body Panel') {
-                        boundaries_one_dimensional[shape.perspective].push({
-                            name: shape.name,
-                            alias: shape.name.replace('Panel', '').replace('Left', '').replace('Right', ''),
-                            boundaries: cObj,
-                            layer_no: shape.layer_level,
-                            group_id: shape.group_id,
-                            polygon: boundary_properties,
-                        }); 
                     } else {
                         boundaries_one_dimensional[shape.perspective].push({
                             name: shape.name,
