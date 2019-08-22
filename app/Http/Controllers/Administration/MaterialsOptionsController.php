@@ -142,7 +142,7 @@ class MaterialsOptionsController extends Controller
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
@@ -178,7 +178,7 @@ class MaterialsOptionsController extends Controller
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
