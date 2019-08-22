@@ -5,7 +5,7 @@ $(document).ready(function() {
     ub.funcs.transformMascots = function () {
 
         var _one = '1';
-        var _brand = ub.current_material.material.brand;  
+        var _brand = ub.config.uniform_brand;  
 
         ub.data.mascots = _.filter (ub.data.mascots, {active: _one});
 

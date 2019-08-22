@@ -3647,7 +3647,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.makeActive = function (name) {
-
         var _ht = name;
         var _label = name.prepareModifierLabel();
         _group_id = ub.data.modifierLabels[_label].group_id;
@@ -3712,16 +3711,43 @@ $(document).ready(function() {
                 };
 
                 boundaries_transformed[shape.name].views.push(cObj);
-                boundaries_one_dimensional[shape.perspective].push({
-                    
-                    name: shape.name,
-                    alias: shape.name.replace('Left ', '').replace('Right ',''),
-                    boundaries: cObj,
-                    layer_no: shape.layer_level,
-                    group_id: shape.group_id,
-                    polygon: boundary_properties,
 
-                });
+                // Temporary for riddell uniforms 
+                //===============================================================================================
+                if (ub.config.uniform_brand === 'prolook') {
+                    boundaries_one_dimensional[shape.perspective].push({
+                        name: shape.name,
+                        alias: shape.name.replace('Left ', '').replace('Right ',''),
+                        boundaries: cObj,
+                        layer_no: shape.layer_level,
+                        group_id: shape.group_id,
+                        polygon: boundary_properties,
+                    });  
+                }
+
+                if (ub.config.uniform_brand === 'riddell') {
+
+                    if (shape.name === 'Front Left Body Panel' || shape.name === 'Front Right Body Panel') {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Body ', ''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        });  
+                    } else {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Left ', '').replace('Right ',''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        }); 
+                    }
+                }
+                //===============================================================================================
 
             }
 

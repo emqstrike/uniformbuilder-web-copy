@@ -164,10 +164,36 @@ $( document ).ready(function() {
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();
-        var _result = '';
-
+        var _result = '';        
+        
         _result = fullStringValue.replace(' ', '');
-        _result = fullStringValue.replace('left_','').replace('right_','');
+
+        if (ub.config.uniform_brand === 'prolook') {
+
+            _result = fullStringValue.replace('left_','').replace('right_','');
+
+        }
+
+        // TEMPORARY FOR RIDDELL
+        if (ub.config.uniform_brand === 'riddell') {
+
+            if (_result === 'front_left_body_panel' || _result === 'front_right_body_panel') {
+
+                _result = fullStringValue;
+
+            } else if (_result === 'back_left_body_panel' || _result === 'back_left_body_panel') {
+
+                _result = fullStringValue.replace('left_','').replace('right_','');
+
+            } else {
+
+                _result = fullStringValue.replace('left_','').replace('right_','');
+
+            }
+
+        }
+
+       // _result = fullStringValue.replace('left_','').replace('right_','');
         _result = _result.toTitleCase();
 
         return _result;
