@@ -292,8 +292,8 @@ class MaterialsOptionsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/materials')
-                            ->with('message', 'There was a problem uploading your files');
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
+                ->with('message', 'There was a problem uploading your files');
         }
 
         $response = null;
