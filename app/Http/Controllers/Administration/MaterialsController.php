@@ -939,4 +939,14 @@ class MaterialsController extends Controller
         }
     }
 
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+        if ($response->success) {
+            return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('errors', $response->message);
+    }
 }
