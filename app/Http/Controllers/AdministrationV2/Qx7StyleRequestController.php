@@ -167,10 +167,10 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
+            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
+            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
 
