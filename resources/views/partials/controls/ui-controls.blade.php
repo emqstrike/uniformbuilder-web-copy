@@ -1669,7 +1669,7 @@
 
             <h4>Thank you for submitting your order!</h4>
 
-            <span class="message">@{{message}}</span>
+            <span class="message"><span style="color:red;text-transform: uppercase;font-weight: bold;">Important: </span>@{{message}}</span>
 
             <div class="row">
                 
