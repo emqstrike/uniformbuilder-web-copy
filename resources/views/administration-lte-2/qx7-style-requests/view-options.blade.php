@@ -45,9 +45,6 @@
 
                         <h1>Style Options of: {{ $style->name }}</h1>
 
-          <!--               <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
-                            Edit
-                        </a> -->
                         <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $style->id }}">
                             Reset Properties
                         </a>

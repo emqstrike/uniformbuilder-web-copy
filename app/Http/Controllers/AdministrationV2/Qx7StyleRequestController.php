@@ -6,15 +6,15 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\GradientsAPIClient;
-use App\APIClients\StylesAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
-
-use \Session;
-use \Redirect;
+use App\APIClients\StylesAPIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Qx7APIClient\RulesClient;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use \Redirect;
+use \Session;
 
 class Qx7StyleRequestController extends Controller
 {
@@ -25,6 +25,7 @@ class Qx7StyleRequestController extends Controller
     protected $gradientClient;
     protected $optionsClient;
     protected $stylesClient;
+    protected $rulesClient;
 
     public function __construct(
         // APIClient $apiClient
@@ -34,7 +35,8 @@ class Qx7StyleRequestController extends Controller
         FontsAPIClient $fontsAPIClient,
         GradientsAPIClient $gradientsAPIClient,
         MaterialsOptionsAPIClient $optionsClient,
-        StylesAPIClient $stylesClient
+        StylesAPIClient $stylesClient,
+        RulesClient $rulesClient
     )
     {
         // $this->client = $apiClient;
@@ -45,6 +47,7 @@ class Qx7StyleRequestController extends Controller
         $this->gradientClient = $gradientsAPIClient;
         $this->optionsClient = $optionsClient;
         $this->stylesClient = $stylesClient;
+        $this->rulesClient = $rulesClient;
     }
 
     public function index()
@@ -120,6 +123,7 @@ class Qx7StyleRequestController extends Controller
         $style = $this->stylesClient->getStyle($materialOption->style_id);
         $guide = null;
         $highlightPath = null;
+
         foreach ($options as $option) {
             if ($materialOption->perspective == $option->perspective) {
                 if ($option->name == 'Guide') {
@@ -133,7 +137,8 @@ class Qx7StyleRequestController extends Controller
         }
 
         $applications = $this->applicationClient->getApplications();
-        $fonts = $this->fontClient->getFonts();
+
+        $fonts = $this->rulesClient->getFonts($style->rule_id);
 
         return view('administration-lte-2.qx7-style-requests.style-application', compact(
             'materialOption',
