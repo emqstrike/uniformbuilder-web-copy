@@ -1,5 +1,5 @@
 <?php
-namespace App\Qx7APIClients;
+namespace App\Qx7APIClient;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;

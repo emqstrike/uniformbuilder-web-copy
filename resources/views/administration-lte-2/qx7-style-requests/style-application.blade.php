@@ -78,6 +78,7 @@
                                 <input type="hidden" id="material_uniform_category" value="Football">
                                 <input type="hidden" id="material_asset_target" value="Web">
                                 <input type="hidden" id="material_brand" value="prolook">
+                                <input type="hidden" id="rule_id" value="{{ $style->rule_id }}">
 
                                 <div class="row">
                                     <div class="col-md-4">
