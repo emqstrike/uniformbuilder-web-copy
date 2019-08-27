@@ -3568,20 +3568,20 @@ $(".dd-selected-value").click(function(){
         });
     });
 
-    $(document).on('click', '.app-default-font', function() {
-        var Sports = $("#material_uniform_category").val();
-        $(".app-default-font option").hide();
-        $(this).find("option:first-child").show();
+    // $(document).on('click', '.app-default-font', function() {
+    //     var Sports = $("#material_uniform_category").val();
+    //     $(".app-default-font option").hide();
+    //     $(this).find("option:first-child").show();
 
-        $(this).find("option").each(function(index) {
-            var stringSport = JSON.stringify($(this).data("sport"));
-            stringSport = "" + stringSport + "";
+    //     $(this).find("option").each(function(index) {
+    //         var stringSport = JSON.stringify($(this).data("sport"));
+    //         stringSport = "" + stringSport + "";
 
-            if (stringSport.indexOf(Sports) > -1) {
-                $(this).show();
-            }
-        });
-    });
+    //         if (stringSport.indexOf(Sports) > -1) {
+    //             $(this).show();
+    //         }
+    //     });
+    // });
 
     $('.export_material_prop').on('click', function() {
         var bp_id =   $('.export_block_pattern_id :selected').val();
