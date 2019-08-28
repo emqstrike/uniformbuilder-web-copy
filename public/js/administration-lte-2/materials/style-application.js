@@ -54,8 +54,12 @@ $(document).ready(function() {
     var loadCase = 0;
     var coords = [];
 
+    getFonts(function(fonts) {
+        window.fonts = fonts;
+    });
+
     getColors(temp_brand, function(colors){ window.colors = colors; });
-    getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
+    // getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
@@ -1556,31 +1560,33 @@ $(document).ready(function() {
                     crossDomain: true,
                     contentType: 'application/json',
                     success: function(data) {
-                        var mascot = data.mascot.mascot;
-                        var layerProperties = JSON.parse(mascot.layers_properties);
+                        if (data.mascot.success === true) {
+                            var mascot = data.mascot.mascot;
+                            var layerProperties = JSON.parse(mascot.layers_properties);
 
-                        var index = 0;
+                            var index = 0;
 
-                        $.each(layerProperties, function(i, item) {
-                            index++;
-                        });
+                            $.each(layerProperties, function(i, item) {
+                                index++;
+                            });
 
-                        var description = mascot.category + ' [ ' + c + ' ]';
+                            var description = mascot.category + ' [ ' + c + ' ]';
 
-                        $(mascot_id).append("<option value='' data-image='' data-description=''>None</option>");
+                            $(mascot_id).append("<option value='' data-image='' data-description=''>None</option>");
 
-                        var option = "<option value='" + mascot.id + "' data-image='" + mascot.icon + "' data-description='" + description + "' selected='selected'>";
-                            option += mascot.name
-                            option += "</option>";
+                            var option = "<option value='" + mascot.id + "' data-image='" + mascot.icon + "' data-description='" + description + "' selected='selected'>";
+                                option += mascot.name
+                                option += "</option>";
 
-                        $(mascot_id).append(option);
+                            $(mascot_id).append(option);
 
-                        $(mascot_id).select2({
-                            width: '300px',
-                            templateResult: formatState,
-                            templateSelection: formatState,
-                            minimumResultsForSearch: -1
-                        });
+                            $(mascot_id).select2({
+                                width: '300px',
+                                templateResult: formatState,
+                                templateSelection: formatState,
+                                minimumResultsForSearch: -1
+                            });
+                        }
                     }
                 });
 
@@ -2184,7 +2190,7 @@ $(document).ready(function() {
     }
 
     function getFonts(callback){
-        var url = "//" + api_host + "/api/fonts/minified/"+temp_category+"/"+temp_brand;
+        var url = "//" + qx7_host + "/api/rule/" + $('#rule_id').val() ;
         $.ajax({
             url: url,
             async: false,
@@ -2193,8 +2199,10 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                fonts = data['fonts'];
-                if(typeof callback === "function") callback(fonts);
+                var fonts = data.rules.fonts;
+                if (typeof callback === "function") {
+                    callback(fonts);
+                }
             }
         });
     }
@@ -3558,20 +3566,20 @@ $(".dd-selected-value").click(function(){
         });
     });
 
-    $(document).on('click', '.app-default-font', function() {
-        var Sports = $("#material_uniform_category").val();
-        $(".app-default-font option").hide();
-        $(this).find("option:first-child").show();
+    // $(document).on('click', '.app-default-font', function() {
+    //     var Sports = $("#material_uniform_category").val();
+    //     $(".app-default-font option").hide();
+    //     $(this).find("option:first-child").show();
 
-        $(this).find("option").each(function(index) {
-            var stringSport = JSON.stringify($(this).data("sport"));
-            stringSport = "" + stringSport + "";
+    //     $(this).find("option").each(function(index) {
+    //         var stringSport = JSON.stringify($(this).data("sport"));
+    //         stringSport = "" + stringSport + "";
 
-            if (stringSport.indexOf(Sports) > -1) {
-                $(this).show();
-            }
-        });
-    });
+    //         if (stringSport.indexOf(Sports) > -1) {
+    //             $(this).show();
+    //         }
+    //     });
+    // });
 
     $('.export_material_prop').on('click', function() {
         var bp_id =   $('.export_block_pattern_id :selected').val();
