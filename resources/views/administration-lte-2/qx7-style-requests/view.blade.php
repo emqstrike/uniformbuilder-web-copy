@@ -283,12 +283,17 @@ $(document).ready(function(){
         $('.sr-qxid').text(style_request.quickstrike_item_id);
         $('.sr-priority').text(style_request.priority);
 
-        var deadline = style_request.deadline.split('-');
         var formattedDeadline = '';
-        _.each(deadline.reverse(), function(dt){
-            formattedDeadline += dt + '/';
-        });
-        $('.sr-deadline').text(formattedDeadline.slice(0, -1));
+        if (!_.isNull(style_request.deadline)) {
+            var deadline = style_request.deadline.split('-');
+            var formattedDeadline = '';
+            _.each(deadline.reverse(), function(dt){
+                formattedDeadline += dt + '/';
+            });
+            formattedDeadline = formattedDeadline.slice(0, -1)
+        }
+
+        $('.sr-deadline').text(formattedDeadline);
         // $('.sr-notes').text(style_request.notes);
         // $('#notes').val(style_request.notes);
         loadNotes(style_request.notes);
