@@ -184,6 +184,7 @@ $(document).ready(function() {
         if(loaded_pattern == 1){
             var pval = $('#pattern_properties').val();
             var xstring = "";
+
             if( pval.charAt(pval.length - 1) === '"' ){
                 xstring = pval.substring(0, pval.length - 1);
             } else {
@@ -225,7 +226,7 @@ $(document).ready(function() {
                 x++;
             });
         } else {
-            $.each(window.patterns, function(i, item) {
+            $.each(window.brandPatterns, function(i, item) {
                 if( item.id == id ){
                     var pattern_props = JSON.parse( item.pattern_properties );
                     window.current_pattern_properties = pattern_props;
@@ -1572,19 +1573,10 @@ $(document).ready(function() {
         var regexBPO = new RegExp(strBlockPatternOptions);
 
         try {
-            var active_patterns = _.filter(window.patterns, function(p) { 
-                return p.active == 1 
-            });
-
             patterns_dropdown += "<option value='0'>None</option>";
 
-            $.each(active_patterns, function(i, item) {
-                var sports = item.sports;
-                var block_pattern_o = item.block_pattern_options;
-
-                if (window.brandPatterns.indexOf(item.id) >= 0) {
-                    patterns_dropdown += `<option value="` + item.id + `">` + item.name + `</option>`;
-                }
+            $.each(window.brandPatterns, function(i, item) {
+                patterns_dropdown += `<option value="` + item.id + `">` + item.name + `</option>`;
             });
 
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
@@ -2572,15 +2564,7 @@ $(document).ready(function() {
     }
 
     function getBrandPatterns(callback) {
-        var ids = [];
-
-        var id = 3;
-
-        if ($('#material_brand').val() == 'riddell') {
-            id = 5;
-        }
-
-        var url = "//" + qx7_host + "/api/brand_patterns/" + id ;
+        var url = "//" + qx7_host + "/api/rule/" + $('#rule_id').val() ;
 
         $.ajax({
             url: url,
@@ -2592,13 +2576,10 @@ $(document).ready(function() {
             success: function(data) {
                 if (data.success === true) {
                     if (typeof callback === 'function') {
-                        data.brand_patterns.forEach(brandPattern => {
-                            if ((brandPattern.customizer_id != null) && (ids.indexOf(brandPattern.customizer_id) < 0)) {
-                                ids.push(brandPattern.customizer_id);
-                            }
-                        });
-
-                        callback(ids);
+                        if (data.rules.hasOwnProperty('patterns')) {
+                            var patterns = data.rules.patterns;
+                            callback(patterns);
+                        }
                     }
                 }
             }
