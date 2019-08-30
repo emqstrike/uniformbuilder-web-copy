@@ -616,8 +616,8 @@ $(document).ready(function() {
         var app_material_brand = $('#app-material-brand').val();
 
         for (var i = 0; i < window.fonts.length; i++) {
-            if (window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand) {
-                fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+            if (window.fonts[i].active == 1) {
+                fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].font_name + "; font-size: 30px;' data-font-family='" + window.fonts[i].font_name + "'>" + window.fonts[i].font_name + "</option>";
             }
         }
 
