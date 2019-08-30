@@ -60,6 +60,8 @@
                         <input type="hidden" id="material_uniform_category" value="Football">
                         <input type="hidden" id="material_asset_target" value="Web">
                         <input type="hidden" id="material_brand" value="riddell">
+                        <input type="hidden" id="rule_id" value="{{ $style->rule_id }}">
+
 
                         <div style="margin: 50px 0;">
                             @if (Session::has('message'))
