@@ -318,7 +318,7 @@ class Qx7StyleRequestController extends Controller
                                                                 $materialOptionName,
                                                                 'material_option',
                                                                 "materials",
-                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                                "options/{$settingType}/{$filename}.png"
                                                             );
                 }
             }
