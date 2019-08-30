@@ -13,6 +13,9 @@ use App\Http\Requests;
 use App\Qx7APIClient\RulesClient;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use App\Utilities\FileUploader;
 use \Redirect;
 use \Session;
 
