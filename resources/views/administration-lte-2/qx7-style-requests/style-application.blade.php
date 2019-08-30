@@ -26,6 +26,10 @@
         .app-default-mascot {
             width: 100%;
         }
+
+        .app-default-font, .app-default-text {
+            text-transform: uppercase;
+        }
     </style>
 @endsection
 
