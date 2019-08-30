@@ -35,7 +35,7 @@
 
 @section('custom-styles')
     @foreach ($fonts as $font)
-        @font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
+        @font-face { font-family: "{{ $font->font_name }}"; src: url("{{ $font->font_file }}"); }
     @endforeach
 @endsection
 
