@@ -35,7 +35,9 @@
         table-layout: fixed;
     }
     .table.parts-pipings-table tbody > tr td,
-    .table.parts-pipings-table thead > tr th {
+    .table.parts-pipings-table thead > tr th,
+    .table.fabric-colors-table tbody > tr td,
+    .table.fabric-colors-table thead > tr th {
         border: 1px solid  #000 !important;
     }
     .h4.text-bold {
@@ -65,6 +67,13 @@
     .fixed-header {
         overflow: auto;
         max-height: 200px;
+    }
+    .color-box {
+        color: #ffffff;
+        display: inline-block;
+        margin: 3px 3px;
+        padding: 3px 5px;
+        text-shadow: 1px 1px #000000;
     }
 </style>
 @endsection
@@ -244,6 +253,27 @@
                 </div>
             </div>
         </div>
+
+        <!-- Fabrics and colors -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12" style="">
+                    <!-- Pipings -->
+                    <table class="table text-center fabric-colors-table">
+                        <thead>
+                            <tr>
+                                <th colspan=2 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Fabrics</h3></th>
+                            </tr>
+                            <tr>
+                                <th style="width:30%">Brand Fabric Name</th>
+                                <th>Colors</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 @endsection
@@ -365,8 +395,6 @@ $(document).ready(function(){
             if(!_.isNull(rules.allowed_piping_locations) && !_.isEmpty(rules.allowed_piping_locations) ) {
                 var pipings = JSON.parse(JSON.parse(rules.allowed_piping_locations));
                 _.each(pipings, function (piping) {
-                    console.log(piping)
-                    console.log(piping['Allow'])
                     $('.parts-pipings-table tbody').append(`
                             <tr>
                                <td>`+piping['Piping Location']+`</td>
@@ -376,6 +404,45 @@ $(document).ready(function(){
                             </tr>
                     `);    
 
+                });
+            }
+
+            // Fabrics
+            if(!_.isNull(rules.fabrics) && !_.isEmpty(rules.fabrics)) {
+                var master_colors;
+                var url = "//" + qx7_host + "/api/master_colors/";
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        master_colors = data['master_colors'];
+                        _.each(rules.fabrics, function (fabric) {
+                            if (!_.isNull(fabric.colors[0]) && !_.isEmpty(fabric.colors[0])) {
+                                fcolors = JSON.parse(fabric.colors[0].master_color_ids);
+                                var row = `<tr><td>`+fabric.name+`</td><td style="text-align:left!important;">`;
+                                var color_row = '';
+
+                                _.each(master_colors, function (master_color) {
+                                    _.each(fcolors, function (mcid) {
+                                        if (master_color.id == mcid) {
+                                            color_row += `<span class="color-box" style="background: #`+master_color.hex_code+`;">`
+                                                      + master_color.factory_color_name+  
+                                                     `</span>`;
+                                        }
+                                    });
+                                        
+                                });
+                                row += color_row;
+                                row += `</td></tr>`
+                                $('.fabric-colors-table tbody').append(row)
+                            }
+
+                        });
+                    }
                 });
             }
         }
