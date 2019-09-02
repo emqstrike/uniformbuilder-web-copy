@@ -410,7 +410,7 @@ $(document).ready(function(){
             // Fabrics
             if(!_.isNull(rules.fabrics) && !_.isEmpty(rules.fabrics)) {
                 var master_colors;
-                var url = "https://" + qx7_host + "/api/master_colors/";
+                var url = "//" + qx7_host + "/api/master_colors";
                 $.ajax({
                     url: url,
                     async: false,
