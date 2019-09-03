@@ -1695,9 +1695,6 @@ $(document).ready(function() {
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
                         }
-
-                        selectedMascot = selectedMascot.toString();
-                        $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
                     }else{
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
 
