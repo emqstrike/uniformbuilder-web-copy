@@ -262,11 +262,13 @@
                     <table class="table text-center fabric-colors-table">
                         <thead>
                             <tr>
-                                <th colspan=2 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Fabrics</h3></th>
+                                <th colspan=4 class="box-header" style="display:table-cell"><h3 class="col-12 text-bold">Fabrics</h3></th>
                             </tr>
                             <tr>
-                                <th style="width:30%">Brand Fabric Name</th>
-                                <th>Colors</th>
+                                <th style="width:10%">Body Part Group</th>
+                                <th>Body Parts</th>
+                                <th>Brand Fabric Name</th>
+                                <th style="width:60%">Colors</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -408,41 +410,74 @@ $(document).ready(function(){
             }
 
             // Fabrics
-            if(!_.isNull(rules.fabrics) && !_.isEmpty(rules.fabrics)) {
-                var master_colors;
-                var url = "//" + qx7_host + "/api/master_colors";
-                $.ajax({
-                    url: url,
-                    async: false,
-                    type: "GET",
-                    dataType: "json",
-                    crossDomain: true,
-                    contentType: 'application/json',
-                    success: function(data){
-                        master_colors = data['master_colors'];
-                        _.each(rules.fabrics, function (fabric) {
-                            if (!_.isNull(fabric.colors[0]) && !_.isEmpty(fabric.colors[0])) {
+            if((!_.isNull(rules.fabrics) && !_.isEmpty(rules.fabrics)) && (!_.isNull(rules.body_part_fabric_groups) && !_.isEmpty(rules.body_part_fabric_groups))) {
+                var fabric_groups = JSON.parse(JSON.parse(window.style_requests.rule.body_part_fabric_groups))
+                // for each body_part_fabric_group,
+                _.each(fabric_groups, function (fgroup) {
+                    var parts = !_.isNull(fgroup['Body Parts']) ? fgroup['Body Parts'].join('\n') : '';
+
+                    var rowspan = 1;
+
+                    if (!_.isNull(fgroup['Fabrics'])) {
+                        if (fgroup['Fabrics'].includes(fgroup['Default Fabric'])) {
+                            // remove the default fabric code in Fabrics, if it exists
+                            fgroup['Fabrics']  = _.without(fgroup['Fabrics'], fgroup['Default Fabric']);
+                        }
+                        rowspan = fgroup['Fabrics'].length + 1;
+                    }
+                    var fabric_row = `<tr>
+                                    <td rowspan=`+rowspan+`>`+fgroup['Body Part Group']+`</td>
+                                    <td rowspan=`+rowspan+` style="text-align:left!important;">`;
+                    _.each(fgroup['Body Parts'], function (part) {
+                        fabric_row += part + '<br/>';
+                    });
+                    fabric_row += `</td>`;
+
+                    var master_colors;
+                    var url = "//" + qx7_host + "/api/master_colors";
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        type: "GET",
+                        dataType: "json",
+                        crossDomain: true,
+                        contentType: 'application/json',
+                        success: function(data){
+                            master_colors = data['master_colors'];
+                        }
+                    });
+                    // foreach fabric,
+                    _.each(rules.fabrics, function (fabric) {
+                        if (!_.isNull(fabric.colors[0]) && !_.isEmpty(fabric.colors[0])) {
                                 fcolors = JSON.parse(fabric.colors[0].master_color_ids);
-                                var row = `<tr><td>`+fabric.name+`</td><td style="text-align:left!important;">`;
+                                var def = fgroup['Default Fabric'] === fabric.fabric_code ? `<small style="color:red"> (DEFAULT)</small>` : '';
+                                var row = `<td>` + fabric.name + def + `</td><td style="text-align:left!important;">`;
                                 var color_row = '';
 
+                                // foreach master_color,
                                 _.each(master_colors, function (master_color) {
+                                    // foreach fabric color,
                                     _.each(fcolors, function (mcid) {
                                         if (master_color.id == mcid) {
                                             color_row += `<span class="color-box" style="background: #`+master_color.hex_code+`;">`
-                                                      + master_color.factory_color_name+  
-                                                     `</span>`;
+                                                    + master_color.factory_color_name+  
+                                                    `</span>`;
                                         }
                                     });
-                                        
                                 });
                                 row += color_row;
-                                row += `</td></tr>`
-                                $('.fabric-colors-table tbody').append(row)
-                            }
+                                row += `</td>`    
 
-                        });
-                    }
+                            if (fgroup['Default Fabric'] === fabric.fabric_code) {
+                                fabric_row += row + `</tr>`;
+                            } else if (fgroup['Fabrics'].includes(fabric.fabric_code)) {
+                                fabric_row += `<tr>`+
+                                                    row+`
+                                                </tr>`;
+                            }
+                        }
+                    });
+                    $('.fabric-colors-table tbody').append(fabric_row)
                 });
             }
         }
