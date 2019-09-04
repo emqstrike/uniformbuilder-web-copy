@@ -3463,12 +3463,11 @@ $(".dd-selected-value").click(function(){
 
         $(".app-colors").eq(rowIndex).val(colorCodeField);
         $(".colorSelection").eq(rowIndex).empty();
-
         $.each(colorCodeField.split(','), function (intIndex, objValue) {
             $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
 
             jQuery.each(window.colors, function(index, item) {
-                $(".accentLayerColors").append( "<option value=" + item.hex_code + " data-color-code=" + item.color_code + " data-color-id=" + item.id + "style='background:#" + item.hex_code + "'>" + item.name + "</option>");
+                $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
             });
 
             $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
