@@ -187,4 +187,13 @@ class MaterialsOptionsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function updateRulePartNames($data)
+    {
+        $response = $this->post('material_options/update_rule_part_names', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
 }

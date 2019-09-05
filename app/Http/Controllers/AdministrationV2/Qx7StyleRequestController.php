@@ -91,6 +91,7 @@ class Qx7StyleRequestController extends Controller
         foreach($options as $option) {
             $default_color = $option->default_color;
             $sublimated_default_color = $option->sublimated_default_color;
+
             if($option->perspective == "front" && $option->name =="Guide"){
                 $front_guide = $option->material_option_path;
             } else if($option->perspective == "back" && $option->name =="Guide"){
@@ -533,5 +534,50 @@ class Qx7StyleRequestController extends Controller
             return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
                     ->with('message', $response->message);
         }
+    }
+
+    public function editRulePartNames($styleId)
+    {
+        $style = $this->stylesClient->getStyle($styleId);
+        $options = $this->optionsClient->getByStyleId($styleId);
+
+        $frontPerspectiveOptions = [];
+        $backPerspectiveOptions = [];
+        $leftPerspectiveOptions = [];
+        $rightPerspectiveOptions = [];
+
+        $bodyParts = (new RulesClient())->getBodyParts($style->rule_id);
+
+        foreach ($options as $option) {
+            if ($option->perspective == 'front') {
+                array_push($frontPerspectiveOptions, $option);
+            } elseif ($option->perspective == 'back') {
+                array_push($backPerspectiveOptions, $option);
+            } elseif ($option->perspective == 'left') {
+                array_push($leftPerspectiveOptions, $option);
+            } elseif ($option->perspective == 'right') {
+                array_push($rightPerspectiveOptions, $option);
+            }
+        }
+
+        return view('administration-lte-2.qx7-style-requests.edit-rule-part-names', compact(
+            'frontPerspectiveOptions',
+            'backPerspectiveOptions',
+            'leftPerspectiveOptions',
+            'rightPerspectiveOptions',
+            'bodyParts',
+            'style'
+        ));
+    }
+
+    public function updateRulePartNames(Request $request)
+    {
+        $response = (new MaterialsOptionsAPIClient())->updateRulePartNames($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
     }
 }

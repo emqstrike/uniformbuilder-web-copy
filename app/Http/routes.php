@@ -267,6 +267,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('qx7_style_requests/edit_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@editStyle'])->name('v1_qx7_edit_style');
             Route::get('qx7_style_requests/options/dropzone/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@dropZone'])->name('v1_qx7_dropzone');
             Route::get('qx7_style_requests/view_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getOptions'])->name('v1_qx7_style_options');
+            Route::get('qx7_style_requests/view_options/edit_rule_part_names/{styleId}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@editRulePartNames'])->name('v1_qx7_edit_rule_part_names');
+            Route::post('qx7_style_requests/view_options/update_rule_part_names', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateRulePartNames'])->name('v1_qx7_update_rule_part_names');
             Route::get('qx7_style_requests/view_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@styleOptionsSetup'])->name('v1_qx7_style_options_setup');
             Route::get('qx7_style_requests/style_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getStyleApplication'])->name('v1_qx7_style_application');
             Route::post('qx7_style_requests/options/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveApplications'])->name('v1_qx7_save_style_applications');
