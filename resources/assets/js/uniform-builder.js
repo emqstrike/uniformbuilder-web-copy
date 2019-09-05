@@ -8343,7 +8343,8 @@ $(document).ready(function () {
             ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
-            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            items = _.filter(ub.materials, {uniform_category: sport}); 
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }
