@@ -1576,7 +1576,13 @@ $(document).ready(function() {
             patterns_dropdown += "<option value='0'>None</option>";
 
             $.each(window.brandPatterns, function(i, item) {
-                patterns_dropdown += `<option value="` + item.id + `">` + item.name + `</option>`;
+                var selected = "";
+
+                if (material.option.pattern_id == item.id) {
+                    selected = "selected='selected'";
+                }
+
+                patterns_dropdown += `<option value="` + item.id + `" ` + selected + `>` + item.name + `</option>`;
             });
 
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
