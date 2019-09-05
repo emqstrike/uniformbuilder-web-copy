@@ -72,8 +72,8 @@ $(document).ready(function() {
         var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
         var uc_default_color_code = default_color_code.toUpperCase();
 
-        var dcc_item = _.find(window.colors, function (o) { 
-            return o.color_code == uc_default_color_code; 
+        var dcc_item = _.find(window.colors, function (o) {
+            return o.color_code == uc_default_color_code;
         });
 
         var default_color_name = dcc_item.name;
@@ -208,7 +208,7 @@ $(document).ready(function() {
             window.current_pattern_properties = pattern_props;
 
             var x = 1;
-            
+
             $.each(pattern_props, function(i, item) {
 
                 var colors = generateColorsDropdown(item.default_color);
@@ -217,9 +217,9 @@ $(document).ready(function() {
                 var tcids = generateTeamColorsIDDropdown(item.team_color_id);
                 var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
                 var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
-                
+
                 $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
-                
+
                 refreshColors();
                 refreshTID();
                 refreshColorBG();
@@ -2665,6 +2665,7 @@ $(document).ready(function() {
         polyData = JSON.parse(output);
         loadPolygon(polyData);
         updateCoordinates();
+        bringingPointToFront();
         $('.b-prop').val(va_prop_val);
         canvas.renderAll();
     });
@@ -3453,7 +3454,7 @@ canvas.observe('object:moving', function (e) {
             }
         }
     }
- 
+
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
     var groups = canvas.getObjects('group');
@@ -3461,7 +3462,7 @@ canvas.observe('object:moving', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-    
+
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
@@ -3477,25 +3478,25 @@ canvas.observe('object:moving', function (e) {
 catch(err) {  }
 
 function loadPolygon(data){
-  
+
     var angle;
     canvas.clear();
     var z = 0;
     window.px = 0;
     window.py = 0;
- 
+
     $.each(data, function(i, item) {
         var xcoord = item.x / 2;
         var ycoord = item.y / 2;
 
         if( z == 0 && item.angle != undefined ){
-     
+
             angle = item.angle;
             if(item.px){
                 window.px = item.px / 2;
                 window.py = item.py / 2;
             }
-    
+
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -3517,7 +3518,7 @@ function loadPolygon(data){
 
         x++;
     });
- 
+
     loadCase = 1;
 
     try {
