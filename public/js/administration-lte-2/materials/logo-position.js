@@ -5,7 +5,9 @@ $(document).ready(function() {
                         "Left Sleeve",
                         "Back Neck",
                         "Front Left Hip",
-                        "Back Center Tunnel"
+                        "Back Center Tunnel",
+                        "Right Sleeve",
+                        "Front Right Hip"
                     ];
 
     function buildPositionDropdown(value){
@@ -77,7 +79,6 @@ $(document).ready(function() {
 
     $('.load-logo-position').on('click', function(e){
         var data = $('#ta_load_logo_position').val();
-        console.log(data);
         loadLogoPosition(data);
     });
 
@@ -92,7 +93,6 @@ $(document).ready(function() {
     }
 
     function loadLogoPosition(data){
-
         var logo_position, x;
         if(!data){
             var logo_position_data = $('#logo_position_data').val();
