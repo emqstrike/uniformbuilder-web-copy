@@ -46,6 +46,9 @@ Route::get('saved_designs/{currentPage?}', ['middleware' => 'accessSavedDesigns'
 // Utilities
 Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
 
+// custom page
+Route::get('/sublimated-uniforms', 'UniformBuilderController@showSublimatedUniforms');
+
 Route::group([
     'prefix' => 'teamstore'
 ], function() {

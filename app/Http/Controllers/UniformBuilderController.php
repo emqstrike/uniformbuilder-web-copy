@@ -2871,4 +2871,9 @@ class UniformBuilderController extends Controller
         return redirect('index');
     }
 
+    public function showSublimatedUniforms()
+    {
+        return view('custom-page.sublimated-uniforms');
+    }
+
 }
