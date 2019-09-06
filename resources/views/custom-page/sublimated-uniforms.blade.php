@@ -107,7 +107,7 @@
 
 		function init(callback) {
 			$.get('https://api.prolook.com/api/materials/styleSheets/brand/prolook', function(response){
-				window.sublimatedItems = _.sortBy(_.filter(response.materials, {uniform_application_type: "sublimated"}), 'block_pattern');
+				window.sublimatedItems = _.sortBy(_.filter(response.materials, {uniform_application_type: "sublimated"}), 'uniform_category');
 				_.each(sublimatedItems, function(item){
 					if(_.isEmpty(item.sizing_config_prop)){
 						item.price_item_codes = item.item_id;
