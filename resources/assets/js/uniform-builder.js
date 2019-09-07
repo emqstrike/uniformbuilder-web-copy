@@ -5855,33 +5855,37 @@ $(document).ready(function () {
 
         var _msg = "Are you sure you want to go to the order form?";
 
-        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+        // remove this after maintenance [temporary only]
+        bootbox.alert("System will be unavailable for ordering due to system maintenance until 10 AM Sept. 9");
 
-        bootbox.confirm(_msg, function (result) { 
+        // uncomment this after maintenance
+        // if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+        // if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+
+        // bootbox.confirm(_msg, function (result) { 
         
-            if (!result) {
+        //     if (!result) {
 
-                return true;
+        //         return true;
 
-            } else {
+        //     } else {
 
-                if (ub.data.afterLoadCalled === 0) { return; }
+        //         if (ub.data.afterLoadCalled === 0) { return; }
 
-                if (typeof (window.ub.user.id) === "undefined") {
-                    ub.funcs.quickRegistration("order");
-                    return true;
-                }
+        //         if (typeof (window.ub.user.id) === "undefined") {
+        //             ub.funcs.quickRegistration("order");
+        //             return true;
+        //         }
 
-                if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-                    ub.funcs.getOrderAndDetailsInfo();
-                } else {
-                    ub.funcs.initRoster();
-                }
+        //         if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
+        //             ub.funcs.getOrderAndDetailsInfo();
+        //         } else {
+        //             ub.funcs.initRoster();
+        //         }
 
-            } 
+        //     } 
 
-        });
+        // });
 
     }
 

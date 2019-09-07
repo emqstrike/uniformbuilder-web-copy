@@ -32,9 +32,21 @@
     	width: auto;
     	cursor: pointer;
 	}
+
+	div.dt-buttons {
+	    /* margin-bottom: -7px; */
+	    position: relative;
+		top: 0px;
+		left: 10px;
+	}
+
+	table.dataTable tbody td {
+		vertical-align: top;
+	}
+
 </style>
-<body>
-	<div class="container">
+<body class="bg-light">
+	<div class="container-fluid" id="main-container">
 			<p>Loading ....</p>
 	</div>
 
@@ -57,19 +69,34 @@
 			<td>Item ID</td>
 			<td>Thumbnail</td>
 		</thead>
+		<tbody>
 		@{{#items}}
-		<tr>
-			<td class="item-id">@{{id}}</td>
-			<td><a href="{{env('CUSTOMIZER_HOST')}}/builder/0/@{{id}}" target="_blank">@{{name}}</a></td>
-			<td>@{{ uniform_application_type }}</td>
-			<td>@{{gender}}</td>
-			<td>@{{uniform_category}}</td>
-			<td>@{{block_pattern}}</td>
-			<td>@{{neck_option}}</td>
-			<td>@{{price_item_codes}}</td>
-			<td><img data-id="@{{id}}" src="@{{thumbnail_path}}"></td>
-		</tr>
+			<tr>
+				<td class="item-id">@{{id}}</td>
+				<td><a href="{{env('CUSTOMIZER_HOST')}}/builder/0/@{{id}}" target="_blank">@{{name}}</a></td>
+				<td>@{{ uniform_application_type }}</td>
+				<td>@{{gender}}</td>
+				<td>@{{uniform_category}}</td>
+				<td>@{{block_pattern}}</td>
+				<td>@{{neck_option}}</td>
+				<td>@{{{price_item_codes}}}</td>
+				<td><img data-id="@{{id}}" src="@{{thumbnail_path}}"></td>
+			</tr>
 		@{{/items}}
+		</tbody>
+		<tfoot>
+	        <tr>
+	            <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Sport</td>
+				<td>Block Pattern</td>
+				<td>Neck Option</td>
+				<td></td>
+				<td></td>
+	        </tr>
+	    </tfoot>
 	</table>
 </script>
 
@@ -85,17 +112,39 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		init(function(){
-			$('#example').DataTable( {
-				dom: 'Bfrtip',
+		init(function() {
+			$('#main-container').css('margin-top', '50px');
+
+			var table = $('#example').DataTable( {
+				dom: 'lBfrtip',
 		        buttons: [
-		            'copy', 'csv', 'excel', 'pdf', 'print'
+		            'csv', 'excel'
 		        ],
+		        "aLengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]],
+		        "pageLength": 30,
 		        ordering: false
 		    } );
-		})
 
-		$('.container').on('click', 'img', function(){
+		    $("#example tfoot td").each(function(i) {
+
+		    	// filter for ['Sport', 'Block Pattern', 'Neck Option']
+		    	if (i >= 4 && i <= 6) {
+			        var select = $('<select><option value=""></option></select>')
+			            .appendTo( $(this).empty() )
+			            .on( 'change', function () {
+			                table.column( i )
+			                    .search( $(this).val() )
+			                    .draw();
+			            } );
+			 
+			        table.column( i ).data().unique().sort().each( function ( d, j ) {
+			            select.append('<option value="'+d+'">'+d+'</option>')
+			        });
+			    }
+		    });
+		});
+
+		$('#main-container').on('click', 'img', function(){
 			var id = $(this).data('id');
 			var data = _.find(sublimatedItems, { id: id});
 
@@ -110,17 +159,40 @@
 				window.sublimatedItems = _.sortBy(_.filter(response.materials, {uniform_application_type: "sublimated"}), 'uniform_category');
 				_.each(sublimatedItems, function(item){
 					if(_.isEmpty(item.sizing_config_prop)){
-						item.price_item_codes = item.item_id;
+						item.price_item_codes = '<strong>' + item.item_id + '</strong>: ALL SIZES';
 					} else {
 						var sizing_config = JSON.parse(item.sizing_config_prop);
-							sizing_config = _.uniq(_.pluck(sizing_config, 'qx_item_id')).join(', ');
-							item.price_item_codes = sizing_config;
+						var item_ids = _.uniq(_.pluck(sizing_config, 'qx_item_id'));
+
+						if (_.size(item_ids) > 1) {
+							var group_by_sizes = _.groupBy(sizing_config, 'qx_item_id');
+
+							var newData=[];
+							_.each(group_by_sizes, function(gsize) {
+								var sizes_con = _.uniq(_.pluck(gsize, 'size'));
+								var sizes_id = _.uniq(_.pluck(gsize, 'qx_item_id'));
+
+								var text_data_con = '<br /> <br /> <strong>' + sizes_id + '</strong>: ' + sizes_con.join(', ');
+								newData.push({
+									id: sizes_id,
+									sizes: sizes_con,
+									text: text_data_con
+								});
+							});
+							var text_item_id_info = _.pluck(newData, 'text').join(', ');
+								text_item_id_info = text_item_id_info.split('<br />');
+								text_item_id_info = text_item_id_info.slice(2, _.size(text_item_id_info)).join('<br>');
+
+							item.price_item_codes = text_item_id_info
+						} else {
+							item.price_item_codes = '<strong>' + item.item_id + '</strong>: ALL SIZES';
+						}
 					}
 				});
 				_.delay( function() {
 					var template = document.getElementById('m-items');
 					var html = Mustache.render(template.innerHTML, {items: sublimatedItems});
-					$('.container').html(html);
+					$('#main-container').html(html);
 					callback();
 				}, 500);
 			});
