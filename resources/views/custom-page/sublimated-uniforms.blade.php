@@ -28,7 +28,7 @@
 
 <style type="text/css">
 	#example img {
-		height: 50px;
+		height: 150px;
     	width: auto;
     	cursor: pointer;
 	}
