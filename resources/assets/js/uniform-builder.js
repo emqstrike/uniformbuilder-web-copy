@@ -6,6 +6,12 @@ $(document).ready(function () {
         /// Initialize Uniform Builder
 
         window.ub.initialize = function () {
+            // this is temporary
+            // get data from google spreadsheet for uniforms that need to change the item codes
+            // for maintenance purposes
+            $.getJSON("https://spreadsheets.google.com/feeds/list/1vBZU4OAJ_OcF2WDq9ka1-MVw7w-QTh2mUfivNmz8HJQ/1/public/values?alt=json", function(data) {
+               ub['itemCodesforMaintenance'] = _.pluck(_.pluck(data.feed.entry, 'gsx$ids'), '$t');
+            });
 
             // ub.utilities.maintenanceMessage();
 
@@ -5844,48 +5850,53 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
-        ub.funcs.cleanupBeforeOrder();
+        var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
+            return item == ub.config.material_id;
+        }));
 
-        var _exit = false;
+        if (isUnderMaintenance) {
+            bootbox.alert("System will be unavailable for ordering due to system maintenance.");
+        } else {
+            ub.funcs.cleanupBeforeOrder();
 
-        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
-            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.'); 
-            return;
+            var _exit = false;
+
+            if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+                ub.utilities.warn('No Price Table set for this uniform, cancelling order form.');
+                return;
+            }
+            var _msg = "Are you sure you want to go to the order form?";
+
+            if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+            if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+
+            bootbox.confirm(_msg, function (result) {
+
+                if (!result) {
+
+                    return true;
+
+                } else {
+
+                    if (ub.data.afterLoadCalled === 0) { return; }
+
+                    if (typeof (window.ub.user.id) === "undefined") {
+                        ub.funcs.quickRegistration("order");
+                        return true;
+                    }
+
+                    if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
+                        ub.funcs.getOrderAndDetailsInfo();
+                    } else {
+                        ub.funcs.initRoster();
+                    }
+
+                }
+
+            });
+
         }
 
-        var _msg = "Are you sure you want to go to the order form?";
-
-        // remove this after maintenance [temporary only]
-        bootbox.alert("System will be unavailable for ordering due to system maintenance until 10 AM Sept. 9");
-
-        // uncomment this after maintenance
-        // if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        // if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
-
-        // bootbox.confirm(_msg, function (result) { 
-        
-        //     if (!result) {
-
-        //         return true;
-
-        //     } else {
-
-        //         if (ub.data.afterLoadCalled === 0) { return; }
-
-        //         if (typeof (window.ub.user.id) === "undefined") {
-        //             ub.funcs.quickRegistration("order");
-        //             return true;
-        //         }
-
-        //         if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-        //             ub.funcs.getOrderAndDetailsInfo();
-        //         } else {
-        //             ub.funcs.initRoster();
-        //         }
-
-        //     } 
-
-        // });
 
     }
 
