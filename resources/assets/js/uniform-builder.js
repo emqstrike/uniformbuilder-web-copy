@@ -5850,13 +5850,13 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
-        var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
-            return item == ub.config.material_id;
-        }));
+        // var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
+        //     return item == ub.config.material_id;
+        // }));
 
-        if (isUnderMaintenance) {
-            bootbox.alert("System will be unavailable for ordering due to system maintenance.");
-        } else {
+        // if (isUnderMaintenance) {
+        //     bootbox.alert("System will be unavailable for ordering due to system maintenance.");
+        // } else {
             ub.funcs.cleanupBeforeOrder();
 
             var _exit = false;
@@ -5895,7 +5895,7 @@ $(document).ready(function () {
 
             });
 
-        }
+        // }
 
 
     }
