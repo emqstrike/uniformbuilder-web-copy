@@ -5850,11 +5850,9 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
-        // var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
-        //     return item == ub.config.material_id;
-        // }));
-
-        var isUnderMaintenance = true;
+        var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
+            return item == ub.config.material_id;
+        }));
 
         if (isUnderMaintenance) {
             bootbox.alert("System will be unavailable for ordering due to system maintenance.");
