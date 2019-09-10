@@ -64,9 +64,13 @@
         padding: 3px!important;
         border: none!important;
     }
+    .table.style-request-rules .status-logs-table tr > * {
+        padding: 5px 0!important;
+        border: none!important;
+    }
     .fixed-header {
         overflow: auto;
-        max-height: 200px;
+        max-height: 265px;
     }
     .color-box {
         color: #ffffff;
@@ -125,6 +129,10 @@
                                     <label class="h4 text-bold">Deadline</label>
                                     <p class="sr-deadline"></p>
                                 </div>
+                                <div class="form-group">
+                                    <label class="h4 text-bold">Status</label>
+                                    <p class="sr-status"></p>
+                                </div>
 
 
                             </td>
@@ -143,6 +151,19 @@
                                                         <th class="text-nowrap">Updated on</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="border-right: 0!important">
+                                <div class="form-group">
+                                    <label class="h4 text-bold">Status Logs</label>
+                                    <p class="sr-status-logs"></p>
+                                    <div class="form-group">
+                                        <div class="fixed-header">
+                                            <table class="table text-left text-secondary status-logs-table" hidden>
                                                 <tbody></tbody>
                                             </table>
                                         </div>
@@ -326,9 +347,11 @@ $(document).ready(function(){
         }
 
         $('.sr-deadline').text(formattedDeadline);
+        $('.sr-status').text(style_request.status);
         // $('.sr-notes').text(style_request.notes);
         // $('#notes').val(style_request.notes);
         loadNotes(style_request.notes);
+        loadStatusLogs(style_request.status_logs)
 
         if(!_.isNull(style_request.filter_flags)) {
             var flags = JSON.parse(JSON.parse(style_request.filter_flags));
@@ -512,6 +535,26 @@ $(document).ready(function(){
             }
         }
 
+    }
+
+    var loadStatusLogs = function (sr_slogs) {
+        var status_logs = !_.isEmpty(sr_slogs) ? JSON.parse(sr_slogs) : null;
+        if (!_.isNull(status_logs)) {
+            var rows = '';
+            if (!_.isNull(status_logs)) {
+                var tableBody = $('.status-logs-table tbody')
+                _.each(status_logs, function(log) {
+                    rows += `<tr>
+                                <td>
+                                    Status was changed to "` + log.status + `" by "` + log.user + ` (ID: `+log.user_id+`)" on ` + log.date +
+                                `</td>
+                            </tr>`;
+                });
+                // show table
+                tableBody.append(rows)
+                $('.status-logs-table').show()
+            }
+        }
     }
 
     getQx7StyleRequests(srid, function (style_requests) {
