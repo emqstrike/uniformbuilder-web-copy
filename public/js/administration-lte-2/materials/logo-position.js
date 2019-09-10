@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    var colors = getDefaultColors();
     window.position_sets = [
                         "Top Left of Pocket",
                         "Left Sleeve",
@@ -60,6 +60,59 @@ $(document).ready(function() {
 
         return opts;
     }
+
+    function getDefaultColors(){
+      var brand = $('input[name=material_brand]').val();
+      if(brand == 'Riddell') {
+          brand = 'prolook';
+      }
+      return $.ajax({
+          type: 'GET',
+          url: "//" + api_host + "/api/colors/" + brand,
+          async: false,
+          dataType: 'json',
+          data: { action : 'getColors' },
+          done: function(results) {
+              // uhm, maybe I don't even need this?
+              // return  results.colors.colors;
+          },
+          fail: function( jqXHR, textStatus, errorThrown ) {
+              console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+          }
+      }).responseJSON; // <-- this instead of .responseText
+    }
+
+    function buildDefaultColorsDropdown(selected = null, colors) {
+        var option;
+        option += '<option style="background:#ffffff;color:#000000" value="" selected></option>';
+        setDefaultColorSelectorBg();
+        _.each(colors.colors, function (c) {
+            if(c.id == selected){
+                option += '<option style="background:#'+c.hex_code+';color:#ffffff" value="'+c.id+'" selected>'+c.name+'</option>';
+            } else {
+                option += '<option style="background:#'+c.hex_code+';color:#ffffff" value="'+c.id+'">'+c.name+'</option>';
+            }
+        });
+
+        return option;
+    }
+    $(document).on('change', '.default-color-selector', function(){
+        setDefaultColorSelectorBg();
+    });
+
+    function setDefaultColorSelectorBg(){
+      $('.default-color-selector').each(function(){
+          var selectedColorValue = $(this).find("option:selected").attr("style");
+          var ind = $(".default-color-selector").index(this);
+          ind++;
+          $(this).attr("style",selectedColorValue);
+
+          $(".position-"+ ind +" ~ select").val($(this).val()).attr("style",selectedColorValue);
+          refreshJSON();
+      });
+    }
+
+
 
     function refreshSelectBoxes(){
         $(".intersecting-parts").each(function(i) {
@@ -130,6 +183,11 @@ $(document).ready(function() {
 
             var position_dropdown = buildPositionDropdown(entry.position);
             var intersecting_parts = buildIntersectingPartsDropdown(entry.intersecting_parts);
+            var default_color_l_1 = buildDefaultColorsDropdown(entry.layer_1_color, colors);
+            var default_color_l_2 = buildDefaultColorsDropdown(entry.layer_2_color, colors);
+            var default_color_l_3 = buildDefaultColorsDropdown(entry.layer_3_color, colors);
+
+
 
             var template = `<table class="table table-striped table-bordered table-hover logo-position-table">
             <tr>
@@ -160,6 +218,7 @@ $(document).ready(function() {
             </tr>
             <tr>
                 <th></th>
+                <th>Default Color</th>
                 <th>Front</th>
                 <th>Back</th>
                 <th>Left</th>
@@ -171,6 +230,7 @@ $(document).ready(function() {
                         <label>Layer 1</label>
                         <input type="checkbox" class="layer1" value="`+entry.layer1+`" `+ layer1 +`>
                     </td>
+                    <td><select class="form-control default-color-selector default-colors-l-1">`+default_color_l_1+`</select></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -182,6 +242,7 @@ $(document).ready(function() {
                         <label>Layer 2</label>
                         <input type="checkbox" class="layer2" value="`+entry.layer2+`" `+ layer2 +`>
                     </td>
+                    <td><select class="form-control default-color-selector default-colors-l-2">`+default_color_l_2+`</select></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -192,6 +253,7 @@ $(document).ready(function() {
                         <label>Layer 3</label>
                         <input type="checkbox" class="layer3" value="`+entry.layer3+`" `+ layer3 +`>
                     </td>
+                    <td><select class="form-control default-color-selector default-colors-l-3">`+default_color_l_3+`</select></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                     <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -203,6 +265,7 @@ $(document).ready(function() {
             $('.logo-position-content').append(template);
 
         });
+        setDefaultColorSelectorBg();
         refreshSelectBoxes();
         deleteLogoPosition();
         changeImage();
@@ -215,6 +278,8 @@ $(document).ready(function() {
 
         var position_dropdown = buildPositionDropdown();
         var intersecting_parts = buildIntersectingPartsDropdown();
+        var default_color = buildDefaultColorsDropdown();
+
 
         var elem = `<table class="table table-striped table-bordered table-hover logo-position-table">
                         <tr>
@@ -245,6 +310,7 @@ $(document).ready(function() {
                         </tr>
                         <tr>
                             <th></th>
+                            <th>Default Color</th>
                             <th>Front</th>
                             <th>Back</th>
                             <th>Left</th>
@@ -256,6 +322,7 @@ $(document).ready(function() {
                                 <label>Layer 1</label>
                                 <input type="checkbox" class="layer1" value="1">
                             </td>
+                            <td><select class="form-control default-color-selector default-colors-l-1">`+default_color+`</select></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-f-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-b-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-l-1 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -266,6 +333,7 @@ $(document).ready(function() {
                                 <label>Layer 2</label>
                                 <input type="checkbox" class="layer2" value="1">
                             </td>
+                            <td><select class="form-control default-color-selector default-colors-l-2">`+default_color+`</select></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-f-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-b-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-l-2 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -276,6 +344,7 @@ $(document).ready(function() {
                                 <label>Layer 3</label>
                                 <input type="checkbox" class="layer3" value="1">
                             </td>
+                            <td><select class="form-control default-color-selector default-colors-l-3">`+default_color+`</select></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-f-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-b-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
                             <td><div class="flex"><input type="file" class="form-control-file file-l-3 image" data-img-url=""><div class="pull-right delete-image"><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div></div></td>
@@ -327,6 +396,10 @@ $(document).ready(function() {
             var info = {};
             info.position = $(this).find('.logo-position option:selected').val();
             info.intersecting_parts = $(this).find('.intersecting-parts').val();
+
+            info.layer_1_color = $(this).find('.default-colors-l-1').val();
+            info.layer_2_color = $(this).find('.default-colors-l-2').val();
+            info.layer_3_color = $(this).find('.default-colors-l-3').val();
 
             var cbx = $(this).find('.logo-position-toggler');
             if(cbx.is(":checked")){
@@ -428,7 +501,6 @@ $(document).ready(function() {
 
             info.perspectives = perspectives;
             data.push(info);
-            console.log(JSON.stringify(info));
         });
         $('#logo-position').val(JSON.stringify(data));
 

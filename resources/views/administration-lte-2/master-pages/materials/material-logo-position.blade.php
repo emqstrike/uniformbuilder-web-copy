@@ -88,6 +88,7 @@
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
                             <input type="hidden" id="logo_position_data" value="{{ $material->logo_position }}">
                             <input type="hidden" name="logo_position" id="logo-position">
+                            <input type="hidden" name="material_brand" value="{{ $material->brand }}">
 
                             <div class="row">
                                 <div class="col-md-12">
