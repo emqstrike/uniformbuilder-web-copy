@@ -1,7 +1,5 @@
 $(document).ready(function() {
-    window.style_id = getMaterialOptionsStyle($('input[name=material_id]').val());
-    window.rule_id = getStyleRule(style_id);
-    window.colors = getStyleRuleColor(rule_id);
+    window.colors = getDefaultColors($('#material_rule_id').val());
     window.position_sets = [
                         "Top Left of Pocket",
                         "Left Sleeve",
@@ -46,42 +44,8 @@ $(document).ready(function() {
         return parts;
     }
 
-    function getMaterialOptionsStyle(material_id){
-      var style_id;
-      var url = "//" + api_host + "/api/materials_options/" + material_id;
-      $.ajax({
-          url: url,
-          async: false,
-          type: "GET",
-          dataType: "json",
-          crossDomain: true,
-          contentType: 'application/json',
-          success: function(data){
-              style_id = _.uniq(_.pluck(data.materials_options, "style_id"));
-          }
-      });
-      return style_id;
-    }
-
-    function getStyleRule(style_id){
-      var rule_id;
-      var url = "//" + api_host + "/api/v1-0/qx7_style/" + style_id;
-      $.ajax({
-          url: url,
-          async: false,
-          type: "GET",
-          dataType: "json",
-          crossDomain: true,
-          contentType: 'application/json',
-          success: function(data){
-              rule_id = _.pluck([data.style], "rule_id")
-          }
-      });
-      return rule_id;
-    }
-
-    function getStyleRuleColor(rule_id){
-      var colors;
+    function getDefaultColors(rule_id){
+      var default_color_list;
       var url = "//" + qx7_host + "/api/rule/" + rule_id;
       $.ajax({
           url: url,
@@ -92,9 +56,14 @@ $(document).ready(function() {
           contentType: 'application/json',
           success: function(data){
               colors = data.rules.colors;
+              default_fabric = _.first(data.rules.fabrics);
+              default_color_codes = JSON.parse(_.pluck(default_fabric.colors, 'color_codes'));
+              default_color_list = _.filter(colors, function (color) {
+                return default_color_codes.indexOf(color.color_code) !== -1;
+              });
           }
       });
-      return colors;
+      return default_color_list;
     }
 
     function buildIntersectingPartsDropdown(selected = null) {
@@ -117,10 +86,10 @@ $(document).ready(function() {
         setDefaultColorSelectorBg();
         if(colors){
           _.each(colors, function (c) {
-              if(c.id == selected){
-                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.id+'" selected>'+c.color_alias+'</option>';
+              if(c.color_code == selected){
+                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.color_code+'" selected>'+c.color_alias+'</option>';
               } else {
-                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.id+'">'+c.color_alias+'</option>';
+                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.color_code+'">'+c.color_alias+'</option>';
               }
           });
         }
@@ -174,7 +143,7 @@ $(document).ready(function() {
         }
     }
 
-    function loadLogoPosition(data){
+    function loadLogoPosition (data){
         var logo_position, x;
         if(!data){
             var logo_position_data = $('#logo_position_data').val();
@@ -530,7 +499,6 @@ $(document).ready(function() {
             data.push(info);
         });
         $('#logo-position').val(JSON.stringify(data));
-
         detectImages();
     }
 
