@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    var colors = getDefaultColors();
+    window.style_id = getMaterialOptionsStyle($('input[name=material_id]').val());
+    window.rule_id = getStyleRule(style_id);
+    window.colors = getStyleRuleColor(rule_id);
     window.position_sets = [
                         "Top Left of Pocket",
                         "Left Sleeve",
@@ -23,7 +25,7 @@ $(document).ready(function() {
         return dropdown;
     }
 
-    getMaterialOptions = function (material_id) {
+    function getMaterialOptions(material_id) {
         var parts;
         var url = "//" + api_host + "/api/materials_options/" + material_id;
         $.ajax({
@@ -34,7 +36,6 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-
                 // Filter by "setting_type" first, only get "name" property, the get unique values
                 parts = _.uniq(_.map(_.where(data.materials_options, {setting_type: "shape"}), function (op) {
                     return op.name;
@@ -45,10 +46,60 @@ $(document).ready(function() {
         return parts;
     }
 
+    function getMaterialOptionsStyle(material_id){
+      var style_id;
+      var url = "//" + api_host + "/api/materials_options/" + material_id;
+      $.ajax({
+          url: url,
+          async: false,
+          type: "GET",
+          dataType: "json",
+          crossDomain: true,
+          contentType: 'application/json',
+          success: function(data){
+              style_id = _.uniq(_.pluck(data.materials_options, "style_id"));
+          }
+      });
+      return style_id;
+    }
+
+    function getStyleRule(style_id){
+      var rule_id;
+      var url = "//" + api_host + "/api/v1-0/qx7_style/" + style_id;
+      $.ajax({
+          url: url,
+          async: false,
+          type: "GET",
+          dataType: "json",
+          crossDomain: true,
+          contentType: 'application/json',
+          success: function(data){
+              rule_id = _.pluck([data.style], "rule_id")
+          }
+      });
+      return rule_id;
+    }
+
+    function getStyleRuleColor(rule_id){
+      var colors;
+      var url = "//" + qx7_host + "/api/rule/" + rule_id;
+      $.ajax({
+          url: url,
+          async: false,
+          type: "GET",
+          dataType: "json",
+          crossDomain: true,
+          contentType: 'application/json',
+          success: function(data){
+              colors = data.rules.colors;
+          }
+      });
+      return colors;
+    }
+
     function buildIntersectingPartsDropdown(selected = null) {
         var opts;
         var parts = getMaterialOptions($('input[name=material_id]').val());
-
         _.each(parts, function (p) {
 
             if (!_.isNull(selected) && _.contains(selected, p)) {
@@ -57,42 +108,22 @@ $(document).ready(function() {
                 opts += '<option value="'+p+'">'+p+'</option>';
             }
         });
-
         return opts;
     }
 
-    function getDefaultColors(){
-      var brand = $('input[name=material_brand]').val();
-      if(brand == 'Riddell') {
-          brand = 'prolook';
-      }
-      return $.ajax({
-          type: 'GET',
-          url: "//" + api_host + "/api/colors/" + brand,
-          async: false,
-          dataType: 'json',
-          data: { action : 'getColors' },
-          done: function(results) {
-              // uhm, maybe I don't even need this?
-              // return  results.colors.colors;
-          },
-          fail: function( jqXHR, textStatus, errorThrown ) {
-              console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-          }
-      }).responseJSON; // <-- this instead of .responseText
-    }
-
-    function buildDefaultColorsDropdown(selected = null, colors) {
+    function buildDefaultColorsDropdown(selected = null, colors = null) {
         var option;
         option += '<option style="background:#ffffff;color:#000000" value="" selected></option>';
         setDefaultColorSelectorBg();
-        _.each(colors.colors, function (c) {
-            if(c.id == selected){
-                option += '<option style="background:#'+c.hex_code+';color:#ffffff" value="'+c.id+'" selected>'+c.name+'</option>';
-            } else {
-                option += '<option style="background:#'+c.hex_code+';color:#ffffff" value="'+c.id+'">'+c.name+'</option>';
-            }
-        });
+        if(colors){
+          _.each(colors, function (c) {
+              if(c.id == selected){
+                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.id+'" selected>'+c.color_alias+'</option>';
+              } else {
+                  option += '<option style="background:#'+c.web_hex_code+';color:#ffffff" value="'+c.id+'">'+c.color_alias+'</option>';
+              }
+          });
+        }
 
         return option;
     }
@@ -111,8 +142,6 @@ $(document).ready(function() {
           refreshJSON();
       });
     }
-
-
 
     function refreshSelectBoxes(){
         $(".intersecting-parts").each(function(i) {
@@ -275,11 +304,9 @@ $(document).ready(function() {
 
     $(document).on('click', '.add-logo-position', function(e){
         e.preventDefault();
-
         var position_dropdown = buildPositionDropdown();
         var intersecting_parts = buildIntersectingPartsDropdown();
-        var default_color = buildDefaultColorsDropdown();
-
+        var default_color = buildDefaultColorsDropdown("", colors);
 
         var elem = `<table class="table table-striped table-bordered table-hover logo-position-table">
                         <tr>
