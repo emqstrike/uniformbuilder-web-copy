@@ -5,7 +5,9 @@ $(document).ready(function() {
                         "Left Sleeve",
                         "Back Neck",
                         "Front Left Hip",
-                        "Back Center Tunnel"
+                        "Back Center Tunnel",
+                        "Right Sleeve",
+                        "Front Right Hip"
                     ];
 
     getMaterialOptions = function (material_id) {
