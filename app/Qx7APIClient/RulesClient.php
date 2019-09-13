@@ -1,6 +1,8 @@
 <?php
 namespace App\Qx7APIClient;
 
+use Illuminate\Support\Facades\Log;
+
 
 class RulesClient extends Qx7APIClient
 {
@@ -9,23 +11,13 @@ class RulesClient extends Qx7APIClient
         parent::__construct();
     }
 
-    public function getBodyParts($ruleId)
+    public function getBodyPartColorGroups($ruleId)
     {
         $response = $this->get("rule/{$ruleId}");
         $result = $this->decoder->decode($response->getBody());
 
-        $bodyParts = [];
-
         if (isset($result->rules)) {
-            $bodyPartGroups = json_decode(json_decode($result->rules->body_part_color_groups, true), true);
-
-            foreach ($bodyPartGroups as $bodyPartGroup) {
-                foreach ($bodyPartGroup['Body Parts'] as $part) {
-                    array_push($bodyParts, $part);
-                }
-            }
-
-            return $bodyParts;
+            return json_decode(json_decode($result->rules->body_part_color_groups, true), true);
         }
 
         return null;

@@ -546,7 +546,15 @@ class Qx7StyleRequestController extends Controller
         $leftPerspectiveOptions = [];
         $rightPerspectiveOptions = [];
 
-        $bodyParts = (new RulesClient())->getBodyParts($style->rule_id);
+        $bodyPartColorGroups = (new RulesClient())->getBodyPartColorGroups($style->rule_id);
+
+        $bodyParts = [];
+
+        foreach ($bodyPartColorGroups as $bodyPartColorGroup) {
+            foreach ($bodyPartColorGroup['Body Parts'] as $part) {
+                array_push($bodyParts, $part);
+            }
+        }
 
         foreach ($options as $option) {
             if ($option->perspective == 'front') {
@@ -566,7 +574,8 @@ class Qx7StyleRequestController extends Controller
             'leftPerspectiveOptions',
             'rightPerspectiveOptions',
             'bodyParts',
-            'style'
+            'style',
+            'bodyPartColorGroups'
         ));
     }
 

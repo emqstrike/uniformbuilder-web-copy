@@ -40,6 +40,24 @@
                             </div>
                         @endif
 
+                        <div id="rule-part-names-container">
+                            @foreach ($bodyPartColorGroups as $bodyPartColorGroup)
+                                <div class="form-group">
+                                    <div>
+                                        <label>Available body parts for {{ $bodyPartColorGroup['Body Part Group'] }}</label>
+                                    </div>
+
+                                    <select class="select2" multiple="multiple" disabled="disabled">
+                                        @foreach ($bodyPartColorGroup['Body Parts'] as $bodyPart)
+                                            <option value="{{ $bodyPart}}" selected="selected">
+                                                {{ $bodyPart }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endforeach
+                        </div>
+
                         <form action="{{ route('v1_qx7_update_rule_part_names') }}" method="POST">
                             {{ csrf_field() }}
 
