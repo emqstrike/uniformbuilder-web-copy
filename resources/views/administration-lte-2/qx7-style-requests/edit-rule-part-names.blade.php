@@ -44,7 +44,7 @@
                             @foreach ($bodyPartColorGroups as $bodyPartColorGroup)
                                 <div class="form-group">
                                     <div>
-                                        <label>Available body parts for {{ $bodyPartColorGroup['Body Part Group'] }}</label>
+                                        <label>{{ $bodyPartColorGroup['Body Part Group'] }}</label>
                                     </div>
 
                                     <select class="select2" multiple="multiple" disabled="disabled">
