@@ -16,6 +16,10 @@
                     </h1>
                 </div>
                 <div class="box-body">
+
+                    <a href="/administration/v1-0/qx7_style_requests/export_parts_excel" class="btn btn-flat btn-default">
+                        Export
+                    </a>
                     <table class="table data-table table-bordered table-hover display" id="qx7-style-requests" width="100%">
                         <thead>
                             <tr>
