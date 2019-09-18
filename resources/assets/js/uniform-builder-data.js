@@ -12379,6 +12379,7 @@ ub.funcs.fontOffSets = [
             'Hockey',
             'Soccer',
             'Track and Field',
+            'Wrestling 2018'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
