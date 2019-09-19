@@ -32,7 +32,7 @@ $(document).ready( function () {
 
         var link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "export.xls"); // Choose the file name
+        link.setAttribute("download", "QX7 Parts Report.xls"); // Choose the file name
         link.click()
         return false;
     }
