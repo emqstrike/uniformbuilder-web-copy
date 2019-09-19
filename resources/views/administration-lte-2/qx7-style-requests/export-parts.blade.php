@@ -1,6 +1,6 @@
-<div style="display:;">
-<table border="1">
-    <thead>
+<div style="display:none;">
+<table border="1" id="table">
+    <thead style="background-color:#000000">
         <tr>
             <th>MATERIAL ID</th>
             <th>STYLE REQUEST ID</th>
@@ -16,13 +16,25 @@
             <td>{{ $style_request->id }}</td>
             <td>{{ $style_request->style_id }}</td>
             <td>{{ $style_request->rule_id }}</td>
-            <td>y/n</td>
+            <td>@if(isset($style_request->complete_part_names)) {{ $style_request->complete_part_names ? 'YES' : 'NO' }} @endif</td>
         </tr>
         @endforeach
     </tbody>
 </table>
-sdasdasd
 </div>
 <script type="text/javascript" src="/admin-lte-2/jquery/dist/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/admin-lte-2/jquery-ui/dist/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
+<script type="text/javascript">
+$(document).ready( function () {
+    function exportTable() {
+        var table = document.getElementById("table");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html) + 'xls'; // Set your html table into url
+
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "export.xls"); // Choose the file name
+        link.click()
+        return false;
+    }
+    exportTable();
+} );</script>
