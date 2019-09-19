@@ -11,6 +11,7 @@ use App\APIClients\StylesAPIClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Qx7APIClient\RulesClient;
+use App\Qx7APIClient\Qx7StyleRequestClient;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\Random;
@@ -21,6 +22,7 @@ use \Session;
 
 class Qx7StyleRequestController extends Controller
 {
+    protected $client;
     protected $applicationsAPIClient;
     protected $boundaryClient;
     protected $colorsClient;
@@ -32,6 +34,7 @@ class Qx7StyleRequestController extends Controller
 
     public function __construct(
         // APIClient $apiClient
+        Qx7StyleRequestClient $client,
         ApplicationsAPIClient $applicationsAPIClient,
         BoundariesAPIClient $boundariesAPIClient,
         ColorsAPIClient $colorsAPIClient,
@@ -43,6 +46,7 @@ class Qx7StyleRequestController extends Controller
     )
     {
         // $this->client = $apiClient;
+        $this->client = $client;
         $this->applicationClient = $applicationsAPIClient;
         $this->boundaryClient = $boundariesAPIClient;
         $this->colorsClient = $colorsAPIClient;
@@ -588,5 +592,44 @@ class Qx7StyleRequestController extends Controller
         }
 
         return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
+    }
+
+    public function exportPartsExcel()
+    {
+        $style_requests = $this->client->getAllStyleRequests();
+        $new_style_requests = [];
+        foreach ($style_requests as $style_request) {
+            $new_sr = new \stdClass();
+            
+            // build new return object
+            $new_sr->id = $style_request->id;
+            $new_sr->style_id = $style_request->style_id;
+            $new_sr->rule_id = $style_request->rule_id;
+            $new_sr->material_id = null;
+            $new_sr->complete_part_names = null;
+            // if style_id is not null
+            if (isset($style_request->style_id)) {
+                // get material options by style_id
+                $options = $this->optionsClient->getByStyleId($style_request->style_id);
+                if (!empty($options)) {
+                    // get material id for return obj
+                    $new_sr->material_id = $options[0]->material_id;
+                    // assumption: style_request has complete rule part names
+                    $new_sr->complete_part_names = true;
+                    // check rule_part_name of each material option
+                    foreach ($options as $option) {
+                        // if rule_part_name is null or an empty string,
+                        if (empty($option->rule_part_name)) {
+                            $new_sr->complete_part_names = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            array_push($new_style_requests, $new_sr);
+        } 
+        return view('administration-lte-2.qx7-style-requests.export-parts', [
+            'style_requests' => $new_style_requests
+        ]);
     }
 }
