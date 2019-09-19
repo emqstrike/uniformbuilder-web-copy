@@ -44,7 +44,7 @@
                             @foreach ($bodyPartColorGroups as $bodyPartColorGroup)
                                 <div class="form-group">
                                     <div>
-                                        <label>Available body parts for {{ $bodyPartColorGroup['Body Part Group'] }}</label>
+                                        <label>{{ $bodyPartColorGroup['Body Part Group'] }}</label>
                                     </div>
 
                                     <select class="select2" multiple="multiple" disabled="disabled">
@@ -92,6 +92,13 @@
 
                                                     <select class="form-control select2" name="rule_part_name[]">
                                                         <option value="">None</option>
+
+                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                {{ $option->rule_part_name }}
+                                                            </option>
+                                                        @endif
+
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
@@ -110,6 +117,13 @@
 
                                                     <select class="form-control select2" name="rule_part_name[]">
                                                         <option value="">None</option>
+
+                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                {{ $option->rule_part_name }}
+                                                            </option>
+                                                        @endif
+
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
@@ -128,6 +142,13 @@
 
                                                     <select class="form-control select2" name="rule_part_name[]">
                                                         <option value="">None</option>
+
+                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                {{ $option->rule_part_name }}
+                                                            </option>
+                                                        @endif
+
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
@@ -146,6 +167,13 @@
 
                                                     <select class="form-control select2" name="rule_part_name[]">
                                                         <option value="">None</option>
+
+                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                {{ $option->rule_part_name }}
+                                                            </option>
+                                                        @endif
+                                                        
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
@@ -171,7 +199,9 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
+            $('.select2').select2({
+                tags: true
+            });
         });
     </script>
 @endsection

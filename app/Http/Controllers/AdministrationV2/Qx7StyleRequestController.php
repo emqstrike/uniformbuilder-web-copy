@@ -544,7 +544,7 @@ class Qx7StyleRequestController extends Controller
     {
         $style = $this->stylesClient->getStyle($styleId);
         $options = $this->optionsClient->getByStyleId($styleId);
-
+        
         $frontPerspectiveOptions = [];
         $backPerspectiveOptions = [];
         $leftPerspectiveOptions = [];
