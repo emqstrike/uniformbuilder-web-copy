@@ -53,57 +53,20 @@
 
 
 <script>
+var isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
 
-var ua = navigator.userAgent.toLowerCase();
+if(isMobile){
+    var modal = $("#myModal").html();
 
-if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) || (ua.indexOf("ipod") >= 0) ){
-	// Do something!
-	// Redirect to Android-site?
+    $("body").detach();
+    $("html").append(modal);
+    $('#myModal').modal({
 
-	  var modal = $("#myModal").html();
+      backdrop: 'static',
+      keyboard: false
 
-  	$("body").detach();
-  	$("html").append(modal);
-  	$('#myModal').modal({
-
-  	   backdrop: 'static',
-  	   keyboard: false
-
-  	});
-
+    });
 }
- // if( $(window).width() <= "650"){
-	// console.log("true");
-	// var modal = $("#myModal").html();
-
-	// $( "body" ).detach();
-	// $("html").append(modal);
-	// $('#myModal').modal({
-	// backdrop: 'static',
-	// keyboard: false
-	// })
-
- //  }
-
- // else {
- 
- //     console.log("false");
- //  }
-// if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-//  console.log("Mobile responsive");
-//  var modal = $("#myModal").html();
-
-//  $( "body" ).detach();
-// $("html").append(modal);
-// $('#myModal').modal({
-//   backdrop: 'static',
-//   keyboard: false
-// })
-
-// }else{
-// 	 console.log("desktop");
-// }
-
 </script>
 
 
