@@ -123,7 +123,11 @@ $(document).ready(function () {
             } 
 
             // See config instead 
-            if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
+            if (app.type === "embellishments") { 
+                    if (typeof app.embellishment !== 'undefined') {
+                        _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); 
+                    }
+            }
 
             if (typeof app.pattern_settings !== "undefined" ) {
                 _patternPosition = (app.pattern_settings.position.y !== 0) ? app.pattern_settings.position.y : 'none';

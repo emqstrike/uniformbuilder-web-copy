@@ -694,8 +694,31 @@ $(document).ready(function () {
             }
             
             ub.funcs.executeAfterLoadFunctionList();
-
+            ub.funcs.emptyEmbellishmentFromInksoft(); // this is called when inksoft is down;
         };
+
+        // show embellishment/s that's not loaded from inksoft;
+        // show a modal if inksoft have errors;
+        ub.funcs.emptyEmbellishmentFromInksoft = function() {
+             // launchDesigner is from inksoft: js file;
+            if (typeof launchDesigner === 'undefined') {
+                bootbox.alert("<b>https://stores.inksoft.com</b> is currently unavailable.");
+            }
+
+            var applications =  _.filter(ub.current_material.settings.applications, function(item){
+                if (item.application_type === "embellishments") {
+                    return _.isEmpty(item.embellishment);
+                }
+            });
+
+            if (_.size(applications) > 0) {
+                console.group("%c Can't Load Embellishment/s From Inksoft.", 'color: red;');
+                    _.each(applications, function(item){
+                        console.error("Application Code #" + item.code);
+                    })
+                console.groupEnd();
+            }
+        }
 
         ub.funcs.updateLabels = function () {
 

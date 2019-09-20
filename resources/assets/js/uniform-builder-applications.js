@@ -10893,6 +10893,8 @@ $(document).ready(function() {
         _newID = _newID;
         _newIDStr = _newID.toString();
 
+        ub.data.newApplicationID = _newIDStr;
+
         _newApplication.code                    = _newIDStr;
         _newApplication.application.id          = _newIDStr;
         _newApplication.configurationSource     = "Added";

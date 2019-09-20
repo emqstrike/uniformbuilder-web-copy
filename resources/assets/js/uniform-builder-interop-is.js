@@ -221,7 +221,18 @@ $(document).ready(function() {
 
         };
 
-        launchDesigner('HTML5DS', flashvars, document.getElementById("embeddedDesigner"));
+        try {
+            launchDesigner('HTML5DS', flashvars, document.getElementById("embeddedDesigner"));
+        } catch(error) {
+            if(typeof ub.data.newApplicationID !== 'undefined') {
+                ub.funcs.deleteLocation(ub.data.newApplicationID);
+                ub.data.newApplicationID = undefined;
+                // clear smk-alert
+                $('.smk-alert-content').remove();
+            };
+            bootbox.alert("<b>https://stores.inksoft.com</b> is currently unavailable.");
+            return false;
+        };
 
         $("#isModal").modal({                    // wire up the actual modal functionality and show the dialog
               "backdrop"  : "static",

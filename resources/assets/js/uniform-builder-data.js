@@ -12568,5 +12568,7 @@ ub.funcs.fontOffSets = [
         'RDL Baseball',
    ];
 
+   // for newly created custom mascot; applcation_id
+    ub.data.newApplicationID = undefined;
 
 });
