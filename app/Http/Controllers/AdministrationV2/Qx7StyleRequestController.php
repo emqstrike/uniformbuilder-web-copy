@@ -597,7 +597,17 @@ class Qx7StyleRequestController extends Controller
     public function exportPartsExcel()
     {
         $style_requests = $this->client->getAllStyleRequests();
+        $style_ids = [];
+
+        foreach ($style_requests as $sr) {
+            if (isset($sr->style_id)) {
+                array_push($style_ids, $sr->style_id);
+            }
+        }
+
+        $allOptions = $this->optionsClient->getByStyleIdMultiple($style_ids);
         $new_style_requests = [];
+
         foreach ($style_requests as $style_request) {
             $new_sr = new \stdClass();
             
@@ -610,10 +620,12 @@ class Qx7StyleRequestController extends Controller
             // if style_id is not null
             if (isset($style_request->style_id)) {
                 // get material options by style_id
-                $options = $this->optionsClient->getByStyleId($style_request->style_id);
+
+                $style_id = $style_request->style_id;
+                $options = array_filter($allOptions, function($e) use ($style_id) { return $e->style_id==$style_id; });
                 if (!empty($options)) {
                     // get material id for return obj
-                    $new_sr->material_id = $options[0]->material_id;
+                    $new_sr->material_id = reset($options)->material_id;
                     // assumption: style_request has complete rule part names
                     $new_sr->complete_part_names = true;
                     // check rule_part_name of each material option
