@@ -22,7 +22,7 @@
                     <tr>
                         <th>MATERIAL ID</th>
                         <th>STYLE REQUEST ID</th>
-                        <th>STYLE REQUEST NAME</th>
+                        <th>STYLE NAME</th>
                         <th>STYLE ID</th>
                         <th>RULE ID</th>
                         <th>COMPLETE RULE PART NAMES</th>
