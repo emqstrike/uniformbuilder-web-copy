@@ -276,6 +276,9 @@ $(document).ready(function() {
             } else if (temp_brand == 'richardson') {
                 $(this).parent().find('.app-def-pattern').val(318);
                 id = 318;
+            } else if (temp_brand == 'riddell') {
+                $(this).parent().find('.app-def-pattern').val(496);
+                id = 496;
             }
 
         }
@@ -723,6 +726,8 @@ $(document).ready(function() {
             if (item.id == 33 && temp_brand == 'prolook') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else if (item.id == 318 && temp_brand == 'richardson') {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+            } else if (item.id == 496 && temp_brand == 'riddell') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
@@ -1925,6 +1930,8 @@ $(document).ready(function() {
                         app_properties[l].appDefPattern = 33;
                     } else if (temp_brand == 'richardson') {
                         app_properties[l].appDefPattern = 318;
+                    } else if (temp_brand == 'riddell') {
+                        app_properties[l].appDefPattern = 496;
                     }
                 }
 
