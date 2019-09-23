@@ -53,7 +53,7 @@
 
 
 <script>
-var isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+var isMobile = navigator.userAgent.toLowerCase().match(/(mobile)|(ipad)|(iphone)|(ipod)|(android)|(webOS)/g);
 
 if(isMobile){
     var modal = $("#myModal").html();
