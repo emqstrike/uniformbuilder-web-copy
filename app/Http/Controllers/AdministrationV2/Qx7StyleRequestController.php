@@ -338,7 +338,6 @@ class Qx7StyleRequestController extends Controller
         if (! empty($materialOptionId)) {
             Log::info('Attempts to update MaterialOption#' . $materialOptionId);
             $data['id'] = $materialOptionId;
-            dd($data);
             $response = $this->optionsClient->update($data);
         } else {
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
