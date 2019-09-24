@@ -10943,7 +10943,7 @@ $(document).ready(function() {
         }
 
         // Cinch Sack doens't have a left and right perspective
-        if (ub.sport === "Cinch Sack (Apparel)" || ub.sport === "Team Flag (Apparel)") {
+        if (ub.sport === "Cinch Sack (Apparel)") {
 
             _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
                 return view.perspective !== "left" && view.perspective !== "right";
@@ -11366,7 +11366,7 @@ $(document).ready(function() {
 
             // Cinch Sack doesnt have a Left and Right View
 
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)") || ub.funcs.isCurrentSport("Team Flag (Apparel)") ) {
+            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
 
                 $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
 

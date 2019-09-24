@@ -441,7 +441,7 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)") || ub.funcs.isCurrentSport("Team Flag (Apparel)")) {
+            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
 
                 $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
 
