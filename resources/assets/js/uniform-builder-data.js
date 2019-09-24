@@ -12557,6 +12557,27 @@ ub.funcs.fontOffSets = [
         '12',
    ];
 
+   // Return the perspective of a uniform to manipulate; 
+   ub.data.disabledPerspectives = {
+        items : [
+            {
+                sport: "Team Flag (Apparel)",
+                perspectives: ["Left", "Right"],
+            },
+            {
+                sport: "Cinch Sack (Apparel)",
+                perspectives: ["Left", "Right"],
+            },
+        ],
+
+        getPerspectives : function(sport, callback) {
+            var item = _.find(this.items, {sport: sport})
+            if (typeof item !== 'undefined') {
+                callback(item.perspectives);
+            }
+        }
+   };
+
 
    /*
    *
