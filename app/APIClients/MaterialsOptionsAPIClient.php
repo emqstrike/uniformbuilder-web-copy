@@ -128,7 +128,7 @@ class MaterialsOptionsAPIClient extends APIClient
 
     public function getByStyleIdMultiple($styleIds)
     {
-        $response = $this->get('styles_options_something/' . json_encode($styleIds));
+        $response = $this->get('styles_options_multiple/' . json_encode($styleIds));
         $result = $this->decoder->decode($response->getBody());
 
         if ($result->success)

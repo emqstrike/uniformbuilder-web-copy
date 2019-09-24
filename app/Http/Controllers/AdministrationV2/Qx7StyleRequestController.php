@@ -613,6 +613,8 @@ class Qx7StyleRequestController extends Controller
             
             // build new return object
             $new_sr->id = $style_request->id;
+            $new_sr->brand = $style_request->brand->brand;
+            $new_sr->style_name = $style_request->style_name;
             $new_sr->style_id = $style_request->style_id;
             $new_sr->rule_id = $style_request->rule_id;
             $new_sr->material_id = null;

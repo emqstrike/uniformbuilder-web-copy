@@ -22,9 +22,11 @@
                     <tr>
                         <th>MATERIAL ID</th>
                         <th>STYLE REQUEST ID</th>
+                        <th>STYLE NAME</th>
                         <th>STYLE ID</th>
                         <th>RULE ID</th>
                         <th>COMPLETE RULE PART NAMES</th>
+                        <th>BRAND</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,9 +34,11 @@
                     <tr>
                         <td>{{ $style_request->material_id }}</td>
                         <td>{{ $style_request->id }}</td>
+                        <td>{{ $style_request->style_name }}</td>
                         <td>{{ $style_request->style_id }}</td>
                         <td>{{ $style_request->rule_id }}</td>
                         <td>@if(isset($style_request->complete_part_names)) {{ $style_request->complete_part_names ? 'YES' : 'NO' }} @endif</td>
+                        <td>{{ $style_request->brand }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -55,10 +59,10 @@
 $(document).ready( function () {
     $('table').DataTable( {
         "lengthChange": false,
-        "searching": false,
+        // "searching": false,
         "ordering": false,
         pageLength: 20,
-        dom: 'Btip',
+        dom: 'Bftip',
         buttons: [
             {
                 extend: 'excelHtml5',
