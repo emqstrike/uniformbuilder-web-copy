@@ -2013,11 +2013,14 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=   '<td>';
         $html .=     'STYLE<br />';
-        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["neckOption"]  . '</strong><br />';
         $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
 //        $html .=   '<table width="100%">';
