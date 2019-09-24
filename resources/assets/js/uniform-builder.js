@@ -8304,8 +8304,12 @@ $(document).ready(function () {
         var items = _.find(ub.data.sports, {gender: sport});
         var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
         var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
+        //  filter out riddell sport categories in picker;
+        var uniformCategories = _.filter(items.sports, function(item){
+            return item.brand !== "riddell";
+        });
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
+        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
