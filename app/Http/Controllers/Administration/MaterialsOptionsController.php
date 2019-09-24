@@ -308,7 +308,6 @@ class MaterialsOptionsController extends Controller
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->client->create($data);
         }
-
         if ($response->success)
         {
             Log::info('Success');
