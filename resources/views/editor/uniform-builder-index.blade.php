@@ -40,6 +40,12 @@
         <div id="left-main-window" class="pane-main-window">
 
             <div id="uniform_name"></div>
+            <div id="uniform_properties">
+                <div id="application_type"></div>
+                <div id="block_pattern"></div>
+                <div id="neck_option"></div>
+            </div>
+
             <div id="uniform-price-youth"></div>
             <div id="uniform-price-adult"></div>
             <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
