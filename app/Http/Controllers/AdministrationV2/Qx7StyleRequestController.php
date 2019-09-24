@@ -278,7 +278,7 @@ class Qx7StyleRequestController extends Controller
         }
 
         $data = [
-            'material_id' => $styleId,
+            // 'material_id' => $styleId,
             'name' => $materialOptionName,
             'setting_type' => $settingType,
             // 'origin' => $origin,
@@ -308,7 +308,7 @@ class Qx7StyleRequestController extends Controller
             'base_fabric' => $base_fabric,
             'insert_fabric' => $insert_fabric,
             'sleeve_fabric' => $sleeve_fabric,
-            'style_id' => $styleId,
+            'style_id' => $styleId
 
         ];
 
@@ -338,12 +338,12 @@ class Qx7StyleRequestController extends Controller
         if (! empty($materialOptionId)) {
             Log::info('Attempts to update MaterialOption#' . $materialOptionId);
             $data['id'] = $materialOptionId;
+            dd($data);
             $response = $this->optionsClient->update($data);
         } else {
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->optionsClient->create($data);
         }
-
         if ($response->success) {
             Log::info('Success');
             return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
@@ -544,7 +544,7 @@ class Qx7StyleRequestController extends Controller
     {
         $style = $this->stylesClient->getStyle($styleId);
         $options = $this->optionsClient->getByStyleId($styleId);
-        
+
         $frontPerspectiveOptions = [];
         $backPerspectiveOptions = [];
         $leftPerspectiveOptions = [];
@@ -600,7 +600,7 @@ class Qx7StyleRequestController extends Controller
         $new_style_requests = [];
         foreach ($style_requests as $style_request) {
             $new_sr = new \stdClass();
-            
+
             // build new return object
             $new_sr->id = $style_request->id;
             $new_sr->style_id = $style_request->style_id;
@@ -627,7 +627,7 @@ class Qx7StyleRequestController extends Controller
                 }
             }
             array_push($new_style_requests, $new_sr);
-        } 
+        }
         return view('administration-lte-2.qx7-style-requests.export-parts', [
             'style_requests' => $new_style_requests
         ]);
