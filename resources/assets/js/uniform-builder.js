@@ -445,8 +445,8 @@ $(document).ready(function () {
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective){
                     $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
-                })
-            })
+                });
+            });
 
             if (ub.data.hasProcessedArtworks) {
                 

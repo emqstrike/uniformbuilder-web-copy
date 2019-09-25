@@ -10948,8 +10948,8 @@ $(document).ready(function() {
                 _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
                         return view.perspective !== perspective.toLowerCase();
                 });
-            })
-        })
+            });
+        });
 
         var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 
@@ -11368,8 +11368,8 @@ $(document).ready(function() {
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective) {
                     $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
-                })
-            })
+                });
+            });
 
             /// End Init Code
 
