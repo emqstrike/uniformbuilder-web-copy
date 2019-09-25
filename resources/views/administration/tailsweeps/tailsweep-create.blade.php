@@ -65,6 +65,19 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand_id" class="form-control">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">
+                                            {{ $brand->site_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-tailsweep">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

@@ -1368,7 +1368,9 @@
             var elements = "";
 
             // add embellishment custom scale in ub.styleValues.embellishmentScales
-            if (settings_obj.application_type === 'embellishments') { ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); }
+            if (settings_obj.application_type === 'embellishments') { 
+                ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); 
+            }
 
             var _uniformCategory = ub.current_material.material.uniform_category;
 
@@ -1536,6 +1538,48 @@
             _strokeOuter = 14;
         }
 
+        // fix font stroke for Baseball uniform size 5
+        if (input_object.fontSize <= 5 && ub.funcs.isCurrentSport('Baseball')) {
+            _strokeInner = 7;
+            _strokeOuter = 14;
+        }
+
+        // for future use, requested by web gas
+        // lists all uniform ids that uses innerStroke and outerStroke set on the backend
+        // this is to prevent error from previous styles stroke
+        var validIDs = [];
+        var fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(input_object.font_name, input_object.perspective, input_object.applicationObj.code, input_object.fontSize);
+        if (typeof fontSizeTable.inner_stroke !== 'undefined' && 
+            typeof fontSizeTable.outer_stroke !== 'undefined' &&
+            _.contains(validIDs, ub.current_material.material.id)) {
+                _strokeInner = parseInt(fontSizeTable.inner_stroke);
+                _strokeOuter = parseInt(fontSizeTable.outer_stroke);
+
+        }
+
+        // Stroke
+        var customStroke = ub.data.fontStroke.getStroke(ub.config.brand, 
+                                                        ub.current_material.material.uniform_category, 
+                                                        ub.current_material.material.block_pattern, 
+                                                        parseInt(input_object.fontSize), 
+                                                        input_object.accentObj.code, 
+                                                        ub.current_material.material.neck_option, 
+                                                        input_object.font_name);
+
+        if (typeof customStroke !== 'undefined') {
+            _strokeInner = customStroke.strokeInner;
+            _strokeOuter = customStroke.strokeOuter;
+        }
+
+        if (typeof input_object.innerStroke !== 'undefined') {
+            _strokeInner = parseInt(input_object.innerStroke);
+        }
+
+        if (typeof input_object.outerStroke !== 'undefined') {
+            _strokeOuter = parseInt(input_object.outerStroke);
+        }
+        // end Stroke
+
         ub.funcs.removeUIHandles();
 
         if (typeof input_object.fontSize === "undefined") {
@@ -1682,7 +1726,7 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
-                if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+                if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
 
                     // Additional vertical padding so that tailsweeps wont be clipped
                     _padding = 150;
@@ -1898,6 +1942,9 @@
         /// End Set First Three Colors 
 
         // container.zIndex = -(ub.funcs.generateZindex('applications') + parseInt(input_object.application.id));
+
+        container.ubFontSizeData.strokeInner = _strokeInner;
+        container.ubFontSizeData.strokeOuter = _strokeOuter;
         
         return container;
         
@@ -3026,6 +3073,10 @@
             if (typeof _applicationSettings.pattern_settings !== "undefined") {
 
                 _container.position.y = _applicationSettings.pattern_settings.position.y;
+
+                if (typeof ub.config.savedDesignInfo !== 'object') {
+                    _container.position.y = _calibration + _applicationSettings.pattern_settings.position.y;
+                }
 
             } else {
 

@@ -958,8 +958,17 @@ $(document).ready(function() {
 
         var application = _application;
         var _primaryViewObj = ub.funcs.getPrimaryViewObject(_application.application);
-        var _center = _primaryViewObj.application.center[axis] - _val;
-        var _pivot = _primaryViewObj.application.pivot[axis] - _val;
+
+        var _center;
+        var _pivot;
+
+        if (ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
+            _center = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+            _pivot = ub.objects[ub.active_view + '_view']['objects_' + application.code].position[axis] - _val;
+        } else {
+            _center = _primaryViewObj.application.center[axis] - _val;
+            _pivot = _primaryViewObj.application.pivot[axis] - _val;
+        }
 
         _.each (_application.application.views, function (view) {
 
@@ -2478,6 +2487,17 @@ $(document).ready(function() {
             _applicationObj = ub.current_material.settings.applications[app_id].application;
 
             var _settingsObject     = ub.funcs.getSettingsObject(app_id);
+
+            // fix saved design error on `Volleyball` Ace Crew Neck block pattern
+            // delete embellishment if ID `1710`
+            // if (typeof ub.config.savedDesignInfo === 'object' &&
+            //     typeof _settingsObject.mascot !== 'undefined' 
+            //     && ub.config.sport === "Volleyball"
+            //     && ub.config.blockPattern === "Ace Crew Neck"
+            //     && (_settingsObject.mascot.id === "1710" || _settingsObject.mascot.id === 1710)) {
+            //         delete ub.current_material.settings.applications[_settingsObject.code];
+            //         return;
+            // }
             
             _.each(ub.views, function(_view) {
 
@@ -3627,7 +3647,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.makeActive = function (name) {
-
         var _ht = name;
         var _label = name.prepareModifierLabel();
         _group_id = ub.data.modifierLabels[_label].group_id;
@@ -3692,16 +3711,43 @@ $(document).ready(function() {
                 };
 
                 boundaries_transformed[shape.name].views.push(cObj);
-                boundaries_one_dimensional[shape.perspective].push({
-                    
-                    name: shape.name,
-                    alias: shape.name.replace('Left ', '').replace('Right ',''),
-                    boundaries: cObj,
-                    layer_no: shape.layer_level,
-                    group_id: shape.group_id,
-                    polygon: boundary_properties,
 
-                });
+                // Temporary for riddell uniforms 
+                //===============================================================================================
+                if (ub.config.uniform_brand === 'prolook') {
+                    boundaries_one_dimensional[shape.perspective].push({
+                        name: shape.name,
+                        alias: shape.name.replace('Left ', '').replace('Right ',''),
+                        boundaries: cObj,
+                        layer_no: shape.layer_level,
+                        group_id: shape.group_id,
+                        polygon: boundary_properties,
+                    });  
+                }
+
+                if (ub.config.uniform_brand === 'riddell') {
+
+                    if (shape.name === 'Front Left Body Panel' || shape.name === 'Front Right Body Panel') {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Body ', ''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        });  
+                    } else {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Left ', '').replace('Right ',''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        }); 
+                    }
+                }
+                //===============================================================================================
 
             }
 
@@ -4027,6 +4073,12 @@ $(document).ready(function() {
 
             var _obj = _.find(ub.data.modifierLabels, {fullname: tempName});
 
+            // exit if `_obj` is undefined
+            if (typeof _obj === 'undefined') { 
+                console.warn(tempName + ' label not found!');
+                return; 
+            }
+
             _index = _obj.index;
 
         }
@@ -4145,6 +4197,13 @@ $(document).ready(function() {
         // omit `neck_tape_1` on ub.data.modifierLabels
         var labelsToHide = ['neck_tape_2'];
         ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+
+        // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
+        // `Quick Turn` block pattern
+        if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
+            labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
+            ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
+        }
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
@@ -4455,7 +4514,7 @@ $(document).ready(function() {
 
                 if(application.application_type !== "embellishments" && application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
-                    if (application.color_array.length >= 2) {
+                    if (application.color_array.length > 2) {
 
                         application.color_array[0] = colorObj;
                         _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
@@ -4477,13 +4536,6 @@ $(document).ready(function() {
         }
 
     };
-
-    ub.funcs.getPatternByID = function (id) {
-
-      var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
-      return _patternObject;
-
-    }
 
     ub.funcs.activateColorPickers = function () {
 
@@ -6262,7 +6314,9 @@ $(document).ready(function() {
 
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
         // Get the first 2 sizes array value
-        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { var sizes = sizes.slice(0,2); }
+        if (!ub.funcs.isFreeFormToolEnabled(_id) && tackeTwillCustomSizes) { 
+            var sizes = sizes.slice(0,2); 
+        }
 
         _.each(sizes, function (size) {
 
@@ -6274,7 +6328,7 @@ $(document).ready(function() {
                 _additionalClass = '';
             }
 
-            if (ub.funcs.isFreeFormToolEnabled(_id)) {
+            if (ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
                 if (_additionalClass === "active") {
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
                 }
@@ -6335,7 +6389,7 @@ $(document).ready(function() {
 
         // Custom Size
 
-        if (ub.funcs.isFreeFormToolEnabled(_id) && typeof _obj !== "undefined") {
+        if ((ub.funcs.isFreeFormToolEnabled(_id) || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) && typeof _obj !== "undefined") {
 
             /// Rotate
 
@@ -6719,11 +6773,16 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
-        if (_isFreeFormEnabled) { 
+
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
             _label = 'Measurements'; _class = "custom"; 
         }
+
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
@@ -6767,9 +6826,6 @@ $(document).ready(function() {
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -7550,7 +7606,7 @@ $(document).ready(function() {
 
         }
 
-    },
+    }
 
     ub.data.markerBitField = {};
     ub.funcs.highlightMarker = function (code, view) {
@@ -7931,7 +7987,7 @@ $(document).ready(function() {
             
             if (ub.funcs.isFreeFormToolEnabled(_id)) { _size = 4; }
             
-            if (ub.funcs.isCurrentSport('Baseball'))    { _size = 2; }
+            if (ub.funcs.isCurrentSport('Baseball'))    { _size = 5; }
             if (ub.funcs.isCurrentSport('Fastpitch'))   { _size = 2; }
 
             ub.funcs.setAppSize(_id, _size);
@@ -8065,7 +8121,8 @@ $(document).ready(function() {
             var _applicationType = 'team_name';
             var _size = 2;
             
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _size = 4; }
+            if (ub.funcs.isCurrentSport('Wrestling')) { _size = 4; }
+            if (ub.funcs.isCurrentSport('Baseball')) { _size = 5; }
 
             if (_.isEqual(ub.config.blockPattern, 'Hockey Twill Set-in')) { _size = 2.5; }
 
@@ -8520,7 +8577,7 @@ $(document).ready(function() {
         var _title              = _applicationType.toTitleCase();
         var _sampleText         = _settingsObject.text;
         var _sizes;
-        var _uniformCategory    = ub.current_material.material.uniform_category
+        var _uniformCategory    = ub.current_material.material.uniform_category;
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
@@ -8555,15 +8612,15 @@ $(document).ready(function() {
             // Debug Info
             if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_id);
+                // console.log('Default Sizes: ');
+                // console.log(_sizes);
+                // console.log('Application #: ');
+                // console.log(_id);
 
-                ub.utilities.info('Using sizes from backend: ');
+                // ub.utilities.info('Using sizes from backend: ');
 
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
+                // console.log(_sizesFromConfig);
+                // console.log(_sizesFromConfig.sizes);
                 //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
                 // add sort for sizes
@@ -8643,8 +8700,13 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';                       
-        _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';
+        if (_settingsObject.application_type === "sleeve_number" || _settingsObject.application_type === "back_number" || _settingsObject.application_type === "front_number") {
+            _htmlBuilder        +=              '<input type="number" name="sampleText" class="sampleText" value="' + _sampleText + '" min="0" max="999" oninput="ub.funcs.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">';
+        } else {
+            _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';
+        }
+                         
         _htmlBuilder        +=          '</div>';        
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
@@ -8654,10 +8716,15 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
 
+        // Tackle Twill Custom Sizes feature flag
+        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
+
         var _label = 'Size';
         var _class = '';
 
-        if (_isFreeFormEnabled) { _label = 'Measurements'; _class = "custom"; }
+        if (_isFreeFormEnabled || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) { 
+            _label = 'Measurements'; _class = "custom"; 
+        }
 
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
@@ -8678,9 +8745,6 @@ $(document).ready(function() {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
         
         _htmlBuilder        +=          '</div>';
-
-        // Tackle Twill Custom Sizes feature flag
-        var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
         if (!_isFreeFormEnabled && tackeTwillCustomSizes) {
         // Custom size options
@@ -8769,7 +8833,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
             _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
@@ -9130,7 +9194,7 @@ $(document).ready(function() {
             $('span.font_size').on('click', function () {
 
                 // If already active, trigger turn off instead
-                if(ub.funcs.isSublimated()) {
+                if(ub.funcs.isSublimated() || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
                     if ($(this).hasClass('active')) {
                         $('ul.tab-navs > li.tab.close').trigger('click');
                         return;
@@ -9262,115 +9326,105 @@ $(document).ready(function() {
             ub.status.onText = false;
 
             $('input.sampleText').on('focus', function () {
-
                 var _val = $(this).val();
-                ub.status.onText = true;
+                if (_val.length !== 0) {
+                    ub.status.onText = true;
 
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
+                    _settingsObject.text = _val;
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                }
             });
 
             $('input.sampleText').on('blur', function () {
-
                 var _val = $(this).val();
-                ub.status.onText = false;
-
-                _settingsObject.text = _val;
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-
-                // cancel automatic changing of application (e.g. all team names changes)
-                if (_isFreeFormEnabled)  { return; }
-
-                _.each (ub.current_material.settings.applications, function (_application) {
-
-                    if (_application.type !== "logo" && _application.type !== "mascot") {
-
-                        if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
-                            _application.text = _val;
-                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
-
-                        }
-
-                    }
-                        
-                });
-
-            });
-
-            $('input.sampleText').on('keypress', function (e) {
-
-                var _val = $(this).val();
-
-                if (e.keyCode === 13) {
+                if (_val.length !== 0) {
+                    ub.status.onText = false;
 
                     _settingsObject.text = _val;
-
-                    if (typeof _settingsObject.tailsweep !== "undefined") {
-
-                        // Tailsweep, is off for now
-                        // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
-                        // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
-                        // if (_settingsObject.text.length > 7) { _length = 'long'; } 
-
-                        _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
-
-                        _settingsObject.tailsweep.length = _length;
-
-                        $('span.sizeItem').removeClass('active');
-                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
-
-                    }
-
-                    /// Set Auto Font Size on Team Name, Baseball / Fastpitch
-                    
-                    if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
-
-                        if (_settingsObject.application_type === "team_name") {
-
-                            var _len = _val.length;
-                            var _size = _settingsObject.font_size;
-
-                            if (_len <= 4) {
-                                _size = 4;
-                            } else if (_len >= 5 && _len <= 7) {
-                                _size = 3;
-                            } else if (_len >= 8) {
-                                _size = 2;
-                            }
-
-                            ub.funcs.setAppSize(application_id, _size);
-                            ub.funcs.setAUIActiveSize(_size);
-
-                        }
-
-                    }
-
-                    /// End Set Auto Font Size
-
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)
-                    if (_isFreeFormEnabled) { return; }
-                
+                    if (_isFreeFormEnabled)  { return; }
+
                     _.each (ub.current_material.settings.applications, function (_application) {
 
                         if (_application.type !== "logo" && _application.type !== "mascot") {
 
                             if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
-
                                 _application.text = _val;
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                            }
+                        }   
+                    });
+                }
+            });
+
+            $('input.sampleText').on('keypress', function (e) {
+                var _val = $(this).val();
+                if (_val.length !== 0) {
+                    if (e.keyCode === 13) {
+                        _settingsObject.text = _val;
+
+                        if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                            // Tailsweep, is off for now
+                            // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                            // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                            // if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                            _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
+
+                            _settingsObject.tailsweep.length = _length;
+
+                            $('span.sizeItem').removeClass('active');
+                            $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                        }
+
+                        /// Set Auto Font Size on Team Name, Baseball / Fastpitch
+                        
+                        if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport))) {
+
+                            if (_settingsObject.application_type === "team_name") {
+
+                                var _len = _val.length;
+                                var _size = _settingsObject.font_size;
+
+                                if (_len <= 4) {
+                                    _size = 4;
+                                } else if (_len >= 5 && _len <= 7) {
+                                    _size = 3;
+                                } else if (_len >= 8) {
+                                    _size = 2;
+                                }
+
+                                ub.funcs.setAppSize(application_id, _size);
+                                ub.funcs.setAUIActiveSize(_size);
 
                             }
 
                         }
-                        
-                    });
 
+                        /// End Set Auto Font Size
+
+                        ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+                        // cancel automatic changing of application (e.g. all team names changes)
+                        if (_isFreeFormEnabled) { return; }
+                    
+                        _.each (ub.current_material.settings.applications, function (_application) {
+
+                            if (_application.type !== "logo" && _application.type !== "mascot") {
+
+                                if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+
+                                    _application.text = _val;
+                                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                                }
+                            } 
+                        });
+                    }
                 }
-
             });
 
             ub.funcs.hideGAFontTool();
@@ -9380,6 +9434,9 @@ $(document).ready(function() {
                 var _fontID         = _settingsObject.font_obj.id;
                 var _size           = _settingsObject.font_size;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size, ub.active_view, {id: _settingsObject.code});
+
+                var _stroke         = ub.objects[ub.active_view + "_view"]["objects_" + _settingsObject.code].ubFontSizeData;
+
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
@@ -9389,6 +9446,8 @@ $(document).ready(function() {
                     offSetY: _fontSizeData.yOffset,
                     scaleX: _fontSizeData.xScale,
                     scaleY: _fontSizeData.yScale,
+                    strokeInner: _stroke.strokeInner,
+                    strokeOuter: _stroke.strokeOuter,
 
                 }
 
@@ -9412,7 +9471,7 @@ $(document).ready(function() {
                 _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize gaFontInput" name="font-size" value="' +  _pixelFontSize + '" /> px';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=                   '<div class="inputY">';
-                _cogBuilder +=                      '<div class="notes" style="margin-left: 140px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
+                _cogBuilder +=                      '<div class="notes" style="margin-left: 35px; margin-top: 25px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
                 _cogBuilder +=                   '</div>';                
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
@@ -9428,6 +9487,7 @@ $(document).ready(function() {
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
 
+                // Scale
                 _cogBuilder +=           '<div class="popup-row">';
                 _cogBuilder +=               '<div class="inputContainer">'
                 _cogBuilder +=                   '<div class="inputX">';
@@ -9438,6 +9498,19 @@ $(document).ready(function() {
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
+
+                // Stroke
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Inner Stroke: </span><input class="strokeInner gaFontInput" name="scaleX" value="' + _stroke.strokeInner + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Outer Stroke: </span><input class="strokeOuter gaFontInput" name="scaleY" value="' + _stroke.strokeOuter + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
                 _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
 
                 _cogBuilder +=           '<div class="button-row">';
@@ -9502,10 +9575,12 @@ $(document).ready(function() {
                     $('span.resetButton').on('click', function () {
 
                         $('input.pixelFontSize').val(_origSizes.pixelFontSize);
-                        $('input.offsetX').val(_origSizes.offsetX);
-                        $('input.offsetY').val(_origSizes.offsetY)
+                        $('input.offsetX').val(_origSizes.offSetX);
+                        $('input.offsetY').val(_origSizes.offSetY)
                         $('input.scaleX').val(_origSizes.scaleX);
-                        $('input.scaleY').val(_origSizes.scaleY);;
+                        $('input.scaleY').val(_origSizes.scaleY);
+                        $('input.strokeInner').val(_origSizes.strokeInner);
+                        $('input.strokeOuter').val(_origSizes.strokeOuter);
 
                     });
 
@@ -9516,8 +9591,10 @@ $(document).ready(function() {
                         var _offsetY = $('input.offsetY').val();
                         var _scaleX = $('input.scaleX').val();
                         var _scaleY = $('input.scaleY').val();
+                        var _stokeInner = $('input.strokeInner').val();
+                        var _stokeOuter = $('input.strokeOuter').val();
 
-                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
+                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY, _stokeInner, _stokeOuter);
 
                     });
 
@@ -9862,9 +9939,9 @@ $(document).ready(function() {
         _spriteCenter.alpha = 0;
 
         // Center Point Adjustment
-
-        _spriteCenter.position.x -= _appObj.width / 4;
-        _spriteCenter.position.y -= _appObj.height / 4;
+        var divisor = 12 // default is 4
+        _spriteCenter.position.x -= _appObj.width / divisor;
+        _spriteCenter.position.y -= _appObj.height / divisor;
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
@@ -9894,26 +9971,29 @@ $(document).ready(function() {
         // tackle twill only (custom sizes)
         var tackeTwillCustomSizes = ub.config.features.isOn('uniforms', 'tackeTwillCustomSizes');
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted" || tackeTwillCustomSizes) {
+        if (ub.config.uniform_application_type === "sublimated" 
+            || ub.config.uniform_application_type === "knitted" 
+            || tackeTwillCustomSizes 
+            || ub.config.ignoreScaleRulesOnSublimatedAndTwill(ub.config.brand)) {
 
-        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+                var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+                var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-        ub.objects[_perspective].scale_tool = _spriteScale;
-        ub[_perspective].addChild(_spriteScale);
+                ub.objects[_perspective].scale_tool = _spriteScale;
+                ub[_perspective].addChild(_spriteScale);
 
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+                var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-        _spriteScale.position.x  = _view.application.center.x;
-        _spriteScale.position.y  = _view.application.center.y;
-        _spriteScale.ubName = 'Scale Tool';
+                _spriteScale.position.x  = _view.application.center.x;
+                _spriteScale.position.y  = _view.application.center.y;
+                _spriteScale.ubName = 'Scale Tool';
 
-        var _x = _xAnchor;
+                var _x = _xAnchor;
 
-        _spriteScale.anchor.set(_x, -2);
-        _spriteScale.zIndex = -1000;
+                _spriteScale.anchor.set(_x, -2);
+                _spriteScale.zIndex = -1000;
 
-        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+                ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
         }
 
@@ -10318,12 +10398,6 @@ $(document).ready(function() {
 
          _.each (_locations, function (location) {
 
-            if (location.type === "free") { 
-
-                /// Todo: Handle Here ....
-
-            }
-
             _.each(location.application.views, function (view, index) {
 
                 var _perspective    = view.perspective + '_view';
@@ -10378,7 +10452,7 @@ $(document).ready(function() {
 
     ub.funcs.showLocations = function (alphaOff) {
 
-        var _locations = ub.current_material.settings.applications;  
+        var _locations = ub.current_material.settings.applications;
         ub.showLocation = true;
 
         // Don't process this function when there's no application
@@ -10868,14 +10942,14 @@ $(document).ready(function() {
             
         }
 
-        // Cinch Sack doens't have a left and right perspective
-        if (ub.sport === "Cinch Sack (Apparel)") {
-
-            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
-                return view.perspective !== "left" && view.perspective !== "right";
+        // Hide the perspective in the  free form modal;
+        ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+            _.each(perspectives, function(perspective){
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                        return view.perspective !== perspective.toLowerCase();
+                });
             });
-
-        }
+        });
 
         var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 
@@ -10949,10 +11023,6 @@ $(document).ready(function() {
         });
 
         dialog.init(function() {
-
-            // hide perspective-container
-            $('.perspective-container').prev().hide();;
-            $('.perspective-container').hide();
 
             // Perspectives
 
@@ -11072,19 +11142,19 @@ $(document).ready(function() {
 
                 var _perspective = $('div.perspective-container > span.perspective.active').data('id');
 
-                // exception for Soccer with block pattern of `Champion Seties`
-                // prevent automatic selection of perspective
-                var blockPatternsException = ['Champion Series'];
-
                 $('div.perspective-container > span.perspective').each(function() {
                     
                     var perspective = $(this).text();
 
-                    if (_part.indexOf(perspective) !== -1 && !_.contains(blockPatternsException, ub.config.blockPattern)) {
+                    if (_perspective === "front" || _perspective === "back") {
 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+                        if (_part.indexOf(perspective) !== -1) {
 
+                            $('span.perspective').removeClass('active');
+                            $('span.perspective[data-id="' + perspective.toLowerCase() + '"]').addClass('active');
+
+                        }
+                        
                     }
 
                 });
@@ -11183,7 +11253,8 @@ $(document).ready(function() {
             if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
                 // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
-                $('span.optionButton[data-type="player_number"]').hide();
+                $('span.optionButton[data-type="player_number"]').hide(); // player # option
+                $('span.optionButton[data-type="player_name"]').hide(); //player name option
 
             }
 
@@ -11293,13 +11364,12 @@ $(document).ready(function() {
 
             });
 
-            // Cinch Sack doesnt have a Left and Right View
-
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
-
-            }
+            // Disable perspective button in customizer sidebar
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective) {
+                    $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
+                });
+            });
 
             /// End Init Code
 
@@ -12428,6 +12498,12 @@ $(document).ready(function() {
             $(elem).remove();
         }
     }
+
+    ub.funcs.maxLengthCheck = function (object) {
+        if (object.value.length > object.max.length) {
+            object.value = object.value.slice(0, object.max.length)
+        }
+    };
 
     /// End remove unused elements
 

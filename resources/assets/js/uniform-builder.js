@@ -6,6 +6,12 @@ $(document).ready(function () {
         /// Initialize Uniform Builder
 
         window.ub.initialize = function () {
+            // this is temporary
+            // get data from google spreadsheet for uniforms that need to change the item codes
+            // for maintenance purposes
+            $.getJSON("https://spreadsheets.google.com/feeds/list/1vBZU4OAJ_OcF2WDq9ka1-MVw7w-QTh2mUfivNmz8HJQ/1/public/values?alt=json", function(data) {
+               ub['itemCodesforMaintenance'] = _.pluck(_.pluck(data.feed.entry, 'gsx$ids'), '$t');
+            });
 
             // ub.utilities.maintenanceMessage();
 
@@ -44,7 +50,13 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts' + '/' + ub.config.brand;
+                //console.log("==================>" + ub.current_material.material.brand);
+                
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand;
+
+                if (ub.config.uniform_brand === 'riddell') {
+                    ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
+                }
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
                 // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
@@ -415,7 +427,7 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="save"]').removeClass('disabled');
 
-            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
@@ -429,11 +441,12 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
-
-            }           
+            // set the sport and perspective to manipulate; return @perspective [];
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective){
+                    $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                });
+            });
 
             if (ub.data.hasProcessedArtworks) {
                 
@@ -496,10 +509,16 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
+            var _cut = ub.config.blockPattern;
+            var _option = ub.config.option;
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
-            $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
+            $('div#uniform_name').html(ub.current_material.material.name);
+            $('div#uniform_properties #application_type').html('Type: <span>' + _type+ '<span>');
+            $('div#uniform_properties #block_pattern').html('Cut: <span>'+ _cut +'<span>');
+            $('div#uniform_properties #neck_option').html('Option: <span>'+ _option +'<span>');
+
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
@@ -674,6 +693,13 @@ $(document).ready(function () {
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
+
+            // preprocess `Quick Turn` pattern for unsaved design uniform
+            // prevent afterLoad's looping error from saved design uniform
+            if (typeof ub.config.savedDesignInfo !== 'object') {
+                ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
+            }
+            
             ub.funcs.executeAfterLoadFunctionList();
 
         };
@@ -681,21 +707,11 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
-                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
+                $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
 
-                // on Free Form Modal (add application) change `Left` label to Inside and `Right` label to Outside
-                $('span.perspective[data-id="left"]').text('Inside');
-                $('span.perspective[data-id="right"]').text('Outside');
-
-                // Exception: on Hockey Sock block pattern, set Left to Outside View and Right to Inside View
-                if ( _.isEqual(ub.config.blockPattern,  'Hockey Sock') ) {
-                    $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
-                    $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
-
-                    $('span.perspective[data-id="left"]').text('Outside');
-                    $('span.perspective[data-id="right"]').text('Inside');
-                }
+                $('span.perspective[data-id="left"]').text('Outside');
+                $('span.perspective[data-id="right"]').text('Inside');
             }
 
         }
@@ -1733,7 +1749,9 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Soccer" && material.type === "lower") ||
                     (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
+                    (material.uniform_category === "Track and Field" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)") ||
                     (material.uniform_category === "SFN Jogger (Apparel)") ||
                     (material.uniform_category === "Yoga Pant (Apparel)")) {
@@ -2859,7 +2877,7 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
 
             if (ub.current_material.pipings !== null) {
 
@@ -4992,7 +5010,7 @@ $(document).ready(function () {
             };
 
             /// Create Text Type Applications on load ( Player Name, Number and Team Name )
-            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY) {
+            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY, innerStroke, outerStroke) {
 
                 if (application_obj.text.length === 0) { return; }
 
@@ -5005,6 +5023,8 @@ $(document).ready(function () {
                 var _overrideOffsetY = undefined;
                 var _overrideScaleX = undefined;
                 var _overrideScaleY = undefined;
+                var _innerStroke = undefined;
+                var _outerStroke = undefined;
 
                 if (typeof overrideSize !== 'undefined') {
 
@@ -5036,6 +5056,18 @@ $(document).ready(function () {
 
                 }
 
+                if (typeof innerStroke !== 'undefined') {
+
+                    _innerStroke = innerStroke;
+
+                }
+
+                if (typeof outerStroke !== 'undefined') {
+
+                    _outerStroke = outerStroke;
+
+                }
+
                 var input_object = {
                     text_input: application_obj.text,
                     font_name: application_obj.font_obj.name,
@@ -5049,7 +5081,9 @@ $(document).ready(function () {
                     overrideOffsetX: _overrideOffsetX,                
                     overrideOffsetY: _overrideOffsetY,                
                     overrideScaleX: _overrideScaleX,                
-                    overrideScaleY: _overrideScaleY,                
+                    overrideScaleY: _overrideScaleY,
+                    innerStroke: _innerStroke,
+                    outerStroke: _outerStroke
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -5823,44 +5857,53 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
-        ub.funcs.cleanupBeforeOrder();
+        // var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
+        //     return item == ub.config.material_id;
+        // }));
 
-        var _exit = false;
+        // if (isUnderMaintenance) {
+        //     bootbox.alert("System will be unavailable for ordering due to system maintenance.");
+        // } else {
+            ub.funcs.cleanupBeforeOrder();
 
-        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
-            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.'); 
-            return;
-        }
+            var _exit = false;
 
-        var _msg = "Are you sure you want to go to the order form?";
+            if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+                ub.utilities.warn('No Price Table set for this uniform, cancelling order form.');
+                return;
+            }
+            var _msg = "Are you sure you want to go to the order form?";
 
-        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+            if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+            if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
 
-        bootbox.confirm(_msg, function (result) { 
-        
-            if (!result) {
+            bootbox.confirm(_msg, function (result) {
 
-                return true;
+                if (!result) {
 
-            } else {
-
-                if (ub.data.afterLoadCalled === 0) { return; }
-
-                if (typeof (window.ub.user.id) === "undefined") {
-                    ub.funcs.quickRegistration("order");
                     return true;
-                }
 
-                if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-                    ub.funcs.getOrderAndDetailsInfo();
                 } else {
-                    ub.funcs.initRoster();
+
+                    if (ub.data.afterLoadCalled === 0) { return; }
+
+                    if (typeof (window.ub.user.id) === "undefined") {
+                        ub.funcs.quickRegistration("order");
+                        return true;
+                    }
+
+                    if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
+                        ub.funcs.getOrderAndDetailsInfo();
+                    } else {
+                        ub.funcs.initRoster();
+                    }
+
                 }
 
-            } 
+            });
 
-        });
+        // }
+
 
     }
 
@@ -6352,7 +6395,7 @@ $(document).ready(function () {
            var _adjustment    = {x: 0, y: 0};
 
            _adjustment        = ub.funcs.coordinateAdjustments(target_name, clone, v);
-           _extra = ub.getAngleofPattern(v, target_name)
+           _extra = ub.getAngleofPattern(v, target_name);
 
             if (typeof _extra !== 'undefined') {
 
@@ -6365,6 +6408,14 @@ $(document).ready(function () {
 
             }
 
+            // ignore pattern angle (rotation) for Quick Turn
+            // Geometric Fade, Net Fade, NS
+            var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
+            if (_.contains(ignoreRotation, clone.name) 
+                && ub.current_material.material.block_pattern === 'Quick Turn') {
+                    _rotationAngle = 0;
+            }
+
             pattern_settings.containers[v] = {};
             
             var namespace = pattern_settings.containers[v];
@@ -6375,6 +6426,15 @@ $(document).ready(function () {
             _.each(clone.layers, function (layer, index) {
 
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+
+                if (ub.current_material.material.block_pattern === 'Quick Turn') {
+                    var qtFilename = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id}).layers[index][v];
+
+                    if (typeof qtFilename !== 'undefined') {
+                        layer.filename = qtFilename;
+                    }
+                }
+
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
                 var sprite = container.sprites[index];
@@ -6651,6 +6711,7 @@ $(document).ready(function () {
         ub.funcs.prepFilters();
         ub.funcs.prepPickers();
 
+
         $('span.slink[data-item="' + gender + '"]').addClass('active');
 
         if (sport === '') {
@@ -6674,7 +6735,6 @@ $(document).ready(function () {
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
-
             var _picker_type = $(this).data('picker-type');
             var _item        = $(this).data('item');
             var _id          = $(this).data('id');
@@ -6698,20 +6758,15 @@ $(document).ready(function () {
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 }
+
+                // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
+                if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
                 
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
 
             if (_picker_type === 'uniforms') {
-
-                // ub.funcs.fadeOutElements();
-                // $('body').removeClass('pickers-enabled');
-
-                // $('#main-picker-container').hide();
-                // $('.header-container').removeClass('forceHide');
-
-                // window.location.href = window.ub.config.host + '/builder/0/' + _id;
                 
                 // reopen the uniform in a new page
                 var url = '/builder/0/' + _id;
@@ -6781,7 +6836,6 @@ $(document).ready(function () {
             function() {
 
                var $caption = $(this).find('span.main-picker-item-caption');
-               //$caption.css('margin-top', '-336px');
 
                if ($(this).data('picker-type') === 'uniforms') {
 
@@ -6956,6 +7010,8 @@ $(document).ready(function () {
             // Exemption on Volleyball with block pattern of `Volleyball Round Neck`
             // as per Robbie's request, all `Volleyball Round Neck` block pattern should be displayed first, 
             if (_.isEqual(item.block_pattern, 'Volleyball Round Neck')) { _weight -= 100; }
+            // as per Nicole's request, `Quick Turn` block pattern should be displayed first on Socks (Apparel) 
+            if (_.isEqual(item.block_pattern, 'Quick Turn')) { _weight -= 200; }
 
             return _weight;
 
@@ -7046,30 +7102,148 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.array_move = function (arr, old_index, new_index) {
+        if (arr[old_index].item != 'Favorites' 
+            && arr[old_index].item != 'Blank Styles' 
+            && arr[new_index].item != 'Favorites' 
+            && arr[new_index].item != 'Blank Styles') {
+                new_index =((new_index % arr.length) + arr.length) % arr.length;
+                arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        }
+        return arr;
+    }
+
+    ub.funcs.rearrangeBlockPatternFilter = function (items, d, secondaryFilter) {
+
+        var blockPattern = d;
+
+        var isSoccer = _.filter(items, function (item)  {
+            return (item.uniform_category === 'Soccer');
+        });
+
+        var isVolleyball = _.filter(items, function (item)  {
+            return (item.uniform_category === 'Volleyball' && item.gender === 'women');
+        });
+
+        var isSock = _.filter(items, function (item)  {
+            return (item.uniform_category === 'Socks (Apparel)');
+        });
+
+        // rearrange block pattern
+        if(isSoccer.length > 0){
+            blockPattern = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 3, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 3) }
+        }
+
+        if(isVolleyball.length > 0){
+            blockPattern = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 2, 1), block_patterns: ub.funcs.array_move(_blockPatternsCollection, 0, 2) }
+        }
+
+        if(isSock.length > 0){
+            blockPattern = { block_patterns: ub.funcs.array_move(_blockPatternsCollection, 4, 0), }
+        }
+        // end rearrange block pattern
+
+        return blockPattern;
+    }
+
+    // get the url parameter
+    ub.funcs.getUrlParameter = function(urlParameter) {
+        var pageURL = window.location.search.substring(1);
+        var urlVariable = pageURL.split('&');
+        var parameterName;
+        var i;
+
+        for (i = 0; i < urlVariable.length; i++) {
+            parameterName = urlVariable[i].split('=');
+
+            if (parameterName[0] === urlParameter) {
+                return parameterName[1] === undefined ? true : decodeURIComponent(parameterName[1]);
+            }
+        }
+    }
+
+    // remove symbols, spaces, and convert string to single word lowercase format. 
+    // Example: quick-turn-socks to quickturnsocks
+    // used for searching purposes.
+    ub.funcs.formatStringToWord = function(string) {
+        return string.replace(/[_\W]+/g, '').toLowerCase();
+    }
+
+    ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
+        if (typeof ub.config.styles !== 'undefined') {
+            if (!_.isEmpty(ub.config.styles.blockPattern)) {
+
+                var blockPattern = ub.config.styles.blockPattern;
+
+                var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
+                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
+                })
+
+                // if the blockPattern is not empty
+                setTimeout(function() {
+                    if (!_.isEmpty(searchedBlockPattern)) {
+                        $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
+                    } else {
+                        $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                    }    
+                }, 100)
+            }
+        }
+    }
+
+    ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
+        var urlParameter = ub.funcs.getUrlParameter('option');
+        var blockPattern = ub.config.styles.blockPattern;
+        var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
+        var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
+
+        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
+            var option = _.find(optionsCollection, function(data) {
+                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
+            })
+
+            // if the blockPattern is not empty
+            setTimeout(function(){
+                if (typeof option !== 'undefined') {
+                    $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
+                } 
+            }, 100)
+        }
+    }
+
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
-
+            
             $('.tertiary-bar').html('');
 
             $('.tertiary-bar').hide();
             $('.tertiary-bar').css('margin-top','-50px');
 
+            var d = { block_patterns: _blockPatternsCollection, };
+
+            // rearrange block pattern index on picker
+            d = ub.funcs.rearrangeBlockPatternFilter(items, d);
+
             var t = $('#m-tertiary-links').html();
             var _str = '';
-            var d = { block_patterns: _blockPatternsCollection, }
-
+            
             var m = Mustache.render(t, d);
             $('.tertiary-bar').html(m);
-        
             $('div.tertiary-bar').fadeIn();        
             $('div.tertiary-bar').css('margin-top', "0px");
 
             window.origItems = items;
+
+            
             
             $('span.slink-small.tertiary').unbind('click');
-            $('span.slink-small.tertiary').on('click', function () {
 
+            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
+            ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
+
+            $('span.slink-small.tertiary').on('click', function () {
+                
                 var _dataItem = $(this).data('item');
 
                 ub.filters.tertiary = _dataItem.toString();
@@ -7079,13 +7253,19 @@ $(document).ready(function () {
                     _newSet = window.origItems;
 
                 } else {
-
+                    
                     _newSet = _.filter(window.origItems, function (item) {
-
+                        
                         return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
 
                     });
 
+                    if(_dataItem === "Premier Series"){
+                        _newSet = _.filter(window.origItems, function (item) {
+                            return item.block_pattern === _dataItem || item.block_pattern_alias === _dataItem;
+                        }).reverse();
+                    }
+                   
                     if (_dataItem === "Blank Styles") {
 
                          _newSet = _.filter(window.origItems, function (item) { return item.is_blank === '1'; });
@@ -7106,6 +7286,9 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
+                
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
@@ -7113,9 +7296,24 @@ $(document).ready(function () {
 
     }
 
+    // omit neck options from _optionsCollection basketball filter
+    ub.funcs.omitNeckOptionsOnBasketballFilter = function () {
+        var omitOptions = [];
+        // Basketball Men
+        omitOptions.push('Cavaliers Neck', 'Lakers Neck', 'Round Neck', 'V-Neck', 'V-neck', 'Infuse Short (M)', 'SFN Short (M)', 'Sfn Short (M)', 'Side Seam Jersey', 'Back Panel Jersey', 'Sublimated Short');
+        // Basketball Women
+        omitOptions.push('Gold State Neck', 'Infuse Short (W)', 'SFN Short (W)');
+
+        _optionsCollection = _.omit(_optionsCollection, function (option) {
+            return _.contains(omitOptions, option.alias);
+        });
+    }
+
     ub.funcs.updateQuarternaryBar = function (items, gender, dataItem) {
 
         setTimeout(function () {
+
+            ub.funcs.omitNeckOptionsOnBasketballFilter();
 
             $('.quarternary-bar').html('');
 
@@ -7125,7 +7323,15 @@ $(document).ready(function () {
             var t = $('#m-quarternary-links').html();
             var _str = '';
             
-            var d = { block_patterns: _optionsCollection, }
+            var isSoccer = _.filter(items, function (item)  {
+                return (item.uniform_category === 'Soccer');
+            });
+
+            if(isSoccer.length > 0){
+                var d = { block_patterns: _optionsCollection.reverse(), }
+            }else{
+                var d = { block_patterns: _optionsCollection, }
+            }
 
             // Don't include Crew in the Quarternary options, todo: move this to a config list
             d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
@@ -7135,7 +7341,7 @@ $(document).ready(function () {
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
-            if (_optionsCollection.length > 0) {
+            if (_.size(_optionsCollection) > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
 
@@ -7174,7 +7380,7 @@ $(document).ready(function () {
 
                         _newSet = _.filter(window.origItems, function (item) {
 
-                            return item.block_pattern === _activeBlockPattern && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
+                            return (item.block_pattern === _activeBlockPattern || item.block_pattern_alias === _activeBlockPattern) && (item.neck_option === _dataItem || item.neck_option_alias === _dataItem);
 
                         });
 
@@ -7182,7 +7388,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_blank === "1";
+                                return (item.neck_option === _dataItem || item.neck_option_alias === _dataItem) && (item.is_blank === "1");
 
                             });
 
@@ -7192,7 +7398,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_favorite === true;
+                                return (item.neck_option === _dataItem || item.neck_option_alias === _dataItem) && (item.is_favorite === true);
 
                             });
 
@@ -7259,6 +7465,15 @@ $(document).ready(function () {
         return _results;
 
     };
+
+    ub.funcs.quickQurnFilterFlag = function (items) {
+        return _.each(items, function(item) {
+            if (item.block_pattern === 'Quick Turn') {
+                // if `true` enable quick turn layout on picker
+                item.enable_quick_turn_layout = true;
+            }
+        });
+    }
 
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
 
@@ -7368,7 +7583,7 @@ $(document).ready(function () {
             var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
-
+            
             if (!ub.picker.isNew) {
 
                 ub.funcs.prepareSecondaryBar(_sport, actualGender);
@@ -7396,6 +7611,9 @@ $(document).ready(function () {
             }
 
             if (typeof gender === 'undefined') { return; }
+
+            // create filter flag for `Quick Turn` Socks (Apparel)
+            ub.tempItems = ub.funcs.quickQurnFilterFlag(ub.tempItems);
 
             var data = {
 
@@ -7425,7 +7643,7 @@ $(document).ready(function () {
 
                 $('.main-picker-items').each(function(item) {
 
-                    var imgt = $(this).find('img');
+                    var imgt = $(this).find('img').not('.qtLogo');
 
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
@@ -8093,8 +8311,12 @@ $(document).ready(function () {
         var items = _.find(ub.data.sports, {gender: sport});
         var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
         var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
+        //  filter out riddell sport categories in picker;
+        var uniformCategories = _.filter(items.sports, function(item){
+            return item.brand !== "riddell";
+        });
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
+        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -8147,7 +8369,8 @@ $(document).ready(function () {
             ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
-            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            items = _.filter(ub.materials, {uniform_category: sport}); 
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }

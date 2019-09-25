@@ -143,6 +143,12 @@ $(document).ready(function() {
 
             return decodedString;
 
+        },
+
+        maxLengthCheck: function (object) {
+            if (object.value.length > object.max.length) {
+                object.value = object.value.slice(0, object.max.length)
+            }
         }
 
     };

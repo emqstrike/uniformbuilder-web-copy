@@ -2662,6 +2662,7 @@ $(document).ready(function() {
     ub.data.mascots = undefined;
 
     ub.data.patterns = {};
+    ub.data.qtPatterns = {};
 
     ub.data.genders = [
         {
@@ -8815,6 +8816,14 @@ ub.funcs.fontOffSets = [
                 pullUpHeight: 0,
             },
 
+            // "Lacrosse"
+            {
+                sport: 'Lacrosse',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: 0,
+            },
+
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {
@@ -9988,6 +9997,14 @@ ub.funcs.fontOffSets = [
 
             }
 
+            // exception on Baseball sublimated uniform
+            if (ub.funcs.isCurrentSport('Baseball') && applicationNumber > 70) {
+
+                _result.size = 5;
+                _result.font_size = 5;
+
+            }
+
             return _result;
 
         }
@@ -10367,6 +10384,14 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Track and Field',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Training  101',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Team Flag (Apparel)',
                 sublimatedPart: 'Extra',
             },
 
@@ -11365,8 +11390,12 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Hoodie (eSports)',
             filters: ['All'],
-        }
-          
+        },
+        // end eSports Uniform
+        {
+            sport: 'Track and Field',
+            filters: ['All'],
+        },
     ];
 
     // Todo: Detect this at runtime instead
@@ -11974,6 +12003,12 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Hoodie (eSports)',
                 gender: ['men',],
             },
+            // end eSports
+            {
+                shortCode: 'track-and-field',
+                urlAlias: 'Track and Field',
+                gender: ['men', 'women'],
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12166,9 +12201,9 @@ ub.funcs.fontOffSets = [
                 sport: ['Football', 'Football 2017'],
                 uniformApplicationType: 'tackle_twill',
                 excludedColors: [
-                    'PK',
-                    'NP',
-                    'Y',
+                    // 'PK',
+                    // 'NP',
+                    // 'Y',
                     'LG',
                     'DG',
                     'CR',
@@ -12214,6 +12249,7 @@ ub.funcs.fontOffSets = [
             "3 inch Stir Up Sock", 
             "7 inch Stir Up Sock",
             "9 inch Stir Up Sock",
+            "Quick Turn",
         ],
 
         isExempted: function (option) {
@@ -12289,6 +12325,7 @@ ub.funcs.fontOffSets = [
             'Game Day Jackets (Apparel)',
             'Compression Pant (Apparel)',
             'Tech Tee (eSports)',
+            'Track and Field'
         ],
         isNonTackleTwill: function (uniformCategory) {
 
@@ -12346,6 +12383,7 @@ ub.funcs.fontOffSets = [
             'Hockey',
             'Soccer',
             'Track and Field',
+            'Wrestling 2018'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12374,6 +12412,7 @@ ub.funcs.fontOffSets = [
             'SFN Jogger (Apparel)',
             'Hockey',
             'Track and Field',
+            'Team Flag (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
@@ -12451,6 +12490,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Hockey',
                 blockPattern: 'Hockey Socks',
+            },
+            {
+                sport: 'Basketball',
+                blockPattern: '2018 Basketball Jersey',
             }
         ],
         isExempted: function (sport, blockPattern) {
@@ -12468,7 +12511,8 @@ ub.funcs.fontOffSets = [
     ub.data.hideMaterialOptionOnSportModifierLabels = {
         items: [
             'PTS Cage Jacket (Apparel)',
-            'PTS Hoodie (Apparel)'
+            'PTS Hoodie (Apparel)',
+            'Socks (Apparel)'
         ],
         isValid: function (uniformCategory, modifierLabels, materialOption) {
 
@@ -12517,5 +12561,38 @@ ub.funcs.fontOffSets = [
         '11.5',
         '12',
    ];
+
+   // Return the perspective of a uniform to manipulate;
+   ub.data.manipulatePerspectives = {
+        items : [
+            {
+                sport: "Team Flag (Apparel)",
+                perspectives: ["Left", "Right"],
+            },
+            {
+                sport: "Cinch Sack (Apparel)",
+                perspectives: ["Left", "Right"],
+            },
+        ],
+
+        getPerspectives : function(sport, callback) {
+            var item = _.find(this.items, {sport: sport})
+            if (typeof item !== 'undefined') {
+                callback(item.perspectives);
+            }
+        }
+   };
+
+
+   /*
+   *
+   * RIDDELL DATA
+   *
+   */
+
+   ub.data.riddellSportWithPipings = [
+        'RDL Baseball',
+   ];
+
 
 });

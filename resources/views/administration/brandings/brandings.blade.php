@@ -225,22 +225,22 @@ $(document).ready(function(){
         }
 
         function confirmUser(user_email, password) {
-        var url = "//" + api_host + "/api/user/confirmUser";
-        $.ajax({
-           url: url,
-           type: "POST",
-           data: JSON.stringify({email:user_email, password:password }),
-           dataType: "json",
-           crossDomain: true,
-           contentType: 'application/json',
-           headers: {"accessToken": atob(headerValue)},
-           success: function(response){
-                      if(response.success) {
-                        setActive(id);
+          var url = "//" + api_host + "/api/user/confirmUser";
+          $.ajax({
+             url: url,
+             type: "POST",
+             data: JSON.stringify({email:user_email, password:password }),
+             dataType: "json",
+             crossDomain: true,
+             contentType: 'application/json',
+             headers: {"accessToken": atob(headerValue)},
+             success: function(response){
+                        if(response.success) {
+                          setActive(id);
+                        }
                       }
-                    }
 
-        });
+          });
         }
     });
 

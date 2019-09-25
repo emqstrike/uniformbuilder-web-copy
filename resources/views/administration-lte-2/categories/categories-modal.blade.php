@@ -39,13 +39,25 @@
                         <option value="esports">eSports</option>
                       </select>
                   </div>
-                   <div class="form-group">
-                    <label class="control-label">Active Type</label>
+                    <div class="form-group">
+                        <label class="control-label">Active Type</label>
                       <select class="form-control input-active-type" name="type" required>
                         <option value="active">Active</option>
                         <option value="temp">Temporary</option>
                       </select>
-                  </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Brand</label>
+
+                        <select class="form-control input-brand" name="brand">
+                            <option value="">None</option>
+                            <option value="prolook">Prolook</option>
+                            <option value="richardson">Richardson</option>
+                            <option value="riddell">Riddell</option>
+                        </select>
+                    </div>
+
                   <hr>
                   <div class="form-group">
                     <label>Male Thumbnail File</label>

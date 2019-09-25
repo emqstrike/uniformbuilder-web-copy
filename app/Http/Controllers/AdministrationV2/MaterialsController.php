@@ -838,4 +838,35 @@ class MaterialsController extends Controller
                     ->with('message', $response->message);
         }
     }
+
+    public function modifyPattern($id)
+    {
+        $material = $this->client->getMaterial($id);
+
+        return view('administration-lte-2.master-pages.materials.modify-pattern', [
+            'material' => $material
+        ]);
+    }
+
+    public function saveModifyPattern(Request $request)
+    {
+        $response = $this->client->saveModifyPattern($request->all());
+
+        if ($response->success) {
+            return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', 'Successfully saved changes');
+        }
+
+        return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
+    }
+
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $response->message);
+    }
 }

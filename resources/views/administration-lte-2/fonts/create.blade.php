@@ -124,6 +124,7 @@
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
+                                        <option value="riddell">Riddell</option>
                                     </select>
                               </div>
                         </div>
@@ -182,6 +183,8 @@
                                             <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Inner Stroke <a href="#" data-toggle="tooltip" data-message="Inner Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Outer Stroke <a href="#" data-toggle="tooltip" data-message="Outer Stroke"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="front-fst-body">
@@ -211,6 +214,8 @@
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Inner Stroke</th>
+                                            <th>Outer Stroke</th>
                                         </tr>
                                     </thead>
                                     <tbody class="back-fst-body">
@@ -240,6 +245,8 @@
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Inner Stroke</th>
+                                            <th>Outer Stroke</th>
                                         </tr>
                                     </thead>
                                     <tbody class="left-fst-body">
@@ -269,6 +276,8 @@
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Inner Stroke</th>
+                                            <th>Outer Stroke</th>
                                         </tr>
                                     </thead>
                                     <tbody class="right-fst-body">

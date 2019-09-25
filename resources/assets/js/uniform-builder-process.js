@@ -170,6 +170,13 @@ $(document).ready(function() {
 
         }
 
+        // hide the the table row 'Sleeve Type' and 'Last Name Application' in roster form if the uniform is Socks and except for Hockey Socks.
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
+            // header th td
+            $('td.sleevetype, th.wide.sleevetype').hide();
+            $('td.lastnameapplication, th.wide.lastnameapplication').hide();
+        }
+
         // Hide Player Number on Wrestling and Socks
         if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isSocks()) {
 
@@ -575,7 +582,8 @@ $(document).ready(function() {
     }
 
     ub.funcs.submitFeedback = function (_data) {
-        var test = true;
+
+        var test = false;
 
         if(test) {
             console.log('DATA===>', _data);
@@ -585,19 +593,29 @@ $(document).ready(function() {
 
             if (typeof _user_id === "undefined") {
                 _user_id = 0;
-                _user_email = '';
+                _user_email = _data.email;
             }
 
             var _postData = {
                 "subject" : "Feedback",
                 "order_code" : "",
-                "content" : _data,
+                "content" : _data.message,
                 "type" : "feedback",
                 "email" : _user_email,
+                "name" : _data.name,
+                "screenshot": _data.screenshot,
+                "material_id": _data.material_id,
+                "saved_design_id": _data.saved_design_id
             };
 
-            // Have a user id passed only when a user is logged in
+            // pass user id only when a user is logged in
             if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+
+            // pass material id if exist
+            // if (_material_id !== -1) { _postData.material_id = _material_id; }
+
+            // pass saved design id if exist
+            // if (typeof ub.config.savedDesignInfo !== "undefined") { _postData.saved_design_id = ub.config.savedDesignInfo.savedDesignID }
 
             var _url = ub.config.api_host + '/api/feedback';
             //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
@@ -711,6 +729,7 @@ $(document).ready(function() {
                 }
                 else {
 
+                    callback(undefined);
                     console.log('Error Uploading Image');
                     console.log(response.message);
 
@@ -722,10 +741,32 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareImagesPreview = function () {
+
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+        var _front = ub.getThumbnailImage2('front_view');
+        var _back = ub.getThumbnailImage2('back_view');
+        var _left = ub.getThumbnailImage2('left_view');
+        var _right = ub.getThumbnailImage2('right_view');
+        var _frontImage = "<img src ='" + _front + "' alt='...' class='img-thumbnail img-responsive front' />" ;
+        var _backImage = "<img src ='" + _back + "' alt='...' class='img-thumbnail img-responsive back' />" ;
+        var _leftImage = "<img src ='" + _left + "' alt='...' class='img-thumbnail img-responsive left' />" ;
+        var _rightImage = "<img src ='" + _right + "' alt='...' class='img-thumbnail img-responsive right' />" ;
+        ub.frontPreview = _frontImage;
+        ub.backPreview = _backImage;
+        ub.leftPreview = _leftImage;
+        ub.rightPreview = _rightImage;
+        // ub.showModalTool(_str);
+
+    }
+
     ub.funcs.freeFeedbackForm = function () {
 
+        ub.feedbackForm = false;
         $('a#feedback').on('click', function () {
-
 
             var data = {};
 
@@ -733,156 +774,150 @@ $(document).ready(function() {
             var markup = Mustache.render(template, data);
 
             $('body').append(markup);
-            $('div.free-feedback-form').fadeIn();
-            ub.funcs.centerPatternPopup();
 
-            // set value if user is logged in
-            if(ub.user) {
-                $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
-                $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
-            }
+            //     $('div.free-feedback-form').fadeIn();
 
-            $('span.ok-btn').on('click', function () {
+            if(ub.feedbackForm)
+            {
+                // do nothing, dont show form if already shown
+                console.log('[feedback form is already shown]');
+                $('div.free-feedback-form').each(function( index ) {
+                    // console.log( index + ": " + $(this) );
+                    if (index !== 0) {
+                        $(this).remove();
+                    }
+                });
+            } else {
+                console.log('[showing feedback form]');
 
-                var _name = $('#feedback-form .name').val().trim();
-                var _email = $('#feedback-form .email').val().trim();
-                var _message = $('#feedback-form .message').val().trim();
+                // this shows the feedback modal form not the commented fade in above
+                ub.funcs.centerPatternPopup();
 
-                function validateEmail(_email) {
-                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(String(_email).toLowerCase());
+                // $('div.free-feedback-form').fadeIn();
+                ub.feedbackForm = true;
+
+                // set value if user is logged in
+                if(ub.user) {
+                    $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                    $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
                 }
 
-                if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
-                    $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
+                // set value of material id if exist
+                if(ub.config.material_id !== -1) {
+                    $('#feedback-form .materialId').val(ub.config.material_id).attr('disabled','disabled').prev().find('small').hide();
+                }
 
-                    var _front = $('img.img-thumbnail.front')[0].src;
-                    var _back = $('img.img-thumbnail.back')[0].src;
-                    var _left = $('img.img-thumbnail.left')[0].src;
-                    var _right = $('img.img-thumbnail.right')[0].src;
+                //set the value of saved design id if exist
+                if (typeof ub.config.savedDesignInfo !== "undefined") {
+                    $('#feedback-form .savedDesignId').val(ub.config.savedDesignInfo.savedDesignID).attr('disabled','disabled').prev().find('small').hide();
+                }
 
-                    if (_front === 'https://i.imgur.com/aB8nl6x.png') { _front = ''; }
-                    if (_back === 'https://i.imgur.com/aB8nl6x.png') { _back = ''; }
-                    if (_left === 'https://i.imgur.com/aB8nl6x.png') { _left = ''; }
-                    if (_right === 'https://i.imgur.com/aB8nl6x.png') { _right = ''; }
+                ub.funcs.prepareImagesPreview();
+
+                if(ub.user) {
+                    if(ub.current_material.id === -1) {
+
+                    } else {
+                        if (ub.frontPreview) {
+                            // process perspective preview
+                            var _imagePreview = ("<div class='row'>" +
+                                "                   <div class='col-md-12'>" +
+                                ub.frontPreview +
+                                ub.backPreview +
+                                ub.leftPreview +
+                                ub.rightPreview +
+                                "                   </div>" +
+                                "                 </div><br/>");
+
+                            $('.feedback-left-panel').prepend(_imagePreview);
+                        }
+                    }
+                }
+
+                $('span.ok-btn').on('click', function () {
+                    
+                    // initialized plugin and validate feedback form fields using parsley.js, a client side validation plugin.
+                    $('#feedback-form').parsley().validate();
+                    if($('#feedback-form').parsley().isValid() === false) { return false; }; 
+
+                    var _name          = $('#feedback-form .name').val().trim();
+                    var _email         = $('#feedback-form .email').val().trim();
+                    var _message       = $('#feedback-form .message').val().trim();
+                    var _materialId    = $('#feedback-form .materialId').val().trim();
+                    var _savedDesignId = $('#feedback-form .savedDesignId').val().trim();
+                    var _upload        = $('img.img-thumbnail.upload')[0].src;
+
+                    if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
 
                     var _data = {
                         name: _name,
                         email: _email,
                         message: _message,
-                        screenshots: {
-                            front: _front,
-                            back: _back,
-                            left: _left,
-                            right: _right
-                        }
+                        screenshot: _upload,
+                        material_id: _materialId,
+                        saved_design_id: _savedDesignId
                     };
 
                     ub.funcs.submitFeedback(_data);
                     $('div.free-feedback-form').remove();
-                } else {
-                    if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
-                    if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
-                    if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
+                    ub.feedbackForm = false;
+                    $.smkAlert({text:'Your message has been successfully sent.', type:'success', time:3});
+
+                });
+
+                $('span.cancel-btn').on('click', function () {
+
+                    $('div.free-feedback-form').remove();
+                    ub.feedbackForm = false;
+
+                });
+
+                $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
+
+                // image validation - inksoft supported file types are: [png/bmp/jpeg/jpg/tiff/pdf/eps/svg/ai]
+                // isImage() returns boolean.
+                function isImage(file) {
+                   var imageTypes = [ 
+                       'image/png', 
+                       'image/bmp', 
+                       'image/jpeg', 
+                       'image/tiff', 
+                       'image/gif', 
+                       'image/svg+xml', 
+                       // 'application/postscript', 
+                       // 'application/pdf'
+                       ];
+                    return imageTypes.includes(file.type);
                 }
 
-            });
-
-            $('span.cancel-btn').on('click', function () {
-
-                $('div.free-feedback-form').remove();
-
-            });
-
-            // when typing occurs on fields remove error class
-            $('#feedback-form .name').on('keyup', function(){
-                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-            });
-
-            $('#feedback-form .email').on('keyup', function(){
-                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-            });
-
-            $('#feedback-form .message').on('keyup', function(){
-                if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-            });
-
-            // triggering click on images for file upload
-            $('img.img-thumbnail.front').on('click', function(){ $('#file-input-thumb-front').trigger('click'); });
-            $('img.img-thumbnail.back').on('click', function(){ $('#file-input-thumb-back').trigger('click'); });
-            $('img.img-thumbnail.left').on('click', function(){ $('#file-input-thumb-left').trigger('click'); });
-            $('img.img-thumbnail.right').on('click', function(){ $('#file-input-thumb-right').trigger('click'); });
-
-            // onchange file input value
-            $('#file-input-thumb-front').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.front')[0].src = filename;
+                // onchange file input value
+                $('#file-input-upload').on('change', function(){
+                    // validate file if image.
+                    if (isImage(this.files[0]) === false) {
+                        var message = 'You have uploaded an invalid image file type.';
+                        $.smkAlert({text: message, type:'warning', time: 5, marginTop: '80px'});
+                        return false;
                     }
+
+                    $('.upload-btn').find('i').removeClass('fa-cloud-upload').addClass('fa-refresh fa-spin');
+                    ub.funcs.imageUpload(this.files[0], function(filename) {
+                        if (typeof filename === 'undefined') {
+                            $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
+                            $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                        } else {
+                            $('.upload-btn').find('i').removeClass('fa-refresh fa-spin').addClass('fa-cloud-upload');
+                            $('img.img-thumbnail.upload')[0].src = filename;
+                        }
+                    });
                 });
-            });
-            $('#file-input-thumb-back').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.back')[0].src = filename;
-                    }
-                });
-            });
-            $('#file-input-thumb-left').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.left')[0].src = filename;
-                    }
-                });
-            });
-            $('#file-input-thumb-right').on('change', function(){
-                ub.funcs.imageUpload(this.files[0], function(filename) {
-                    if (typeof filename === 'undefined') {
-                        $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
-                        return;
-                    } else {
-                        $('img.img-thumbnail.right')[0].src = filename;
-                    }
-                });
-            });
+
+            }
 
         });
 
     }
 
     ub.funcs.freeFeedbackForm();
-
-    ub.funcs.betaFeaturesChecker = function (_flag, callback, legacy) {
-        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'));
-
-        if (_flag === 'New PDF') {
-            if(localStorage.getItem('beta_features') === 'true') {
-                var currentFeature = feature_flags.find(function(i) {return i.name === _flag;});
-                if (
-                    localStorage.getItem('beta_features') === 'true' &&
-                    currentFeature !== undefined &&
-                    currentFeature.name === _flag &&
-                    currentFeature.user_ids.includes(ub.user.id.toString())
-                ) {
-                    callback();
-                } else {
-                    legacy();
-                }
-            } else {
-                legacy();
-            }
-        }
-
-    };
 
     var _viewOrderLink = '';
     var _message = '';
@@ -1463,7 +1498,9 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type,
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes
+                    notes: _notes,
+                    blockPattern: ub.config.blockPattern,
+                    neckOption: ub.config.option
                 }
             ]
         };
@@ -1528,7 +1565,9 @@ $(document).ready(function() {
             hiddenBody: bc.hiddenBody,
             randomFeeds: bc.randomFeeds,
             legacyPDF:"", // display link if old pdf is generated
-            applicationType: order_items.application_type
+            applicationType: order_items.application_type,
+            sml: bc.sorted_modifier_labels,
+            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku
         };
 
         ub.funcs.betaFeaturesChecker('New PDF', function() {

@@ -597,6 +597,11 @@
                                 <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
                             </div>
                                 <div class="col-md-2">
+
+                                    <a href="{{ $material->styles_pdf }}" target="_blank" class="btn btn-xs btn-default @if(! $material->styles_pdf ) disabled @endif">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+
                                     <a href="#" class="btn btn-danger btn-xs delete-styles-pdf"
                                         data-material-id="{{ $material->id }}"
                                         data-field="styles_pdf"
@@ -644,6 +649,7 @@
                                         <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($material->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($material->brand == 'riddell') selected="selected" @endif>Riddell</option>
                                 </select>
                             </div>
                         </div>

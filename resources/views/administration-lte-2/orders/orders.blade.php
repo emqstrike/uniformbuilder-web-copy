@@ -28,24 +28,18 @@
                         <hr>
 
                         <div id="filter-container" class="pull-left">
-                            <div class="form-group">
+                            <div class="form-inline">
                                 <input type="checkbox" id="unassigned-orders" @if (isset($filters['unassigned'])) checked="checked" @endif>
                                 <label>Unassigned</label>
-                            </div>
 
-                            <div class="form-group">
                                 <input type="checkbox" id="deleted-orders" @if (isset($filters['deleted'])) checked="checked" @endif>
                                 <label>Deleted</label>
-                            </div>
 
-                            <div class="form-group">
                                 <label>DATE RANGE -- From:</label>
-                                <input type="text" id="from-date" value="{{ $from_date }}">
+                                <input type="text" id="from-date" class="form-control" value="{{ $from_date }}">
                                 <label>To:</label>
-                                <input type="text" id="to-date" value="{{ $to_date }}">
-                            </div>
+                                <input type="text" id="to-date" class="form-control" value="{{ $to_date }}">
 
-                            <div class="form-group">
                                 <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
                                 <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
                             </div>
@@ -109,8 +103,13 @@
 
                             <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                             <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
-                            <td class="td-assigned-sales-rep">
-                                @if (! $order->factory_order_id)
+
+                            @if ($order->factory_order_id)
+                                <td class="td-assigned-sales-rep" data-foid="{{ $order->factory_order_id }}" data-sales-rep-id="{{ $order->sent_to_rep_qx_id }}" data-sales-rep-email="{{ $order->rep_email }}">
+                            @else
+                                <td class="td-assigned-sales-rep">
+                            @endif   
+                                @if ((! $order->factory_order_id) && (is_null($order->deleted_at)))
                                     <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
                                     </select>
@@ -190,6 +189,10 @@
 
     <script>
         $(document).ready(function() {
+            getQXSalesReps(function(sales_reps) { 
+                window.sales_reps = sales_reps; 
+            });
+
             $('.data-table').DataTable({
                 "paging": true,
                 "lengthChange": false,
@@ -198,9 +201,24 @@
                 "info": true,
                 "autoWidth": true,
                 drawCallback: function () {
-                    console.log( 'Table redrawn ' );
                     $('.rep-id').html('<option value="0">Select Sales Rep</option>');
                     $('.rep-id').append(window.sales_reps_dd);
+
+                    $('.td-assigned-sales-rep').each(function() {
+                        var foid = $(this).data('foid');
+                        var salesRepEmail = $(this).data('sales-rep-email');
+                        var salesRepID = $(this).data('sales-rep-id');
+                 
+                        if ((foid != undefined) && (salesRepEmail == "")) {
+                            var result = window.sales_reps.filter(salesRep => { 
+                                return salesRep.RepID === salesRepID;  
+                            });
+                            
+                            if (result.length > 0) {
+                                $(this).text(result[0].UserID);
+                            }
+                        }
+                    });
                 },
                 initComplete: function () {
                     this.api().columns('#select-filter').every( function () {
@@ -243,10 +261,6 @@
 
             getSizingConfig(function(item_sizes) { 
                 window.item_sizes = item_sizes; 
-            });
-
-            getQXSalesReps(function(sales_reps) { 
-                window.sales_reps = sales_reps; 
             });
 
             var reps_elem = "";
@@ -314,9 +328,6 @@
                     ste_button.attr("disabled", true);
                     checkbox.attr("disabled", true).prop('checked', false);
                 }
-
-                console.log('OPTION SELECTED');
-                console.log(option_selected);
             });
 
             $(document).on('click', '.view-pdf', function(e) {
@@ -370,19 +381,10 @@
                     billing_email = window.order.bill_email;
                     billing_phone = window.order.bill_phone;
 
-                    console.log('WINDOW ORDER');
-                    console.log(window.order);
-
                     window.order_parts = null;
                     getOrderParts(function(order_parts) { 
                         window.order_parts = order_parts; 
                     });
-
-                    console.log(' ( ( ( WINDOW api_order_id ) ) ) ');
-                    console.log(api_order_id);
-
-                    console.log(' ( ( ( WINDOW order_parts ) ) ) ');
-                    console.log(window.order_parts);
 
                     function getOrderParts(callback) {
                         var order_parts;
@@ -408,19 +410,11 @@
                         window.customizer_material_id = null;
                         window.pa_id = entry.id;
 
-                        console.log("BCX > > > ");
-                        console.log(bcx)
-
                         if ('material_id' in bcx.upper) {
                             window.customizer_material_id = bcx.upper.material_id;
                         } else {
                             window.customizer_material_id = bcx.lower.material_id;
                         }
-
-                        console.log("BUILDER CUSTOMIZATION bcx");
-                        console.log(bcx);
-                        console.log("CUSTOMIZER MATERIAL ID");
-                        console.log(window.customizer_material_id);
 
                         var teamcolors = bcx.team_colors;
 
@@ -545,8 +539,6 @@
                         };
 
                         var z = JSON.parse(entry.roster);
-                        console.log("Z>>>");
-                        console.log(z);
 
                         z.forEach(function(en) {
                             ctr = parseInt(en.Quantity);
@@ -563,8 +555,7 @@
                             }
                         });
 
-                        console.log('WINDOW ROSTER');
-                        console.log(window.roster);
+    
                         delete entry.builder_customizations;
                         delete entry.description;
                         delete entry.factory_order_id;
@@ -604,23 +595,17 @@
                         "TeamName": "Wildcats"
                     };
 
-                    console.log("WINDOW MATERIAL");
-                    console.log(window.material);
-
                     // SAVED
                     var x = _.find(window.item_sizes, function(e) { 
                         return e.id == window.material.qx_sizing_config; 
                     });
 
-                    console.log("X PROPERTIES");
-                    console.log(x);
+    
                     window.test_size_data = JSON.parse(x.properties);
 
                     var order_items_split = splitRosterToQXItems();
                     var order_parts_split = [];
 
-                    console.log("Window Material");
-                    console.log(window.material);
 
                     order_items_split.forEach(function(entry, i) {
                         var x = JSON.parse(JSON.stringify(window.order_parts[0]));
@@ -652,24 +637,18 @@
                                 }
                                 roster.push(y);
                             } else {
-                                if (_.contains(roster_sizes, y.Size)) {
-                                    ctr = roster_sizes.length;
-                                    console.log('Y');
-                                    console.log(y);
-
-                                    // add size prefix for socks
-                                    if (y.Size == "3-5") {
-                                        y.Size = "Kids (3-5)";
-                                    } else if (y.Size == "5-7") {
-                                        y.Size = "Youth (5-7)";
-                                    } else if (y.Size == "8-12") {
-                                        y.Size = "Adult (8-12)";
-                                    } else if (y.Size == "13-14") {
-                                        y.Size = "XL (13-14)";
-                                    }
-
-                                    roster.push(y);
+                                // add size prefix for socks
+                                if (y.Size == "3-5") {
+                                    y.Size = "Kids (3-5)";
+                                } else if (y.Size == "5-7") {
+                                    y.Size = "Youth (5-7)";
+                                } else if (y.Size == "8-12") {
+                                    y.Size = "Adult (8-12)";
+                                } else if (y.Size == "13-14") {
+                                    y.Size = "XL (13-14)";
                                 }
+
+                                roster.push(y);
                             }
                         });
 
@@ -685,17 +664,10 @@
                     };
 
                     strResult = JSON.stringify(orderEntire);
-                    console.log('orderEntire>>>');
-                    console.log(orderEntire);
-                    console.log('strResult>>>');
-                    console.log(strResult);
 
                     // SEND ORDER TO EDIT
                     if (window.send_order) {
-                        console.log('window send order');
-
                         if (window.material.item_id !== undefined) {
-                            console.log('window material item_id is defined');
                             $.ajax({
                                 url: url,
                                 type: "POST",
@@ -712,9 +684,7 @@
                                         parts.push(orderEntire['orderParts'][index]['orderPart']);
                                     });
 
-                                    console.log('FACTORY ORDER ID >>>>>');
-                                    console.log(factory_order_id);
-                                    console.log(JSON.stringify(parts));
+                             
                                     updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                                     document.location.reload(); // UNCOMMENT
                                 },
@@ -795,11 +765,6 @@
                 var questions = [];
 
                 properties.forEach(function(entry) {
-                    console.log("entry part name");
-                    console.log(entry.part_name);
-
-                    console.log("UNIFORM TYPE >>> ");
-                    console.log(type);
 
                     var question_id = parseInt(entry.part_questions);
                     var value = null;
@@ -812,8 +777,6 @@
                     var data_pushed = false;
 
                     // RESUME HERE
-                    console.log("[ builder_customizations ]");
-                    console.log(builder_customizations);
 
                     if (entry.input_type == "Pattern") {
                         try {
@@ -823,7 +786,6 @@
 
                         }
                     } else if (entry.input_type == "Color") {
-                        console.log('Color block');
 
                         try {
                             color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
@@ -834,12 +796,7 @@
                             }
 
                             value = color_name + " " + "(" + color_code + ")";
-
-                            console.log('Color Value:');
-                            console.log(value);
                         } catch(err) {
-                            console.log('Error in Color block !');
-                            console.log(err.message);
                         }
                     } else if (entry.input_type == "Material") {
                         try {
@@ -1161,9 +1118,6 @@
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response) {
                         if (response.success) {
-                            console.log('UPDATED FOID')
-                            console.log(factory_order_id);
-
                             $.each(parts, function( index, value ) {
                                 value['factory_order_id'] = factory_order_id;
                             });
@@ -1364,12 +1318,13 @@
                         contentType: 'application/json',
                         headers: {"accessToken": atob(headerValue)},
                         success: function(response) {
-                            console.log(response);
                             location.reload();
                         }
                     });
                 }
             });
+
+            
         });
     </script>
 @endsection

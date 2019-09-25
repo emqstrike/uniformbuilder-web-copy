@@ -10,11 +10,7 @@
 
         window.ub.config = {
             brand: "{{ env('BRAND') }}",
-            picker_version: "{{ env('PICKER_VERSION') }}",
             pdf_generator: "{{ env('PDF_GENERATOR') }}",
-            beta_features: {
-                newPDF: false
-            },
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",
@@ -23,6 +19,7 @@
 
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+            uniform_brand: "{{ isset($material->brand) ? $material->brand : 'prolook' }}",
 
             uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
@@ -49,6 +46,7 @@
                 load: "{{ isset($styles) ? $styles : false }}",
                 gender: "{{ isset($gender) ? $gender : undefined }}",
                 sport: "{{ isset($sport) ? $sport : null }}",
+                blockPattern: "{{ isset($blockPattern) ? $blockPattern : null }}",
             },
             @endif
 
@@ -117,11 +115,12 @@
             }
 
             var _switchWhiteList = [];
+            var _beta = [];
 
-            function runSwitchUpdater() {
+            function runStorageUpdater() {
                 $.ajax({
 
-                    url: 'https://api.prolook.com/api/features',
+                    url: ub.config.api_host + '/api/features',
                     type: "GET",
                     dataType: "json",
                     crossDomain: true,
@@ -130,11 +129,20 @@
 
                     success: function (response){
                         var _data = response.features;
-                        var feature_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
-                        feature_flags.map(function(i) {
+
+                        // update switch storage
+                        var switch_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name === 'Switch Display' });
+                        switch_flags.map(function(i) {
                             _switchWhiteList.push({ user_ids: JSON.parse(i.user_ids) })
                         });
                         localStorage.setItem('switch', JSON.stringify(_switchWhiteList));
+
+                        // update feature_flags storage
+                        var beta_flags = _data.filter(function(i) { return i.active === 1 && i.beta === 1 && i.name !== 'Switch Display' });
+                        beta_flags.map(function(i) {
+                            _beta.push({ name: i.name, user_ids: JSON.parse(i.user_ids)})
+                        });
+                        localStorage.setItem('feature_flags', JSON.stringify(_beta));
                     }
 
                 }).done(function() {
@@ -142,7 +150,7 @@
                 });
             }
 
-            runSwitchUpdater();;
+            runStorageUpdater();
 
             function runAfterSet() {
                 var _switchStorage = JSON.parse(localStorage.getItem('switch'));
@@ -168,6 +176,17 @@
                 } else {
                     $('#user-dropdown-container').find('li#enable-beta').remove();
                 }
+
+                // updating picker value
+                var _isBeta = localStorage.getItem('beta_features');
+                var _featureFlags = JSON.parse(localStorage.getItem('feature_flags'));
+                var _filterFeatureFlag = _featureFlags.filter(function(i) {return i.name === 'New Filter';});
+                if(_isBeta === 'true' && _filterFeatureFlag.length !== 0 && _filterFeatureFlag[0].user_ids.includes(ub.user.id.toString())) {
+                    ub.picker.isNew = true;
+                } else {
+                    ub.picker.isNew = false;
+                }
+
             }
 
             // onclick enable beta features
@@ -179,7 +198,7 @@
                     localStorage.setItem('beta_features', true);
                     $.ajax({
 
-                        url: 'https://api.prolook.com/api/features',
+                        url: ub.config.api_host + '/api/features',
                         type: "GET",
                         dataType: "json",
                         crossDomain: true,
@@ -216,29 +235,15 @@
 
             window.ub.user = false;
             $('.register').on('click', function() {
-
-                var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
-                var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
-
-                if (_emailLength === 0 || _passwordLength === 0) {
-
-                    $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                    return false;
-
-                }
-
+                var isValidated      = $('#user-signup-form').parsley().validate(); // forms parsley instance and validation()
                 var captcha_response = $('.g-recaptcha-response').val();
 
+                if (isValidated === false) { return false; }
+
                 if (captcha_response.length == 0) {
-                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '80px'});
+                    $('.smk-alert-content').children().not(':last').remove(); // remove smoke duplicate
                     return false;
-                }
-
-                if($('input#password').val() !== $('input#retype-password').val()){
-
-                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-                   return false;
-
                 }
 
                 return true;
@@ -255,12 +260,12 @@
 
                 }
 
-                if($('input#forgot-password-email').val() === ""){
-                   //alert('Password do not match');
-                   $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                // if($('input#forgot-password-email').val() === ""){
+                //    //alert('Password do not match');
+                //    $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
 
-                   return false;
-                }
+                //    return false;
+                // }
 
                 var captcha_response = $('.g-recaptcha-response').val();
                 if (captcha_response.length == 0) {
