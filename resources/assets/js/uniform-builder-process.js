@@ -1500,7 +1500,7 @@ $(document).ready(function() {
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
                     blockPattern: ub.config.blockPattern,
-                    neckOption: ub.config.option.replace("_", " "),
+                    neckOption: ub.config.option
                 }
             ]
         };
