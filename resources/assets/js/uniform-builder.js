@@ -508,8 +508,8 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
-            var _cut = ub.config.blockPattern.replace('_', ' ');
-            var _option = ub.config.option.replace('_', ' ');
+            var _cut = ub.config.blockPattern;
+            var _option = ub.config.option;
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
