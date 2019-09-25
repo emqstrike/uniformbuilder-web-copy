@@ -441,11 +441,12 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
-
-            }           
+            // set the sport and perspective to manipulate; return @perspective [];
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective){
+                    $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                });
+            });
 
             if (ub.data.hasProcessedArtworks) {
                 

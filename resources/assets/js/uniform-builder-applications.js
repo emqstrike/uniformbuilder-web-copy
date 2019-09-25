@@ -10942,14 +10942,14 @@ $(document).ready(function() {
             
         }
 
-        // Cinch Sack doens't have a left and right perspective
-        if (ub.sport === "Cinch Sack (Apparel)") {
-
-            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
-                return view.perspective !== "left" && view.perspective !== "right";
+        // Hide the perspective in the  free form modal;
+        ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+            _.each(perspectives, function(perspective){
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                        return view.perspective !== perspective.toLowerCase();
+                });
             });
-
-        }
+        });
 
         var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 
@@ -11364,13 +11364,12 @@ $(document).ready(function() {
 
             });
 
-            // Cinch Sack doesnt have a Left and Right View
-
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
-
-            }
+            // Disable perspective button in customizer sidebar
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective) {
+                    $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
+                });
+            });
 
             /// End Init Code
 
