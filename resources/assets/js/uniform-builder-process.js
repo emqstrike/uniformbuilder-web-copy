@@ -1498,7 +1498,9 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type,
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes
+                    notes: _notes,
+                    blockPattern: ub.config.blockPattern,
+                    neckOption: ub.config.option.replace("_", " "),
                 }
             ]
         };

@@ -10943,7 +10943,7 @@ $(document).ready(function() {
         }
 
         // Hide the perspective in the  free form modal;
-        ub.data.disabledPerspectives.getPerspectives(ub.sport, function(perspectives) {
+        ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
             _.each(perspectives, function(perspective){
                 _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
                         return view.perspective !== perspective.toLowerCase();
@@ -11365,7 +11365,7 @@ $(document).ready(function() {
             });
 
             // Disable perspective button in customizer sidebar
-            ub.data.disabledPerspectives.getPerspectives(ub.sport, function(perspectives) {
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective) {
                     $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
                 })

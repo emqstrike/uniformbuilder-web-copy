@@ -1998,7 +1998,7 @@ class UniformBuilderController extends Controller
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $style = '<style> body, td, p { font-size: 0.8em; } </style>';
+        $style = '<style> body, td, p { font-size: 0.8em; } .uniform_properties { font-size: 0.77em; text-transform: uppercase; }</style>';
 
         $html  = '';
         $html .= $style;
@@ -2013,11 +2013,15 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=   '<td>';
         $html .=     'STYLE<br />';
-        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
         $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
+        $html .=       '<strong class="uniform_properties">TYPE: ' .  $firstOrderItem["applicationType"] . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">CUT: ' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">OPTION: ' .  $firstOrderItem["neckOption"]  . '</strong><br />';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
 //        $html .=   '<table width="100%">';

@@ -10390,6 +10390,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Training  101',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Team Flag (Apparel)',
+                sublimatedPart: 'Extra',
+            },
 
         ],
 
@@ -12408,6 +12412,7 @@ ub.funcs.fontOffSets = [
             'SFN Jogger (Apparel)',
             'Hockey',
             'Track and Field',
+            'Team Flag (Apparel)'
         ],
         isValid: function (uniformCategory) {
 
@@ -12557,8 +12562,8 @@ ub.funcs.fontOffSets = [
         '12',
    ];
 
-   // Return the perspective of a uniform to manipulate; 
-   ub.data.disabledPerspectives = {
+   // Return the perspective of a uniform to manipulate;
+   ub.data.manipulatePerspectives = {
         items : [
             {
                 sport: "Team Flag (Apparel)",
