@@ -122,6 +122,11 @@ class MaterialsController extends Controller
         $options = $this->optionsClient->getByMaterialId($id);
         $material = $this->client->getMaterial($id);
         $colors = $this->colorsClient->getColors($material->brand);
+
+        if (empty($colors) && ($material->brand == 'riddell')) {
+            $colors = $this->colorsClient->getColors('prolook');
+        }
+
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
@@ -934,4 +939,14 @@ class MaterialsController extends Controller
         }
     }
 
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+        if ($response->success) {
+            return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('message', $response->message);
+        }
+
+        return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('errors', $response->message);
+    }
 }

@@ -3647,7 +3647,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.makeActive = function (name) {
-
         var _ht = name;
         var _label = name.prepareModifierLabel();
         _group_id = ub.data.modifierLabels[_label].group_id;
@@ -3712,16 +3711,43 @@ $(document).ready(function() {
                 };
 
                 boundaries_transformed[shape.name].views.push(cObj);
-                boundaries_one_dimensional[shape.perspective].push({
-                    
-                    name: shape.name,
-                    alias: shape.name.replace('Left ', '').replace('Right ',''),
-                    boundaries: cObj,
-                    layer_no: shape.layer_level,
-                    group_id: shape.group_id,
-                    polygon: boundary_properties,
 
-                });
+                // Temporary for riddell uniforms 
+                //===============================================================================================
+                if (ub.config.uniform_brand === 'prolook') {
+                    boundaries_one_dimensional[shape.perspective].push({
+                        name: shape.name,
+                        alias: shape.name.replace('Left ', '').replace('Right ',''),
+                        boundaries: cObj,
+                        layer_no: shape.layer_level,
+                        group_id: shape.group_id,
+                        polygon: boundary_properties,
+                    });  
+                }
+
+                if (ub.config.uniform_brand === 'riddell') {
+
+                    if (shape.name === 'Front Left Body Panel' || shape.name === 'Front Right Body Panel') {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Body ', ''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        });  
+                    } else {
+                        boundaries_one_dimensional[shape.perspective].push({
+                            name: shape.name,
+                            alias: shape.name.replace('Left ', '').replace('Right ',''),
+                            boundaries: cObj,
+                            layer_no: shape.layer_level,
+                            group_id: shape.group_id,
+                            polygon: boundary_properties,
+                        }); 
+                    }
+                }
+                //===============================================================================================
 
             }
 
@@ -8807,7 +8833,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
             _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
@@ -9357,7 +9383,7 @@ $(document).ready(function() {
 
                         /// Set Auto Font Size on Team Name, Baseball / Fastpitch
                         
-                        if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
+                        if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport))) {
 
                             if (_settingsObject.application_type === "team_name") {
 
@@ -9913,9 +9939,9 @@ $(document).ready(function() {
         _spriteCenter.alpha = 0;
 
         // Center Point Adjustment
-
-        _spriteCenter.position.x -= _appObj.width / 4;
-        _spriteCenter.position.y -= _appObj.height / 4;
+        var divisor = 12 // default is 4
+        _spriteCenter.position.x -= _appObj.width / divisor;
+        _spriteCenter.position.y -= _appObj.height / divisor;
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
@@ -10916,14 +10942,14 @@ $(document).ready(function() {
             
         }
 
-        // Cinch Sack doens't have a left and right perspective
-        if (ub.sport === "Cinch Sack (Apparel)") {
-
-            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
-                return view.perspective !== "left" && view.perspective !== "right";
+        // Hide the perspective in the  free form modal;
+        ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+            _.each(perspectives, function(perspective){
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                        return view.perspective !== perspective.toLowerCase();
+                });
             });
-
-        }
+        });
 
         var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 
@@ -11227,7 +11253,8 @@ $(document).ready(function() {
             if(ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
 
                 // Hide Player # and Player Name options on all Socks (Apparel) except on 'Hockey Sock' block pattern
-                $('span.optionButton[data-type="player_number"]').hide();
+                $('span.optionButton[data-type="player_number"]').hide(); // player # option
+                $('span.optionButton[data-type="player_name"]').hide(); //player name option
 
             }
 
@@ -11337,13 +11364,12 @@ $(document).ready(function() {
 
             });
 
-            // Cinch Sack doesnt have a Left and Right View
-
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
-
-            }
+            // Disable perspective button in customizer sidebar
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective) {
+                    $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
+                });
+            });
 
             /// End Init Code
 

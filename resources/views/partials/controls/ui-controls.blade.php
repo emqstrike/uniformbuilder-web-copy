@@ -542,7 +542,7 @@
 
                     @{{#enable_quick_turn_layout}}
                         <strong class="uniform-name">
-                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:0px -25px;"> - @{{name}}
+                            <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:50px;margin:0px -3px;"> - @{{name}}
                         </strong> <br />
                         <span class="callForTeamPricing">Ships within 7 business days</span>
                     @{{/enable_quick_turn_layout}}
@@ -599,7 +599,7 @@
 
                     @{{#enable_quick_turn_layout}}
                         <strong class="uniform-name">
-                            <img src="/images/sport-icons/quick-turn.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
+                            <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
                         </strong> <br />
                         <span class="callForTeamPricing">Ships within 7 business days</span>
                     @{{/enable_quick_turn_layout}}
@@ -1669,7 +1669,7 @@
 
             <h4>Thank you for submitting your order!</h4>
 
-            <span class="message">@{{message}}</span>
+            <span class="message"><span style="color:red;text-transform: uppercase;font-weight: bold;">Important: </span>@{{message}}</span>
 
             <div class="row">
                 
@@ -1807,7 +1807,7 @@
                     <td>Sport</td>
                     <td>Name / Notes</td>
                     <td>Thumbnails</td>
-                    <td>&nbsp;</td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             <tbody>

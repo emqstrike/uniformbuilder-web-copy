@@ -114,6 +114,30 @@ class MaterialsOptionsAPIClient extends APIClient
         return null;
     }
 
+    public function getByStyleId($styleId)
+    {
+        $response = $this->get('styles_options/' . $styleId);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->materials_options;
+        }
+        return null;
+    }
+
+    public function getByStyleIdMultiple($styleIds)
+    {
+        $response = $this->get('styles_options_multiple/' . json_encode($styleIds));
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->materials_options;
+        }
+        return null;
+    }
+
     public function isExist($name, $id = null)
     {
         $material_option = $this->getByName($name);
@@ -145,7 +169,43 @@ class MaterialsOptionsAPIClient extends APIClient
         if ($result->success) {
             return $result->material_option;
         }
-        
+
         return null;
+    }
+
+    public function importBoundingBox($data)
+    {
+        $response = $this->post('qx7_material_options/bounding_box/import', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function importMaterialOptionsData($data)
+    {
+        $response = $this->post('material_options/import_data', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function matchRulePartName($data)
+    {
+        $response = $this->post('material_options/match_rule_part_name', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateRulePartNames($data)
+    {
+        $response = $this->post('material_options/update_rule_part_names', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 }

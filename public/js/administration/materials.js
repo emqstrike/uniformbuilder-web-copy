@@ -56,7 +56,15 @@ $(document).ready(function() {
     getColors(temp_brand,  function(colors){ window.colors = colors; });
     getFonts(temp_category, temp_brand, function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
-    getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
+    if (temp_brand == 'riddell') {
+        window.pl_patterns = null;
+        window.rdl_patterns = null;
+        getPatterns('prolook', function(pl_patterns){ window.pl_patterns = pl_patterns; });
+        getPatterns('riddell', function(rdl_patterns){ window.rdl_patterns = rdl_patterns; });
+        window.patterns = window.pl_patterns.concat(window.rdl_patterns);
+    } else {
+        getPatterns(temp_brand, function(patterns){ window.patterns = patterns; });
+    }
     getAccents(function(accents){ window.accents = accents; });
     getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
     getFabrics(function(fabrics){ window.fabrics = fabrics; });
@@ -268,6 +276,9 @@ $(document).ready(function() {
             } else if (temp_brand == 'richardson') {
                 $(this).parent().find('.app-def-pattern').val(318);
                 id = 318;
+            } else if (temp_brand == 'riddell') {
+                $(this).parent().find('.app-def-pattern').val(496);
+                id = 496;
             }
 
         }
@@ -715,6 +726,8 @@ $(document).ready(function() {
             if (item.id == 33 && temp_brand == 'prolook') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else if (item.id == 318 && temp_brand == 'richardson') {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+            } else if (item.id == 496 && temp_brand == 'riddell') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
@@ -1622,53 +1635,78 @@ $(document).ready(function() {
         });
 
         var patterns_dropdown = '';
-        var patterns_dropdown_bpomatch = '<option value="0">None</option>';
-        var patterns_dropdown_nobpomatch = '<option value="0">None</option>';
-        var ctr = 0;
-        var escaped_material_uc = material.uniform_category.replace("(", "\\(");
-        escaped_material_uc = escaped_material_uc.replace(")", "\\)");
-        var myStr = '^.*'+escaped_material_uc+'.*$';
-        var regexstr = new RegExp(myStr);
-        console.log('REGEX STR');
-        console.log(regexstr);
-        var escaped_material_bpo = material.block_pattern_options;
-        var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
-        var regexBPO = new RegExp(strBlockPatternOptions);
-        try {
-            var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
-            $.each(active_patterns, function(i, item) {
-                var sports = item.sports;
-                var block_pattern_o = item.block_pattern_options;
-                if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+        var current_asset_target = $('#material_asset_target').val();
+        var current_sport = $('#material_uniform_category').val();
+        var current_brand = $('#material_brand').val();
+    if (current_brand == 'riddell') {
+            try {
+                var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+                var input_patterns = _.filter(active_patterns, function(pattern) {
+                    var sport = JSON.parse(pattern.sports);
+                    var asset_target = pattern.asset_target;
+                    var sportOk = _.contains(sport, current_sport);
+                    return (sportOk && asset_target === current_asset_target);
+                });
+                input_patterns.sort(dynamicSort('name'));
+                _.each(input_patterns, function (item) {
+                    if ( material.option.pattern_id == item.id ) {
+                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+                    } else {
+                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+                    }
+                });
+                loadPatternLayers(material.option.pattern_id, pattern_loaded);
+            } catch(err) {
+                console.log(err.message);
+            }
+        } else {
+            var patterns_dropdown_bpomatch = '<option value="0">None</option>';
+            var patterns_dropdown_nobpomatch = '<option value="0">None</option>';
+            var ctr = 0;
+            var escaped_material_uc = material.uniform_category.replace("(", "\\(");
+            escaped_material_uc = escaped_material_uc.replace(")", "\\)");
+            var myStr = '^.*'+escaped_material_uc+'.*$';
+            var regexstr = new RegExp(myStr);
+            var escaped_material_bpo = material.block_pattern_options;
+            var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
+            var regexBPO = new RegExp(strBlockPatternOptions);
+            try {
+                var active_patterns = _.filter(window.patterns, function(p) { return p.active == 1 });
+                $.each(active_patterns, function(i, item) {
+                    var sports = item.sports;
+                    var block_pattern_o = item.block_pattern_options;
+                    if( ((typeof sports) === 'string') ){
+                        if( (item.asset_target == material.option.asset_target && item.brand == material.brand && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
+                            if( material.option.pattern_id == item.id ){
+                                patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+                            } else {
+                                patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+                            }
+                        }
+                        else if(item.asset_target == material.option.asset_target  && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
+                            ctr++;
+                            if( material.option.pattern_id == item.id ){
+                                patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+                            } else {
+                                patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+                            }
                         }
                     }
-                    else if(item.asset_target == material.option.asset_target  && item.brand == material.brand && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
-                        ctr++;
-                        if( material.option.pattern_id == item.id ){
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                        } else {
-                            patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                        }
-                    }
+                });
+                if (ctr>0) {
+                    patterns_dropdown = patterns_dropdown_bpomatch;
                 }
-            });
-        if (ctr>0) {
-            patterns_dropdown = patterns_dropdown_bpomatch;
+                else {
+                    patterns_dropdown = patterns_dropdown_nobpomatch;
+                }
+                    console.log('Material Option Pattern ID: '+material.option.pattern_id);
+                    loadPatternLayers(material.option.pattern_id, pattern_loaded);
+            }
+            catch(err) {
+                console.log(err.message);
+            }
         }
-        else {
-            patterns_dropdown = patterns_dropdown_nobpomatch;
-        }
-            console.log('Material Option Pattern ID: '+material.option.pattern_id);
-            loadPatternLayers(material.option.pattern_id, pattern_loaded);
-        }
-        catch(err) {
-            console.log(err.message);
-        }
+
 
         var team_color_id_dropdown = '<option value="">None</option>';
         var tid = 1;
@@ -1892,6 +1930,8 @@ $(document).ready(function() {
                         app_properties[l].appDefPattern = 33;
                     } else if (temp_brand == 'richardson') {
                         app_properties[l].appDefPattern = 318;
+                    } else if (temp_brand == 'riddell') {
+                        app_properties[l].appDefPattern = 496;
                     }
                 }
 
@@ -2608,7 +2648,12 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 colors = data['colors'];
+
                 if(typeof callback === "function") callback(colors);
+
+                if ((colors.length == 0) && brand == 'riddell') {
+                    getColors(window.brand,  function(colors){ window.colors = colors; });
+                }
             }
         });
     }

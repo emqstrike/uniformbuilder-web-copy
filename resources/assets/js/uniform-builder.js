@@ -6,6 +6,12 @@ $(document).ready(function () {
         /// Initialize Uniform Builder
 
         window.ub.initialize = function () {
+            // this is temporary
+            // get data from google spreadsheet for uniforms that need to change the item codes
+            // for maintenance purposes
+            $.getJSON("https://spreadsheets.google.com/feeds/list/1vBZU4OAJ_OcF2WDq9ka1-MVw7w-QTh2mUfivNmz8HJQ/1/public/values?alt=json", function(data) {
+               ub['itemCodesforMaintenance'] = _.pluck(_.pluck(data.feed.entry, 'gsx$ids'), '$t');
+            });
 
             // ub.utilities.maintenanceMessage();
 
@@ -44,7 +50,13 @@ $(document).ready(function () {
                 ubsv.mascotScales.fetchValues();
 
                 // optimize fonts consumption on the api
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts' + '/' + ub.config.brand;
+                //console.log("==================>" + ub.current_material.material.brand);
+                
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand;
+
+                if (ub.config.uniform_brand === 'riddell') {
+                    ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
+                }
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
                 // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
@@ -415,7 +427,7 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="save"]').removeClass('disabled');
 
-            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
@@ -429,11 +441,12 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
-
-                $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
-
-            }           
+            // set the sport and perspective to manipulate; return @perspective [];
+            ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
+                _.each(perspectives, function(perspective){
+                    $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                });
+            });
 
             if (ub.data.hasProcessedArtworks) {
                 
@@ -496,10 +509,16 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
+            var _cut = ub.config.blockPattern;
+            var _option = ub.config.option;
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
-            $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
+            $('div#uniform_name').html(ub.current_material.material.name);
+            $('div#uniform_properties #application_type').html('Type: <span>' + _type+ '<span>');
+            $('div#uniform_properties #block_pattern').html('Cut: <span>'+ _cut +'<span>');
+            $('div#uniform_properties #neck_option').html('Option: <span>'+ _option +'<span>');
+
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
@@ -2858,7 +2877,7 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
 
             if (ub.current_material.pipings !== null) {
 
@@ -5838,44 +5857,53 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
-        ub.funcs.cleanupBeforeOrder();
+        // var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
+        //     return item == ub.config.material_id;
+        // }));
 
-        var _exit = false;
+        // if (isUnderMaintenance) {
+        //     bootbox.alert("System will be unavailable for ordering due to system maintenance.");
+        // } else {
+            ub.funcs.cleanupBeforeOrder();
 
-        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
-            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.'); 
-            return;
-        }
+            var _exit = false;
 
-        var _msg = "Are you sure you want to go to the order form?";
+            if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+                ub.utilities.warn('No Price Table set for this uniform, cancelling order form.');
+                return;
+            }
+            var _msg = "Are you sure you want to go to the order form?";
 
-        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+            if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+            if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
 
-        bootbox.confirm(_msg, function (result) { 
-        
-            if (!result) {
+            bootbox.confirm(_msg, function (result) {
 
-                return true;
+                if (!result) {
 
-            } else {
-
-                if (ub.data.afterLoadCalled === 0) { return; }
-
-                if (typeof (window.ub.user.id) === "undefined") {
-                    ub.funcs.quickRegistration("order");
                     return true;
-                }
 
-                if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-                    ub.funcs.getOrderAndDetailsInfo();
                 } else {
-                    ub.funcs.initRoster();
+
+                    if (ub.data.afterLoadCalled === 0) { return; }
+
+                    if (typeof (window.ub.user.id) === "undefined") {
+                        ub.funcs.quickRegistration("order");
+                        return true;
+                    }
+
+                    if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
+                        ub.funcs.getOrderAndDetailsInfo();
+                    } else {
+                        ub.funcs.initRoster();
+                    }
+
                 }
 
-            } 
+            });
 
-        });
+        // }
+
 
     }
 
@@ -6683,6 +6711,7 @@ $(document).ready(function () {
         ub.funcs.prepFilters();
         ub.funcs.prepPickers();
 
+
         $('span.slink[data-item="' + gender + '"]').addClass('active');
 
         if (sport === '') {
@@ -6729,6 +6758,9 @@ $(document).ready(function () {
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 }
+
+                // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
+                if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
                 
                 ub.funcs.initUniformsPicker(_item, _gender);
 
@@ -7114,6 +7146,71 @@ $(document).ready(function () {
         return blockPattern;
     }
 
+    // get the url parameter
+    ub.funcs.getUrlParameter = function(urlParameter) {
+        var pageURL = window.location.search.substring(1);
+        var urlVariable = pageURL.split('&');
+        var parameterName;
+        var i;
+
+        for (i = 0; i < urlVariable.length; i++) {
+            parameterName = urlVariable[i].split('=');
+
+            if (parameterName[0] === urlParameter) {
+                return parameterName[1] === undefined ? true : decodeURIComponent(parameterName[1]);
+            }
+        }
+    }
+
+    // remove symbols, spaces, and convert string to single word lowercase format. 
+    // Example: quick-turn-socks to quickturnsocks
+    // used for searching purposes.
+    ub.funcs.formatStringToWord = function(string) {
+        return string.replace(/[_\W]+/g, '').toLowerCase();
+    }
+
+    ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
+        if (typeof ub.config.styles !== 'undefined') {
+            if (!_.isEmpty(ub.config.styles.blockPattern)) {
+
+                var blockPattern = ub.config.styles.blockPattern;
+
+                var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
+                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
+                })
+
+                // if the blockPattern is not empty
+                setTimeout(function() {
+                    if (!_.isEmpty(searchedBlockPattern)) {
+                        $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
+                    } else {
+                        $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                    }    
+                }, 100)
+            }
+        }
+    }
+
+    ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
+        var urlParameter = ub.funcs.getUrlParameter('option');
+        var blockPattern = ub.config.styles.blockPattern;
+        var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
+        var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
+
+        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
+            var option = _.find(optionsCollection, function(data) {
+                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
+            })
+
+            // if the blockPattern is not empty
+            setTimeout(function(){
+                if (typeof option !== 'undefined') {
+                    $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
+                } 
+            }, 100)
+        }
+    }
+
     ub.funcs.updateTertiaryBar = function (items, gender) {
 
         setTimeout(function () {
@@ -7137,8 +7234,14 @@ $(document).ready(function () {
             $('div.tertiary-bar').css('margin-top', "0px");
 
             window.origItems = items;
+
+            
             
             $('span.slink-small.tertiary').unbind('click');
+
+            // FOR DIRECTLINK - [SHOW THE BLOCKPATTERN WHEN ACCESSED DIRECTLY TO URL]
+            ub.funcs.updateTertiaryBarFromDirectLink(_blockPatternsCollection);
+
             $('span.slink-small.tertiary').on('click', function () {
                 
                 var _dataItem = $(this).data('item');
@@ -7183,6 +7286,9 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
+                
+                // FOR DIRECTLINK - [SHOW THE OPTIONS WHEN ACCESSED DIRECTLY TO URL]
+                ub.funcs.updateQuarternaryBarFromDirectLink(_optionsCollection);
 
             });
 
@@ -7282,7 +7388,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_blank === "1";
+                                return (item.neck_option === _dataItem || item.neck_option_alias === _dataItem) && (item.is_blank === "1");
 
                             });
 
@@ -7292,7 +7398,7 @@ $(document).ready(function () {
 
                             _newSet = _.filter(window.origItems, function (item) {
 
-                                return item.neck_option === _dataItem || item.neck_option_alias === _dataItem && item.is_favorite === true;
+                                return (item.neck_option === _dataItem || item.neck_option_alias === _dataItem) && (item.is_favorite === true);
 
                             });
 
@@ -8205,8 +8311,12 @@ $(document).ready(function () {
         var items = _.find(ub.data.sports, {gender: sport});
         var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
         var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
+        //  filter out riddell sport categories in picker;
+        var uniformCategories = _.filter(items.sports, function(item){
+            return item.brand !== "riddell";
+        });
 
-        ub.funcs.initScroller('sports', items.sports, sport, undefined, apparel.sports, undefined, esports.sports);
+        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports);
 
     };
 
@@ -8259,7 +8369,8 @@ $(document).ready(function () {
             ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
-            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
+            items = _.filter(ub.materials, {uniform_category: sport}); 
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }

@@ -514,15 +514,20 @@ $(document).ready(function () {
                 var temp = 0;
                 var calibration = 0;
 
-                if (_.contains(ub.uiData.patternSliderRange.forCalibration, _application.pattern_obj.name)) {
-                    calibration = ub.uiData.patternSliderRange.adjustedStart;
+                if (typeof _application.pattern_obj !== 'undefined') {
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _application.pattern_obj.name)) {
+                        calibration = ub.uiData.patternSliderRange.adjustedStart;
+                    }
                 }
 
-                temp = _application.pattern_settings.position.y - calibration;
-                _primaryView.application.appDefPatternPosition = '' + temp;
+                if (typeof _application.pattern_settings !== 'undefined') {
+                    temp = _application.pattern_settings.position.y - calibration;
+                    _primaryView.application.appDefPatternPosition = '' + temp;
 
-                data.notSavedDesign = (typeof ub.config.savedDesignInfo !== 'object' && typeof _application.pattern_settings !== 'undefined');
-                data.patternPosition = _primaryView.application.appDefPatternPosition;
+                    data.notSavedDesign = (typeof ub.config.savedDesignInfo !== 'object' && typeof _application.pattern_settings !== 'undefined');
+                    data.patternPosition = _primaryView.application.appDefPatternPosition;
+                }
+
             }
 
             var markup = Mustache.render(template, data);

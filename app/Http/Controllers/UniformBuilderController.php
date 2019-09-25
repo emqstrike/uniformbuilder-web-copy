@@ -305,6 +305,7 @@ class UniformBuilderController extends Controller
             $params['styles'] = $config['styles'];
             $params['sport'] = $config['sport'];
             $params['gender'] = $config['gender'];
+            $params['blockPattern'] = $config['blockPattern'];
             $params['isFromHSEL'] = isset($config['hsel']) ? true : false;
 
         }
@@ -524,12 +525,13 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null, $org = null)
+    public function styles($gender = null, $sport = null, $blockPattern = null, $org = null)
     {
         $config = [
             'styles' => true,
             'sport' => $sport,
             'gender' => $gender,
+            'blockPattern' => $blockPattern,
         ];
 
         // For HSEL
@@ -1996,7 +1998,7 @@ class UniformBuilderController extends Controller
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $style = '<style> body, td, p { font-size: 0.8em; } </style>';
+        $style = '<style> body, td, p { font-size: 0.8em; } .uniform_properties { font-size: 0.77em; text-transform: uppercase; }</style>';
 
         $html  = '';
         $html .= $style;
@@ -2011,11 +2013,15 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=   '<td>';
         $html .=     'STYLE<br />';
-        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
-        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong> <br/ >';
+        $html .=       '<strong class="uniform_properties">TYPE: ' .  $firstOrderItem["applicationType"] . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">CUT: ' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">OPTION: ' .  $firstOrderItem["neckOption"]  . '</strong><br />';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
 //        $html .=   '<table width="100%">';
@@ -2867,6 +2873,11 @@ class UniformBuilderController extends Controller
             return self::generateLegacy($order->order_id);
         }
         return redirect('index');
+    }
+
+    public function showSublimatedUniforms()
+    {
+        return view('custom-page.sublimated-uniforms');
     }
 
 }

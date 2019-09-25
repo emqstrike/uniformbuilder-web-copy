@@ -110,7 +110,6 @@ class MaterialsOptionsController extends Controller
         }
 
         $data['input'] = json_encode($data['info']);
-        // dd($data);
         $response = null;
 
         $response = $this->client->updateMaterialOptions($data);
@@ -436,6 +435,7 @@ class MaterialsOptionsController extends Controller
         $options = $this->materialOptionClient->getByMaterialId($materialOption->material_id);
         $material = $this->materialClient->getMaterial($materialOption->material_id);
         $guide = null;
+        
         foreach ($options as $option) {
             if ($materialOption->perspective == $option->perspective) {
                 if ($option->name == 'Guide') {
