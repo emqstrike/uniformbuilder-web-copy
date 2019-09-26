@@ -71,6 +71,10 @@ class AuthenticationController extends Controller
                     Session::put('adminFullAccess', false);
                 }
 
+                if (Session::get('role') == 'rep' && Session::get('userType') == 'administrator') {
+                    return redirect('administration/v1-0');
+                }
+
                 if ($user_restriction == 'fonts-minified-only') {
                     Session::put('fontsMinifiedOnly', true);
                 } else {
@@ -79,11 +83,11 @@ class AuthenticationController extends Controller
 
                 Log::info('Successful User Login');
                 if (Session::get('adminFullAccess')) {
-                    return redirect('administration/v1-0');
+                    return redirect('administration');
                 } elseif (Session::get('fontsMinifiedOnly')){
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
-                    return redirect('administration/v1-0');
+                    return redirect('administration');
                 }
             }
             else
