@@ -1,11 +1,19 @@
 @extends('administration-lte-2.lte-main')
 
+@section('styles')
+    <style>
+        table .form-control {
+            width: 75px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section id="application-container" class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <div class="box-header">
+                    <div class="box-header text-center">
                         @section('page-title', 'Add new application mapper')
                         <h1>Add new application mapper</h1>
                     </div>
@@ -16,7 +24,7 @@
 
                             <textarea name="properties" style="display: none;" :value="JSON.stringify(properties)"></textarea>
 
-                            <div class="form-inline">
+                            <div class="form-inline text-center">
                                 <label>3D Block Pattern</label>
 
                                 <select name="master_block_pattern_id" class="form-control">
@@ -29,14 +37,14 @@
                             </div>
 
                             <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-                                <div class="col-md-12">
+                                <div class="col-md-12 text-center">
                                     <button type="button" class="btn btn-flat btn-success" @click="addProperty">Add row</button>
                                 </div>
                             </div>
 
                             <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
                                 <div class="col-md-12">
-                                    <table class="table data-table table-bordered table-hover display" width="100%">
+                                    <table class="table data-table table-bordered table-hover display" style="width: 33.33%; margin: 0 auto;">
                                         <thead>
                                             <tr>
                                                 <th>QX7 Application Location</th>
@@ -67,7 +75,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-flat btn-primary">Submit</button>
                                     <a href="{{ route('v1_application_mappers') }}" class="btn btn-flat btn-danger">Cancel</a>
                                 </div>
