@@ -914,24 +914,9 @@ $(document).ready(function() {
         _.each (_application.application.views, function (view) {
 
             var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
-            var flip = 1;
 
-            if (typeof view.application.flip !== 'undefined') {
-
-                if (view.application.flip === 1) {
-
-                    flip = -1;
-
-                } else {
-
-                    flip = 1;
-
-                }
-
-            }
-
-            application_obj.scale = {x: scaleSetting.x * flip, y: scaleSetting.y};
-            view.application.scale   = {x: scaleSetting.x * flip, y: scaleSetting.y};
+            application_obj.scale = {x: scaleSetting.x, y: scaleSetting.y};
+            view.application.scale   = {x: scaleSetting.x, y: scaleSetting.y};
 
             if (_application.application_type !== "mascot") {
 
@@ -940,7 +925,6 @@ $(document).ready(function() {
                 application.estimatedMeasure = application.estimatedMeasure / 2 + 1;
 
             }
-           
         });
 
         ub.funcs.activateMoveTool(application.code);
@@ -1066,19 +1050,8 @@ $(document).ready(function() {
 
                     var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
 
-                    var flip = 1;
-
-                    if (typeof view.application.flip !== 'undefined') {
-                        if (view.application.flip === 1) {
-                                 flip = -1;
-                         }
-                        else {
-                             flip = 1;
-                        }
-                    }
-
-                    application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-                    view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
+                    application_obj.scale = {x: sprite.scaleSetting.x, y: sprite.scaleSetting.y};
+                    view.application.scale   = {x: sprite.scaleSetting.x, y: sprite.scaleSetting.y};
 
                     if (tackeTwillCustomSizes) {
                         // activate bestfit option application panel
@@ -1326,22 +1299,10 @@ $(document).ready(function() {
                         var distance = ub.funcs.lineDistance(center_point.position, scale_point.position);
                         percentage = distance / 100;
                         ub.mascotPreviousSize = percentage;
-                      
-                        var flip = 1;
 
-                        if (typeof view.application.flip !== 'undefined') {
-                            if (view.application.flip === 1) {
-                                 flip = -1;
-                            }
-                            else {
-                                 flip = 1;
-                            }
-                        }
-
-                        application_obj.scale = { x: percentage * flip, y: percentage};
-
-                        view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                        sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
+                        application_obj.scale = { x: percentage, y: percentage};
+                        view.application.scale = {x: application_obj.scale.x, y: application_obj.scale.y};
+                        sprite.scaleSetting = {x: application_obj.scale.x, y: application_obj.scale.y};
 
                         ub.appObj = application_obj;
                         ub.appObjSettings = view.application;
@@ -2498,7 +2459,18 @@ $(document).ready(function() {
             //         delete ub.current_material.settings.applications[_settingsObject.code];
             //         return;
             // }
-            
+
+            // FLIP
+            // The backend should return -1 for the value of flipped application and not 1;
+            // change -1 to 1
+            if (typeof views !== 'undefined') {
+                _.each(views, function(view) {
+                    if (view.application.flip === 1) {
+                        view.application.flip = -1;
+                    }
+                });
+            }
+
             _.each(ub.views, function(_view) {
 
                 var _view_name = _view + '_view';
@@ -2971,14 +2943,14 @@ $(document).ready(function() {
                 
                 if (_mov) {
 
-                    view.application.flip = 1;
+                    view.application.flip = -1;
 
                 }
                 
-                if (view.application.flip === 1) {
+                if (view.application.flip === -1) {
 
                     //point.scale.x *= -1;
-                    _.each(point.children, function (child) { child.scale.x = Math.abs(child.scale.x) * -1; });
+                    _.each(point.children, function (child) { child.scale.x = -Math.abs(child.scale.x); });
 
                 } else {
 
@@ -5987,13 +5959,13 @@ $(document).ready(function() {
         _.each (_settingsObject.application.views, function (view){
            if(typeof view.application.flip === "undefined") {
 
-                _flipped = view.application.flip = 1;
+                _flipped = view.application.flip = -1;
            }
            else {
 
                 if (view.application.flip === 0)  {
 
-                    _flipped = view.application.flip = 1;
+                    _flipped = view.application.flip = -1;
 
                 } else {
 
@@ -6006,29 +5978,23 @@ $(document).ready(function() {
 
            if (typeof _obj !== "undefined") {
 
-                if (view.application.flip === 1) {
+                if (view.application.flip === 0) {
 
-                    $('span.flipButton').addClass('active');
-
-                    // _obj.scale.x *= -1;
-                    _.each(_obj.children, function (child) { child.scale.x *= -1; });
-
-
+                    $('span.flipButton').removeClass('active');
+                    _.each(_obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
 
                 } else {
 
-                    $('span.flipButton').removeClass('active');
-                    // _obj.scale.x = Math.abs(_obj.scale.x);
-
-                    _.each(_obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
+                    $('span.flipButton').addClass('active');
+                    _.each(_obj.children, function (child) { child.scale.x = -Math.abs(child.scale.x); }); //-Math.abs(num) -> always return negative
 
                 }
-                
+
            }
 
         });
 
-        ub.funcs.pushOldState('flip', 'application', _settingsObject, {flip: _flipped === 1 ? 0:1 });
+        ub.funcs.pushOldState('flip', 'application', _settingsObject, {flip: _flipped === -1 ? 0:-1 });
 
     }
 
@@ -7078,16 +7044,16 @@ $(document).ready(function() {
 
                 if (typeof sObj.application.flip !== "undefined") {
 
-                    if (sObj.application.flip === 1) {
-                        
-                        $('span.flipButton').addClass('active');    
+                    if (sObj.application.flip === 0) {
+
+                        $('span.flipButton').removeClass('active');
 
                     } else {
 
-                        $('span.flipButton').removeClass('active');    
+                        $('span.flipButton').addClass('active');
 
                     }
-                    
+
                 } else {
 
                     $('span.flipButton').removeClass('active');
