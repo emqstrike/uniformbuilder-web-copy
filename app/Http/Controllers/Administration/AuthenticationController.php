@@ -79,11 +79,11 @@ class AuthenticationController extends Controller
 
                 Log::info('Successful User Login');
                 if (Session::get('adminFullAccess')) {
-                    return redirect('administration');
+                    return redirect('administration/v1-0');
                 } elseif (Session::get('fontsMinifiedOnly')){
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
-                    return redirect('administration');
+                    return redirect('administration/v1-0');
                 }
             }
             else
