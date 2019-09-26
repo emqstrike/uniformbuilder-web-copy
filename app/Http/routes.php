@@ -144,7 +144,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             Route::get('ordersMinified/{from?}/{to?}/{test_order?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
 
-            Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index'])->name('v1_style_requests');
+            Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex'])->name('v1_style_requests');
             Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd'])->name('v1_add_style_requests');
 
             Route::get('saved_designs/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
