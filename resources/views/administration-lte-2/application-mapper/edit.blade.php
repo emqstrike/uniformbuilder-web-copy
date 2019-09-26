@@ -7,7 +7,7 @@
                 <div class="box">
                     <div class="box-header">
                         @section('page-title', 'Add new application mapper')
-                        <h1>Add new application mapper</h1>
+                        <h1>Edit application mapper</h1>
                     </div>
 
                     <div class="box-body">
