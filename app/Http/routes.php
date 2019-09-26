@@ -107,7 +107,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
-    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
+    // Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
+    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
