@@ -1522,7 +1522,7 @@ $(document).ready(function() {
 
         $('span.processing-pdf').fadeIn();
         $('span.previewFormPdf').fadeIn();
-        $('iframe#pdfViewer').attr('src', '')
+        $('iframe#pdfViewer').attr('src', '');
         $('a.previewPDFLink').attr('href', '');
         $('span.submit-confirmed-order').fadeOut();
         $('span.save-order').fadeOut();
