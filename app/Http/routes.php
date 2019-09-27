@@ -108,6 +108,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
+    // Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
@@ -262,6 +263,12 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             // Page Rules
             Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules');
+
+            Route::get('application_mappers', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@index'])->name('v1_application_mappers');
+            Route::get('application_mapper/create', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@create'])->name('v1_create_application_mapper');
+            Route::get('application_mapper/{id}/edit', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@edit'])->name('v1_edit_application_mapper');
+            Route::post('application_mapper/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@update'])->name('v1_update_application_mapper');
+            Route::post('application_mapper', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@store'])->name('v1_store_application_mapper');
 
             // QX7 Style Requests
             Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
