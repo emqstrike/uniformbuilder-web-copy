@@ -653,8 +653,17 @@ $(document).ready(function () {
 
             }
 
-            if (parseInt(ub.render) === 1) { 
+            if (parseInt(ub.render) === 1) {
+
                 ub.funcs.removeUI();
+
+                // if Team Flag (Apparel)
+                ub.funcs.teamFlagMirrorImage("back", function() {
+                    setTimeout( function() {
+                        ub.funcs.removeUI();
+                    }, 5000);
+                });
+
                 $('button#button-return-to-customizer').html('Customize this uniform');
 
                 if (ub.savedDesignName !== "") {
@@ -5909,11 +5918,10 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.teamFlagMirrorImage = function(view) {
+    ub.funcs.teamFlagMirrorImage = function(view, callback) {
         if(ub.config.sport === "Team Flag (Apparel)") {
             if (view === "back" || view === "save" || view === "team-info") {
-
-                if (view === "back") { $("div[data-fullname='team-colors']").trigger('click'); }
+                ub.back_view.children = [];
 
                 ub.funcs.deactivateMoveTool();
                 ub['front_view'].visible = true;
@@ -5925,10 +5933,10 @@ $(document).ready(function () {
                 sprite.scale.x = -Math.abs(sprite.scale.x);
                 sprite.position.x = 1000;
 
-                ub.back_view.children = [];
-
                 ub.back_view.addChild(sprite);
                 ub.objects['back_view'].mirrored_image = sprite;
+
+                callback();
             }
         }
     }
@@ -5962,7 +5970,9 @@ $(document).ready(function () {
                 var view = $(this).data('view');
 
                 // clone the front view as a sprite and flip the sprite (TEAM FLAG);
-                ub.funcs.teamFlagMirrorImage(view);
+                ub.funcs.teamFlagMirrorImage(view, function() {
+                    $("div[data-fullname='team-colors']").trigger('click');
+                });
 
                 if (view === 'parts') {
 
