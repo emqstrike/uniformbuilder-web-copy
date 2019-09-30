@@ -40,8 +40,10 @@ class AuthenticationController extends Controller
             $data = [
                 'email' => $email,
                 'password' => $password,
-                'login_origin' => 'backend'
+                'login_origin' => 'backend',
+                'brand_id' => env('BRAND_ID')
             ];
+
             $result = $this->client->login($data);
 
             // Only 'administrator' Account Type can login
