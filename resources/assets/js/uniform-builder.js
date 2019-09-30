@@ -444,7 +444,9 @@ $(document).ready(function () {
             // set the sport and perspective to manipulate; return @perspective [];
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective){
-                    $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                    if (perspective !== 'Back') {
+                        $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                    }
                 });
             });
 
@@ -5907,6 +5909,30 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.teamFlagMirrorImage = function(view) {
+        if(ub.config.sport === "Team Flag (Apparel)") {
+            if (view === "back" || view === "save" || view === "team-info") {
+
+                if (view === "back") { $("div[data-fullname='team-colors']").trigger('click'); }
+
+                ub.funcs.deactivateMoveTool();
+                ub['front_view'].visible = true;
+
+                var frontThumbnail = ub.getThumbnailImage2('front_view');
+                var sprite = new PIXI.Sprite(new PIXI.Texture.fromImage(frontThumbnail));
+
+                sprite.name = "mirrored_image";
+                sprite.scale.x = -Math.abs(sprite.scale.x);
+                sprite.position.x = 1000;
+
+                ub.back_view.children = [];
+
+                ub.back_view.addChild(sprite);
+                ub.objects['back_view'].mirrored_image = sprite;
+            }
+        }
+    }
+
     ub.funcs.removeApplicationsPanel = function () {
 
         if ($('div#layers-order').is(':visible')) {
@@ -5934,6 +5960,9 @@ $(document).ready(function () {
             $('a.change-view').on('click', function (e) {
 
                 var view = $(this).data('view');
+
+                // clone the front view as a sprite and flip the sprite (TEAM FLAG);
+                ub.funcs.teamFlagMirrorImage(view);
 
                 if (view === 'parts') {
 

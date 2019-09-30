@@ -12567,7 +12567,8 @@ ub.funcs.fontOffSets = [
         items : [
             {
                 sport: "Team Flag (Apparel)",
-                perspectives: ["Left", "Right"],
+                perspectives: ["Left", "Right", "Back"],
+                parts: ["Back Base", "Binding"],
             },
             {
                 sport: "Cinch Sack (Apparel)",
@@ -12580,7 +12581,30 @@ ub.funcs.fontOffSets = [
             if (typeof item !== 'undefined') {
                 callback(item.perspectives);
             }
-        }
+        },
+
+        getParts: function(sport, callback) {
+            var item = _.find(this.items, {sport: sport})
+            if (typeof item !== 'undefined' && typeof item.parts !== 'undefined') {
+                callback(item.parts);
+            }
+        },
+   };
+
+   ub.data.manipulateOptionButtons = {
+        items : [
+            {
+                sport: "Team Flag (Apparel)",
+                optionButton: ["player_number", "player_name"],
+            },
+        ],
+
+        getOptionButtons: function(sport, callback) {
+            var item = _.find(this.items, {sport: sport})
+            if (typeof item !== 'undefined') {
+                callback(item.optionButton);
+            }
+        },
    };
 
 

@@ -41,7 +41,10 @@ $(document).ready(function() {
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
         ub.funcs.deactivateMoveTool();
-        
+
+        // clone the front view as a sprite and flip the sprite (TEAM FLAG);
+        ub.funcs.teamFlagMirrorImage("back");
+
         if (ub.render) {
             ub.funcs.prepareThumbnails();
 
