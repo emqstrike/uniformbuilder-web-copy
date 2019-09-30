@@ -3803,8 +3803,9 @@ $(document).ready(function() {
                     else {
                         ub.zoom_off();
                         $(this).removeClass('zoom_on');
+                        return undefined;
                     }
-                    return;
+                    return undefined;
                 }
             }
 
