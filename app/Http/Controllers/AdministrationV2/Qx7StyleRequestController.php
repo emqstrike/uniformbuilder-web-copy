@@ -645,4 +645,15 @@ class Qx7StyleRequestController extends Controller
             'style_requests' => $new_style_requests
         ]);
     }
+
+    public function importMaterialOptions(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptions($request->all());
+
+        if ($response->success) {
+            return redirect()->route('v1_qx7_style_requests')->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_qx7_style_requests')->with('errors', $response->message);
+    }
 }
