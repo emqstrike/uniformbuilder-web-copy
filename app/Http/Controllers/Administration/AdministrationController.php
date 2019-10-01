@@ -107,6 +107,10 @@ class AdministrationController extends Controller
                     $users_stats[ $user->month_number - 1 ] = $user->users_count;
                 }
 
+                if (Session::get('role') == 'rep' && Session::get('userType') == 'administrator') {
+                    return redirect('administration/v1-0');
+                }
+
                 return view('administration.lte-dashboard', compact(
                     'orders_stats',
                     'saved_designs_stats',
