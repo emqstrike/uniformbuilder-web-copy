@@ -104,8 +104,10 @@ class AuthenticationController extends AdminAuthController
             $data = [
                 'email' => $email,
                 'password' => $password,
-                'login_origin' => 'frontend'
+                'login_origin' => 'frontend',
+                'brand_id' => env('BRAND_ID')
             ];
+
             $result = $this->client->login($data);
 
             if ($result->success) {

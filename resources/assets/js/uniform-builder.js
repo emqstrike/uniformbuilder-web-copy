@@ -444,7 +444,9 @@ $(document).ready(function () {
             // set the sport and perspective to manipulate; return @perspective [];
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective){
-                    $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                    if (perspective !== 'Back') {
+                        $('a.footer-buttons[data-view="' + perspective.toLowerCase() + '"]').addClass('disabled')
+                    }
                 });
             });
 
@@ -651,8 +653,17 @@ $(document).ready(function () {
 
             }
 
-            if (parseInt(ub.render) === 1) { 
+            if (parseInt(ub.render) === 1) {
+
                 ub.funcs.removeUI();
+
+                // if Team Flag (Apparel)
+                ub.funcs.teamFlagMirrorImage("back", function() {
+                    setTimeout( function() {
+                        ub.funcs.removeUI();
+                    }, 5000);
+                });
+
                 $('button#button-return-to-customizer').html('Customize this uniform');
 
                 if (ub.savedDesignName !== "") {
@@ -5907,6 +5918,29 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.teamFlagMirrorImage = function(view, callback) {
+        if(ub.config.sport === "Team Flag (Apparel)") {
+            if (view === "back" || view === "save" || view === "team-info") {
+                ub.back_view.children = [];
+
+                ub.funcs.deactivateMoveTool();
+                ub['front_view'].visible = true;
+
+                var frontThumbnail = ub.getThumbnailImage2('front_view');
+                var sprite = new PIXI.Sprite(new PIXI.Texture.fromImage(frontThumbnail));
+
+                sprite.name = "mirrored_image";
+                sprite.scale.x = -Math.abs(sprite.scale.x);
+                sprite.position.x = 1000;
+
+                ub.back_view.addChild(sprite);
+                ub.objects['back_view'].mirrored_image = sprite;
+
+                callback();
+            }
+        }
+    }
+
     ub.funcs.removeApplicationsPanel = function () {
 
         if ($('div#layers-order').is(':visible')) {
@@ -5934,6 +5968,11 @@ $(document).ready(function () {
             $('a.change-view').on('click', function (e) {
 
                 var view = $(this).data('view');
+
+                // clone the front view as a sprite and flip the sprite (TEAM FLAG);
+                ub.funcs.teamFlagMirrorImage(view, function() {
+                    $("div[data-fullname='team-colors']").trigger('click');
+                });
 
                 if (view === 'parts') {
 

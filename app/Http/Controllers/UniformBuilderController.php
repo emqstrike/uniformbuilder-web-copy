@@ -1374,7 +1374,10 @@ class UniformBuilderController extends Controller
             }
 
             // words thats are exempted from trim
-            if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
+            if (strpos($upper_code, 'Upper Stripe') !== false ||
+                strpos($upper_code, 'Lower Stripe') !== false ||
+                strpos($upper_code, 'Back Thigh Pocket') !== false ||
+                strpos($upper_code, 'Pocket Piping') !== false) {
                 Log::info('EXEMPTED WORDS=======>' . $upper_code);
             } else {
                 // trim
@@ -1384,10 +1387,26 @@ class UniformBuilderController extends Controller
                 }
             }
 
+
+            // there is a special case when partX['code'] is needed to display but have no entry in SML so we add an entry temporarily
+            if ($upper_code === 'Snap') {
+                $newSML = array(
+                    'name' => 'Snap',
+                    'group_id' => '0',
+                    'team_color_id' => '0',
+                    'fullname' => 'snap',
+                    'intGroupID' => 0,
+                    'index' => 0
+                );
+                array_push($sml, $newSML);
+                Log::info('UPDATED SML====>' . json_encode($sml));
+            }
+
+
             foreach ($sml as $v) {
                 if ($upper_code === $v['name']) {
 
-                    Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
+                    Log::info('LABEL CHECK SUCCESS===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
 
                     // check if $upper_code is sleeve then check prev_code it matches
 //                    if ($upper_code === 'sleeve') {
@@ -1399,6 +1418,8 @@ class UniformBuilderController extends Controller
 
                     // push to array
                     array_push($newParts, $partX);
+                } else {
+                    Log::info('LABEL CHECK MISMATCH===============>' . $upper_code . ' | ' . $v['name'] . ' ✖');
                 }
 
 //                if (strpos($upper_code, 'dry') !== false) {
