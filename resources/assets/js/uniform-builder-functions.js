@@ -50,4 +50,15 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.removeBackMaterialOptions = function(sport) {
+        var materialOptions = ub.current_material.materials_options;
+        var modifierLabels  = ub.data.modifierLabels;
+
+        if (sport === "Team Flag (Apparel)") {
+            ub.current_material.materials_options = _.filter(materialOptions, function(option) {
+                return option.perspective === 'front';
+            });
+        }
+    };
+
 });
