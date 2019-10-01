@@ -2460,9 +2460,7 @@ $(document).ready(function() {
             //         return;
             // }
 
-            // FLIP
-            // The backend should return -1 for the value of flipped application and not 1;
-            // change -1 to 1
+            // flip value should be -1 and not 1
             if (typeof views !== 'undefined') {
                 _.each(views, function(view) {
                     if (view.application.flip === 1) {
