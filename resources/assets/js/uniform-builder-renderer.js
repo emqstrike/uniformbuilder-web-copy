@@ -28,7 +28,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.removeUI = function () {
-
         ub.front_view.visible = true;
         ub.back_view.visible = true;
         ub.left_view.visible = true;
@@ -41,7 +40,8 @@ $(document).ready(function() {
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
         ub.funcs.deactivateMoveTool();
-        
+
+
         if (ub.render) {
             ub.funcs.prepareThumbnails();
 
@@ -54,6 +54,12 @@ $(document).ready(function() {
                 }, ub.save_rendered_timeout * 1000);
             }
         }
+
+        //clone the front view as a sprite and flip the sprite (TEAM FLAG);
+        ub.funcs.teamFlagMirrorImage("back", function() {
+            ub.status.fullView.setStatus(true);
+            return undefined;
+        });
 
         ub.status.fullView.setStatus(true);
 
