@@ -20,6 +20,13 @@
                     <a href="/administration/v1-0/qx7_style_requests/export_parts_excel" class="btn btn-flat btn-default" target="_blank">
                         Export Parts Report
                     </a>
+
+                    @if (Session::has('message'))
+                        <div class="alert alert-success" role="alert" style="margin-top: 30px;">
+                            {{ Session::get('message') }}
+                        </div>
+                    @endif
+
                     <table class="table data-table table-bordered table-hover display" id="qx7-style-requests" width="100%">
                         <thead>
                             <tr>
@@ -49,6 +56,40 @@
         </div>
     </div>
 
+    <div class="modal fade" id="import-material-options-modal" tabindex="-1" role="dialog" aria-labelledby="import-material-options-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('v1_qx7_import_material_options') }}" method="POST">
+                    <div class="modal-header text-center">
+                        <h3>
+                            Import Material Options
+                        </h3>
+                    </div>
+
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+
+                        <input type="hidden" name="style_id" id="style_id">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-inline text-center">
+                                    <label>Style ID:</label>
+                                    <input type="number" class="form-control" name="style_id_to_import">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -58,6 +99,11 @@ $(document).ready(function(){
 
     getQx7StyleRequests( function (style_requests) {
         window.style_requests = style_requests;
+    });
+
+    $(document).on('click', '.import-material-options-button', function() {
+        var styleIdToImport = $(this).data('style-id');
+        $('#style_id').val(styleIdToImport);
     });
 
     $(document).on('click', '.open-design-sheet', function(e) {
@@ -106,6 +152,11 @@ $(document).ready(function(){
                                 elem += `<a href="/administration/v1-0/qx7_style_requests/view_options/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             Options
                                         </a>
+
+                                        <button class="btn btn-xs btn-flat btn-default import-material-options-button" data-toggle="modal" data-target="#import-material-options-modal" data-style-id="` + request.style_id + `">
+                                            Import Material Options
+                                        </button>
+
                                         <a href="/administration/v1-0/qx7_style_requests/view_options_setup/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-gear" aria-hidden="true"></i>
                                         </a>
@@ -117,7 +168,8 @@ $(document).ready(function(){
                                         </a>
                                         <a href="/administration/v1-0/qx7_style_requests/gradient/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-square" aria-hidden="true"></i>
-                                        </a>`
+                                        </a>
+                                        `
                             }
                         `</td>
                     </tr>

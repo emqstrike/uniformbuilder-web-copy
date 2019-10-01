@@ -208,4 +208,13 @@ class MaterialsOptionsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function importMaterialOptions($data)
+    {
+        $response = $this->post('v1-0/qx7_style/import_material_option', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
 }
