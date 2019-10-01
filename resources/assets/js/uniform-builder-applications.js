@@ -3794,6 +3794,21 @@ $(document).ready(function() {
 
             }
 
+            if (ub.config.sport === "Team Flag (Apparel)") {
+                if (ub.active_view === "back") {
+                    if (!ub.zoom) {
+                        ub.zoom_on(true);
+                        $(this).addClass('zoom_on');
+                    }
+                    else {
+                        ub.zoom_off();
+                        $(this).removeClass('zoom_on');
+                        return undefined;
+                    }
+                    return undefined;
+                }
+            }
+
             ub.funcs.hideVisiblePopups();
 
             if(typeof ub.activeApplication !== "undefined") { return; }
@@ -11258,6 +11273,12 @@ $(document).ready(function() {
 
             }
 
+            ub.data.manipulateOptionButtons.getOptionButtons(ub.config.sport, function(options){
+                _.each(options, function(option) {
+                    $('span.optionButton[data-type="' + option + '"]').hide();
+                });
+            });
+
             $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
 
             var _part = 'Body';
@@ -11370,6 +11391,13 @@ $(document).ready(function() {
                     $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
                 });
             });
+
+            // Hide the part in free for m appplication
+            // ub.data.manipulatePerspectives.getParts(ub.sport, function(parts){
+            //     _.each(parts, function(part){
+            //         $('span.part[data-id="'+part+'"]').hide();
+            //     });
+            // });
 
             /// End Init Code
 
