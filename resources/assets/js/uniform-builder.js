@@ -655,14 +655,15 @@ $(document).ready(function () {
 
             if (parseInt(ub.render) === 1) {
 
+                // if Team Flag (Apparel)
+                if (ub.config.sport === "Team Flag (Apparel)") {
+                    ub.funcs.teamFlagMirrorImage("back", function() {
+                        setTimeout(ub.funcs.removeUI, 10000);
+                    });
+                }
+
                 ub.funcs.removeUI();
 
-                // if Team Flag (Apparel)
-                ub.funcs.teamFlagMirrorImage("back", function() {
-                    setTimeout( function() {
-                        ub.funcs.removeUI();
-                    }, 5000);
-                });
 
                 $('button#button-return-to-customizer').html('Customize this uniform');
 
@@ -1841,13 +1842,15 @@ $(document).ready(function () {
         }
 
         ub.load_assets = function () {
+            // remove back in material_option of Team Flag (Apparel);
+            ub.funcs.removeBackMaterialOptions(ub.config.sport);
 
             ub.assets = {};
             ub.assets.folder_name = '/images/builder-assets/'
             ub.assets.blank = ub.assets.folder_name + 'blank.png';
 
             var material = {};
-            
+
             material = ub.current_material.material;
             material.options = ub.current_material.materials_options;
 
