@@ -282,6 +282,9 @@
                 reps_elem +=    `<option value=`+rep.RepID+`> ` + rep.LastName + `, ` + rep.FirstName + ` (`+ rep.RepID + `) --- ` + rep.UserID + `</option>`;
             });
 
+            reps_elem += `<option value='1848'>TESTING RCH 1848</option>`;
+            reps_elem += `<option value='1717'>LIVE RCH 1717</option>`;
+
             window.sales_reps_dd = reps_elem;
 
             $('#orders_table .rep-id').append(reps_elem);
