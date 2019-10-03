@@ -82,7 +82,38 @@ $(document).ready( function () {
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'QX7 Report'
+                filename: 'QX7 Report',
+                exportOptions: {
+                    columns: [2, 3, 4, 5, 6, 7 ],
+                    format: {
+                        body: function ( data, column, row ) {
+                            if (row === 5) {
+                                data = data.replace( /<div class="scrollable-cell">/g, "" );
+                                data = data.replace( /<\/div>/g, "" );
+                                //split at each new line
+                                trimData = data.split('<br>');
+                                splitData = [];
+                                _.each(trimData, function (str) {
+                                    splitData.push(str.trim());
+                                })
+                                data = splitData;        
+                                return data;
+                            }
+                            return data;
+                        }
+                    }
+                },
+                customize: function( xlsx ) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    $('row c', sheet).attr( 's', '55' );
+                    $('row:first c', sheet).attr( 's', '2');
+                    $('row* ', sheet).each(function(index) {
+                        if (index > 0) {
+                            $(this).attr('ht', 60);
+                            $(this).attr('customHeight', 1);
+                        }
+                    });
+                }
             },
         ]
     } );
