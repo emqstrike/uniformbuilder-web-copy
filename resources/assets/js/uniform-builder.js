@@ -6788,7 +6788,7 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                var itemExcemptions = ['Apparel', 'eSports'];
+                var itemExcemptions = ['Apparel', 'eSports', 'Team Accessories'];
 
                 if (!_.contains(itemExcemptions, _item)) {
 
@@ -7517,7 +7517,7 @@ $(document).ready(function () {
         });
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports, teamAccessories) {
 
         ub.funcs.fadeOutElements();
 
@@ -7586,7 +7586,9 @@ $(document).ready(function () {
                 picker_items: items,
                 apparel: _apparel,
                 esports: esports,
+                team_accessories: teamAccessories,
             }
+            console.log(data);
 
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
@@ -8346,6 +8348,7 @@ $(document).ready(function () {
     }
 
     ub.funcs.initSportsPicker = function (sport) {
+        console.log(sport);
 
         ub.funcs.prepPickers();
 
@@ -8353,12 +8356,13 @@ $(document).ready(function () {
         var items = _.find(ub.data.sports, {gender: sport});
         var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
         var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
+        var teamAccessories = _.find(ub.data.sportsCategory['team_accessories'], {gender: sport});
         //  filter out riddell sport categories in picker;
         var uniformCategories = _.filter(items.sports, function(item){
             return item.brand !== "riddell";
         });
 
-        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports);
+        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports, teamAccessories.sports);
 
     };
 
@@ -8403,12 +8407,17 @@ $(document).ready(function () {
         } else if (sport === "eSports") {
             $(window).scrollTop(0);
             var esports = _.find(ub.data.esports, {gender: gender});
-            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined);
+            ub.funcs.initScroller('sports', esports.sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (sport === "Apparel") {
             $(window).scrollTop(0);
             var apparel = _.find(ub.data.apparel, {gender: gender});
-            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined);
+            ub.funcs.initScroller('sports', apparel.sports, gender, undefined, undefined, undefined, undefined, undefined);
+            return;
+        } else if (sport === "Team Accessories") {
+            $(window).scrollTop(0);
+            var teamAccessories = _.find(ub.data.teamAccessories, {gender: gender});
+            ub.funcs.initScroller('sports', teamAccessories.sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
             //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
