@@ -72,11 +72,22 @@
                         <input type="hidden" name="style_id" id="style_id">
 
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-inline text-center">
-                                    <label>Style ID:</label>
-                                    <input type="number" class="form-control" name="style_id_to_import">
-                                </div>
+                            <div class="col-md-4 text-right">
+                                <label>Style ID:</label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="style_id_to_import">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 24px;">
+                            <div class="col-md-4 text-right">
+                                <label>Overwrite Data?</label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <input type="checkbox" name="overwrite_data">
                             </div>
                         </div>
                     </div>

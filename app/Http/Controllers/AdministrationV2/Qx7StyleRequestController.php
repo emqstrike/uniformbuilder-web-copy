@@ -648,7 +648,14 @@ class Qx7StyleRequestController extends Controller
 
     public function importMaterialOptions(Request $request)
     {
-        $response = $this->optionsClient->importMaterialOptions($request->all());
+        $data = $request->all();
+        $data['overwrite_data'] = false;
+
+        if ($request->overwrite_data == 'on') {
+            $data['overwrite_data'] = true;
+        }
+
+        $response = $this->optionsClient->importMaterialOptions($data);
 
         if ($response->success) {
             return redirect()->route('v1_qx7_style_requests')->with('message', $response->message);
