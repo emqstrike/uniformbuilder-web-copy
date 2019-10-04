@@ -235,7 +235,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Team Accessories',
-                            'thumbnail_male': 'https://previews.123rf.com/images/apoev/apoev1806/apoev180600171/103284764-default-placeholder-fitness-trainer-in-a-t-shirt-half-length-portrait-photo-avatar-gray-color.jpg'
+                            'thumbnail_male': 'http://rqm.quebec/wp-content/uploads/2017/01/placeholderImg.gif'
                         }
                     ]
                 },
@@ -245,7 +245,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Team Accessories',
-                            'thumbnail_female': 'https://previews.123rf.com/images/apoev/apoev1806/apoev180600171/103284764-default-placeholder-fitness-trainer-in-a-t-shirt-half-length-portrait-photo-avatar-gray-color.jpg'
+                            'thumbnail_female': 'http://rqm.quebec/wp-content/uploads/2017/01/placeholderImg.gif'
                         }
                     ]
                 },

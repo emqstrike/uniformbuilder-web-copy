@@ -7588,7 +7588,6 @@ $(document).ready(function () {
                 esports: esports,
                 team_accessories: teamAccessories,
             }
-            console.log(data);
 
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
