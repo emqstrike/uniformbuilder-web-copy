@@ -59,7 +59,7 @@
                         <input type="hidden" id="material_neck_option" value="test">
                         <input type="hidden" id="material_uniform_category" value="Football">
                         <input type="hidden" id="material_asset_target" value="Web">
-                        <input type="hidden" id="material_brand" value="riddell">
+                        <input type="hidden" id="material_brand" value="{{ strtolower($style->brand) }}">
                         <input type="hidden" id="rule_id" value="{{ $style->rule_id }}">
 
 
@@ -208,7 +208,7 @@
                                                         data-default-base-fabric="{{ $option->base_fabric }}"
                                                         data-default-insert-fabric="{{ $option->insert_fabric }}"
                                                         data-default-sleeve-fabric="{{ $option->sleeve_fabric }}"
-                                                        data-material-brand="riddell"
+                                                        data-material-brand="{{ strtolower($style->brand) }}"
                                                         <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                                         data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                                         ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
