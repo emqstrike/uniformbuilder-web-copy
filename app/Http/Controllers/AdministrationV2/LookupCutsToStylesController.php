@@ -38,7 +38,7 @@ class LookupCutsToStylesController extends Controller
                                 'style_id' => (int) $row['customizer_id'],
                                 'cut_id' => $style_request->rule->block_pattern_id,
                                 'alias' => $row['style_names_qx7'],
-                                'style_category' => $style_request->style_category->style_category,
+                                'style_category' => strtolower($style_request->style_category->style_category),
                                 'gender' => str_replace("'s", "", strtolower($style_request->gender->gender)),
                             ];
                             array_push($this->styles, $style);
