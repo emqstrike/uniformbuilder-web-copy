@@ -30,7 +30,7 @@
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputFile">File Upload</label>
-                                <input type="file" name="file" class="form-control" id="exampleInputFile" required>
+                                <input type="file" name="file" class="form-control" accept=".xlsx, .xls" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

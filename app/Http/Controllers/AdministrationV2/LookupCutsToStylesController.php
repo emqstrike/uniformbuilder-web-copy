@@ -30,7 +30,6 @@ class LookupCutsToStylesController extends Controller
     {
         \Excel::load($request->file('file'), function ($reader) {
             $style_requests = $this->styleRequestClient->getAllStyleRequests();
-            // global $styles;
             $reader->first()->each(function ($row) use ($style_requests) {
                 if (!empty($row['style_id'])) {
                     foreach($style_requests as $style_request) {
@@ -49,10 +48,14 @@ class LookupCutsToStylesController extends Controller
             });
         });
 
-        $result = $this->client->createLookupCutToStylesMultiple($this->styles);
-        if ($result->success) {
-            return redirect()->back()->with('message', $result->message);
+        if (!empty($this->styles)){
+            $result = $this->client->createLookupCutToStylesMultiple($this->styles);
+            if ($result->success) {
+                return redirect()->back()->with('message', $result->message);
+            }
+            return redirect()->back()->with('error_message', $result->message);
         }
-        return redirect()->back()->with('error_message', $result->message);
+
+        return redirect()->back()->with('error_message', 'Please choose a valid file.');
     }
 }
