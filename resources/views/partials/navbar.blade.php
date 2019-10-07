@@ -51,9 +51,10 @@
                       </li>
 
                       <li class="dropdown-submenu sport-link-icons">
-                        <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/polo.svg"> Team Accessories</a>
+                        <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/flag.svg"> Team Accessories</a>
                         <ul class="dropdown-menu">
                             <h6 class="dropdown-header">Team Accessories (Men)</h6>
+                            <li><a href="/styles/men/team-flag" class="sport-link-icons">Team Flag</a></li>
                         </ul>
                       </li>
                 
@@ -83,9 +84,10 @@
                             </ul>
                         </li>
                         <li class="dropdown-submenu sport-link-icons">
-                            <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/polo.svg"> Team Accessories</a>
+                            <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/flag.svg"> Team Accessories</a>
                             <ul class="dropdown-menu">
                                 <h6 class="dropdown-header">Team Accessories (Women)</h6>
+                                <li><a href="/styles/women/team-flag" class="sport-link-icons">Team Flag</a></li>
                             </ul>
                         </li>
 

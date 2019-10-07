@@ -86,21 +86,21 @@ $(document).ready(function() {
                     });
 
         menteamAccessories = ub.funcs.menActiveSportsApparel(categories, {
-                        type: 'team_accessories',
+                        type: 'accessories',
                         active: _one,
                         active_male: _one,
                         active_type: 'active'
                     });
 
         womenteamAccessories = ub.funcs.womenActiveSportsApparel(categories, {
-                        type: 'team_accessories',
+                        type: 'accessories',
                         active: _one,
                         active_female: _one,
                         active_type: 'active'
                     });
 
         youthteamAccessories = ub.funcs.youthActiveSportsApparel(categories, {
-                        type: 'team_accessories',
+                        type: 'accessories',
                         active: _one,
                         active_youth: _one,
                         active_type: 'active'
@@ -235,7 +235,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Team Accessories',
-                            'thumbnail_male': 'http://rqm.quebec/wp-content/uploads/2017/01/placeholderImg.gif'
+                            'thumbnail_male': '/images/main-ui/pickers/flag.png'
                         }
                     ]
                 },
@@ -245,7 +245,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Team Accessories',
-                            'thumbnail_female': 'http://rqm.quebec/wp-content/uploads/2017/01/placeholderImg.gif'
+                            'thumbnail_female': '/images/main-ui/pickers/flag.png'
                         }
                     ]
                 },

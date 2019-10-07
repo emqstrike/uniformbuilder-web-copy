@@ -12009,6 +12009,11 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Track and Field',
                 gender: ['men', 'women'],
             },
+            {
+                shortCode: 'team-flag',
+                urlAlias: 'Team Flag (Apparel)',
+                gender: ['men', 'women'],
+            },
         ],
 
         getAlias: function (shortCode)  {

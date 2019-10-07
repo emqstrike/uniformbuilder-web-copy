@@ -8347,7 +8347,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.initSportsPicker = function (sport) {
-        console.log(sport);
 
         ub.funcs.prepPickers();
 
