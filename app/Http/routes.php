@@ -270,6 +270,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('application_mapper/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@update'])->name('v1_update_application_mapper');
             Route::post('application_mapper', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@store'])->name('v1_store_application_mapper');
 
+            Route::get('index_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@index'])->name('v1_index_cuts_to_styles');
+            Route::post('upload_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@upload'])->name('v1_upload_cuts_to_styles');
+
             // QX7 Style Requests
             Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
             Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@show'])->name('v1_qx7_style_request');
