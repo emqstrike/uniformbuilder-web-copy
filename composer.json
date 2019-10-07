@@ -20,7 +20,9 @@
         "bjeavons/zxcvbn-php": "^0.3",
         "jasongrimes/paginator": "~1.0",
         "tinify/tinify": "^1.5",
-      "ext-json": "^1.7"
+        "ext-json": "*",
+        "ext-zip": "*",
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
