@@ -3,6 +3,12 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<style>
+    .scrollable-cell {
+        overflow-y: scroll;
+        height: 100px;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -27,6 +33,7 @@
                         <th>RULE ID</th>
                         <th>COMPLETE RULE PART NAMES</th>
                         <th>BRAND</th>
+                        <th>UNSET MATERIAL OPTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +46,15 @@
                         <td>{{ $style_request->rule_id }}</td>
                         <td>@if(isset($style_request->complete_part_names)) {{ $style_request->complete_part_names ? 'YES' : 'NO' }} @endif</td>
                         <td>{{ $style_request->brand }}</td>
+                        <td>
+                            @if(!empty($style_request->empty_material_options))
+                            <div class="scrollable-cell">
+                            @foreach($style_request->empty_material_options as $option) 
+                                {{ $option }}<br/>
+                            @endforeach
+                            @endif
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -66,7 +82,38 @@ $(document).ready( function () {
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'QX7 Report'
+                filename: 'QX7 Report',
+                exportOptions: {
+                    columns: [2, 3, 4, 5, 6, 7 ],
+                    format: {
+                        body: function ( data, column, row ) {
+                            if (row === 5) {
+                                data = data.replace( /<div class="scrollable-cell">/g, "" );
+                                data = data.replace( /<\/div>/g, "" );
+                                //split at each new line
+                                trimData = data.split('<br>');
+                                splitData = [];
+                                _.each(trimData, function (str) {
+                                    splitData.push(str.trim());
+                                })
+                                data = splitData;        
+                                return data;
+                            }
+                            return data;
+                        }
+                    }
+                },
+                customize: function( xlsx ) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    $('row c', sheet).attr( 's', '55' );
+                    $('row:first c', sheet).attr( 's', '2');
+                    $('row* ', sheet).each(function(index) {
+                        if (index > 0) {
+                            $(this).attr('ht', 60);
+                            $(this).attr('customHeight', 1);
+                        }
+                    });
+                }
             },
         ]
     } );
