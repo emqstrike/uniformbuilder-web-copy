@@ -86,21 +86,21 @@ $(document).ready(function() {
                     });
 
         menteamAccessories = ub.funcs.menActiveSportsApparel(categories, {
-                        type: 'accessories',
+                        type: 'team_accessories',
                         active: _one,
                         active_male: _one,
                         active_type: 'active'
                     });
 
         womenteamAccessories = ub.funcs.womenActiveSportsApparel(categories, {
-                        type: 'accessories',
+                        type: 'team_accessories',
                         active: _one,
                         active_female: _one,
                         active_type: 'active'
                     });
 
         youthteamAccessories = ub.funcs.youthActiveSportsApparel(categories, {
-                        type: 'accessories',
+                        type: 'team_accessories',
                         active: _one,
                         active_youth: _one,
                         active_type: 'active'
