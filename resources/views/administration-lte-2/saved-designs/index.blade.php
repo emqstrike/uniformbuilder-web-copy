@@ -238,31 +238,36 @@
             @endif
 
             $('#searchSavedDesigns').click(function() {
-                filter();
+                filter('search');
             });
 
             $('#filterSavedDesign').click(function() {
-                filter();
+                filter('filter');
             });
 
             $('#clearFilter').click(function() {
                 window.location.href = "{{ route('saved_designs') }}";
             });
 
-            function filter() {
+            function filter(action) {
                 var name = $('#searchNameSavedDesigns').val();
-                var sport = $('#sportFilter').val();
-                var blockPattern = $('#blockPatternFilter').val();
-                var option = $('#optionFilter').val();
-                var user = $('#userFilter').val();
+                var url = '';
+                if (action === 'filter'){
+                    var sport = $('#sportFilter').val();
+                    var blockPattern = $('#blockPatternFilter').val();
+                    var option = $('#optionFilter').val();
+                    var user = $('#userFilter').val();
 
-                var dateRange = "";
+                    var dateRange = "";
 
-                if (($('#startDate').val() != '') && ($('#endDate').val() != '')) {
-                    dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
+                    if (($('#startDate').val() != '') && ($('#endDate').val() != '')) {
+                        dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
+                    }
+
+                    var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
+                } else {
+                    var url = "{{ route('saved_designs') }}?search=" + name;
                 }
-
-                var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
                 window.location.href = url;
             }
         });
