@@ -3374,6 +3374,15 @@ $(document).ready(function () {
 
                 }
 
+                // set team flag `binding` zIndex same as the prolook logo zIndex.
+                // binding must not be covered by applications.
+                if (ub.config.sport === "Team Flag (Apparel)" || ub.config.blockPattern === "Team Flag") {
+                    if (name === "binding") {
+                        current_object.zIndex = ub.data.prolookLayer;
+                        current_object.originalZIndex = ub.data.prolookLayer;
+                    }
+                }
+
                 if (obj.setting_type === "mesh_highlights") {
                    current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
                 } else if (obj.setting_type === "mesh_shadows") {
