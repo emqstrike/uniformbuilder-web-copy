@@ -96,7 +96,7 @@
                                 </select>
 
                                 <label>User</label>
-                                <select id="userFilter" class="form-control select2">
+                                <select id="userFilter" class="form-control userFilter">
                                     <option value="all">All</option>
 
                                     @foreach ($users as $user)
@@ -199,6 +199,24 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+
+            function matchNameEmail(params, data) {
+                if (!params.term) {
+                    return data;
+                } 
+                searchText = params.term.toLowerCase();
+                dataText = data.text.toLowerCase();
+                dataID = data.id.toLowerCase();
+
+                if (dataText.includes(searchText) || dataID.includes(searchText) ) {
+                    return data;
+                }
+                return false;   
+            }
+
+            $('.userFilter').select2({
+                matcher: matchNameEmail
+            });
 
             var date = new Date();
             var currentMonth = date.getMonth();
