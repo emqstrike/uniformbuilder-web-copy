@@ -96,7 +96,7 @@
                                 </select>
 
                                 <label>User</label>
-                                <select id="userFilter" class="form-control select2">
+                                <select id="userFilter" class="form-control userFilter">
                                     <option value="all">All</option>
 
                                     @foreach ($users as $user)
@@ -200,6 +200,24 @@
         $(document).ready(function() {
             $('.select2').select2();
 
+            function matchNameEmail(params, data) {
+                if (!params.term) {
+                    return data;
+                } 
+                searchText = params.term.toLowerCase();
+                dataText = data.text.toLowerCase();
+                dataID = data.id.toLowerCase();
+
+                if (dataText.includes(searchText) || dataID.includes(searchText) ) {
+                    return data;
+                }
+                return false;   
+            }
+
+            $('.userFilter').select2({
+                matcher: matchNameEmail
+            });
+
             var date = new Date();
             var currentMonth = date.getMonth();
             var currentYear = date.getFullYear();
@@ -220,31 +238,36 @@
             @endif
 
             $('#searchSavedDesigns').click(function() {
-                filter();
+                filter('search');
             });
 
             $('#filterSavedDesign').click(function() {
-                filter();
+                filter('filter');
             });
 
             $('#clearFilter').click(function() {
                 window.location.href = "{{ route('saved_designs') }}";
             });
 
-            function filter() {
+            function filter(action) {
                 var name = $('#searchNameSavedDesigns').val();
-                var sport = $('#sportFilter').val();
-                var blockPattern = $('#blockPatternFilter').val();
-                var option = $('#optionFilter').val();
-                var user = $('#userFilter').val();
+                var url = '';
+                if (action === 'filter'){
+                    var sport = $('#sportFilter').val();
+                    var blockPattern = $('#blockPatternFilter').val();
+                    var option = $('#optionFilter').val();
+                    var user = $('#userFilter').val();
 
-                var dateRange = "";
+                    var dateRange = "";
 
-                if (($('#startDate').val() != '') && ($('#endDate').val() != '')) {
-                    dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
+                    if (($('#startDate').val() != '') && ($('#endDate').val() != '')) {
+                        dateRange = '&range[]=' + $('#startDate').val() + '&range[]=' + $('#endDate').val();
+                    }
+
+                    var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
+                } else {
+                    var url = "{{ route('saved_designs') }}?search=" + name;
                 }
-
-                var url = "{{ route('saved_designs') }}?name=" + name + "&sport=" + sport + "&blockPattern=" + blockPattern + "&neckOption=" + option + "&user=" + user + dateRange;
                 window.location.href = url;
             }
         });
