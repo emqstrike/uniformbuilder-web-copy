@@ -741,18 +741,15 @@ $(document).ready(function() {
 
         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-            ub.utilities.info('===>Using sizes from backend: ');
-
-            console.log('Default Sizes: ');
-            console.log(_sizes);
-            console.log('Application #: ');
-            console.log(_id);
-
             if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
-                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                console.group('[EMBELLISHMENT][APP#' +  _id + '] Using the sizes from backend.');
+                    console.group("get sizes from configuration.");
+                        console.log("App #: " + _sizesFromConfig.application_number);
+                        console.log("Type: " + _sizesFromConfig.type);
+                        console.log("Sizes: ", _sizesFromConfig.size);
+                    console.groupEnd();
+                console.groupEnd();
 
                 _sizes = _sizesFromConfig;
 
@@ -2408,6 +2405,9 @@ $(document).ready(function() {
                         active: true
                     };
 
+                    // uniform default font size
+                    settingsObj.defaultFontSize = custom.size;
+
                 } else {
 
                     scale = embellishmentScales.getScale(settingsObj.size);
@@ -2417,6 +2417,14 @@ $(document).ready(function() {
             } else {
 
                 scale = embellishmentScales.getScale(settingsObj.size);
+
+                // if uniform is twill and the selected embellishment size is equal to default uniform size;
+                // return custom scale value of the embellishment;
+                if (ub.config.uniform_application_type === "tackle_twill" && settingsObj.font_size.toString() === settingsObj.defaultFontSize) {
+                    var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString(), size: settingsObj.defaultFontSize});
+                    scale = { x: custom.scale, y: custom.scale };
+                }
+
                 settingsObj.custom_obj.active = false;
 
             }
