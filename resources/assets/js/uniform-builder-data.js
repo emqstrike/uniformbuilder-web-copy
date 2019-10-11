@@ -12607,6 +12607,17 @@ ub.funcs.fontOffSets = [
         },
    };
 
+   // set block_pattern that have `left`, `right` and 'body' on material option name;
+   // example: `left_body_panel`,  `front_right_body_panel`;
+   ub.data.bodyOnMaterialOption = {
+
+        blockPatterns : [ "SFN Hoodie",],
+
+        hasBlockPattern: function(block_pattern ,callback) {
+            var hasBlockPattern = _.contains(this.blockPatterns, block_pattern);
+            if (hasBlockPattern) callback();
+        }
+   }
 
    /*
    *
