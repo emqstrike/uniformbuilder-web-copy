@@ -235,6 +235,13 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index'])->name('v1_tagged_styles');
             Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals'])->name('v1_tagged_styles_total');
 
+            // Fabrics
+            Route::get('fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@index'])->name('v1_index_fabrics');
+            Route::get('fabric/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@create'])->name('v1_create_fabric');
+            Route::get('fabric/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@edit'])->name('v1_edit_fabric');
+            Route::post('fabric', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@store'])->name('v1_store_fabric');
+            Route::post('fabric/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@update'])->name('v1_update_fabric');
+
             // Feedbacks
             Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@index'])->name('v1_feedbacks');
             Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@reply'])->name('v1_feedback_reply');
