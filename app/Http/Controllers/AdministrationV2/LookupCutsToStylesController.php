@@ -58,4 +58,37 @@ class LookupCutsToStylesController extends Controller
 
         return redirect()->back()->with('error_message', 'Please choose a valid file.');
     }
+
+    public function importFromSheets()
+    {
+        $dataFromSheets = $this->client->importFromSheets();
+        $style_requests = $this->styleRequestClient->getAllStyleRequests();
+        $styles = [];
+        foreach ($dataFromSheets as $row) {
+            if (!empty(data_get($row, 'STYLE ID'))) {
+                foreach($style_requests as $style_request) {
+                    if (!empty($style_request->style_id) && $style_request->style_id == data_get($row, 'STYLE ID')) {
+                        $style = [
+                            'style_id' => (int) data_get($row, 'CUSTOMIZER ID'),
+                            'cut_id' => $style_request->rule->block_pattern_id,
+                            'alias' => data_get($row, 'STYLE NAMES (QX7)'),
+                            'style_category' => strtolower($style_request->style_category->style_category),
+                            'gender' => str_replace("'s", "", strtolower($style_request->gender->gender)),
+                        ];
+                        array_push($styles, $style);
+                    }
+                }
+            }
+        }
+
+        if (!empty($styles)){
+            $result = $this->client->createLookupCutToStylesMultiple($styles);
+            if ($result->success) {
+                return redirect()->back()->with('message', $result->message);
+            }
+            return redirect()->back()->with('error_message', $result->message);
+        }
+
+        return redirect()->back()->with('error_message', 'There was an error importing file. Please try again.');
+    }
 }
