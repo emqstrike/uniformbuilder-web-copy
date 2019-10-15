@@ -609,55 +609,56 @@
                     var order_items_split = splitRosterToQXItems();
                     var order_parts_split = [];
 
-
                     order_items_split.forEach(function(entry, i) {
-                        var x = JSON.parse(JSON.stringify(window.order_parts[0]));
-                        x.orderPart.ItemID = entry.qx_item_id;
+                        if (entry.roster.length > 0) {
+                            var x = JSON.parse(JSON.stringify(window.order_parts[0]));
+                            x.orderPart.ItemID = entry.qx_item_id;
 
-                        if (item_id_override ) {
-                            x.orderPart.ItemID = item_id_override;
-                        }
-
-                        var roster_sizes = _.map(entry.roster, function(e) { 
-                            return e.size; 
-                        });
-
-                        var roster = [];
-                        window.roster_formatted = false;
-
-                        socks_uniform_category_ids = ["17","33"];
-
-                        window.roster.forEach(function(y, j) {
-                            if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
-                                if (y.Size == "3-5") {
-                                    y.Size = "Kids (3-5)";
-                                } else if (y.Size == "5-7") {
-                                    y.Size = "Youth (5-7)";
-                                } else if (y.Size == "8-12") {
-                                    y.Size = "Adult (8-12)";
-                                } else if (y.Size == "13-14") {
-                                    y.Size = "XL (13-14)";
-                                }
-                                roster.push(y);
-                            } else {
-                                // add size prefix for socks
-                                if (y.Size == "3-5") {
-                                    y.Size = "Kids (3-5)";
-                                } else if (y.Size == "5-7") {
-                                    y.Size = "Youth (5-7)";
-                                } else if (y.Size == "8-12") {
-                                    y.Size = "Adult (8-12)";
-                                } else if (y.Size == "13-14") {
-                                    y.Size = "XL (13-14)";
-                                }
-
-                                roster.push(y);
+                            if (item_id_override ) {
+                                x.orderPart.ItemID = item_id_override;
                             }
-                        });
 
-                        if (roster.length > 0) {
-                            x.orderItems = roster;
-                            order_parts_split.push(x);
+                            var roster_sizes = _.map(entry.roster, function(e) { 
+                                return e.size; 
+                            });
+
+                            var roster = [];
+                            window.roster_formatted = false;
+
+                            socks_uniform_category_ids = ["17","33"];
+
+                            entry.roster.forEach(function(y, j) {
+                                if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
+                                    if (y.Size == "3-5") {
+                                        y.Size = "Kids (3-5)";
+                                    } else if (y.Size == "5-7") {
+                                        y.Size = "Youth (5-7)";
+                                    } else if (y.Size == "8-12") {
+                                        y.Size = "Adult (8-12)";
+                                    } else if (y.Size == "13-14") {
+                                        y.Size = "XL (13-14)";
+                                    }
+                                    roster.push(y);
+                                } else {
+                                    // add size prefix for socks
+                                    if (y.Size == "3-5") {
+                                        y.Size = "Kids (3-5)";
+                                    } else if (y.Size == "5-7") {
+                                        y.Size = "Youth (5-7)";
+                                    } else if (y.Size == "8-12") {
+                                        y.Size = "Adult (8-12)";
+                                    } else if (y.Size == "13-14") {
+                                        y.Size = "XL (13-14)";
+                                    }
+
+                                    roster.push(y);
+                                }
+                            });
+
+                            if (roster.length > 0) {
+                                x.orderItems = roster;
+                                order_parts_split.push(x);
+                            }
                         }
                     });
 

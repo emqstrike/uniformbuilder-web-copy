@@ -1393,12 +1393,21 @@
 
                 var _result;
 
-                if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+                // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+                if (typeof ub.config.savedDesignInfo !== "object") {
+
                     _result = ub.funcs.processScale(settings_obj);
+
                 } else {
+
                     _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+
+                    // when uniform is rendered in the saveDesign;
+                    // retain the embellishment's custom scale that is set on the backend; [for twills]
+                    if (ub.config.uniform_application_type === "tackle_twill") { _result = ub.funcs.processScale(settings_obj); }
+
                 }
-                
+
                 if(typeof _result === "undefined") {
 
                     // Use Defaults if theres no record 

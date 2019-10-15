@@ -11385,19 +11385,19 @@ $(document).ready(function() {
 
             });
 
-            // Disable perspective button in customizer sidebar
+            // hide perspective button in customizer sidebar
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
                 _.each(perspectives, function(perspective) {
                     $('span.perspective[data-id="'+perspective.toLowerCase()+'"]').hide();
                 });
             });
 
-            // Hide the part in free for m appplication
-            // ub.data.manipulatePerspectives.getParts(ub.sport, function(parts){
-            //     _.each(parts, function(part){
-            //         $('span.part[data-id="'+part+'"]').hide();
-            //     });
-            // });
+            // Hide the part in free form appplication
+            ub.data.manipulatePerspectives.getParts(ub.sport, function(parts){
+                _.each(parts, function(part){
+                    $('span.part[data-id="'+part+'"]').hide();
+                });
+            });
 
             /// End Init Code
 

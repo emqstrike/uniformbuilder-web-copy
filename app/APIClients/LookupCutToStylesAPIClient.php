@@ -29,4 +29,17 @@ class LookupCutToStylesAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function importFromSheets()
+    {
+        $response = $this->get('lookup_cut_to_styles/import');
+        $result = $this->decoder->decode($response->getBody());
+
+        $lookup_to_styles = [];
+        if ($result->success)
+        {
+            $lookup_to_styles = $result->lookup_to_styles;
+        }
+        return $lookup_to_styles;
+    }
 }

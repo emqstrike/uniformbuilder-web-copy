@@ -44,6 +44,7 @@ class SavedDesignsAPIClient extends APIClient
         $neckOption = '';
         $user = '';
         $range = '';
+        $search = '';
 
         if (isset($filters['name'])) {
             $name = '&name=' . $filters['name'];
@@ -69,7 +70,11 @@ class SavedDesignsAPIClient extends APIClient
             $range = '&range[]=' . $filters['range'][0] . '&range[]=' . $filters['range'][1];
         }
 
-        $response = $this->get('saved_designs/paginate?page=' . $currentPage . $name . $sport . $neckOption . $blockPattern . $user . $range);
+        if (isset($filters['search'])) {
+            $search = '&search=' . $filters['search'];
+        }
+        
+        $response = $this->get('saved_designs/paginate?page=' . $currentPage . $search . $name . $sport . $neckOption . $blockPattern . $user . $range);
         $result = $this->decoder->decode($response->getBody());
 
         $saved_designs = [];
