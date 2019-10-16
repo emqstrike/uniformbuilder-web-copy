@@ -111,6 +111,12 @@ class AdministrationController extends Controller
                     return redirect('administration/v1-0');
                 }
 
+                if (Session::get('adminFullAccess') == false) {
+                    return redirect('administration/v1-0');
+                }
+
+
+
                 return view('administration.lte-dashboard', compact(
                     'orders_stats',
                     'saved_designs_stats',
