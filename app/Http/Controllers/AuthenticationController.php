@@ -137,6 +137,14 @@ class AuthenticationController extends AdminAuthController
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
+                $superusers = env('BACKEND_SUPERUSERS');
+                $su_array = explode(',', $superusers);
+                if (!in_array($user->id, $su_array)) {
+                    Session::put('adminFullAccess', false);
+                } else {
+                    Session::put('adminFullAccess', true);
+                }
+
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
