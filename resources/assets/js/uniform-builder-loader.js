@@ -16,7 +16,11 @@ $(document).ready(function() {
             youthApparel,
             meneSports,
             womeneSports,
-            youtheSports;
+            youtheSports,
+            // team accessories
+            menteamAccessories,
+            womenteamAccessories,
+            youthteamAccessories;
 
         menSports = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'sports', 
@@ -81,6 +85,27 @@ $(document).ready(function() {
                         active_type: 'active'
                     });
 
+        menteamAccessories = ub.funcs.menActiveSportsApparel(categories, {
+                        type: 'team_accessories',
+                        active: _one,
+                        active_male: _one,
+                        active_type: 'active'
+                    });
+
+        womenteamAccessories = ub.funcs.womenActiveSportsApparel(categories, {
+                        type: 'team_accessories',
+                        active: _one,
+                        active_female: _one,
+                        active_type: 'active'
+                    });
+
+        youthteamAccessories = ub.funcs.youthActiveSportsApparel(categories, {
+                        type: 'team_accessories',
+                        active: _one,
+                        active_youth: _one,
+                        active_type: 'active'
+                    });
+
        	ub.data.activeSports.items = ub.funcs.getActiveSports(categories, {
 	   									active: _one,
 	   									active_type: 'active'
@@ -136,8 +161,24 @@ $(document).ready(function() {
             }
         ];
 
+        // team accessories
+         ub.data.teamAccessories = [
+            {
+                gender: 'Men',
+                sports: ub.funcs.menSortOrder(menteamAccessories)
+            },
+            {
+                gender: 'Women',
+                sports: ub.funcs.womenSortOrder(womenteamAccessories)
+            },
+            {
+                gender: 'Youth',
+                sports: ub.funcs.youthSortOrder(youthteamAccessories)
+            }
+        ];
+
         ub.data.sportsCategory = {
-            
+
             esports: [
                 {
                     gender: 'Men',
@@ -184,7 +225,35 @@ $(document).ready(function() {
                     gender: 'Youth',
                     sports: []
                 }
-            ]
+            ],
+
+            // team accessories
+            team_accessories: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Team Accessories',
+                            'thumbnail_male': '/images/main-ui/pickers/flag.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Team Accessories',
+                            'thumbnail_female': '/images/main-ui/pickers/flag.png'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ],
 
         };
 

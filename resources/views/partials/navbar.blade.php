@@ -49,6 +49,14 @@
                             <li><a href="/styles/men/socks" class="sport-link-icons">Socks</a></li>
                         </ul>
                       </li>
+
+                      <li class="dropdown-submenu sport-link-icons">
+                        <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/flag.svg"> Team Accessories</a>
+                        <ul class="dropdown-menu">
+                            <h6 class="dropdown-header">Team Accessories (Men)</h6>
+                            <li><a href="/styles/men/team-flag" class="sport-link-icons">Team Flag</a></li>
+                        </ul>
+                      </li>
                 
                     <li><a href="/styles/women">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-female" aria-hidden="true"></i> Styles > Women</a></li>
                         <li><a href="/styles/women/volleyball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/volleyball.svg"> Volleyball</a></li>
@@ -74,7 +82,14 @@
                                 <li><a href="/styles/women/socks" class="sport-link-icons">Socks</a></li>
                                 <li><a href="/styles/women/yoga-pant" class="sport-link-icons">Yoga Pant</a></li>
                             </ul>
-                    </li>
+                        </li>
+                        <li class="dropdown-submenu sport-link-icons">
+                            <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/flag.svg"> Team Accessories</a>
+                            <ul class="dropdown-menu">
+                                <h6 class="dropdown-header">Team Accessories (Women)</h6>
+                                <li><a href="/styles/women/team-flag" class="sport-link-icons">Team Flag</a></li>
+                            </ul>
+                        </li>
 
                     <li class="divider"></li>
                     <h6 class="dropdown-header">About Us</h6>
