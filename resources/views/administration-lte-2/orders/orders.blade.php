@@ -548,14 +548,11 @@
                             delete en.Quantity;
                             en.Cut = en.SleeveCut;
                             delete en.SleeveCut;
+                        });
 
-                            for (i = 0; i<ctr; i++) {
-                                try {
-                                    window.roster.push(en);
-                                } catch(err) {
-                                    console.log(err.message);
-                                }
-                            }
+                        window.roster.push({
+                            orderItemId: entry.id,
+                            roster: z
                         });
 
     
@@ -611,54 +608,60 @@
 
                     order_items_split.forEach(function(entry, i) {
                         if (entry.roster.length > 0) {
-                            var x = JSON.parse(JSON.stringify(window.order_parts[0]));
-                            x.orderPart.ItemID = entry.qx_item_id;
+                            window.order_parts.forEach((orderPart) => {
+                                if (orderPart.orderPart.ID == entry.order_item_id) {
+                                    x = orderPart;
 
-                            if (item_id_override ) {
-                                x.orderPart.ItemID = item_id_override;
-                            }
+                                    x.orderPart.ItemID = entry.qx_item_id;
 
-                            var roster_sizes = _.map(entry.roster, function(e) { 
-                                return e.size; 
-                            });
-
-                            var roster = [];
-                            window.roster_formatted = false;
-
-                            socks_uniform_category_ids = ["17","33"];
-
-                            entry.roster.forEach(function(y, j) {
-                                if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
-                                    if (y.Size == "3-5") {
-                                        y.Size = "Kids (3-5)";
-                                    } else if (y.Size == "5-7") {
-                                        y.Size = "Youth (5-7)";
-                                    } else if (y.Size == "8-12") {
-                                        y.Size = "Adult (8-12)";
-                                    } else if (y.Size == "13-14") {
-                                        y.Size = "XL (13-14)";
-                                    }
-                                    roster.push(y);
-                                } else {
-                                    // add size prefix for socks
-                                    if (y.Size == "3-5") {
-                                        y.Size = "Kids (3-5)";
-                                    } else if (y.Size == "5-7") {
-                                        y.Size = "Youth (5-7)";
-                                    } else if (y.Size == "8-12") {
-                                        y.Size = "Adult (8-12)";
-                                    } else if (y.Size == "13-14") {
-                                        y.Size = "XL (13-14)";
+                                    if (item_id_override ) {
+                                        x.orderPart.ItemID = item_id_override;
                                     }
 
-                                    roster.push(y);
+                                    var roster_sizes = _.map(entry.roster, function(e) { 
+                                        return e.size; 
+                                    });
+
+                                    var roster = [];
+
+                                    window.roster_formatted = false;
+
+                                    socks_uniform_category_ids = ["17","33"];
+
+                                    entry.roster.forEach(function(y, j) {
+                                        if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
+                                            if (y.Size == "3-5") {
+                                                y.Size = "Kids (3-5)";
+                                            } else if (y.Size == "5-7") {
+                                                y.Size = "Youth (5-7)";
+                                            } else if (y.Size == "8-12") {
+                                                y.Size = "Adult (8-12)";
+                                            } else if (y.Size == "13-14") {
+                                                y.Size = "XL (13-14)";
+                                            }
+                                            roster.push(y);
+                                        } else {
+                                            // add size prefix for socks
+                                            if (y.Size == "3-5") {
+                                                y.Size = "Kids (3-5)";
+                                            } else if (y.Size == "5-7") {
+                                                y.Size = "Youth (5-7)";
+                                            } else if (y.Size == "8-12") {
+                                                y.Size = "Adult (8-12)";
+                                            } else if (y.Size == "13-14") {
+                                                y.Size = "XL (13-14)";
+                                            }
+
+                                            roster.push(y);
+                                        }
+                                    });
+
+                                    if (roster.length > 0) {
+                                        x.orderItems = roster;
+                                        order_parts_split.push(x);
+                                    }
                                 }
                             });
-
-                            if (roster.length > 0) {
-                                x.orderItems = roster;
-                                order_parts_split.push(x);
-                            }
                         }
                     });
 
@@ -670,34 +673,34 @@
                     strResult = JSON.stringify(orderEntire);
 
                     // SEND ORDER TO EDIT
-                    if (window.send_order) {
-                        if (window.material.item_id !== undefined) {
-                            $.ajax({
-                                url: url,
-                                type: "POST",
-                                data: JSON.stringify(orderEntire),
-                                contentType: 'application/json;',
-                                async: false,
-                                success: function (data) {
-                                    alert('Order was sent to EDIT!');
-                                    var factory_order_id = data[0].OrderID;
-                                    var parts = [];
+                    // if (window.send_order) {
+                    //     if (window.material.item_id !== undefined) {
+                    //         $.ajax({
+                    //             url: url,
+                    //             type: "POST",
+                    //             data: JSON.stringify(orderEntire),
+                    //             contentType: 'application/json;',
+                    //             async: false,
+                    //             success: function (data) {
+                    //                 alert('Order was sent to EDIT!');
+                    //                 var factory_order_id = data[0].OrderID;
+                    //                 var parts = [];
 
-                                    $.each(data, function( index, value ) {
-                                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                                        parts.push(orderEntire['orderParts'][index]['orderPart']);
-                                    });
+                    //                 $.each(data, function( index, value ) {
+                    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
+                    //                 });
 
                              
-                                    updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
-                                    document.location.reload(); // UNCOMMENT
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {
-                                    //Error Code Here
-                                }
-                            });
-                        }
-                    }
+                    //                 updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
+                    //                 document.location.reload(); // UNCOMMENT
+                    //             },
+                    //             error: function (xhr, ajaxOptions, thrownError) {
+                    //                 //Error Code Here
+                    //             }
+                    //         });
+                    //     }
+                    // }
                 }
             });
 
@@ -981,32 +984,35 @@
             }
 
             function splitRosterToQXItems() {
-                var grouped = _.groupBy(window.test_size_data, function(e) {
-                  return e.qx_item_id;
-                });
-
                 var items = [];
 
-                for (var propt in grouped) {
-                    items.push({
-                        'qx_item_id' : propt,
-                        'roster' : []
-                    });
-                }
-
-                window.roster.forEach(function(entry) {
-                    var size = entry.Size;
-
-                    var res = _.find(window.test_size_data, function(e) { 
-                        return e.size == size; 
+                window.roster.forEach(function(roster) {
+                    var grouped = _.groupBy(window.test_size_data, function(e) {
+                        return e.qx_item_id;
                     });
 
-                    var qx_item_id = res['qx_item_id'];
+                    for (var propt in grouped) {
+                        items.push({
+                            'order_item_id': roster.orderItemId,
+                            'qx_item_id' : propt,
+                            'roster' : []
+                        });
+                    }
 
-                    items.forEach(function(e) {
-                        if (e.qx_item_id == qx_item_id) {
-                            e.roster.push(res);
-                        }
+                    items.forEach((e) => {
+                        roster.roster.forEach((entry) => {
+                            var size = entry.Size;
+
+                            var res = _.find(window.test_size_data, function(e) { 
+                                return e.size == size; 
+                            });
+
+                            var qx_item_id = res['qx_item_id'];
+
+                            if ((e.qx_item_id == qx_item_id) && (e.order_item_id == roster.orderItemId)) {
+                                e.roster.push(res);
+                            }
+                        });
                     });
                 });
 
