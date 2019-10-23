@@ -54,6 +54,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-5 control-label">RCH Alias</label>
+
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="rch_alias">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-5">&nbsp;</div>
                             <div class="col-md-4">
                                 <button type="submit" class="btn btn-flat btn-primary">Add new fabric</button>
