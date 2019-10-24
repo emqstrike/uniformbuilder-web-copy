@@ -542,19 +542,27 @@
                         };
 
                         var z = JSON.parse(entry.roster);
+                        var rosters = [];
 
                         z.forEach(function(en) {
                             ctr = parseInt(en.Quantity);
                             delete en.Quantity;
                             en.Cut = en.SleeveCut;
                             delete en.SleeveCut;
+
+                            for (i = 0; i<ctr; i++) {
+                                try {
+                                    rosters.push(en);
+                                } catch(err) {
+                                    console.log(err.message);
+                                }
+                            }
                         });
 
                         window.roster.push({
                             orderItemId: entry.id,
-                            roster: z
+                            roster: rosters
                         });
-
     
                         delete entry.builder_customizations;
                         delete entry.description;
@@ -605,14 +613,27 @@
 
                     var order_items_split = splitRosterToQXItems();
                     var order_parts_split = [];
+                    var sample = [];
+
+                    console.log(order_items_split);
 
                     order_items_split.forEach(function(entry, i) {
                         if (entry.roster.length > 0) {
                             window.order_parts.forEach((orderPart) => {
                                 if (orderPart.orderPart.ID == entry.order_item_id) {
-                                    x = orderPart;
-
-                                    x.orderPart.ItemID = entry.qx_item_id;
+                                    var x = {
+                                        additional_attachments: orderPart.additional_attachments,
+                                        attached_files: orderPart.attached_files,
+                                        customizer_style_id: orderPart.customizer_style_id,
+                                        notes: orderPart.notes,
+                                        orderPart: {
+                                            ID: orderPart.orderPart.ID,
+                                            Description: orderPart.orderPart.Description,
+                                            DesignSheet: orderPart.orderPart.DesignSheet,
+                                            ItemID: entry.qx_item_id,
+                                        },
+                                        orderQuestions: orderPart.orderQuestions,
+                                    };
 
                                     if (item_id_override ) {
                                         x.orderPart.ItemID = item_id_override;
@@ -673,34 +694,34 @@
                     strResult = JSON.stringify(orderEntire);
 
                     // SEND ORDER TO EDIT
-                    // if (window.send_order) {
-                    //     if (window.material.item_id !== undefined) {
-                    //         $.ajax({
-                    //             url: url,
-                    //             type: "POST",
-                    //             data: JSON.stringify(orderEntire),
-                    //             contentType: 'application/json;',
-                    //             async: false,
-                    //             success: function (data) {
-                    //                 alert('Order was sent to EDIT!');
-                    //                 var factory_order_id = data[0].OrderID;
-                    //                 var parts = [];
+                    if (window.send_order) {
+                        if (window.material.item_id !== undefined) {
+                            $.ajax({
+                                url: url,
+                                type: "POST",
+                                data: JSON.stringify(orderEntire),
+                                contentType: 'application/json;',
+                                async: false,
+                                success: function (data) {
+                                    alert('Order was sent to EDIT!');
+                                    var factory_order_id = data[0].OrderID;
+                                    var parts = [];
 
-                    //                 $.each(data, function( index, value ) {
-                    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
-                    //                 });
+                                    $.each(data, function( index, value ) {
+                                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                                        parts.push(orderEntire['orderParts'][index]['orderPart']);
+                                    });
 
                              
-                    //                 updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
-                    //                 document.location.reload(); // UNCOMMENT
-                    //             },
-                    //             error: function (xhr, ajaxOptions, thrownError) {
-                    //                 //Error Code Here
-                    //             }
-                    //         });
-                    //     }
-                    // }
+                                    updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
+                                    document.location.reload(); // UNCOMMENT
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //Error Code Here
+                                }
+                            });
+                        }
+                    }
                 }
             });
 
