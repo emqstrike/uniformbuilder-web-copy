@@ -615,8 +615,6 @@
                     var order_parts_split = [];
                     var sample = [];
 
-                    console.log(order_items_split);
-
                     order_items_split.forEach(function(entry, i) {
                         if (entry.roster.length > 0) {
                             window.order_parts.forEach((orderPart) => {
@@ -1031,7 +1029,14 @@
                             var qx_item_id = res['qx_item_id'];
 
                             if ((e.qx_item_id == qx_item_id) && (e.order_item_id == roster.orderItemId)) {
-                                e.roster.push(res);
+                                var _roster = {
+                                    size: res.size,
+                                    qx_item_id: res.qx_item_id,
+                                    Number: entry.Number,
+                                    Name: entry.Name
+                                };
+
+                                e.roster.push(_roster);
                             }
                         });
                     });
