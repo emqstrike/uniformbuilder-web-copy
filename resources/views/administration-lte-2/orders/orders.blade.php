@@ -1007,7 +1007,14 @@
 
                     items.forEach(function(e) {
                         if (e.qx_item_id == qx_item_id) {
-                            e.roster.push(res);
+                            var roster = {
+                                size: res.size,
+                                qx_item_id: res.qx_item_id,
+                                Number: entry.Number,
+                                Name: entry.Name
+                            };
+
+                            e.roster.push(roster);
                         }
                     });
                 });
