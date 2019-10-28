@@ -40,6 +40,15 @@
                             </div>
                         @endif
 
+                        <div style="margin-bottom:10px!important">
+                            <form action="{{ route('v1_match_rule_part_name', ['edit' => true]) }}" class="form-inline" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="style_id" value="{{ $style->id }}">
+
+                                <button type="submit" class="btn btn-flat btn-success ">Match rule part name</button>
+                            </form>
+                        </div>
+
                         <div id="rule-part-names-container">
                             @foreach ($bodyPartColorGroups as $bodyPartColorGroup)
                                 <div class="form-group">

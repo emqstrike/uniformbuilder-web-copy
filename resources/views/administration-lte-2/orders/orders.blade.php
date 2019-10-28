@@ -108,7 +108,7 @@
                                 <td class="td-assigned-sales-rep" data-foid="{{ $order->factory_order_id }}" data-sales-rep-id="{{ $order->sent_to_rep_qx_id }}" data-sales-rep-email="{{ $order->rep_email }}">
                             @else
                                 <td class="td-assigned-sales-rep">
-                            @endif   
+                            @endif
                                 @if ((! $order->factory_order_id) && (is_null($order->deleted_at)))
                                     <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
@@ -125,7 +125,7 @@
                                     Pending
                                 @else
                                     New
-                                @endif    
+                                @endif
                             </td>
 
                             <td class="td-order-date-submitted">{{ $order->created_at }}</td>
@@ -142,6 +142,8 @@
 
                                         <button class="btn btn-sm btn-flat btn-danger delete-order" data-order-id="{{ $order->id }}">Delete</button>
                                     @endif
+                                @elseif ($order->factory_order_id != null && Session::get('role') == 'qa')
+                                    <button class="btn btn-sm btn-flat btn-warning reset-foid" data-order-id="{{ $order->id }}">Reset FOID</button>
                                 @endif
                             </td>
                         </tr>
@@ -189,8 +191,8 @@
 
     <script>
         $(document).ready(function() {
-            getQXSalesReps(function(sales_reps) { 
-                window.sales_reps = sales_reps; 
+            getQXSalesReps(function(sales_reps) {
+                window.sales_reps = sales_reps;
             });
 
             $('.data-table').DataTable({
@@ -208,12 +210,12 @@
                         var foid = $(this).data('foid');
                         var salesRepEmail = $(this).data('sales-rep-email');
                         var salesRepID = $(this).data('sales-rep-id');
-                 
+
                         if ((foid != undefined) && (salesRepEmail == "")) {
-                            var result = window.sales_reps.filter(salesRep => { 
-                                return salesRep.RepID === salesRepID;  
+                            var result = window.sales_reps.filter(salesRep => {
+                                return salesRep.RepID === salesRepID;
                             });
-                            
+
                             if (result.length > 0) {
                                 $(this).text(result[0].UserID);
                             }
@@ -223,7 +225,7 @@
                 initComplete: function () {
                     this.api().columns('#select-filter').every( function () {
                         var column = this;
-                        
+
                         var select = $(`<select><option value=""></option></select>`).appendTo($(column.footer()).empty())
                         .on('change', function() {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -251,16 +253,16 @@
             window.order_code = null;
             window.order_info = null;
 
-            getColors(function(colors) { 
-                window.colors = colors; 
+            getColors(function(colors) {
+                window.colors = colors;
             });
 
-            getPatterns(function(patterns) { 
-                window.patterns = patterns; 
+            getPatterns(function(patterns) {
+                window.patterns = patterns;
             });
 
-            getSizingConfig(function(item_sizes) { 
-                window.item_sizes = item_sizes; 
+            getSizingConfig(function(item_sizes) {
+                window.item_sizes = item_sizes;
             });
 
             var reps_elem = "";
@@ -274,8 +276,8 @@
                 }
             });
 
-            var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) { 
-                return o.LastName.toLowerCase(); 
+            var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) {
+                return o.LastName.toLowerCase();
             });
 
             _.each(asc_unique_active_sales_reps, function(rep) {
@@ -364,8 +366,8 @@
                     var order_id = $(this).parent().parent().find('.td-order-id').text();
 
                     window.order_id = order_id;
-                    getOrderDetails(function(order) { 
-                        window.order = order; 
+                    getOrderDetails(function(order) {
+                        window.order = order;
                     });
 
                     ship_contact = window.order.ship_contact_person;
@@ -385,8 +387,8 @@
                     billing_phone = window.order.bill_phone;
 
                     window.order_parts = null;
-                    getOrderParts(function(order_parts) { 
-                        window.order_parts = order_parts; 
+                    getOrderParts(function(order_parts) {
+                        window.order_parts = order_parts;
                     });
 
                     function getOrderParts(callback) {
@@ -435,8 +437,8 @@
                             "DesignSheet" : pdfOrderFormValue
                         };
 
-                        getMaterial(function(material) { 
-                            window.material = material; 
+                        getMaterial(function(material) {
+                            window.material = material;
                         });
 
                         function getMaterial(callback) {
@@ -509,8 +511,8 @@
 
                         window.pa = null;
 
-                        getPAConfigs(function(parts_aliases) { 
-                            window.pa = parts_aliases; 
+                        getPAConfigs(function(parts_aliases) {
+                            window.pa = parts_aliases;
                         });
 
                         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
@@ -604,11 +606,11 @@
                     };
 
                     // SAVED
-                    var x = _.find(window.item_sizes, function(e) { 
-                        return e.id == window.material.qx_sizing_config; 
+                    var x = _.find(window.item_sizes, function(e) {
+                        return e.id == window.material.qx_sizing_config;
                     });
 
-    
+
                     window.test_size_data = JSON.parse(x.properties);
 
                     var order_items_split = splitRosterToQXItems();
@@ -641,7 +643,13 @@
                                         return e.size; 
                                     });
 
+<<<<<<< HEAD
                                     var roster = [];
+=======
+                            var roster_sizes = _.map(entry.roster, function(e) {
+                                return e.size;
+                            });
+>>>>>>> 05a3502a7ac83a4dc9e62b3d769553cdec1d9469
 
                                     window.roster_formatted = false;
 
@@ -710,7 +718,7 @@
                                         parts.push(orderEntire['orderParts'][index]['orderPart']);
                                     });
 
-                             
+
                                     updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                                     document.location.reload(); // UNCOMMENT
                                 },
@@ -760,8 +768,8 @@
             }
 
             function applyConfigs(api_order_id) {
-                getOrderParts(function(order_parts) { 
-                    window.order_parts_b = order_parts; 
+                getOrderParts(function(order_parts) {
+                    window.order_parts_b = order_parts;
                 });
 
                 function getOrderParts(callback) {
@@ -1035,7 +1043,7 @@
                                     Number: entry.Number,
                                     Name: entry.Name
                                 };
-
+                                
                                 e.roster.push(_roster);
                             }
                         });
@@ -1320,7 +1328,7 @@
 
             $('.select-order-checkbox').change(function() {
                 var count = $(".select-order-checkbox:checked").length;
-                
+
                 if (count > 0) {
                     $('.submit-selected-order-to-edit').attr('disabled', false);
                 } else {
@@ -1360,7 +1368,31 @@
                 }
             });
 
-            
+            $(document).on('click', '.reset-foid', function() {
+                var orderID = $(this).data('order-id');
+                var url = "//" + api_host + "/api/order/reset_foid";
+
+                var data = {
+                    id: orderID
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response) {
+                        if (response.success == true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+
         });
     </script>
 @endsection

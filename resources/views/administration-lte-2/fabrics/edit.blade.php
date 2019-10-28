@@ -14,7 +14,7 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $fabric->id }}">
                         <input type="hidden" name="thumbnail" value="{{ $fabric->thumbnail }}" id="thumbnail">
- 
+
                         <div class="form-group">
                             <label class="col-md-5 control-label">Material ID</label>
 
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label class="col-md-5 control-label">
                                 Thumbnail File
-                                
+
                                 @if ($fabric->thumbnail)
                                     <div style="margin-top: 15px;">
                                         <button type="button" class="btn btn-flat btn-xs btn-danger remove-thumbnail">Remove thumbnail</button>
@@ -52,7 +52,7 @@
 
                             <div class="col-md-4">
                                 <input type="file" class="form-control" name="new_thumbnail">
-                                
+
                                 @if ($fabric->thumbnail)
                                     <div class="img">
                                         <img src="{{ $fabric->thumbnail }}">
@@ -66,6 +66,14 @@
 
                             <div class="col-md-4">
                                 <textarea name="description" class="form-control">{{ $fabric->description }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">RCH Alias</label>
+
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="rch_alias" value="{{ $fabric->rch_alias }}">
                             </div>
                         </div>
 

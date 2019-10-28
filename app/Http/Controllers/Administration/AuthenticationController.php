@@ -89,7 +89,7 @@ class AuthenticationController extends Controller
                 } elseif (Session::get('fontsMinifiedOnly')){
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
-                    return redirect('administration');
+                    return redirect('administration/v1-0');
                 }
             }
             else

@@ -2202,6 +2202,10 @@ $(document).ready(function() {
                 name: "Tech Tee (eSports)",
                 alias: "gamer-jersey-esports",
             },
+            { 
+                name: "Team Flag (Apparel)",
+                alias: "team-flag",
+            },
 
         ],
 
@@ -11061,6 +11065,7 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Field Hockey' },
             { sport: 'Wrestling Compression Shorts (Apparel)' },
+            { sport: 'Team Flag (Apparel)' },
 
         ],
 
@@ -11231,7 +11236,12 @@ ub.funcs.fontOffSets = [
                 type: 'upper',
                 upperLabel: 'Jersey',
             },
-            
+            // TEAM ACCESSORIES
+            {
+                sport: 'Team Flag (Apparel)',
+                type: 'upper',
+                upperLabel: 'Team Flag',
+            },
         ],
         getLabel: function (sport) {
 
@@ -11395,6 +11405,11 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Track and Field',
             filters: ['All'],
+        },
+        // TEAM ACCESSORIES
+        {
+            sport: 'Team Flag (Apparel)',
+            filters: ['All', 'Team Flag'],
         },
     ];
 
@@ -12009,6 +12024,11 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Track and Field',
                 gender: ['men', 'women'],
             },
+            {
+                shortCode: 'team-flag',
+                urlAlias: 'Team Flag (Apparel)',
+                gender: ['men', 'women'],
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12272,8 +12292,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Hoodie (Apparel)', },
             { sport: 'Cage Jacket (Apparel)', },
             { sport: 'Quarter Zip Jacket (Apparel)', },
-
             { sport: 'Hockey', },
+            // Team Accessories
+            { sport: 'Team Flag (Apparel)', },
 
         ],
 
@@ -12305,6 +12326,8 @@ ub.funcs.fontOffSets = [
             "Fight Shorts",
             "Compression Tops",
             "Compression Shorts",
+            // Team Accessories
+            "Team Flag"
         ], 
 
         isExcluded: function (alias) {
@@ -12383,7 +12406,8 @@ ub.funcs.fontOffSets = [
             'Hockey',
             'Soccer',
             'Track and Field',
-            'Wrestling 2018'
+            'Wrestling 2018',
+            'Lacrosse'
         ],
         activateOnLowerUniform: function (uniformCategory) {
 

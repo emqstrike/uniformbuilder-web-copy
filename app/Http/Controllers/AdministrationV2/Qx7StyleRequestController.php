@@ -213,9 +213,16 @@ class Qx7StyleRequestController extends Controller
     public function matchRulePartName(Request $request)
     {
         $response = $this->optionsClient->matchRulePartName($request->all());
-
+        
         if ($response->success) {
+            if (isset($request['edit'])) {
+                return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
+            }
             return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
+        }
+
+        if (isset($request['edit'])) {
+            return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
         }
 
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
