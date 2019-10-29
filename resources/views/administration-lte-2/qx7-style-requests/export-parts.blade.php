@@ -84,7 +84,7 @@ $(document).ready( function () {
                 extend: 'excelHtml5',
                 filename: 'QX7 Report',
                 exportOptions: {
-                    columns: [2, 3, 4, 5, 6, 7 ],
+                    columns: [2, 3, 4, 5, 6, 7, 0, 1 ],
                     format: {
                         body: function ( data, column, row ) {
                             if (row === 5) {
