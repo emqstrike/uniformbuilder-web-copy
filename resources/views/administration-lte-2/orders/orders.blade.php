@@ -642,14 +642,8 @@
                                     var roster_sizes = _.map(entry.roster, function(e) { 
                                         return e.size; 
                                     });
-
-<<<<<<< HEAD
+                                    
                                     var roster = [];
-=======
-                            var roster_sizes = _.map(entry.roster, function(e) {
-                                return e.size;
-                            });
->>>>>>> 05a3502a7ac83a4dc9e62b3d769553cdec1d9469
 
                                     window.roster_formatted = false;
 
