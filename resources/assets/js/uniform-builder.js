@@ -7221,44 +7221,44 @@ $(document).ready(function () {
     }
 
     ub.funcs.updateTertiaryBarFromDirectLink = function(blockPatternsCollection) {
-        if (typeof ub.config.styles !== 'undefined') {
-            if (!_.isEmpty(ub.config.styles.blockPattern)) {
+        if (typeof ub.config.styles !== 'undefined' && typeof ub.config.styles.blockPattern !== 'undefined') {
 
-                var blockPattern = ub.config.styles.blockPattern;
+            var blockPattern = ub.config.styles.blockPattern;
 
-                var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
-                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
-                })
+            var searchedBlockPattern = _.find(blockPatternsCollection, function(data) {
+                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(blockPattern));
+            })
 
-                // if the blockPattern is not empty
-                setTimeout(function() {
-                    if (!_.isEmpty(searchedBlockPattern)) {
-                        $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
-                    } else {
-                        $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
-                    }    
-                }, 100)
-            }
+            // if the blockPattern is not empty
+            setTimeout(function() {
+                if (!_.isEmpty(searchedBlockPattern)) {
+                    $('.tertiary.main-picker-items[data-item="' + searchedBlockPattern.item +'"]').trigger("click").addClass('active');
+                } else {
+                    $('.tertiary.main-picker-items[data-item=All]').trigger("click").addClass('active');
+                }
+            }, 100)
         }
     }
 
     ub.funcs.updateQuarternaryBarFromDirectLink = function(optionsCollection) {
-        var urlParameter = ub.funcs.getUrlParameter('option');
-        var blockPattern = ub.config.styles.blockPattern;
-        var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
-        var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
+        if (typeof ub.config.styles !== 'undefined' && typeof ub.config.styles.blockPattern !== 'undefined') {
+            var urlParameter = ub.funcs.getUrlParameter('option');
+            var blockPattern = ub.config.styles.blockPattern;
+            var activeBlockPattern = $('.slink-small.tertiary.main-picker-items.active').data('item');
+            var isSameBlockPattern = (ub.funcs.formatStringToWord(blockPattern) === ub.funcs.formatStringToWord(activeBlockPattern)) ? true : false;
 
-        if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
-            var option = _.find(optionsCollection, function(data) {
-                return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
-            })
+            if (typeof ub.config.styles !== 'undefined' && typeof urlParameter !== 'undefined' && !_.isEmpty(ub.config.styles.blockPattern) && isSameBlockPattern ) {
+                var option = _.find(optionsCollection, function(data) {
+                    return (ub.funcs.formatStringToWord(data.item) === ub.funcs.formatStringToWord(urlParameter));
+                })
 
-            // if the blockPattern is not empty
-            setTimeout(function(){
-                if (typeof option !== 'undefined') {
-                    $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
-                } 
-            }, 100)
+                // if the blockPattern is not empty
+                setTimeout(function(){
+                    if (typeof option !== 'undefined') {
+                        $('.quarternary.main-picker-items[data-item="' + option.item +'"]').trigger("click").addClass('active');
+                    }
+                }, 100)
+            }
         }
     }
 
