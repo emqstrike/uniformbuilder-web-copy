@@ -79,13 +79,12 @@ class Qx7StyleRequestController extends Controller
 
     public function getOptions($id)
     {
-
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
-        $colors = $this->colorsClient->getColors("prolook");
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts("Football", "prolook");
+        $colors = $this->rulesClient->getRuleColors($style->rule_id);
 
         $front_guide = null;
         $back_guide = null;

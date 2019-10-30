@@ -115,11 +115,12 @@ $(document).ready(function() {
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
         var colors_dropdown = '';
+
         $.each(window.colors, function( key, value ) {
             if( color_code == value.color_code){
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.web_hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.web_hex_code + '" selected>' + value.color_alias + '</option>';
             } else {
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.web_hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.web_hex_code + '">' + value.color_alias + '</option>';
             }
         });
         return colors_dropdown;
@@ -2506,7 +2507,7 @@ $(document).ready(function() {
 
     function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors/" + brand;
+        var url = "//" + qx7_host + "/api/rule/" + $('#rule_id').val();
         $.ajax({
             url: url,
             async: false,
@@ -2515,7 +2516,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                colors = data['colors'];
+                colors = data.rules.colors;
                 if(typeof callback === "function") callback(colors);
             }
         });
