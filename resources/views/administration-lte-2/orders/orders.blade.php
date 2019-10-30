@@ -424,12 +424,12 @@
                         var teamcolors = bcx.team_colors;
 
                         var pdfOrderFormValue = bcx.pdfOrderForm;
-                        var s3regex = 's3-us-west-2.amazonaws.com';
-                        var found = pdfOrderFormValue.match(s3regex);
-
-                        if (found == null) {
+                       
+                       if (! pdfOrderFormValue.startsWith('https')) {
                             pdfOrderFormValue = customizer_host + pdfOrderFormValue;
                         }
+
+                        pdfOrderFormValue = pdfOrderFormValue.replace("///", "/");
 
                         entry.orderPart = {
                             "ID" : entry.id,
