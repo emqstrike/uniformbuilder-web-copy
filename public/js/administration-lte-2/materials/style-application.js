@@ -2135,7 +2135,7 @@ $(document).ready(function() {
 
     function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors/" + brand;
+        var url = "//" + qx7_host + "/api/rule/" + $('#rule_id').val();
         $.ajax({
             url: url,
             async: false,
@@ -2144,7 +2144,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                colors = data['colors'];
+                colors = data.rules.colors;
                 if(typeof callback === "function") callback(colors);
             }
         });
@@ -3467,7 +3467,7 @@ $(".dd-selected-value").click(function(){
             $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
 
             jQuery.each(window.colors, function(index, item) {
-                $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+                $(".accentLayerColors").append( "<option value="+item.web_hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.web_hex_code+"'>"+ item.color_alias +"</option>")
             });
 
             $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
