@@ -77,7 +77,7 @@ $(document).ready(function() {
         });
 
         var default_color_name = dcc_item.name;
-        var default_color_hex = dcc_item.hex_code;
+        var default_color_hex = dcc_item.web_hex_code;
 
         var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
         var sublimated_default_color_name = sdcc_item.name;
@@ -1433,9 +1433,11 @@ $(document).ready(function() {
         $('#saved-origin').text(material.option.origin);
         $('#saved-origin').attr('selected','selected');
 
-        $('.saved-default-color').val(material.option.default_color);
-        $('.saved-default-color').text(material.option.default_color_name);
-        $('.saved-default-color').attr('selected','selected');
+        $('.default-color').val(material.option.default_color);
+
+        // $('.saved-default-color').val(material.option.default_color);
+        // $('.saved-default-color').text(material.option.default_color_name);
+        // $('.saved-default-color').attr('selected','selected');
 
         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
