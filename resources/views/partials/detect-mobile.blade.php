@@ -55,8 +55,11 @@
 <script>
 
 var ua = navigator.userAgent.toLowerCase();
+// detect ipad with wrong UA on safari mobile browser.
+// https://stackoverflow.com/questions/58019463/how-to-detect-device-name-in-safari-on-ios-13-while-it-doesnt-show-the-correct
+var isIOSDevice = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
 
-if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) || (ua.indexOf("ipod") >= 0) ){
+if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) || (ua.indexOf("ipod") >= 0) || isIOSDevice) {
 	// Do something!
 	// Redirect to Android-site?
 
@@ -72,37 +75,6 @@ if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("i
   	});
 
 }
- // if( $(window).width() <= "650"){
-	// console.log("true");
-	// var modal = $("#myModal").html();
-
-	// $( "body" ).detach();
-	// $("html").append(modal);
-	// $('#myModal').modal({
-	// backdrop: 'static',
-	// keyboard: false
-	// })
-
- //  }
-
- // else {
- 
- //     console.log("false");
- //  }
-// if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-//  console.log("Mobile responsive");
-//  var modal = $("#myModal").html();
-
-//  $( "body" ).detach();
-// $("html").append(modal);
-// $('#myModal').modal({
-//   backdrop: 'static',
-//   keyboard: false
-// })
-
-// }else{
-// 	 console.log("desktop");
-// }
 
 </script>
 
