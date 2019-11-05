@@ -692,6 +692,7 @@
                     };
 
                     strResult = JSON.stringify(orderEntire);
+                    console.log(strResult);
 
                     // SEND ORDER TO EDIT
                     if (window.send_order) {
@@ -815,13 +816,17 @@
                     } else if (entry.input_type == "Color") {
 
                         try {
-                            color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
                             brand = builder_customizations[type][entry.part_name]['colorObj']['brand'];
 
                             if (brand.toLowerCase() == 'richardson') {
-                                value = color_name + "-RCH(" + + color_code + ")"; 
+                                var color_name = builder_customizations[type][entry.part_name]['colorObj']['alias'];
+                                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code_alias'];
+
+                                value = color_name + "-" + color_code;
                             } else {
+                                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                                color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+
                                 if (color_name == "Charcoal Grey") {
                                     color_name = "Charcoal Gray";
                                 }
