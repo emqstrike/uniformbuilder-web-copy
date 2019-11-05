@@ -793,7 +793,6 @@
                 var questions = [];
 
                 properties.forEach(function(entry) {
-
                     var question_id = parseInt(entry.part_questions);
                     var value = null;
                     var name = null;
@@ -818,12 +817,17 @@
                         try {
                             color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                             color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+                            brand = builder_customizations[type][entry.part_name]['colorObj']['brand'];
 
-                            if (color_name == "Charcoal Grey") {
-                                color_name = "Charcoal Gray";
+                            if (brand.toLowerCase() == 'richardson') {
+                                value = color_name + "-RCH(" + + color_code + ")"; 
+                            } else {
+                                if (color_name == "Charcoal Grey") {
+                                    color_name = "Charcoal Gray";
+                                }
+
+                                value = color_name + " " + "(" + color_code + ")";
                             }
-
-                            value = color_name + " " + "(" + color_code + ")";
                         } catch(err) {
                         }
                     } else if (entry.input_type == "Material") {
