@@ -410,7 +410,7 @@
                         });
                     }
 
-                    window.order_parts.forEach(function(entry) {
+                    window.order_parts.forEach(function(entry, entryIndex) {
                         bcx = JSON.parse(entry.builder_customizations);
                         window.customizer_material_id = null;
                         window.pa_id = entry.id;
@@ -509,8 +509,6 @@
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
                         }
 
-                        window.pa = null;
-
                         getPAConfigs(function(parts_aliases) {
                             window.pa = parts_aliases;
                         });
@@ -540,7 +538,7 @@
                         var questions_valid = applyConfigs(api_order_id);
 
                         entry.orderQuestions = {
-                            "OrderQuestion": questions_valid
+                            "OrderQuestion": questions_valid[entryIndex]
                         };
 
                         var z = JSON.parse(entry.roster);
@@ -615,7 +613,6 @@
 
                     var order_items_split = splitRosterToQXItems();
                     var order_parts_split = [];
-                    var sample = [];
 
                     order_items_split.forEach(function(entry, i) {
                         if (entry.roster.length > 0) {
@@ -692,7 +689,6 @@
                     };
 
                     strResult = JSON.stringify(orderEntire);
-                    console.log(strResult);
 
                     // SEND ORDER TO EDIT
                     if (window.send_order) {
@@ -793,224 +789,234 @@
                 var properties = JSON.parse(window.pa.properties);
                 var questions = [];
 
-                properties.forEach(function(entry) {
-                    var question_id = parseInt(entry.part_questions);
-                    var value = null;
-                    var name = null;
-                    var color_code = null;
-                    var color_name = null;
-                    var color = null;
-                    var pattern = null;
-                    var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
-                    var data_pushed = false;
+                window.order_parts_b.forEach((_order_parts_b, index) => {
+                    questions.push([]);
 
-                    // RESUME HERE
+                    properties.forEach(function(entry) {
+                        var question_id = parseInt(entry.part_questions);
+                        var value = null;
+                        var name = null;
+                        var color_code = null;
+                        var color_name = null;
+                        var color = null;
+                        var pattern = null;
+                        var builder_customizations = JSON.parse(window.order_parts_b[index]['builder_customizations']);
+                        var data_pushed = false;
 
-                    if (entry.input_type == "Pattern") {
-                        try {
-                            pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
-                            value = pattern.replace(/[0-9]/g, '');
-                        } catch(err) {
+                        // RESUME HERE
 
-                        }
-                    } else if (entry.input_type == "Color") {
+                        if (entry.input_type == "Pattern") {
+                            try {
+                                pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
+                                value = pattern.replace(/[0-9]/g, '');
+                            } catch(err) {
 
-                        try {
-                            brand = builder_customizations[type][entry.part_name]['colorObj']['brand'];
+                            }
+                        } else if (entry.input_type == "Color") {
 
-                            if (brand.toLowerCase() == 'richardson') {
-                                var color_name = builder_customizations[type][entry.part_name]['colorObj']['alias'];
-                                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code_alias'];
+                            try {
+                                brand = builder_customizations[type][entry.part_name]['colorObj']['brand'];
 
-                                value = color_name + "-" + color_code;
-                            } else {
-                                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
-                                color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+                                if (brand.toLowerCase() == 'richardson') {
+                                    var color_name = builder_customizations[type][entry.part_name]['colorObj']['alias'];
+                                    color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code_alias'];
 
-                                if (color_name == "Charcoal Grey") {
-                                    color_name = "Charcoal Gray";
+                                    value = color_name + "-" + color_code;
+                                } else {
+                                    color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                                    color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+
+                                    if (color_name == "Charcoal Grey") {
+                                        color_name = "Charcoal Gray";
+                                    }
+
+                                    value = color_name + " " + "(" + color_code + ")";
+                                }
+                            } catch(err) {
+                            }
+                        } else if (entry.input_type == "Material") {
+                            try {
+                                value = entry.edit_part_value;
+                            } catch(err) {
+
+                            }
+                        } else if (entry.input_type == "Team_Color") {
+                            var idx = 0;
+
+                            if (entry.part_questions == "347") {
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "348") {
+                                idx = 1;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "349") {
+                                idx = 2;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "350") {
+                                idx = 3;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "465") {
+                                idx = 4;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "466") {
+                                idx = 5;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            }
+                        } else if (entry.input_type == "Sock_Color") {
+                            var idx = 0;
+                            var no_translation = ["260", "261", "262", "406"];
+
+                            try {
+                                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                                if (! no_translation.indexOf(entry.part_questions)) {
+                                    value = translateToSocksColor(color_name, color_code);
+                                } else {
+                                    value = color_name + " " + "(" + color_code + ")";
+                                }
+                            } catch(err) {
+                            }
+                        } else if (entry.input_type == "Random_Feed") {
+                            var idx = 0;
+
+                            if (builder_customizations['randomFeeds'] > 0) {
+                                if (builder_customizations['randomFeeds']['Top Welt'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 433,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
                                 }
 
-                                value = color_name + " " + "(" + color_code + ")";
+                                if (builder_customizations['randomFeeds']['Arch'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Arch']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 430,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Toe'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Toe']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 429,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Heel'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Heel']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 428,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Padding'] != undefined ) {
+                                    var z = builder_customizations['randomFeeds']['Padding']['layers'];
+
+                                    if (z.length > 1 ) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 431,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Body'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Body']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 432,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+                            } else {
+                                blankRandomFeeds = [{
+                                    "QuestionID" : 428,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 429,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 430,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 431,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 432,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 433,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                }];
+
+                                blankRandomFeeds.forEach(function(entry) {
+                                    questions.push(entry);
+                                });
+
+                                data_pushed = true;
                             }
-                        } catch(err) {
-                        }
-                    } else if (entry.input_type == "Material") {
-                        try {
-                            value = entry.edit_part_value;
-                        } catch(err) {
 
-                        }
-                    } else if (entry.input_type == "Team_Color") {
-                        var idx = 0;
+                            try {
+                                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
 
-                        if (entry.part_questions == "347") {
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "348") {
-                            idx = 1;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "349") {
-                            idx = 2;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "350") {
-                            idx = 3;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "465") {
-                            idx = 4;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "466") {
-                            idx = 5;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        }
-                    } else if (entry.input_type == "Sock_Color") {
-                        var idx = 0;
-                        var no_translation = ["260", "261", "262", "406"];
-
-                        try {
-                            color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
-
-                            if (! no_translation.indexOf(entry.part_questions)) {
                                 value = translateToSocksColor(color_name, color_code);
-                            } else {
-                                value = color_name + " " + "(" + color_code + ")";
+                            } catch(err) {
+
                             }
-                        } catch(err) {
-                        }
-                    } else if (entry.input_type == "Random_Feed") {
-                        var idx = 0;
-
-                        if (builder_customizations['randomFeeds'] > 0) {
-                            if (builder_customizations['randomFeeds']['Top Welt'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 433,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Arch'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Arch']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 430,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Toe'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Toe']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 429,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Heel'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Heel']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 428,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Padding'] != undefined ) {
-                                var z = builder_customizations['randomFeeds']['Padding']['layers'];
-
-                                if (z.length > 1 ) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 431,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Body'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Body']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 432,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-                        } else {
-                            blankRandomFeeds = [{
-                                "QuestionID" : 428,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 429,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 430,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 431,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 432,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 433,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            }];
-
-                            blankRandomFeeds.forEach(function(entry) {
-                                questions.push(entry);
-                            });
-
-                            data_pushed = true;
                         }
 
-                        try {
-                            color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+                        if (data_pushed == false) {
+                            var data = {
+                                "QuestionID" : question_id,
+                                "Value" : value
+                            };
 
-                            value = translateToSocksColor(color_name, color_code);
-                        } catch(err) {
-
+                            questions[index].push(data);
                         }
-                    }
-
-                    if (data_pushed == false) {
-                        var data = {
-                            "QuestionID" : question_id,
-                            "Value" : value
-                        };
-
-                        questions.push(data);
-                    }
+                    });
                 });
 
-                questions = _.uniq(questions, function(item, key, a) {
-                    return item.QuestionID;
+                var _questions = [];
+
+                questions.forEach((question) => {
+                    question = _.uniq(question, function(item, key, a) {
+                        return item.QuestionID;
+                    });
+
+                    _questions.push(question);
                 });
 
-                return questions;
+                return _questions;
             }
 
             function splitRosterToQXItems() {
