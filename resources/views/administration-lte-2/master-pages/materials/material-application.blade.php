@@ -26,6 +26,11 @@
         .app-default-mascot {
             width: 100%;
         }
+
+        .select2-hidden-accessible {
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 @endsection
 
