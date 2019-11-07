@@ -1338,11 +1338,11 @@
             $('.select-order-checkbox').change(function() {
                 var count = $(".select-order-checkbox:checked").length;
 
-                if (count > 0) {
-                    $('.submit-selected-order-to-edit').attr('disabled', false);
-                } else {
-                    $('.submit-selected-order-to-edit').attr('disabled', true);
-                }
+                // if (count > 0) {
+                //     $('.submit-selected-order-to-edit').attr('disabled', false);
+                // } else {
+                //     $('.submit-selected-order-to-edit').attr('disabled', true);
+                // }
             });
 
             $('.submit-selected-order-to-edit').click(function() {
