@@ -30,6 +30,11 @@
         .app-default-font, .app-default-text {
             text-transform: uppercase;
         }
+
+        .select2-hidden-accessible {
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 @endsection
 
