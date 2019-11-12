@@ -67,6 +67,7 @@
                                 <th>Order Code</th>
                                 <th>Client</th>
                                 <th>PDF Link</th>
+                                <th>Order Items</th>
                                 <th>Submitted by User</th>
                                 <th id="select-filter">Test Order</th>
                                 <th>FOID</th>
@@ -95,6 +96,9 @@
                                 <center>
                                     <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
                                 </center>
+                            </td>
+                            <td class="td-order-items">
+                                <a href="#" class="btn btn-default btn-sm btn-flat view-order-items" data-order="{{ $order->order_id }}">View</a>
                             </td>
 
                             <td class="td-order-user-id">
@@ -182,6 +186,7 @@
 
     @include('administration-lte-2.orders.modal.delete-order')
     @include('administration-lte-2.orders.modal.note')
+    @include('administration-lte-2.orders.modal.view-order-items')
 @endsection
 
 @section('scripts')
@@ -1401,7 +1406,47 @@
                 });
             });
 
+            $(document).on('click', '.view-order-items', function () {
+                console.log($(this));
+                var modal = $('#view-order-items-modal');
+                var o_modal = modal.html();
+                modal.find('.modal-header h4').text('Order: ' + $(this).data('order'));
+                var table_body = modal.find('table tbody');
 
+                var url = '//' + api_host + '/api/ordersMinified/orderItems/'+ $(this).data('order');
+
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data) {
+                        var order_items = data['orderItems'];
+                        table_body.empty();
+                        _.each(order_items, function (item) {
+                            table_body.append(`
+                                <tr>
+                                    <td>`+item.id+`</td>
+                                    <td>`+item.order_id+`</td>
+                                    <td>`+item.factory_order_id+`</td>
+                                    <td>`+item.item_id+`</td>
+                                    <td> <a href="`+item.design_sheet+`" target="_blank" class="btn btn-default btn-xs btn-flat">View</a></td>
+                                </tr>
+                            `);
+                        });
+                    }
+                }).then(function () {
+                    $('#view-order-items-modal').modal('show');
+
+                    $(document).on('hidden.bs.modal', function () {
+                        modal.html(o_modal);
+                    });     
+                });
+            });
+
+            
         });
     </script>
 @endsection
