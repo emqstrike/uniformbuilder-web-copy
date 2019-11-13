@@ -1426,6 +1426,7 @@
                         var order_items = data['orderItems'];
                         table_body.empty();
                         _.each(order_items, function (item) {
+                            var revised = _.isEmpty(item.revisions) ? 'Original' : 'Revised';
                             table_body.append(`
                                 <tr>
                                     <td>`+item.id+`</td>
@@ -1433,6 +1434,7 @@
                                     <td>`+item.factory_order_id+`</td>
                                     <td>`+item.item_id+`</td>
                                     <td> <a href="`+item.design_sheet+`" target="_blank" class="btn btn-default btn-xs btn-flat">View</a></td>
+                                    <td>`+revised+`</td>
                                 </tr>
                             `);
                         });

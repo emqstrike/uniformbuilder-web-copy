@@ -15,11 +15,12 @@
                             <td>Factory Order ID</td>
                             <td>Item ID</td>
                             <td>Design Sheet</td>
+                            <td>Revisions</td>
                         </tr>
                     </thead>
                     <tbody style="text-align: center">
                         <tr>
-                            <td colspan=5>No order items.</td>
+                            <td colspan=6>No order items.</td>
                         </tr>
                     </tbody>
                 </table>
