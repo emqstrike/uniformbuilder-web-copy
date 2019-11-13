@@ -6281,7 +6281,7 @@ $(document).ready(function() {
             width: 15,
             radius: 85,
             value: _start,
-            startAngle: 90,
+            startAngle: 97,
 
             drag: function (args) {
                 
