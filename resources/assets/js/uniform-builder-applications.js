@@ -6277,11 +6277,11 @@ $(document).ready(function() {
 
         $("#rotate-slider").roundSlider({
             sliderType: "min-range",
-            handleShape: "round",
+            handleShape: "round",   
             width: 15,
             radius: 85,
             value: _start,
-            startAngle: 97,
+            startAngle: 95,
 
             drag: function (args) {
                 
