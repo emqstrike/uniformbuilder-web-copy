@@ -6276,12 +6276,12 @@ $(document).ready(function() {
         // });
 
         $("#rotate-slider").roundSlider({
-            sliderType: "min-range",
-            handleShape: "round",   
+            // sliderType: "min-range",
+            handleShape: "round",
             width: 15,
             radius: 85,
             value: _start,
-            startAngle: 95,
+            startAngle: 96.5,
 
             drag: function (args) {
                 
