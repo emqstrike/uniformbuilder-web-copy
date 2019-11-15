@@ -8955,7 +8955,7 @@ $(document).ready(function () {
         ub.funcs.displayMySavedDesigns = function () {
          
             $.ajax({
-                url: ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id,
+                url: ub.config.api_host + '/api/saved_design/getByUserId/minified/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
