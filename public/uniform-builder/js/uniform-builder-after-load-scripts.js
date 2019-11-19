@@ -17,26 +17,29 @@
         ga('send', 'pageview');
 
 // Live Chat Tracker
-window.__lc = window.__lc || {};
-        window.__lc.license = 7737151;
-        (function() {
-             // var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-             // lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-             // var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-            var $zoho = $zoho || {};
-            $zoho.salesiq = $zoho.salesiq || {
-                widgetcode:"b122af8e0746322084e888cc4eb0979a67c851fc227c5e73271feec78d0c9736",
-                values:{},
-                ready:function(){}
-            };
+// window.__lc = window.__lc || {};
+//         window.__lc.license = 7737151;
+//         (function() {
+//              var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+//              lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+//              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+//         })();
 
-            var d = document;
-            var s = d.createElement("script");
-            s.type = "text/javascript";
-            s.id = "zsiqscript";
-            s.defer = true;
-            s.src = "https://salesiq.zoho.com/widget";
-            var t = d.getElementsByTagName("script")[0];
-            t.parentNode.insertBefore(s,t);
-            d.write("<div id='zsiqwidget'></div>");
-        })();
+(function() {
+    var $zoho = $zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {
+        widgetcode:"b122af8e0746322084e888cc4eb0979a67c851fc227c5e73271feec78d0c9736",
+        values:{},
+        ready:function(){}
+    };
+
+    var d = document;
+    var s = d.createElement("script");
+    s.type = "text/javascript";
+    s.id = "zsiqscript";
+    s.defer = true;
+    s.src = "https://salesiq.zoho.com/widget";
+    var t = d.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(s,t);
+    d.write("<div id='zsiqwidget'></div>");
+})();
