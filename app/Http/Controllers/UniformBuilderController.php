@@ -1980,7 +1980,6 @@ class UniformBuilderController extends Controller
         $type = 'upper';
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
-        Log::info(json_encode($bc['cuts_links']));
 //        $sml = $builder_customizations['builder_customizations']['order_items'][0]['sorted_modifier_labels'];
 
 //        $block_pattern = $bc['cuts_links']['block_pattern'];
@@ -2038,8 +2037,8 @@ class UniformBuilderController extends Controller
         $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
         $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong> <br/ >';
         $html .=       '<strong class="uniform_properties">TYPE: ' .  $firstOrderItem["applicationType"] . '</strong><br />';
-        $html .=       '<strong class="uniform_properties">CUT: ' .  $bc['cuts_links']['block_pattern']  . '</strong><br />';
-        $html .=       '<strong class="uniform_properties">OPTION: ' .  $bc['cuts_links']["neck_option"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">CUT: ' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">OPTION: ' .  $firstOrderItem["neckOption"]  . '</strong><br />';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
@@ -2348,7 +2347,7 @@ class UniformBuilderController extends Controller
 
     public function generateLegacy($orderId){
 
-         Log::info('GENERATING LEGACY PDF===> ' . $orderId);
+        // Log::info('GENERATING LEGACY PDF===> ' . $orderId);
 
         $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
         $orderDetails = $this->ordersClient->getOrderItems($orderId);
@@ -2389,7 +2388,6 @@ class UniformBuilderController extends Controller
         ];
 
         $fname = $this->generatePDF($bc, $settings['pdfOrderForm']);
-
 //        return response()->json(['success' => true, 'filename' => $fname ]);
 //        Log::info('OLD PDF FILE IS HERE===> ' . json_encode($settings));
 //        return view('editor.view-generated-pdf')->with('filename',$fname);
