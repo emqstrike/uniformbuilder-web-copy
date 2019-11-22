@@ -20,6 +20,14 @@
         .select2-container {
             width: 50% !important;
         }
+        .custom-btn-group a {
+            background-color: transparent;
+            color: black;
+            font-weight: bold;
+            border-width: 1.5px;
+            margin: 0 5px;
+            border-radius: 10px 10px !important;
+        }
     </style>
 @endsection
 
@@ -40,6 +48,15 @@
                             </div>
                         @endif
 
+                        <div style="margin-bottom:10px!important">
+                            <form action="{{ route('v1_match_rule_part_name', ['edit' => true]) }}" class="form-inline" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="style_id" value="{{ $style->id }}">
+
+                                <button type="submit" class="btn btn-flat btn-success ">Match rule part name</button>
+                            </form>
+                        </div>
+
                         <div id="rule-part-names-container">
                             @foreach ($bodyPartColorGroups as $bodyPartColorGroup)
                                 <div class="form-group">
@@ -54,6 +71,12 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @if(isset($bodyPartColorGroup['Allow Patterns']) && isset($bodyPartColorGroup['Allow Sublimation']))
+                                    <div class="btn-group custom-btn-group" role="group" aria-label="...">
+                                        @if($bodyPartColorGroup['Allow Patterns'])<a href="#" class="btn btn-success disabled">Pattern</a>@endif
+                                        @if($bodyPartColorGroup['Allow Sublimation'])<a href="#" class="btn btn-info disabled">Sublimation</a>@endif
+                                    </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>

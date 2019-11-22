@@ -20,7 +20,7 @@
                         @endif
                     </h2>
                     <div class="col-md-3">
-                        <input type="number" class="form-control user-id" placeholder="Enter User ID: ...">
+                        <input type="text" class="form-control user-id" placeholder="Enter User ID or email">
                     </div>
                     <div class="col-md-2">
                     <a href="#" class="btn btn-success btn-flat active-user" style="width: 100px;">Search</a><hr>
@@ -189,15 +189,39 @@ $(document).ready(function(){
         win.focus();
     }
 
-    $(document).on('click', '.active-user', function() {
+    $(document).on('click', '.active-user', function(e) {
+        e.preventDefault();
         $user = $('.user-id').val();
         if ($user == null || $user == '') {
-            $user = 0;
+            window.location = "/administration/v1-0/user/transactions/";
         }
         console.log($user);
-        window.location = "/administration/v1-0/user/transactions/"+$user;
+        var url = "//" + api_host + "/api/user_by_id_email/"+$user;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $user = response.user.id;
+                    window.location = "/administration/v1-0/user/transactions/"+$user;
+                } else {
+                    // show error notification when no data returned
+                    new PNotify({
+                        title: 'Error',
+                        text: response.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {}
+        });
     });
-
 });
 </script>
 @endsection

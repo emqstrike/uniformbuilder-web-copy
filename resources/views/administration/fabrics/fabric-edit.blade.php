@@ -43,6 +43,7 @@
                                 <input type="text" class="form-control material-abbreviation" name="material_abbreviation" value="{{ $fabric->material_abbreviation }}">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail File</label>
                             <div class="col-md-6">
@@ -59,6 +60,13 @@
                                     </a>
                                 </div>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Description</label>
+                            <div class="col-md-6">
+                                <textarea name="description" class="form-control">{{ $fabric->description }}</textarea>
                             </div>
                         </div>
 

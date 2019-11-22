@@ -77,7 +77,7 @@ $(document).ready(function() {
         });
 
         var default_color_name = dcc_item.name;
-        var default_color_hex = dcc_item.hex_code;
+        var default_color_hex = dcc_item.web_hex_code;
 
         var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
         var sublimated_default_color_name = sdcc_item.name;
@@ -115,11 +115,12 @@ $(document).ready(function() {
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
         var colors_dropdown = '';
+
         $.each(window.colors, function( key, value ) {
             if( color_code == value.color_code){
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.web_hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.web_hex_code + '" selected>' + value.color_alias + '</option>';
             } else {
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.web_hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.web_hex_code + '">' + value.color_alias + '</option>';
             }
         });
         return colors_dropdown;
@@ -1432,9 +1433,11 @@ $(document).ready(function() {
         $('#saved-origin').text(material.option.origin);
         $('#saved-origin').attr('selected','selected');
 
-        $('.saved-default-color').val(material.option.default_color);
-        $('.saved-default-color').text(material.option.default_color_name);
-        $('.saved-default-color').attr('selected','selected');
+        $('.default-color').val(material.option.default_color);
+
+        // $('.saved-default-color').val(material.option.default_color);
+        // $('.saved-default-color').text(material.option.default_color_name);
+        // $('.saved-default-color').attr('selected','selected');
 
         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
@@ -2506,7 +2509,7 @@ $(document).ready(function() {
 
     function getColors(brand, callback){
         var colors;
-        var url = "//" + api_host + "/api/colors/" + brand;
+        var url = "//" + qx7_host + "/api/rule/" + $('#rule_id').val();
         $.ajax({
             url: url,
             async: false,
@@ -2515,7 +2518,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                colors = data['colors'];
+                colors = data.rules.colors;
                 if(typeof callback === "function") callback(colors);
             }
         });

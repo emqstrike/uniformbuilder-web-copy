@@ -235,6 +235,13 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index'])->name('v1_tagged_styles');
             Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals'])->name('v1_tagged_styles_total');
 
+            // Fabrics
+            Route::get('fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@index'])->name('v1_index_fabrics');
+            Route::get('fabric/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@create'])->name('v1_create_fabric');
+            Route::get('fabric/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@edit'])->name('v1_edit_fabric');
+            Route::post('fabric', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@store'])->name('v1_store_fabric');
+            Route::post('fabric/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@update'])->name('v1_update_fabric');
+
             // Feedbacks
             Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@index'])->name('v1_feedbacks');
             Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@reply'])->name('v1_feedback_reply');
@@ -270,6 +277,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('application_mapper/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@update'])->name('v1_update_application_mapper');
             Route::post('application_mapper', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@store'])->name('v1_store_application_mapper');
 
+            Route::get('index_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@index'])->name('v1_index_cuts_to_styles');
+            Route::post('upload_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@upload'])->name('v1_upload_cuts_to_styles');
+            Route::get('import_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@importFromSheets'])->name('v1_import_cuts_to_styles');
+
             // QX7 Style Requests
             Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
             Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@show'])->name('v1_qx7_style_request');
@@ -293,6 +304,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('qx7_style_requests/gradient/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@gradient'])->name('v1_qx7_gradient');
             Route::post('qx7_style_requests/gradient/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateGradient'])->name('v1_qx7_update_gradient');
             Route::get('qx7_style_requests/export_parts_excel', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@exportPartsExcel'])->name('v1_qx7_export_parts');
+            Route::post('qx7_style_request/import_material_option', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@importMaterialOptions'])->name('v1_qx7_import_material_options');
         });
     });
 

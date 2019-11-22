@@ -11,6 +11,16 @@ class RulesClient extends Qx7APIClient
         parent::__construct();
     }
 
+    public function getRuleColors($ruleId)
+    {
+        $response = $this->get("rule/{$ruleId}");
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->rules) {
+            return $result->rules->colors;
+        }
+    }
+
     public function getBodyPartColorGroups($ruleId)
     {
         $response = $this->get("rule/{$ruleId}");

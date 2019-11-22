@@ -79,13 +79,12 @@ class Qx7StyleRequestController extends Controller
 
     public function getOptions($id)
     {
-
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
-        $colors = $this->colorsClient->getColors("prolook");
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts("Football", "prolook");
+        $colors = $this->rulesClient->getRuleColors($style->rule_id);
 
         $front_guide = null;
         $back_guide = null;
@@ -213,9 +212,16 @@ class Qx7StyleRequestController extends Controller
     public function matchRulePartName(Request $request)
     {
         $response = $this->optionsClient->matchRulePartName($request->all());
-
+        
         if ($response->success) {
+            if (isset($request['edit'])) {
+                return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
+            }
             return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
+        }
+
+        if (isset($request['edit'])) {
+            return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
         }
 
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
@@ -618,6 +624,7 @@ class Qx7StyleRequestController extends Controller
             $new_sr->rule_id = $style_request->rule_id;
             $new_sr->material_id = null;
             $new_sr->complete_part_names = null;
+            $new_sr->empty_material_options = [];
             // if style_id is not null
             if (isset($style_request->style_id)) {
                 // get material options by style_id
@@ -627,15 +634,20 @@ class Qx7StyleRequestController extends Controller
                 if (!empty($options)) {
                     // get material id for return obj
                     $new_sr->material_id = reset($options)->material_id;
-                    // assumption: style_request has complete rule part names
-                    $new_sr->complete_part_names = true;
                     // check rule_part_name of each material option
                     foreach ($options as $option) {
                         // if rule_part_name is null or an empty string,
                         if (empty($option->rule_part_name)) {
-                            $new_sr->complete_part_names = false;
-                            break;
+                            $str = $option->name . ' (' . ucfirst($option->perspective)[0] . ')';
+                            array_push($new_sr->empty_material_options, $str);
                         }
+                    }
+
+                    if (!empty($new_sr->empty_material_options)) {
+                        $new_sr->empty_material_options = array_unique($new_sr->empty_material_options);
+                        $new_sr->complete_part_names = false;
+                    } else {
+                        $new_sr->complete_part_names = true;
                     }
                 }
             }
@@ -644,5 +656,23 @@ class Qx7StyleRequestController extends Controller
         return view('administration-lte-2.qx7-style-requests.export-parts', [
             'style_requests' => $new_style_requests
         ]);
+    }
+
+    public function importMaterialOptions(Request $request)
+    {
+        $data = $request->all();
+        $data['overwrite_data'] = false;
+
+        if ($request->overwrite_data == 'on') {
+            $data['overwrite_data'] = true;
+        }
+
+        $response = $this->optionsClient->importMaterialOptions($data);
+
+        if ($response->success) {
+            return redirect()->route('v1_qx7_style_requests')->with('message', $response->message);
+        }
+
+        return redirect()->route('v1_qx7_style_requests')->with('errors', $response->message);
     }
 }

@@ -51,7 +51,8 @@ class FabricsController extends Controller
         $data = [
             'factory_material_id' => $fabricMaterialID,
             'material' => $fabricMaterial,
-            'material_abbreviation' => $fabricAbbreviation
+            'material_abbreviation' => $fabricAbbreviation,
+            'description' => $request->input('description')
         ];
 
         try {

@@ -142,5 +142,7 @@
 
     @include('partials.detect-mobile')
 
+    @include('partials.live-chat')
+
 </body>
 </html>
