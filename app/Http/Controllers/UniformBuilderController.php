@@ -1970,7 +1970,8 @@ class UniformBuilderController extends Controller
         $filename = $this->getGUID();
 
         if ($previousTransformedPath) {
-            $path = public_path('design_sheets/' . substr($previousTransformedPath,15));
+            // $path = public_path('design_sheets/' . substr($previousTransformedPath, 15));
+            $path = public_path('design_sheets/' . substr($previousTransformedPath, 64));
         } else {
             $path = public_path('design_sheets/' . $filename . '.pdf');
         }
@@ -2374,7 +2375,9 @@ class UniformBuilderController extends Controller
             'sku' => $material->sku,
             'url' => '/order/'.$orderId,
             'type' => $appType,
-            'builder_customizations' => $settings
+            'builder_customizations' => $settings,
+            'blockPattern' => $settings['cuts_links']['block_pattern'],
+            'neckOption' => $settings['cuts_links']['neck_option'],
         );
 
         $bc = [
