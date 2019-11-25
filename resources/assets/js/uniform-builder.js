@@ -719,11 +719,12 @@ $(document).ready(function () {
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
-                $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+                 // Left = Inside | Right - Outside
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
 
-                $('span.perspective[data-id="left"]').text('Outside');
-                $('span.perspective[data-id="right"]').text('Inside');
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
             }
 
         }

@@ -2119,8 +2119,8 @@ class UniformBuilderController extends Controller
         $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
-            $leftCaption = '(Outside)';
-            $rightCaption = '(Inside)';
+            $leftCaption = '(Inside)';
+            $rightCaption = '(Outside)';
         }
 
 //        if ($block_pattern === "Hockey Sock") {
