@@ -625,6 +625,7 @@ class Qx7StyleRequestController extends Controller
             $new_sr->material_id = null;
             $new_sr->complete_part_names = null;
             $new_sr->empty_material_options = [];
+            $new_sr->cut_id = null;
             // if style_id is not null
             if (isset($style_request->style_id)) {
                 // get material options by style_id
@@ -650,6 +651,10 @@ class Qx7StyleRequestController extends Controller
                         $new_sr->complete_part_names = true;
                     }
                 }
+            }
+
+            if (isset($style_request->rule)) {
+                $new_sr->cut_id = $style_request->rule->block_pattern_id;
             }
             array_push($new_style_requests, $new_sr);
         }
