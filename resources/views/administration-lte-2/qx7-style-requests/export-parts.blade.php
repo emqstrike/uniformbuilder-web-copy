@@ -29,9 +29,9 @@
                         <th>MATERIAL ID</th>
                         <th>STYLE REQUEST ID</th>
                         <th>STYLE NAME</th>
+                        <th>CUT ID</th>
                         <th>STYLE ID</th>
                         <th>RULE ID</th>
-                        <th>CUT ID</th>
                         <th>COMPLETE RULE PART NAMES</th>
                         <th>BRAND</th>
                         <th>UNSET MATERIAL OPTIONS</th>
@@ -43,9 +43,9 @@
                         <td>{{ $style_request->material_id }}</td>
                         <td>{{ $style_request->id }}</td>
                         <td>{{ $style_request->style_name }}</td>
+                        <td>{{ $style_request->cut_id }}</td>
                         <td>{{ $style_request->style_id }}</td>
                         <td>{{ $style_request->rule_id }}</td>
-                        <td>{{ $style_request->cut_id }}</td>
                         <td>@if(isset($style_request->complete_part_names)) {{ $style_request->complete_part_names ? 'YES' : 'NO' }} @endif</td>
                         <td>{{ $style_request->brand }}</td>
                         <td>
