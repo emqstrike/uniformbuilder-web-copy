@@ -31,6 +31,7 @@
                         <th>STYLE NAME</th>
                         <th>STYLE ID</th>
                         <th>RULE ID</th>
+                        <th>CUT ID</th>
                         <th>COMPLETE RULE PART NAMES</th>
                         <th>BRAND</th>
                         <th>UNSET MATERIAL OPTIONS</th>
@@ -44,6 +45,7 @@
                         <td>{{ $style_request->style_name }}</td>
                         <td>{{ $style_request->style_id }}</td>
                         <td>{{ $style_request->rule_id }}</td>
+                        <td>{{ $style_request->cut_id }}</td>
                         <td>@if(isset($style_request->complete_part_names)) {{ $style_request->complete_part_names ? 'YES' : 'NO' }} @endif</td>
                         <td>{{ $style_request->brand }}</td>
                         <td>
@@ -84,10 +86,10 @@ $(document).ready( function () {
                 extend: 'excelHtml5',
                 filename: 'QX7 Report',
                 exportOptions: {
-                    columns: [2, 3, 4, 5, 6, 7, 0, 1 ],
+                    columns: [2, 3, 4, 5, 6, 7, 8, 0, 1 ],
                     format: {
                         body: function ( data, column, row ) {
-                            if (row === 5) {
+                            if (row === 6) {
                                 data = data.replace( /<div class="scrollable-cell">/g, "" );
                                 data = data.replace( /<\/div>/g, "" );
                                 //split at each new line
