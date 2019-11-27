@@ -73,7 +73,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" method="POST">
-                            
+
                                         {{ csrf_field() }}
 
                                         <select name="type" class="form-control">
@@ -463,11 +463,10 @@
 
 
     @include('administration-lte-2.qx7-style-requests.modal.add-multiple-options-modal')
-    @include('administration-lte-2.qx7-style-requests.modal.style-option-info-modal')
-    @include('administration-lte-2.qx7-style-requests.modal.material-option-modal')
-    
     @include('administration-lte-2.master-pages.materials.modal.style-option-boundary-modal')
     @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
+    @include('administration-lte-2.qx7-style-requests.modal.style-option-info-modal')
+    @include('administration-lte-2.qx7-style-requests.modal.material-option-modal')
     @include('administration.materials.cleanup-style-modal')
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
