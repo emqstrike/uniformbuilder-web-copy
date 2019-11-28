@@ -144,10 +144,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-    <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
-    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/administration/polygon.js"></script>
+
     <script type="text/javascript" src="/js/administration-lte-2/materials/pipings.js"></script>
 
     <script>
