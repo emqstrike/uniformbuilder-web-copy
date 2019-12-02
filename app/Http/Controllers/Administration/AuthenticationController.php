@@ -120,7 +120,11 @@ class AuthenticationController extends Controller
             // no error in logging in and not manually logged out
             if (\URL::previous() !== env('APP_URL').'/administration/login'){
                 if (\URL::previous() === env('APP_URL').'/administration/v1-0') {
-                    Session::put('url.intended', Session::get('url.intended-v1'));
+                    if (Session::has('url.intended-v1')) {
+                        Session::put('url.intended', Session::get('url.intended-v1'));
+                    } else {
+                        Session::put('url.intended', route('v1_admin_dashboard'));
+                    }
                 } else {
                     Session::put('url.intended', \URL::previous());
                 }
