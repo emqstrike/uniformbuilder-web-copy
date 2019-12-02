@@ -46,7 +46,6 @@
             <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
             @endif
             <form method="POST" action="/administration/login">
-            {{ Session::get('url.intended') }}
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
                     <input type="email" name="email" class="form-control" placeholder="Email">
