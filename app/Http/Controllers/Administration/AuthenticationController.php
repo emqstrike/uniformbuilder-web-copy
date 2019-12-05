@@ -114,13 +114,15 @@ class AuthenticationController extends Controller
 
     public function loginForm(Request $request)
     {
+        $prev_url = preg_replace('/https?:\/\//', '', \URL::previous());
         $errorMessage = null;
         if ($request->session()->has('error_message'))
         {
             $errorMessage = $request->session()->get('error_message', '');
         } else if (!Session::has('flash_message') && !$request->session()->has('logged_out')){
             // no error in logging in and not manually logged out
-            if (\URL::previous() !== env('APP_URL').'/administration/login'){
+            if ($prev_url !== env('WEBSITE_URL').'/administration/login' && $prev_url !== env('WEBSITE_URL')){
+                
                 if (\URL::previous() === env('APP_URL').'/administration/v1-0') {
                     if (Session::has('url.intended-v1')) {
                         Session::put('url.intended', Session::get('url.intended-v1'));
