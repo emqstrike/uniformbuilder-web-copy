@@ -120,7 +120,8 @@ class AuthenticationController extends Controller
             $errorMessage = $request->session()->get('error_message', '');
         } else if (!Session::has('flash_message') && !$request->session()->has('logged_out')){
             // no error in logging in and not manually logged out
-            if (\URL::previous() !== env('APP_URL').'/administration/login' && \URL::previous() !== env('APP_URL')){
+            if (\URL::previous() !== 'http://' . env('WEBSITE_URL').'/administration/login' && \URL::previous() !== 'http://' . env('WEBSITE_URL') ||
+                \URL::previous() !== 'https://' . env('WEBSITE_URL').'/administration/login' && \URL::previous() !== 'https://' . env('WEBSITE_URL')){
                 
                 if (\URL::previous() === env('APP_URL').'/administration/v1-0') {
                     if (Session::has('url.intended-v1')) {
