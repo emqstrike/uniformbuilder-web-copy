@@ -829,8 +829,7 @@ $(document).ready(function() {
         }
         else {
 
-            _inputSizes = _sizes.sizes;
-
+            _inputSizes = _.sortBy(_sizes.sizes, "size");
         }
 
         if (typeof _settingsObject.size === 'undefined') {
