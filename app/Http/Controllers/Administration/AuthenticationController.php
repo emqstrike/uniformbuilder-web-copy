@@ -84,6 +84,7 @@ class AuthenticationController extends Controller
                 }
 
                 Log::info('Successful User Login');
+                dd(Session::get('url.intended'));
                 if (Session::get('adminFullAccess')) {
                     // return redirect('administration');
                     if (Session::get('url.intended') === null) return redirect('administration');
@@ -92,7 +93,6 @@ class AuthenticationController extends Controller
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
                     // return redirect('administration/v1-0');
-                    dd(Session::get('url.intended'));
                     if (Session::get('url.intended') === null) return redirect('administration/v1-0');
                     return redirect(Session::get('url.intended'));
                 }
