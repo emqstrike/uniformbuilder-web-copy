@@ -819,13 +819,14 @@ $(document).ready(function() {
         var _inputSizes;
 
         // this is to ignore input size 0.5 on application #4 on a specified block pattern
-        var blockPatternExceptions = ['Hockey Socks'];
+        var blockPatternExceptions = ['Hockey Socks', 'Speed'];
 
         if (_id === '4' && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
 
             _inputSizes = [{size: '0.5', }];
+            console.warn("Set twill font size picker to " + _inputSizes);
 
-        } 
+        }
         else {
 
             _inputSizes = _sizes.sizes;
