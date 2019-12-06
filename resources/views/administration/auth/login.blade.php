@@ -45,7 +45,6 @@
             @if (Session::has('flash_message'))
             <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
             @endif
-            {{ \Session::get('url.intended-v1') }}
             <form method="POST" action="/administration/login">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
