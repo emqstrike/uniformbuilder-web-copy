@@ -1370,8 +1370,14 @@ $(document).ready(function () {
         var titleNameFirstMaterial      = _names[0].toTitleCase();
         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
         var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
-
         var _returnValue                = false;
+
+        // pattern is allowed on the material but no pattern object set or pattern objexct is set to 'none'.
+        // disabled pattern button; FC-130 and FC-132
+        if (_settingsObject.has_pattern === 1 && _.isUndefined(_settingsObject.pattern.pattern_obj)) {
+            console.warn("The pattern is allowed on this material but pattern object is set to 'none' in the backend.\nSet the pattern object to 'blank' to fix this issue.");
+            return undefined;
+        };
 
         if (_settingsObject.has_pattern === 1) {
 
