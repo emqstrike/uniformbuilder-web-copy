@@ -420,9 +420,43 @@
 <!-- Sports Picker -->
 
     <script type="text/mustache" id="m-picker-items-sport">
+        @{{#quickturn}}
+
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}" style="margin-bottom: 15px;">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}" style="margin-bottom: 15px;">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}" style="margin-bottom: 15px;">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{#quickturn_logo}}
+                            <img src="@{{quickturn_logo}}" style="height:55px;margin:0px -3px;">
+                        @{{/quickturn_logo}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/quickturn}}
 
         @{{#picker_items}}
-            
+
             <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
@@ -454,47 +488,14 @@
 
         @{{/picker_items}}
 
-        @{{#esports}}
-            
-            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
-
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
-                
-                @{{#is_men}}
-                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
-                @{{/is_men}}
-
-                @{{#is_women}}
-                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
-                @{{/is_women}}
-
-                @{{#is_youth}}
-                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
-                @{{/is_youth}}
-
-                <span class="main-picker-item-caption">
-                    @{{#alias}}
-                        @{{alias}}
-                    @{{/alias}}
-                    @{{^alias}}
-                        @{{name}}
-                    @{{/alias}}
-                </span>
-
-            </div>
-
-        @{{/esports}}
-
         @{{#apparel}}
-            
+
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                
+
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}">
                 @{{/is_men}}
@@ -519,6 +520,39 @@
             </div>
 
         @{{/apparel}}
+
+        @{{#esports}}
+
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/esports}}
 
         @{{#team_accessories}}
 

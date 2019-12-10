@@ -6798,9 +6798,9 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                var itemExcemptions = ['Apparel', 'eSports', 'Team Accessories'];
+                var itemExcemptions = ['Apparel', 'eSports', 'Team Accessories', 'Quickturn'];
 
-                if (!_.contains(itemExcemptions, _item)) {
+                if (!_.contains(itemExcemptions, _item)) {  
 
                     if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
                     if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
@@ -6808,6 +6808,8 @@ $(document).ready(function () {
                     var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
+
+                    console.log("natawag ba?");
 
                 }
 
@@ -7527,7 +7529,7 @@ $(document).ready(function () {
         });
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports, teamAccessories) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender, esports, teamAccessories, quickturn) {
 
         ub.funcs.fadeOutElements();
 
@@ -7597,12 +7599,13 @@ $(document).ready(function () {
                 apparel: _apparel,
                 esports: esports,
                 team_accessories: teamAccessories,
+                quickturn: quickturn,
             }
 
             _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
             _.isEqual(gender, 'Women')  ? data.is_women = true : '';
             _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
-            
+
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
 
@@ -8365,12 +8368,13 @@ $(document).ready(function () {
         var esports = _.find(ub.data.sportsCategory['esports'], {gender: sport});
         var apparel = _.find(ub.data.sportsCategory['apparel'], {gender: sport});
         var teamAccessories = _.find(ub.data.sportsCategory['team_accessories'], {gender: sport});
+        var quickturn = _.find(ub.data.sportsCategory['quickturn'], {gender: sport});
         //  filter out riddell sport categories in picker;
         var uniformCategories = _.filter(items.sports, function(item){
             return item.brand !== "riddell";
         });
 
-        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports, teamAccessories.sports);
+        ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports, teamAccessories.sports, quickturn.sports);
 
     };
 
@@ -8426,6 +8430,11 @@ $(document).ready(function () {
             $(window).scrollTop(0);
             var teamAccessories = _.find(ub.data.teamAccessories, {gender: gender});
             ub.funcs.initScroller('sports', teamAccessories.sports, gender, undefined, undefined, undefined, undefined, undefined);
+            return;
+        } else if (sport === "Quickturn") {
+            $(window).scrollTop(0);
+            var quickturn = _.find(ub.data.quickturn, {gender: gender});
+            ub.funcs.initScroller('sports', quickturn.sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
             //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
