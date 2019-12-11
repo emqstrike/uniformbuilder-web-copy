@@ -6809,9 +6809,10 @@ $(document).ready(function () {
 
                     if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
-                    console.log("natawag ba?");
-
                 }
+
+                // setflag for quickturn category
+               ub.isQuickturnCategory =  _.isEqual(_item, 'Quickturn') ? true : false;
 
                 // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
                 if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
@@ -6924,6 +6925,8 @@ $(document).ready(function () {
 
         $('div#topbar > span.slink[data-picker-type="gender"]').unbind('click');
         $('div#topbar > span.slink[data-picker-type="gender"]').on('click', function () {
+            // set quickturn category flag to false;
+            ub.isQuickturnCategory = false;
 
             // Picker V2
             if (ub.picker.isNew) {
@@ -7599,6 +7602,8 @@ $(document).ready(function () {
                 apparel: _apparel,
                 esports: esports,
                 team_accessories: teamAccessories,
+                // for quickturn category
+                isQuickturnCategory: ub.isQuickturnCategory,
                 quickturn: quickturn,
             }
 

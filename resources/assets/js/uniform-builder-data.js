@@ -18,7 +18,7 @@ $(document).ready(function() {
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
-
+    ub.isQuickturnCategory = false;
     // The sport of the current uniform that is being edited will be stored here, an alias for ub.current_material.material.uniform_category
     ub.sport = ''; 
 

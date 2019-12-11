@@ -420,13 +420,21 @@
 <!-- Sports Picker -->
 
     <script type="text/mustache" id="m-picker-items-sport">
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
         @{{#quickturn}}
-
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
+                @if (@tooltip != "")
+                    <div class="cSoon">@{{tooltip}}</div>
+                @endif
 
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}" style="margin-bottom: 15px;">
@@ -450,7 +458,6 @@
                         @{{/quickturn_logo}}
                     @{{/alias}}
                 </span>
-
             </div>
 
         @{{/quickturn}}
