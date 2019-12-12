@@ -22,7 +22,7 @@ class UniformCategoriesController extends Controller
 
     public function index()
     {
-        $categories = $this->client->getUniformCategories();
+        $categories = $this->client->getUniformCategories(); 
         return view('administration-lte-2.categories.categories', [
             'categories' => $categories
         ]);

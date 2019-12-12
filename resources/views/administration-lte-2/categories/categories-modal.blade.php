@@ -38,6 +38,7 @@
                         <option value="apparel">Apparel</option>
                         <option value="esports">eSports</option>
                         <option value="team_accessories">Team Accessories</option>
+                        <option value="quickturn">Quickturn</option>
                       </select>
                   </div>
                     <div class="form-group">
