@@ -202,7 +202,7 @@ $(document).ready(function() {
             }
         ];
 
-        // team accessories
+        // Quickturn Category
          ub.data.quickturn = [
             {
                 gender: 'Men',
@@ -304,7 +304,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Quickturn',
-                            'thumbnail_male': 'https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/sublimated-17-jersey-blank-template_43_jersey7d29d19d8abc/thumbnail.jpg',
+                            'thumbnail_male': '/images/main-ui/pickers/Men/quickturn.png',
                             'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
                         }
                     ]
@@ -315,11 +315,15 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Quickturn',
-                            'thumbnail_female': 'https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/sublimated-17-jersey-blank-template_43_jersey7d29d19d8abc/thumbnail.jpg',
+                            'thumbnail_female': '/images/main-ui/pickers/Women/quickturn.png',
                             'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
                         }
                     ]
                 },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
             ],
         };
 	}

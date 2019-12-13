@@ -6733,6 +6733,12 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.hideQuickturnSecondaryBar = function () {
+        $('div.secondary-bar-quickturn').hide();
+        $('div.secondary-bar-quickturn').css('margin-top', "-50px");
+        $('div.secondary-bar-quickturn').css('margin-top', "-50px");
+    }
+
     ub.funcs.setActiveGender = function (gender) {
 
         var _activeClass = 'active'
@@ -6787,10 +6793,11 @@ $(document).ready(function () {
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
-            var _picker_type = $(this).data('picker-type');
-            var _item        = $(this).data('item');
-            var _id          = $(this).data('id');
-            var _gender      = $(this).data('gender');
+            var _picker_type = $picker_item.data('picker-type');
+            var _item        = $picker_item.data('item');
+            var _id          = $picker_item.data('id');
+            var _gender      = $picker_item.data('gender');
+            var _type        = $picker_item.data('type');
 
             if (_picker_type === 'my-favorites') { return; }
 
@@ -6799,8 +6806,12 @@ $(document).ready(function () {
             if (_picker_type === 'sports') {
 
                 var itemExcemptions = ['Apparel', 'eSports', 'Team Accessories', 'Quickturn'];
+                    // setflag for quickturn category
+                    ub.isQuickturnCategory = _.isEqual(_item, 'Quickturn') ? true : false;
 
-                if (!_.contains(itemExcemptions, _item)) {  
+                if (!_.contains(itemExcemptions, _item)) {
+                    // setflag for quickturn category
+                    ub.isQuickturnCategory = _.isEqual(_type, 'quickturn') ? true : false;
 
                     if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
                     if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
@@ -6811,12 +6822,9 @@ $(document).ready(function () {
 
                 }
 
-                // setflag for quickturn category
-               ub.isQuickturnCategory =  _.isEqual(_item, 'Quickturn') ? true : false;
-
                 // FOR DIRECTLINK - [CLEARS UP UB.CONFIG.STYLES.BLOCKPATTERN IF USER IS GOING TO CHANGE THE SPORTS]
                 if (typeof ub.config.styles !== 'undefined') ub.config.styles.blockPattern = '';
-                
+
                 ub.funcs.initUniformsPicker(_item, _gender);
 
             }
@@ -6950,6 +6958,7 @@ $(document).ready(function () {
 
                 ub.funcs.initGenderPicker();
                 ub.funcs.hideSecondaryBar();
+                ub.funcs.hideQuickturnSecondaryBar();
 
                 return; 
 
@@ -7592,6 +7601,7 @@ $(document).ready(function () {
         if(type === 'sports') {
 
             ub.funcs.hideSecondaryBar();
+            ub.funcs.hideQuickturnSecondaryBar();
             
             var template = $('#m-picker-items-sport').html();
 
@@ -7644,18 +7654,21 @@ $(document).ready(function () {
             var template = '';
 
             ub.tempItems = ub.funcs.sortPickerItems(items);
-            
+
             if (!ub.picker.isNew) {
-
-                ub.funcs.prepareSecondaryBar(_sport, actualGender);
-
-                ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
-                ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
-
                 template = $('#m-picker-items-uniforms').html()
-
-                $('div.secondary-bar').fadeIn();
-                $('div.secondary-bar').css('margin-top', "0px");
+                // Quickturn secandary-bar
+                if (ub.isQuickturnCategory) {
+                    ub.funcs.showQuickturnSecondaryBar();
+                    ub.funcs.prepareQuickturnSecondaryBar(actualGender);
+                    ub.funcs.updateQuickturnActiveSecondaryFilter(items);
+                } else {
+                    ub.funcs.prepareSecondaryBar(_sport, actualGender);
+                    ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
+                    ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
+                    $('div.secondary-bar').fadeIn();
+                    $('div.secondary-bar').css('margin-top', "0px");
+                }
 
             } else {
 
@@ -7673,15 +7686,13 @@ $(document).ready(function () {
 
             if (typeof gender === 'undefined') { return; }
 
-            // create filter flag for `Quick Turn` Socks (Apparel)
             ub.tempItems = ub.funcs.quickQurnFilterFlag(ub.tempItems);
 
             var data = {
-
                 sport: gender,
                 picker_type: type,
                 picker_items: ub.tempItems,
-                filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
+                isQuickturnCategory: ub.isQuickturnCategory,
 
                 uniform_type: function () {
 
@@ -7689,7 +7700,7 @@ $(document).ready(function () {
 
                         var _type = '';
 
-                        _type  = render(text).replace('_', ' '); 
+                        _type  = render(text).replace('_', ' ');
 
                         return "<b>" + render(_type) + "</b>";
 
@@ -7782,317 +7793,328 @@ $(document).ready(function () {
 
             });
 
-            /* Tertiary Links */
-            
-            var _blockPatterns = [];
-            var itemsWOUpper = items;
-            var _options = [];
+            // set primary filter for quickturn category
+            if (ub.isQuickturnCategory) {
 
-            if (gender === "Football" || gender === "Football 2017") {
+                console.log("Load Primary Filter for Quickturn Category!");
+                ub.funcs.loadQuickturnPrimaryFilter();
 
-                itemsWOUpper = _.filter(items, {type: 'lower'});
-                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+            }
+            else {
+                /* Tertiary Links */
+                var _blockPatterns = [];
+                var itemsWOUpper = items;
+                var _options = [];
 
-                if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+                if (gender === "Football" || gender === "Football 2017") {
 
-                    _options = ['Belted Pant', 'Elastic Waistband Pant'];
+                    itemsWOUpper = _.filter(items, {type: 'lower'});
+                    _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+
+                    if (ub.filters.primary === "lower" && ub.filters.tertiary === "Sublimated 17") {
+
+                        _options = ['Belted Pant', 'Elastic Waistband Pant'];
+
+                    } else {
+
+                        $('div.quarternary-bar').hide();
+
+                    }
 
                 } else {
 
-                    $('div.quarternary-bar').hide();
+                    _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
+                    _options = ub.funcs.getNeckOptionsAlias(itemsWOUpper);
 
                 }
 
-            } else {
+                var _tertiaryOptions = _.union(_blockPatterns, _options);  // leaving this here, maybe they will change their mind
 
-                _blockPatterns = ub.funcs.getBlockPatternsAlias(itemsWOUpper);
-                _options = ub.funcs.getNeckOptionsAlias(itemsWOUpper);
+                _blockPatternsCollection = [];
+                _optionsCollection = [];
 
-            }
+                var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+                var _sortedBlockPattern = ub.funcs.sortBlockPatternForFilters(gender, _blockPatterns);
 
-            var _tertiaryOptions = _.union(_blockPatterns, _options);  // leaving this here, maybe they will change their mind
+                _.each(_sortedBlockPattern, function (option) {
 
-            _blockPatternsCollection = [];
-            _optionsCollection = [];
+                    if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
-            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
-            var _sortedBlockPattern = ub.funcs.sortBlockPatternForFilters(gender, _blockPatterns);
+                    if (option === null) { return; }
 
-            _.each(_sortedBlockPattern, function (option) {
+                    var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
 
-                if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
+                    _alias = ub.data.blockPatternsAlias.getAlias(_alias);
 
-                if (option === null) { return; }
+                    _blockPatternsCollection.push({
 
-                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+                        alias: _alias,
+                        item: option,
 
-                _alias = ub.data.blockPatternsAlias.getAlias(_alias);
-
-                _blockPatternsCollection.push({
-
-                    alias: _alias,
-                    item: option,
+                    });
 
                 });
 
-            });
+                // Add Blanks
 
-            // Add Blanks
+                if (ub.filters.secondary !== "knitted" && ub.filters.secondary !== "tackle_twill") {
 
-            if (ub.filters.secondary !== "knitted" && ub.filters.secondary !== "tackle_twill") {
+                    _blockPatternsCollection.push({
 
+                        alias: 'Blank Styles',
+                        item: 'Blank Styles',
+
+                    });    
+
+                }
+                
+                // Add Favorites
                 _blockPatternsCollection.push({
 
-                    alias: 'Blank Styles',
-                    item: 'Blank Styles',
-
-                });    
-
-            }
-            
-            // Add Favorites
-            _blockPatternsCollection.push({
-
-                alias: 'Favorites',
-                item: 'Favorites',
-
-            });
-
-            _.each(_options, function (option) {
-
-                if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
-
-                if (option === null) { return; }
-
-                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
-
-                _alias = ub.data.neckOptionsAlias.getAlias(_alias);
-
-                _optionsCollection.push({
-
-                    alias: _alias,
-                    item: option,
+                    alias: 'Favorites',
+                    item: 'Favorites',
 
                 });
 
-            });
+                _.each(_options, function (option) {
 
-            if (typeof fromTertiary !== 'boolean') {
+                    if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
-                if (!ub.picker.isNew) {
-            
-                    ub.funcs.updateTertiaryBar(items, gender);
-                    ub.funcs.updateQuarternaryBar(items, gender);
+                    if (option === null) { return; }
 
+                    var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+
+                    _alias = ub.data.neckOptionsAlias.getAlias(_alias);
+
+                    _optionsCollection.push({
+
+                        alias: _alias,
+                        item: option,
+
+                    });
+
+                });
+
+                if (typeof fromTertiary !== 'boolean') {
+
+                    if (!ub.picker.isNew) {
+                
+                        ub.funcs.updateTertiaryBar(items, gender);
+                        ub.funcs.updateQuarternaryBar(items, gender);
+
+                    }
+
+                }
+
+                /* End Tertiary Links */
+
+                // Secondary Filters
+
+                $('span.secondary-filters').unbind('click');
+                $('span.primary-filters').unbind('click');
+
+                $('span.secondary-filters').on('click', function () {
+
+                    ub.filters.tertiary = 'All';
+                    
+                    var _dataItem = $(this).data('item');
+                    var _gender = $(this).data('gender').toLowerCase();
+                    var _sport = gender;
+
+                    if (_dataItem === "separator") { return; }
+
+                    var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+                    if (_availableForUnisex) {
+                        actualGender = 'unisex'    
+                    }
+
+                    $('span.secondary-filters').removeClass('active');
+                    $(this).addClass('active');
+
+                    if (_dataItem === "Sublimated") {
+
+                        ub.filters.secondary = "sublimated";
+                        
+                    } else if (_dataItem === "Twill") {
+
+                        ub.filters.secondary = "tackle_twill";
+
+                    } else if (_dataItem === "Knitted") {
+
+                        ub.filters.secondary = "knitted";
+
+                    } else {
+
+                        ub.filters.secondary = "All";
+
+                    }
+
+                    if (_dataItem === "All") {
+
+                        if (ub.filters.primary !== 'All') {
+
+                            if (gender === "Football") {
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.type === ub.filters.primary && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });    
+                            }
+
+                        } else {
+
+                            if (gender === "Football") {
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender });    
+                            }                       
+                            
+                        }
+
+                    } else {
+
+                        if (ub.filters.primary !== 'All') {
+
+                            if (gender === "Football") {
+
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.type === ub.filters.primary && material.gender === actualGender;
+                                });
+
+                            } else {
+
+                                items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary, gender: actualGender });    
+
+                            }                
+
+                        } else {
+                            
+                            if (gender === "Football") {
+
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                                });
+                            } else {
+
+                                items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });
+
+                            }       
+
+                        }
+
+                    }
+
+                    $('div#main-picker-scroller').fadeOut().html('');
+                    ub.funcs.initScroller('uniforms', items, gender);
+
+                });
+
+                $('span.primary-filters').on('click', function () {
+
+                    ub.filters.tertiary = 'All';
+
+                    var _gender = $(this).data('gender').toLowerCase();
+                    var _sport = gender;
+                    var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+
+                    if (_availableForUnisex) { actualGender = 'unisex'; }
+
+                    $('span.primary-filters').removeClass('active');
+                    $(this).addClass('active');
+
+                    var _dataItem = $(this).data('item');
+
+                    if (_dataItem === "Jersey") {
+
+                        ub.filters.primary = "upper";
+                        
+                    } else if (_dataItem === "Pant") {
+
+                        ub.filters.primary = "lower";
+
+                    } else {
+
+                        ub.filters.primary = 'All';
+
+                    }
+
+                    if (_dataItem === "All") {
+
+                        if (ub.filters.secondary !== 'All') {
+
+                            if (gender === "Football") {
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                            }
+
+
+                        } else {
+
+                            if (gender === "Football") {
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
+                            }
+
+                        }
+
+                    } else {
+
+                        if (ub.filters.secondary !== 'All') {
+
+                            if (gender === "Football") {
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                            }
+
+                        } else {
+
+                            if (gender === "Football") {
+
+                                items = _.filter(ub.materials, function (material)  {
+                                    return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.gender === actualGender;
+                                });
+                            } else {
+                                items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });
+                            }
+
+                        }
+
+                    }
+
+                    $('div#main-picker-scroller').fadeOut().html('');
+                    ub.funcs.initScroller('uniforms', items, gender);
+
+                });
+
+                $(window).scrollTop(1);
+
+                if (ub.picker.isNew) {
+                    
+                    ub.funcs.resetSecondaryBarFilter();
+
+                    $('div#main-picker-scroller').fadeOut().html('');
                 }
 
             }
 
-            /* End Tertiary Links */
-
-            // Secondary Filters
-
-            $('span.secondary-filters').unbind('click');
-            $('span.primary-filters').unbind('click');
-
-            $('span.secondary-filters').on('click', function () {
-
-                ub.filters.tertiary = 'All';
-                
-                var _dataItem = $(this).data('item');
-                var _gender = $(this).data('gender').toLowerCase();
-                var _sport = gender;
-
-                if (_dataItem === "separator") { return; }
-
-                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
-                if (_availableForUnisex) {
-                    actualGender = 'unisex'    
-                }
-
-                $('span.secondary-filters').removeClass('active');
-                $(this).addClass('active');
-
-                if (_dataItem === "Sublimated") {
-
-                    ub.filters.secondary = "sublimated";
-                    
-                } else if (_dataItem === "Twill") {
-
-                    ub.filters.secondary = "tackle_twill";
-
-                } else if (_dataItem === "Knitted") {
-
-                    ub.filters.secondary = "knitted";
-
-                } else {
-
-                    ub.filters.secondary = "All";
-
-                }
-
-                if (_dataItem === "All") {
-
-                    if (ub.filters.primary !== 'All') {
-
-                        if (gender === "Football") {
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.type === ub.filters.primary && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });    
-                        }
-
-                    } else {
-
-                        if (gender === "Football") {
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender });    
-                        }                       
-                        
-                    }
-
-                } else {
-
-                    if (ub.filters.primary !== 'All') {
-
-                        if (gender === "Football") {
-
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.type === ub.filters.primary && material.gender === actualGender;
-                            });
-
-                        } else {
-
-                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary, gender: actualGender });    
-
-                        }                
-
-                    } else {
-                        
-                        if (gender === "Football") {
-
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
-                            });
-                        } else {
-
-                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });
-
-                        }       
-
-                    }
-
-                }
-
-                $('div#main-picker-scroller').fadeOut().html('');
-                ub.funcs.initScroller('uniforms', items, gender);
-
-            });
-
-            $('span.primary-filters').on('click', function () {
-
-                ub.filters.tertiary = 'All';
-
-                var _gender = $(this).data('gender').toLowerCase();
-                var _sport = gender;
-                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
-
-                if (_availableForUnisex) { actualGender = 'unisex'; }
-
-                $('span.primary-filters').removeClass('active');
-                $(this).addClass('active');
-
-                var _dataItem = $(this).data('item');
-
-                if (_dataItem === "Jersey") {
-
-                    ub.filters.primary = "upper";
-                    
-                } else if (_dataItem === "Pant") {
-
-                    ub.filters.primary = "lower";
-
-                } else {
-
-                    ub.filters.primary = 'All';
-
-                }
-
-                if (_dataItem === "All") {
-
-                    if (ub.filters.secondary !== 'All') {
-
-                        if (gender === "Football") {
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
-                        }
-
-
-                    } else {
-
-                        if (gender === "Football") {
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
-                        }
-
-                    }
-
-                } else {
-
-                    if (ub.filters.secondary !== 'All') {
-
-                        if (gender === "Football") {
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary, gender: actualGender });    
-                        }
-
-                    } else {
-
-                        if (gender === "Football") {
-
-                            items = _.filter(ub.materials, function (material)  {
-                                return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.gender === actualGender;
-                            });
-                        } else {
-                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });
-                        }
-
-                    }
-
-                }
-
-                $('div#main-picker-scroller').fadeOut().html('');
-                ub.funcs.initScroller('uniforms', items, gender);
-
-            });
-
-            $(window).scrollTop(1);
-
-            if (ub.picker.isNew) {
-                
-                ub.funcs.resetSecondaryBarFilter();
-
-                $('div#main-picker-scroller').fadeOut().html('');
-            }
 
         }
 
         if (type === 'search_results') {
 
             ub.funcs.hideSecondaryBar();
+            ub.funcs.hideQuickturnSecondaryBar();
 
             var template = $('#m-picker-items-uniforms').html();
             var _plucked = _.pluck(items, 'id');
@@ -8207,6 +8229,7 @@ $(document).ready(function () {
         if (type === 'favorites') {
 
             ub.funcs.hideSecondaryBar();
+            ub.funcs.hideQuickturnSecondaryBar();
 
             var template = $('#m-picker-items-favorites').html();
             var uniques = items;
@@ -10702,6 +10725,91 @@ $(document).ready(function () {
 
                 }
                 
+            });
+
+        }
+        // show quickturn secondary bar
+        ub.funcs.showQuickturnSecondaryBar = function() {
+            $quickturnBar = $('div.secondary-bar-quickturn');
+            $secondaryBar = $('div.secondary-bar');
+            $tertiaryBar = $('div.tertiary-bar');
+            $quartenaryBar = $('div.quarternary-bar');
+            $quickturnBar.css('margin-top', '0px').show();
+            $secondaryBar.hide();
+            $tertiaryBar.hide();
+            $quartenaryBar.hide();
+        }
+
+        ub.funcs.prepareQuickturnSecondaryBar = function (gender) {
+            var $secondaryBar = $('div.secondary-bar-quickturn');
+            var $primaryFilter = $secondaryBar.find('.primary-filters');
+            // add gender
+            $primaryFilter.each(function(index, el) {
+                var $self = $(el);
+                $self.attr('data-gender', gender);
+            });
+        }
+
+        ub.funcs.updateQuickturnActiveSecondaryFilter = function (items) {
+            var $secondaryBar = $('div.secondary-bar-quickturn');
+            var $primaryFilter = $secondaryBar.find('.primary-filters');
+            var $activePrimaryFilter = $secondaryBar.find('span.primary-filters.active');
+            var itemsSize = _.size(items);
+
+            $primaryFilter.each(function (index, element) {
+                $(element).html($(element).data('item')); 
+            });
+
+            var caption = $activePrimaryFilter.data('item');
+            $activePrimaryFilter.html(caption + ' (' + itemsSize + ')');
+
+        }
+
+        ub.funcs.loadQuickturnPrimaryFilter = function() {
+            var $secondaryBar = $('div.secondary-bar-quickturn');
+            var $primaryFilter = $secondaryBar.find('.primary-filters');
+
+            $primaryFilter.unbind('click');
+            $primaryFilter.click(function(event) {
+                $primaryFilter.removeClass('active');
+                $(this).addClass('active');
+
+                var sport = $(this).data('item');
+                var gender = $(this).data('gender').toLowerCase();
+                var items = [];
+
+                switch(sport) {
+                    case 'all':
+                    case 'All':
+                    console.log("Sample Lang po!");
+                    items = _.filter(ub.materials, {
+                        'uniform_category': 'Football 2017',
+                        'gender': gender
+                    });
+                    break;
+                    case 'baseball':
+                    case 'Baseball':
+                    console.log("Baseball");
+                    break;
+                    case 'basketball':
+                    case 'Basketball':
+                    console.log("Basketball");
+                    break;
+                    case 'tech-tee':
+                    case 'Tech-Tee':
+                    console.log("Tech-Tee");
+                    break;
+                    case 'socks':
+                    case 'Socks':
+                    console.log("Socks");
+                    break;
+                    default:
+                    console.log("Gagsti!");
+                }
+                
+                $('div#main-picker-scroller').fadeOut().html('');
+                ub.funcs.initScroller('uniforms', items, gender);
+                $(window).scrollTop(1);
             });
 
         }

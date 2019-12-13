@@ -464,7 +464,7 @@
 
         @{{#picker_items}}
 
-            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}" data-type="@{{type}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -603,7 +603,15 @@
     <!-- version 1 -->
 
     <script type="text/mustache" id="m-picker-items-uniforms">
-
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
         @{{#picker_items}}
             
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">

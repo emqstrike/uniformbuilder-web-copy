@@ -2589,6 +2589,58 @@ div#main-picker-container {
 
     }
 
+    div.secondary-bar-quickturn {
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+
+        margin-top: 0px;
+        display: none;
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        background-color: #ffffff;
+        font-size: 1.4em;
+        padding-top: 10px;
+        color: @text_color;
+
+        span.slink {
+
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+            font-size: 0.7em;
+            width: 230px;
+            text-transform: uppercase;
+            /* font-family: 'Avenir', sans-serif; */
+            font-family: 'Gotham-Book' !important;
+
+        }
+
+        span.slink.active {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
+
+        span.slink:hover {
+
+            color: @main_highlight;
+            cursor: pointer;
+
+        }
+
+        span.slink-search {
+
+            position: absolute;
+            right: 0px;
+            margin-top: -3px;
+
+        }
+    }
+
     div.secondary-bar {
 
         -moz-transition: all .2s;
