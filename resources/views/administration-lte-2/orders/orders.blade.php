@@ -66,6 +66,7 @@
                                 <th>ID</th>
                                 <th>Order Code</th>
                                 <th>Client</th>
+                                <th>Brand</th>
                                 <th>PDF Link</th>
                                 <th>Order Items</th>
                                 <th>Submitted by User</th>
@@ -91,6 +92,7 @@
                             <td class="td-order-id">{{ $order->id }}</td>
                             <td class="td-order-code">{{ $order->order_id }}</td>
                             <td class="td-order-client">{{ $order->client }}</td>
+                            <td>{{ ucwords($order->brand) }}</td>
 
                             <td class="td-order-pdf-link">
                                 <center>
