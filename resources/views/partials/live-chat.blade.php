@@ -1,11 +1,16 @@
 <script>
     try {
         var $zoho = $zoho || {};
+        var onPicker = {{ $material_id }}  === -1 ? true: false;
         $zoho.salesiq = $zoho.salesiq || {
             widgetcode:"b122af8e0746322084e888cc4eb0979a67c851fc227c5e73271feec78d0c9736",
             values:{},
             ready:function(){
-                $zoho.salesiq.floatbutton.position("bottomleft");
+                if (onPicker) {
+                    $zoho.salesiq.floatbutton.position("bottomright");
+                } else {
+                    $zoho.salesiq.floatbutton.position("bottomleft");
+                }
             }
         };
 
