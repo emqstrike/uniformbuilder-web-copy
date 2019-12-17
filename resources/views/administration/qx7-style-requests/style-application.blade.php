@@ -1,6 +1,12 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
     <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
 
     <style>
@@ -57,7 +63,7 @@
 
                     <div class="box-body">
                         <div class="col-md-12">
-                            <form action="{{ route('v1_qx7_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
+                            <form action="{{ route('qx7_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
                                 data-material-id="{{ $style->id }}"
                                 data-material-name="{{ $style->name }}"
                                 data-material-brand="prolook"
@@ -255,5 +261,13 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+    <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/ddslick.min.js"></script>
+    <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/materials/style-application.js"></script>
 @endsection
