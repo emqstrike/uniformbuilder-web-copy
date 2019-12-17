@@ -1,4 +1,4 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('content')
     <section class="content">
@@ -133,7 +133,7 @@
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Create Record
                                     </button>
-                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-danger btn-flat">
+                                    <a href="{{ route('qx7_style_requests') }}" class="btn btn-danger btn-flat">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
@@ -290,7 +290,7 @@ $(document).ready(function(){
             contentType: 'application/json;',
             success: function (data) {
                 if(data.success) {
-                window.location.replace("/administration/v1-0/qx7_style_requests");
+                window.location.replace("/administration/qx7_style_requests");
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

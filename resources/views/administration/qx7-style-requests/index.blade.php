@@ -164,9 +164,9 @@ $(document).ready(function(){
                         <td>
                             <a href="`+link+`" class="btn btn-default btn-xs" role="button">View</a>`
                             if (request.style_id == null) {
-                                elem += `<a href="/administration/v1-0/qx7_style_requests/create_style/` + request.id + `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>`
+                                elem += `<a href="/administration/qx7_style_requests/create_style/` + request.id + `" class="btn btn-default btn-xs" data-style-id="` + request.id + `" role="button">Create Style</a>`
                             } else {
-                                elem += `<a href="/administration/v1-0/qx7_style_requests/view_options/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                elem += `<a href="/administration/qx7_style_requests/view_options/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             Options
                                         </a>
 
@@ -174,16 +174,16 @@ $(document).ready(function(){
                                             Import Material Options
                                         </button>
 
-                                        <a href="/administration/v1-0/qx7_style_requests/view_options_setup/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <a href="/administration/qx7_style_requests/view_options_setup/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-gear" aria-hidden="true"></i>
                                         </a>
-                                        <a href="/administration/v1-0/qx7_style_requests/options/dropzone/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <a href="/administration/qx7_style_requests/options/dropzone/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-upload" aria-hidden="true"></i>
                                         </a>
-                                        <a href="/administration/v1-0/qx7_style_requests/pipings/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <a href="/administration/qx7_style_requests/pipings/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-barcode" aria-hidden="true"></i>
                                         </a>
-                                        <a href="/administration/v1-0/qx7_style_requests/gradient/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
+                                        <a href="/administration/qx7_style_requests/gradient/`+ request.style_id + `" class="btn btn-xs btn-flat btn-default">
                                             <i class="fa fa-square" aria-hidden="true"></i>
                                         </a>
                                         `
