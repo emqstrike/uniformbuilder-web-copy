@@ -149,6 +149,7 @@
     window.api_host = "{{ env('API_HOST') }}";
     window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
     window.brand = "{{ env('brand') }}";
+    window.qx7_host = "{{ env('QX7_HOST') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif

@@ -1,5 +1,4 @@
 @inject('sampleMenu', 'App\Menus\V1Menu')
-
 <!DOCTYPE html>
 <html>
     <head>
