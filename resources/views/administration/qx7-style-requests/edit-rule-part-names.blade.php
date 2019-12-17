@@ -1,6 +1,11 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
     <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
 
     <style>
@@ -49,7 +54,7 @@
                         @endif
 
                         <div style="margin-bottom:10px!important">
-                            <form action="{{ route('v1_match_rule_part_name', ['edit' => true]) }}" class="form-inline" method="POST">
+                            <form action="{{ route('match_rule_part_name', ['edit' => true]) }}" class="form-inline" method="POST">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="style_id" value="{{ $style->id }}">
 
@@ -81,7 +86,7 @@
                             @endforeach
                         </div>
 
-                        <form action="{{ route('v1_qx7_update_rule_part_names') }}" method="POST">
+                        <form action="{{ route('qx7_update_rule_part_names') }}" method="POST">
                             {{ csrf_field() }}
 
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
@@ -196,7 +201,7 @@
                                                                 {{ $option->rule_part_name }}
                                                             </option>
                                                         @endif
-                                                        
+
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
@@ -220,6 +225,14 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+    <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/ddslick.min.js"></script>
+    <script type="text/javascript" src="/underscore/underscore.js"></script>
     <script>
         $(document).ready(function() {
             $('.select2').select2({

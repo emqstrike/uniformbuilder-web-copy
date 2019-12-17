@@ -179,10 +179,10 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
+            return redirect()->route('qx7_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
+            return redirect()->route('qx7_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
 
@@ -203,10 +203,10 @@ class Qx7StyleRequestController extends Controller
         $response = $this->optionsClient->importBoundingBox($request->all());
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
+            return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
         }
 
-        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
+        return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
 
     public function matchRulePartName(Request $request)
@@ -215,16 +215,16 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             if (isset($request['edit'])) {
-                return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
+                return redirect()->route('qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
             }
-            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
+            return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
         }
 
         if (isset($request['edit'])) {
-            return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
+            return redirect()->route('qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
         }
 
-        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
+        return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
     }
 
     public function saveOption(Request $request)
@@ -435,7 +435,7 @@ class Qx7StyleRequestController extends Controller
 
         $response = $this->optionsClient->updateMaterialOptions($data);
 
-        return redirect()->route('v1_qx7_style_options_setup', ['id' => $materialID])->with('message', 'Update saved');
+        return redirect()->route('qx7_style_options_setup', ['id' => $materialID])->with('message', 'Update saved');
 
     }
 
@@ -463,10 +463,10 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', $response->message);
+            return redirect()->route('qx7_style_options', ['id' => $data['style_id']])->with('message', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
+            return redirect()->route('qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
         }
     }
 
@@ -593,10 +593,10 @@ class Qx7StyleRequestController extends Controller
         $response = (new MaterialsOptionsAPIClient())->updateRulePartNames($request->all());
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('message', $response->message);
+            return redirect()->route('qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('message', $response->message);
         }
 
-        return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
+        return redirect()->route('qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
     }
 
     public function exportPartsExcel()
@@ -675,9 +675,9 @@ class Qx7StyleRequestController extends Controller
         $response = $this->optionsClient->importMaterialOptions($data);
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_style_requests')->with('message', $response->message);
+            return redirect()->route('qx7_style_requests')->with('message', $response->message);
         }
 
-        return redirect()->route('v1_qx7_style_requests')->with('errors', $response->message);
+        return redirect()->route('qx7_style_requests')->with('errors', $response->message);
     }
 }
