@@ -1,7 +1,12 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+<link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
 
     <style>
         .material-option-item:nth-child(odd) {
@@ -27,10 +32,10 @@
                     <div class="box-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('qx7_style_requests') }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Back
                                 </a>
-                                <a href="{{ route('v1_qx7_style_options_setup', ['id' => $style->id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
+                                <a href="{{ route('qx7_style_options_setup', ['id' => $style->id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Options (Minified)
                                 </a>
                             </div>
@@ -67,7 +72,7 @@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <form action="{{ route('v1_import_bounding_box') }}" class="form-inline" method="POST">
+                                    <form action="{{ route('import_bounding_box') }}" class="form-inline" method="POST">
 
                                         {{ csrf_field() }}
 
@@ -89,9 +94,9 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a href="{{ route('v1_qx7_edit_rule_part_names', ['styleId' => $style->id]) }}" class="btn btn-flat btn-primary pull-right" style="margin-left: 15px;">Edit Rule Part Names</a>
+                                    <a href="{{ route('qx7_edit_rule_part_names', ['styleId' => $style->id]) }}" class="btn btn-flat btn-primary pull-right" style="margin-left: 15px;">Edit Rule Part Names</a>
 
-                                    <form action="{{ route('v1_match_rule_part_name') }}" class="form-inline" method="POST">
+                                    <form action="{{ route('match_rule_part_name') }}" class="form-inline" method="POST">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="style_id" value="{{ $style->id }}">
 
@@ -137,7 +142,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "front")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
 
@@ -219,7 +224,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "back")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -297,7 +302,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "left")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -375,7 +380,7 @@
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "right")
                                             <div class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
-                                                <a href="{{ route('v1_qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
+                                                <a href="{{ route('qx7_style_application', ['id' => $option->id]) }}" class="btn btn-default btn-xs pull-right btn-flat btn-flat">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
@@ -470,7 +475,16 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/js/administration-lte-2/materials/styles.js"></script>
+
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/administration-lte-2/materials/styles.js"></script>
     @if (Session::has('message'))
         <script type="text/javascript">
             $(document).ready(function(){

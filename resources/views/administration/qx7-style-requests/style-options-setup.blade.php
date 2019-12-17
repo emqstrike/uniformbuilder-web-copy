@@ -1,4 +1,4 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
     <style>
@@ -14,7 +14,7 @@
 
 @section('content')
     <section class="content">
-        <form action="{{ route('v1_qx7_update_option') }}"  method="POST" enctype="multipart/form-data">
+        <form action="{{ route('qx7_update_option') }}"  method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="cleanup_material_id" id="material_id" value="{{ $style->id }}">
 
@@ -27,10 +27,10 @@
                         <div class="box-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                    <a href="{{ route('qx7_style_requests') }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
                                         Back
                                     </a>
-                                    <a href="{{ route('v1_qx7_style_options', ['id' => $style->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                    <a href="{{ route('qx7_style_options', ['id' => $style->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
                                         Style Options
                                     </a>
                                 </div>
@@ -39,7 +39,7 @@
                             @section('page-title', 'Style Options Setup')
 
                             <h1>Material Options of: {{ $style->name }}</h1>
-        <!--                     <a href="{{ route('v1_qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
+        <!--                     <a href="{{ route('qx7_edit_style', ['id' => $style->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
                                 Edit
                             </a> -->
                             <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
