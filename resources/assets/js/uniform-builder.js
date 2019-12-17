@@ -8402,6 +8402,9 @@ $(document).ready(function () {
             return item.brand !== "riddell";
         });
 
+        // init parameters to be passed on the initscroller
+        uniformCategories = _.sortBy(uniformCategories, 'name');
+
         ub.funcs.initScroller('sports', uniformCategories, sport, undefined, apparel.sports, undefined, esports.sports, teamAccessories.sports, quickturn.sports);
 
     };
@@ -8462,7 +8465,8 @@ $(document).ready(function () {
         } else if (sport === "Quickturn") {
             $(window).scrollTop(0);
             var quickturn = _.find(ub.data.quickturn, {gender: gender});
-            ub.funcs.initScroller('sports', quickturn.sports, gender, undefined, undefined, undefined, undefined, undefined);
+            var sports = _.sortBy(quickturn.sports, "alias");
+            ub.funcs.initScroller('sports', sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
             //items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
