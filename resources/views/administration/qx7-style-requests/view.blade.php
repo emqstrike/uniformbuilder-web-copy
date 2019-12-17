@@ -303,6 +303,7 @@
 
 
 @section('scripts')
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script>
 $(document).ready(function(){
     srid = $('#srid').val();
