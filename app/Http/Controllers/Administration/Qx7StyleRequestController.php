@@ -335,7 +335,7 @@ class Qx7StyleRequestController extends Controller
             }
         }  catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/v1-0/qx7_style_requests')
+            return Redirect::to('/administration/qx7_style_requests')
                             ->with('message', 'There was a problem uploading your files');
         }
 
@@ -351,11 +351,11 @@ class Qx7StyleRequestController extends Controller
         }
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+            return Redirect::to('/administration/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', $response->message);
         } else {
             Log::info('Failed');
-            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+            return Redirect::to('/administration/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
@@ -480,7 +480,7 @@ class Qx7StyleRequestController extends Controller
         Log::info('Attempts to cleanup properties' . json_encode($data));
         $response = $this->optionsClient->purge($data);
 
-        return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$mo_material_id);
+        return Redirect::to('/administration/qx7_style_requests/view_options/'.$mo_material_id);
     }
 
     public function pipings($id)
@@ -505,11 +505,11 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+            return Redirect::to('administration/qx7_style_requests/pipings/' . $style_id )
                     ->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+            return Redirect::to('administration/qx7_style_requests/pipings/' . $style_id )
                     ->with('message', $response->message);
         }
     }
@@ -536,11 +536,11 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+            return Redirect::to('administration/qx7_style_requests/gradient/' . $style_id)
                     ->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+            return Redirect::to('administration/qx7_style_requests/gradient/' . $style_id)
                     ->with('message', $response->message);
         }
     }

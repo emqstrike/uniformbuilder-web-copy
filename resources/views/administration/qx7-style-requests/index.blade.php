@@ -19,7 +19,7 @@
                 </div>
                 <div class="box-body">
 
-                    <a href="/administration/v1-0/qx7_style_requests/export_parts_excel" class="btn btn-flat btn-default" target="_blank">
+                    <a href="/administration/qx7_style_requests/export_parts_excel" class="btn btn-flat btn-default" target="_blank">
                         Export Parts Report
                     </a>
 
