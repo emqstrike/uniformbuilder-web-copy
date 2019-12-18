@@ -1,8 +1,10 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style>
     .scrollable-cell {
         overflow-y: scroll;
@@ -51,7 +53,7 @@
                         <td>
                             @if(!empty($style_request->empty_material_options))
                             <div class="scrollable-cell">
-                            @foreach($style_request->empty_material_options as $option) 
+                            @foreach($style_request->empty_material_options as $option)
                                 {{ $option }}<br/>
                             @endforeach
                             @endif
@@ -68,11 +70,15 @@
 @endsection
 
 @section('scripts')
-
+<script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready( function () {
     $('table').DataTable( {
@@ -98,7 +104,7 @@ $(document).ready( function () {
                                 _.each(trimData, function (str) {
                                     splitData.push(str.trim());
                                 })
-                                data = splitData;        
+                                data = splitData;
                                 return data;
                             }
                             return data;
