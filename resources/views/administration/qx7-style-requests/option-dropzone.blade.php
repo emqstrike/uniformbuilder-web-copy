@@ -1,4 +1,4 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
