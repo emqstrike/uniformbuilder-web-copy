@@ -7659,7 +7659,7 @@ $(document).ready(function () {
                 template = $('#m-picker-items-uniforms').html()
                 // Quickturn secandary-bar
                 if (ub.isQuickturnCategory) {
-                    ub.funcs.showQuickturnSecondaryBar();
+                    ub.funcs.showQuickturnSecondaryBar(_sport);
                     ub.funcs.prepareQuickturnSecondaryBar(actualGender);
                     ub.funcs.updateQuickturnActiveSecondaryFilter(items);
                 } else {
@@ -7797,7 +7797,7 @@ $(document).ready(function () {
             if (ub.isQuickturnCategory) {
 
                 console.log("Load Primary Filter for Quickturn Category!");
-                ub.funcs.loadQuickturnPrimaryFilter();
+                ub.funcs.loadQuickturnPrimaryFilter(_sport);
 
             }
             else {
@@ -10733,7 +10733,7 @@ $(document).ready(function () {
 
         }
         // show quickturn secondary bar
-        ub.funcs.showQuickturnSecondaryBar = function() {
+        ub.funcs.showQuickturnSecondaryBar = function(sport) {
             $quickturnBar = $('div.secondary-bar-quickturn');
             $secondaryBar = $('div.secondary-bar');
             $tertiaryBar = $('div.tertiary-bar');
@@ -10747,11 +10747,29 @@ $(document).ready(function () {
         ub.funcs.prepareQuickturnSecondaryBar = function (gender) {
             var $secondaryBar = $('div.secondary-bar-quickturn');
             var $primaryFilter = $secondaryBar.find('.primary-filters');
-            // add gender
-            $primaryFilter.each(function(index, el) {
-                var $self = $(el);
+            var quickturnCategories = _.filter(ub.categories, { type: "quickturn"});
+            var markup = "";
+
+            $primaryFilter.each(function(index, element) {
+                var $self = $(element);
                 $self.attr('data-gender', gender);
             });
+
+            // Baseball and Fastpitch
+            switch(gender) {
+                case 'Men':
+                case 'men':
+                    $secondaryBar.find('[data-item="Baseball (Quickturn)"]').show();
+                    $secondaryBar.find('[data-item="Fastpitch (Quickturn)"]').hide();
+                    break;
+                case 'Women':
+                case 'women':
+                    $secondaryBar.find('[data-item="Baseball (Quickturn)"]').hide();
+                    $secondaryBar.find('[data-item="Fastpitch (Quickturn)"]').show();
+                    break;
+                default:
+                    console.warn("An error occured!");
+            }
         }
 
         ub.funcs.updateQuickturnActiveSecondaryFilter = function (items) {
@@ -10761,17 +10779,25 @@ $(document).ready(function () {
             var itemsSize = _.size(items);
 
             $primaryFilter.each(function (index, element) {
-                $(element).html($(element).data('item')); 
+                var caption = $(element).data('item').replace('(Quickturn)', '');
+                $(element).html(caption);
             });
 
-            var caption = $activePrimaryFilter.data('item');
+            var caption = $activePrimaryFilter.text();
             $activePrimaryFilter.html(caption + ' (' + itemsSize + ')');
 
         }
 
-        ub.funcs.loadQuickturnPrimaryFilter = function() {
+        ub.funcs.loadQuickturnPrimaryFilter = function(sport) {
             var $secondaryBar = $('div.secondary-bar-quickturn');
             var $primaryFilter = $secondaryBar.find('.primary-filters');
+
+            if (sport !== 'men' || sport !== 'women') {
+                console.log(sport);
+                setTimeout(function() {
+                    $secondaryBar.find('span[data-item="'+ sport +'"]').trigger('click');
+                }, .500);
+            }
 
             $primaryFilter.unbind('click');
             $primaryFilter.click(function(event) {
@@ -10783,37 +10809,29 @@ $(document).ready(function () {
                 var items = [];
 
                 switch(sport) {
-                    case 'all':
                     case 'All':
-                    console.log("Sample Lang po!");
-                    items = _.filter(ub.materials, {
-                        'uniform_category': 'Football 2017',
-                        'gender': gender
-                    });
-                    break;
-                    case 'baseball':
-                    case 'Baseball':
-                    console.log("Baseball");
-                    break;
-                    case 'basketball':
-                    case 'Basketball':
-                    console.log("Basketball");
-                    break;
-                    case 'tech-tee':
-                    case 'Tech-Tee':
-                    console.log("Tech-Tee");
-                    break;
-                    case 'socks':
-                    case 'Socks':
-                    console.log("Socks");
-                    break;
+                    case 'all':
+                        if (gender === 'men') {
+                            items = _.filter(ub.materials, function(material) {
+                               return (material.uniform_category.includes('(Quickturn)') && material.uniform_category !== 'Fastpitch (Quickturn)');
+                            });
+                        } else if (gender === 'women') {
+                            items = _.filter(ub.materials, function(material) {
+                               return (material.uniform_category.includes('(Quickturn)') && material.uniform_category !== 'Baseball (Quickturn)');
+                            });
+                        } else {
+                            console.warn('unknown gender!');
+                        }
+                        break;
                     default:
-                    console.log("Gagsti!");
+                        console.log("fetch by default!");
+                        items = _.filter(ub.materials, {'uniform_category': sport, 'gender': gender});
                 }
-                
+
                 $('div#main-picker-scroller').fadeOut().html('');
                 ub.funcs.initScroller('uniforms', items, gender);
                 $(window).scrollTop(1);
+                // $secondaryBar.find('.primary-filters[data-item="All"]').trigger('click');
             });
 
         }
