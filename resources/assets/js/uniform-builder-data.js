@@ -2206,6 +2206,15 @@ $(document).ready(function() {
                 name: "Team Flag (Apparel)",
                 alias: "team-flag",
             },
+            // Quickturn Items
+            {
+                name: "Baseball (Quickturn)",
+                alias: "baseball-quickturn",
+            },
+            {
+                name: "Fastpitch (Quickturn)",
+                alias: "fastpitch-quickturn",
+            },
 
         ],
 
@@ -12652,6 +12661,19 @@ ub.funcs.fontOffSets = [
    ub.data.riddellSportWithPipings = [
         'RDL Baseball',
    ];
+
+   ub.data.uniformWithPipings = {
+        items: [
+            "RDL Baseball",
+            "Baseball",
+            "Fastpitch",
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+        ],
+        hasPipings: function(sport) {
+            return _.contains(this.items, sport);
+        }
+   };
 
 
 });
