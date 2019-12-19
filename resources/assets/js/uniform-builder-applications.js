@@ -8848,7 +8848,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+        if(ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
             _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
@@ -9398,7 +9398,7 @@ $(document).ready(function() {
 
                         /// Set Auto Font Size on Team Name, Baseball / Fastpitch
                         
-                        if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport))) {
+                        if (parseInt(application_id) === 1 && (ub.data.uniformWithPipings.hasPipings(ub.config.sport))) {
 
                             if (_settingsObject.application_type === "team_name") {
 
