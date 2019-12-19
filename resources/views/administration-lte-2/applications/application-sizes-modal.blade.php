@@ -69,6 +69,15 @@
                     <option value="riddell">Riddell</option>
                   </select>
                 </div>
+
+                <div class="form-group">
+                  <label class="control-label">Size Category</label>
+                  <select class="form-control input-size-category" name="size_category" required="true">
+                    <option value="adult">Adult</option>
+                    <option value="youth">Youth</option>
+                  </select>
+                </div>
+
                   <div class="form-group">
                             <label class="control-label">Properties</label>
                                 <a href="#" class="btn btn-success btn-xs btn-flat add-props">Add Property</a>
