@@ -427,7 +427,7 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="save"]').removeClass('disabled');
 
-            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+            if(ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
@@ -2892,7 +2892,7 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+        if (ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
 
             if (ub.current_material.pipings !== null) {
 

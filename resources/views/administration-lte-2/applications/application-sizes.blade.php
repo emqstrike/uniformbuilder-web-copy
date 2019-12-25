@@ -77,6 +77,7 @@
                             <th id="select-filter">Type</th>
                             <th id="select-filter">Uniform Appliction Type</th>
                             <th id="select-filter">Brand</th>
+                            <th id="select-filter">Size Category</th>
                             <th>Active</th>
                             <th>Actions</th>
                         </tr>
@@ -94,6 +95,7 @@
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
+                            <td class="td-size-category col-md-1">{{ $size->size_category }}</td>
                             <td>
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -349,6 +351,7 @@ $(document).ready(function(){
         $('.input-size-type').val('');
         $('.uniform-application-type').val('');
         $('.input-brand').val('');
+        $('.input-size-category').val('');
         $('#properties').val('');
         $('.properties-content').empty();
         $('.submit-new-record').removeAttr('disabled');
@@ -377,6 +380,7 @@ $(document).ready(function(){
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
+        data.size_category = $(this).parent().parent().parent().find('.td-size-category').text();
         var props = $(this).parent().parent().parent().find('.td-size-props').val();
         if (props.length > 1) {
             data.properties = JSON.parse(props);
@@ -393,6 +397,7 @@ $(document).ready(function(){
         $('.input-size-type').val(data.type);
         $('.uniform-application-type').val(data.uniform_application_type);
         $('.input-brand').val(data.brand);
+        $('.input-size-category').val(data.size_category);
         $('#properties').val(data.properties);
         if (data.properties != null) {
             loadConfigurations(data.properties);
@@ -416,6 +421,7 @@ $(document).ready(function(){
         data.type = $('.input-size-type').find(":selected").val();
         data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
         data.brand = $('.input-brand').find(":selected").val();
+        data.size_category = $('.input-size-category').find(":selected").val();
         data.properties = $('#properties').val();
 
         if(window.modal_action == 'add'){
