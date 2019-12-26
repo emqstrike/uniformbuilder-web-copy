@@ -10791,12 +10791,14 @@ $(document).ready(function () {
         ub.funcs.loadQuickturnPrimaryFilter = function(sport) {
             var $secondaryBar = $('div.secondary-bar-quickturn');
             var $primaryFilter = $secondaryBar.find('.primary-filters');
+            var $mainPickerScroller = $('div#main-picker-scroller');
+            var isGender = (sport !== 'men' || sport !== 'women');
+            var DELAY_TIME = 0.05;
 
-            if (sport !== 'men' || sport !== 'women') {
-                console.log(sport);
+            if (isGender) {
                 setTimeout(function() {
                     $secondaryBar.find('span[data-item="'+ sport +'"]').trigger('click');
-                }, .500);
+                }, DELAY_TIME);
             }
 
             $primaryFilter.unbind('click');
@@ -10828,10 +10830,9 @@ $(document).ready(function () {
                         items = _.filter(ub.materials, {'uniform_category': sport, 'gender': gender});
                 }
 
-                $('div#main-picker-scroller').fadeOut().html('');
+                $mainPickerScroller.fadeOut().html('');
                 ub.funcs.initScroller('uniforms', items, gender);
                 $(window).scrollTop(1);
-                // $secondaryBar.find('.primary-filters[data-item="All"]').trigger('click');
             });
 
         }
