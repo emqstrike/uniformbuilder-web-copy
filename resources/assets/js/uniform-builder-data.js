@@ -10408,7 +10408,22 @@ ub.funcs.fontOffSets = [
                 sport: 'Team Flag (Apparel)',
                 sublimatedPart: 'Extra',
             },
-
+            // Quickturn Categories
+            {
+                sport: 'Baseball (Quickturn)',
+            },
+            {
+                sport: 'Fastpitch (Quickturn)',
+            },
+            {
+                sport: 'Basketball (Quickturn)',
+            },
+            {
+                sport: 'Tech-Tee (Quickturn)',
+            },
+            {
+                sport: 'Socks (Quickturn)',
+            },
         ],
 
         get: function (sport) {
@@ -10474,7 +10489,7 @@ ub.funcs.fontOffSets = [
 
             }
 
-            if (sport === "Baseball" || sport === "Fastpitch") {
+            if (sport === "Baseball" || sport === "Fastpitch" || sport === "Baseball (Quickturn)" || sport === "Fastpitch (Quickturn)") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
@@ -12446,7 +12461,13 @@ ub.funcs.fontOffSets = [
             'SFN Jogger (Apparel)',
             'Hockey',
             'Track and Field',
-            'Team Flag (Apparel)'
+            'Team Flag (Apparel)',
+            // Quickturn Categories
+            'Baseball (Quickturn)',
+            'Fastpitch (Quickturn)',
+            'Basketball (Quickturn)',
+            'Tech-Tee (Quickturn)',
+            'Socks (Quickturn)'
         ],
         isValid: function (uniformCategory) {
 
