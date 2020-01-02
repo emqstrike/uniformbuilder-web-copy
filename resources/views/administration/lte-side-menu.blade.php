@@ -349,6 +349,11 @@
           <i class="fa fa-list-ul"></i> <span>Styles Indexes</span>
         </a>
       </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/qx7_style_requests">
+          <i class="fa fa-file-text-o"></i> <span>Qx7 Style Requests</span>
+        </a>
+      </li>
     </ul>
   </li>
    <li data-position='right'>
