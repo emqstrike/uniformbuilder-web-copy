@@ -796,7 +796,7 @@ $(document).ready(function () {
         var _currentPart                = currentPart;
         var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
 
-        if (ub.current_material.material.block_pattern === 'Quick Turn') {
+        if (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === "Socks (Quickturn)") {
             _patternObject =  _.find(ub.data.qtPatterns.items, {id: _patternID.toString()});
         }
         
@@ -1616,13 +1616,13 @@ $(document).ready(function () {
         // Geometric Fade, Net Fade, NS
         var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
         if (_.contains(ignoreRotation, _patternObject.pattern_obj.name) 
-            && ub.current_material.material.block_pattern === 'Quick Turn') {
+            && ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === "Socks (Quickturn)") {
                 _patternObject.rotation = 0;
         }
 
         _.each (patternObject.layers, function (_property) {
             
-            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+            if (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === "Socks (Quickturn)") {
                 _property.filename = _property[ub.active_view];
             }
 
@@ -1690,7 +1690,7 @@ $(document).ready(function () {
     // process Socks (Apparel) `Quick Turn` pattern
     ub.funcs.processQuickTurnPattern = function () {
 
-        if (ub.current_material.material.block_pattern !== 'Quick Turn') { return; }
+        if (ub.current_material.material.block_pattern !== 'Quick Turn' && ub.config.sport !== 'Socks (Quickturn)') { return; }
 
         ub.data.qtPatterns = JSON.parse(ub.current_material.material.patterns);
 

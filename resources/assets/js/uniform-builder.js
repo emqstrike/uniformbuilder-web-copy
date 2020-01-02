@@ -6464,7 +6464,7 @@ $(document).ready(function () {
             // Geometric Fade, Net Fade, NS
             var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
             if (_.contains(ignoreRotation, clone.name) 
-                && ub.current_material.material.block_pattern === 'Quick Turn') {
+                && (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === 'Socks (Quickturn)')) {
                     _rotationAngle = 0;
             }
 
@@ -6479,11 +6479,14 @@ $(document).ready(function () {
 
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
 
-                if (ub.current_material.material.block_pattern === 'Quick Turn') {
-                    var qtFilename = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id}).layers[index][v];
+                if (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === 'Socks (Quickturn)') {
+                    var qtPattern = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id});
+                    if (typeof qtPattern !== 'undefined') {
+                        var qtFilename = qtPattern.layers[index][v];
 
-                    if (typeof qtFilename !== 'undefined') {
-                        layer.filename = qtFilename;
+                        if (typeof qtFilename !== 'undefined') {
+                            layer.filename = qtFilename;
+                        }
                     }
                 }
 

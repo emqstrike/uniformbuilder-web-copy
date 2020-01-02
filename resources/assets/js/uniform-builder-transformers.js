@@ -102,7 +102,7 @@ $(document).ready(function () {
         });
 
         // preprocess `Quick Turn` pattern for saved design uniform
-        if (ub.config.option === 'Quick Turn' && typeof ub.config.savedDesignInfo === 'object') {
+        if ((ub.config.option === 'Quick Turn' ||  ub.config.sport === 'Socks (Quickturn)') && typeof ub.config.savedDesignInfo === 'object') {
             ub.funcs.processQuickTurnPattern();
         }
 
