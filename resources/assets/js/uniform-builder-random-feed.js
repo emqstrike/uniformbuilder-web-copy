@@ -819,7 +819,8 @@ $(document).ready(function () {
 
     ub.funcs.processRandomFeeds = function () {
 
-        if (!ub.funcs.isSocks()) { return; }
+        // exit if not socks
+        if (!ub.funcs.isSocks() && ub.config.sport !== "Socks (Quickturn)") { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.random_feed)) {
 
