@@ -1735,7 +1735,7 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
-                if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+                if (ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
 
                     // Additional vertical padding so that tailsweeps wont be clipped
                     _padding = 150;
