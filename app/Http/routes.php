@@ -752,6 +752,32 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
     // Analytics
     Route::get('analytics/{startDate?}/{endDate?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AnalyticsController@index'])->name('analytics');
+
+    // QX7 Style Requests
+    Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@index'])->name('qx7_style_requests');
+    Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@show'])->name('qx7_style_request');
+    Route::get('qx7_style_requests/create_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@createStyle'])->name('qx7_create_style');
+    Route::get('qx7_style_requests/edit_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@editStyle'])->name('qx7_edit_style');
+    Route::get('qx7_style_requests/options/dropzone/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@dropZone'])->name('qx7_dropzone');
+    Route::get('qx7_style_requests/view_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@getOptions'])->name('qx7_style_options');
+    Route::get('qx7_style_requests/view_options/edit_rule_part_names/{styleId}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@editRulePartNames'])->name('qx7_edit_rule_part_names');
+    Route::post('qx7_style_requests/view_options/update_rule_part_names', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateRulePartNames'])->name('qx7_update_rule_part_names');
+    Route::get('qx7_style_requests/view_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@styleOptionsSetup'])->name('qx7_style_options_setup');
+    Route::get('qx7_style_requests/style_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@getStyleApplication'])->name('qx7_style_application');
+    Route::post('qx7_style_requests/options/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveApplications'])->name('qx7_save_style_applications');
+    Route::post('qx7_style_requests/bounding_box/import', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@importBoundingBox'])->name('import_bounding_box');
+    Route::post('qx7_style_requests/options/match_rule_part_name', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@matchRulePartName'])->name('match_rule_part_name');
+    Route::post('qx7_style_requests/option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveOption'])->name('qx7_save_option');
+    Route::post('qx7_style_requests/option/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateOption'])->name('qx7_update_option');
+    Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveBoundary'])->name('qx7_save_bounding_box');
+    Route::post('qx7_style_requests/option/purgeOption', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@purgeOption'])->name('qx7_cleanup_style');
+    Route::get('qx7_style_requests/pipings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@pipings'])->name('qx7_pipings');
+    Route::post('qx7_style_requests/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updatePipings'])->name('qx7_update_piping');
+    Route::get('qx7_style_requests/gradient/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@gradient'])->name('qx7_gradient');
+    Route::post('qx7_style_requests/gradient/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateGradient'])->name('qx7_update_gradient');
+    Route::get('qx7_style_requests/export_parts_excel', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@exportPartsExcel'])->name('qx7_export_parts');
+    Route::post('qx7_style_request/import_material_option', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@importMaterialOptions'])->name('qx7_import_material_options');
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
