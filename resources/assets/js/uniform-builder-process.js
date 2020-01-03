@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.material === "undefined") { return false; }
 
-        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Quickturn)");
     }
 
     ub.funcs.isFootball = function () {
