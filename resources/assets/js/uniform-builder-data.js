@@ -2216,6 +2216,18 @@ $(document).ready(function() {
                 name: "Fastpitch (Quickturn)",
                 alias: "fastpitch-quickturn",
             },
+            {
+                name: "Basketball (Quickturn)",
+                alias: "basketball-quickturn",
+            },
+            {
+                name: "Socks (Quickturn)",
+                alias: "socks-quickturn",
+            },
+            {
+                name: "Tech-Tee (Quickturn)",
+                alias: "techtee-quickturn",
+            },
 
         ],
 
@@ -12295,6 +12307,7 @@ ub.funcs.fontOffSets = [
             "7 inch Stir Up Sock",
             "9 inch Stir Up Sock",
             "Quick Turn",
+            "Sock" // Socks (quickturn) item blockpattern
         ],
 
         isExempted: function (option) {
@@ -12320,6 +12333,8 @@ ub.funcs.fontOffSets = [
             { sport: 'Hockey', },
             // Team Accessories
             { sport: 'Team Flag (Apparel)', },
+            // Quickturn Category
+            { sport: 'Socks (Quickturn)', },
 
         ],
 
@@ -12567,7 +12582,8 @@ ub.funcs.fontOffSets = [
         items: [
             'PTS Cage Jacket (Apparel)',
             'PTS Hoodie (Apparel)',
-            'Socks (Apparel)'
+            'Socks (Apparel)',
+            'Socks (Quickturn)'
         ],
         isValid: function (uniformCategory, modifierLabels, materialOption) {
 
@@ -12697,5 +12713,18 @@ ub.funcs.fontOffSets = [
         }
    };
 
+   // disabled order button on uniforms reigistered in ub.data.disableSubmitOnUniforms
+   ub.data.disableSubmitOnUniforms = {
+        items: [
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+            "Basketball (Quickturn)",
+            "Tech-Tee (Quickturn)",
+            "Socks (Quickturn)"
+        ],
+        isDisabled: function(sport) {
+            return _.contains(this.items, sport);
+        }
+   }
 
 });
