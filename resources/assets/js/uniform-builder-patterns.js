@@ -842,7 +842,7 @@ $(document).ready(function () {
         if ($('div#primaryPatternPopup').length === 0) {
 
             var _patternList = ub.funcs.getPatternList();
-            var isQuickturnSockBlockPattern = _.contains(['Quick turn', 'Sock'], ub.config.option);
+            var isQuickturnSockBlockPattern = _.contains(['Quick Turn', 'Sock'], ub.config.option);
 
             if (isQuickturnSockBlockPattern) {
                 _patternList = ub.data.qtPatterns.items;
@@ -943,7 +943,7 @@ $(document).ready(function () {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            var isQuickturnSockBlockPattern = _.contains(['Quick turn', 'Sock'], ub.config.option);
+            var isQuickturnSockBlockPattern = _.contains(['Quick Turn', 'Sock'], ub.config.option);
             if (isQuickturnSockBlockPattern) {
                 y = 46;
                 height = 250;
