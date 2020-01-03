@@ -335,6 +335,7 @@ $(document).ready(function () {
 
         ub.funcs.turnOffOrderButton = function () {
             $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+            $('a.footer-buttons[data-view="team-info"]').unbind('click');
         }
 
         ub.funcs.beforeLoad = function () {
@@ -705,16 +706,22 @@ $(document).ready(function () {
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.disableSubmitOnUniforms);
 
             // preprocess `Quick Turn` pattern for unsaved design uniform
             // prevent afterLoad's looping error from saved design uniform
             if (typeof ub.config.savedDesignInfo !== 'object') {
                 ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
             }
-            
             ub.funcs.executeAfterLoadFunctionList();
-
         };
+
+        ub.funcs.disableSubmitOnUniforms = function() {
+            // Disable order button on a sport registered in ub.data.disableSubmitOnUniforms
+            if (ub.data.disableSubmitOnUniforms.isDisabled(ub.config.sport)) {
+                ub.funcs.turnOffOrderButton();
+            }
+        }
 
         ub.funcs.updateLabels = function () {
 
