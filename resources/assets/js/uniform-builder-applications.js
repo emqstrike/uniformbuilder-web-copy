@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.material === "undefined") { return false; }
 
-        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Quickturn)");
     }
 
     ub.funcs.isCurrentOption = function (option) {
@@ -4215,7 +4215,8 @@ $(document).ready(function() {
 
         // omit 'arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt' for Socks (Apparel).
         // `Quick Turn` block pattern
-        if (ub.funcs.isSocks() && ub.config.blockPattern === 'Quick Turn') {
+        var isQuickturnSockBlockPattern = _.contains(['Quick turn', 'Sock'], ub.config.option);
+        if (ub.funcs.isSocks() && isQuickturnSockBlockPattern) {
             labelsToHide = ['arch', 'ankle_padding', 'body', 'heel', 'padding', 'toe', 'top_welt'];
             ub.data.modifierLabels = ub.data.hideMaterialOptionOnSportModifierLabels.isValid(ub.config.sport, ub.data.modifierLabels, labelsToHide);
         }

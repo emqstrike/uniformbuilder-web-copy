@@ -842,8 +842,9 @@ $(document).ready(function () {
         if ($('div#primaryPatternPopup').length === 0) {
 
             var _patternList = ub.funcs.getPatternList();
+            var isQuickturnSockBlockPattern = _.contains(['Quick turn', 'Sock'], ub.config.option);
 
-            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+            if (isQuickturnSockBlockPattern) {
                 _patternList = ub.data.qtPatterns.items;
             }
 
@@ -942,7 +943,8 @@ $(document).ready(function () {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            if (ub.current_material.material.block_pattern === 'Quick Turn') {
+            var isQuickturnSockBlockPattern = _.contains(['Quick turn', 'Sock'], ub.config.option);
+            if (isQuickturnSockBlockPattern) {
                 y = 46;
                 height = 250;
             }
