@@ -410,6 +410,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
     Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePipings']);
     Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateRandomFeed']);
+    Route::get('material/{id}/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@modifyPattern']);
+    Route::post('material/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@saveModifyPattern']);
     Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@dropZone'])->name('dropzone');
     Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
     Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDesignSheet']);
