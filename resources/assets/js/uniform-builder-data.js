@@ -12712,5 +12712,18 @@ ub.funcs.fontOffSets = [
         }
    };
 
+   // disabled order button on uniforms reigistered in ub.data.disableSubmitOnUniforms
+   ub.data.disableSubmitOnUniforms = {
+        items: [
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+            "Basketball (Quickturn)",
+            "Tech-Tee (Quickturn)",
+            "Socks (Quickturn)"
+        ],
+        isDisabled: function(sport) {
+            return _.contains(this.items, sport);
+        }
+   }
 
 });
