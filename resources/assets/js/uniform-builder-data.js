@@ -19,7 +19,6 @@ $(document).ready(function() {
     ub.active = null;
     ub.vars = {};
     ub.isQuickturnCategory = false;
-    ub.categories = [];
     // The sport of the current uniform that is being edited will be stored here, an alias for ub.current_material.material.uniform_category
     ub.sport = ''; 
 
@@ -12064,6 +12063,32 @@ ub.funcs.fontOffSets = [
             {
                 shortCode: 'team-flag',
                 urlAlias: 'Team Flag (Apparel)',
+                gender: ['men', 'women'],
+            },
+            // quickturn category url-aliases
+            {
+                shortCode: 'baseball-quickturn',
+                urlAlias: 'Baseball (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'fastpitch-quickturn',
+                urlAlias: 'Fastpitch (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'basketball-quickturn',
+                urlAlias: 'Basketball (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'socks-quickturn',
+                urlAlias: 'Socks (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'techtee-quickturn',
+                urlAlias: 'Tech-Tee (Quickturn)',
                 gender: ['men', 'women'],
             },
         ],
