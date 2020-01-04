@@ -949,4 +949,24 @@ class MaterialsController extends Controller
 
         return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('errors', $response->message);
     }
+
+    public function modifyPattern($id)
+    {
+        $material = $this->client->getMaterial($id);
+
+        return view('administration.materials.modify-pattern', [
+            'material' => $material
+        ]);
+    }
+
+    public function saveModifyPattern(Request $request)
+    {
+        $response = $this->client->saveModifyPattern($request->all());
+
+        if ($response->success) {
+            return Redirect::to('administration/material/' . $request->id . '/modify_pattern')->with('message', 'Successfully saved changes');
+        }
+
+        return Redirect::to('administration/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
+    }
 }
