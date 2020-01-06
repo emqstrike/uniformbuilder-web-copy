@@ -86,10 +86,14 @@ class AuthenticationController extends Controller
                 Log::info('Successful User Login');
                 if (Session::get('adminFullAccess')) {
                     return redirect('administration');
+                    // if (Session::get('url.intended') === null) return redirect('administration');
+                    // return redirect(Session::get('url.intended'));
                 } elseif (Session::get('fontsMinifiedOnly')){
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
                     return redirect('administration/v1-0');
+                    // if (Session::get('url.intended') === null) return redirect('administration/v1-0');
+                    // return redirect(Session::get('url.intended'));
                 }
             }
             else
@@ -110,11 +114,26 @@ class AuthenticationController extends Controller
 
     public function loginForm(Request $request)
     {
+        $prev_url = preg_replace('/https?:\/\//', '', \URL::previous());
         $errorMessage = null;
         if ($request->session()->has('error_message'))
         {
             $errorMessage = $request->session()->get('error_message', '');
+        } else if (!Session::has('flash_message') && !$request->session()->has('logged_out')){
+            // no error in logging in and not manually logged out
+            if ($prev_url !== env('WEBSITE_URL').'/administration/login' && $prev_url !== env('WEBSITE_URL')){
+                if ($prev_url === env('WEBSITE_URL').'/administration/v1-0') {
+                    if (Session::has('url.intended-v1')) {
+                        Session::put('url.intended', Session::get('url.intended-v1'));
+                    } else {
+                        Session::put('url.intended', route('v1_admin_dashboard'));
+                    }
+                } else {
+                    Session::put('url.intended', \URL::previous());
+                }
+            }
         }
+
         return view('administration.auth.login', [
             'error_message' => $errorMessage
         ]);
@@ -124,7 +143,7 @@ class AuthenticationController extends Controller
     {
         $this->clearLoginSession();
         Log::info('User Logout');
-        return redirect('administration/login');
+        return redirect('administration/login')->with('logged_out', true);
     }
 
     protected function clearLoginSession()

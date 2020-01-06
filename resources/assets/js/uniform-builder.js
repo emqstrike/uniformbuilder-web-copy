@@ -335,6 +335,7 @@ $(document).ready(function () {
 
         ub.funcs.turnOffOrderButton = function () {
             $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+            $('a.footer-buttons[data-view="team-info"]').unbind('click');
         }
 
         ub.funcs.beforeLoad = function () {
@@ -427,7 +428,7 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="save"]').removeClass('disabled');
 
-            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+            if(ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
@@ -705,25 +706,32 @@ $(document).ready(function () {
             if (ub.branding.useAllColors) { ub.funcs.addAllColorToTeamColors(); }
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.disableSubmitOnUniforms);
 
             // preprocess `Quick Turn` pattern for unsaved design uniform
             // prevent afterLoad's looping error from saved design uniform
             if (typeof ub.config.savedDesignInfo !== 'object') {
                 ub.funcs.addFunctionToAfterloadList(ub.funcs.processQuickTurnPattern);
             }
-            
             ub.funcs.executeAfterLoadFunctionList();
-
         };
+
+        ub.funcs.disableSubmitOnUniforms = function() {
+            // Disable order button on a sport registered in ub.data.disableSubmitOnUniforms
+            if (ub.data.disableSubmitOnUniforms.isDisabled(ub.config.sport)) {
+                ub.funcs.turnOffOrderButton();
+            }
+        }
 
         ub.funcs.updateLabels = function () {
 
             if (ub.funcs.isSocks()) {
-                $('a.change-view[data-view="left"]').html('O<br><span>Outside View</span>');
-                $('a.change-view[data-view="right"]').html('I<br><span>Inside View</span>');
+                 // Left = Inside | Right - Outside
+                $('a.change-view[data-view="left"]').html('I<br><span>Inside View</span>');
+                $('a.change-view[data-view="right"]').html('O<br><span>Outside View</span>');
 
-                $('span.perspective[data-id="left"]').text('Outside');
-                $('span.perspective[data-id="right"]').text('Inside');
+                $('span.perspective[data-id="left"]').text('Inside');
+                $('span.perspective[data-id="right"]').text('Outside');
             }
 
         }
@@ -2891,7 +2899,7 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || _.contains(ub.data.riddellSportWithPipings, ub.config.sport)) {
+        if (ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
 
             if (ub.current_material.pipings !== null) {
 
@@ -6463,7 +6471,7 @@ $(document).ready(function () {
             // Geometric Fade, Net Fade, NS
             var ignoreRotation = ['Geometric Fade', 'Net Fade', 'NS'];
             if (_.contains(ignoreRotation, clone.name) 
-                && ub.current_material.material.block_pattern === 'Quick Turn') {
+                && (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === 'Socks (Quickturn)')) {
                     _rotationAngle = 0;
             }
 
@@ -6478,11 +6486,14 @@ $(document).ready(function () {
 
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
 
-                if (ub.current_material.material.block_pattern === 'Quick Turn') {
-                    var qtFilename = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id}).layers[index][v];
+                if (ub.current_material.material.block_pattern === 'Quick Turn' || ub.config.sport === 'Socks (Quickturn)') {
+                    var qtPattern = _.find(ub.data.qtPatterns.items, {id: clone.pattern_id});
+                    if (typeof qtPattern !== 'undefined') {
+                        var qtFilename = qtPattern.layers[index][v];
 
-                    if (typeof qtFilename !== 'undefined') {
-                        layer.filename = qtFilename;
+                        if (typeof qtFilename !== 'undefined') {
+                            layer.filename = qtFilename;
+                        }
                     }
                 }
 

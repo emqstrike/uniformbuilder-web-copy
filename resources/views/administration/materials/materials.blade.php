@@ -186,6 +186,9 @@
                     <a href="/administration/material/{{ $material->id }}/gradient") }}" class="btn btn-xs btn-flat btn-warning">
                         <i class="fa fa-square" aria-hidden="true"></i>
                     </a>
+                    <a href="/administration/material/{{ $material->id }}/modify_pattern") }}" class="btn btn-xs btn-flat btn-warning">
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                    </a>
                     <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
                         <i class="fa fa-upload" aria-hidden="true"></i>
                     </a>

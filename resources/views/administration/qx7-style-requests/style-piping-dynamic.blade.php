@@ -1,4 +1,4 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
     <style>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_qx7_update_piping') }}" enctype="multipart/form-data" id='edit-piping-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('qx7_update_piping') }}" enctype="multipart/form-data" id='edit-piping-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
                             <input type="hidden" id="pipings_data" value="{{ $style->pipings }}">
@@ -124,7 +124,7 @@
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Update Pipings
                                     </button>
-                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
+                                    <a href="{{ route('qx7_style_requests') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>

@@ -37,6 +37,8 @@
 <!-- webFontLoader -->
 <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
 
+<link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+
 <style type="text/css">
 /*intro css*/
 .introTrigger{
@@ -52,6 +54,7 @@
 @yield('styles')
 </head>
 <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse">
+<div id="application-container"> <!-- test -->
 <div class="wrapper">
 
     <header class="main-header">
@@ -136,6 +139,7 @@
     </footer>
 
 </div>
+</div> <!-- test -->
 
 <style type="text/css">
     @yield('custom-styles')
@@ -149,6 +153,7 @@
     window.api_host = "{{ env('API_HOST') }}";
     window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
     window.brand = "{{ env('brand') }}";
+    window.qx7_host = "{{ env('QX7_HOST') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif
@@ -179,6 +184,12 @@
 <script src="/dist/js/app.js"></script>
 <script src="/js/administration/jquery-confirm.js"></script>
 <script src="/intro-js/intro.min.js"></script>
+
+<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+<script src="/js/libs/axios.js"></script>
+<script src="/js/libs/axios-global-config.js"></script>
+<script src="https://unpkg.com/vue@2.5.18/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.js"></script>
 
 @yield('scripts')
 @yield('custom-scripts')
@@ -323,6 +334,8 @@
     //         });
     //   }
     // }
+
+
 
     </script>
   </body>

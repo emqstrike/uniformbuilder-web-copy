@@ -1,8 +1,8 @@
-@extends('administration-lte-2.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
     <style>
-        .piping-table td {
+        .gradient-table td {
             vertical-align: bottom !important;
         }
 
@@ -14,8 +14,8 @@
             display: inline-block;
         }
 
-        #copy-piping-data-modal textarea,
-        #load-piping-data-modal textarea {
+        #copy-gradient-data-modal textarea,
+        #load-gradient-data-modal textarea {
             height: 20em;
             padding: 10px;
             resize: none;
@@ -45,12 +45,10 @@
             left: 70px;
             position: absolute;
         }
-
         .flex {
-            display: flex;
-            flex-direction: row;
+           display: flex;
+           flex-direction: row;
         }
-
         .delete-image a {
             color: red;
         }
@@ -63,31 +61,30 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        @section('page-title', 'Modify Piping (Dynamic)')
+                        @section('page-title', 'Modify Gradient')
 
                         <div class="row">
                             <div class="col-md-6">
-                                <h1>Modify Piping (Dynamic)</h1>
+                                <h1>Modify Gradient</h1>
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
-                                <a href="#" class="btn btn-flat btn-default copy-piping">
-                                    <span class="glyphicon glyphicon-copy"></span>
+                                <a href="#" class="btn btn-flat btn-default copy-gradient">
                                     Copy
                                 </a>
 
-                                <a href="#" class="btn btn-flat btn-default open-load-piping-modal-button">Load</a>
+                                <a href="#" class="btn btn-flat btn-default open-load-gradient-modal-button">Load</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_qx7_update_piping') }}" enctype="multipart/form-data" id='edit-piping-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('qx7_update_gradient') }}" enctype="multipart/form-data" id='edit-gradient-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
-                            <input type="hidden" id="pipings_data" value="{{ $style->pipings }}">
-                            <input type="hidden" name="pipings" id="pipings">
-                            <input type="hidden" name="material_brand" value="{{ $style->brand }}">
+                            <input type="hidden" id="gradient_data" value="{{ $style->gradient }}">
+                            <input type="hidden" id="material_brand" value="{{ $style->brand }}">
+                            <input type="hidden" name="gradient" id="gradient">
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -97,35 +94,26 @@
 
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-md-6">
-                                    <a href="#" class="btn btn-flat btn-success add-piping">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        Add Piping
+                                    <a href="#" class="btn btn-flat btn-success add-gradient">
+                                        Add Gradient
                                     </a>
                                 </div>
 
-                                <div class="col-md-6 text-right">
-                                    <label>Change Colors</label>
-                                    <div class="global-color"></div>
-                                    <div class="global-color"></div>
-                                    <div class="global-color"></div>
-                                </div>
                             </div>
 
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="pipings-content"></div>
+                                    <div class="gradient-content"></div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-flat btn-primary ">
-                                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Pipings
+                                    <button type="submit" class="btn btn-flat btn-primary edit-gradient">
+                                        Update Gradient
                                     </button>
-                                    <a href="{{ route('v1_qx7_style_requests') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
-                                        <span class="glyphicon glyphicon-arrow-left"></span>
+                                    <a href="{{ route('qx7_style_requests') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         Cancel
                                     </a>
                                 </div>
@@ -136,21 +124,20 @@
             </div>
         </div>
     </section>
+    @include('administration-lte-2.master-pages.materials.modal.copy-gradient-data')
+    @include('administration-lte-2.master-pages.materials.modal.load-gradient-data')
 
-    @include('administration-lte-2.master-pages.materials.modal.copy-piping-data')
-    @include('administration-lte-2.master-pages.materials.modal.load-data')
-    @include('administration.materials.material-piping-polygon-modal')
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 @endsection
 
 @section('scripts')
 
-    <script type="text/javascript" src="/js/administration-lte-2/materials/pipings.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials/gradient.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#copy-data-to-clipboard').click(function() {
-                $('#copy-piping-data-modal textarea').select();
+                $('#copy-gradient-data-modal textarea').select();
                 document.execCommand('copy');
 
                 $('#copy-to-clipboard-tooltip').fadeIn();
@@ -160,8 +147,8 @@
                 }, 500);
             });
 
-            $('.open-load-piping-modal-button').click(function() {
-                $('#load-piping-data-modal').modal('show');
+            $('.open-load-gradient-modal-button').click(function() {
+                $('#load-gradient-data-modal').modal('show');
             });
         });
     </script>

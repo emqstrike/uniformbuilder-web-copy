@@ -2206,6 +2206,27 @@ $(document).ready(function() {
                 name: "Team Flag (Apparel)",
                 alias: "team-flag",
             },
+            // Quickturn Items
+            {
+                name: "Baseball (Quickturn)",
+                alias: "baseball-quickturn",
+            },
+            {
+                name: "Fastpitch (Quickturn)",
+                alias: "fastpitch-quickturn",
+            },
+            {
+                name: "Basketball (Quickturn)",
+                alias: "basketball-quickturn",
+            },
+            {
+                name: "Socks (Quickturn)",
+                alias: "socks-quickturn",
+            },
+            {
+                name: "Tech-Tee (Quickturn)",
+                alias: "techtee-quickturn",
+            },
 
         ],
 
@@ -10398,7 +10419,22 @@ ub.funcs.fontOffSets = [
                 sport: 'Team Flag (Apparel)',
                 sublimatedPart: 'Extra',
             },
-
+            // Quickturn Categories
+            {
+                sport: 'Baseball (Quickturn)',
+            },
+            {
+                sport: 'Fastpitch (Quickturn)',
+            },
+            {
+                sport: 'Basketball (Quickturn)',
+            },
+            {
+                sport: 'Tech-Tee (Quickturn)',
+            },
+            {
+                sport: 'Socks (Quickturn)',
+            },
         ],
 
         get: function (sport) {
@@ -10464,7 +10500,7 @@ ub.funcs.fontOffSets = [
 
             }
 
-            if (sport === "Baseball" || sport === "Fastpitch") {
+            if (sport === "Baseball" || sport === "Fastpitch" || sport === "Baseball (Quickturn)" || sport === "Fastpitch (Quickturn)") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
@@ -12270,6 +12306,7 @@ ub.funcs.fontOffSets = [
             "7 inch Stir Up Sock",
             "9 inch Stir Up Sock",
             "Quick Turn",
+            "Sock" // Socks (quickturn) item blockpattern
         ],
 
         isExempted: function (option) {
@@ -12295,6 +12332,8 @@ ub.funcs.fontOffSets = [
             { sport: 'Hockey', },
             // Team Accessories
             { sport: 'Team Flag (Apparel)', },
+            // Quickturn Category
+            { sport: 'Socks (Quickturn)', },
 
         ],
 
@@ -12436,7 +12475,13 @@ ub.funcs.fontOffSets = [
             'SFN Jogger (Apparel)',
             'Hockey',
             'Track and Field',
-            'Team Flag (Apparel)'
+            'Team Flag (Apparel)',
+            // Quickturn Categories
+            'Baseball (Quickturn)',
+            'Fastpitch (Quickturn)',
+            'Basketball (Quickturn)',
+            'Tech-Tee (Quickturn)',
+            'Socks (Quickturn)'
         ],
         isValid: function (uniformCategory) {
 
@@ -12536,7 +12581,8 @@ ub.funcs.fontOffSets = [
         items: [
             'PTS Cage Jacket (Apparel)',
             'PTS Hoodie (Apparel)',
-            'Socks (Apparel)'
+            'Socks (Apparel)',
+            'Socks (Quickturn)'
         ],
         isValid: function (uniformCategory, modifierLabels, materialOption) {
 
@@ -12653,5 +12699,31 @@ ub.funcs.fontOffSets = [
         'RDL Baseball',
    ];
 
+   ub.data.uniformWithPipings = {
+        items: [
+            "RDL Baseball",
+            "Baseball",
+            "Fastpitch",
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+        ],
+        hasPipings: function(sport) {
+            return _.contains(this.items, sport);
+        }
+   };
+
+   // disabled order button on uniforms reigistered in ub.data.disableSubmitOnUniforms
+   ub.data.disableSubmitOnUniforms = {
+        items: [
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+            "Basketball (Quickturn)",
+            "Tech-Tee (Quickturn)",
+            "Socks (Quickturn)"
+        ],
+        isDisabled: function(sport) {
+            return _.contains(this.items, sport);
+        }
+   }
 
 });

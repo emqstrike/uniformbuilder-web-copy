@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\AdministrationV2;
+namespace App\Http\Controllers\Administration;
 
 use App\APIClients\ApplicationsAPIClient;
 use App\APIClients\BoundariesAPIClient;
@@ -59,22 +59,22 @@ class Qx7StyleRequestController extends Controller
 
     public function index()
     {
-        return view('administration-lte-2.qx7-style-requests.index');
+        return view('administration.qx7-style-requests.index');
     }
 
     public function show($id)
     {
-        return view('administration-lte-2.qx7-style-requests.view', compact('id'));
+        return view('administration.qx7-style-requests.view', compact('id'));
     }
 
     public function createStyle($id)
     {
-        return view('administration-lte-2.qx7-style-requests.create-style', compact('id'));
+        return view('administration.qx7-style-requests.create-style', compact('id'));
     }
 
     public function dropZone($id)
     {
-        return view('administration-lte-2.qx7-style-requests.option-dropzone', compact('id'));
+        return view('administration.qx7-style-requests.option-dropzone', compact('id'));
     }
 
     public function getOptions($id)
@@ -108,7 +108,7 @@ class Qx7StyleRequestController extends Controller
 
         $gradients = $this->gradientClient->getGradients();
 
-        return view('administration-lte-2.qx7-style-requests.view-options', [
+        return view('administration.qx7-style-requests.view-options', [
             'options' => $options,
             'colors' => $colors,
             'gradients' => $gradients,
@@ -147,7 +147,7 @@ class Qx7StyleRequestController extends Controller
 
         $fonts = $this->rulesClient->getFonts($style->rule_id);
 
-        return view('administration-lte-2.qx7-style-requests.style-application', compact(
+        return view('administration.qx7-style-requests.style-application', compact(
             'materialOption',
             'guide',
             'highlightPath',
@@ -179,10 +179,10 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
+            return redirect()->route('qx7_style_application', ['id' => $materialOptionId])->with('flash_message_success', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_qx7_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
+            return redirect()->route('qx7_style_application', ['id' => $materialOptionId])->with('flash_message_error', 'There was a problem saving your material option');
         }
     }
 
@@ -192,7 +192,7 @@ class Qx7StyleRequestController extends Controller
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
 
-        return view('administration-lte-2.qx7-style-requests.style-options-setup', [
+        return view('administration.qx7-style-requests.style-options-setup', [
             'style' => $style,
             'options' => $options,
         ]);
@@ -203,28 +203,28 @@ class Qx7StyleRequestController extends Controller
         $response = $this->optionsClient->importBoundingBox($request->all());
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
+            return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
         }
 
-        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
+        return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
 
     public function matchRulePartName(Request $request)
     {
         $response = $this->optionsClient->matchRulePartName($request->all());
-        
+
         if ($response->success) {
             if (isset($request['edit'])) {
-                return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
+                return redirect()->route('qx7_edit_rule_part_names', ['id' => $request->style_id])->with('message', $response->message);
             }
-            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
+            return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('message', $response->message);
         }
 
         if (isset($request['edit'])) {
-            return redirect()->route('v1_qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
+            return redirect()->route('qx7_edit_rule_part_names', ['id' => $request->style_id])->with('errors', $response->message);
         }
 
-        return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
+        return redirect()->route('qx7_style_options', ['id' => $request->style_id])->with('errors', $response->message);
     }
 
     public function saveOption(Request $request)
@@ -335,7 +335,7 @@ class Qx7StyleRequestController extends Controller
             }
         }  catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/v1-0/qx7_style_requests')
+            return Redirect::to('/administration/qx7_style_requests')
                             ->with('message', 'There was a problem uploading your files');
         }
 
@@ -351,11 +351,11 @@ class Qx7StyleRequestController extends Controller
         }
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+            return Redirect::to('/administration/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', $response->message);
         } else {
             Log::info('Failed');
-            return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$data['style_id'])
+            return Redirect::to('/administration/qx7_style_requests/view_options/'.$data['style_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
@@ -435,7 +435,7 @@ class Qx7StyleRequestController extends Controller
 
         $response = $this->optionsClient->updateMaterialOptions($data);
 
-        return redirect()->route('v1_qx7_style_options_setup', ['id' => $materialID])->with('message', 'Update saved');
+        return redirect()->route('qx7_style_options_setup', ['id' => $materialID])->with('message', 'Update saved');
 
     }
 
@@ -463,10 +463,10 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', $response->message);
+            return redirect()->route('qx7_style_options', ['id' => $data['style_id']])->with('message', $response->message);
         } else {
             Log::info('Failed');
-            return redirect()->route('v1_qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
+            return redirect()->route('qx7_style_options', ['id' => $data['style_id']])->with('message', 'There was a problem saving your material option');
         }
     }
 
@@ -480,13 +480,13 @@ class Qx7StyleRequestController extends Controller
         Log::info('Attempts to cleanup properties' . json_encode($data));
         $response = $this->optionsClient->purge($data);
 
-        return Redirect::to('/administration/v1-0/qx7_style_requests/view_options/'.$mo_material_id);
+        return Redirect::to('/administration/qx7_style_requests/view_options/'.$mo_material_id);
     }
 
     public function pipings($id)
     {
         $style = $this->stylesClient->getStyle($id);
-        return view('administration-lte-2.qx7-style-requests.style-piping-dynamic', [
+        return view('administration.qx7-style-requests.style-piping-dynamic', [
             'style' => $style
         ]);
     }
@@ -505,11 +505,11 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+            return Redirect::to('administration/qx7_style_requests/pipings/' . $style_id )
                     ->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('administration/v1-0/qx7_style_requests/pipings/' . $style_id )
+            return Redirect::to('administration/qx7_style_requests/pipings/' . $style_id )
                     ->with('message', $response->message);
         }
     }
@@ -517,7 +517,7 @@ class Qx7StyleRequestController extends Controller
     public function gradient($id)
     {
         $style = $this->stylesClient->getStyle($id);
-        return view('administration-lte-2.qx7-style-requests.style-gradient', [
+        return view('administration.qx7-style-requests.style-gradient', [
             'style' => $style
         ]);
     }
@@ -536,11 +536,11 @@ class Qx7StyleRequestController extends Controller
 
         if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+            return Redirect::to('administration/qx7_style_requests/gradient/' . $style_id)
                     ->with('message', 'Successfully saved changes');
         } else {
             Log::info('Failed');
-            return Redirect::to('administration/v1-0/qx7_style_requests/gradient/' . $style_id)
+            return Redirect::to('administration/qx7_style_requests/gradient/' . $style_id)
                     ->with('message', $response->message);
         }
     }
@@ -577,7 +577,7 @@ class Qx7StyleRequestController extends Controller
             }
         }
 
-        return view('administration-lte-2.qx7-style-requests.edit-rule-part-names', compact(
+        return view('administration.qx7-style-requests.edit-rule-part-names', compact(
             'frontPerspectiveOptions',
             'backPerspectiveOptions',
             'leftPerspectiveOptions',
@@ -593,10 +593,10 @@ class Qx7StyleRequestController extends Controller
         $response = (new MaterialsOptionsAPIClient())->updateRulePartNames($request->all());
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('message', $response->message);
+            return redirect()->route('qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('message', $response->message);
         }
 
-        return redirect()->route('v1_qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
+        return redirect()->route('qx7_edit_rule_part_names', ['styleId' => $request->style_id])->with('errors', $response->message);
     }
 
     public function exportPartsExcel()
@@ -658,7 +658,7 @@ class Qx7StyleRequestController extends Controller
             }
             array_push($new_style_requests, $new_sr);
         }
-        return view('administration-lte-2.qx7-style-requests.export-parts', [
+        return view('administration.qx7-style-requests.export-parts', [
             'style_requests' => $new_style_requests
         ]);
     }
@@ -675,9 +675,9 @@ class Qx7StyleRequestController extends Controller
         $response = $this->optionsClient->importMaterialOptions($data);
 
         if ($response->success) {
-            return redirect()->route('v1_qx7_style_requests')->with('message', $response->message);
+            return redirect()->route('qx7_style_requests')->with('message', $response->message);
         }
 
-        return redirect()->route('v1_qx7_style_requests')->with('errors', $response->message);
+        return redirect()->route('qx7_style_requests')->with('errors', $response->message);
     }
 }
