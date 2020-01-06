@@ -10821,7 +10821,6 @@ $(document).ready(function () {
                 $(this).addClass('active');
 
                 var sport = $(this).data('item');
-                var gender = $(this).data('gender').toLowerCase();
                 var isUniSex = ub.data.uniSexSports.isUniSex(sport);
                 var items = [];
 
@@ -10829,21 +10828,25 @@ $(document).ready(function () {
                     case 'All':
                         if (actualGender === 'men') {
                             items = _.filter(ub.materials, function(material) {
-                               return (material.uniform_category.includes('(Quickturn)') && material.uniform_category !== 'Fastpitch (Quickturn)');
+                               return material.uniform_category.includes('(Quickturn)') &&
+                                material.uniform_category !== 'Fastpitch (Quickturn)' &&
+                                material.gender !== 'women';
                             });
                         } else {
                             items = _.filter(ub.materials, function(material) {
-                               return (material.uniform_category.includes('(Quickturn)') && material.uniform_category !== 'Baseball (Quickturn)');
+                               return material.uniform_category.includes('(Quickturn)') &&
+                                material.uniform_category !== 'Baseball (Quickturn)' &&
+                                material.gender !== 'men';
                             });
                         }
                         break;
                     default:
-                        gender = isUniSex ? 'unisex' : gender;
-                        items = _.filter(ub.materials, {'uniform_category': sport, 'gender': gender});
+                        actualGender = isUniSex ? 'unisex' : actualGender;
+                        items = _.filter(ub.materials, {'uniform_category': sport, 'gender': actualGender});
                 }
 
                 $mainPickerScroller.fadeOut().html('');
-                ub.funcs.initScroller('uniforms', items, gender);
+                ub.funcs.initScroller('uniforms', items, actualGender);
                 $(window).scrollTop(1);
             });
         }
