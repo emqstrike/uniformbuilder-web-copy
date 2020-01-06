@@ -7609,7 +7609,7 @@ $(document).ready(function () {
 
             ub.funcs.hideSecondaryBar();
             ub.funcs.hideQuickturnSecondaryBar();
-            
+
             var template = $('#m-picker-items-sport').html();
 
             var data = {
@@ -8475,6 +8475,8 @@ $(document).ready(function () {
             $(window).scrollTop(0);
             var quickturn = _.find(ub.data.quickturn, {gender: gender});
             var sports = _.sortBy(quickturn.sports, "alias");
+            // change alias property to titleCase()
+            sports = _.each(sports, function(sport) { sport.alias = sport.alias.toTitleCase(); });
             ub.funcs.initScroller('sports', sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
