@@ -1,5 +1,11 @@
 // UBJS
 $(document).ready(function () {
+
+    const hello = (name) => {
+        return `hello ${name}`;
+    };
+
+    console.log(hello('nico'));
  
     /// NEW RENDERER ///
 
