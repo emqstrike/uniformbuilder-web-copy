@@ -1750,17 +1750,17 @@ $(document).ready(function () {
                 ub.funcs.processMaterialPrice(material);
 
                 _result = _.find(ub.data.tagged_styles, {uniform_id: material.id});
-                        
+
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
                 if (material.thumbnail_path_left === "") {
                     material.thumbnail_path_left = material.thumbnail_path;
                 }
 
-                if ((material.uniform_category === "Baseball" && material.type === "lower") || 
-                    (material.uniform_category === "Fastpitch" && material.type === "lower") || 
-                    (material.uniform_category === "Basketball" && material.type === "lower") || 
-                    (material.uniform_category === "Lacrosse" && material.type === "lower") || 
+                if ((material.uniform_category === "Baseball" && material.type === "lower") ||
+                    (material.uniform_category === "Fastpitch" && material.type === "lower") ||
+                    (material.uniform_category === "Basketball" && material.type === "lower") ||
+                    (material.uniform_category === "Lacrosse" && material.type === "lower") ||
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     (material.uniform_category === "Soccer" && material.type === "lower") ||
@@ -1768,12 +1768,12 @@ $(document).ready(function () {
                     (material.uniform_category === "Track and Field" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") ||
                     (material.uniform_category === "Socks (Apparel)") ||
-                    (material.uniform_category === "Socks (Quickturn)") ||
                     (material.uniform_category === "SFN Jogger (Apparel)") ||
-                    (material.uniform_category === "Yoga Pant (Apparel)")) {
+                    (material.uniform_category === "Yoga Pant (Apparel)") ||
+                    (material.uniform_category.includes("(Quickturn)") && material.type === "lower")) {
 
                     var tempLeftThumbnail = material.thumbnail_path_left;
-                
+
                     material.thumbnail_path_left = material.thumbnail_path_front;
 
                     if (material.block_pattern === "Hockey Sock") {
@@ -1789,7 +1789,7 @@ $(document).ready(function () {
                 if (material.uniform_category === "Tech Tee (eSports)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
                 }
-                
+
             });
 
             var _searchSource = _.map(ub.materials, function (material) {
