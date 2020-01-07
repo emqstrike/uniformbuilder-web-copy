@@ -34,6 +34,7 @@
                             <option value="1">PMP</option>
                             <option value="2">BLB</option>
                             <option value="3">SOX</option>
+                            <option value="4">XSD</option>
                     </select>
                   </div>
                   <div class="form-group">
