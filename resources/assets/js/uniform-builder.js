@@ -8474,9 +8474,8 @@ $(document).ready(function () {
         } else if (sport === "Quickturn") {
             $(window).scrollTop(0);
             var quickturn = _.find(ub.data.quickturn, {gender: gender});
-            var sports = _.sortBy(quickturn.sports, "alias");
-            // change alias property to titleCase()
-            sports = _.each(sports, function(sport) { sport.alias = sport.alias.toTitleCase(); });
+            var sports = _.each(quickturn.sports, function(sport) { sport.alias = sport.alias.toTitleCase(); });
+                sports = _.sortBy(sports, "alias");
             ub.funcs.initScroller('sports', sports, gender, undefined, undefined, undefined, undefined, undefined);
             return;
         } else if (_availableForUnisex) {
