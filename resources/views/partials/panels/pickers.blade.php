@@ -194,7 +194,7 @@
             <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Baseball (Quickturn)">Baseball</span>
             <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Basketball (Quickturn)">Basketball</span>
             <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Fastpitch (Quickturn)">Fastpitch</span>
-            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Socks (Quickturn)">Socks</span>
+            {{-- <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Socks (Quickturn)">Socks</span> --}}
             <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Tech-Tee (Quickturn)">Tech-Tee</span>
         </div>
 
