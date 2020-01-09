@@ -1457,9 +1457,9 @@
                 <tr class="thead">
                     <th class='count'></th>
                     <th class="thnumber">Size</th>
-                    <th class="wide thlastname">Last Name</br>
+                    <th class="wide thlastname">Last Name
                         <span id="lastNameDisclaimer">
-                            <i class="fa fa-info-circle"></i> Last names are case sensitive.
+                            <i class="fa fa-info-circle"></i> LAST NAMES ARE CASE SENSITIVE.
                         </span>
                     </th>
                     <th class="thnumber thPlayerNumberInput">Number</th>
