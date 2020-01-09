@@ -1453,11 +1453,20 @@
         <div class="tab" data-size="@{{.}}">
 
             <table class="roster-table" align="center" data-size="@{{.}}">
-                            
-                <tr class="thead">
-                    
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
+                <tr class="thead">
+                    <th class='count'></th>
+                    <th class="thnumber">Size</th>
+                    <th class="wide thlastname">Last Name
+                        <span id="lastNameDisclaimer">
+                            <i class="fa fa-info-circle"></i> LAST NAMES ARE CASE SENSITIVE.
+                        </span>
+                    </th>
+                    <th class="thnumber thPlayerNumberInput">Number</th>
+                    <th class="thnumber">Quantity</th>
+                    <th  class="wide sleevetype">Sleeve Type</th>
+                    <th class="wide lastnameapplication">Last Name Application</th>
+                    <th class="action"></th>
                 </tr>
 
             </table>
