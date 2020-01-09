@@ -42,6 +42,10 @@
                             <td>
                                 @if($price_item->dealer_id == 6)
                                 Pro Look Sports
+                                @elseif($price_item->dealer_id == 7)
+                                Riddell
+                                @elseif($price_item->dealer_id == 37)
+                                Richardson
                                 @endif
                             </td>
                             <td>
