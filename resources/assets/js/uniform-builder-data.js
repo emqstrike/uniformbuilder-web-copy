@@ -12472,7 +12472,12 @@ ub.funcs.fontOffSets = [
             'Soccer',
             'Track and Field',
             'Wrestling 2018',
-            'Lacrosse'
+            'Lacrosse',
+            'Baseball (Quickturn)',
+            'Fastpitch (Quickturn)',
+            'Basketball (Quickturn)',
+            'Tech-Tee (Quickturn)',
+
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12760,6 +12765,7 @@ ub.funcs.fontOffSets = [
             "Fastpitch (Quickturn)",
             "Basketball (Quickturn)",
             "Tech-Tee (Quickturn)",
+            'Socks (Quickturn)'
         ],
         isHidden: function(sport) {
             this.consoleMessage();
