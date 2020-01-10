@@ -43,6 +43,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h1>Edit Rule Part Names</h1>
+                        <h4>{{ $style->name }}</h4>
                         @section('page-title', 'Edit Rule Part Names')
                     </div>
 
