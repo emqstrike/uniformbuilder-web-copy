@@ -12738,7 +12738,7 @@ ub.funcs.fontOffSets = [
         }
    };
 
-   // disabled order button on uniforms reigistered in ub.data.disableSubmitOnUniforms
+   // disabled order button on uniforms.
    ub.data.disableSubmitOnUniforms = {
         items: [
             "Baseball (Quickturn)",
@@ -12750,6 +12750,24 @@ ub.funcs.fontOffSets = [
         isDisabled: function(sport) {
             return _.contains(this.items, sport);
         }
-   }
+   };
+
+   // hide pattern button on uniforms.
+   ub.data.disablePatternButtonOnUniforms = {
+        items: [
+            // Dan: "all QuickTurn JERSEYS and SHORTS, we don't want the patterns button to be available.".
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+            "Basketball (Quickturn)",
+            "Tech-Tee (Quickturn)",
+        ],
+        isHidden: function(sport) {
+            this.consoleMessage();
+            return _.contains(this.items, sport);
+        },
+        consoleMessage: function() {
+            console.warn("Pattern button is hidden on this sport.");
+        }
+   };
 
 });

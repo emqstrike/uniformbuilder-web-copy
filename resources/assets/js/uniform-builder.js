@@ -701,6 +701,7 @@ $(document).ready(function () {
 
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
             ub.funcs.addFunctionToAfterloadList(ub.funcs.disableSubmitOnUniforms);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.hidePatternButtonOnUniforms);
 
             // preprocess `Quick Turn` pattern for unsaved design uniform
             // prevent afterLoad's looping error from saved design uniform
@@ -715,6 +716,18 @@ $(document).ready(function () {
             if (ub.data.disableSubmitOnUniforms.isDisabled(ub.config.sport)) {
                 ub.funcs.turnOffOrderButton();
             }
+        }
+
+        ub.funcs.hidePatternButtonOnUniforms = function() {
+            // hide pattern button
+            if (ub.data.disablePatternButtonOnUniforms.isHidden(ub.config.sport)) {
+                ub.funcs.hidePatternButton();
+            }
+        }
+
+        ub.funcs.hidePatternButton = function() {
+            var $patternButton = $('.footer-buttons.change-view[data-view="patterns"]');
+            $patternButton.hide();
         }
 
         ub.funcs.updateLabels = function () {
