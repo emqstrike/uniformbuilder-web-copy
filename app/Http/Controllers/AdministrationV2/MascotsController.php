@@ -116,11 +116,13 @@ class MascotsController extends Controller
 
     public function store(MascotRequest $request)
     {
+
         $mascotName = $request->input('name');
         $code = $request->input('code');
         $category = $request->input('category');
         $layersProperties = $request->input('layers_properties');
         $brand = $request->input('brand');
+        $typographic = $request->input('typographic');
 
         $sports = explode(",", $request->input('sports_value'));
 
@@ -131,6 +133,7 @@ class MascotsController extends Controller
             'layers_properties' => $layersProperties,
             'sports' => $sports,
             'brand' => $brand,
+            'typographic' => $typographic,
             'alias' => $request->input('alias')
         ];
 

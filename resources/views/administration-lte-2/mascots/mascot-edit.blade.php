@@ -105,6 +105,15 @@
                                 </select>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="col-md-3 control-label" >Is Typographic?</label>
+                           <div class="col-md-6">
+                                <select name="typographic" class="form-control" required="true">
+                                        <option value="0" @if($mascot->typographic == "0") selected="selected"@endif>No</option>
+                                        <option value="1" @if($mascot->typographic == "1") selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Layers
