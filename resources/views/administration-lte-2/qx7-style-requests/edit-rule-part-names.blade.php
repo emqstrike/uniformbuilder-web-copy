@@ -38,6 +38,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h1>Edit Rule Part Names</h1>
+                        <h4>{{ $style->name }}</h4>
                         @section('page-title', 'Edit Rule Part Names')
                     </div>
 
@@ -196,7 +197,7 @@
                                                                 {{ $option->rule_part_name }}
                                                             </option>
                                                         @endif
-                                                        
+
                                                         @foreach ($bodyParts as $bodyPart)
                                                             <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
                                                                 {{ $bodyPart }}
