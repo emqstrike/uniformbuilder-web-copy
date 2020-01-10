@@ -83,7 +83,7 @@
                             <th id="select-filter">Category</th>
                             <th>Sports</th>
                             <th>Icon</th>
-                            <th>Typhographic</th>
+                            <th>Typographic</th>
                             <th id="select-filter">Brand</th>
                             <th>Active</th>
                             <th>Actions</th>
