@@ -9854,7 +9854,7 @@ div.header-container.main {
             position: fixed;
             width: 930px;
             min-height: 390px;
-            top: 200px;
+            top: 50px !important;
             left: 300px;
             z-index: 2000;
             font-size: 0.9em;
@@ -9891,8 +9891,8 @@ div.header-container.main {
 
             .img-thumbnail.upload {
                 margin-top: 10px;
-                //height: 200px;
-                //width: 200px;
+                height: 400px;
+                width: 400px;
             }
 
             .upload-btn {
@@ -9901,6 +9901,11 @@ div.header-container.main {
 
             .optional {
                 color: #ccc;
+            }
+
+            textarea {
+                height: 263px;
+                resize: none;
             }
 
             h3 {
@@ -9952,7 +9957,7 @@ div.header-container.main {
                     cursor: pointer;
 
                     margin: 0 auto;
-                    margin-top: 30px;
+                    margin-top: 13px;
                     display: inline-block;
 
                     .smallButton;
@@ -9982,7 +9987,7 @@ div.header-container.main {
     /* End Feedback Form */
 
     /* Feedback form for 1567px screen size */
-    @media screen and (max-width: 1680px) {
+    @media screen and (max-width: 1800px) {
         div.free-feedback-form {
             top: 10px !important;
             padding: 15px 30px;
@@ -9993,6 +9998,17 @@ div.header-container.main {
                 margin-bottom: 15px;
                 padding-bottom: 20px;
             }
+
+            .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
+                width: 85px;
+            }
+
+            .img-thumbnail.upload {
+                margin-top: 10px;
+                height: 310px;
+                width: 310px;
+            }
+
             // message textarea
             textarea {
                 height: 11em;
