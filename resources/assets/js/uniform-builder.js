@@ -43,18 +43,18 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                // optimize fonts consumption on the api
-                //console.log("==================>" + ub.current_material.material.brand);
-                
-                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/' + ub.config.brand;
-
-                if (ub.config.uniform_brand === 'riddell') {
-                    ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
+                switch(ub.config.uniform_brand) {
+                    case 'prolook':
+                    case 'Prolook':
+                        ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
+                        ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/filter/' + ub.config.sport + '/' + ub.config.brand;
+                        break;
+                    default:
+                        ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
+                        ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 }
 
                 ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
-                // ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
-                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
                 ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
@@ -1149,40 +1149,61 @@ $(document).ready(function () {
                 
             }
 
-            var ok = typeof(ub.current_material.material) !== 'undefined' && 
-                     typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.data.colors) !== 'undefined' &&
-                     typeof(ub.data.patterns) !== 'undefined' &&
-                     typeof(ub.data.fonts) !== 'undefined' && 
-                     typeof(ub.data.mascots) !== 'undefined' && 
+            var isAssetCompleted = typeof(ub.current_material.material) !== 'undefined' &&
+                     typeof(ub.current_material.materials_options) !== 'undefined' &&
+                     !_.isEmpty(ub.data.colors) &&
+                     !_.isEmpty(ub.data.patterns) &&
+                     typeof(ub.data.fonts) !== 'undefined' &&
+                     typeof(ub.data.mascots) !== 'undefined' &&
                      typeof(ub.data.mascots_categories) !== 'undefined' &&
                      typeof(ub.data.tagged_styles) !== 'undefined' &&
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
-            if (ok) {
+            // Assets Checker;
+            ub.assetsChecker(object_name);
 
+            if (isAssetCompleted) {
                 ub.displayDoneAt('Loading assets completed');
                 ub.load_assets();
-
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
                 ub.utilities.info(' ');
-
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
-
                 ub.funcs.optimize();
-
                 ub.funcs.setupRetain();
-
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
-
             }
-            
+
         };
+
+        ub.assetsChecker = function(objectName) {
+            var REQUIRED_ASSETS = [
+                'material',
+                'materials_options',
+                'colors',
+                'patterns',
+                'fonts',
+                'mascots',
+                'mascots_categories',
+                'tagged_styles',
+                'mascots_groups_categories'
+            ];
+
+            if (_.contains(REQUIRED_ASSETS, objectName)) {
+                switch(objectName) {
+                    case 'material':
+                    case 'materials_options':
+                        console.info("%c" + objectName.toTitleCase() + "("+ _.size(ub.current_material[objectName]) +")", "color: #1d7507");
+                        break;
+                    default:
+                        console.info("%c" + objectName.toTitleCase() + "("+ _.size(ub.data[objectName]) +")", "color: #1d7507");
+                }
+            }
+        }
 
         ub.loader = function (url, object_name, cb) {
           
