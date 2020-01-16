@@ -420,58 +420,32 @@
 <!-- Sports Picker -->
 
     <script type="text/mustache" id="m-picker-items-sport">
-
-        @{{#picker_items}}
-            
-            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
-
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
-
-                @{{#is_men}}
-                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
-                @{{/is_men}}
-
-                @{{#is_women}}
-                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
-                @{{/is_women}}
-
-                @{{#is_youth}}
-                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
-                @{{/is_youth}}
-
-                <span class="main-picker-item-caption">
-                    @{{#alias}}
-                        @{{alias}}
-                    @{{/alias}}
-                    @{{^alias}}
-                        @{{name}}
-                    @{{/alias}}
-                </span>
-
-            </div>
-
-        @{{/picker_items}}
-
-        @{{#esports}}
-            
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
+        @{{#quickturn}}
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
-                
+                @if (@tooltip != "")
+                    <div class="cSoon">@{{tooltip}}</div>
+                @endif
+
                 @{{#is_men}}
-                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_men}}
 
                 @{{#is_women}}
-                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_women}}
 
                 @{{#is_youth}}
-                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
@@ -479,22 +453,23 @@
                         @{{alias}}
                     @{{/alias}}
                     @{{^alias}}
-                        @{{name}}
+                        @{{#quickturn_logo}}
+                            <img src="@{{quickturn_logo}}" style="height:55px;margin:0px -3px;">
+                        @{{/quickturn_logo}}
                     @{{/alias}}
                 </span>
-
             </div>
 
-        @{{/esports}}
+        @{{/quickturn}}
 
         @{{#apparel}}
-            
+
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                
+
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}">
                 @{{/is_men}}
@@ -519,6 +494,75 @@
             </div>
 
         @{{/apparel}}
+
+        @{{#picker_items}}
+
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}" data-type="@{{type}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                        @{{#isQuickturnCategory}}
+                            <br><img src="/images/sport-icons/quick-turn-new.svg" style="height:55px;margin:0px -3px;">
+                        @{{/isQuickturnCategory}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        @{{#esports}}
+
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/esports}}
 
         @{{#team_accessories}}
 
@@ -562,7 +606,15 @@
     <!-- version 1 -->
 
     <script type="text/mustache" id="m-picker-items-uniforms">
-
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
         @{{#picker_items}}
             
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
@@ -1401,11 +1453,20 @@
         <div class="tab" data-size="@{{.}}">
 
             <table class="roster-table" align="center" data-size="@{{.}}">
-                            
-                <tr class="thead">
-                    
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
+                <tr class="thead">
+                    <th class='count'></th>
+                    <th class="thnumber">Size</th>
+                    <th class="wide thlastname">Last Name
+                        <span id="lastNameDisclaimer">
+                            <i class="fa fa-info-circle"></i> LAST NAMES ARE CASE SENSITIVE.
+                        </span>
+                    </th>
+                    <th class="thnumber thPlayerNumberInput">Number</th>
+                    <th class="thnumber">Quantity</th>
+                    <th  class="wide sleevetype">Sleeve Type</th>
+                    <th class="wide lastnameapplication">Last Name Application</th>
+                    <th class="action"></th>
                 </tr>
 
             </table>

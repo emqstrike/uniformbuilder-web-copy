@@ -20,7 +20,11 @@ $(document).ready(function() {
             // team accessories
             menteamAccessories,
             womenteamAccessories,
-            youthteamAccessories;
+            youthteamAccessories,
+             // quickturn category
+            menQuickturn,
+            womenQuickturn,
+            youthQuickturn;
 
         menSports = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'sports', 
@@ -106,6 +110,27 @@ $(document).ready(function() {
                         active_type: 'active'
                     });
 
+        menQuickturn = ub.funcs.menActiveSportsApparel(categories, {
+                        type: 'quickturn',
+                        active: _one,
+                        active_male: _one,
+                        active_type: 'active'
+                    });
+
+        womenQuickturn = ub.funcs.womenActiveSportsApparel(categories, {
+                        type: 'quickturn',
+                        active: _one,
+                        active_female: _one,
+                        active_type: 'active'
+                    });
+
+        youthQuickturn = ub.funcs.youthActiveSportsApparel(categories, {
+                        type: 'quickturn',
+                        active: _one,
+                        active_youth: _one,
+                        active_type: 'active'
+                    });
+
        	ub.data.activeSports.items = ub.funcs.getActiveSports(categories, {
 	   									active: _one,
 	   									active_type: 'active'
@@ -177,6 +202,22 @@ $(document).ready(function() {
             }
         ];
 
+        // Quickturn Category
+         ub.data.quickturn = [
+            {
+                gender: 'Men',
+                sports: ub.funcs.menSortOrder(menQuickturn)
+            },
+            {
+                gender: 'Women',
+                sports: ub.funcs.womenSortOrder(womenQuickturn)
+            },
+            {
+                gender: 'Youth',
+                sports: ub.funcs.youthSortOrder(youthQuickturn)
+            }
+        ];
+
         ub.data.sportsCategory = {
 
             esports: [
@@ -186,7 +227,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'eSports',
-                            'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png'
+                            'thumbnail_male': '/images/main-ui/pickers/Men/eSports.png',
                         }
                     ]
                 },
@@ -255,8 +296,36 @@ $(document).ready(function() {
                 }
             ],
 
+            // quickturn category
+            quickturn: [
+                {
+                    gender: 'Men',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Quickturn',
+                            'thumbnail_male': '/images/main-ui/pickers/Men/quickturn-teaser.png',
+                            'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Women',
+                    sports: [
+                        {
+                            'active': 1,
+                            'name': 'Quickturn',
+                            'thumbnail_female': '/images/main-ui/pickers/Women/quickturn-teaser.png',
+                            'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
+                        }
+                    ]
+                },
+                {
+                    gender: 'Youth',
+                    sports: []
+                }
+            ],
         };
-
 	}
 
     ub.funcs.menActiveSportsApparel = function (items, properties) {

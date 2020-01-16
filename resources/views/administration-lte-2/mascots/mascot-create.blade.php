@@ -100,6 +100,15 @@ select:hover {
                               </div>
                         </div>
                         <div class="form-group">
+                                <label class="col-md-3 control-label">Is Typographic?</label>
+                                <div class="col-md-6">
+                                <select class="form-control typographic" name="typographic">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label">Layers
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs btn-flat">Add Layer</a>
@@ -273,7 +282,7 @@ $(document).ready(function(){
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
             layers_properties[length]['filename'] = $(this).find('.default_img').val();
-            
+
             if ($(this).find(src_class).val()) {
                 layers_properties[length]['filename'] = $(this).find(src_class).val();
             }

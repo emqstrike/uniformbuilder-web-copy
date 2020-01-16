@@ -18,7 +18,7 @@ $(document).ready(function() {
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
-
+    ub.isQuickturnCategory = false;
     // The sport of the current uniform that is being edited will be stored here, an alias for ub.current_material.material.uniform_category
     ub.sport = ''; 
 
@@ -12065,6 +12065,32 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Team Flag (Apparel)',
                 gender: ['men', 'women'],
             },
+            // quickturn category url-aliases
+            {
+                shortCode: 'baseball-quickturn',
+                urlAlias: 'Baseball (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'fastpitch-quickturn',
+                urlAlias: 'Fastpitch (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'basketball-quickturn',
+                urlAlias: 'Basketball (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'socks-quickturn',
+                urlAlias: 'Socks (Quickturn)',
+                gender: ['men', 'women'],
+            },
+            {
+                shortCode: 'techtee-quickturn',
+                urlAlias: 'Tech-Tee (Quickturn)',
+                gender: ['men', 'women'],
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12446,7 +12472,12 @@ ub.funcs.fontOffSets = [
             'Soccer',
             'Track and Field',
             'Wrestling 2018',
-            'Lacrosse'
+            'Lacrosse',
+            'Baseball (Quickturn)',
+            'Fastpitch (Quickturn)',
+            'Basketball (Quickturn)',
+            'Tech-Tee (Quickturn)',
+
         ],
         activateOnLowerUniform: function (uniformCategory) {
 
@@ -12712,7 +12743,7 @@ ub.funcs.fontOffSets = [
         }
    };
 
-   // disabled order button on uniforms reigistered in ub.data.disableSubmitOnUniforms
+   // disabled order button on uniforms.
    ub.data.disableSubmitOnUniforms = {
         items: [
             "Baseball (Quickturn)",
@@ -12724,6 +12755,25 @@ ub.funcs.fontOffSets = [
         isDisabled: function(sport) {
             return _.contains(this.items, sport);
         }
-   }
+   };
+
+   // hide pattern button on uniforms.
+   ub.data.disablePatternButtonOnUniforms = {
+        items: [
+            // Dan: "all QuickTurn JERSEYS and SHORTS, we don't want the patterns button to be available.".
+            "Baseball (Quickturn)",
+            "Fastpitch (Quickturn)",
+            "Basketball (Quickturn)",
+            "Tech-Tee (Quickturn)",
+            'Socks (Quickturn)'
+        ],
+        isHidden: function(sport) {
+            this.consoleMessage();
+            return _.contains(this.items, sport);
+        },
+        consoleMessage: function() {
+            console.warn("Pattern button is hidden on this sport.");
+        }
+   };
 
 });
