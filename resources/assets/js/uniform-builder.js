@@ -43,18 +43,6 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                switch(ub.config.uniform_brand) {
-                    case 'prolook':
-                    case 'Prolook':
-                        ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
-                        ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/filter/' + ub.config.sport + '/' + ub.config.brand;
-                        break;
-                    default:
-                        ub.current_material.fonts_url = ub.config.api_host + '/api/fonts';
-                        ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
-                }
-
-                ub.current_material.colors_url = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
                 ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
@@ -62,13 +50,10 @@ $(document).ready(function () {
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
 
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
                 ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
 
@@ -183,20 +168,33 @@ $(document).ready(function () {
         }
 
         ub.funcs.loadHomePickers = function () {
-            
             $('div.backlink').addClass('back-link-on');
 
             ub.current_material.material_url         = ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            ub.current_material.colors_url           = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
+
+            switch(ub.config.uniform_brand) {
+                case 'prolook':
+                case 'Prolook':
+                    ub.current_material.fonts_url    = ub.config.api_host + '/api/fonts/filter/' + ub.config.sport + '/' + ub.config.brand;
+                    ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/filter/' + ub.config.sport + '/' + ub.config.brand;
+                    break;
+                default:
+                    ub.current_material.fonts_url    = ub.config.api_host + '/api/fonts';
+                    ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
+            }
+
+            ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
-            $('div.header-container').fadeIn(); 
-            
+            $('div.header-container').fadeIn();
             ub.refresh_thumbnails();
-
         }
 
         ub.funcs.getPrice = function (material) {
