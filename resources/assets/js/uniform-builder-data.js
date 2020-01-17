@@ -12723,7 +12723,10 @@ ub.funcs.fontOffSets = [
    // example: `left_body_panel`,  `front_right_body_panel`;
    ub.data.bodyOnMaterialOption = {
 
-        blockPatterns : [ "SFN Hoodie",],
+        blockPatterns : [
+            "SFN Hoodie",
+            "Lacrosse"
+        ],
 
         hasBlockPattern: function(block_pattern ,callback) {
             var hasBlockPattern = _.contains(this.blockPatterns, block_pattern);
