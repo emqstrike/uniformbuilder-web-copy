@@ -187,6 +187,8 @@
                     ub.picker.isNew = false;
                 }
 
+                // set current logged in
+                localStorage.setItem('current_logged_user', JSON.stringify(ub.user.id.toString()));
             }
 
             // onclick enable beta features
