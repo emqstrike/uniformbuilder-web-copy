@@ -5,6 +5,31 @@
         table .form-control {
             width: 75px;
         }
+
+        #copy-to-clipboard-tooltip {
+            background: #555555;
+            border-radius: 6px;
+            display: none;
+            color: #ffffff;
+            left: 0;
+            margin: 0 auto;
+            padding: 8px;
+            position: absolute;
+            right: 0;
+            top: -15px;
+            width: 150px;
+        }
+
+        #copy-to-clipboard-tooltip:after {
+            border-color: #555 transparent transparent transparent;
+            border-style: solid;
+            border-width: 5px;
+            bottom: -10px;
+            content: "";
+            left: 70px;
+            position: absolute;
+        }
+
     </style>
 @endsection
 
@@ -13,9 +38,23 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <div class="box-header text-center">
-                        @section('page-title', 'Add new application mapper')
-                        <h1>Edit application mapper</h1>
+                    <div class="box-header">
+                        @section('page-title', 'Edit application mapper')
+                        <!-- <h1>Edit application mapper</h1> -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h1>Edit application mapper</h1>
+                            </div>
+
+                            <div class="col-md-6 text-right" style="padding-top: 20px;">
+                                <a href="#" class="btn btn-flat btn-default copy-gradient">
+                                    Copy
+                                </a>
+
+                                <a href="#" class="btn btn-flat btn-default open-load-gradient-modal-button">Load</a>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="box-body">
@@ -24,7 +63,7 @@
                             <input type="hidden" name="id" value="{{ $applicationMapper->id }}">
 
 
-                            <textarea name="properties" style="display: none;" :value="JSON.stringify(properties)"></textarea>
+                            <textarea name="properties" style="display: block;" :value="JSON.stringify(properties)" @change="updateProps"></textarea>
 
                             <div class="form-inline text-center">
                                 <label>3D Block Pattern</label>
@@ -92,6 +131,10 @@
             </div>
         </div>
     </section>
+
+    @include('administration-lte-2.master-pages.materials.modal.copy-app-map-props')
+    @include('administration-lte-2.master-pages.materials.modal.load-app-map-props')
+
 @endsection
 
 @section('scripts')
@@ -104,6 +147,8 @@
         @if ($applicationMapper->properties)
             properties = {!! $applicationMapper->properties !!};
         @endif
+
+
 
         new Vue({
             el: '#application-container',
@@ -123,8 +168,29 @@
                     if (this.properties.length > 1) {
                         this.properties.splice(index, 1);
                     }
-                }
+                },
+                updateProps: function(e) {
+                    this.properties = JSON.parse(e.target.value);
+                },
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#copy-data-to-clipboard').click(function() {
+                $('#copy-app-map-props-modal textarea').select();
+                document.execCommand('copy');
+
+                $('#copy-to-clipboard-tooltip').fadeIn();
+
+                setTimeout(function() {
+                    $('#copy-to-clipboard-tooltip').fadeOut();
+                }, 500);
+            });
+
+            $('.open-load-properties-modal-button').click(function() {
+                $('#load-app-map-props-modal').modal('show');
+            });
         });
     </script>
 @endsection
