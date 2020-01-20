@@ -10,7 +10,7 @@ class TextShapesCategoriesAPIClient extends APIClient
 
     public function create($data)
     {
-        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/pipings/create', [
+        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/text_shapes_category', [
             'json' => $data
         ]);
        return $this->decoder->decode($response->getBody());
@@ -18,7 +18,7 @@ class TextShapesCategoriesAPIClient extends APIClient
 
     public function update($data)
     {
-        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/pipings/update', [
+        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/text_shapes_category/update', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());

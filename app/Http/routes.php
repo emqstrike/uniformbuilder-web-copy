@@ -308,6 +308,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         
             // Text shapes categories
             Route::get('text_shapes_categories', 'AdministrationV2\TextShapesCategoriesController@index')->name('v1_text_shapes_categories');
+            
+            // Text shapes
+            Route::get('text_shapes', 'AdministrationV2\TextShapesController@index')->name('v1_text_shapes');
         });
     });
 
