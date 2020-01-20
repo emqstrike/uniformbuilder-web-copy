@@ -9125,7 +9125,7 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id,
+                url: ub.config.api_host + '/api/order/user/orderswItems/optimized/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
