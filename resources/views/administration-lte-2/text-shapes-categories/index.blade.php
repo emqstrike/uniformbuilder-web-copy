@@ -2,52 +2,6 @@
 
 @section('styles')
 <style type="text/css">
-    .select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice
-    {
-        color:black;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 27.2px;
-    }
-    .switch input {display:none;}
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20.08px;
-      width: 20.08px;
-      left: 3.2px;
-      bottom: 3.2px;
-      background-color: white;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    input:checked + .slider {
-      background-color: #39d2b4;
-    }
-    input:focus + .slider {
-      box-shadow: 0 0 1px #77dd77;
-    }
-    input:checked + .slider:before {
-      -webkit-transform: translateX(20.08px);
-      -ms-transform: translateX(20.08px);
-      transform: translateX(20.08px);
-    }
 </style>
 @endsection
 @section('content')
@@ -64,7 +18,7 @@
                     </h2>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered single-view-applications display' id='single-view-applications'>
+                    <table data-toggle='table' class='data-table table-bordered'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -78,7 +32,7 @@
 
                         <tr class='item-{{ $item->id }}'>
                             <td class="td-item-id col-md-1">{{ $item->id }}</td>
-                            <td class="col-md-1">{{ $item->name }}<input type="hidden" name="" class="td-item-sport" value="{{ $item->name}}"></td>
+                            <td class="col-md-1">{{ $item->name }}<input type="hidden" name="name" class="td-item-name" value="{{ $item->name}}"></td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
@@ -88,8 +42,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan='7'>
-                                No Hidden Body
+                            <td colspan='3'>
+                                No data to display
                             </td>
                         </tr>
                     @endforelse
@@ -97,11 +51,6 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -113,7 +62,7 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.pipings.pipings-modal')
+@include('administration-lte-2.text-shapes-categories.tsc-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -124,56 +73,9 @@
 $(document).ready(function(){
 
     window.modal_action = null;
-    window.categories = null;
-    window.block_patterns = null;
-
-
-    getUniformCategories(function(categories){
-        window.categories = categories;
-    });
-
-    getBlockPatterns(function(block_patterns){
-        window.block_patterns = block_patterns;
-    });
-
-    loadUniformCategories();
-
-    var sport = null;
-    $(document).on('change', '.sport', function() {
-        sport = $('.sport').val();
-            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-            var sportOK = _.filter(window.block_patterns, function(e) {
-                            return e.uniform_category_id == sport;
-                            });
-            $( '#block_pattern' ).html('');
-            $.each(sportOK, function(i, item) {
-                $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
-            });
-        $('#block_pattern').trigger('change');
-    });
-    $('.sport').trigger('change');
-
-
-    $(document).on('change', '#block_pattern', function() {
-        var id = $(this).val();
-        $( '#neck_option' ).html('');
-        var filtered_block_pattern = _.find(window.block_patterns, function( bp ) {
-            return bp.id == id;
-        });
-        var filtered_neck_options = JSON.parse(filtered_block_pattern.neck_options);
-        $.each(filtered_neck_options, function(i, item) {
-            $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-        });
-    });
 
     $("#myModal").on("hidden.bs.modal", function() {
-        $('.sport').val('');
-        $('#block_pattern').val('');
-        $('#neck_option').val('');
-        $('.input-thumbnail').val('');
-        $('.input-piping-set').val('');
-        $('.input-alias').val('');
-        $('.thumbnail-prev').empty();
+        $('.name').val('');
         $('.submit-new-record').removeAttr('disabled');
     });
 
@@ -193,62 +95,24 @@ $(document).ready(function(){
         var parentEl = $(this).parent().parent().parent();
 
         data.id = parentEl.find('.td-item-id').text();
-        data.sport = parentEl.find('.td-item-sport').val();
-        data.block_pattern = parentEl.find('.td-item-block-pattern').val();
-        data.block_pattern_option = parentEl.find('.td-item-block-pattern-option').text();
-        data.alias_name = parentEl.find('.td-item-alias').text();
-        data.thumbnail = parentEl.find('.td-item-thumbnail').val();
-        data.piping_set = parentEl.find('.td-item-piping-set').text();
-        console.log(data.block_pattern_option);
-        if(data.thumbnail != '') {
-            var mElem = '';
-            mElem += `<img src="`+ data.thumbnail +`" style="height: 100px; width: 110px;">
-                          <a href="#" class="btn btn-danger btn-xs btn-flat delete-category-image" data-category-id="`+ data.id +`" data-field="thumbnail-prev" role="button">
-                              Delete
-                          </a>`;
-        }
-        $('.thumbnail-prev').append(mElem);
+        data.name = parentEl.find('.td-item-name').val();
 
         $('.input-item-id').val(data.id);
-        $('.sport').val(data.sport).trigger('change');
-        $('.input-block-pattern').val(data.block_pattern).trigger('change');;
-        $('.input-option').val(data.block_pattern_option);
-        $('.input-piping-set').val(data.piping_set);
-        $('.input-alias').val(data.alias_name);
-
+        $('.name').val(data.name);
     });
 
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
-        data.sport = $('.sport').val();
-        data.block_pattern = $('.input-block-pattern').val();
-        data.block_pattern_option = $('.input-option').val();
-        data.piping_set = $('.input-piping-set').val();
-        data.alias_name = $('.input-alias').val();
+        data.name = $('.name').val();
 
         var formData = new FormData();
-        var th_file = null;
-
-        try {
-            var thumbnail = $('.input-thumbnail')[0].files[0];
-            if(thumbnail != undefined) {
-                formData.append('file', thumbnail);
-                fileUpload(formData, function (filename) { th_file = filename });
-            }
-        } catch(err) {
-            console.log(err.message);
-        }
-
-        if(th_file != null) {
-            data.thumbnail = th_file;
-        }
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/v1-0/pipings/create";
+            var url = "//" + api_host +"/api/v1-0/text_shapes_category";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-item-id').val();
-            var url = "//" + api_host +"/api/v1-0/pipings/update";
+            var url = "//" + api_host +"/api/v1-0/text_shapes_category/update";
         }
 
         addUpdateRecord(data, url);
@@ -295,7 +159,7 @@ $(document).ready(function(){
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/pipings/delete";
+        var url = "//" + api_host + "/api/v1-0/text_shapes_category/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -360,95 +224,6 @@ $(document).ready(function(){
     } catch(e) {
         console.log(e.message);
     }
-
-
-    function loadUniformCategories() {
-        var category_elem = "";
-        _.each(window.categories, function(category) {
-            category_elem += `<option value=` + category.id + `>` + category.name + `</option>`;
-        });
-        $('.sport').append(category_elem);
-    }
-
-    function getUniformCategories(callback){
-        var categories;
-        var url = "//" +api_host+ "/api/categories";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                categories = data['categories'];
-                if(typeof callback === "function") callback(categories);
-            }
-        });
-    }
-
-    function getBlockPatterns(callback){
-            var block_patterns;
-            var url = "//" +api_host+ "/api/block_patterns";
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    block_patterns = data['block_patterns'];
-                    if(typeof callback === "function") callback(block_patterns);
-                }
-            });
-    }
-
-    function fileUpload(postData, callback){
-        var file;
-        $.ajax({
-            url: "//" + api_host + "/api/v1-0/file/uploader",
-            type: "POST",
-            data: postData,
-            processData: false,
-            contentType: false,
-            crossDomain: true,
-            async: false,
-            headers: {"accessToken": atob(headerValue)},
-            success: function (data) {
-                if(data.success){
-                    file = data.file;
-                    if(typeof callback === "function") callback(file);
-
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-            }
-        });
-    };
-
-    $(document).on('click', '.delete-category-image', function(e){
-        e.preventDefault();
-        var id =  $(this).data('category-id');
-        var field = $(this).data('field');
-        var url = "//" + api_host + "/api/v1-0/pipings/deleteImage";
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    $('#confirmation-modal').modal('hide');
-                    $('.' + field).fadeOut();
-                }
-            }
-        });
-    });
 
 });
 </script>

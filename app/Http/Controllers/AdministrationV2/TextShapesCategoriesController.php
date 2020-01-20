@@ -22,8 +22,7 @@ class TextShapesCategoriesController extends Controller
     public function index()
     {
 
-        $text_shapes_categories = $this->client->get(1);
-        dd($text_shapes_categories);
+        $text_shapes_categories = $this->client->getAllTextShapesCategories();
         return view('administration-lte-2.text-shapes-categories.index', [
             'text_shapes_categories' => $text_shapes_categories
         ]);

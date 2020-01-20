@@ -24,7 +24,7 @@ class TextShapesCategoriesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function getAll()
+    public function getAllTextShapesCategories()
     {
         $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/text_shapes_categories');
         $result = $this->decoder->decode($response->getBody());
@@ -38,7 +38,7 @@ class TextShapesCategoriesAPIClient extends APIClient
         return $text_shapes_categories;
     }
 
-    public function get($id)
+    public function getTextShapesCategory($id)
     {
         $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/text_shapes_category/' . $id);
         $result = $this->decoder->decode($response->getBody());
