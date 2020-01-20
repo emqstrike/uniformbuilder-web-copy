@@ -305,6 +305,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('qx7_style_requests/gradient/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateGradient'])->name('v1_qx7_update_gradient');
             Route::get('qx7_style_requests/export_parts_excel', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@exportPartsExcel'])->name('v1_qx7_export_parts');
             Route::post('qx7_style_request/import_material_option', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@importMaterialOptions'])->name('v1_qx7_import_material_options');
+        
+            // Text shapes categories
+            Route::get('text_shapes_categories', 'AdministrationV2\TextShapesCategoriesController@index')->name('v1_text_shapes_categories');
         });
     });
 
