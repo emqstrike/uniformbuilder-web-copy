@@ -6,6 +6,14 @@
             width: 75px;
         }
 
+        #copy-app-map-props-modal textarea,
+        #load-app-map-props-modal textarea {
+            height: 20em;
+            padding: 10px;
+            resize: none;
+            width: 100%;
+        }
+
         #copy-to-clipboard-tooltip {
             background: #555555;
             border-radius: 6px;
@@ -47,11 +55,11 @@
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
-                                <a href="#" class="btn btn-flat btn-default copy-gradient">
+                                <a href="#" class="btn btn-flat btn-default copy-props">
                                     Copy
                                 </a>
 
-                                <a href="#" class="btn btn-flat btn-default open-load-gradient-modal-button">Load</a>
+                                <a href="#" class="btn btn-flat btn-default open-load-properties-modal-button">Load</a>
                             </div>
                         </div>
 
@@ -63,7 +71,7 @@
                             <input type="hidden" name="id" value="{{ $applicationMapper->id }}">
 
 
-                            <textarea name="properties" style="display: block;" :value="JSON.stringify(properties)" @change="updateProps"></textarea>
+                            <textarea id="properties" name="properties" style="display: none;" :value="JSON.stringify(properties)" @change="updateProps"></textarea>
 
                             <div class="form-inline text-center">
                                 <label>3D Block Pattern</label>
@@ -191,6 +199,22 @@
             $('.open-load-properties-modal-button').click(function() {
                 $('#load-app-map-props-modal').modal('show');
             });
+
+    $('.copy-props').on('click', function(e){
+        // var data = $('#properties').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
+        var data = $('#properties').val();
+        $('#copy-app-map-props-modal textarea').val(data);
+        $('#copy-app-map-props-modal').modal('show');
+    });
+
+    $('.load-props').on('click', function(e){
+        var data = $('#ta_load_props').val();
+        $('#properties').val(data);
+        $('#properties')[0].dispatchEvent(new CustomEvent('change'));
+        $('#load-app-map-props-modal').modal('hide');
+    });
+
+
         });
     </script>
 @endsection

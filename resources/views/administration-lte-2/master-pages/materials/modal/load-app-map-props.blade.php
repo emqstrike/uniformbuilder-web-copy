@@ -8,14 +8,14 @@
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">/v1
-                        <textarea id="ta_load_gradient"></textarea>
+                    <div class="col-md-12">
+                        <textarea id="ta_load_props"></textarea>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <a href="#" class="btn btn-flat btn-success load-gradient">Load</a>
+                        <a href="#" class="btn btn-flat btn-success load-props">Load</a>
                     </div>
                 </div>
             </div>
