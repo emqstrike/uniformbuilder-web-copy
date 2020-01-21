@@ -7778,9 +7778,11 @@ $(document).ready(function () {
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
                             $(this).find('div.material_id').show();
+                            $(this).find('span.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
                             $(this).find('div.material_id').hide();    
+                            $(this).find('span.material_id').hide();    
                         }
 
                     }
@@ -8215,9 +8217,11 @@ $(document).ready(function () {
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
                             $(this).find('div.material_id').show();
+                            $(this).find('span.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
                             $(this).find('div.material_id').hide();    
+                            $(this).find('span.material_id').hide();    
                         }
 
                     }
