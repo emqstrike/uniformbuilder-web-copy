@@ -59,7 +59,7 @@
                     @section('page-title', 'Text Shapes')
                     <h2>
                         <span class="glyphicon glyphicon-stats"></span>
-                        Text Shape Categories
+                        Text Shapes
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h2>
                 </div>
