@@ -105,7 +105,7 @@
                             <td class="col-md-1">{{ $item->bottom }}<input type="hidden" name="bottom" class="td-item-bottom" value="{{ $item->bottom}}"></td>
                             <td class="col-md-1">{{ $item->font_size }}<input type="hidden" name="font_size" class="td-item-font-size" value="{{ $item->font_size}}"></td>
                             <td class="col-md-1">{{ $item->is_active ? 'Yes' : 'No' }}<input type="hidden" name="is_active" class="td-item-is-active" data-checked="{{ $item->is_active}}"></td>
-                            <td class="col-md-1">{{ isset($item->text_shapes_category_id) ? $item->text_shapes_category->name : '' }}<input type="hidden" name="text_shapes_category_id" class="td-item-text-shapes-categories" value="{{ $item->text_shapes_category_id}}"></td>
+                            <td class="col-md-1">{{ isset($item->text_shapes_category_id) ? $item->category_name : '' }}<input type="hidden" name="text_shapes_category_id" class="td-item-text-shapes-categories" value="{{ $item->text_shapes_category_id}}"></td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
