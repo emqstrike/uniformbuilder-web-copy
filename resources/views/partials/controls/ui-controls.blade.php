@@ -751,7 +751,7 @@
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption"> 
-                    <span class="type"></span>s
+                    <span class="type"></span>
                     <strong class="uniform-name">@{{name}} <span class="material_id">( @{{id}} )</span></strong> <br />
                     <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
