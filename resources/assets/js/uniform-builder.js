@@ -7055,17 +7055,25 @@ $(document).ready(function () {
         }
 
         if (sport !== "Socks (Apparel)") { $('span.slink[data-item="Knitted"]').hide(); }
-        
-        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) { 
-            $('span.slink[data-item="Twill"]').hide(); 
-        }
 
-        // Todo get this from the actual available uniform list
-        if (ub.data.tackleTwillOnly.isTackleTwillOnly(sport)) { 
-            $('span.slink[data-item="Twill"]').show(); 
-            $('span.slink[data-item="Sublimated"]').hide(); 
-        } else {
+        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) {
+
+            $('span.slink[data-item="Twill"]').hide();
+
+        } else if (ub.data.tackleTwillOnly.isTackleTwillOnly(sport)) {
+
+            $('span.slink[data-item="Twill"]').show();
+            $('span.slink[data-item="Sublimated"]').hide();
+
+        } else if (ub.data.tackleTwillAndSublimatedSport.isTwillAndSublimated(sport)) {
+
+            $('span.slink[data-item="Twill"]').show();
             $('span.slink[data-item="Sublimated"]').show();
+
+        } else {
+
+            $('span.slink[data-item="Sublimated"]').show();
+
         }
 
     }
@@ -9117,7 +9125,7 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id,
+                url: ub.config.api_host + '/api/order/user/orderswItems/optimized/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',

@@ -12429,7 +12429,7 @@ ub.funcs.fontOffSets = [
     ub.data.tackleTwillOnly = {
 
         items: [
-            'Lacrosse',
+
         ],
         isTackleTwillOnly: function (uniformCategory) {
 
@@ -12439,6 +12439,17 @@ ub.funcs.fontOffSets = [
 
         }
 
+    }
+
+    // Category with sublimated and twill type uniforms.
+    ub.data.tackleTwillAndSublimatedSport = {
+        items: [
+            "Lacrosse"
+        ],
+        isTwillAndSublimated: function(uniformCategory) {
+            var result = _.contains(this.items, uniformCategory);
+            return result;
+        },
     }
 
 
@@ -12712,7 +12723,10 @@ ub.funcs.fontOffSets = [
    // example: `left_body_panel`,  `front_right_body_panel`;
    ub.data.bodyOnMaterialOption = {
 
-        blockPatterns : [ "SFN Hoodie",],
+        blockPatterns : [
+            "SFN Hoodie",
+            "Lacrosse"
+        ],
 
         hasBlockPattern: function(block_pattern ,callback) {
             var hasBlockPattern = _.contains(this.blockPatterns, block_pattern);
