@@ -1488,26 +1488,19 @@ $(document).ready(function () {
 
             if (type === 'materials') {
 
-                _object = _.find(ub.materials, {searchName: name});
-                _id = _object.id;
-                _thumbnail = _object.thumbnail_path;
+                _object = _.filter(ub.materials, {searchName: name});
 
             }
             else if (type === 'orders') {
 
-                _object =  _.find(ub.orders, {design_name: name});
-                _id = _object.order_id;
-
-                if (_object.upper_front_thumbnail_path !== null) {
-
-                    _thumbnail = _object.upper_front_thumbnail_path;    
-
-                }
-                else {
-
-                    _thumbnail = _object.lower_front_thumbnail_path
-
-                }
+                _object = _.filter(ub.orders, {design_name: name});
+                _object = _.each(_object, function(material) {
+                    if (material.upper_front_thumbnail_path !== null) {
+                        material.thumbnail = material.upper_front_thumbnail_path;
+                    } else {
+                        material.thumbnail = material.lower_front_thumbnail_path;
+                    }
+                });
 
             }
             else {
@@ -1516,13 +1509,7 @@ $(document).ready(function () {
 
             }
 
-            return {
-
-                object: _object,
-                id: _id,
-                thumbnail: _thumbnail,
-
-            }
+            return _object;
 
         }
 
@@ -1537,18 +1524,22 @@ $(document).ready(function () {
 
             var _object = ub.funcs.getSearchObject(type, data);
 
-            _searchResultsObject[_key].push({
-                type: type,
-                name: data,
-                thumbnail: _object.thumbnail,
-                uniform_category: _object.object.uniform_category,
-                uniform_application_type: _object.object.uniform_application_type,
-                id: _object.id,
+            _.each(_object, function(material) {
+
+                _searchResultsObject[_key].push({
+                    type: type,
+                    name: data,
+                    thumbnail: material.thumbnail_path,
+                    uniform_category: material.uniform_category,
+                    uniform_application_type: material.uniform_application_type,
+                    id: material.id,
+                });
+
+                $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
+
+                ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
+
             });
-
-            $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
-
-            ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
 
         };
 
