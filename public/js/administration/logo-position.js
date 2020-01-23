@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     window.position_sets = [
                         "Top Left of Pocket",
+                        "Top Right of Pocket",
                         "Left Sleeve",
                         "Back Neck",
                         "Front Left Hip",
