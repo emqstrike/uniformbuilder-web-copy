@@ -311,6 +311,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             
             // Text shapes
             Route::get('text_shapes', 'AdministrationV2\TextShapesController@index')->name('v1_text_shapes');
+
+             // Look up Cut to Style
+             Route::get('lookups', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@lookUpCutStyleIndex'])->name('v1_lookup');
         });
     });
 
