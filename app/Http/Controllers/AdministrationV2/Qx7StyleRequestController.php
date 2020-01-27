@@ -201,9 +201,15 @@ class Qx7StyleRequestController extends Controller
     public function importBoundingBox(Request $request)
     {
         $response = $this->optionsClient->importBoundingBox($request->all());
-
+        $message ="";
         if ($response->success) {
-            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', 'Successfully imported bounding box');
+            $import_type = $request->import_type;
+            if($import_type == "bounding_box"){
+                $message = "Successfully imported bounding box";
+            }else{
+                $message = "Successfully imported application";
+            }
+            return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $message);
         }
 
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');

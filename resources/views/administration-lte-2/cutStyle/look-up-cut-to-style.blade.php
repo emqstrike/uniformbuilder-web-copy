@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table data-table table-bordered ' id="">
+                    <table data-toggle='table' class='table data-table table-bordered ' id="cutStyle-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -154,13 +154,13 @@ $(document).ready(function(){
 window.delete_data_html = null;
 window.modal_action = null;
 
-$('.data-table').DataTable({
+$('#cutStyle-table').DataTable({
     "paging": true,
     "lengthChange": true,
     "searching": true,
     "ordering": false,
     "info": true,
-    "autoWidth": true,
+    "autoWidth": true
 });
 
 
