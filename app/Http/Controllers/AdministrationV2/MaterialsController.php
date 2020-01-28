@@ -864,9 +864,18 @@ class MaterialsController extends Controller
         $response = $this->optionsClient->importMaterialOptionsData($request->all());
 
         if ($response->success) {
-            return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('message', $response->message);
+            $import_type = $request->import_type;
+
+            $message ="";
+            if($import_type == "bounding_box"){
+                $message = "Successfully imported bounding box";
+            }else{
+                $message = "Successfully imported application";
+            }
+
+            return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('message', $message);
         }
 
-        return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $response->message);
+        return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $message);
     }
 }

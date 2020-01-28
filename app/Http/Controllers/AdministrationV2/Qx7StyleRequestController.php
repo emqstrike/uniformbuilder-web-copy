@@ -211,7 +211,7 @@ class Qx7StyleRequestController extends Controller
             }
             return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('message', $message);
         }
-
+        
         return redirect()->route('v1_qx7_style_options', ['id' => $request->style_id])->with('errors', 'Failed importing bounding box');
     }
 
