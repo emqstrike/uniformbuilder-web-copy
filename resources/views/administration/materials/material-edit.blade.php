@@ -711,6 +711,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Rule Id</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control rule-id"  name="rule_id" value="{{ $material->rule_id }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

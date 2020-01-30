@@ -722,6 +722,12 @@
                                 <input type="text" class="form-control style-number"  name="style_number" value="{{ $material->style_number }}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Rule ID</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control rule-id"  name="rule_id" value="{{ $material->rule_id }}">
+                            </div>
+                        </div>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

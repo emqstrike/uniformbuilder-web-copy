@@ -197,6 +197,8 @@ class MaterialsController extends Controller
         $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
         $styleGroup = $request->input('style_group');
+        
+
 
         if (empty($isSublimated))
         {
@@ -245,6 +247,7 @@ class MaterialsController extends Controller
         $retain_settings = $request->input('retain_settings_from_saved_design');
         $modelName = $request->input('model_name');
         $styleNumber = $request->input('style_number');
+        $rule_id = $request->input('rule_id');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -310,7 +313,9 @@ class MaterialsController extends Controller
             'block_pattern_option_2' => $request->input('block_pattern_option_2'),
             'block_pattern_option_3' => $request->input('block_pattern_option_3'),
             'model_name' => $modelName,
-            'style_number' => $styleNumber
+            'style_number' => $styleNumber,
+            'rule_id' => $rule_id
+
         ];
 
         try {
@@ -625,6 +630,7 @@ class MaterialsController extends Controller
         {
             Log::info('Attempts to create a new Material ' . json_encode($data));
             $response = $this->client->createMaterial($data);
+
         }
 
         if ($response->success)
