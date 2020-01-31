@@ -722,13 +722,14 @@
                                 <input type="text" class="form-control style-number"  name="style_number" value="{{ $material->style_number }}">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rule ID</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control rule-id"  name="rule_id" value="{{ $material->rule_id }}">
                             </div>
                         </div>
-
+                        
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-flat btn-primary edit-material">
@@ -836,8 +837,35 @@
                 }, 1000);
             }
 
-            $('.edit-material').on('click', function(){
-                saveEditor();
+            $('.edit-material').on('click', function(event){
+                var rule_id =  $('.rule-id').val();
+                
+                event.preventDefault(); 
+                var url = "//"+ qx7_host +"/api/rule/" +rule_id;
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        if(data['success']){
+                           
+                            saveEditor();
+                            $('#edit-material-form').submit();
+                        } else{
+                            new PNotify({
+                                title: 'INVALID RULE ID',
+                                text: 'Failed To Update ' + '{{ $material->name }}',
+                                type: 'error',
+                                hide: true
+                            });
+                        }
+
+                    }
+                });
+
             });
 
             function saveEditor(){

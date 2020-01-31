@@ -750,6 +750,7 @@
 <script src="/underscore/underscore.js"></script>
 <script type="text/javascript">
 $( document ).ready(function() {
+    
 
     $('.autosized').autosize({append: "\n"});
 
@@ -827,7 +828,34 @@ $( document ).ready(function() {
     }
 
     $('.edit-material').on('click', function(){
-        saveEditor();
+        var rule_id =  $('.rule-id').val();
+        event.preventDefault(); 
+
+        var url = "//"+ qx7_host +"/api/rule/" +rule_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                if(data['success']){
+                
+                    saveEditor();
+                    $('#edit-material-form').submit();
+                } else{
+                    new PNotify({
+                        title: 'INVALID RULE ID',
+                        text: 'Failed To Update '+ '{{ $material->name }}',
+                        type: 'error',
+                        hide: true
+                    });
+                }
+
+            }
+        });
+
     });
 
     function saveEditor(){
