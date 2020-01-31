@@ -134,6 +134,7 @@ class MaterialsController extends Controller
         $itemSizes = $this->itemSizesAPIClient->getAll();
         $item_sizes_string = json_encode($itemSizes);
         $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
+        $qx7Host = env('QX7_HOST');
 
         return view('administration-lte-2.master-pages.materials.edit', [
             'material' => $material,
@@ -145,7 +146,8 @@ class MaterialsController extends Controller
             'part_aliases' => $partAliases,
             'item_sizes' => $itemSizes,
             'item_sizes_string' => $item_sizes_string,
-            'reversible_groups' => $reversible_groups
+            'reversible_groups' => $reversible_groups,
+            'qx7Host' => $qx7Host
         ]);
     }
 
