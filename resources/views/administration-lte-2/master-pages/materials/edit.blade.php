@@ -841,7 +841,7 @@
                 var rule_id =  $('.rule-id').val();
                 
                 event.preventDefault(); 
-                var url = "//"+ '{{ env('QX7_HOST')  }}' +"/api/rule/" +rule_id;
+                var url = "//"+ qx7_host +"/api/rule/" +rule_id;
                 $.ajax({
                     url: url,
                     async: false,
@@ -851,12 +851,7 @@
                     contentType: 'application/json',
                     success: function(data){
                         if(data['success']){
-                            new PNotify({
-                                title:'VALID RULE ID',
-                                text: 'UPDATING '+ '{{ $material->name }}',
-                                type: 'success',
-                                hide: true
-                            });
+                           
                             saveEditor();
                             $('#edit-material-form').submit();
                         } else{
