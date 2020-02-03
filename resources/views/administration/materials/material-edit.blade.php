@@ -645,7 +645,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                            <div class="col-md-6">
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control brand">
                                         <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($material->brand == "richardson") selected="selected"@endif>Richardson</option>
@@ -751,6 +751,7 @@
 <script type="text/javascript">
 $( document ).ready(function() {
     
+    var db_rule_id =  $('.rule-id').val();
 
     $('.autosized').autosize({append: "\n"});
 
@@ -829,6 +830,8 @@ $( document ).ready(function() {
 
     $('.edit-material').on('click', function(){
         var rule_id =  $('.rule-id').val();
+        var brand =  $('.brand').val();
+                
         event.preventDefault(); 
 
         var url = "//"+ qx7_host +"/api/rule/" +rule_id;
@@ -840,11 +843,10 @@ $( document ).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                if(data['success']){
-                
+                if(data['success'] || brand == 'prolook'){
                     saveEditor();
                     $('#edit-material-form').submit();
-                } else{
+                }else{
                     new PNotify({
                         title: 'INVALID RULE ID',
                         text: 'Failed To Update '+ '{{ $material->name }}',
@@ -998,6 +1000,23 @@ $( document ).ready(function() {
             }
         });
     }
+
+    function checkbrand(){
+        var brand =  $('.brand').val();
+            if(brand == 'prolook'){
+                $( ".rule-id" ).attr('readonly', true);
+                $( ".rule-id" ).val( "0" );
+            }else{
+                $( ".rule-id" ).attr('readonly', false);
+                $( ".rule-id" ).val( db_rule_id );
+            }
+    }
+
+    checkbrand();
+
+    $( ".brand" ).change(function() {
+        checkbrand();
+    });
 
 });
 </script>
