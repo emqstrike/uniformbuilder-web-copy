@@ -90,15 +90,16 @@ $(document).ready(function() {
         var colors_dropdown = '';
 
         $.each(window.colors, function( key, value ) {
-            if( color_code == value.color_code){
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
-            } else {
-                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
-            }
+            var c_hex_code = value.brand_id == 5 ? value.web_hex_code : value.hex_code;
+            var c_name = value.brand_id == 5 ? value.color_alias : value.name;
+            var is_selected = color_code === value.color_code ? "selected" : "";
+            colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + c_hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + c_hex_code + '" ' + is_selected + '>' + c_name + '</option>';
         });
 
         return colors_dropdown;
     }
+
+
 
     function generateTeamColorsIDDropdown(id) {
         var team_colors_id_dropdown = '<option value="">None</option>';

@@ -628,11 +628,14 @@
                     @{{#enable_quick_turn_layout}}
                         <strong class="uniform-name">
                             <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:50px;margin:0px -3px;"> - @{{name}}
+                            <span class="material_id">( @{{id}} )</span>
                         </strong> <br />
                         <span class="callForTeamPricing">Ships within 7 business days</span>
                     @{{/enable_quick_turn_layout}}
                     @{{^enable_quick_turn_layout}}
-                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <strong class="uniform-name">@{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
                         <span class="callForTeamPricing">Call for Team Pricing</span>
                     @{{/enable_quick_turn_layout}}
 
@@ -685,11 +688,14 @@
                     @{{#enable_quick_turn_layout}}
                         <strong class="uniform-name">
                             <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
+                            <span class="material_id">( @{{id}} )</span>
                         </strong> <br />
                         <span class="callForTeamPricing">Ships within 7 business days</span>
                     @{{/enable_quick_turn_layout}}
                     @{{^enable_quick_turn_layout}}
-                        <strong class="uniform-name">@{{name}}</strong> <br />
+                        <strong class="uniform-name">@{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
                         <span class="callForTeamPricing">Call for Team Pricing</span>
                     @{{/enable_quick_turn_layout}}
 
@@ -713,7 +719,7 @@
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
-                    <div class="material_id">@{{id}}</div>
+                    {{-- <div class="material_id">@{{id}}</div> --}}
 
                 </span> 
 
@@ -746,7 +752,7 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
+                    <strong class="uniform-name">@{{name}} <span class="material_id">( @{{id}} )</span></strong> <br />
                     <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">

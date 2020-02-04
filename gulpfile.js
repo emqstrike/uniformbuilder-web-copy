@@ -1,23 +1,25 @@
 "use strict";
 
 // Importing specific gulp API functions lets us write them below as series() instead of gulp.series()
-var { src, dest, watch, series, parallel } = require('gulp');
+const { src, dest, watch, series, parallel } = require('gulp');
 
 // Importing all the Gulp-related packages we want to use
-var less = require('gulp-less');
-var rename = require("gulp-rename");
-var concat = require('gulp-concat');
-var cleanCSS = require('gulp-clean-css');
-var postCss = require('gulp-postcss');
-var autoPrefixer = require('autoprefixer');
-var sourceMaps = require('gulp-sourcemaps');
-var uglify =  require('gulp-uglify');
-var cssNano = require("cssnano");
-var path = require('path');
-var _ = require('lodash');
+const less = require('gulp-less');
+const rename = require("gulp-rename");
+const concat = require('gulp-concat');
+const cleanCSS = require('gulp-clean-css');
+const postCss = require('gulp-postcss');
+const autoPrefixer = require('autoprefixer');
+const sourceMaps = require('gulp-sourcemaps');
+const uglify =  require('gulp-uglify');
+const cssNano = require("cssnano");
+const path = require('path');
+const _ = require('lodash');
+const babel = require('gulp-babel');
+const plumber = require('gulp-plumber');
 
 // File paths
-var files = {
+const files = {
     lessPath: [
         // Third-party
         'resources/assets/less/third-party/tipped/tipped.less',
@@ -133,6 +135,14 @@ function stylesTask() {
 function scriptsTask() {
     return src(files.jsPath)
         .pipe(sourceMaps.init())
+        .pipe(plumber())
+        .pipe(babel({
+            presets: [
+                ['@babel/env', {
+                    modules: false
+                }]
+            ]
+        }))
         .pipe(concat('ub.js'))
         .pipe(uglify())
         .pipe(rename({ suffix: ".min" }))

@@ -96,7 +96,9 @@ $('.data-table').DataTable({
 
 x = _.pluck(JSON.parse($('#fabrics_list').text()), 'name');
 $.each(x,function(i,item){
-    x[i] = item.toLowerCase();
+    if (item != null){
+        x[i] = item.toLowerCase();
+    }
 });
 
 $(document).on('keyup', '.input-name', function() {

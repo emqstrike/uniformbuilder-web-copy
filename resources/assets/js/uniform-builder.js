@@ -1507,26 +1507,19 @@ $(document).ready(function () {
 
             if (type === 'materials') {
 
-                _object = _.find(ub.materials, {searchName: name});
-                _id = _object.id;
-                _thumbnail = _object.thumbnail_path;
+                _object = _.filter(ub.materials, {searchName: name});
 
             }
             else if (type === 'orders') {
 
-                _object =  _.find(ub.orders, {design_name: name});
-                _id = _object.order_id;
-
-                if (_object.upper_front_thumbnail_path !== null) {
-
-                    _thumbnail = _object.upper_front_thumbnail_path;    
-
-                }
-                else {
-
-                    _thumbnail = _object.lower_front_thumbnail_path
-
-                }
+                _object = _.filter(ub.orders, {design_name: name});
+                _object = _.each(_object, function(material) {
+                    if (material.upper_front_thumbnail_path !== null) {
+                        material.thumbnail = material.upper_front_thumbnail_path;
+                    } else {
+                        material.thumbnail = material.lower_front_thumbnail_path;
+                    }
+                });
 
             }
             else {
@@ -1535,13 +1528,7 @@ $(document).ready(function () {
 
             }
 
-            return {
-
-                object: _object,
-                id: _id,
-                thumbnail: _thumbnail,
-
-            }
+            return _object;
 
         }
 
@@ -1556,18 +1543,22 @@ $(document).ready(function () {
 
             var _object = ub.funcs.getSearchObject(type, data);
 
-            _searchResultsObject[_key].push({
-                type: type,
-                name: data,
-                thumbnail: _object.thumbnail,
-                uniform_category: _object.object.uniform_category,
-                uniform_application_type: _object.object.uniform_application_type,
-                id: _object.id,
+            _.each(_object, function(material) {
+
+                _searchResultsObject[_key].push({
+                    type: type,
+                    name: data,
+                    thumbnail: material.thumbnail_path,
+                    uniform_category: material.uniform_category,
+                    uniform_application_type: material.uniform_application_type,
+                    id: material.id,
+                });
+
+                $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
+
+                ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
+
             });
-
-            $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
-
-            ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
 
         };
 
@@ -6047,7 +6038,11 @@ $(document).ready(function () {
 
                 if (view === 'patterns') {
 
-                    if (_.size(ub.current_material.settings.team_colors) <= 1) { return; }
+                    if (_.size(ub.current_material.settings.team_colors) <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                         return undefined;
+                     }
+
                     if (ub.current_part === 0) {  $('div.pd-dropdown-links[data-ctr="1"]').trigger('click'); } // Trigger First Part
 
                     ub.funcs.hideOtherPanels();
@@ -6065,6 +6060,11 @@ $(document).ready(function () {
 
                     }
 
+                     if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
+                    }
+
                     ub.funcs.removeApplicationsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showPipingsPanel();
@@ -6079,6 +6079,11 @@ $(document).ready(function () {
 
                         return;
 
+                    }
+
+                    if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
                     }
 
                     ub.funcs.removeApplicationsPanel();
@@ -6136,7 +6141,12 @@ $(document).ready(function () {
                 }
 
                 if (view === 'layers') {
-                    
+
+                    if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
+                    }
+
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
@@ -7797,9 +7807,11 @@ $(document).ready(function () {
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
                             $(this).find('div.material_id').show();
+                            $(this).find('span.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
                             $(this).find('div.material_id').hide();    
+                            $(this).find('span.material_id').hide();    
                         }
 
                     }
@@ -8234,9 +8246,11 @@ $(document).ready(function () {
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
                             $(this).find('div.material_id').show();
+                            $(this).find('span.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
                             $(this).find('div.material_id').hide();    
+                            $(this).find('span.material_id').hide();    
                         }
 
                     }
@@ -9144,7 +9158,7 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id,
+                url: ub.config.api_host + '/api/order/user/orderswItems/optimized/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
