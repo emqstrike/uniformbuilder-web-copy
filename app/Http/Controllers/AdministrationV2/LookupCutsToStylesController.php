@@ -91,4 +91,13 @@ class LookupCutsToStylesController extends Controller
 
         return redirect()->back()->with('error_message', 'There was an error importing file. Please try again.');
     }
+
+    public function lookUpCutStyleIndex()
+    {
+        $cutStyles = $this->client->getLookupCutToStyles();
+
+         return view('administration-lte-2.cutStyle.look-up-cut-to-style', [
+            'cutStyles' => $cutStyles
+        ]);
+    }
 }
