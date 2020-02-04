@@ -45,12 +45,10 @@ $(document).ready(function () {
 
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
-                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
 
-                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
@@ -173,6 +171,7 @@ $(document).ready(function () {
             ub.current_material.material_url         = ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
             ub.current_material.colors_url           = ub.config.api_host + '/api/colors/' + ub.config.brand.toLowerCase();
+            ub.current_material.block_patterns_url   = ub.config.api_host + '/api/block_patterns/';
 
             switch(ub.config.uniform_brand) {
                 case 'prolook':
@@ -185,10 +184,10 @@ $(document).ready(function () {
                     ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
             }
 
+            ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
@@ -1148,6 +1147,7 @@ $(document).ready(function () {
             }
 
             var isAssetCompleted = typeof(ub.current_material.material) !== 'undefined' &&
+                     typeof(ub.current_material.block_patterns) !== 'undefined' &&
                      typeof(ub.current_material.materials_options) !== 'undefined' &&
                      !_.isEmpty(ub.data.colors) &&
                      !_.isEmpty(ub.data.patterns) &&
@@ -1188,13 +1188,15 @@ $(document).ready(function () {
                 'mascots',
                 'mascots_categories',
                 'tagged_styles',
-                'mascots_groups_categories'
+                'mascots_groups_categories',
+                'block_patterns'
             ];
 
             if (_.contains(REQUIRED_ASSETS, objectName)) {
                 switch(objectName) {
                     case 'material':
                     case 'materials_options':
+                    case 'block_patterns':
                         console.info("%c" + objectName.toTitleCase() + "("+ _.size(ub.current_material[objectName]) +")", "color: #1d7507");
                         break;
                     default:
