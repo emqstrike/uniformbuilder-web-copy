@@ -212,4 +212,13 @@ class MaterialsAPIClient extends APIClient
         
         return $this->decoder->decode($response->getBody());
     }
+
+
+    public function updateMaterialRuleId($data)
+    {
+        $response = $this->post('material/updateRuleId', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }    
 }

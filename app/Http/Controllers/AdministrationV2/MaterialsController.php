@@ -886,4 +886,43 @@ class MaterialsController extends Controller
 
         return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $message);
     }
+
+    public function updateMaterialForm()
+    {
+        return view('administration-lte-2.master-pages.materials.update-material');
+    }
+
+    public function updateStyleRule(MaterialRequest $request){
+        $materialId = $request->input('material-id');
+        $styleId = $request->input('style-id');
+        $ruleId = $request->input('rule-id');
+
+        $rulevalid = $request->input('rule-id-valid');
+        $stylevalid = $request->input('style-id-valid');
+        $materialvalid = $request->input('validmaterial');
+        
+        $dataRule = [
+            'id' => $materialId,
+            'rule_id' => $ruleId
+        ];
+
+        $dataStyle = [
+            'material_id' => $materialId,
+            'style_id' => $styleId
+        ];
+
+        if($rulevalid == 1 &&  $materialvalid == 1){
+            $response = $this->client->updateMaterialRuleId($dataRule);
+        }
+
+        if($stylevalid == 1){
+            $response1 = $this->optionsClient->updateMaterialOptionStyleId($dataStyle);
+        }
+        
+        return redirect()->route('v1_material_update');
+
+    }
+
+    
+
 }

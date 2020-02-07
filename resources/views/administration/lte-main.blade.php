@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker-bs3.css">
 <link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <link rel="stylesheet" type="text/css" href="/js/libs/pnotify/pnotify.css">
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/pnotify/pnotify.custom.min.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
 <link rel="stylesheet" type="text/css" href="/css/introjs.css">
 
