@@ -1128,7 +1128,8 @@
                     <div class="tabs">
 
                         <span class="mascot-tab tab active" data-button="browse">Browse</span>
-                        <span class="mascot-tab tab" data-button="upload">Upload</span>
+                        {{-- https://qstrike.atlassian.net/browse/CCO-659 --}}
+                        <span class="mascot-tab tab" data-button="upload" style="display:none">Upload</span>
 
                     </div>
 
