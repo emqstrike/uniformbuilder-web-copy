@@ -116,7 +116,7 @@ class Qx7StyleRequestController extends Controller
 
         $gradients = $this->gradientClient->getGradients();
 
-        $parent_materials = $this->materialsClient->getMaterialNameById($material_ids);
+        $parent_materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
 
         return view('administration-lte-2.qx7-style-requests.view-options', [
             'options' => $options,
