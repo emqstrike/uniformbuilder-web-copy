@@ -221,4 +221,17 @@ class MaterialsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }    
+
+    public function getMaterialNameById($data = array()) // material IDs passed should be in array
+    {
+        $response = $this->get('materials/materialNames', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->materials;
+        }
+        return null;
+    }
 }
