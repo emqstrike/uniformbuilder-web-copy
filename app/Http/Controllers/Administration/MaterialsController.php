@@ -478,6 +478,12 @@ class MaterialsController extends Controller
         $modelName = $request->input('model_name');
         $styleNumber = $request->input('style_number');
         $rule_id = $request->input('rule_id');
+      
+        if(is_null($rule_id)){
+            $rule_id = 0;
+        }else{
+             $rule_id = $request->input('rule_id');
+        }
 
         $materialId = null;
         if (!empty($request->input('material_id')))
