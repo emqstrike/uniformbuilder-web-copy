@@ -15,7 +15,7 @@
 
     <tbody class="sortable-items">
         @foreach ($options as $option)
-            @if ($option->perspective == "right" )
+            @if ($option->perspective == "right" && $option->material_id === $item->id)
                 <tr>
                     <td>
                         <input type="hidden" name="option_id[]" value="{{ $option->id }}">

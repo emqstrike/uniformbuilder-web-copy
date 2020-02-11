@@ -204,9 +204,17 @@ class Qx7StyleRequestController extends Controller
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
 
+        $material_ids = [];
+
+        foreach($options as $option) {
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
+        }
+
+        $parent_materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
         return view('administration-lte-2.qx7-style-requests.style-options-setup', [
             'style' => $style,
             'options' => $options,
+            'materials' => $parent_materials
         ]);
     }
 
