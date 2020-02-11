@@ -1373,10 +1373,12 @@ class UniformBuilderController extends Controller
                 $count_spaces = substr_count($upper_code, ' '); // count spaces
             }
 
-            // words thats are exempted from trim
+            // words that are exempted from trim
             if (strpos($upper_code, 'Upper Stripe') !== false ||
                 strpos($upper_code, 'Lower Stripe') !== false ||
                 strpos($upper_code, 'Back Thigh Pocket') !== false ||
+                strpos($upper_code, 'Top Stripe') !== false ||
+                strpos($upper_code, 'Bottom Stripe') !== false ||
                 strpos($upper_code, 'Pocket Piping') !== false) {
                 Log::info('EXEMPTED WORDS=======>' . $upper_code);
             } else {
