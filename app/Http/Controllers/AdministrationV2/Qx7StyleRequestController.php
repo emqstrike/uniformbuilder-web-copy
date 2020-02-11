@@ -204,9 +204,17 @@ class Qx7StyleRequestController extends Controller
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
 
+        $material_ids = [];
+
+        foreach($options as $option) {
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
+        }
+
+        $parent_materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
         return view('administration-lte-2.qx7-style-requests.style-options-setup', [
             'style' => $style,
             'options' => $options,
+            'materials' => $parent_materials
         ]);
     }
 
@@ -583,6 +591,8 @@ class Qx7StyleRequestController extends Controller
             }
         }
 
+        $material_ids = [];
+
         foreach ($options as $option) {
             if ($option->perspective == 'front') {
                 array_push($frontPerspectiveOptions, $option);
@@ -593,7 +603,11 @@ class Qx7StyleRequestController extends Controller
             } elseif ($option->perspective == 'right') {
                 array_push($rightPerspectiveOptions, $option);
             }
+
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
         }
+
+        $materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
 
         return view('administration-lte-2.qx7-style-requests.edit-rule-part-names', compact(
             'frontPerspectiveOptions',
@@ -602,7 +616,8 @@ class Qx7StyleRequestController extends Controller
             'rightPerspectiveOptions',
             'bodyParts',
             'style',
-            'bodyPartColorGroups'
+            'bodyPartColorGroups',
+            'materials'
         ));
     }
 

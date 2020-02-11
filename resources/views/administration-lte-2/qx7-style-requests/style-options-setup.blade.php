@@ -51,24 +51,34 @@
                             </a>
                         </div>
 
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    @include('administration-lte-2.master-pages.materials.partials.material-options-setup.front')
-                                </div>
+                        <ul class="nav nav-tabs col-12">
+                            @foreach($materials as $key => $item)
+                            <li class="mid-tab {{ $key === 0 ? 'active' : '' }}"><a href="#material-{{ $item->id }}" role="tab" data-toggle="tab">Material: {{ $item->name }} ({{ $item->id }})</a></li>
+                            @endforeach
+                        </ul>
 
-                                <div class="col-md-3">
-                                    @include('administration-lte-2.master-pages.materials.partials.material-options-setup.back')
-                                </div>
+                        <div class="box-body tab-content">
+                            @foreach($materials as $key => $item)
+                            <div class="tab-pane fade in {{ $key === 0 ? 'active' : '' }}" id="material-{{ $item->id }}">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @include('administration-lte-2.master-pages.materials.partials.material-options-setup.front')
+                                    </div>
 
-                                <div class="col-md-3">
-                                    @include('administration-lte-2.master-pages.materials.partials.material-options-setup.left')
-                                </div>
+                                    <div class="col-md-3">
+                                        @include('administration-lte-2.master-pages.materials.partials.material-options-setup.back')
+                                    </div>
 
-                                <div class="col-md-3">
-                                    @include('administration-lte-2.master-pages.materials.partials.material-options-setup.right')
+                                    <div class="col-md-3">
+                                        @include('administration-lte-2.master-pages.materials.partials.material-options-setup.left')
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        @include('administration-lte-2.master-pages.materials.partials.material-options-setup.right')
+                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
