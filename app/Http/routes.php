@@ -210,6 +210,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index'])->name('v1_mascot_categories');
             Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index'])->name('v1_mascots_groups_categories');
 
+            Route::get('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateMaterialForm'])->name('v1_material_update');
+            Route::post('material/styles_to_materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateStyleRule'])->name('v1_styles_to_materials');
+
             // Block Patterns
             Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@index'])->name('v1_block_patterns');
             Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@editForm'])->name('v1_modify_block_pattern');

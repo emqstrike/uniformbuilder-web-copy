@@ -217,4 +217,15 @@ class MaterialsOptionsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+
+    
+    public function updateMaterialOptionStyleId($data)
+    {
+        $response = $this->post('material_option/update_material_option_style_id', [
+            'json' => $data
+        ]);
+       
+        return $this->decoder->decode($response->getBody());
+    }
 }
