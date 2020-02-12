@@ -1378,6 +1378,7 @@ class UniformBuilderController extends Controller
                 strpos($upper_code, 'Lower Stripe') !== false ||
                 strpos($upper_code, 'Back Thigh Pocket') !== false ||
                 strpos($upper_code, 'Top Stripe') !== false ||
+                strpos($upper_code, 'Middle Stripe') !== false ||
                 strpos($upper_code, 'Bottom Stripe') !== false ||
                 strpos($upper_code, 'Pocket Piping') !== false) {
                 Log::info('EXEMPTED WORDS=======>' . $upper_code);
