@@ -7,6 +7,16 @@ $(document).ready(function() {
         return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Quickturn)");
     }
 
+    ub.funcs.isNotUnisexSocks = function (material) {
+        if (material.uniform_category.includes("Socks")) {
+            var socksCategories = ["Crew Socks (Apparel)" , "Socks (Apparel)", "Socks (Quickturn)"];
+            var isSocks = _.contains(socksCategories, material.uniform_category);
+            var isNotUnisex = !_.isEqual(material.gender, "unisex");
+
+            return isSocks && isNotUnisex;
+        }
+    }
+
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;

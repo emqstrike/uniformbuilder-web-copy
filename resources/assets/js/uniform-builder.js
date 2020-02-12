@@ -1526,6 +1526,8 @@ $(document).ready(function () {
 
             _.each(_object, function(material) {
 
+                if (ub.funcs.isNotUnisexSocks(material)) { return false }
+
                 _searchResultsObject[_key].push({
                     type: type,
                     name: data,
@@ -1796,8 +1798,13 @@ $(document).ready(function () {
 
             });
 
-            var _searchSource = _.map(ub.materials, function (material) {
-                return ub.funcs.getSearchName(material);
+            var _searchSource = [];
+            _.each(ub.materials, function (material) {
+                var isNotUnisexSocks = ub.funcs.isNotUnisexSocks(material);
+                if (isNotUnisexSocks) { return false; }
+
+                var searchName = ub.funcs.getSearchName(material);
+                _searchSource.push(searchName);
             });
 
             // ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
