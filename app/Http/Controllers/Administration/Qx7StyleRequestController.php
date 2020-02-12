@@ -583,6 +583,8 @@ class Qx7StyleRequestController extends Controller
             }
         }
 
+        $material_ids = [];
+
         foreach ($options as $option) {
             if ($option->perspective == 'front') {
                 array_push($frontPerspectiveOptions, $option);
@@ -593,8 +595,11 @@ class Qx7StyleRequestController extends Controller
             } elseif ($option->perspective == 'right') {
                 array_push($rightPerspectiveOptions, $option);
             }
+
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
         }
 
+        $materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
         return view('administration.qx7-style-requests.edit-rule-part-names', compact(
             'frontPerspectiveOptions',
             'backPerspectiveOptions',
@@ -602,7 +607,8 @@ class Qx7StyleRequestController extends Controller
             'rightPerspectiveOptions',
             'bodyParts',
             'style',
-            'bodyPartColorGroups'
+            'bodyPartColorGroups',
+            'materials'
         ));
     }
 
