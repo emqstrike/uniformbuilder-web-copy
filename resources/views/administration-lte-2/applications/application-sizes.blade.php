@@ -362,6 +362,8 @@ $(document).ready(function(){
         window.modal_action = 'add';
         $('.modal-title').text('Add Application Sizes Information');
         $('.submit-new-record').text('Add Record');
+        $('.input-size-category').val("all");
+
     });
 
     $(document).on('click', '.edit-record', function(e) {
@@ -397,7 +399,13 @@ $(document).ready(function(){
         $('.input-size-type').val(data.type);
         $('.uniform-application-type').val(data.uniform_application_type);
         $('.input-brand').val(data.brand);
-        $('.input-size-category').val(data.size_category);
+
+        if(data.size_category == "") {
+            $('.input-size-category').val("all");
+        }else{
+            $('.input-size-category').val(data.size_category);
+        }
+      
         $('#properties').val(data.properties);
         if (data.properties != null) {
             loadConfigurations(data.properties);
