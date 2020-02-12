@@ -73,6 +73,7 @@
                 <div class="form-group">
                   <label class="control-label">Size Category</label>
                   <select class="form-control input-size-category" name="size_category" required="true">
+                    <option value="all">All</option>
                     <option value="adult">Adult</option>
                     <option value="youth">Youth</option>
                   </select>
