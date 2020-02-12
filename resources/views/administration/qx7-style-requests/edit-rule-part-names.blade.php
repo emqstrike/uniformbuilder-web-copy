@@ -92,129 +92,149 @@
 
                             <input type="hidden" name="style_id" value="{{ $style->id }}">
 
-                            <table class="col-md-12">
-                                <thead>
-                                    <th>
-                                        <h3>Front</h3>
-                                    </th>
+                            <ul class="nav nav-tabs col-12">
+                                @foreach($materials as $key => $item)
+                                <li class="mid-tab {{ $key === 0 ? 'active' : '' }}"><a href="#material-{{ $item->id }}" role="tab" data-toggle="tab">Material: {{ $item->name }} ({{ $item->id }})</a></li>
+                                @endforeach
+                            </ul>
+                            
+                            <div class="tab-content" style="padding: 20px">
+                                @foreach($materials as $key => $item)
+                                    <div class="tab-pane fade in {{ $key === 0 ? 'active' : '' }}" id="material-{{ $item->id }}">
+                                        <table class="col-md-12">
+                                            <thead>
+                                                <th>
+                                                    <h3>Front</h3>
+                                                </th>
 
-                                    <th>
-                                        <h3>Back</h3>
-                                    </th>
+                                                <th>
+                                                    <h3>Back</h3>
+                                                </th>
 
-                                    <th>
-                                        <h3>Left</h3>
-                                    </th>
+                                                <th>
+                                                    <h3>Left</h3>
+                                                </th>
 
-                                    <th>
-                                        <h3>Right</h3>
-                                    </th>
-                                </thead>
+                                                <th>
+                                                    <h3>Right</h3>
+                                                </th>
+                                            </thead>
 
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            @foreach ($frontPerspectiveOptions as $option)
-                                                <div class="material-option form-inline">
-                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
-                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @foreach ($frontPerspectiveOptions as $option)
+                                                            @if ($option->material_id === $item->id)    
+                                                                <div class="material-option form-inline">
+                                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
+                                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
 
-                                                    <select class="form-control select2" name="rule_part_name[]">
-                                                        <option value="">None</option>
+                                                                    <select class="form-control select2" name="rule_part_name[]">
+                                                                        <option value="">None</option>
 
-                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
-                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
-                                                                {{ $option->rule_part_name }}
-                                                            </option>
-                                                        @endif
+                                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                                {{ $option->rule_part_name }}
+                                                                            </option>
+                                                                        @endif
 
-                                                        @foreach ($bodyParts as $bodyPart)
-                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
-                                                                {{ $bodyPart }}
-                                                            </option>
+                                                                        @foreach ($bodyParts as $bodyPart)
+                                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
+                                                                                {{ $bodyPart }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
-                                                    </select>
-                                                </div>
-                                            @endforeach
-                                        </td>
+                                                    </td>
 
-                                        <td>
-                                            @foreach ($backPerspectiveOptions as $option)
-                                                <div class="material-option form-inline">
-                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
-                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
+                                                    <td>
+                                                        @foreach ($backPerspectiveOptions as $option)
+                                                            @if ($option->material_id === $item->id)    
+                                                                <div class="material-option form-inline">
+                                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
+                                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
 
-                                                    <select class="form-control select2" name="rule_part_name[]">
-                                                        <option value="">None</option>
+                                                                    <select class="form-control select2" name="rule_part_name[]">
+                                                                        <option value="">None</option>
 
-                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
-                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
-                                                                {{ $option->rule_part_name }}
-                                                            </option>
-                                                        @endif
+                                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                                {{ $option->rule_part_name }}
+                                                                            </option>
+                                                                        @endif
 
-                                                        @foreach ($bodyParts as $bodyPart)
-                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
-                                                                {{ $bodyPart }}
-                                                            </option>
+                                                                        @foreach ($bodyParts as $bodyPart)
+                                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
+                                                                                {{ $bodyPart }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
-                                                    </select>
-                                                </div>
-                                            @endforeach
-                                        </td>
+                                                    </td>
 
-                                        <td>
-                                            @foreach ($leftPerspectiveOptions as $option)
-                                                <div class="material-option form-inline">
-                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
-                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
+                                                    <td>
+                                                        @foreach ($leftPerspectiveOptions as $option)
+                                                            @if ($option->material_id === $item->id)    
+                                                                <div class="material-option form-inline">
+                                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
+                                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
 
-                                                    <select class="form-control select2" name="rule_part_name[]">
-                                                        <option value="">None</option>
+                                                                    <select class="form-control select2" name="rule_part_name[]">
+                                                                        <option value="">None</option>
 
-                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
-                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
-                                                                {{ $option->rule_part_name }}
-                                                            </option>
-                                                        @endif
+                                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                                {{ $option->rule_part_name }}
+                                                                            </option>
+                                                                        @endif
 
-                                                        @foreach ($bodyParts as $bodyPart)
-                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
-                                                                {{ $bodyPart }}
-                                                            </option>
+                                                                        @foreach ($bodyParts as $bodyPart)
+                                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
+                                                                                {{ $bodyPart }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
-                                                    </select>
-                                                </div>
-                                            @endforeach
-                                        </td>
+                                                    </td>
 
-                                        <td>
-                                            @foreach ($rightPerspectiveOptions as $option)
-                                                <div class="material-option form-inline">
-                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
-                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
+                                                    <td>
+                                                        @foreach ($rightPerspectiveOptions as $option)
+                                                            @if ($option->material_id === $item->id)    
+                                                                <div class="material-option form-inline">
+                                                                    <input disabled type="text" class="form-control" value="{{ $option->name }}">
+                                                                    <input type="hidden" name="material_option_id[]" value="{{ $option->id }}">
 
-                                                    <select class="form-control select2" name="rule_part_name[]">
-                                                        <option value="">None</option>
+                                                                    <select class="form-control select2" name="rule_part_name[]">
+                                                                        <option value="">None</option>
 
-                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
-                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
-                                                                {{ $option->rule_part_name }}
-                                                            </option>
-                                                        @endif
+                                                                        @if (($option->rule_part_name) && (! in_array($option->rule_part_name, $bodyParts)))
+                                                                            <option value="{{ $option->rule_part_name}}" selected="selected">
+                                                                                {{ $option->rule_part_name }}
+                                                                            </option>
+                                                                        @endif
 
-                                                        @foreach ($bodyParts as $bodyPart)
-                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
-                                                                {{ $bodyPart }}
-                                                            </option>
+                                                                        @foreach ($bodyParts as $bodyPart)
+                                                                            <option value="{{ $bodyPart }}" @if ($option->rule_part_name == $bodyPart) selected="selected" @endif>
+                                                                                {{ $bodyPart }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
-                                                    </select>
-                                                </div>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endforeach
+                            </div>
 
                             <button style="margin-top: 30px;" type="submit" class="btn btn-flat btn-primary">Update</button>
                         </form>

@@ -130,7 +130,6 @@ class Qx7StyleRequestController extends Controller
             'left_guide' => $left_guide,
             'right_guide' => $right_guide,
             'style' => $style,
-            'material_ids' => $material_ids,
             'materials' => $parent_materials
         ]);
     }
