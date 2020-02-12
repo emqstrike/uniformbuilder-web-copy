@@ -6019,7 +6019,11 @@ $(document).ready(function () {
 
                 if (view === 'patterns') {
 
-                    if (_.size(ub.current_material.settings.team_colors) <= 1) { return; }
+                    if (_.size(ub.current_material.settings.team_colors) <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                         return undefined;
+                     }
+
                     if (ub.current_part === 0) {  $('div.pd-dropdown-links[data-ctr="1"]').trigger('click'); } // Trigger First Part
 
                     ub.funcs.hideOtherPanels();
@@ -6037,6 +6041,11 @@ $(document).ready(function () {
 
                     }
 
+                     if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
+                    }
+
                     ub.funcs.removeApplicationsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showPipingsPanel();
@@ -6051,6 +6060,11 @@ $(document).ready(function () {
 
                         return;
 
+                    }
+
+                    if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
                     }
 
                     ub.funcs.removeApplicationsPanel();
@@ -6108,7 +6122,12 @@ $(document).ready(function () {
                 }
 
                 if (view === 'layers') {
-                    
+
+                    if (ub.current_material.settings.team_colors.length <= 1) {
+                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        return undefined;
+                    }
+
                     ub.funcs.removePipingsPanel();
                     ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
