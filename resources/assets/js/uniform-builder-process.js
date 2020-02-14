@@ -798,7 +798,8 @@ $(document).ready(function() {
 
                 // set value if user is logged in
                 if(ub.user) {
-                    $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                    var fullname = ub.utilities.decodeHtmlEntity(ub.user.fullname);
+                    $('#feedback-form .name').val(fullname).attr('disabled','disabled');
                     $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
                 }
 
