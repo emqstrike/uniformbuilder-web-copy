@@ -1846,10 +1846,7 @@
                             <form id="feedback-form" data-parsley-validate>
                               <div class="form-group">
                                 <label>Name <span class="required">*</span></label>
-                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1" 
-                                data-parsley-required 
-                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
-                                data-parsley-pattern-message="This value should be alphanumeric.">
+                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1" data-parsley-required>
                               </div>
                               <div class="form-group">
                                 <label>Email <span class="required">*</span></label>
