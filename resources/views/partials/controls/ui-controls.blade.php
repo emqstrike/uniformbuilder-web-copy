@@ -3367,6 +3367,47 @@
 
     </script>
 
+    <script type="text/mustache" id="m-embellishment-sidebar-conflict-colors">
+        <h4>@{{header}}</h4>
+        <h6>@{{notes}}</h6>
+        <hr class="@{{isHide}}"/>
+
+        <div id="embellishment-conflict-colors" class="@{{class}}">
+            @{{#colors}}        
+                <div class="contrast-bgc" style="background-color: @{{color_code}}; border: #acacac .5px solid">
+                    <h5 class="contrast-text"> @{{color_code}}</h5>
+                </div>
+            @{{/colors}}
+        </div>
+    </script>
+
+    <script type="text/mustache" id="m-embellishment-order-conflict-colors">
+        <div>
+            <h4>Oops! You have conflicts.</h4>
+            <h6 class="margin-bottom-medium" style="color:red;">Please fix all the conflicts to proceed.</h6>
+        </div>
+        <ul class="list-divider list-large max-height-large overflow-auto">
+            @{{#embellishments}}
+            <li>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px; border: 1px solid #ccc;" src="@{{embellishments.thumbnail}}" data-holder-rendered="true">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">@{{name}}</h5>
+                        <h6>@{{totalColorConflict}}</h6>
+                    </div>
+                    <div class="media-right">
+                        <button type="button" class="btn btn-default btn-xs fix-conflict" data-id="@{{id}}" data-design-id="@{{embellishments.design_id}}">Fix</button>
+                    </div>
+                </div>
+            </li>
+            @{{/embellishments}}
+        </ul>
+    </script>
+
 <!-- End Embellishment Sidebar -->
 
 <!-- Embellishment Preview -->

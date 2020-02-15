@@ -43,6 +43,11 @@ $(document).ready(function() {
 
     ub.activeApplication = undefined;
 
+    // flag/checker
+    // prevent multiple call on inksoft
+    ub.isMessageIsCalled = true;
+    ub.embellishmentDetails = undefined;
+
     // Manipulator Tools 
 
     ub.tools = {};
