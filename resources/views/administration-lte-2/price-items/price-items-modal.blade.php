@@ -34,12 +34,15 @@
                             <option value="1">PMP</option>
                             <option value="2">BLB</option>
                             <option value="3">SOX</option>
+                            <option value="4">XSD</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Dealer</label>
                         <select class="form-control input-dealer" name="dealer_id" required>
                             <option value="6">Pro Look Sports</option>
+                            <option value="37">Richardson</option>
+                            <option value="7">Riddell</option>
                         </select>
                   </div>
                   <div class="form-group">

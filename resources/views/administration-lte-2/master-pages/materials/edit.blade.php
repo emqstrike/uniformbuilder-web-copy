@@ -657,10 +657,11 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                             <div class="col-md-6">
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control brand">
                                         <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($material->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($material->brand == 'riddell') selected="selected" @endif>Riddell</option>
                                 </select>
                             </div>
                         </div>
@@ -722,6 +723,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Rule ID</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control rule-id"  name="rule_id" value="{{ $material->rule_id }}">
+                            </div>
+                        </div>
+                        
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-flat btn-primary edit-material">
@@ -751,7 +759,9 @@
 
     <script>
         $( document ).ready(function() {
-
+         
+            var db_rule_id =  $('.rule-id').val();
+           
             $('.autosized').autosize({append: "\n"});
 
             window.price_items = null;
@@ -829,8 +839,37 @@
                 }, 1000);
             }
 
-            $('.edit-material').on('click', function(){
-                saveEditor();
+            $('.edit-material').on('click', function(event){
+                var rule_id =  $('.rule-id').val();
+                var brand =  $('.brand').val();
+                
+                event.preventDefault(); 
+                var url = "//"+ qx7_host +"/api/rule/" +rule_id;
+                
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        if(data['success'] || brand == 'prolook'){
+
+                            saveEditor();
+                            $('#edit-material-form').submit();
+                        }else{
+                            new PNotify({
+                                title: 'INVALID RULE ID',
+                                text: 'Failed To Update ' + '{{ $material->name }}',
+                                type: 'error',
+                                hide: true
+                            });
+                        }
+
+                    }
+                });
+
             });
 
             function saveEditor(){
@@ -972,6 +1011,25 @@
                     }
                 });
             }
+
+            function checkbrand(){
+                var brand =  $('.brand').val();
+                    if(brand == 'prolook'){
+                        $( ".rule-id" ).attr('readonly', true);
+                        $( ".rule-id" ).val( "0" );
+                    }else{
+                        $( ".rule-id" ).attr('readonly', false);
+                        $( ".rule-id" ).val( db_rule_id );
+                    }
+            }
+
+            checkbrand();
+
+            $( ".brand" ).change(function() {
+                checkbrand();
+            });
         });
+
+        
     </script>
 @endsection

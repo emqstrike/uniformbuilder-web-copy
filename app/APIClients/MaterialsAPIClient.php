@@ -81,23 +81,25 @@ class MaterialsAPIClient extends APIClient
 
     public function getMaterial($id)
     {
+
         $response = $this->get('material/' . $id);
         $result = $this->decoder->decode($response->getBody());
 
         if ($result->success)
         {
-
+        
             $response_options = $this->get('materials_options/' . $id);
             $options = $this->decoder->decode($response_options->getBody());
 
             $material = $result->material;
             $material->options = $options;
-
+        
             return $material;
-
+            
         }
 
         return null;
+        
     }
 
     public function getMaterialQS($id)
@@ -200,5 +202,36 @@ class MaterialsAPIClient extends APIClient
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
+    }
+
+    public function saveModifyPattern($data)
+    {
+        $response = $this->post('material/save_modify_pattern', [
+            'json' => $data
+        ]);
+        
+        return $this->decoder->decode($response->getBody());
+    }
+
+
+    public function updateMaterialRuleId($data)
+    {
+        $response = $this->post('material/updateRuleId', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }    
+
+    public function getMaterialNameById($data = array()) // material IDs passed should be in array
+    {
+        $response = $this->post('materials/materialNames', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->materials;
+        }
+        return null;
     }
 }

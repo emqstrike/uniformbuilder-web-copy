@@ -104,8 +104,10 @@ class AuthenticationController extends AdminAuthController
             $data = [
                 'email' => $email,
                 'password' => $password,
-                'login_origin' => 'frontend'
+                'login_origin' => 'frontend',
+                'brand_id' => env('BRAND_ID')
             ];
+
             $result = $this->client->login($data);
 
             if ($result->success) {
@@ -134,6 +136,14 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userAllowedPages', $user->allowed_pages);
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                $superusers = env('BACKEND_SUPERUSERS');
+                $su_array = explode(',', $superusers);
+                if (!in_array($user->id, $su_array)) {
+                    Session::put('adminFullAccess', false);
+                } else {
+                    Session::put('adminFullAccess', true);
+                }
 
                 #
                 # TEAM STORE LOGIN HANDLER

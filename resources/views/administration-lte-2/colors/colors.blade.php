@@ -70,6 +70,7 @@
                     <select class="active-brand">
                         <option value='prolook' @if ($active_brand == 'prolook') selected @endif>Prolook</option>
                         <option value='richardson' @if ($active_brand == 'richardson') selected @endif>Richardson</option>
+                        <option value='riddell' @if ($active_brand == 'riddell') selected @endif>Riddell</option>
                     </select>
                 </div>
                 <div class="box-body">
@@ -126,6 +127,7 @@
                                 <select class="form-control brand" name='brand' disabled="true">
                                     <option value='prolook' @if ($color->brand == 'prolook') selected @endif>Prolook</option>
                                     <option value='richardson' @if ($color->brand == 'richardson') selected @endif>Richardson</option>
+                                    <option value='riddell' @if ($color->brand == 'riddell') selected @endif>Riddell</option>
                                 </select>
                             </td>
                             <td>

@@ -122,6 +122,11 @@ class MaterialsController extends Controller
         $options = $this->optionsClient->getByMaterialId($id);
         $material = $this->client->getMaterial($id);
         $colors = $this->colorsClient->getColors($material->brand);
+
+        if (empty($colors) && ($material->brand == 'riddell')) {
+            $colors = $this->colorsClient->getColors('prolook');
+        }
+
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFilteredFonts($material->uniform_category, $material->brand);
@@ -472,6 +477,13 @@ class MaterialsController extends Controller
         $retain_settings = $request->input('retain_settings_from_saved_design');
         $modelName = $request->input('model_name');
         $styleNumber = $request->input('style_number');
+        $rule_id = $request->input('rule_id');
+      
+        if(is_null($rule_id)){
+            $rule_id = 0;
+        }else{
+             $rule_id = $request->input('rule_id');
+        }
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -539,7 +551,8 @@ class MaterialsController extends Controller
             'block_pattern_option_2' => $request->input('block_pattern_option_2'),
             'block_pattern_option_3' => $request->input('block_pattern_option_3'),
             'model_name' => $modelName,
-            'style_number' => $styleNumber
+            'style_number' => $styleNumber,
+            'rule_id' => $rule_id
         ];
         try {
             // Thumbnail Files
@@ -934,4 +947,46 @@ class MaterialsController extends Controller
         }
     }
 
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+
+        if ($response->success) {
+            
+            $message ="";
+            if ($response->success) {
+                $import_type = $request->import_type;
+                if($import_type == "bounding_box"){
+                    $message = "Successfully imported bounding box";
+                }else{
+                    $message = "Successfully imported application";
+                }
+            }
+
+            return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('message', $message);
+        }
+
+        return redirect()->route('view_material_options', ['id' => $request->current_material_id])->with('errors', $response->message);
+    }
+
+    public function modifyPattern($id)
+    {
+        $material = $this->client->getMaterial($id);
+
+        return view('administration.materials.modify-pattern', [
+            'material' => $material
+        ]);
+    }
+
+    public function saveModifyPattern(Request $request)
+    {
+        $response = $this->client->saveModifyPattern($request->all());
+
+        if ($response->success) {
+            return Redirect::to('administration/material/' . $request->id . '/modify_pattern')->with('message', 'Successfully saved changes');
+        }
+
+        return Redirect::to('administration/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
+    }
 }

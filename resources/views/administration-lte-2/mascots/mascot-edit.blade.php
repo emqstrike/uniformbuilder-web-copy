@@ -1,10 +1,18 @@
 @extends('administration-lte-2.lte-main')
 
+@section('styles')
+    <style>
+        .ma-layer-name {
+            width: 200px !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading"><b>Update mascot</b></div>
                 <div class="panel-body">
@@ -35,6 +43,13 @@
                             <label class="col-md-3 control-label">Code</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control mascot-code" name="code" value="{{ $mascot->code }}" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Alias</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-alias" name="alias" value="{{ $mascot->alias }}" >
                             </div>
                         </div>
 
@@ -86,6 +101,16 @@
                                         <option value="none" @if($mascot->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($mascot->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($mascot->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                        <option value="riddell" @if($mascot->brand == "riddell") selected="selected"@endif>Riddell</option>
+                                </select>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-3 control-label" >Is Typographic?</label>
+                           <div class="col-md-6">
+                                <select name="typographic" class="form-control" required="true">
+                                        <option value="0" @if($mascot->typographic == "0") selected="selected"@endif>No</option>
+                                        <option value="1" @if($mascot->typographic == "1") selected="selected"@endif>Yes</option>
                                 </select>
                             </div>
                         </div>
@@ -101,6 +126,7 @@
                                     <thead>
                                         <tr>
                                             <th>Layer</th>
+                                            <th>Layer Name</th>
                                             <th>Team Color ID</th>
                                             <th>New File</th>
                                             <th>Saved Thumbnail</th>
@@ -115,6 +141,11 @@
                                                     <option value = '1' class="layer-number">1</option>
                                                 </select>
                                             </td>
+
+                                            <td>
+                                                <input type="text" class="form-control ma-layer-name layer1" name="ma_layer_name[]">
+                                            </td>
+
                                             <td>
                                                 <select class="ma-team-color-id layer1" name="ma_team_color_id[]">
                                                     <option value="1">1</option>
@@ -129,21 +160,25 @@
                                                     <option value="10">10</option>
                                                 </select>
                                             </td>
+
                                             <td>
                                                 <input type="file" class="ma-options-src layer1" name="ma_image[]" >
                                             </td>
+
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                                @foreach ($colors as $color)
-                                                    @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
-                                                        {{ $color->name }}
-                                                    </option>
-                                                    @endif
-                                                @endforeach
-                                                <option data-color="" value="" id="saved-default-color"></option>
+                                                    @foreach ($colors as $color)
+                                                        @if ($color->active)
+                                                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                                {{ $color->name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+
+                                                    <option data-color="" value="" id="saved-default-color"></option>
                                                 </select>
                                             </td>
+
                                             <td>
                                                 <a class="btn btn-danger btn-xs btn-remove-layer btn-flat">Remove</a>
                                             </td>
@@ -177,146 +212,160 @@
 @section('custom-scripts')
 
 <script type="text/javascript">
-$(document).ready(function(){
+    $(document).ready(function() {
+        $("#static_row").hide();
+        $('#colors_textarea').hide();
 
-    $( "#static_row" ).hide();
+        $("#layers-row-container").disableSelection();
 
-    $('#colors_textarea').hide();
+        $("#layers-row-container").sortable({
+            start: function() {
+                $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
+            },
+            stop: function() {
+                var length = $('.layers-row').length;
+                $(".layers-row").each(function(i) {
+                    $(this).find(".layer-number").text(length);
+                    $(this).find(".layer-number").val(length);
+                    length = length-1;
+                });
+                var newLength = $('.layers-row').length;
+                renumberRows(newLength);
+            }
+        });
 
-    $( "#layers-row-container" ).disableSelection();
-    $( "#layers-row-container" ).sortable({
-        start: function( ) {
-            $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
-        },
-        stop: function( ) {
+        $(document).on('click', '.clone-row-mascot', function() {
+            if ($(".layers-row").length) {
+                try {
+                    var x = $( ".layers-row:first" ).clone();
+                    y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
+                    $('#layers-row-container').append(x);
+                    $(x).append(y);
+                } catch(err){
+                    console.log(err.message);
+                }
+            } else {
+                try{
+                    $( "#static_row" ).show();
+                    var elemX = $( "#static_row" ).clone()
+                    elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
+                    $( "#static_row" ).remove();
+                } catch(err){
+                    console.log(err.message);
+                }
+            }
+
             var length = $('.layers-row').length;
             $(".layers-row").each(function(i) {
                 $(this).find(".layer-number").text(length);
                 $(this).find(".layer-number").val(length);
-                length = length-1;
+                length--;
             });
+
+            $(document).on("change", ".ma-default-color", function() {
+                var color = $('option:selected', this).data('color');
+                $(this).css('background-color', color);
+            });
+
+            var length = $('.layers-row').length;
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(length);
+                $(this).find(".layer-number").val(length);
+                length--;
+            });
+
             var newLength = $('.layers-row').length;
             renumberRows(newLength);
-        }
-    });
+        });
 
-    $(document).on('click', '.clone-row-mascot', function() {
-        if( $( ".layers-row" ).length ){
-            try{
-                var x = $( ".layers-row:first" ).clone();
-                y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
-                $('#layers-row-container').append(x);
-                $(x).append(y);
-            } catch(err){
-                console.log(err.message);
-            }
-        } else {
-            try{
-                $( "#static_row" ).show();
-                var elemX = $( "#static_row" ).clone()
-                elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
-                $( "#static_row" ).remove();
-            } catch(err){
-                console.log(err.message);
-            }
+        var test;
+        var colors_array = $('#colors_textarea').text();
+
+        try {
+            test = JSON.parse(colors_array);
+        } catch(err) {
+            console.log(err.message);
         }
 
-        var length = $('.layers-row').length;
-        $(".layers-row").each(function(i) {
-            $(this).find(".layer-number").text(length);
-            $(this).find(".layer-number").val(length);
-            length--;
+        $(document).on('change', function() {
+            var length = $('.layers-row').length;
+            renumberRows(length);
         });
 
-         $(document).on("change", ".ma-default-color", function(){
+        buildLayers();
+        function buildLayers() {
+            existing_layers_properties = $('#existing-layers-properties').val();
 
-            var color = $('option:selected', this).data('color');
-            $(this).css('background-color', color);
-        });
+            var myJson = JSON.parse(existing_layers_properties);
 
-        var length = $('.layers-row').length;
-        $(".layers-row").each(function(i) {
-            $(this).find(".layer-number").text(length);
-            $(this).find(".layer-number").val(length);
-            length--;
-        });
-        var newLength = $('.layers-row').length;
-    });
+            var length = Object.keys(myJson).length;
+            var first_row_index = length;
 
-    var test;
-    var colors_array = $('#colors_textarea').text();
-    try {
-        test = JSON.parse(colors_array);
-    } catch(err) {
-        console.log(err.message);
-    }
+            while(length > 0) {
+                $(document).on('change', function() {
+                    var length = $('.layers-row').length;
+                    renumberRows(length);
+                });
 
-    $(document).on('change', function() {
-        var length = $('.layers-row').length;
-        renumberRows(length);
-    });
+                var open = "<tr class=\"layers-row\">";
+                var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
 
-    buildLayers();
-    function buildLayers(){
-        existing_layers_properties = $('#existing-layers-properties').val();
-        console.log($('#existing-layers-properties').val());
+                var team_color_id_options = '';
 
-        var myJson = JSON.parse(existing_layers_properties);
-
-        var length = Object.keys(myJson).length;
-        var first_row_index = length;
-
-        while(length > 0) {
-            $(document).on('change', function() {
-                var length = $('.layers-row').length;
-                renumberRows(length);
-            });
-            var open = "<tr class=\"layers-row\">";
-            var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
-
-            var team_color_id_options = '';
-
-            for(var i = 1; i <= 10; i++){
-                if( myJson[length]['team_color_id'] == i ){
-                    team_color_id_options += '<option value="'+i+'" selected>'+i+'</option>';
-                } else {
-                    team_color_id_options += '<option value="'+i+'">'+i+'</option>';
+                for(var i = 1; i <= 10; i++){
+                    if( myJson[length]['team_color_id'] == i ){
+                        team_color_id_options += '<option value="'+i+'" selected>'+i+'</option>';
+                    } else {
+                        team_color_id_options += '<option value="'+i+'">'+i+'</option>';
+                    }
                 }
-            }
-            var team_color_id = '<td><select class="ma-team-color-id layer' + length + '" name="ma_team_color_id[]">' + team_color_id_options + '</select></td>';
-            var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\"></td>";
-            imgURL = myJson[length]['filename'].replace(" ", "%20");
 
-            var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #000;"><input type="hidden" class="default_img" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
+                var team_color_id = '<td><select class="ma-team-color-id layer' + length + '" name="ma_team_color_id[]">' + team_color_id_options + '</select></td>';
+                var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\"></td>";
+                imgURL = myJson[length]['filename'].replace(" ", "%20");
 
-            var colors_select="";
-            var select_hex_code_bg = "";
-            $.each(test, function(entryIndex, entry) {
-                var color = myJson[length]['default_color'];
-                if(color == entry['color_code']){
-                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+" selected>"+entry['name']+"</option>";
-                    select_hex_code_bg = entry['hex_code'];
-                } else {
-                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+">"+entry['name']+"</option>";
+                var layerName = "";
+
+                if (myJson[length]['layer_name']) {
+                    layerName = myJson[length]['layer_name'];
                 }
-            });
 
-            var colors = "<td>"
-            +"<select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\" style=\"background-color: #"+select_hex_code_bg+"; color: #fff;text-shadow: 1px 1px #000;\">"
-            +colors_select
-            +"</select></td>";
-            var remove = "<td><a class=\"btn btn-danger btn-xs btn-flat btn-remove-layer\">Remove</a></td>";
-            var close = "<tr>";
+                var layerNameCell = `
+                    <td>
+                        <input type="text" class="form-control ma-layer-name layer ` + length + `" name="ma_layer_name[]" value="` + layerName + `">
+                    </td>
+                `;
 
-            if(first_row_index == length) {
-                $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+close);
-            } else {
-                $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+remove+close);
+                var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #000;"><input type="hidden" class="default_img" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
+
+                var colors_select="";
+                var select_hex_code_bg = "";
+                $.each(test, function(entryIndex, entry) {
+                    var color = myJson[length]['default_color'];
+                    if(color == entry['color_code']){
+                        colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+" selected>"+entry['name']+"</option>";
+                        select_hex_code_bg = entry['hex_code'];
+                    } else {
+                        colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+">"+entry['name']+"</option>";
+                    }
+                });
+
+                var colors = "<td>"
+                +"<select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\" style=\"background-color: #"+select_hex_code_bg+"; color: #fff;text-shadow: 1px 1px #000;\">"
+                +colors_select
+                +"</select></td>";
+                var remove = "<td><a class=\"btn btn-danger btn-xs btn-flat btn-remove-layer\">Remove</a></td>";
+                var close = "<tr>";
+
+                if(first_row_index == length) {
+                    $('#layers-row-container').append(open + layer + layerNameCell + team_color_id + file + thumbnail + colors + close);
+                } else {
+                    $('#layers-row-container').append(open + layer + layerNameCell + team_color_id + file + thumbnail + colors + remove + close);
+                }
+
+                length--;
             }
-
-            length--;
         }
-    }
 
     $('select:not(:has(option))').attr('visible', false);
 
@@ -344,10 +393,16 @@ $(document).ready(function(){
             layers_properties[length]['default_color'] = {};
             layers_properties[length]['layer_number'] = {};
             layers_properties[length]['filename'] = {};
+            layers_properties[length]['layer_name'] = {};
 
             $(this).find('.ma-layer').removeClass().addClass("ma-layer");
             $(this).find('.ma-layer').addClass(thisLayer);
             $(this).find(layer_class).addClass('ma-layer');
+
+            $(this).find('.ma-layer-name').removeClass().addClass('ma-layer-name').addClass(thisLayer);
+            var layer_name_class = ".ma-layer-name.layer" + length;
+            $(this).find(layer_name_class).addClass('ma-layer-name');
+
 
             $(this).find('.ma-team-color-id').removeClass().addClass("ma-team-color-id");
             $(this).find('.ma-team-color-id').addClass(thisLayer);
@@ -374,10 +429,12 @@ $(document).ready(function(){
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
 
             layers_properties[length]['filename'] = $(this).find('.default_img').val();
-            if($(this).find(src_class).val()){
-            layers_properties[length]['filename'] = $(this).find(src_class).val();
 
-                }
+            if($(this).find(src_class).val()){
+                layers_properties[length]['filename'] = $(this).find(src_class).val();
+            }
+
+            layers_properties[length]['layer_name'] = $(this).find(layer_name_class).val();
 
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 

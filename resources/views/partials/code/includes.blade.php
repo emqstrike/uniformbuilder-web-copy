@@ -50,3 +50,5 @@
 <script src="{{$asset_storage}}/codyhouse-content-filter/js/jquery.mixitup.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/codyhouse-content-filter/js/main.js?v={{$asset_version}}"></script> <!-- Resource jQuery -->
 <!-- end CD content filter -->
+
+<script src="{{$asset_storage}}/parsley/dist/parsley.min.js?v={{$asset_version}}"></script>

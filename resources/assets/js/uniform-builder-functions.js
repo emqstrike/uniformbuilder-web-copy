@@ -27,27 +27,44 @@ $(document).ready(function() {
 
 	// feature flag checker
 	ub.funcs.betaFeaturesChecker = function (_flag, callback, legacy) {
-        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'))
-
+        var feature_flags = JSON.parse(localStorage.getItem('feature_flags'));
         var _flags = ['New PDF', 'New Filter'];
-        if (_.contains(_flags, _flag)) {
-            if(localStorage.getItem('beta_features') === 'true') {
-                var currentFeature = feature_flags.find(function(i) {return i.name === _flag;});
-                if (
-                    localStorage.getItem('beta_features') === 'true' &&
-                    currentFeature !== undefined &&
-                    currentFeature.name === _flag &&
-                    currentFeature.user_ids.includes(ub.user.id.toString())
-                ) {
-                    callback();
+        var current_user = JSON.parse(localStorage.getItem('current_logged_user'));
+
+        if (current_user === '5994') {
+            callback();
+            console.log('User ID:', current_user + ' now uses pdf service.');
+        } else {
+            if (_.contains(_flags, _flag)) {
+                if(localStorage.getItem('beta_features') === 'true') {
+                    var currentFeature = feature_flags.find(function(i) {return i.name === _flag;});
+                    if (
+                        localStorage.getItem('beta_features') === 'true' &&
+                        currentFeature !== undefined &&
+                        currentFeature.name === _flag &&
+                        currentFeature.user_ids.includes(ub.user.id.toString())
+                    ) {
+                        callback();
+                    } else {
+                        legacy();
+                    }
                 } else {
                     legacy();
                 }
-            } else {
-                legacy();
             }
         }
 
+    };
+
+    ub.funcs.removeBackMaterialOptions = function(sport) {
+        var materialOptions = ub.current_material.materials_options;
+        var modifierLabels  = ub.data.modifierLabels;
+
+        if (sport === "Team Flag (Apparel)") {
+            ub.current_material.materials_options = _.filter(materialOptions, function(option) {
+                return option.perspective === 'front';
+            });
+        }
     };
 
 });

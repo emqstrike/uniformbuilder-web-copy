@@ -23,6 +23,21 @@ $(document).ready(function () {
             _names.push(_match);
         }
 
+        // This is use to return a material option that has `left`, or `right` and 'body' on the '_name' variable.
+        // example: `left_body_panel`,  `front_right_body_panel`
+        ub.data.bodyOnMaterialOption.hasBlockPattern(ub.config.blockPattern, function() {
+
+            if (_name.indexOf('left') > -1 && _name.indexOf('body') > -1) {
+                _match = _name.replace('left', 'right');
+                _names.push(_match);
+            }
+
+            if (_name.indexOf('right') > -1 && _name.indexOf('body') > -1) {
+                _match = _name.replace('right', 'left');
+                _names.push(_match);
+            }
+        });
+
         return _names;
 
     };

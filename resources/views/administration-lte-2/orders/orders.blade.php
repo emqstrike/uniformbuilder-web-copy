@@ -66,7 +66,9 @@
                                 <th>ID</th>
                                 <th>Order Code</th>
                                 <th>Client</th>
+                                <th>Brand</th>
                                 <th>PDF Link</th>
+                                <th>Order Items</th>
                                 <th>Submitted by User</th>
                                 <th id="select-filter">Test Order</th>
                                 <th>FOID</th>
@@ -90,11 +92,15 @@
                             <td class="td-order-id">{{ $order->id }}</td>
                             <td class="td-order-code">{{ $order->order_id }}</td>
                             <td class="td-order-client">{{ $order->client }}</td>
+                            <td>{{ ucwords($order->brand) }}</td>
 
                             <td class="td-order-pdf-link">
                                 <center>
                                     <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
                                 </center>
+                            </td>
+                            <td class="td-order-items">
+                                <a href="#" class="btn btn-default btn-sm btn-flat view-order-items" data-order="{{ $order->order_id }}">View</a>
                             </td>
 
                             <td class="td-order-user-id">
@@ -108,7 +114,7 @@
                                 <td class="td-assigned-sales-rep" data-foid="{{ $order->factory_order_id }}" data-sales-rep-id="{{ $order->sent_to_rep_qx_id }}" data-sales-rep-email="{{ $order->rep_email }}">
                             @else
                                 <td class="td-assigned-sales-rep">
-                            @endif   
+                            @endif
                                 @if ((! $order->factory_order_id) && (is_null($order->deleted_at)))
                                     <select class="form-control rep-id" name="rep-id" @if ($order->status == 'pending') disabled="disabled" @endif>
                                         <option value="0">Select Sales Rep</option>
@@ -125,7 +131,7 @@
                                     Pending
                                 @else
                                     New
-                                @endif    
+                                @endif
                             </td>
 
                             <td class="td-order-date-submitted">{{ $order->created_at }}</td>
@@ -142,6 +148,8 @@
 
                                         <button class="btn btn-sm btn-flat btn-danger delete-order" data-order-id="{{ $order->id }}">Delete</button>
                                     @endif
+                                @elseif ($order->factory_order_id != null && Session::get('role') == 'qa')
+                                    <button class="btn btn-sm btn-flat btn-warning reset-foid" data-order-id="{{ $order->id }}">Reset FOID</button>
                                 @endif
                             </td>
                         </tr>
@@ -180,6 +188,7 @@
 
     @include('administration-lte-2.orders.modal.delete-order')
     @include('administration-lte-2.orders.modal.note')
+    @include('administration-lte-2.orders.modal.view-order-items')
 @endsection
 
 @section('scripts')
@@ -189,8 +198,8 @@
 
     <script>
         $(document).ready(function() {
-            getQXSalesReps(function(sales_reps) { 
-                window.sales_reps = sales_reps; 
+            getQXSalesReps(function(sales_reps) {
+                window.sales_reps = sales_reps;
             });
 
             $('.data-table').DataTable({
@@ -201,7 +210,6 @@
                 "info": true,
                 "autoWidth": true,
                 drawCallback: function () {
-                    console.log( 'Table redrawn ' );
                     $('.rep-id').html('<option value="0">Select Sales Rep</option>');
                     $('.rep-id').append(window.sales_reps_dd);
 
@@ -209,12 +217,12 @@
                         var foid = $(this).data('foid');
                         var salesRepEmail = $(this).data('sales-rep-email');
                         var salesRepID = $(this).data('sales-rep-id');
-                 
+
                         if ((foid != undefined) && (salesRepEmail == "")) {
-                            var result = window.sales_reps.filter(salesRep => { 
-                                return salesRep.RepID === salesRepID;  
+                            var result = window.sales_reps.filter(salesRep => {
+                                return salesRep.RepID === salesRepID;
                             });
-                            
+
                             if (result.length > 0) {
                                 $(this).text(result[0].UserID);
                             }
@@ -224,7 +232,7 @@
                 initComplete: function () {
                     this.api().columns('#select-filter').every( function () {
                         var column = this;
-                        
+
                         var select = $(`<select><option value=""></option></select>`).appendTo($(column.footer()).empty())
                         .on('change', function() {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -252,16 +260,16 @@
             window.order_code = null;
             window.order_info = null;
 
-            getColors(function(colors) { 
-                window.colors = colors; 
+            getColors(function(colors) {
+                window.colors = colors;
             });
 
-            getPatterns(function(patterns) { 
-                window.patterns = patterns; 
+            getPatterns(function(patterns) {
+                window.patterns = patterns;
             });
 
-            getSizingConfig(function(item_sizes) { 
-                window.item_sizes = item_sizes; 
+            getSizingConfig(function(item_sizes) {
+                window.item_sizes = item_sizes;
             });
 
             var reps_elem = "";
@@ -275,13 +283,16 @@
                 }
             });
 
-            var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) { 
-                return o.LastName.toLowerCase(); 
+            var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) {
+                return o.LastName.toLowerCase();
             });
 
             _.each(asc_unique_active_sales_reps, function(rep) {
                 reps_elem +=    `<option value=`+rep.RepID+`> ` + rep.LastName + `, ` + rep.FirstName + ` (`+ rep.RepID + `) --- ` + rep.UserID + `</option>`;
             });
+
+            reps_elem += `<option value='1848'>TESTING RCH 1848</option>`;
+            reps_elem += `<option value='1717'>LIVE RCH 1717</option>`;
 
             window.sales_reps_dd = reps_elem;
 
@@ -329,9 +340,6 @@
                     ste_button.attr("disabled", true);
                     checkbox.attr("disabled", true).prop('checked', false);
                 }
-
-                console.log('OPTION SELECTED');
-                console.log(option_selected);
             });
 
             $(document).on('click', '.view-pdf', function(e) {
@@ -365,8 +373,8 @@
                     var order_id = $(this).parent().parent().find('.td-order-id').text();
 
                     window.order_id = order_id;
-                    getOrderDetails(function(order) { 
-                        window.order = order; 
+                    getOrderDetails(function(order) {
+                        window.order = order;
                     });
 
                     ship_contact = window.order.ship_contact_person;
@@ -385,19 +393,10 @@
                     billing_email = window.order.bill_email;
                     billing_phone = window.order.bill_phone;
 
-                    console.log('WINDOW ORDER');
-                    console.log(window.order);
-
                     window.order_parts = null;
-                    getOrderParts(function(order_parts) { 
-                        window.order_parts = order_parts; 
+                    getOrderParts(function(order_parts) {
+                        window.order_parts = order_parts;
                     });
-
-                    console.log(' ( ( ( WINDOW api_order_id ) ) ) ');
-                    console.log(api_order_id);
-
-                    console.log(' ( ( ( WINDOW order_parts ) ) ) ');
-                    console.log(window.order_parts);
 
                     function getOrderParts(callback) {
                         var order_parts;
@@ -418,13 +417,10 @@
                         });
                     }
 
-                    window.order_parts.forEach(function(entry) {
+                    window.order_parts.forEach(function(entry, entryIndex) {
                         bcx = JSON.parse(entry.builder_customizations);
                         window.customizer_material_id = null;
                         window.pa_id = entry.id;
-
-                        console.log("BCX > > > ");
-                        console.log(bcx)
 
                         if ('material_id' in bcx.upper) {
                             window.customizer_material_id = bcx.upper.material_id;
@@ -432,20 +428,15 @@
                             window.customizer_material_id = bcx.lower.material_id;
                         }
 
-                        console.log("BUILDER CUSTOMIZATION bcx");
-                        console.log(bcx);
-                        console.log("CUSTOMIZER MATERIAL ID");
-                        console.log(window.customizer_material_id);
-
                         var teamcolors = bcx.team_colors;
 
                         var pdfOrderFormValue = bcx.pdfOrderForm;
-                        var s3regex = 's3-us-west-2.amazonaws.com';
-                        var found = pdfOrderFormValue.match(s3regex);
-
-                        if (found == null) {
+                       
+                       if (! pdfOrderFormValue.startsWith('https')) {
                             pdfOrderFormValue = customizer_host + pdfOrderFormValue;
                         }
+
+                        pdfOrderFormValue = pdfOrderFormValue.replace("///", "/");
 
                         entry.orderPart = {
                             "ID" : entry.id,
@@ -453,8 +444,8 @@
                             "DesignSheet" : pdfOrderFormValue
                         };
 
-                        getMaterial(function(material) { 
-                            window.material = material; 
+                        getMaterial(function(material) {
+                            window.material = material;
                         });
 
                         function getMaterial(callback) {
@@ -525,10 +516,8 @@
                             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
                         }
 
-                        window.pa = null;
-
-                        getPAConfigs(function(parts_aliases) { 
-                            window.pa = parts_aliases; 
+                        getPAConfigs(function(parts_aliases) {
+                            window.pa = parts_aliases;
                         });
 
                         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
@@ -556,12 +545,11 @@
                         var questions_valid = applyConfigs(api_order_id);
 
                         entry.orderQuestions = {
-                            "OrderQuestion": questions_valid
+                            "OrderQuestion": questions_valid[entryIndex]
                         };
 
                         var z = JSON.parse(entry.roster);
-                        console.log("Z>>>");
-                        console.log(z);
+                        var rosters = [];
 
                         z.forEach(function(en) {
                             ctr = parseInt(en.Quantity);
@@ -571,15 +559,18 @@
 
                             for (i = 0; i<ctr; i++) {
                                 try {
-                                    window.roster.push(en);
+                                    rosters.push(en);
                                 } catch(err) {
                                     console.log(err.message);
                                 }
                             }
                         });
 
-                        console.log('WINDOW ROSTER');
-                        console.log(window.roster);
+                        window.roster.push({
+                            orderItemId: entry.id,
+                            roster: rosters
+                        });
+    
                         delete entry.builder_customizations;
                         delete entry.description;
                         delete entry.factory_order_id;
@@ -619,78 +610,83 @@
                         "TeamName": "Wildcats"
                     };
 
-                    console.log("WINDOW MATERIAL");
-                    console.log(window.material);
-
                     // SAVED
-                    var x = _.find(window.item_sizes, function(e) { 
-                        return e.id == window.material.qx_sizing_config; 
+                    var x = _.find(window.item_sizes, function(e) {
+                        return e.id == window.material.qx_sizing_config;
                     });
 
-                    console.log("X PROPERTIES");
-                    console.log(x);
+
                     window.test_size_data = JSON.parse(x.properties);
 
                     var order_items_split = splitRosterToQXItems();
                     var order_parts_split = [];
 
-                    console.log("Window Material");
-                    console.log(window.material);
-
                     order_items_split.forEach(function(entry, i) {
-                        var x = JSON.parse(JSON.stringify(window.order_parts[0]));
-                        x.orderPart.ItemID = entry.qx_item_id;
+                        if (entry.roster.length > 0) {
+                            window.order_parts.forEach((orderPart) => {
+                                if (orderPart.orderPart.ID == entry.order_item_id) {
+                                    var x = {
+                                        additional_attachments: orderPart.additional_attachments,
+                                        attached_files: orderPart.attached_files,
+                                        customizer_style_id: orderPart.customizer_style_id,
+                                        notes: orderPart.notes,
+                                        orderPart: {
+                                            ID: orderPart.orderPart.ID,
+                                            Description: orderPart.orderPart.Description,
+                                            DesignSheet: orderPart.orderPart.DesignSheet,
+                                            ItemID: entry.qx_item_id,
+                                        },
+                                        orderQuestions: orderPart.orderQuestions,
+                                    };
 
-                        if (item_id_override ) {
-                            x.orderPart.ItemID = item_id_override;
-                        }
-
-                        var roster_sizes = _.map(entry.roster, function(e) { 
-                            return e.size; 
-                        });
-
-                        var roster = [];
-                        window.roster_formatted = false;
-
-                        socks_uniform_category_ids = ["17","33"];
-
-                        window.roster.forEach(function(y, j) {
-                            if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
-                                if (y.Size == "3-5") {
-                                    y.Size = "Kids (3-5)";
-                                } else if (y.Size == "5-7") {
-                                    y.Size = "Youth (5-7)";
-                                } else if (y.Size == "8-12") {
-                                    y.Size = "Adult (8-12)";
-                                } else if (y.Size == "13-14") {
-                                    y.Size = "XL (13-14)";
-                                }
-                                roster.push(y);
-                            } else {
-                                if (_.contains(roster_sizes, y.Size)) {
-                                    ctr = roster_sizes.length;
-                                    console.log('Y');
-                                    console.log(y);
-
-                                    // add size prefix for socks
-                                    if (y.Size == "3-5") {
-                                        y.Size = "Kids (3-5)";
-                                    } else if (y.Size == "5-7") {
-                                        y.Size = "Youth (5-7)";
-                                    } else if (y.Size == "8-12") {
-                                        y.Size = "Adult (8-12)";
-                                    } else if (y.Size == "13-14") {
-                                        y.Size = "XL (13-14)";
+                                    if (item_id_override ) {
+                                        x.orderPart.ItemID = item_id_override;
                                     }
 
-                                    roster.push(y);
-                                }
-                            }
-                        });
+                                    var roster_sizes = _.map(entry.roster, function(e) { 
+                                        return e.size; 
+                                    });
+                                    
+                                    var roster = [];
 
-                        if (roster.length > 0) {
-                            x.orderItems = roster;
-                            order_parts_split.push(x);
+                                    window.roster_formatted = false;
+
+                                    socks_uniform_category_ids = ["17","33"];
+
+                                    entry.roster.forEach(function(y, j) {
+                                        if (! socks_uniform_category_ids.indexOf(window.material.uniform_category_id)) {
+                                            if (y.Size == "3-5") {
+                                                y.Size = "Kids (3-5)";
+                                            } else if (y.Size == "5-7") {
+                                                y.Size = "Youth (5-7)";
+                                            } else if (y.Size == "8-12") {
+                                                y.Size = "Adult (8-12)";
+                                            } else if (y.Size == "13-14") {
+                                                y.Size = "XL (13-14)";
+                                            }
+                                            roster.push(y);
+                                        } else {
+                                            // add size prefix for socks
+                                            if (y.Size == "3-5") {
+                                                y.Size = "Kids (3-5)";
+                                            } else if (y.Size == "5-7") {
+                                                y.Size = "Youth (5-7)";
+                                            } else if (y.Size == "8-12") {
+                                                y.Size = "Adult (8-12)";
+                                            } else if (y.Size == "13-14") {
+                                                y.Size = "XL (13-14)";
+                                            }
+
+                                            roster.push(y);
+                                        }
+                                    });
+
+                                    if (roster.length > 0) {
+                                        x.orderItems = roster;
+                                        order_parts_split.push(x);
+                                    }
+                                }
+                            });
                         }
                     });
 
@@ -700,17 +696,10 @@
                     };
 
                     strResult = JSON.stringify(orderEntire);
-                    console.log('orderEntire>>>');
-                    console.log(orderEntire);
-                    console.log('strResult>>>');
-                    console.log(strResult);
 
                     // SEND ORDER TO EDIT
                     if (window.send_order) {
-                        console.log('window send order');
-
                         if (window.material.item_id !== undefined) {
-                            console.log('window material item_id is defined');
                             $.ajax({
                                 url: url,
                                 type: "POST",
@@ -727,9 +716,7 @@
                                         parts.push(orderEntire['orderParts'][index]['orderPart']);
                                     });
 
-                                    console.log('FACTORY ORDER ID >>>>>');
-                                    console.log(factory_order_id);
-                                    console.log(JSON.stringify(parts));
+
                                     updateFOID(order_id, factory_order_id, parts, rep_id); // UNCOMMENT
                                     document.location.reload(); // UNCOMMENT
                                 },
@@ -779,8 +766,8 @@
             }
 
             function applyConfigs(api_order_id) {
-                getOrderParts(function(order_parts) { 
-                    window.order_parts_b = order_parts; 
+                getOrderParts(function(order_parts) {
+                    window.order_parts_b = order_parts;
                 });
 
                 function getOrderParts(callback) {
@@ -809,258 +796,273 @@
                 var properties = JSON.parse(window.pa.properties);
                 var questions = [];
 
-                properties.forEach(function(entry) {
-                    console.log("entry part name");
-                    console.log(entry.part_name);
+                window.order_parts_b.forEach((_order_parts_b, index) => {
+                    questions.push([]);
 
-                    console.log("UNIFORM TYPE >>> ");
-                    console.log(type);
+                    properties.forEach(function(entry) {
+                        var question_id = parseInt(entry.part_questions);
+                        var value = null;
+                        var name = null;
+                        var color_code = null;
+                        var color_name = null;
+                        var color = null;
+                        var pattern = null;
+                        var builder_customizations = JSON.parse(window.order_parts_b[index]['builder_customizations']);
+                        var data_pushed = false;
 
-                    var question_id = parseInt(entry.part_questions);
-                    var value = null;
-                    var name = null;
-                    var color_code = null;
-                    var color_name = null;
-                    var color = null;
-                    var pattern = null;
-                    var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
-                    var data_pushed = false;
+                        // RESUME HERE
 
-                    // RESUME HERE
-                    console.log("[ builder_customizations ]");
-                    console.log(builder_customizations);
+                        if (entry.input_type == "Pattern") {
+                            try {
+                                pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
+                                value = pattern.replace(/[0-9]/g, '');
+                            } catch(err) {
 
-                    if (entry.input_type == "Pattern") {
-                        try {
-                            pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
-                            value = pattern.replace(/[0-9]/g, '');
-                        } catch(err) {
-
-                        }
-                    } else if (entry.input_type == "Color") {
-                        console.log('Color block');
-
-                        try {
-                            color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
-
-                            if (color_name == "Charcoal Grey") {
-                                color_name = "Charcoal Gray";
                             }
+                        } else if (entry.input_type == "Color") {
 
-                            value = color_name + " " + "(" + color_code + ")";
+                            try {
+                                brand = builder_customizations[type][entry.part_name]['colorObj']['brand'];
 
-                            console.log('Color Value:');
-                            console.log(value);
-                        } catch(err) {
-                            console.log('Error in Color block !');
-                            console.log(err.message);
-                        }
-                    } else if (entry.input_type == "Material") {
-                        try {
-                            value = entry.edit_part_value;
-                        } catch(err) {
+                                if (brand.toLowerCase() == 'richardson') {
+                                    var color_name = builder_customizations[type][entry.part_name]['colorObj']['alias'];
+                                    color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code_alias'];
 
-                        }
-                    } else if (entry.input_type == "Team_Color") {
-                        var idx = 0;
+                                    value = color_name + "-" + color_code;
+                                } else {
+                                    color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                                    color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
 
-                        if (entry.part_questions == "347") {
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "348") {
-                            idx = 1;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "349") {
-                            idx = 2;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "350") {
-                            idx = 3;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "465") {
-                            idx = 4;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        } else if (entry.part_questions == "466") {
-                            idx = 5;
-                            value = getQuestionColorValue(builder_customizations, idx);
-                        }
-                    } else if (entry.input_type == "Sock_Color") {
-                        var idx = 0;
-                        var no_translation = ["260", "261", "262", "406"];
+                                    if (color_name == "Charcoal Grey") {
+                                        color_name = "Charcoal Gray";
+                                    }
 
-                        try {
-                            color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+                                    value = color_name + " " + "(" + color_code + ")";
+                                }
+                            } catch(err) {
+                            }
+                        } else if (entry.input_type == "Material") {
+                            try {
+                                value = entry.edit_part_value;
+                            } catch(err) {
 
-                            if (! no_translation.indexOf(entry.part_questions)) {
-                                value = translateToSocksColor(color_name, color_code);
+                            }
+                        } else if (entry.input_type == "Team_Color") {
+                            var idx = 0;
+
+                            if (entry.part_questions == "347") {
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "348") {
+                                idx = 1;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "349") {
+                                idx = 2;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "350") {
+                                idx = 3;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "465") {
+                                idx = 4;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            } else if (entry.part_questions == "466") {
+                                idx = 5;
+                                value = getQuestionColorValue(builder_customizations, idx);
+                            }
+                        } else if (entry.input_type == "Sock_Color") {
+                            var idx = 0;
+                            var no_translation = ["260", "261", "262", "406"];
+
+                            try {
+                                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                                if (! no_translation.indexOf(entry.part_questions)) {
+                                    value = translateToSocksColor(color_name, color_code);
+                                } else {
+                                    value = color_name + " " + "(" + color_code + ")";
+                                }
+                            } catch(err) {
+                            }
+                        } else if (entry.input_type == "Random_Feed") {
+                            var idx = 0;
+
+                            if (builder_customizations['randomFeeds'] > 0) {
+                                if (builder_customizations['randomFeeds']['Top Welt'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 433,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Arch'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Arch']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 430,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Toe'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Toe']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 429,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Heel'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Heel']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 428,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Padding'] != undefined ) {
+                                    var z = builder_customizations['randomFeeds']['Padding']['layers'];
+
+                                    if (z.length > 1 ) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 431,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
+
+                                if (builder_customizations['randomFeeds']['Body'] != undefined) {
+                                    var z = builder_customizations['randomFeeds']['Body']['layers'];
+
+                                    if (z.length > 1) {
+                                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                                        questions.push({
+                                            "QuestionID" : 432,
+                                            "Value" : val2
+                                        });
+                                        data_pushed = true;
+                                    }
+                                }
                             } else {
-                                value = color_name + " " + "(" + color_code + ")";
-                            }
-                        } catch(err) {
-                        }
-                    } else if (entry.input_type == "Random_Feed") {
-                        var idx = 0;
+                                blankRandomFeeds = [{
+                                    "QuestionID" : 428,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 429,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 430,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 431,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 432,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                },{
+                                    "QuestionID" : 433,
+                                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                                }];
 
-                        if (builder_customizations['randomFeeds'] > 0) {
-                            if (builder_customizations['randomFeeds']['Top Welt'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+                                blankRandomFeeds.forEach(function(entry) {
+                                    questions.push(entry);
+                                });
 
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 433,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Arch'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Arch']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 430,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
+                                data_pushed = true;
                             }
 
-                            if (builder_customizations['randomFeeds']['Toe'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Toe']['layers'];
+                            try {
+                                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
 
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 429,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
+                                value = translateToSocksColor(color_name, color_code);
+                            } catch(err) {
+
                             }
-
-                            if (builder_customizations['randomFeeds']['Heel'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Heel']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 428,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Padding'] != undefined ) {
-                                var z = builder_customizations['randomFeeds']['Padding']['layers'];
-
-                                if (z.length > 1 ) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 431,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-
-                            if (builder_customizations['randomFeeds']['Body'] != undefined) {
-                                var z = builder_customizations['randomFeeds']['Body']['layers'];
-
-                                if (z.length > 1) {
-                                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                                    questions.push({
-                                        "QuestionID" : 432,
-                                        "Value" : val2
-                                    });
-                                    data_pushed = true;
-                                }
-                            }
-                        } else {
-                            blankRandomFeeds = [{
-                                "QuestionID" : 428,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 429,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 430,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 431,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 432,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            },{
-                                "QuestionID" : 433,
-                                "Value" : '(Choose Color If Random Feed Is Desired)'
-                            }];
-
-                            blankRandomFeeds.forEach(function(entry) {
-                                questions.push(entry);
-                            });
-
-                            data_pushed = true;
                         }
 
-                        try {
-                            color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
-                            color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+                        if (data_pushed == false) {
+                            var data = {
+                                "QuestionID" : question_id,
+                                "Value" : value
+                            };
 
-                            value = translateToSocksColor(color_name, color_code);
-                        } catch(err) {
-
+                            questions[index].push(data);
                         }
-                    }
-
-                    if (data_pushed == false) {
-                        var data = {
-                            "QuestionID" : question_id,
-                            "Value" : value
-                        };
-
-                        questions.push(data);
-                    }
+                    });
                 });
 
-                questions = _.uniq(questions, function(item, key, a) {
-                    return item.QuestionID;
+                var _questions = [];
+
+                questions.forEach((question) => {
+                    question = _.uniq(question, function(item, key, a) {
+                        return item.QuestionID;
+                    });
+
+                    _questions.push(question);
                 });
 
-                return questions;
+                return _questions;
             }
 
             function splitRosterToQXItems() {
-                var grouped = _.groupBy(window.test_size_data, function(e) {
-                  return e.qx_item_id;
-                });
-
                 var items = [];
 
-                for (var propt in grouped) {
-                    items.push({
-                        'qx_item_id' : propt,
-                        'roster' : []
-                    });
-                }
-
-                window.roster.forEach(function(entry) {
-                    var size = entry.Size;
-
-                    var res = _.find(window.test_size_data, function(e) { 
-                        return e.size == size; 
+                window.roster.forEach(function(roster) {
+                    var grouped = _.groupBy(window.test_size_data, function(e) {
+                        return e.qx_item_id;
                     });
 
-                    var qx_item_id = res['qx_item_id'];
+                    for (var propt in grouped) {
+                        items.push({
+                            'order_item_id': roster.orderItemId,
+                            'qx_item_id' : propt,
+                            'roster' : []
+                        });
+                    }
 
-                    items.forEach(function(e) {
-                        if (e.qx_item_id == qx_item_id) {
-                            e.roster.push(res);
-                        }
+                    items.forEach((e) => {
+                        roster.roster.forEach((entry) => {
+                            var size = entry.Size;
+
+                            var res = _.find(window.test_size_data, function(e) { 
+                                return e.size == size; 
+                            });
+
+                            var qx_item_id = res['qx_item_id'];
+
+                            if ((e.qx_item_id == qx_item_id) && (e.order_item_id == roster.orderItemId)) {
+                                var _roster = {
+                                    size: res.size,
+                                    qx_item_id: res.qx_item_id,
+                                    Number: entry.Number,
+                                    Name: entry.Name
+                                };
+                                
+                                e.roster.push(_roster);
+                            }
+                        });
                     });
                 });
 
@@ -1176,9 +1178,6 @@
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response) {
                         if (response.success) {
-                            console.log('UPDATED FOID')
-                            console.log(factory_order_id);
-
                             $.each(parts, function( index, value ) {
                                 value['factory_order_id'] = factory_order_id;
                             });
@@ -1345,12 +1344,12 @@
 
             $('.select-order-checkbox').change(function() {
                 var count = $(".select-order-checkbox:checked").length;
-                
-                if (count > 0) {
-                    $('.submit-selected-order-to-edit').attr('disabled', false);
-                } else {
-                    $('.submit-selected-order-to-edit').attr('disabled', true);
-                }
+
+                // if (count > 0) {
+                //     $('.submit-selected-order-to-edit').attr('disabled', false);
+                // } else {
+                //     $('.submit-selected-order-to-edit').attr('disabled', true);
+                // }
             });
 
             $('.submit-selected-order-to-edit').click(function() {
@@ -1379,11 +1378,76 @@
                         contentType: 'application/json',
                         headers: {"accessToken": atob(headerValue)},
                         success: function(response) {
-                            console.log(response);
                             location.reload();
                         }
                     });
                 }
+            });
+
+            $(document).on('click', '.reset-foid', function() {
+                var orderID = $(this).data('order-id');
+                var url = "//" + api_host + "/api/order/reset_foid";
+
+                var data = {
+                    id: orderID
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response) {
+                        if (response.success == true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.view-order-items', function () {
+                console.log($(this));
+                var modal = $('#view-order-items-modal');
+                var o_modal = modal.html();
+                modal.find('.modal-header h4').text('Order: ' + $(this).data('order'));
+                var table_body = modal.find('table tbody');
+
+                var url = '//' + api_host + '/api/ordersMinified/orderItems/'+ $(this).data('order');
+
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data) {
+                        var order_items = data['orderItems'];
+                        table_body.empty();
+                        _.each(order_items, function (item) {
+                            var revised = _.isEmpty(item.revisions) ? 'Original' : 'Revised';
+                            table_body.append(`
+                                <tr>
+                                    <td>`+item.id+`</td>
+                                    <td>`+item.order_id+`</td>
+                                    <td>`+item.factory_order_id+`</td>
+                                    <td>`+item.item_id+`</td>
+                                    <td> <a href="`+item.design_sheet+`" target="_blank" class="btn btn-default btn-xs btn-flat">View</a></td>
+                                    <td>`+revised+`</td>
+                                </tr>
+                            `);
+                        });
+                    }
+                }).then(function () {
+                    $('#view-order-items-modal').modal('show');
+
+                    $(document).on('hidden.bs.modal', function () {
+                        modal.html(o_modal);
+                    });     
+                });
             });
 
             

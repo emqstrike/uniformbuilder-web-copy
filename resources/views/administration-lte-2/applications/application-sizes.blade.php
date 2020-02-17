@@ -77,6 +77,7 @@
                             <th id="select-filter">Type</th>
                             <th id="select-filter">Uniform Appliction Type</th>
                             <th id="select-filter">Brand</th>
+                            <th id="select-filter">Size Category</th>
                             <th>Active</th>
                             <th>Actions</th>
                         </tr>
@@ -94,6 +95,7 @@
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
+                            <td class="td-size-category col-md-1">{{ $size->size_category }}</td>
                             <td>
                                 <div class="onoffswitch">
                                     <label class="switch">
@@ -204,11 +206,22 @@ $(document).ready(function(){
     $('.sport').trigger('change');
 
     var z = window.block_patterns;
-    $(document).on('change', '#block_pattern', function() {
+
+    $('.block-pattern').select2({
+        placeholder: "Select block pattern",
+        multiple: true,
+        allowClear: true
+    }).on('select2:select', function(event) {
+        var bps = $(this).val();
+        updateNeckOptionDropdown(bps, event);
+    }).on('select2:unselect', function(event) {
+        var bps = $(this).val();
+        updateNeckOptionDropdown(bps, event);
+    });
+
+    function updateNeckOptionDropdown(bps, event) {
         var options = [];
-        var bps = $('#block_pattern_value').val();
-        var bps_name = bps.toString().split(",");
-            bps_name.forEach( function(item_name) {
+            bps.forEach( function(item_name) {
                 var name = item_name;
                 $.each(z, function(i, item) {
                    if( item.name == name ){
@@ -223,11 +236,28 @@ $(document).ready(function(){
 
         var y = _.sortBy(_.uniq(options));
         $( '#neck_option' ).html('');
+
         y.forEach(function(i) {
             $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
-        $('.material-neck-option').trigger('change');
-    });
+
+        var neckOption = $('#neck_option_value').val();
+
+        if (neckOption) {
+            neckOption = neckOption.split(",");
+
+            if (event.type == 'select2:select') {
+                $('#neck_option').val(neckOption);
+            } else if (event.type == 'select2:unselect') {
+                $('#neck_option').val(neckOption);
+                $('#neck_option_value').val($('#neck_option').val());
+            }
+
+            if (event == 'edit') {
+                $('#neck_option').val(neckOption);
+            }
+        }
+    }
 
     if($('#neck_option_value').val()){
         var bpos = JSON.parse($('#neck_option_value').val());
@@ -248,11 +278,7 @@ $(document).ready(function(){
     if($('#block_pattern_value').val()){
         var bp = JSON.parse($('#block_pattern_value').val());
     }
-    $('.block-pattern').select2({
-        placeholder: "Select block pattern",
-        multiple: true,
-        allowClear: true
-    });
+    
 
     $(".block-pattern").change(function() {
         $('#block_pattern_value').val($(this).val());
@@ -325,6 +351,7 @@ $(document).ready(function(){
         $('.input-size-type').val('');
         $('.uniform-application-type').val('');
         $('.input-brand').val('');
+        $('.input-size-category').val('');
         $('#properties').val('');
         $('.properties-content').empty();
         $('.submit-new-record').removeAttr('disabled');
@@ -335,6 +362,8 @@ $(document).ready(function(){
         window.modal_action = 'add';
         $('.modal-title').text('Add Application Sizes Information');
         $('.submit-new-record').text('Add Record');
+        $('.input-size-category').val("all");
+
     });
 
     $(document).on('click', '.edit-record', function(e) {
@@ -353,6 +382,7 @@ $(document).ready(function(){
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
         data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
+        data.size_category = $(this).parent().parent().parent().find('.td-size-category').text();
         var props = $(this).parent().parent().parent().find('.td-size-props').val();
         if (props.length > 1) {
             data.properties = JSON.parse(props);
@@ -369,10 +399,22 @@ $(document).ready(function(){
         $('.input-size-type').val(data.type);
         $('.uniform-application-type').val(data.uniform_application_type);
         $('.input-brand').val(data.brand);
+
+        if(data.size_category == "") {
+            $('.input-size-category').val("all");
+        }else{
+            $('.input-size-category').val(data.size_category);
+        }
+      
         $('#properties').val(data.properties);
         if (data.properties != null) {
             loadConfigurations(data.properties);
         }
+
+        var blockPatterns = data.block_pattern.split(",");
+        $('#neck_option_value').val(data.neck_option);
+        updateNeckOptionDropdown(blockPatterns, 'edit');
+        
     });
 
     $("#myForm").submit(function(e) {
@@ -387,6 +429,7 @@ $(document).ready(function(){
         data.type = $('.input-size-type').find(":selected").val();
         data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
         data.brand = $('.input-brand').find(":selected").val();
+        data.size_category = $('.input-size-category').find(":selected").val();
         data.properties = $('#properties').val();
 
         if(window.modal_action == 'add'){

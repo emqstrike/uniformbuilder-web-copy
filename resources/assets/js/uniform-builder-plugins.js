@@ -1368,7 +1368,9 @@
             var elements = "";
 
             // add embellishment custom scale in ub.styleValues.embellishmentScales
-            if (settings_obj.application_type === 'embellishments') { ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); }
+            if (settings_obj.application_type === 'embellishments') { 
+                ub.funcs.addAppCustomScaleOnEmbellishmentScalesArray(settings_obj, application.id); 
+            }
 
             var _uniformCategory = ub.current_material.material.uniform_category;
 
@@ -1391,12 +1393,21 @@
 
                 var _result;
 
-                if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+                // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+                if (typeof ub.config.savedDesignInfo !== "object") {
+
                     _result = ub.funcs.processScale(settings_obj);
+
                 } else {
+
                     _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+
+                    // when uniform is rendered in the saveDesign;
+                    // retain the embellishment's custom scale that is set on the backend; [for twills]
+                    if (ub.config.uniform_application_type === "tackle_twill") { _result = ub.funcs.processScale(settings_obj); }
+
                 }
-                
+
                 if(typeof _result === "undefined") {
 
                     // Use Defaults if theres no record 
@@ -1724,7 +1735,7 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
-                if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
+                if (ub.data.uniformWithPipings.hasPipings(ub.config.sport)) {
 
                     // Additional vertical padding so that tailsweeps wont be clipped
                     _padding = 150;
@@ -3071,6 +3082,10 @@
             if (typeof _applicationSettings.pattern_settings !== "undefined") {
 
                 _container.position.y = _applicationSettings.pattern_settings.position.y;
+
+                if (typeof ub.config.savedDesignInfo !== 'object') {
+                    _container.position.y = _calibration + _applicationSettings.pattern_settings.position.y;
+                }
 
             } else {
 

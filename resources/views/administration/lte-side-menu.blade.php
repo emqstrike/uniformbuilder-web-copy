@@ -265,8 +265,8 @@
           </a>
           </li>
            <li  data-step="17" data-intro="For User Orders.">
-            <a href="/administration/user/orders/0">
-          <i class="glyphicon glyphicon-user"></i> <span>User Orders</span>
+            <a href="/administration/v1-0/user/transactions">
+          <i class="glyphicon glyphicon-user"></i> <span>User Transactions</span>
           </a>
           </li>
         </ul>
@@ -347,6 +347,11 @@
        <li  data-step="17" data-intro="View individual styles info">
         <a href="/administration/styles_indexes">
           <i class="fa fa-list-ul"></i> <span>Styles Indexes</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/qx7_style_requests">
+          <i class="fa fa-file-text-o"></i> <span>Qx7 Style Requests</span>
         </a>
       </li>
     </ul>

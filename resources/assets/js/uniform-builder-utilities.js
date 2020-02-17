@@ -143,6 +143,19 @@ $(document).ready(function() {
 
             return decodedString;
 
+        },
+
+        // encode(decode) html text into html entity
+        decodeHtmlEntity: function(string) {
+            return string.replace(/&#(\d+);/g, function(match, dec) {
+                return String.fromCharCode(dec);
+            });
+        },
+
+        maxLengthCheck: function (object) {
+            if (object.value.length > object.max.length) {
+                object.value = object.value.slice(0, object.max.length)
+            }
         }
 
     };

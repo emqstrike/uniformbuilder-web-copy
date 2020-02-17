@@ -56,6 +56,7 @@ $(document).ready(function() {
                 last_name: "Abogadil",
                 cfirst_name: "Jared",
                 clast_name: "Blanchard",
+                initial: true,
 
             },
             {
@@ -121,13 +122,7 @@ $(document).ready(function() {
 
     };
 
-    window.is.getDefaultEmbellishment = function () {
-
-        var defaultEmbellishement
-
-    }
-
-    window.is.loadDesigner = function (designID, applicationID) {
+    window.is.loadDesigner = function (designID, applicationID, _hasConflict, _isCalledRecursively) {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
@@ -228,20 +223,36 @@ $(document).ready(function() {
               "keyboard"  : true,
               "show"      : false                // ensure the modal is shown immediately
         });
+        
+        if (_hasConflict) {
+            $('#isModal').modal('show');
 
-        var _isModalVisible = $('#isModal').is(':visible');
+            if (_isCalledRecursively) {
+                ub.funcs.getDesignDetails(designID, applicationID, function() {
+                    var _hasConflict = true;
+                    var _embeddedDesignerHTML = $('#embeddedDesigner');
+                        _embeddedDesignerHTML.html("");
 
-        if (_isModalVisible) {
-
-           window.is.closeDesignStudio();
-
+                    is.loadDesigner(designID, applicationID, _hasConflict);
+                });
+            }
         } else {
 
-            $('#isModal').modal('show');
-            ub.status.render.stopRendering();
+            var _isModalVisible = $('#isModal').is(':visible');
 
+            if (_isModalVisible) {
+
+               window.is.closeDesignStudio();
+
+            } else {
+
+                $('#isModal').modal('show');
+                ub.status.render.stopRendering();
+
+            }
         }
 
+        ub.isMessageIsCalled = true;
     };
 
     window.is.loadDesignerUpload = function (designID, applicationID) {
@@ -370,6 +381,11 @@ $(document).ready(function() {
 
     window.is.closeDesignStudio = function () {
 
+        ub.funcs.hideConflictColorsInfo();
+        ub.funcs.disableSubmitOnUniforms();
+        ub.funcs.activateEmbellishmentsConflictInfo();
+        ub.funcs.removeEmbellishmentsDefault();
+
         $('#isModal').modal('hide');
         $('div#embeddedDesigner').html('');
 
@@ -448,29 +464,38 @@ $(document).ready(function() {
     }
 
     window.is.isMessage = function (designID, applicationID, skipCreate) {
+        if (ub.isMessageIsCalled) {
+            
+            ub.data.embellismentDetails = {
+                designSummary: {},
+                designSummaryLoaded: false,
+                designDetails: {},
+                designDetailsLoaded: false,
 
-        ub.data.embellismentDetails = {
-            designSummary: {},
-            designSummaryLoaded: false, 
-            designDetails: {},
-            designDetailsLoaded: false,
+                setStatus: function (varName, value) {
 
-            setStatus: function (varName, value) {
+                    ub.data.embellismentDetails[varName] = value;
+                    ub.data.embellismentDetails[varName + 'Loaded'] = true;
 
-                ub.data.embellismentDetails[varName] = value;
-                ub.data.embellismentDetails[varName + 'Loaded'] = true;
-
-                if (typeof skipCreate === "undefined") {
-                    if (this.designSummaryLoaded && this.designDetailsLoaded) { ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails); }
+                    if (typeof skipCreate === "undefined") {
+                        if (this.designSummaryLoaded && this.designDetailsLoaded) { ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails); }
+                    }
+                    
                 }
-                
+
             }
 
-        }
+            ub.funcs.getDesignSummary(designID, applicationID);
+            ub.funcs.getDesignDetails(designID, applicationID, function() {
+                var _hasConflict = true;
+                var _embeddedDesignerHTML = $('#embeddedDesigner');
+                    _embeddedDesignerHTML.html("");
 
-        window.is.closeDesignStudio();
-        ub.funcs.getDesignSummary(designID, applicationID);
-        ub.funcs.getDesignDetails(designID, applicationID);
+                is.loadDesigner(designID, applicationID, _hasConflict);
+            });
+
+            ub.isMessageIsCalled = false;
+        }
 
     }
 
@@ -568,7 +593,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.getDesignDetails = function (designID, applicationID) {
+    ub.funcs.getDesignDetails = function (designID, applicationID, cb) {
 
         var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignDetail?designId=' + designID + '&Format=JSON';
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
@@ -584,13 +609,167 @@ $(document).ready(function() {
                 ub.data.embellismentDetails.setStatus('designDetails', response);
 
                 if (typeof _settingsObject.embellishment === "undefined") { _settingsObject.embellishment = {}; }
-
+                
                 _settingsObject.embellishment.design_details = response;
+                _settingsObject.embellishment.initial = true;
+
+                var response = ub.funcs.hasConflict(response);
+
+                if (response._hasConflict) {
+                    cb();
+                    
+                    var _header = 'Conflict Colors';
+                    var _notes = 'Note: The following colors are not available in the Prolook color set. Please use the available colors.'
+                    var _class = 'text-center';
+                    var _colors = response._conflictColors;
+                    var _data = {
+                        colors: _colors,
+                        header: _header,
+                        notes: _notes,
+                        class: _class
+                    }
+                    var _html = ub.utilities.buildTemplateString('#m-embellishment-sidebar-conflict-colors', _data);
+
+                    ub.funcs.showConflictColorsInfo(_html);
+                } else {
+                    window.is.closeDesignStudio();
+                }
 
             }
             
         });
 
+    }
+
+    ub.funcs.embellishmentsWithColorConflict = function () {
+        var embellishmentsWithColorConflict = [];
+        var embellishments = _.filter(ub.current_material.settings.applications, {
+                                application_type: 'embellishments', 
+                                status: 'on'});
+
+        _.each(embellishments, function(e) {
+            var embellishment = e.embellishment;
+            var designDetails = embellishment.design_details;
+
+            if (typeof designDetails !== 'undefined'){
+                var hasConflictColor = designDetails.hasColorConflict;
+                var applicationCode = e.code;
+
+                if (hasConflictColor) {
+                    var hasConflict = ub.funcs.hasConflict(designDetails);
+                    var conflictColors = hasConflict._conflictColors;
+                        conflictColors = _.pluck(conflictColors, 'color_code');
+                        conflictColors = _.uniq(conflictColors);
+
+                    embellishmentsWithColorConflict.push({
+                        'applicationCode': applicationCode,
+                        'conflictColors': conflictColors
+                    });
+                }
+            }
+        });
+
+        return embellishmentsWithColorConflict;
+    }
+
+    ub.funcs.hasConflict = function (designDetails) {
+        var _designDetails = designDetails;
+        var _hasConflict = false;
+        var _conflictColors = [];
+        var _temp = [];
+        var _result;
+
+        if (typeof _designDetails !== 'undefined' && _designDetails !== '') {
+
+            var _elements = _designDetails.Data.Canvases[0].Elements;
+
+            if (typeof _designDetails.hasColorConflict !== 'undefined') {
+                delete _designDetails.hasColorConflict;
+            }
+
+            _.each(_elements, function(e) {
+                if (typeof e.Colors === "object") {
+                    var _hasColorUndefinedColors = ub.funcs.hasColorUndefined(e.Colors);
+
+                    if (_hasColorUndefinedColors._hasColorUndefined) {
+                        _hasConflict = true;
+                        _designDetails.hasColorConflict = true;
+                        _temp.push(_hasColorUndefinedColors._undefinedColors);
+                    }
+                } else {
+
+                    // stroke
+                    var _hasColorUndefinedStrokeColor = ub.funcs.hasColorUndefined([e.StrokeColor]);
+
+                    if (_hasColorUndefinedStrokeColor._hasColorUndefined) {
+                        _hasConflict = true;
+                        _designDetails.hasColorConflict = true;
+                        _temp.push(_hasColorUndefinedStrokeColor._undefinedColors);
+                    }
+
+                    // fillcolor
+                    var _hasColorUndefinedFillColor = ub.funcs.hasColorUndefined([e.FillColor]);
+
+                    if (_hasColorUndefinedFillColor._hasColorUndefined) {
+                        _hasConflict = true;
+                        _designDetails.hasColorConflict = true;
+                        _temp.push(_hasColorUndefinedFillColor._undefinedColors);
+                    }
+                }
+            });
+
+            // conflict colors
+            _.each(_temp, function(color) {
+                _.each(color, function(c) {
+                    var colorExist = _.find(_conflictColors, {color_code: c.color_code});
+                    // store if not exist
+                    if (typeof colorExist === 'undefined') {
+                        _conflictColors.push(c);
+                    }
+                });
+            });
+
+            _result = {
+                '_hasConflict': _hasConflict,
+                '_conflictColors': _conflictColors
+            }
+
+        } else {
+            _result = 'undefined';
+        }
+
+        return _result;
+    }
+
+    ub.funcs.hasColorUndefined = function(colors) {
+        var _hasColorUndefined = false;
+        var _undefinedColors = [];
+        var _result;
+
+        _.each(_.uniq(colors), function(c) {
+            if (c !== 'none') {
+                var color = c.replace('#', '');
+                    color = color.toLowerCase();
+                var _colorObj = _.find(ub.data.colors, {hex_code: color});
+
+                if (typeof _colorObj === 'undefined') {
+                    color = "#"+color;
+                    color = color.toUpperCase();
+                    _undefinedColors.push({
+                        'color_code': color
+                    });
+                }
+            }
+        });
+
+        _hasColorUndefined = (_.size(_undefinedColors) > 0) ? true: false;
+
+        _result = {
+            '_hasColorUndefined': _hasColorUndefined,
+            '_undefinedColors': _undefinedColors
+        }
+
+        return _result;
     }
 
     ub.funcs.update_application_embellishments = function (application, embellishment, options) {
@@ -741,18 +920,15 @@ $(document).ready(function() {
 
         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-            ub.utilities.info('===>Using sizes from backend: ');
-
-            console.log('Default Sizes: ');
-            console.log(_sizes);
-            console.log('Application #: ');
-            console.log(_id);
-
             if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
-                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                console.group('[EMBELLISHMENT][APP#' +  _id + '] Using the sizes from backend.');
+                    console.group("get sizes from configuration.");
+                        console.log("App #: " + _sizesFromConfig.application_number);
+                        console.log("Type: " + _sizesFromConfig.type);
+                        console.log("Sizes: ", _sizesFromConfig.size);
+                    console.groupEnd();
+                console.groupEnd();
 
                 _sizes = _sizesFromConfig;
 
@@ -781,6 +957,9 @@ $(document).ready(function() {
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
+        ub.embellishmentDetails = _embellishmentObj;
+        ub.embellishmentDetails.application_id = _id;
+
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
@@ -799,8 +978,8 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
-        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';                       
+        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
 
         _htmlBuilder        +=          '</div>';
@@ -822,17 +1001,17 @@ $(document).ready(function() {
         var _inputSizes;
 
         // this is to ignore input size 0.5 on application #4 on a specified block pattern
-        var blockPatternExceptions = ['Hockey Socks'];
+        var blockPatternExceptions = ['Hockey Socks', 'Speed'];
 
         if (_id === '4' && !_.contains(blockPatternExceptions, ub.config.blockPattern)) {
 
             _inputSizes = [{size: '0.5', }];
+            console.warn("Set twill font size picker to " + _inputSizes);
 
-        } 
+        }
         else {
 
-            _inputSizes = _sizes.sizes;
-
+            _inputSizes = _.sortBy(_sizes.sizes, "size");
         }
 
         if (typeof _settingsObject.size === 'undefined') {
@@ -904,6 +1083,32 @@ $(document).ready(function() {
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=        '</div>';
+
+        // to-do: embellishments conflict colors
+        var _designDetails = ub.embellishmentDetails.design_details;
+        var _hasConflict = ub.funcs.hasConflict(_designDetails);
+        var _colors = _hasConflict._conflictColors;
+        var _conflictFound = _hasConflict._hasConflict;
+
+        if (_conflictFound) {
+            var _header = 'Conflict Colors';
+            var _notes = 'Note: The following colors are not available in the Prolook color set. Please use the available colors.'
+            var _class = 'text-center customizer-conflict-colors';
+            var _isHide = 'isHide';
+            var _data = {
+                colors: _colors,
+                header: _header,
+                notes: _notes,
+                class: _class,
+                isHide: _isHide
+            }
+
+            _htmlBuilder += '<div class="ui-row">';
+                _htmlBuilder += ' <div class="isHide">';
+                    _htmlBuilder += ub.utilities.buildTemplateString('#m-embellishment-sidebar-conflict-colors', _data);
+                _htmlBuilder += '</div>';
+            _htmlBuilder += '</div>';
+        }
 
         _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
 
@@ -1000,7 +1205,15 @@ $(document).ready(function() {
                 $('span.edit-embellishment').unbind('click');
                 $('span.edit-embellishment').on('click', function () {
 
-                    is.loadDesigner(_settingsObject.embellishment.design_id, _id);
+                    var _hasConflict = _settingsObject.embellishment.design_details.hasColorConflict;
+                        _hasConflict = (typeof _hasConflict !== 'undefined') ? true: false;
+
+                    if (_hasConflict) {
+                        var _isCalledRecursively = true;
+                        is.loadDesigner(_settingsObject.embellishment.design_id, _id, _hasConflict, _isCalledRecursively);
+                    } else {
+                        is.loadDesigner(_settingsObject.embellishment.design_id, _id);
+                    }
 
                 });
 
@@ -1447,7 +1660,6 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
@@ -1487,10 +1699,10 @@ $(document).ready(function() {
             }
 
             if (typeof _matchingID !== "undefined") {
-
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
             }
 
+            ub.funcs.disableSubmitOnUniforms();
         });
 
         $('div#applicationUI').fadeIn();
@@ -1513,6 +1725,8 @@ $(document).ready(function() {
             $('input.custom-size-type[data-type="bestfit"]').attr('disabled', false);
         }
 
+        // Display conflict colors info on embellishment right panel if found
+        ub.funcs.hideConflictColorsInfoOnRightPanel(_conflictFound);
     }
 
     // activate bestfit radio button
@@ -2351,8 +2565,11 @@ $(document).ready(function() {
 
             var appIdStr = appId.toString();
             var fontSizeStr = settingsObj.font_size.toString();
+            var embellishmentScales = ub.styleValues.embellishmentScales;
 
-            var embellishmentScales = ub.styleValues.embellishmentScales.match.properties;
+            if (typeof embellishmentScales.match !== 'undefined') {
+                embellishmentScales = embellishmentScales.match.properties;
+            }
 
             _.each(views, function(view) {
 
@@ -2405,6 +2622,9 @@ $(document).ready(function() {
                         active: true
                     };
 
+                    // uniform default font size
+                    settingsObj.defaultFontSize = custom.size;
+
                 } else {
 
                     scale = embellishmentScales.getScale(settingsObj.size);
@@ -2414,12 +2634,120 @@ $(document).ready(function() {
             } else {
 
                 scale = embellishmentScales.getScale(settingsObj.size);
+
+                // if uniform is twill and the selected embellishment size is equal to default uniform size;
+                // return custom scale value of the embellishment;
+                if (ub.config.uniform_application_type === "tackle_twill" && settingsObj.font_size.toString() === settingsObj.defaultFontSize) {
+                    var custom = _.find(embellishmentScales.match.properties, {appId: settingsObj.code.toString(), size: settingsObj.defaultFontSize});
+                    scale = { x: custom.scale, y: custom.scale };
+                }
+
                 settingsObj.custom_obj.active = false;
 
             }
 
             return scale;
 
+        }
+
+        /*
+        * @desc hide the embellishment's color conflict
+        * @param none
+        * @return none
+        */
+        ub.funcs.hideConflictColorsInfo = function() {
+            $('#isModal').css('width', '980px');
+            $('#embeddedDesigner').removeClass('col-md-8');
+            $('#embellishment-conflict-container').css('margin', '0px');
+            $('#embellishment-conflict').css('display', 'none');
+        }
+
+        /*
+        * @desc hide the embellishment's color conflict (right panel)
+        * @param hasConflict boolean
+        * @return none
+        */
+        ub.funcs.hideConflictColorsInfoOnRightPanel = function(hasConflict) {
+            var $body = $('#applicationUI .body').children();
+
+            if (hasConflict) {
+                var display = $body[0].style.display;
+                if (display === 'none') {
+                    display='none';
+                } else {
+                    display='block';
+                }
+
+                $body[1].style.display='none';
+                $body[2].style.display='none';
+                $body[3].style.display='none';
+                $body[4].style.display='none';
+                $body[5].children[0].style.display="none";
+
+                $('.ui-row').find('div.isHide').addClass('isShow');
+                $('.ui-row').find('div.isHide').removeClass('isHide');
+            } else {
+                var display = $body[0].style.display;
+                if (display === 'none') {
+                    display='none';
+                } else {
+                    display='block';
+                }
+                
+                $body[1].style.display='block';
+                $body[2].style.display='block';
+                $body[3].style.display='block';
+                $body[4].style.display='block';
+                $body[5].children[0].style.display="block";
+                $body[5].children[1].style.display="block";
+
+                $('.ui-row').find('div.isShow').addClass('isHide');
+                $('.ui-row').find('div.isShow').removeClass('isShow');
+            }
+        }
+
+        /*
+        * @desc display embellishment's color conflict
+        * @param html (object) - mustache html
+        * @return none
+        */
+        ub.funcs.showConflictColorsInfo = function(html) {
+            $('#embellishment-conflict').html(html);
+            $('#isModal').css('width', '1300px');
+            $('#embeddedDesigner').addClass('col-md-8');
+            $('#embellishment-conflict-container').css('margin-left', '0px');
+            $('#embellishment-conflict').css('display', 'block');
+        }
+
+        /*
+        * @desc activate embellishment to show the conflict color info
+        * @param none
+        * @return none
+        */
+        ub.funcs.activateEmbellishmentsConflictInfo = function() {
+            if (typeof ub.embellishmentDetails !== 'undefined') {
+                var id = ub.embellishmentDetails.application_id;
+                ub.funcs.activateEmbellishments(id);
+            }
+        }
+
+        /*
+        * @desc remove default embellishments
+        * @param none
+        * @return none
+        */
+        ub.funcs.removeEmbellishmentsDefault = function() {
+            if (typeof ub.embellishmentDetails !== 'undefined') {
+                var embellishments = ub.embellishmentDetails;
+                var design_id = embellishments.design_id;
+                var design_details = embellishments.design_details;
+                var initial = embellishments.initial;
+
+                if (design_id == 1722182 && design_details == '' && initial) {
+                    var id = embellishments.application_id;
+                    ub.funcs.deleteLocation(id);
+                }
+            }
         }
 
 });

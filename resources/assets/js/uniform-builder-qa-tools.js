@@ -9,7 +9,7 @@ $(document).ready(function () {
     ub.devtools = {};
     ub.devtools.debugMode = true;
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948, 1979, 1625, 2109, 1909, 1454, 543, 81, 89, 2210, 657];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948, 1979, 1625, 2109, 1909, 1454, 543, 81, 89, 2210, 657, 2956, 949, 5411];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -508,6 +508,27 @@ $(document).ready(function () {
                 scaleX: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.x.toFixed(4),
                 scaleY: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.y.toFixed(4),
             };
+
+            // for Pattern Position info display
+            if (typeof ub.config.savedDesignInfo !== 'object') {
+                var temp = 0;
+                var calibration = 0;
+
+                if (typeof _application.pattern_obj !== 'undefined') {
+                    if (_.contains(ub.uiData.patternSliderRange.forCalibration, _application.pattern_obj.name)) {
+                        calibration = ub.uiData.patternSliderRange.adjustedStart;
+                    }
+                }
+
+                if (typeof _application.pattern_settings !== 'undefined') {
+                    temp = _application.pattern_settings.position.y - calibration;
+                    _primaryView.application.appDefPatternPosition = '' + temp;
+
+                    data.notSavedDesign = (typeof ub.config.savedDesignInfo !== 'object' && typeof _application.pattern_settings !== 'undefined');
+                    data.patternPosition = _primaryView.application.appDefPatternPosition;
+                }
+
+            }
 
             var markup = Mustache.render(template, data);
             $('div.preview-panel > div.body').html(markup);

@@ -14,7 +14,9 @@ window.gradient_position = [
                     "Left Side Panel",
                     "Right Side Panel",
                     "Left Side Insert",
-                    "Right Side Insert"
+                    "Right Side Insert",
+                    "Left Side Insert Trim",
+                    "Right Side Insert Trim"
                 ];
 
 function buildPositionDropdown(value){
@@ -500,6 +502,11 @@ function buildPositionDropdown(value){
     }
 
     function getColors(brand){
+        var brand = $('#material_brand').val();
+        if(brand == 'Riddell') {
+            brand = 'prolook';
+        }
+        console.log(brand);
         return $.ajax({
             type: 'GET',
             url: "//" + api_host + "/api/colors/" + brand,

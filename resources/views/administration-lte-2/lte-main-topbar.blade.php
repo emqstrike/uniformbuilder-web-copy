@@ -2,7 +2,7 @@
     <!-- Logo -->
     <a href="/administration/v1-0" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><img src="{{ env('LOGO_URL') }}" style="height:20px; weight:20px;"></span>
+      <span class="logo-mini"><img src="{{ env('LOGO_URL') }}" style="height:20px;"></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>{{ env('APP_TITLE') }}</b></span>
     </a>

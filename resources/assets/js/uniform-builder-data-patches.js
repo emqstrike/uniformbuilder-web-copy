@@ -114,8 +114,39 @@ $(document).ready(function () {
 
 	}
 
+	ub.dataPatches.patchForPerspectiveIssues = function() {
+		if (_.isEmpty(ub.config.savedDesignInfo) === false) {
+			// Add the savedDesignId and the perspective/s that will be omitted. @var _savedDesigns
+			var _savedDesigns = [
+				{ 
+					"savedDesignID" : "43030", 
+					"omitPerspectives"	: ['left', 'right'],
+				}, { 
+					"savedDesignID" : "44473", 
+					"omitPerspectives"	: ['left', 'right'],
+				},
+			];
+			
+			var data = _.findWhere(_savedDesigns, {"savedDesignID" : ub.config.savedDesignInfo.savedDesignID});
+
+			if (_.isEmpty(data) === false) {
+				_.each(ub.current_material.settings.applications, function (application) {
+					application.application.views = _.omit(application.application.views, function (app) {
+						return _.contains(data.omitPerspectives, app.perspective);
+					});
+				});
+
+				console.groupCollapsed('%c ----- A Patch is Detected for this Saved Design Item. -----', 'background: #222; color: #bada55');
+				console.info("Design: %s is not covered with latest changes in the application, a patch for this design will be applied.", data.savedDesignID);
+				console.info("Saved Design Successfully Patched!");
+				console.groupEnd();
+			}
+		}
+	}
+
 	ub.dataPatches.run = function () {
 		ub.dataPatches.patch4874to5728();
+		ub.dataPatches.patchForPerspectiveIssues();
 	};
 
 	ub.dataPatches.forRandomFeedPatching = function () {

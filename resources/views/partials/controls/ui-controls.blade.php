@@ -420,58 +420,32 @@
 <!-- Sports Picker -->
 
     <script type="text/mustache" id="m-picker-items-sport">
-
-        @{{#picker_items}}
-            
-            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
-
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
-
-                @{{#is_men}}
-                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
-                @{{/is_men}}
-
-                @{{#is_women}}
-                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
-                @{{/is_women}}
-
-                @{{#is_youth}}
-                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
-                @{{/is_youth}}
-
-                <span class="main-picker-item-caption">
-                    @{{#alias}}
-                        @{{alias}}
-                    @{{/alias}}
-                    @{{^alias}}
-                        @{{name}}
-                    @{{/alias}}
-                </span>
-
-            </div>
-
-        @{{/picker_items}}
-
-        @{{#esports}}
-            
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
+        @{{#quickturn}}
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
-            @if (@tooltip != "")
-                <div class="cSoon">@{{tooltip}}</div>
-            @endif
-                
+                @if (@tooltip != "")
+                    <div class="cSoon">@{{tooltip}}</div>
+                @endif
+
                 @{{#is_men}}
-                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_men}}
 
                 @{{#is_women}}
-                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_women}}
 
                 @{{#is_youth}}
-                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}" style="margin-bottom: 15px;">
                 @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
@@ -479,22 +453,23 @@
                         @{{alias}}
                     @{{/alias}}
                     @{{^alias}}
-                        @{{name}}
+                        @{{#quickturn_logo}}
+                            <img src="@{{quickturn_logo}}" style="height:55px;margin:0px -3px;">
+                        @{{/quickturn_logo}}
                     @{{/alias}}
                 </span>
-
             </div>
 
-        @{{/esports}}
+        @{{/quickturn}}
 
         @{{#apparel}}
-            
+
             <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                
+
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}">
                 @{{/is_men}}
@@ -520,6 +495,108 @@
 
         @{{/apparel}}
 
+        @{{#picker_items}}
+
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}" data-type="@{{type}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                        @{{#isQuickturnCategory}}
+                            <br><img src="/images/sport-icons/quick-turn-new.svg" style="height:55px;margin:0px -3px;">
+                        @{{/isQuickturnCategory}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        @{{#esports}}
+
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/esports}}
+
+        @{{#team_accessories}}
+
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
+
+                <span class="main-picker-item-caption">
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
+                </span>
+
+            </div>
+
+        @{{/team_accessories}}
+
     </script>
 
 <!-- End Sports Pickers -->
@@ -529,7 +606,15 @@
     <!-- version 1 -->
 
     <script type="text/mustache" id="m-picker-items-uniforms">
-
+        {{-- Quickturn Header --}}
+        @{{#isQuickturnCategory}}
+        <div id="quickturn-header">
+            <span>
+                <img src="/images/sport-icons/quick-turn-new.svg" alt="">
+                <p>7 DAY SHIP</p>
+            </span>
+        </div>
+        @{{/isQuickturnCategory}}
         @{{#picker_items}}
             
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
@@ -539,8 +624,21 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:50px;margin:0px -3px;"> - @{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
@@ -586,8 +684,21 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
-                    <span class="callForTeamPricing">Call for Team Pricing</span>
+
+                    @{{#enable_quick_turn_layout}}
+                        <strong class="uniform-name">
+                            <img src="/images/sport-icons/quick-turn-new.svg" class="qtLogo" style="height:45px;margin:-10px 5px;"> @{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
+                        <span class="callForTeamPricing">Ships within 7 business days</span>
+                    @{{/enable_quick_turn_layout}}
+                    @{{^enable_quick_turn_layout}}
+                        <strong class="uniform-name">@{{name}}
+                            <span class="material_id">( @{{id}} )</span>
+                        </strong> <br />
+                        <span class="callForTeamPricing">Call for Team Pricing</span>
+                    @{{/enable_quick_turn_layout}}
+
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
@@ -608,7 +719,7 @@
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
-                    <div class="material_id">@{{id}}</div>
+                    {{-- <div class="material_id">@{{id}}</div> --}}
 
                 </span> 
 
@@ -641,7 +752,7 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <strong class="uniform-name">@{{name}}</strong> <br />
+                    <strong class="uniform-name">@{{name}} <span class="material_id">( @{{id}} )</span></strong> <br />
                     <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
@@ -1017,7 +1128,8 @@
                     <div class="tabs">
 
                         <span class="mascot-tab tab active" data-button="browse">Browse</span>
-                        <span class="mascot-tab tab" data-button="upload">Upload</span>
+                        {{-- https://qstrike.atlassian.net/browse/CCO-659 --}}
+                        <span class="mascot-tab tab" data-button="upload" style="display:none">Upload</span>
 
                     </div>
 
@@ -1348,11 +1460,20 @@
         <div class="tab" data-size="@{{.}}">
 
             <table class="roster-table" align="center" data-size="@{{.}}">
-                            
-                <tr class="thead">
-                    
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
+                <tr class="thead">
+                    <th class='count'></th>
+                    <th class="thnumber">Size</th>
+                    <th class="wide thlastname">Last Name
+                        <span id="lastNameDisclaimer">
+                            <i class="fa fa-info-circle"></i> LAST NAMES ARE CASE SENSITIVE.
+                        </span>
+                    </th>
+                    <th class="thnumber thPlayerNumberInput">Number</th>
+                    <th class="thnumber">Quantity</th>
+                    <th  class="wide sleevetype">Sleeve Type</th>
+                    <th class="wide lastnameapplication">Last Name Application</th>
+                    <th class="action"></th>
                 </tr>
 
             </table>
@@ -1387,11 +1508,11 @@
                     </td>
 
                     <td class="PlayerNumberInput">
-                        <input type="text" name="number" value="@{{number}}" class="number" maxlength="5" />
+                        <input type="number" name="number" value="@{{number}}" class="number" min="0" max="99999" oninput="ub.utilities.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>
                     </td>
 
                     <td>
-                       <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />  
+                       <input type="number" name="quantity" value="1" class="quantity" min="0" max="99999" oninput="ub.utilities.maxLengthCheck(this)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>  
                     </td>
 
                     <td class="sleevetype">
@@ -1649,7 +1770,7 @@
 
             <h4>Thank you for submitting your order!</h4>
 
-            <span class="message">@{{message}}</span>
+            <span class="message"><span style="color:red;text-transform: uppercase;font-weight: bold;">Important: </span>@{{message}}</span>
 
             <div class="row">
                 
@@ -1714,7 +1835,7 @@
                         <div class="col-md-6 feedback-left-panel">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button class="btn btn-default btn-block upload-btn"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
+                                    <button class="btn btn-default btn-block upload-btn"  tabindex="6"><i class="fa fa-cloud-upload"></i> UPLOAD SCREENSHOT</button>
                                     <input type="file" id="file-input-upload" style="display:none" accept="image/*"/>
                                     <img src="https://i.imgur.com/aB8nl6x.png" alt="..." class="img-thumbnail img-responsive upload">
                                 </div>
@@ -1722,26 +1843,30 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form id="feedback-form">
+                            <form id="feedback-form" data-parsley-validate>
                               <div class="form-group">
                                 <label>Name <span class="required">*</span></label>
-                                <input type="text" class="form-control name" placeholder="Your Name">
+                                <input type="text" class="form-control name" placeholder="Your Name" tabindex="1" data-parsley-required>
                               </div>
                               <div class="form-group">
                                 <label>Email <span class="required">*</span></label>
-                                <input type="email" class="form-control email" placeholder="youremail@domain.com">
+                                <input type="email" class="form-control email" placeholder="youremail@domain.com" tabindex="2" data-parsley-required data-parsley-type="email">
                               </div>
                               <div class="form-group">
                                 <label>Material ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control materialId" placeholder="">
+                                <input type="text" class="form-control materialId" placeholder="" tabindex="3" 
+                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
+                                data-parsley-pattern-message="This value should be alphanumeric.">
                               </div>
                               <div class="form-group">
                                 <label>Saved Design ID <small class="optional">(optional)</small></label>
-                                <input type="text" class="form-control savedDesignId" placeholder="">
+                                <input type="text" class="form-control savedDesignId" placeholder="" tabindex="4" 
+                                data-parsley-pattern="^[a-zA-Z0-9 ]*$"
+                                data-parsley-pattern-message="This value should be alphanumeric.">
                               </div>
                               <div class="form-group">
                                 <label>Message <span class="required">*</span></label>
-                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)"></textarea>
+                                <textarea class="form-control message" rows="10" placeholder="Please enter your message here! :)" tabindex="5" data-parsley-required></textarea>
                               </div>
                             </form>
                         </div>
@@ -1754,8 +1879,8 @@
             <div class="row">
 
                 <div class="col-md-12 ok-footer">
-                     <span class="cancel-btn">CANCEL</span>
-                     <span class="ok-btn">OK</span>
+                     <span class="cancel-btn" tabindex="7">CANCEL</span>
+                     <span class="ok-btn" tabindex="8">OK</span>
                 </div>
                 
             </div>
@@ -1780,7 +1905,7 @@
                     <td>Sport</td>
                     <td>Name / Notes</td>
                     <td>Thumbnails</td>
-                    <td>&nbsp;</td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
@@ -2469,11 +2594,15 @@
     <div class="rotation-container">
 
         <label>Code:</label><strong class="number">@{{applicationCode}}</strong>
+        @{{#notSavedDesign}}
+        <strong class="number">Pattern Position: @{{patternPosition}} </strong> 
+        @{{/notSavedDesign}}
         <br /><br />
 
         <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong> 
         <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong> 
         <br />
+        
         <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
         <br /> 
 
@@ -3240,6 +3369,47 @@
         </div>
         </div>
 
+    </script>
+
+    <script type="text/mustache" id="m-embellishment-sidebar-conflict-colors">
+        <h4>@{{header}}</h4>
+        <h6>@{{notes}}</h6>
+        <hr class="@{{isHide}}"/>
+
+        <div id="embellishment-conflict-colors" class="@{{class}}">
+            @{{#colors}}        
+                <div class="contrast-bgc" style="background-color: @{{color_code}}; border: #acacac .5px solid">
+                    <h5 class="contrast-text"> @{{color_code}}</h5>
+                </div>
+            @{{/colors}}
+        </div>
+    </script>
+
+    <script type="text/mustache" id="m-embellishment-order-conflict-colors">
+        <div>
+            <h4>Oops! You have conflicts.</h4>
+            <h6 class="margin-bottom-medium" style="color:red;">Please fix all the conflicts to proceed.</h6>
+        </div>
+        <ul class="list-divider list-large max-height-large overflow-auto">
+            @{{#embellishments}}
+            <li>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px; border: 1px solid #ccc;" src="@{{embellishments.thumbnail}}" data-holder-rendered="true">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">@{{name}}</h5>
+                        <h6>@{{totalColorConflict}}</h6>
+                    </div>
+                    <div class="media-right">
+                        <button type="button" class="btn btn-default btn-xs fix-conflict" data-id="@{{id}}" data-design-id="@{{embellishments.design_id}}">Fix</button>
+                    </div>
+                </div>
+            </li>
+            @{{/embellishments}}
+        </ul>
     </script>
 
 <!-- End Embellishment Sidebar -->

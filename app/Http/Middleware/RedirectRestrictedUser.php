@@ -87,6 +87,7 @@ class RedirectRestrictedUser
 
     private function redirectToDashboard()
     {
+        Session::put('url.intended-v1', \URL::current());
         if (env('ENDPOINT_VERSION') == 'v1-0') {
             return redirect()->route('v1_admin_dashboard');
         } else {

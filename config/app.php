@@ -152,6 +152,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -200,7 +202,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Slack' => Maknz\Slack\Laravel\Facade::class,
-        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         
 
     ],

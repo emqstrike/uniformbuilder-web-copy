@@ -134,6 +134,7 @@ class MaterialsController extends Controller
         $itemSizes = $this->itemSizesAPIClient->getAll();
         $item_sizes_string = json_encode($itemSizes);
         $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
+       
 
         return view('administration-lte-2.master-pages.materials.edit', [
             'material' => $material,
@@ -145,7 +146,8 @@ class MaterialsController extends Controller
             'part_aliases' => $partAliases,
             'item_sizes' => $itemSizes,
             'item_sizes_string' => $item_sizes_string,
-            'reversible_groups' => $reversible_groups
+            'reversible_groups' => $reversible_groups,
+            
         ]);
     }
 
@@ -197,6 +199,8 @@ class MaterialsController extends Controller
         $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
         $styleGroup = $request->input('style_group');
+        
+
 
         if (empty($isSublimated))
         {
@@ -245,6 +249,7 @@ class MaterialsController extends Controller
         $retain_settings = $request->input('retain_settings_from_saved_design');
         $modelName = $request->input('model_name');
         $styleNumber = $request->input('style_number');
+        $rule_id = $request->input('rule_id');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -310,7 +315,9 @@ class MaterialsController extends Controller
             'block_pattern_option_2' => $request->input('block_pattern_option_2'),
             'block_pattern_option_3' => $request->input('block_pattern_option_3'),
             'model_name' => $modelName,
-            'style_number' => $styleNumber
+            'style_number' => $styleNumber,
+            'rule_id' => $rule_id
+
         ];
 
         try {
@@ -625,6 +632,7 @@ class MaterialsController extends Controller
         {
             Log::info('Attempts to create a new Material ' . json_encode($data));
             $response = $this->client->createMaterial($data);
+
         }
 
         if ($response->success)
@@ -838,4 +846,83 @@ class MaterialsController extends Controller
                     ->with('message', $response->message);
         }
     }
+
+    public function modifyPattern($id)
+    {
+        $material = $this->client->getMaterial($id);
+
+        return view('administration-lte-2.master-pages.materials.modify-pattern', [
+            'material' => $material
+        ]);
+    }
+
+    public function saveModifyPattern(Request $request)
+    {
+        $response = $this->client->saveModifyPattern($request->all());
+
+        if ($response->success) {
+            return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', 'Successfully saved changes');
+        }
+
+        return Redirect::to('administration/v1-0/material/' . $request->id . '/modify_pattern')->with('message', $response->message);
+    }
+
+    public function importMaterialOptionsData(Request $request)
+    {
+        $response = $this->optionsClient->importMaterialOptionsData($request->all());
+
+        if ($response->success) {
+            $import_type = $request->import_type;
+
+            $message ="";
+            if($import_type == "bounding_box"){
+                $message = "Successfully imported bounding box";
+            }else{
+                $message = "Successfully imported application";
+            }
+
+            return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('message', $message);
+        }
+
+        return redirect()->route('v1_view_material_option', ['id' => $request->current_material_id])->with('errors', $message);
+    }
+
+    public function updateMaterialForm()
+    {
+        return view('administration-lte-2.master-pages.materials.update-material');
+    }
+
+    public function updateStyleRule(MaterialRequest $request){
+        $materialId = $request->input('material-id');
+        $styleId = $request->input('style-id');
+        $ruleId = $request->input('rule-id');
+
+        $rulevalid = $request->input('rule-id-valid');
+        $stylevalid = $request->input('style-id-valid');
+        $materialvalid = $request->input('validmaterial');
+        
+        $dataRule = [
+            'id' => $materialId,
+            'rule_id' => $ruleId
+        ];
+
+        $dataStyle = [
+            'material_id' => $materialId,
+            'style_id' => $styleId
+        ];
+
+        if($rulevalid == 1 &&  $materialvalid == 1){
+            $response = $this->client->updateMaterialRuleId($dataRule);
+        }
+
+        if($stylevalid == 1){
+            $response1 = $this->optionsClient->updateMaterialOptionStyleId($dataStyle);
+        }
+        
+        return redirect()->route('v1_material_update');
+
+    }
+
+    
+
 }

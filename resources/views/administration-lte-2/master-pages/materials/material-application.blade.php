@@ -26,6 +26,11 @@
         .app-default-mascot {
             width: 100%;
         }
+
+        .select2-hidden-accessible {
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 @endsection
 
@@ -83,9 +88,9 @@
                                     <div class="col-md-4">
                                         <div id="shape-guide" style="border: 1px solid #e3e3e3; z-index: 0; position: absolute; float: left; opacity: 0.45; background-image: url('{{ $guide }}')"></div>
                                         <div id="shape-crosshair" style="border: 1px solid #e3e3e3; z-index: 1; position: absolute; float: left; opacity: 0.45;"></div>
-                                     
+
                                         <div id="shape-view" style="border: 1px solid #e3e3e3;  background-image: url('{{ $highlightPath }}')"></div>
-                                        
+
                                         <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px; opacity: 0.45; background-image: url('{{ $materialOption->material_option_path }}')">
                                             <canvas id="applications-front-canvas"></canvas>
                                         </div>

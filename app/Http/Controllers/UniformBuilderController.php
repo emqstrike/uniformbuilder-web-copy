@@ -305,6 +305,7 @@ class UniformBuilderController extends Controller
             $params['styles'] = $config['styles'];
             $params['sport'] = $config['sport'];
             $params['gender'] = $config['gender'];
+            $params['blockPattern'] = $config['blockPattern'];
             $params['isFromHSEL'] = isset($config['hsel']) ? true : false;
 
         }
@@ -524,12 +525,13 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function styles($gender = null, $sport = null, $org = null)
+    public function styles($gender = null, $sport = null, $blockPattern = null, $org = null)
     {
         $config = [
             'styles' => true,
             'sport' => $sport,
             'gender' => $gender,
+            'blockPattern' => $blockPattern,
         ];
 
         // For HSEL
@@ -1371,8 +1373,14 @@ class UniformBuilderController extends Controller
                 $count_spaces = substr_count($upper_code, ' '); // count spaces
             }
 
-            // words thats are exempted from trim
-            if (strpos($upper_code, 'Upper Stripe') !== false || strpos($upper_code, 'Lower Stripe') !== false) {
+            // words that are exempted from trim
+            if (strpos($upper_code, 'Upper Stripe') !== false ||
+                strpos($upper_code, 'Lower Stripe') !== false ||
+                strpos($upper_code, 'Back Thigh Pocket') !== false ||
+                strpos($upper_code, 'Top Stripe') !== false ||
+                strpos($upper_code, 'Middle Stripe') !== false ||
+                strpos($upper_code, 'Bottom Stripe') !== false ||
+                strpos($upper_code, 'Pocket Piping') !== false) {
                 Log::info('EXEMPTED WORDS=======>' . $upper_code);
             } else {
                 // trim
@@ -1382,10 +1390,26 @@ class UniformBuilderController extends Controller
                 }
             }
 
+
+            // there is a special case when partX['code'] is needed to display but have no entry in SML so we add an entry temporarily
+            if ($upper_code === 'Snap') {
+                $newSML = array(
+                    'name' => 'Snap',
+                    'group_id' => '0',
+                    'team_color_id' => '0',
+                    'fullname' => 'snap',
+                    'intGroupID' => 0,
+                    'index' => 0
+                );
+                array_push($sml, $newSML);
+                Log::info('UPDATED SML====>' . json_encode($sml));
+            }
+
+
             foreach ($sml as $v) {
                 if ($upper_code === $v['name']) {
 
-                    Log::info('LABEL CHECK===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
+                    Log::info('LABEL CHECK SUCCESS===============>' . $upper_code . ' | ' . $v['name'] . ' ✔');
 
                     // check if $upper_code is sleeve then check prev_code it matches
 //                    if ($upper_code === 'sleeve') {
@@ -1397,6 +1421,8 @@ class UniformBuilderController extends Controller
 
                     // push to array
                     array_push($newParts, $partX);
+                } else {
+                    Log::info('LABEL CHECK MISMATCH===============>' . $upper_code . ' | ' . $v['name'] . ' ✖');
                 }
 
 //                if (strpos($upper_code, 'dry') !== false) {
@@ -1996,7 +2022,7 @@ class UniformBuilderController extends Controller
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $style = '<style> body, td, p { font-size: 0.8em; } </style>';
+        $style = '<style> body, td, p { font-size: 0.8em; } .uniform_properties { font-size: 0.77em; text-transform: uppercase; }</style>';
 
         $html  = '';
         $html .= $style;
@@ -2011,11 +2037,15 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=   '<td>';
         $html .=     'STYLE<br />';
-        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
-        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong> <br/ >';
+        $html .=       '<strong class="uniform_properties">TYPE: ' .  $firstOrderItem["applicationType"] . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">CUT: ' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">OPTION: ' .  $firstOrderItem["neckOption"]  . '</strong><br />';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
 //        $html .=   '<table width="100%">';
@@ -2867,6 +2897,11 @@ class UniformBuilderController extends Controller
             return self::generateLegacy($order->order_id);
         }
         return redirect('index');
+    }
+
+    public function showSublimatedUniforms()
+    {
+        return view('custom-page.sublimated-uniforms');
     }
 
 }

@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         if (typeof ub.current_material.material === "undefined") { return false; }
 
-        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Quickturn)");
     }
 
     ub.funcs.isFootball = function () {
@@ -168,6 +168,13 @@ $(document).ready(function() {
 
             $('td.PlayerLastNameInput, th.thlastname').hide();
 
+        }
+
+        // hide the the table row 'Sleeve Type' and 'Last Name Application' in roster form if the uniform is Socks and except for Hockey Socks.
+        if (ub.funcs.isSocks() && ub.config.blockPattern !== 'Hockey Sock') {
+            // header th td
+            $('td.sleevetype, th.wide.sleevetype').hide();
+            $('td.lastnameapplication, th.wide.lastnameapplication').hide();
         }
 
         // Hide Player Number on Wrestling and Socks
@@ -775,7 +782,7 @@ $(document).ready(function() {
                 // do nothing, dont show form if already shown
                 console.log('[feedback form is already shown]');
                 $('div.free-feedback-form').each(function( index ) {
-                    console.log( index + ": " + $(this) );
+                    // console.log( index + ": " + $(this) );
                     if (index !== 0) {
                         $(this).remove();
                     }
@@ -785,12 +792,14 @@ $(document).ready(function() {
 
                 // this shows the feedback modal form not the commented fade in above
                 ub.funcs.centerPatternPopup();
+
                 // $('div.free-feedback-form').fadeIn();
                 ub.feedbackForm = true;
 
                 // set value if user is logged in
                 if(ub.user) {
-                    $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                    var fullname = ub.utilities.decodeHtmlEntity(ub.user.fullname);
+                    $('#feedback-form .name').val(fullname).attr('disabled','disabled');
                     $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
                 }
 
@@ -827,43 +836,33 @@ $(document).ready(function() {
                 }
 
                 $('span.ok-btn').on('click', function () {
+                    
+                    // initialized plugin and validate feedback form fields using parsley.js, a client side validation plugin.
+                    $('#feedback-form').parsley().validate();
+                    if($('#feedback-form').parsley().isValid() === false) { return false; }; 
 
-                    var _name = $('#feedback-form .name').val().trim();
-                    var _email = $('#feedback-form .email').val().trim();
-                    var _message = $('#feedback-form .message').val().trim();
-
-                    var _materialId = $('#feedback-form .materialId').val().trim();
+                    var _name          = $('#feedback-form .name').val().trim();
+                    var _email         = $('#feedback-form .email').val().trim();
+                    var _message       = $('#feedback-form .message').val().trim();
+                    var _materialId    = $('#feedback-form .materialId').val().trim();
                     var _savedDesignId = $('#feedback-form .savedDesignId').val().trim();
+                    var _upload        = $('img.img-thumbnail.upload')[0].src;
 
-                    function validateEmail(_email) {
-                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                        return re.test(String(_email).toLowerCase());
-                    }
+                    if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
 
-                    if(validateEmail(_email) && _name.length !== 0 && _message.length !== 0) {
-                        $('#feedback-form .name, #feedback-form .email, #feedback-form .message').removeClass('error');
+                    var _data = {
+                        name: _name,
+                        email: _email,
+                        message: _message,
+                        screenshot: _upload,
+                        material_id: _materialId,
+                        saved_design_id: _savedDesignId
+                    };
 
-                        var _upload = $('img.img-thumbnail.upload')[0].src;
-
-                        if (_upload === 'https://i.imgur.com/aB8nl6x.png') { _upload = ''; }
-
-                        var _data = {
-                            name: _name,
-                            email: _email,
-                            message: _message,
-                            screenshot: _upload,
-                            material_id: _materialId,
-                            saved_design_id: _savedDesignId
-                        };
-
-                        ub.funcs.submitFeedback(_data);
-                        $('div.free-feedback-form').remove();
-                        ub.feedbackForm = false;
-                    } else {
-                        if(_name.length === 0) { $('#feedback-form .name').addClass('error'); }
-                        if(!validateEmail(_email)) { $('#feedback-form .email').addClass('error'); }
-                        if(_message.length === 0) { $('#feedback-form .message').addClass('error'); }
-                    }
+                    ub.funcs.submitFeedback(_data);
+                    $('div.free-feedback-form').remove();
+                    ub.feedbackForm = false;
+                    $.smkAlert({text:'Your message has been successfully sent.', type:'success', time:3});
 
                 });
 
@@ -874,24 +873,33 @@ $(document).ready(function() {
 
                 });
 
-                // when typing occurs on fields remove error class
-                $('#feedback-form .name').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
-
-                $('#feedback-form .email').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
-
-                $('#feedback-form .message').on('keyup', function(){
-                    if ($(this).val().length !== 0) { $(this).removeClass('error'); }
-                });
-
-                // triggering click on images for file upload
                 $('.upload-btn').on('click', function(){ $('#file-input-upload').trigger('click'); });
+
+                // image validation - inksoft supported file types are: [png/bmp/jpeg/jpg/tiff/pdf/eps/svg/ai]
+                // isImage() returns boolean.
+                function isImage(file) {
+                   var imageTypes = [ 
+                       'image/png', 
+                       'image/bmp', 
+                       'image/jpeg', 
+                       'image/tiff', 
+                       'image/gif', 
+                       'image/svg+xml', 
+                       // 'application/postscript', 
+                       // 'application/pdf'
+                       ];
+                    return imageTypes.includes(file.type);
+                }
 
                 // onchange file input value
                 $('#file-input-upload').on('change', function(){
+                    // validate file if image.
+                    if (isImage(this.files[0]) === false) {
+                        var message = 'You have uploaded an invalid image file type.';
+                        $.smkAlert({text: message, type:'warning', time: 5, marginTop: '80px'});
+                        return false;
+                    }
+
                     $('.upload-btn').find('i').removeClass('fa-cloud-upload').addClass('fa-refresh fa-spin');
                     ub.funcs.imageUpload(this.files[0], function(filename) {
                         if (typeof filename === 'undefined') {
@@ -1222,6 +1230,7 @@ $(document).ready(function() {
                     description: _uniformName,
                     type: ub.current_material.material.type,
                     builder_customizations: JSON.stringify(ub.current_material.settings),
+                    customizer_style_id: ub.current_material.material.id,
                     set_group_id: 0,
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
@@ -1480,6 +1489,7 @@ $(document).ready(function() {
                     type: ub.current_material.material.type,
                     description: _uniformName,
                     builder_customizations: ub.current_material.settings,
+                    customizer_style_id: ub.current_material.material.id,
                     set_group_id: 0,
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
@@ -1491,7 +1501,9 @@ $(document).ready(function() {
                     applicationType: _type,
                     application_type: ub.config.uniform_application_type,
                     additional_attachments: ub.data.orderAttachment,
-                    notes: _notes
+                    notes: _notes,
+                    blockPattern: ub.config.blockPattern,
+                    neckOption: ub.config.option
                 }
             ]
         };
@@ -1513,7 +1525,7 @@ $(document).ready(function() {
 
         $('span.processing-pdf').fadeIn();
         $('span.previewFormPdf').fadeIn();
-        $('iframe#pdfViewer').attr('src', '')
+        $('iframe#pdfViewer').attr('src', '');
         $('a.previewPDFLink').attr('href', '');
         $('span.submit-confirmed-order').fadeOut();
         $('span.save-order').fadeOut();

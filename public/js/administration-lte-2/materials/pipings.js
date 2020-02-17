@@ -526,6 +526,8 @@ function buildSetsDropdown(value){
         var formData = new FormData();
         var x = elem;
 
+        console.log('this is the file ', _file);
+
         formData.append('file', file);
 
         if (typeof $.ajaxSettings.headers !== "undefined") {
@@ -566,6 +568,10 @@ function buildSetsDropdown(value){
 
     function getColors(){
         var brand = $('input[name=material_brand]').val();
+        if(brand == 'Riddell') {
+            brand = 'prolook';
+        }
+         console.log(brand);
 
         return $.ajax({
             type: 'GET',
@@ -658,5 +664,5 @@ function buildSetsDropdown(value){
 		refreshJSON();
 		$(this).hide();
     });
-    
+
 });

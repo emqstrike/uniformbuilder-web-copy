@@ -36,7 +36,7 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}/{product_id?}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
-Route::get('/styles/{gender}/{sport?}/{org?}', 'UniformBuilderController@styles');
+Route::get('/styles/{gender}/{sport?}/{block_pattern?}/{org?}', 'UniformBuilderController@styles');
 
 //Stand Alone Saved Designs Page
 Route::get('saved_design/login', 'AdministrationV2\SavedDesignsController@loginForm')->name('saved_designs_login_form');
@@ -45,6 +45,9 @@ Route::get('saved_designs/{currentPage?}', ['middleware' => 'accessSavedDesigns'
 
 // Utilities
 Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+
+// custom page
+Route::get('/sublimated-uniforms', 'UniformBuilderController@showSublimatedUniforms');
 
 Route::group([
     'prefix' => 'teamstore'
@@ -105,6 +108,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
+    // Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
@@ -169,9 +173,12 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@addMaterialForm'])->name('v1_material_add');
             Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editMaterialForm'])->name('v1_material_edit');
             Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@getMaterialOptions'])->name('v1_view_material_option');
+            Route::post('material_options/import_material_option_data', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@importMaterialOptionsData'])->name('v1_import_material_options_data');
             Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
             Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm'])->name('v1_edit_piping');
             Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings'])->name('v1_piping_add');
+            Route::get('material/{id}/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@modifyPattern'])->name('v1_modify_pattern');
+            Route::post('material/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@saveModifyPattern'])->name('v1_save_modify_pattern');
             Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed'])->name('v1_random_feed');
             Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping'])->name('v1_update_single_piping');
             Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings'])->name('v1_update_piping');
@@ -203,6 +210,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsCategoriesController@index'])->name('v1_mascot_categories');
             Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsGroupsCategoriesController@index'])->name('v1_mascots_groups_categories');
 
+            Route::get('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateMaterialForm'])->name('v1_material_update');
+            Route::post('material/styles_to_materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateStyleRule'])->name('v1_styles_to_materials');
+
             // Block Patterns
             Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@index'])->name('v1_block_patterns');
             Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\BlockPatternsController@editForm'])->name('v1_modify_block_pattern');
@@ -228,6 +238,13 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@index'])->name('v1_tagged_styles');
             Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\TaggedStylesController@totals'])->name('v1_tagged_styles_total');
 
+            // Fabrics
+            Route::get('fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@index'])->name('v1_index_fabrics');
+            Route::get('fabric/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@create'])->name('v1_create_fabric');
+            Route::get('fabric/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@edit'])->name('v1_edit_fabric');
+            Route::post('fabric', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@store'])->name('v1_store_fabric');
+            Route::post('fabric/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FabricsController@update'])->name('v1_update_fabric');
+
             // Feedbacks
             Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@index'])->name('v1_feedbacks');
             Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\FeedbacksController@reply'])->name('v1_feedback_reply');
@@ -248,11 +265,58 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@index'])->name('v1_menus');
             Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MenuController@store'])->name('v1_store_new_menu');
 
+            // Random Feed Images
+            Route::get('random_feed_images', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\RandomFeedImageController@index'])->name('v1_index_random_feed_image');
+
             // Pages
             Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageController@index'])->name('v1_pages');
 
             // Page Rules
             Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PageRuleController@index'])->name('v1_page_rules');
+
+            Route::get('application_mappers', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@index'])->name('v1_application_mappers');
+            Route::get('application_mapper/create', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@create'])->name('v1_create_application_mapper');
+            Route::get('application_mapper/{id}/edit', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@edit'])->name('v1_edit_application_mapper');
+            Route::post('application_mapper/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@update'])->name('v1_update_application_mapper');
+            Route::post('application_mapper', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationMappersController@store'])->name('v1_store_application_mapper');
+
+            Route::get('index_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@index'])->name('v1_index_cuts_to_styles');
+            Route::post('upload_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@upload'])->name('v1_upload_cuts_to_styles');
+            Route::get('import_cuts_to_styles', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@importFromSheets'])->name('v1_import_cuts_to_styles');
+
+            // QX7 Style Requests
+            Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@index'])->name('v1_qx7_style_requests');
+            Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@show'])->name('v1_qx7_style_request');
+            Route::get('qx7_style_requests/create_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@createStyle'])->name('v1_qx7_create_style');
+            Route::get('qx7_style_requests/edit_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@editStyle'])->name('v1_qx7_edit_style');
+            Route::get('qx7_style_requests/options/dropzone/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@dropZone'])->name('v1_qx7_dropzone');
+            Route::get('qx7_style_requests/view_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getOptions'])->name('v1_qx7_style_options');
+            Route::get('qx7_style_requests/view_options/edit_rule_part_names/{styleId}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@editRulePartNames'])->name('v1_qx7_edit_rule_part_names');
+            Route::post('qx7_style_requests/view_options/update_rule_part_names', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateRulePartNames'])->name('v1_qx7_update_rule_part_names');
+            Route::get('qx7_style_requests/view_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@styleOptionsSetup'])->name('v1_qx7_style_options_setup');
+            Route::get('qx7_style_requests/style_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@getStyleApplication'])->name('v1_qx7_style_application');
+            Route::post('qx7_style_requests/options/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveApplications'])->name('v1_qx7_save_style_applications');
+            Route::post('qx7_style_requests/bounding_box/import', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@importBoundingBox'])->name('v1_import_bounding_box');
+            Route::post('qx7_style_requests/options/match_rule_part_name', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@matchRulePartName'])->name('v1_match_rule_part_name');
+            Route::post('qx7_style_requests/option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveOption'])->name('v1_qx7_save_option');
+            Route::post('qx7_style_requests/option/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateOption'])->name('v1_qx7_update_option');
+            Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@saveBoundary'])->name('v1_qx7_save_bounding_box');
+            Route::post('qx7_style_requests/option/purgeOption', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@purgeOption'])->name('v1_qx7_cleanup_style');
+            Route::get('qx7_style_requests/pipings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@pipings'])->name('v1_qx7_pipings');
+            Route::post('qx7_style_requests/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updatePipings'])->name('v1_qx7_update_piping');
+            Route::get('qx7_style_requests/gradient/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@gradient'])->name('v1_qx7_gradient');
+            Route::post('qx7_style_requests/gradient/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@updateGradient'])->name('v1_qx7_update_gradient');
+            Route::get('qx7_style_requests/export_parts_excel', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@exportPartsExcel'])->name('v1_qx7_export_parts');
+            Route::post('qx7_style_request/import_material_option', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\Qx7StyleRequestController@importMaterialOptions'])->name('v1_qx7_import_material_options');
+        
+            // Text shapes categories
+            Route::get('text_shapes_categories', 'AdministrationV2\TextShapesCategoriesController@index')->name('v1_text_shapes_categories');
+            
+            // Text shapes
+            Route::get('text_shapes', 'AdministrationV2\TextShapesController@index')->name('v1_text_shapes');
+
+            // Look up Cut to Style
+            Route::get('lookups', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\LookupCutsToStylesController@lookUpCutStyleIndex'])->name('v1_lookup');
         });
     });
 
@@ -350,6 +414,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@addMaterialForm'])->name('add_new_material');
     Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editMaterialForm'])->name('edit_material');
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions'])->name('view_material_options');
+    Route::post('material_options/import_material_option_data', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@importMaterialOptionsData'])->name('import_material_options_data');
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup'])->name('material_options_setup');
     Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
     Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@pipings'])->name('pipings');
@@ -357,6 +422,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
     Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePipings']);
     Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateRandomFeed']);
+    Route::get('material/{id}/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@modifyPattern']);
+    Route::post('material/modify_pattern', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@saveModifyPattern']);
     Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@dropZone'])->name('dropzone');
     Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
     Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDesignSheet']);
@@ -546,7 +613,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\SavedDesignsController@index']);
 
     // Tailsweeps
-    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index']);
+    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index'])->name('index_tailsweeps');
     Route::get('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@create']);
     Route::post('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
     Route::get('tailsweep/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@editTailsweepForm']);
@@ -699,6 +766,32 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
     // Analytics
     Route::get('analytics/{startDate?}/{endDate?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AnalyticsController@index'])->name('analytics');
+
+    // QX7 Style Requests
+    Route::get('qx7_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@index'])->name('qx7_style_requests');
+    Route::get('qx7_style_request/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@show'])->name('qx7_style_request');
+    Route::get('qx7_style_requests/create_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@createStyle'])->name('qx7_create_style');
+    Route::get('qx7_style_requests/edit_style/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@editStyle'])->name('qx7_edit_style');
+    Route::get('qx7_style_requests/options/dropzone/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@dropZone'])->name('qx7_dropzone');
+    Route::get('qx7_style_requests/view_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@getOptions'])->name('qx7_style_options');
+    Route::get('qx7_style_requests/view_options/edit_rule_part_names/{styleId}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@editRulePartNames'])->name('qx7_edit_rule_part_names');
+    Route::post('qx7_style_requests/view_options/update_rule_part_names', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateRulePartNames'])->name('qx7_update_rule_part_names');
+    Route::get('qx7_style_requests/view_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@styleOptionsSetup'])->name('qx7_style_options_setup');
+    Route::get('qx7_style_requests/style_application/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@getStyleApplication'])->name('qx7_style_application');
+    Route::post('qx7_style_requests/options/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveApplications'])->name('qx7_save_style_applications');
+    Route::post('qx7_style_requests/bounding_box/import', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@importBoundingBox'])->name('import_bounding_box');
+    Route::post('qx7_style_requests/options/match_rule_part_name', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@matchRulePartName'])->name('match_rule_part_name');
+    Route::post('qx7_style_requests/option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveOption'])->name('qx7_save_option');
+    Route::post('qx7_style_requests/option/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateOption'])->name('qx7_update_option');
+    Route::post('qx7_style_requests/option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@saveBoundary'])->name('qx7_save_bounding_box');
+    Route::post('qx7_style_requests/option/purgeOption', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@purgeOption'])->name('qx7_cleanup_style');
+    Route::get('qx7_style_requests/pipings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@pipings'])->name('qx7_pipings');
+    Route::post('qx7_style_requests/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updatePipings'])->name('qx7_update_piping');
+    Route::get('qx7_style_requests/gradient/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@gradient'])->name('qx7_gradient');
+    Route::post('qx7_style_requests/gradient/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@updateGradient'])->name('qx7_update_gradient');
+    Route::get('qx7_style_requests/export_parts_excel', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@exportPartsExcel'])->name('qx7_export_parts');
+    Route::post('qx7_style_request/import_material_option', ['middleware' => 'adminAccess', 'uses' => 'Administration\Qx7StyleRequestController@importMaterialOptions'])->name('qx7_import_material_options');
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

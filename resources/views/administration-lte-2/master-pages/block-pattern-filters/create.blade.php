@@ -52,14 +52,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-1 control-label">Block Pattern Options
+                                <label class="col-md-2 control-label">Block Pattern Options
                                     <div>
                                         <a class="btn btn-flat btn-primary btn-xs" @click="addBlockPatternOption()">
                                             <i class="fa fa-plus"></i> Add Block Pattern Option
                                         </a>
                                     </div>
                                 </label>
-                                <div class="col-md-11">
+                                <div class="col-md-10">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>

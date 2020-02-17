@@ -142,7 +142,7 @@ class MaterialsOptionsController extends Controller
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
@@ -178,7 +178,7 @@ class MaterialsOptionsController extends Controller
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
                             ->with('message', 'There was a problem saving your material option');
         }
     }
@@ -292,8 +292,8 @@ class MaterialsOptionsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/materials')
-                            ->with('message', 'There was a problem uploading your files');
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
+                ->with('message', 'There was a problem uploading your files');
         }
 
         $response = null;
@@ -308,7 +308,6 @@ class MaterialsOptionsController extends Controller
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->client->create($data);
         }
-
         if ($response->success)
         {
             Log::info('Success');
