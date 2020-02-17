@@ -150,16 +150,25 @@
                         <li>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form class="form loginRest" role="form" accept-charset="UTF-8" id="login-nav">
+                                    <form class="form loginRest" role="form" accept-charset="UTF-8" id="login-nav" data-parsley-validate>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                                         <div class="form-group form-group-sm input-group">
                                             <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                            <input type="email" name="email" class="form-control col-sm-2" id="login-email" placeholder="Email Address">
+                                            <input type="email" name="email" class="form-control col-sm-2" id="login-email" placeholder="Email Address"
+                                            data-parsley-required
+                                            data-parsley-errors-container="#login-email-errors">
                                         </div>
+                                        <div class="parsley-modified-error-container" id="login-email-errors"></div>
+
                                         <div class="form-group form-group-sm input-group">
                                             <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
-                                            <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
+                                            <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password"
+                                            data-parsley-required
+                                            data-parsley-errors-container="#login-password-errors">
                                         </div>
+                                        <div class="parsley-modified-error-container" id="login-password-errors"></div>
+
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-block loginRest">
                                                 <i class="fa fa-sign-in"></i>
