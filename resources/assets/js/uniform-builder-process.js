@@ -3329,11 +3329,15 @@ $(document).ready(function() {
     $('button.loginRest').unbind('click');
     $('button.loginRest').on('click', function () {
 
-        var _e = $('input[type="email"]').val();
-        var _p = $('input[type="password"]').val();
+        var $loginForm = $('form.loginRest');
+            $loginForm.parsley().validate();
 
-        ub.funcs.lRest(_e, _p);
-
+        var isCredentialsValid = $loginForm.parsley().isValid();
+        if (isCredentialsValid) {
+            var email = $('input[type="email"]').val();
+            var password = $('input[type="password"]').val();
+            ub.funcs.lRest(email, password);
+        }
     });
 
     /// END LREST
