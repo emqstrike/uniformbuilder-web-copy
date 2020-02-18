@@ -6287,12 +6287,12 @@ $(document).ready(function() {
         // });
 
         $("#rotate-slider").roundSlider({
-            sliderType: "min-range",
+            // sliderType: "min-range",
             handleShape: "round",
             width: 15,
             radius: 85,
             value: _start,
-            startAngle: 90,
+            startAngle: 96,
 
             drag: function (args) {
                 
