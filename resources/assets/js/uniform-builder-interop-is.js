@@ -618,8 +618,8 @@ $(document).ready(function() {
                 if (response._hasConflict) {
                     cb();
                     
-                    var _header = 'Conflict Colors';
-                    var _notes = 'Note: The following colors are not available in the Prolook color set. Please use the available colors.'
+                    var _header = 'ERROR! Conflict in colors used!';
+                    var _notes = 'Note: The following colors used are not available in Prolook color palette. Please edit the colors used.'
                     var _class = 'text-center';
                     var _colors = response._conflictColors;
                     var _data = {
@@ -1091,8 +1091,8 @@ $(document).ready(function() {
         var _conflictFound = _hasConflict._hasConflict;
 
         if (_conflictFound) {
-            var _header = 'Conflict Colors';
-            var _notes = 'Note: The following colors are not available in the Prolook color set. Please use the available colors.'
+            var _header = 'ERROR! Conflict in colors used!';
+            var _notes = 'Note: The following colors used are not available in Prolook color palette. Please edit the colors used.'
             var _class = 'text-center customizer-conflict-colors';
             var _isHide = 'isHide';
             var _data = {
