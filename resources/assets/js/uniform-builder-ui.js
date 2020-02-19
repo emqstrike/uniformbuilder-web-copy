@@ -53,7 +53,7 @@ $(document).ready(function () {
         if (type === 1) {
 
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-            ub.showModal('At least 2 Team Colors is required to proceed');
+            ub.showModal('At least 2 Team Colors are required to proceed');
                 
         } else {
 
