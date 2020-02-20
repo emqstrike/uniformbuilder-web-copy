@@ -625,11 +625,11 @@ $(document).ready(function() {
         var def_patterns_options = '';
         var current_sport = $('#material_uniform_category').val();
         var current_asset_target = $('#material_asset_target').val();
-
+        var alter_sport_name = temp_brand == "Riddell" ? "RDL "+current_sport : current_sport;
         var input_patterns = _.filter(window.patterns, function(pattern) {
             var sport = JSON.parse(pattern.sports);
             var asset_target = pattern.asset_target;
-            var sportOk = _.contains(sport, current_sport);
+            var sportOk = _.contains(sport, alter_sport_name);
             return sportOk;
         });
 
@@ -1448,12 +1448,12 @@ $(document).ready(function() {
                 var def_patterns_options = '';
                 var current_sport = $('#material_uniform_category').val();
                 var current_asset_target = $('#material_asset_target').val();
-
+                var alter_sport_name = temp_brand == "Riddell" ? "RDL "+current_sport : current_sport;
                 var input_patterns = _.filter(window.patterns, function(pattern) {
                     var sport = JSON.parse(pattern.sports);
                     // var asset_target = pattern.asset_target;
                     // var bp_options = pattern.block_pattern_options;
-                    var sportOk = _.contains(sport, current_sport);
+                    var sportOk = _.contains(sport, alter_sport_name);
                     return sportOk;
                 });
 
