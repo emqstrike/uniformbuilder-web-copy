@@ -8506,6 +8506,10 @@ ub.funcs.fontOffSets = [
                 fontName: 'Badgers',
             },
             {
+                sport: 'Football 2017',
+                fontName: 'Badgers',
+            },
+            {
                 sport: 'Wrestling',
                 fontName: 'Badgers',
             },
