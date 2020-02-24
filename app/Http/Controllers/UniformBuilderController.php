@@ -1255,7 +1255,7 @@ class UniformBuilderController extends Controller
 
             }
 
-            if (($sport === "Football 2017" || $sport === "Baseball") && $type !== "lower") {
+            if (($sport === "Football 2017" || $sport === "Baseball" || $sport === "Baseball (Quickturn)") && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
@@ -1307,7 +1307,7 @@ class UniformBuilderController extends Controller
         $html .=       '<strong>PATTERN</strong>';
         $html .=   '</td>';
 
-        if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
+        if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)"  || $bc['uniform_category'] == "Socks (Quickturn)") {
 
             $html .=   '<td width="40%" align="center">';
             $html .=       '<strong>RANDOM FEEDS</strong>';
@@ -1501,7 +1501,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)" || $bc['uniform_category'] == "Socks (Quickturn)") {
 
                 $titledPart = $part['code'];
                 $titledPart = str_replace('_', ' ', $titledPart);
@@ -1556,7 +1556,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             // Random Feeds
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)" || $bc['uniform_category'] == "Socks (Quickturn)") {
 
                 $html .=   '<td align="center">';
 
@@ -2121,7 +2121,7 @@ class UniformBuilderController extends Controller
         $leftCaption = '(Left)';
         $rightCaption = '(Right)';
 
-        if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
+        if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)" || $sport === "Socks (Quickturn)") {
             $leftCaption = '(Inside)';
             $rightCaption = '(Outside)';
         }
@@ -2275,7 +2275,7 @@ class UniformBuilderController extends Controller
 
         // Piping
 
-        if ($uniform_category === "Baseball" or $uniform_category == "Fastpitch") {
+        if ($uniform_category === "Baseball" or $uniform_category == "Fastpitch" or $uniform_category === "Baseball (Quickturn)" or $uniform_category == "Fastpitch (Quickturn)") {
 
             $applications = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['pipings'];
             $pdf->AddPage("L");
