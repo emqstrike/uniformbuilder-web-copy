@@ -854,8 +854,7 @@
                     crossDomain: true,
                     contentType: 'application/json',
                     success: function(data){
-                        if(data['success'] || brand == 'prolook'){
-
+                        if(data['success'] || brand == 'prolook' || brand == 'richardson'){
                             saveEditor();
                             $('#edit-material-form').submit();
                         }else{
@@ -1014,12 +1013,12 @@
 
             function checkbrand(){
                 var brand =  $('.brand').val();
-                    if(brand == 'prolook'){
-                        $( ".rule-id" ).attr('readonly', true);
-                        $( ".rule-id" ).val( "0" );
-                    }else{
+                    if(brand == 'riddell'){
                         $( ".rule-id" ).attr('readonly', false);
                         $( ".rule-id" ).val( db_rule_id );
+                    }else{
+                        $( ".rule-id" ).attr('readonly', true);
+                        $( ".rule-id" ).val( "0" );
                     }
             }
 
