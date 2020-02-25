@@ -8933,6 +8933,7 @@ $(document).ready(function () {
 
                 success: function (response) {
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
+                    location.reload();
                 }
             });
         }
