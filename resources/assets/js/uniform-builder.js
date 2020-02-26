@@ -329,7 +329,6 @@ $(document).ready(function () {
 
         ub.funcs.turnOffOrderButton = function () {
             $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
-            $('a.footer-buttons[data-view="team-info"]').unbind('click');
         }
 
         ub.funcs.beforeLoad = function () {
@@ -434,7 +433,8 @@ $(document).ready(function () {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
             }
 
-            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+            // enable order button
+            ub.funcs.turnOnOrderButton();
 
             // set the sport and perspective to manipulate; return @perspective [];
             ub.data.manipulatePerspectives.getPerspectives(ub.sport, function(perspectives) {
@@ -712,9 +712,19 @@ $(document).ready(function () {
         };
 
         ub.funcs.disableSubmitOnUniforms = function() {
+            ub.funcs.turnOnOrderButton();
+
             // Disable order button on a sport registered in ub.data.disableSubmitOnUniforms
             if (ub.data.disableSubmitOnUniforms.isDisabled(ub.config.sport)) {
                 ub.funcs.turnOffOrderButton();
+            }
+
+            // Disable if embellishment has conflict colors
+            var embellishmentsWithColorConflict = ub.funcs.embellishmentsWithColorConflict();
+            if (_.size(embellishmentsWithColorConflict) > 0) {
+                $('a.footer-buttons[data-view="team-info"]').addClass('hasColorConflict');
+            } else {
+                $('a.footer-buttons[data-view="team-info"]').removeClass('hasColorConflict');
             }
         }
 
@@ -2857,6 +2867,8 @@ $(document).ready(function () {
 
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
 
+                ub.funcs.embellishmentsWithColorConflict(application_obj)
+
             }
 
             if (application_obj.type === "mascot") {
@@ -2869,7 +2881,8 @@ $(document).ready(function () {
                     if (typeof _inksoftID !== "undefined") {
 
                         if (_inksoftID.length > 0) { 
-
+                            
+                            ub.isMessageIsCalled = true;
                             window.is.isMessage(_inksoftID, application_obj.code, true);
                             
                         } else {
@@ -5892,56 +5905,87 @@ $(document).ready(function () {
 
     }
 
-
     ub.funcs.initOrderProcess = function () {
 
-        // var isUnderMaintenance = !_.isEmpty(_.find(ub.itemCodesforMaintenance, function(item){
-        //     return item == ub.config.material_id;
-        // }));
+        var isDisabled = $('a[data-view="team-info"]').hasClass('disabled');
+        if (isDisabled) { return; } // exit if `order now` button is disabled
 
-        // if (isUnderMaintenance) {
-        //     bootbox.alert("System will be unavailable for ordering due to system maintenance.");
-        // } else {
-            ub.funcs.cleanupBeforeOrder();
+        var hasConflict = $('a[data-view="team-info"]').hasClass('hasColorConflict');
+        if (hasConflict) {
+            var data = [];
+            var embellishmentsWithColorConflict = ub.funcs.embellishmentsWithColorConflict();
 
-            var _exit = false;
+            _.each(embellishmentsWithColorConflict, function(embellishment) {
+                var id = embellishment.applicationCode;
+                var settingsObject = ub.funcs.getSettingsObject(id);
+                var embellishmentObject = settingsObject.embellishment;
+                var name = '#' + id + ' - ' + embellishmentObject.name;
+                    name = name.toUpperCase();
+                var totalColorConflict =  _.size(embellishment.conflictColors);
+                    totalColorConflict = (totalColorConflict > 1) ? totalColorConflict + ' Conflict Colors' : totalColorConflict + ' Conflict Color';
 
-            if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
-                ub.utilities.warn('No Price Table set for this uniform, cancelling order form.');
-                return;
-            }
-            var _msg = "Are you sure you want to go to the order form?";
-
-            if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-            if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
-
-            bootbox.confirm(_msg, function (result) {
-
-                if (!result) {
-
-                    return true;
-
-                } else {
-
-                    if (ub.data.afterLoadCalled === 0) { return; }
-
-                    if (typeof (window.ub.user.id) === "undefined") {
-                        ub.funcs.quickRegistration("order");
-                        return true;
-                    }
-
-                    if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-                        ub.funcs.getOrderAndDetailsInfo();
-                    } else {
-                        ub.funcs.initRoster();
-                    }
-
-                }
-
+                data.push({
+                    embellishments: embellishmentObject,
+                    name: name,
+                    totalColorConflict: totalColorConflict,
+                    id: id
+                });
             });
 
-        // }
+            var _html = ub.utilities.buildTemplateString('#m-embellishment-order-conflict-colors', {embellishments: data});
 
+            var dialog = bootbox.alert({ message: _html });
+                dialog.modal('show');
+
+            $('.fix-conflict').on('click', function() {
+                var id = $(this).data('id');
+                var designID = $(this).data('design-id');
+
+                dialog.modal('hide');
+                // call recursively
+                is.loadDesigner(designID, id, true, true);
+            });
+
+            return;
+        }
+
+        ub.funcs.cleanupBeforeOrder();
+
+        var _exit = false;
+
+        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.');
+            return;
+        }
+        var _msg = "Are you sure you want to go to the order form?";
+
+        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
+
+        bootbox.confirm(_msg, function (result) {
+
+            if (!result) {
+
+                return true;
+
+            } else {
+
+                if (ub.data.afterLoadCalled === 0) { return; }
+
+                if (typeof (window.ub.user.id) === "undefined") {
+                    ub.funcs.quickRegistration("order");
+                    return true;
+                }
+
+                if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
+                    ub.funcs.getOrderAndDetailsInfo();
+                } else {
+                    ub.funcs.initRoster();
+                }
+
+            }
+
+        });
 
     }
 
@@ -6176,7 +6220,7 @@ $(document).ready(function () {
                     ub['right_view'].visible = true;
                     ub['back_view'].visible = true;
 
-                    ub.funcs.initOrderProcess()
+                    ub.funcs.initOrderProcess();
                     return;
 
                 }
@@ -8933,6 +8977,7 @@ $(document).ready(function () {
 
                 success: function (response) {
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
+                    location.reload();
                 }
             });
         }
