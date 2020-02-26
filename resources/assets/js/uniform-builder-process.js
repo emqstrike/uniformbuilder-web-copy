@@ -860,7 +860,7 @@ $(document).ready(function() {
                     };
 
                     ub.funcs.submitFeedback(_data);
-                    $('div.free-feedback-form').remove();
+                    $("div.free-feedback-form-modal").remove();
                     ub.feedbackForm = false;
                     $.smkAlert({text:'Your message has been successfully sent.', type:'success', time:3});
 
@@ -868,7 +868,7 @@ $(document).ready(function() {
 
                 $('span.cancel-btn').on('click', function () {
 
-                    $('div.free-feedback-form').remove();
+                    $("div.free-feedback-form-modal").remove();
                     ub.feedbackForm = false;
 
                 });
