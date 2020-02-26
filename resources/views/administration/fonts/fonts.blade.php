@@ -143,6 +143,7 @@
                                 {{ $font->updated_at }}
                             </td>
                             <td>
+                                
                                 <a href="/administration/font/edit/{{ $font->id }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
@@ -155,6 +156,13 @@
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
+
+
+                                <a href="{{ $font->font_path }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
+                                    <i class="glyphicon glyphicon-download"></i>
+                                    Download
+                                </a>
+                                
                             </td>
                         </tr>
 
