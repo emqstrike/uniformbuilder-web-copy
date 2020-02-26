@@ -9842,164 +9842,181 @@ div.header-container.main {
 
         }
 
+        /* Feedback Form */
+        div.free-feedback-form-modal {
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            div.free-feedback-form{
 
-        div.free-feedback-form{
+                // cursor: grab;
+                padding: 30px;
+                display: none;
+                position: fixed;
+                width: 930px;
+                min-height: 390px;
+                top: 200px;
+                left: 300px;
+                font-size: 0.9em;
+                background-color: white;
 
-            // cursor: grab;
-            padding: 30px;
-            display: none;
-            position: fixed;
-            width: 930px;
-            min-height: 390px;
-            top: 200px;
-            left: 300px;
-            z-index: 2000;
-            font-size: 0.9em;
-            background-color: white;
+                -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+                -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+                box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
 
-            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
-            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
-            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+                //.img-thumbnail:hover {
+                //    cursor: pointer;
+                //}
 
-            //.img-thumbnail:hover {
-            //    cursor: pointer;
-            //}
+                .img-label {
+                    font-weight: bold;
+                    font-style: italic;
+                }
 
-            .img-label {
-                font-weight: bold;
-                font-style: italic;
-            }
+                .required {
+                    color: red;
+                }
 
-            .required {
-                color: red;
-            }
+                .error {
+                    border-color: red;
+                }
 
-            .error {
-                border-color: red;
-            }
+                .fa-tshirt {
+                    font-size: 100px;
+                }
 
-            .fa-tshirt {
-                font-size: 100px;
-            }
+                .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
+                    width: 100px;
+                }
 
-            .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
-                width: 100px;
-            }
+                .img-thumbnail.upload {
+                    margin-top: 10px;
+                    //height: 200px;
+                    //width: 200px;
+                }
 
-            .img-thumbnail.upload {
-                margin-top: 10px;
-                //height: 200px;
-                //width: 200px;
-            }
+                .upload-btn {
+                    outline: none;
+                }
 
-            .upload-btn {
-                outline: none;
-            }
+                .optional {
+                    color: #ccc;
+                }
 
-            .optional {
-                color: #ccc;
-            }
+                h3 {
 
-            h3 {
-
-                margin-top: 0px;
-                text-align: center;
-                margin-bottom: 30px;
-                /* font-family: 'Avenir Next LT W04 Thin'; */
-                font-family: 'Gotham-Bold';
+                    margin-top: 0px;
+                    text-align: center;
+                    margin-bottom: 30px;
+                    /* font-family: 'Avenir Next LT W04 Thin'; */
+                    font-family: 'Gotham-Bold';
 
 
-                border-bottom: dashed 1px #acacac;
-                padding-bottom: 30px;
+                    border-bottom: dashed 1px #acacac;
+                    padding-bottom: 30px;
 
-            }
+                }
 
-            span.message {
+                span.message {
 
-                color: #3d3d3d;
-                text-align: center;
+                    color: #3d3d3d;
+                    text-align: center;
 
-            }
+                }
 
-            textarea#feedback-message {
+                textarea#feedback-message {
 
-                width: 100%;
-                height: 100px;
-                padding: 10px;
-
-            }
-
-            div.col-md-3 > img {
-
-                width: 100%;
-                margin-top: 30px;
-
-            }
-
-            div.ok-footer  {
-
-                text-align: center;
-
-                span.ok-btn, span.cancel-btn {
-
-                    background-color: #acacac;
-                    color: white;
-                    width: 150px;
+                    width: 100%;
+                    height: 100px;
                     padding: 10px;
-                    cursor: pointer;
 
-                    margin: 0 auto;
+                }
+
+                div.col-md-3 > img {
+
+                    width: 100%;
                     margin-top: 30px;
-                    display: inline-block;
-
-                    .smallButton;
 
                 }
 
-                span.ok-btn:hover, span.cancel-btn:hover {
+                div.ok-footer  {
 
-                    background-color: #3d3d3d;
-                    color: white;
+                    text-align: center;
 
-                    .smallButtonHover;
+                    span.ok-btn, span.cancel-btn {
+
+                        background-color: #acacac;
+                        color: white;
+                        width: 150px;
+                        padding: 10px;
+                        cursor: pointer;
+
+                        margin: 0 auto;
+                        margin-top: 30px;
+                        display: inline-block;
+
+                        .smallButton;
+
+                    }
+
+                    span.ok-btn:hover, span.cancel-btn:hover {
+
+                        background-color: #3d3d3d;
+                        color: white;
+
+                        .smallButtonHover;
+
+                    }
 
                 }
 
-            }
+                // parsley error msg
+                .parsley-error { border-color: red; }
+                ul.parsley-errors-list.filled {
+                    color: red;
 
-            // parsley error msg
-            .parsley-error { border-color: red; }
-            ul.parsley-errors-list.filled {
-                color: red;
-
-                li { float: right; }
+                    li { float: right; }
+                }
             }
         }
-
     /* End Feedback Form */
 
     /* Feedback form for 1567px screen size */
     @media screen and (max-width: 1680px) {
-        div.free-feedback-form {
-            top: 10px !important;
-            padding: 15px 30px;
-            font-size: .85em;
-            width: 800px;
-            // header
-            h3 {
-                margin-bottom: 15px;
-                padding-bottom: 20px;
-            }
-            // message textarea
-            textarea {
-                height: 11em;
-                resize: none;
-            }
-            // footer
-            span.cancel-btn, span.ok-btn { margin: 15px auto 0 !important; }
-            // thumbnail
-            .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
-                width: 88px;
+        div.free-feedback-form-modal {
+            div.free-feedback-form {
+                top: 10px !important;
+                padding: 15px 30px;
+                font-size: .85em;
+                width: 800px;
+                // header
+                h3 {
+                    margin-bottom: 15px;
+                    padding-bottom: 20px;
+                }
+                // message textarea
+                textarea {
+                    height: 11em;
+                    resize: none;
+                }
+                // footer
+                span.cancel-btn, span.ok-btn { margin: 15px auto 0 !important; }
+                // thumbnail
+                .img-thumbnail.front, .img-thumbnail.back, .img-thumbnail.left, .img-thumbnail.right {
+                    width: 88px;
+                }
+                // image upload placeholder
+                .img-thumbnail.upload {
+                    margin-top: 5px;
+                    height: 330px;
+                    width: 330px;
+                }
             }
         }
     }
