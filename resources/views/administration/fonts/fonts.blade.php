@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 
 @endsection
 
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts' id="fonts_table">
+                    <table data-toggle='table' class='table table-bordered fonts data-table' id="fonts_table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -152,17 +153,16 @@
                                     <i class="glyphicon glyphicon-copy"></i>
                                     Clone
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    Remove
-                                </a>
-
 
                                 <a href="{{ $font->font_path }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
                                     <i class="glyphicon glyphicon-download"></i>
                                     Download
                                 </a>
-                                
+                                <a href="#" class="btn btn-danger btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    Remove
+                                </a>
+
                             </td>
                         </tr>
 
@@ -220,6 +220,7 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
@@ -231,14 +232,14 @@ $("tr").each(function(i) {
         // $(this).css('text-shadow', '1px 1px #000');
     }
 });
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
 });
 </script>
 @endsection
