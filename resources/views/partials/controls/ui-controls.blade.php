@@ -1820,7 +1820,7 @@
 <!-- End Order Submitted -->
 
     <script type="text/mustache" id="m-feedback-form-free">
-
+    <div class="free-feedback-form-modal bootbox">
         <div class="free-feedback-form">
 
             <h3><i class="fa fa-comment" aria-hidden="true"></i> FEEDBACK</h3>
@@ -1886,6 +1886,7 @@
             </div>
             
         </div>
+    </div>
 
     </script>   
 
