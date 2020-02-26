@@ -1467,8 +1467,8 @@ $(document).ready(function() {
                         app_properties[l].appDefPattern = 33;
                     } else if (temp_brand == 'richardson') {
                         app_properties[l].appDefPattern = 318;
-                    } else if (temp_brand == 'riddell') {
-                        app_properties[l].appDefPattern = 33;
+                    } else if (temp_brand == 'riddell' || temp_brand == 'Riddell') {
+                        app_properties[l].appDefPattern = 496;
                     }
                 }
 
