@@ -3235,35 +3235,29 @@ $(document).ready(function() {
         return isInside;
 
     }
-    
-    ub.funcs.isWithin = function (point, boundaries) {
 
+    ub.funcs.isWithin = function (point, boundaries) {
         var _transformed_boundaries = [];
 
-        if(ub[ub.active_view + '_view'].scale.x === 0.5) {
+        if(ub[ub.active_view + '_view'].scale.x === 0.55) {
 
             _.each (boundaries, function(point) {
-                
-                var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
-                _transformed_boundaries.push(p); 
-
+                var p = new PIXI.Point((point.x * 0.55) + ub.offset.x, (point.y * 0.55) + ub.offset.y);
+                _transformed_boundaries.push(p);
             });
-    
-        }
-        else {
+
+        } else {
 
             _.each (boundaries, function (point) {
-                
                 var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
-                _transformed_boundaries.push(p); 
-
+                _transformed_boundaries.push(p);
             });
 
         }
 
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
-
     }
+
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];
