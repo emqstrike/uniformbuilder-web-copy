@@ -9530,13 +9530,15 @@ $(document).ready(function () {
                     ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
                     $('#primaryMessagePopup').remove();
 
+                    location.reload();
+
                 });
 
                 $('div.close-popup').unbind('click');
                 $('div.close-popup').on('click', function () {
 
                     $('#primaryMessagePopup').remove();
-
+                    $(".message-row").filter('[data-id="'+ _id +'"]').fadeOut();
                 });
 
             });
