@@ -1160,7 +1160,7 @@ $(document).ready(function () {
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
-
+                ub.dataPatches.runAfterAssetsLoaded(); // patch
                 ub.displayDoneAt('Loading assets completed');
                 ub.load_assets();
 

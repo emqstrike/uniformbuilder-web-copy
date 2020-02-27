@@ -11074,6 +11074,10 @@ $(document).ready(function() {
 
                             $('span.part').first().addClass('active');
 
+                        } else if (_.size(ub.funcs.getFreeFormLayers()) === 1) { // set first active part if has one layer.
+
+                            $('span.part').first().addClass('active');
+
                         } else {
 
                             _partToMakeActive =  _perspective.toTitleCase();
