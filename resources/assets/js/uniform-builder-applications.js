@@ -7430,7 +7430,6 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
@@ -7471,9 +7470,10 @@ $(document).ready(function() {
             }
 
             if (typeof _matchingID !== "undefined") {
-
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
             }
+
+            ub.funcs.disableSubmitOnUniforms();
         });
 
         $('div#applicationUI').fadeIn();
@@ -9704,7 +9704,6 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-            console.log("toggle Option");
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
@@ -9724,9 +9723,10 @@ $(document).ready(function() {
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
-
                 ub.funcs.toggleApplication(_matchingID.toString(), s);
             }
+
+            ub.funcs.disableSubmitOnUniforms();
         });
 
         /// Initialize
@@ -11065,6 +11065,10 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+
+                            $('span.part').first().addClass('active');
+
+                        } else if (_.size(ub.funcs.getFreeFormLayers()) === 1) { // set first active part if has one layer.
 
                             $('span.part').first().addClass('active');
 
