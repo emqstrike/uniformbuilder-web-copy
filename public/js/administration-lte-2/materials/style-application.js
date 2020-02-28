@@ -3409,8 +3409,8 @@ $(".dd-selected-value").click(function(){
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
             applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
-            // applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-            applicationProperties[itemIdx].rotation = rotation_val;
+            applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+            // applicationProperties[itemIdx].rotation = rotation_val;
 
             
 
