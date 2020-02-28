@@ -237,6 +237,9 @@ $(document).ready(function() {
             } else if (temp_brand == 'richardson') {
                 $(this).parent().find('.app-def-pattern').val(318);
                 id = 318;
+            } else if (temp_brand == 'richardson') {
+                $(this).parent().find('.app-def-pattern').val(496);
+                id = 496;
             }
         }
         else {
@@ -625,11 +628,11 @@ $(document).ready(function() {
         var def_patterns_options = '';
         var current_sport = $('#material_uniform_category').val();
         var current_asset_target = $('#material_asset_target').val();
-
+        var alter_sport_name = temp_brand == "Riddell" ? "RDL "+current_sport : current_sport;
         var input_patterns = _.filter(window.patterns, function(pattern) {
             var sport = JSON.parse(pattern.sports);
             var asset_target = pattern.asset_target;
-            var sportOk = _.contains(sport, current_sport);
+            var sportOk = _.contains(sport, alter_sport_name);
             return sportOk;
         });
 
@@ -642,7 +645,7 @@ $(document).ready(function() {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else if (item.id == 318 && temp_brand == 'richardson') {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-            } else if (item.id == 33 && temp_brand == 'riddell') {
+            } else if (item.id == 496 && (temp_brand == 'Riddell' || temp_brand == 'riddell')) {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
             } else {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
@@ -845,6 +848,7 @@ $(document).ready(function() {
             }
         });
     });
+    //
 
 
     $(document).on('click', '.delete-application', function() {
@@ -1429,7 +1433,8 @@ $(document).ready(function() {
                 var app_material_brand = $('#app-material-brand').val();
 
                 for(var i = 0; i < window.fonts.length; i++) {
-                    if(window.fonts[i].active == 1 && window.fonts[i].brand == app_material_brand){
+                        console.log(window.fonts[i]);
+                    if(window.fonts[i].active == 1 ){
                         if(app_font == window.fonts[i].id ){
                             fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
@@ -1448,12 +1453,12 @@ $(document).ready(function() {
                 var def_patterns_options = '';
                 var current_sport = $('#material_uniform_category').val();
                 var current_asset_target = $('#material_asset_target').val();
-
+                var alter_sport_name = temp_brand == "Riddell" ? "RDL "+current_sport : current_sport;
                 var input_patterns = _.filter(window.patterns, function(pattern) {
                     var sport = JSON.parse(pattern.sports);
                     // var asset_target = pattern.asset_target;
                     // var bp_options = pattern.block_pattern_options;
-                    var sportOk = _.contains(sport, current_sport);
+                    var sportOk = _.contains(sport, alter_sport_name);
                     return sportOk;
                 });
 
@@ -1463,8 +1468,8 @@ $(document).ready(function() {
                         app_properties[l].appDefPattern = 33;
                     } else if (temp_brand == 'richardson') {
                         app_properties[l].appDefPattern = 318;
-                    } else if (temp_brand == 'riddell') {
-                        app_properties[l].appDefPattern = 33;
+                    } else if (temp_brand == 'riddell' || temp_brand == 'Riddell') {
+                        app_properties[l].appDefPattern = 496;
                     }
                 }
 
@@ -1789,17 +1794,17 @@ $(document).ready(function() {
         $('.app-pattern-properties').trigger('change');
     }
 
-    function flashApplicationRow(e){
-        var obj_id = e.target.get('id');
-        var ctr = 0;
-        $('.application-row').each(function(i, obj) {
-            if( ctr == obj_id ){
-                $(this).fadeOut();
-                setTimeout(fadeInRow($(this)), 1000)
-            }
-            ctr++;
-        });
-    }
+    // function flashApplicationRow(e){
+    //     var obj_id = e.target.get('id');
+    //     var ctr = 0;
+    //     $('.application-row').each(function(i, obj) {
+    //         if( ctr == obj_id ){
+    //             $(this).fadeOut();
+    //             setTimeout(fadeInRow($(this)), 1000)
+    //         }
+    //         ctr++;
+    //     });
+    // }
 
     function fadeInRow(row){
         row.fadeIn();
@@ -3185,7 +3190,9 @@ $(".dd-selected-value").click(function(){
         applicationProperties = {};
         cx = 0;
 
+
         $(".app-rotation").each(function(i) {
+            
             itemIdx = "layer" + $(this).data('id');
             layer = $(this).data('id');
 
@@ -3403,6 +3410,9 @@ $(".dd-selected-value").click(function(){
             applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
             applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+            // applicationProperties[itemIdx].rotation = rotation_val;
+
+            
 
             var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
             var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
@@ -3412,6 +3422,8 @@ $(".dd-selected-value").click(function(){
 
             applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
             applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
+
+
             try{
                 if(cs == 1){
                     $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
@@ -3430,6 +3442,7 @@ $(".dd-selected-value").click(function(){
         var appProperties = JSON.stringify(applicationProperties);
 
         appProperties = '"'+appProperties+'"';
+        console.log(appProperties);
         $('#a-application-properties').val(appProperties);
         window.ap = appProperties;
     }

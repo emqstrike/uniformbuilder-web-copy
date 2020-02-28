@@ -798,7 +798,8 @@ $(document).ready(function() {
 
                 // set value if user is logged in
                 if(ub.user) {
-                    $('#feedback-form .name').val(ub.user.fullname).attr('disabled','disabled');
+                    var fullname = ub.utilities.decodeHtmlEntity(ub.user.fullname);
+                    $('#feedback-form .name').val(fullname).attr('disabled','disabled');
                     $('#feedback-form .email').val(ub.user.email).attr('disabled','disabled');
                 }
 
@@ -859,7 +860,7 @@ $(document).ready(function() {
                     };
 
                     ub.funcs.submitFeedback(_data);
-                    $('div.free-feedback-form').remove();
+                    $("div.free-feedback-form-modal").remove();
                     ub.feedbackForm = false;
                     $.smkAlert({text:'Your message has been successfully sent.', type:'success', time:3});
 
@@ -867,7 +868,7 @@ $(document).ready(function() {
 
                 $('span.cancel-btn').on('click', function () {
 
-                    $('div.free-feedback-form').remove();
+                    $("div.free-feedback-form-modal").remove();
                     ub.feedbackForm = false;
 
                 });
@@ -3328,11 +3329,15 @@ $(document).ready(function() {
     $('button.loginRest').unbind('click');
     $('button.loginRest').on('click', function () {
 
-        var _e = $('input[type="email"]').val();
-        var _p = $('input[type="password"]').val();
+        var $loginForm = $('form.loginRest');
+            $loginForm.parsley().validate();
 
-        ub.funcs.lRest(_e, _p);
-
+        var isCredentialsValid = $loginForm.parsley().isValid();
+        if (isCredentialsValid) {
+            var email = $('input[type="email"]').val();
+            var password = $('input[type="password"]').val();
+            ub.funcs.lRest(email, password);
+        }
     });
 
     /// END LREST

@@ -8501,6 +8501,10 @@ ub.funcs.fontOffSets = [
                 fontName: 'Badgers',
             },
             {
+                sport: 'Football 2017',
+                fontName: 'Badgers',
+            },
+            {
                 sport: 'Wrestling',
                 fontName: 'Badgers',
             },
@@ -12760,11 +12764,11 @@ ub.funcs.fontOffSets = [
    // disabled order button on uniforms.
    ub.data.disableSubmitOnUniforms = {
         items: [
-            "Baseball (Quickturn)",
-            "Fastpitch (Quickturn)",
-            "Basketball (Quickturn)",
-            "Tech-Tee (Quickturn)",
-            "Socks (Quickturn)"
+            // "Baseball (Quickturn)",
+            // "Fastpitch (Quickturn)",
+            // "Basketball (Quickturn)",
+            // "Tech-Tee (Quickturn)",
+            // "Socks (Quickturn)"
         ],
         isDisabled: function(sport) {
             return _.contains(this.items, sport);
@@ -12782,8 +12786,9 @@ ub.funcs.fontOffSets = [
             'Socks (Quickturn)'
         ],
         isHidden: function(sport) {
-            this.consoleMessage();
-            return _.contains(this.items, sport);
+            var onItems = _.contains(this.items, sport);
+            if (onItems) { this.consoleMessage() }
+            return onItems;
         },
         consoleMessage: function() {
             console.warn("Pattern button is hidden on this sport.");

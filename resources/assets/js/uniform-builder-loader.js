@@ -304,7 +304,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Quickturn',
-                            'thumbnail_male': '/images/main-ui/pickers/Men/quickturn-teaser.png',
+                            'thumbnail_male': '/images/main-ui/pickers/Men/quickturn.png',
                             'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
                         }
                     ]
@@ -315,7 +315,7 @@ $(document).ready(function() {
                         {
                             'active': 1,
                             'name': 'Quickturn',
-                            'thumbnail_female': '/images/main-ui/pickers/Women/quickturn-teaser.png',
+                            'thumbnail_female': '/images/main-ui/pickers/Women/quickturn.png',
                             'quickturn_logo': '/images/sport-icons/quick-turn-new.svg'
                         }
                     ]

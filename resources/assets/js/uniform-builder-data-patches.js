@@ -144,11 +144,6 @@ $(document).ready(function () {
 		}
 	}
 
-	ub.dataPatches.run = function () {
-		ub.dataPatches.patch4874to5728();
-		ub.dataPatches.patchForPerspectiveIssues();
-	};
-
 	ub.dataPatches.forRandomFeedPatching = function () {
 
 		var _id13233 = ["13233"];
@@ -159,5 +154,26 @@ $(document).ready(function () {
 		return _ok;
 
 	}
+
+	ub.dataPatches.avoidHiddenBody = function() {
+		var uniformIDs = ["5308"];
+		var materialId = ub.config.material_id.toString();
+		var onUniformIDs = _.contains(uniformIDs, materialId);
+
+		if (onUniformIDs) {
+			ub.config.hiddenBody = false;
+			console.log("%c A patch is detected for this uniform.... Set hidden_body_flag to false.... ", "background: #222; color: #bada55");
+		}
+
+	}
+
+	ub.dataPatches.run = function () {
+		ub.dataPatches.patch4874to5728();
+		ub.dataPatches.patchForPerspectiveIssues();
+	};
+
+	ub.dataPatches.runAfterAssetsLoaded = function() {
+		ub.dataPatches.avoidHiddenBody();
+	};
 
 });

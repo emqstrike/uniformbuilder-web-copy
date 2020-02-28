@@ -6,6 +6,7 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\GradientsAPIClient;
+use App\APIClients\MaterialsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\StylesAPIClient;
 use App\Http\Controllers\Controller;
@@ -31,6 +32,7 @@ class Qx7StyleRequestController extends Controller
     protected $optionsClient;
     protected $stylesClient;
     protected $rulesClient;
+    protected $materialsClient;
 
     public function __construct(
         // APIClient $apiClient
@@ -42,7 +44,8 @@ class Qx7StyleRequestController extends Controller
         GradientsAPIClient $gradientsAPIClient,
         MaterialsOptionsAPIClient $optionsClient,
         StylesAPIClient $stylesClient,
-        RulesClient $rulesClient
+        RulesClient $rulesClient,
+        MaterialsAPIClient $materialsClient
     )
     {
         // $this->client = $apiClient;
@@ -55,6 +58,7 @@ class Qx7StyleRequestController extends Controller
         $this->optionsClient = $optionsClient;
         $this->stylesClient = $stylesClient;
         $this->rulesClient = $rulesClient;
+        $this->materialsClient = $materialsClient;
     }
 
     public function index()
@@ -91,6 +95,8 @@ class Qx7StyleRequestController extends Controller
         $left_guide = null;
         $right_guide = null;
 
+        $material_ids = [];
+
         foreach($options as $option) {
             $default_color = $option->default_color;
             $sublimated_default_color = $option->sublimated_default_color;
@@ -104,9 +110,13 @@ class Qx7StyleRequestController extends Controller
             } else if($option->perspective == "right" && $option->name =="Guide"){
                 $right_guide = $option->material_option_path;
             }
+        
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
         }
 
         $gradients = $this->gradientClient->getGradients();
+
+        $parent_materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
 
         return view('administration.qx7-style-requests.view-options', [
             'options' => $options,
@@ -119,7 +129,8 @@ class Qx7StyleRequestController extends Controller
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
             'right_guide' => $right_guide,
-            'style' => $style
+            'style' => $style,
+            'materials' => $parent_materials
         ]);
     }
 
@@ -191,10 +202,18 @@ class Qx7StyleRequestController extends Controller
         // $material = $this->client->getMaterialQS($id);
         $style = $this->stylesClient->getStyle($id);
         $options = $this->optionsClient->getByStyleId($id);
+        
+        $material_ids = [];
 
+        foreach($options as $option) {
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
+        }
+
+        $parent_materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
         return view('administration.qx7-style-requests.style-options-setup', [
             'style' => $style,
             'options' => $options,
+            'materials' => $parent_materials
         ]);
     }
 
@@ -572,6 +591,8 @@ class Qx7StyleRequestController extends Controller
             }
         }
 
+        $material_ids = [];
+
         foreach ($options as $option) {
             if ($option->perspective == 'front') {
                 array_push($frontPerspectiveOptions, $option);
@@ -582,8 +603,11 @@ class Qx7StyleRequestController extends Controller
             } elseif ($option->perspective == 'right') {
                 array_push($rightPerspectiveOptions, $option);
             }
+
+            if (!in_array($option->material_id, $material_ids)) array_push($material_ids, $option->material_id);
         }
 
+        $materials = $this->materialsClient->getMaterialNameById(['ids' => $material_ids]);
         return view('administration.qx7-style-requests.edit-rule-part-names', compact(
             'frontPerspectiveOptions',
             'backPerspectiveOptions',
@@ -591,7 +615,8 @@ class Qx7StyleRequestController extends Controller
             'rightPerspectiveOptions',
             'bodyParts',
             'style',
-            'bodyPartColorGroups'
+            'bodyPartColorGroups',
+            'materials'
         ));
     }
 

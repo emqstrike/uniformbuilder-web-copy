@@ -7,6 +7,16 @@ $(document).ready(function() {
         return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Quickturn)");
     }
 
+    ub.funcs.isNotUnisexSocks = function (material) {
+        if (material.uniform_category.includes("Socks")) {
+            var socksCategories = ["Crew Socks (Apparel)" , "Socks (Apparel)", "Socks (Quickturn)"];
+            var isSocks = _.contains(socksCategories, material.uniform_category);
+            var isNotUnisex = !_.isEqual(material.gender, "unisex");
+
+            return isSocks && isNotUnisex;
+        }
+    }
+
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;
@@ -3225,35 +3235,29 @@ $(document).ready(function() {
         return isInside;
 
     }
-    
-    ub.funcs.isWithin = function (point, boundaries) {
 
+    ub.funcs.isWithin = function (point, boundaries) {
         var _transformed_boundaries = [];
 
-        if(ub[ub.active_view + '_view'].scale.x === 0.5) {
+        if(ub[ub.active_view + '_view'].scale.x === 0.55) {
 
             _.each (boundaries, function(point) {
-                
-                var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
-                _transformed_boundaries.push(p); 
-
+                var p = new PIXI.Point((point.x * 0.55) + ub.offset.x, (point.y * 0.55) + ub.offset.y);
+                _transformed_boundaries.push(p);
             });
-    
-        }
-        else {
+
+        } else {
 
             _.each (boundaries, function (point) {
-                
                 var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
-                _transformed_boundaries.push(p); 
-
+                _transformed_boundaries.push(p);
             });
 
         }
 
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
-
     }
+
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];
@@ -6277,12 +6281,12 @@ $(document).ready(function() {
         // });
 
         $("#rotate-slider").roundSlider({
-            sliderType: "min-range",
+            // sliderType: "min-range",
             handleShape: "round",
             width: 15,
             radius: 85,
             value: _start,
-            startAngle: 90,
+            startAngle: 96,
 
             drag: function (args) {
                 
@@ -11061,6 +11065,10 @@ $(document).ready(function() {
                     if (_perspective === "back" || _perspective === "front") {
 
                         if (ub.data.freeFormToolFirstPartSelection.activateOnLowerUniform(ub.current_material.material.uniform_category)) {
+
+                            $('span.part').first().addClass('active');
+
+                        } else if (_.size(ub.funcs.getFreeFormLayers()) === 1) { // set first active part if has one layer.
 
                             $('span.part').first().addClass('active');
 

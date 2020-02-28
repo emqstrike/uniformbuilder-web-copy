@@ -66,7 +66,7 @@
                             <form action="{{ route('qx7_save_style_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data"
                                 data-material-id="{{ $style->id }}"
                                 data-material-name="{{ $style->name }}"
-                                data-material-brand="prolook"
+                                data-material-brand="{{ $style->brand }}"
                                 data-material-option-id="{{ $materialOption->id }}"
                                 data-material-option-name="{{ $materialOption->name }}"
                                 data-material-option-setting-type="{{ $materialOption->setting_type }}"
@@ -83,11 +83,11 @@
                                 <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop value" value="{{ $materialOption->applications_properties }}">
                                 <input type="hidden" id="app-saved-perspective" value="{{ $materialOption->perspective }}">
                                 <input type="hidden" id="app-material-option-name" value="{{ $materialOption->name }}">
-                                <input type="hidden" id="app-material-brand" value="prolook">
+                                <input type="hidden" id="app-material-brand" value="{{ $style->brand }}">
 
-                                <input type="hidden" id="material_uniform_category" value="Football 2017">
+                                <input type="hidden" id="material_uniform_category" value="{{ $style->sport }}">
                                 <input type="hidden" id="material_asset_target" value="Web">
-                                <input type="hidden" id="material_brand" value="prolook">
+                                <input type="hidden" id="material_brand" value="{{ $style->brand }}">
                                 <input type="hidden" id="rule_id" value="{{ $style->rule_id }}">
 
                                 <div class="row">

@@ -1160,7 +1160,7 @@ $(document).ready(function () {
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
-
+                ub.dataPatches.runAfterAssetsLoaded(); // patch
                 ub.displayDoneAt('Loading assets completed');
                 ub.load_assets();
 
@@ -1526,6 +1526,8 @@ $(document).ready(function () {
 
             _.each(_object, function(material) {
 
+                if (ub.funcs.isNotUnisexSocks(material)) { return false }
+
                 _searchResultsObject[_key].push({
                     type: type,
                     name: data,
@@ -1796,8 +1798,13 @@ $(document).ready(function () {
 
             });
 
-            var _searchSource = _.map(ub.materials, function (material) {
-                return ub.funcs.getSearchName(material);
+            var _searchSource = [];
+            _.each(ub.materials, function (material) {
+                var isNotUnisexSocks = ub.funcs.isNotUnisexSocks(material);
+                if (isNotUnisexSocks) { return false; }
+
+                var searchName = ub.funcs.getSearchName(material);
+                _searchSource.push(searchName);
             });
 
             // ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
@@ -6020,7 +6027,7 @@ $(document).ready(function () {
                 if (view === 'patterns') {
 
                     if (_.size(ub.current_material.settings.team_colors) <= 1) {
-                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        ub.showModal("At least 2 Team Colors are required to proceed");
                          return undefined;
                      }
 
@@ -6042,7 +6049,7 @@ $(document).ready(function () {
                     }
 
                      if (ub.current_material.settings.team_colors.length <= 1) {
-                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        ub.showModal("At least 2 Team Colors are required to proceed");
                         return undefined;
                     }
 
@@ -6063,7 +6070,7 @@ $(document).ready(function () {
                     }
 
                     if (ub.current_material.settings.team_colors.length <= 1) {
-                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        ub.showModal("At least 2 Team Colors are required to proceed");
                         return undefined;
                     }
 
@@ -6124,7 +6131,7 @@ $(document).ready(function () {
                 if (view === 'layers') {
 
                     if (ub.current_material.settings.team_colors.length <= 1) {
-                        ub.showModal("At least 2 Team Colors is required to proceed");
+                        ub.showModal("At least 2 Team Colors are required to proceed");
                         return undefined;
                     }
 

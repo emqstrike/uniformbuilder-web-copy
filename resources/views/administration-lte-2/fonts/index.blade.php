@@ -171,6 +171,11 @@
                                                 <i class="glyphicon glyphicon-copy"></i>
                                                 Clone
                                             </a>
+
+                                            <a href="{{ $font->font_path }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
+                                            <i class="glyphicon glyphicon-download"></i>
+                                                Download
+                                            </a>
                                         @endif
 
                                         <a href="#" class="btn btn-flat btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
