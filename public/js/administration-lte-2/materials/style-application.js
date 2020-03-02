@@ -3410,9 +3410,10 @@ $(".dd-selected-value").click(function(){
             applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
             applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-            // applicationProperties[itemIdx].rotation = rotation_val;
 
-            
+            if(applicationProperties[itemIdx].rotation != rotation_val){
+               applicationProperties[itemIdx].rotation = rotation_val;
+            }
 
             var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
             var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
@@ -3442,7 +3443,7 @@ $(".dd-selected-value").click(function(){
         var appProperties = JSON.stringify(applicationProperties);
 
         appProperties = '"'+appProperties+'"';
-        console.log(appProperties);
+
         $('#a-application-properties').val(appProperties);
         window.ap = appProperties;
     }
