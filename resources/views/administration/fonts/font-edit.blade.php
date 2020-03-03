@@ -65,7 +65,7 @@ li.select2-selection__choice {
                                 @if ($font->font_path)
                                 <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
                                     {{ $font->name }}<br>
-                                    ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
+                                    {{-- ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 --}}
                                 </span>
                                 @endif
                             </div>
@@ -313,7 +313,10 @@ li.select2-selection__choice {
                         </div>
 
                     <div class="form-group twill-fst"> <!-- START -->
-                        <div class="alert alert-info"><h3>Twill Font Size Tables</h3></div>
+                        
+                        <h2 style="margin-top: 0;" class="text-center"><a href="#font-twill"class="collapse-fonts label label-primary" data-toggle="collapse">Twill Font Size Tables </a></h2>
+                        <hr>
+                        
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                                 <table class="table">
@@ -331,92 +334,96 @@ li.select2-selection__choice {
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="front-fst-body">
-                                    </tbody>
-                                </table>
+
+                        <div id="font-twill" class="collapse">
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="front-fst-body">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="back-fst-body">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="back-fst-body">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="left-fst-body">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="left-fst-body">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="right-fst-body">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="right-fst-body">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div> <!-- END -->
                     <div class="form-group sublimated-fst"> <!-- START -->
-                        <div class="alert alert-info"><h3>Sublimated Font Size Tables</h3></div>
+                        <h2 style="margin-top: 0;" class="text-center"><a href="#font-subli" class="collapse-fonts  label label-info" data-toggle="collapse">Sublimated Font Size Tables </a> </h2>
+                        <hr>
                         <!-- <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                                 <center><a data-toggle="modal" href="#myModalB" class="btn btn-xs btn-primary">Copy data</a></center>
@@ -443,87 +450,90 @@ li.select2-selection__choice {
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="front-fst-body-sublimated">
-                                    </tbody>
-                                </table>
+                        
+                        <div id="font-subli" class="collapse">
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                                <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="front-fst-body-sublimated">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="back-fst-body-sublimated">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="back-fst-body-sublimated">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="left-fst-body-sublimated">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="left-fst-body-sublimated">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Application Number</th>
-                                            <th>Input Size</th>
-                                            <th>Output Size</th>
-                                            <th>X Offset</th>
-                                            <th>Y Offset</th>
-                                            <th>X Scale</th>
-                                            <th>Y Scale</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="right-fst-body-sublimated">
-                                    </tbody>
-                                </table>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Application Number</th>
+                                                <th>Input Size</th>
+                                                <th>Output Size</th>
+                                                <th>X Offset</th>
+                                                <th>Y Offset</th>
+                                                <th>X Scale</th>
+                                                <th>Y Scale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="right-fst-body-sublimated">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div> <!-- END -->
