@@ -143,7 +143,19 @@
                             <div class="col-md-4">
                               <textarea name="comments" class="form-control" id="comments" cols="10" rows="10">{{ $inksoft_designs->comments }}</textarea>
                             </div>
-                        </div>                     
+                        </div> 
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand </label>
+                           <div class="col-md-4">
+                                <select name="brand" class="form-control">
+                                        <option value="" @if($inksoft_designs->brand == '') selected="selected"@endif>Select Brand</option>
+                                        <option value="prolook" @if($inksoft_designs->brand == 'prolook') selected="selected"@endif>Prolook</option>
+                                        <option value="riddell" @if($inksoft_designs->brand == 'riddell') selected="selected"@endif>Riddell</option>
+                                        <option value="richardson" @if($inksoft_designs->brand == 'richardson') selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-inksoft-design">
