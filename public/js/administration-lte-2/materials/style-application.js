@@ -1694,24 +1694,34 @@ $(document).ready(function() {
                 }
 
                 $(document).on('change', '.app-def-item', function() {
+                    
+                    
                     if($(this).val() == "mascot"){
                         var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
-
+                        
                         if(selectedMascot == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
                         }
                     }else{
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
+                        
 
                         if(selectedAccent == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
                         }
-
+                 
+                        if(selectedAccent == -1){
+                            selectedAccent = 0;
+                        }
+                      
                         selectedAccent = selectedAccent.toString();
-                        $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent });
+                        
+                        $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent }); 
+                        
                     }
+
                 });
 
 
@@ -1794,17 +1804,17 @@ $(document).ready(function() {
         $('.app-pattern-properties').trigger('change');
     }
 
-    // function flashApplicationRow(e){
-    //     var obj_id = e.target.get('id');
-    //     var ctr = 0;
-    //     $('.application-row').each(function(i, obj) {
-    //         if( ctr == obj_id ){
-    //             $(this).fadeOut();
-    //             setTimeout(fadeInRow($(this)), 1000)
-    //         }
-    //         ctr++;
-    //     });
-    // }
+    function flashApplicationRow(e){
+        var obj_id = e.target.get('id');
+        var ctr = 0;
+        $('.application-row').each(function(i, obj) {
+            if( ctr == obj_id ){
+                $(this).fadeOut();
+                setTimeout(fadeInRow($(this)), 1000)
+            }
+            ctr++;
+        });
+    }
 
     function fadeInRow(row){
         row.fadeIn();
@@ -3410,9 +3420,10 @@ $(".dd-selected-value").click(function(){
             applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
             applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-            // applicationProperties[itemIdx].rotation = rotation_val;
 
-            
+            if(applicationProperties[itemIdx].rotation != rotation_val){
+               applicationProperties[itemIdx].rotation = rotation_val;
+            }
 
             var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
             var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
@@ -3442,7 +3453,7 @@ $(".dd-selected-value").click(function(){
         var appProperties = JSON.stringify(applicationProperties);
 
         appProperties = '"'+appProperties+'"';
-        console.log(appProperties);
+
         $('#a-application-properties').val(appProperties);
         window.ap = appProperties;
     }
@@ -3502,6 +3513,7 @@ $(".dd-selected-value").click(function(){
 
     $(document).on('change', '.app-def-item', function() {
         var subject = $(this).val();
+        
         subject = subject.replace(/_/g, ' ');
 
         function capitalizeFirstLetter(subject) {
@@ -3511,6 +3523,7 @@ $(".dd-selected-value").click(function(){
         subject = capitalizeFirstLetter(subject);
 
         $(".app-def-name").eq($(".app-def-item").index(this)).val(subject);
+        
     });
 
     $(document).on('click', '.remove-row', function() {

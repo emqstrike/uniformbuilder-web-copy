@@ -4234,7 +4234,19 @@ $(document).ready(function() {
 
         });
 
-        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, function(item) {
+
+            var i = 100;
+            
+            // set intGroupID value (if it is NaN),
+            // this is to make sure that _.sortBy work
+            if (Number.isNaN(item.intGroupID)) {
+                item.intGroupID = i++;
+            }
+
+            return item.intGroupID;
+            
+        });
     
         $pd = $('div#parts_dropdown');
 
@@ -7430,7 +7442,6 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
@@ -7471,9 +7482,10 @@ $(document).ready(function() {
             }
 
             if (typeof _matchingID !== "undefined") {
-
                 if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
             }
+
+            ub.funcs.disableSubmitOnUniforms();
         });
 
         $('div#applicationUI').fadeIn();
@@ -9704,7 +9716,6 @@ $(document).ready(function() {
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
-            console.log("toggle Option");
             var _currentStatus = $('div.toggle').data('status');
             var s;
 
@@ -9724,9 +9735,10 @@ $(document).ready(function() {
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
-
                 ub.funcs.toggleApplication(_matchingID.toString(), s);
             }
+
+            ub.funcs.disableSubmitOnUniforms();
         });
 
         /// Initialize
