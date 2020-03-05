@@ -36,7 +36,7 @@
                             </a>
                         </small>
                     </h1>
-                    <h4>Brands</h4>
+                    {{-- <h4>Brands</h4>
                         <button class="button brand-filter btn-primary" value=".all-brand">All</button>
                         <button class="button brand-filter" value=".prolook">Prolook</button>
                         <button class="button brand-filter" value=".richardson">Richardson</button>
@@ -46,7 +46,7 @@
                          @foreach ($sports as $sport)
                              <button class="button filterSports" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
                          @endforeach
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="box-body">
@@ -64,10 +64,24 @@
                             <th>Tail Sweep</th>
                             <th>Script</th>
                             <th>Block Font</th>
-                            <th>Sports</th>
+                            <th> 
+                                <select name="" id="" data-column="6" class="form-control filter-select">
+                                    <option value="">All Sports</option>
+                                    @foreach ($sports as $sport)
+                                        <option value="{{ $sport->name }}">{{ $sport->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
                             <th>Block Patterns</th>
                             <th>Options</th>
-                            <th>Brand</th>
+                            <th>
+                                <select name="" id="" data-column="9" class="form-control filter-select">
+                                    <option value="">All Brand</option>
+                                    <option value="prolook">Prolook</option>
+                                    <option value="richardson">Richardson</option>
+                                </select>
+
+                            </th>
                             <th>Active Status</th>
                             <th>Last Updated</th>
                             <th>Actions</th>
@@ -177,6 +191,7 @@
                     @endforelse
 
                     </tbody>
+                   
                     </table>
                 </div>
             </div>
@@ -226,13 +241,14 @@
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$("tr").each(function(i) {
-    if( $(this).hasClass( "inactive" ) ){
-        $(this).css('background-color', '#e8e8e8');
-        // $(this).css('text-shadow', '1px 1px #000');
-    }
-});
-    $('.data-table').DataTable({
+
+    $("tr").each(function(i) {
+        if( $(this).hasClass( "inactive" ) ){
+            $(this).css('background-color', '#e8e8e8');
+            // $(this).css('text-shadow', '1px 1px #000');
+        }
+    });
+    var table = $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -240,6 +256,16 @@ $("tr").each(function(i) {
         "info": true,
         "autoWidth": false
     });
+
+
+    $('.filter-select').change(function(){
+        table.column( $(this).data('column'))
+        .search( $(this).val() )
+        .draw();
+    });
+
 });
+
+
 </script>
 @endsection

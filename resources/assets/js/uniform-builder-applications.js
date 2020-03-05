@@ -4234,7 +4234,19 @@ $(document).ready(function() {
 
         });
 
-        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, function(item) {
+
+            var i = 100;
+            
+            // set intGroupID value (if it is NaN),
+            // this is to make sure that _.sortBy work
+            if (Number.isNaN(item.intGroupID)) {
+                item.intGroupID = i++;
+            }
+
+            return item.intGroupID;
+            
+        });
     
         $pd = $('div#parts_dropdown');
 

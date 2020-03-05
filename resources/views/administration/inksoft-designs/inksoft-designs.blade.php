@@ -26,6 +26,7 @@
                             <th>ID</th>
                             <th>Thumbnail</th>
                             <th>Design ID</th>
+                            <th id="select-filter">Brand</th>
                             <th>Design Name</th>
                             <th id="select-filter">User</th>
                             <th id="select-filter">Created By</th>
@@ -53,6 +54,9 @@
                             </td>
                             <td>
                                 {{$item->design_id}}
+                            </td>
+                            <td>
+                                {{$item->brand}}
                             </td>
                             <td>
                                 {{$item->design_name}}
