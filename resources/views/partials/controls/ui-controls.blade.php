@@ -419,7 +419,7 @@
 
 <!-- Sports Picker -->
 
-    <script type="text/mustache" id="m-picker-items-sport">
+    <script type="text/mustache" id="m-picker-items-sport"> 
         {{-- Quickturn Header --}}
         @{{#isQuickturnCategory}}
         <div id="quickturn-header">
