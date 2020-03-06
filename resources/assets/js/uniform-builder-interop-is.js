@@ -487,11 +487,13 @@ $(document).ready(function() {
 
             ub.funcs.getDesignSummary(designID, applicationID);
             ub.funcs.getDesignDetails(designID, applicationID, function() {
-                var _hasConflict = true;
-                var _embeddedDesignerHTML = $('#embeddedDesigner');
-                    _embeddedDesignerHTML.html("");
+                if (!skipCreate) {
+                    var _hasConflict = true;
+                    var _embeddedDesignerHTML = $('#embeddedDesigner');
+                        _embeddedDesignerHTML.html("");
 
-                is.loadDesigner(designID, applicationID, _hasConflict);
+                    is.loadDesigner(designID, applicationID, _hasConflict);    
+                }
             });
 
             ub.isMessageIsCalled = false;
