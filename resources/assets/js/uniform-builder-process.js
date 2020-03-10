@@ -3242,7 +3242,6 @@ $(document).ready(function() {
             success: function (response) {
 
                 if(response.success) {
-
                     window.ub.user = {
 
                         id: parseInt(response.userId),
@@ -3252,6 +3251,7 @@ $(document).ready(function() {
                         email: response.email,
                         state: response.state,
                         zip: response.zip,
+                        role: response.role,
                         defaultRepID: response.default_rep_id,
                         headerValue: response.accessToken,
 
@@ -3304,6 +3304,9 @@ $(document).ready(function() {
                     }
 
                 }
+
+                // hide zoho live popup message
+                ub.funcs.minimizeLivePopupMessage();
 
             }
 
