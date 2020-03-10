@@ -209,6 +209,7 @@ class AuthenticationController extends AdminAuthController
                     'state' => $user->state,
                     'zip' => $user->zip,
                     'accessToken' => base64_encode($access_token),
+                    'role' => $user->role,
                 ];
 
             } else {
