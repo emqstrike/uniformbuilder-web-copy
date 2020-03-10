@@ -17,7 +17,7 @@
         (function() {
             var d = document;
             s = d.createElement("script");
-            s.type = "text/javascript";s
+            s.type = "text/javascript";
             s.id = "zsiqscript";
             s.defer = true;
             s.src = "https://salesiq.zoho.com/widget";

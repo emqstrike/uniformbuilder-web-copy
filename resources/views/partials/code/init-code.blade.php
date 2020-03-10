@@ -83,6 +83,7 @@
                 state: "{{ Session::get('state') }}",
                 defaultRepID: "{{ Session::get('default_rep_id') }}",
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}",
+                role: "{{ Session::get('role') }}"
             };
 
             window.ub.valid = {{ Session::get('userId') }};
