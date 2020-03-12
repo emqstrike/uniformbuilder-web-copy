@@ -172,6 +172,7 @@ $(document).ready(function () {
 
 		if (typeof ub.config.savedDesignInfo !== 'undefined') {
 			if (ub.config.savedDesignInfo['savedDesignID'] == '71333') {
+				console.log("%c A patch is detected for this uniform.... ", "background: #222; color: #bada55");
 				_materialsOptions['Left Shoulders'] = _materialsOptions['Left Shoulder Panel'];
 				_materialsOptions['Right Shoulders'] = _materialsOptions['Right Shoulder Panel'];
 				_materialsOptions['Left Side Panel'] = _materialsOptions['Left Under Arm Vent'];
