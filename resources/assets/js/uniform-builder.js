@@ -702,6 +702,7 @@ $(document).ready(function () {
             ub.funcs.addFunctionToAfterloadList(ub.funcs.resizeRightMainWindow);
             ub.funcs.addFunctionToAfterloadList(ub.funcs.disableSubmitOnUniforms);
             ub.funcs.addFunctionToAfterloadList(ub.funcs.hidePatternButtonOnUniforms);
+            ub.funcs.addFunctionToAfterloadList(ub.funcs.minimizeLivePopupMessage);
 
             // preprocess `Quick Turn` pattern for unsaved design uniform
             // prevent afterLoad's looping error from saved design uniform
@@ -710,6 +711,17 @@ $(document).ready(function () {
             }
             ub.funcs.executeAfterLoadFunctionList();
         };
+
+        ub.funcs.minimizeLivePopupMessage = function() {
+            if(typeof ub.user !== 'undefined') {
+                if(ub.user.role == 'ga') {
+                    if(typeof $zoho.salesiq !== 'undefined') {
+                        $zoho.salesiq.floatwindow.visible("hide");
+                        console.warn('Live message window is minimized for GA role');
+                    }
+                }
+            }
+        }
 
         ub.funcs.disableSubmitOnUniforms = function() {
             ub.funcs.turnOnOrderButton();
@@ -8977,6 +8989,7 @@ $(document).ready(function () {
 
                 success: function (response) {
                     $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
+                    location.reload();
                 }
             });
         }
