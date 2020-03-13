@@ -1973,10 +1973,11 @@ class UniformBuilderController extends Controller
         $filename = $this->getGUID();
 
         if ($previousTransformedPath) {
-            $path = public_path('design_sheets/' . substr($previousTransformedPath, strrpos($previousTransformedPath, '/') + 1));
-        } else {
-            $path = public_path('design_sheets/' . $filename . '.pdf');
+            $basefile = substr($previousTransformedPath, strrpos($previousTransformedPath, '/') + 1);
+            $filename = basename($basefile, '.pdf');
         }
+
+        $path = public_path('design_sheets/' . $filename . '.pdf');
 
         Log::info('PDF PATH=======>' . $path);
 
@@ -2376,7 +2377,7 @@ class UniformBuilderController extends Controller
             'additional_attachments' => $orderDetails[0]->additional_attachments,
             'applicationType' => ucwords($material->uniform_application_type),
             'sku' => $material->sku,
-            'url' => '/order/'.$orderId,
+            'url' => env("WEBSITE_URL").'/order/'.$orderId,
             'type' => $appType,
             'builder_customizations' => $settings
         );
