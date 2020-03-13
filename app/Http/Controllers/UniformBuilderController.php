@@ -1973,7 +1973,7 @@ class UniformBuilderController extends Controller
         $filename = $this->getGUID();
 
         if ($previousTransformedPath) {
-            $path = public_path('design_sheets/' . substr($previousTransformedPath,15));
+            $path = public_path('design_sheets/' . substr($previousTransformedPath, strrpos($previousTransformedPath, '/') + 1));
         } else {
             $path = public_path('design_sheets/' . $filename . '.pdf');
         }
@@ -2021,6 +2021,7 @@ class UniformBuilderController extends Controller
 
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
+        $materialInfo   = $this->materialsClient->getMaterial($firstOrderItem['material_id']);
 
         $style = '<style> body, td, p { font-size: 0.8em; } .uniform_properties { font-size: 0.77em; text-transform: uppercase; }</style>';
 
@@ -2040,8 +2041,8 @@ class UniformBuilderController extends Controller
         $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .') </strong><br />';
         $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong> <br/ >';
         $html .=       '<strong class="uniform_properties">TYPE: ' .  $firstOrderItem["applicationType"] . '</strong><br />';
-        $html .=       '<strong class="uniform_properties">CUT: ' .  $firstOrderItem["blockPattern"]  . '</strong><br />';
-        $html .=       '<strong class="uniform_properties">OPTION: ' .  $firstOrderItem["neckOption"]  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">CUT: ' .  $materialInfo->block_pattern  . '</strong><br />';
+        $html .=       '<strong class="uniform_properties">OPTION: ' .  $materialInfo->neck_option  . '</strong><br />';
         $html .=   '</td>';
         $html .= '</tr>';
         $html .= '</table>';
