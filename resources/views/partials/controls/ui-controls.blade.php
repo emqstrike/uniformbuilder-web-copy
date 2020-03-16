@@ -1720,7 +1720,7 @@
 
         </table>
 
-        <span class="message-count">Messages: n</span>
+        <span class="message-count"></span>
 
     </script>   
 
