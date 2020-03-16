@@ -308,6 +308,10 @@ $(document).ready(function () {
 
                     _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
 
+                    $('span.message-count').hide();
+                    $('span.message-count').html('Messages: ' + _count);
+                    $('span.message-count').fadeIn();
+
                 }
                 
             });
