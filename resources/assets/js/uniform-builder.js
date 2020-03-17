@@ -9621,12 +9621,12 @@ $(document).ready(function () {
 
             });
 
-            if(_.size(_items) == 0) {
-                $('table').removeClass('message-paging');
-                $('span.message-count').css('margin-top', '10px');
+            var msgEl = $('#message');
+            if (_.size(_items) == 0) {
+                $(msgEl, 'table').removeClass('msgDataTables');
             } else {
-                $('.message-paging').paging({
-                    limit:20,
+                $('.msgDataTables').DataTable({
+                    "ordering": false
                 });
             }
         }
