@@ -1687,7 +1687,7 @@
 
         <br />
 
-        <table class="message-paging">
+        <table class="msgDataTables">
             <thead>
                 <tr class="header">
                     <td></td>
