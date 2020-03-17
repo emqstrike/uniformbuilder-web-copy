@@ -1,0 +1,46 @@
+@import "variables";
+
+.dataTables_paginate {
+    a.previous {
+        padding: 15px;
+        color: #000;
+        border: 1px solid #eee ;
+        text-decoration: none;
+    }
+
+    a.previous.disabled {
+        background-color: $color-light;
+        pointer-events: none;
+    }
+
+    span  {
+        a.paginate_button {
+            padding: 15px;
+            color: #000;
+            border: 1px solid #eee ;
+            text-decoration: none;
+        }
+
+        a.paginate_button.current {
+            padding: 15px;
+            background-color: $color-red;
+            color: #fff;
+            border: 1px solid #eee ;
+            text-decoration: none;
+        }
+    }
+
+    a.next {
+        padding: 15px;
+        color: #000;
+        border: 1px solid #eee ;
+        text-decoration: none;
+    }
+
+    a.next.disabled {
+        background-color: $color-light;
+        pointer-events: none;
+    }
+
+    cursor: no-drop;
+}

@@ -1,0 +1,678 @@
+@import "variables";
+
+.my-designs-list img {
+  height: 100% !important;
+}
+
+/* Debug Panel */
+
+div.debug-panel {
+    div.loading-screen-container {
+        position: absolute;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%);
+    }
+
+    div.football-loading img {
+        height: 100px !important;
+    }
+
+    div.body {
+        .header {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+
+        .contents {
+            color: #9c9c9c !important;
+            text-align: center !important;
+            font-size: 12px;
+        }
+    }
+
+    span {
+        color: #9c9c9c !important;
+        font-size: 12px;
+    }
+
+    .time {
+        color: #e32139 !important;
+    }
+}
+
+@media only screen and (max-width: 999px) {
+    .debug-panel .body {
+        top: 80% !important;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .debug-panel .body {
+        top: 66% !important;
+    }
+}
+
+@media only screen and (min-width: 1900px) {
+    .debug-panel .body {
+        top: 60% !important;
+    }
+}
+
+/* End Debug Panel */
+
+.noUi-value-horizontal, .noUi-value-sub {
+    padding-top: 5px !important;
+    font-size: 12px !important;
+    font-weight: bolder !important;
+}
+
+
+.sizes-container {
+  .size:hover {
+    background-color: $color-red;
+    color: $color-light;
+    border: .5px solid;
+  }
+
+  .size.uk-active {
+    background-color: $color-red;
+    color: $color-light;
+    border: .5px solid;
+  }
+}
+
+.size-circle {
+    border: .5px solid black; 
+    border-radius: 50% !important;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 2.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 35px;
+
+    p.size-plus {
+      display: none;
+    }
+}
+
+.numbers-circle {
+  border: .5px solid black; 
+  border-radius: 50% !important;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-right: 5px;
+  text-align: center;
+  width: 30px;
+}
+
+.selected {
+  
+  .size-circle {
+    background-color: $color-darkerGray;
+    color: $color-white;
+  }
+
+  .numbers-circle {
+    background-color: $color-darkerGray;
+    color: $color-white;
+  }
+}
+
+.roster-uniform-size-container, .player-numbers-container {
+  .uk-active {
+    .numbers-circle {
+      background-color: $color-red;
+      color: $color-white;
+    }
+
+    .size-circle {
+      background-color: $color-red;
+      color: $color-white;
+    }
+  }
+}
+
+
+.selected.uk-active {
+  .numbers-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+
+  .size-circle {
+    background-color: $color-red;
+    color: $color-white;
+  }
+}
+
+.selected.uk-active:hover {
+  p.size {
+    display: none !important;
+  }
+
+  p.size-plus {
+    display: block !important;
+  }
+}
+
+.roster-list-height {
+  min-height: 215px !important;
+  max-height: 215px !important;
+}
+
+.summary-list-height {
+  max-height: 256px !important;
+  min-height: 256px !important;
+}
+
+
+.roster-form-padding {
+  height: 33px !important;
+}
+
+.fixed_header{
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 260px;
+}
+
+.fixed_header thead tr {
+   display: block;
+}
+
+
+.fixed_header th, .fixed_header td {
+  padding: 5px;
+  text-align: left;
+  width: 25%;
+}
+
+tr.active {
+  input {
+    border: 1.5px solid !important;
+  }
+
+  select {
+    border: 1.5px solid !important;
+  }
+}
+
+.roster-summary {
+  .comma:not(:first-child) {
+    margin-left: -.3em;  
+  }
+
+  .comma:empty {
+    display: none;
+  }
+
+  .comma:not(:first-child):before {
+    content: ", ";
+  }
+}
+
+.palette-pattern {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+}
+
+// Force to #FFF if W color code
+button[data-color-code="W"].palette {
+  background-color: #ffffff !important;
+}
+
+button[data-color-label="W"].palette {
+  background-color: #ffffff !important;
+}
+
+button[data-color-code="W"].palette-color {
+  div.palette {
+    background-color: #ffffff !important;
+  }
+}
+
+.existing-mascot-item {
+  height: 150px !important;
+}
+
+.mascot-item a.select-mascot-item.uk-active {
+  h6 {
+    background-color: $color-red;
+  }
+}
+
+
+// Piping CSS
+img.piping-images {
+  height: 110px !important;
+}
+
+.piping-color-list .palette {
+  height: 30px !important;
+  width: 30px !important;
+  display: block !important;
+  border: 1px solid #aaaaaa !important;
+}
+
+.piping-image .piping-image-button.selected div.border {
+  border: 1.3px solid $color-dark;
+}
+
+.piping-image .piping-image-button.uk-active div.border {
+  border: 1.3px solid $color-red;
+}
+
+.piping-image img {
+  filter:opacity(60%);
+}
+
+.piping-image .piping-image-button.selected,.uk-active {
+  img {
+    filter:opacity(100%);
+  }
+}
+
+.piping-image .piping-name {
+  font-size: 12px !important;
+}
+
+// Color CSS
+.location-button-container a.uk-button {
+  font-size: 12px !important;
+  padding: 3px 5px 3px 5px !important;
+  line-height: normal !important;
+}
+
+.location-button-container a.uk-button.name-line-height {
+  line-height: 28px !important;
+}
+
+.fc-italic {
+  font-style: italic !important;
+}
+
+// Border
+.bdr-bottom-top {
+    border: .5px solid $color-lightGray;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.bdr-top-right {
+  border: .5px solid #eee !important;
+  border-bottom: none !important;
+  border-left: none !important; 
+  border-top: none !important;
+}
+
+.bdr-top-left {
+  border: .5px solid;
+  border-bottom: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+
+.bdr-radius-1-2 {
+  border-radius: 50% !important;
+}
+
+.bdr-top {
+  border: .5px solid #eee !important;
+  border-bottom: none !important;
+  border-left: none !important; 
+  border-right: none !important; 
+}
+
+.bdr-bottom {
+    border: .5px solid #aaa;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.active-bdr-red .uk-active > * {
+  border-color: #e32139 !important;
+}
+
+// Tiny Grid
+.uk-grid-small.grid-tiny-1 {
+  margin-left: -6px; }
+
+.uk-grid-small.grid-tiny-1 > * {
+  padding-left: 6px; }
+
+.uk-grid-small.grid-tiny-1>.uk-grid-margin {
+  margin-top: 6px;}
+
+.bdr-remove-top {
+  border-top: none !important; }
+
+// Stock Mascot Modal
+.stock-mascot-categories li.uk-active {
+  background-color: $color-red;
+  color: $color-white;
+}
+
+
+.mascot-item {
+  a.mascot-btn.uk-active {
+    h6 {
+      background-color: $color-red;
+      color: $color-white;
+    }
+  }
+
+  a.mascot-btn {
+    h6 {
+      background-color: $color-dark;
+      color: $color-white;
+    }
+  }
+
+  img.mascot-image {
+    height: 90px !important;
+  }
+}
+
+.logo-location-container button.selected {
+    color: $color-red;
+    border-color: $color-red;
+}
+
+.logo-location-container button.uk-active {
+    color: $color-white;
+    background-color: $color-red;
+    border-color: $color-red;
+}
+
+#richardson-team-roster .active-bgc-red-switcher {
+  .uk-active a {
+    background-color: $color-lightGray;
+    border-color: $color-lightGray;
+
+    h6 {
+      color: $color-dark;
+    }
+  }
+}
+
+.uk-radio:checked, .uk-checkbox:checked, .uk-checkbox:indeterminate {
+  background-color: $color-red;
+}
+
+.application-list-maxheight {
+  max-height: 675px !important;
+}
+
+// TailSweep
+.tail-sweep-container {
+  .tailsweep-thumbnail {
+    height: 30px !important;
+  }
+
+  .tail-sweep-button {
+    border: .5px solid !important;
+    border-color: $color-gray;
+  }
+
+  .tail-sweep-button.uk-active {
+    border: .5px solid !important;
+    border-color: $color-red;
+  }
+}
+
+// Text Shape
+.text-shape-container {
+  .text-shape-thumbnail {
+    height: 30px !important;
+  }
+
+  .text-shape-button {
+    border: .5px solid !important;
+    border-color: $color-gray;
+    padding: 15px 0 !important;
+  }
+
+  .text-shape-button.uk-active {
+    border: .5px solid !important;
+    border-color: $color-red;
+  }
+}
+
+// Random Feed CSS
+img.random-feed-images {
+  height: 90px !important;
+}
+
+.random-feed-image .random-feed-image-button.selected div.border {
+  border: 1.3px solid $color-dark;
+}
+
+.random-feed-image .random-feed-image-button.uk-active div.border {
+  border: 1.3px solid $color-red;
+}
+
+.random-feed-image img {
+  filter:opacity(60%);
+}
+
+.random-feed-image .random-feed-image-button.selected,.uk-active {
+  img {
+    filter:opacity(100%);
+  }
+}
+
+.random-feed-image .piping-name {
+  font-size: 12px !important;
+}
+
+.share-buttons {
+  border: 1px solid !important;
+  border-radius: 0px !important;
+  background: #ffff !important;
+
+  &:hover {
+    border-color: $color-red;
+    color: $color-red;
+  }
+}
+// Disabled add to cart button
+.uk-disabled.add-to-cart {
+  background-color: $color-lightGray;
+}
+
+// Disable button for finish summary
+.uk-disabled.uniform-summary-preview {
+  border: 1px solid $color-gray;
+  color: $color-gray;
+  background-color: $color-lightGray;
+}
+
+
+.custom-button-new-style {
+  height: 33px !important;
+  line-height: 31px !important;
+}
+
+// Disabled add to save button
+.uk-disabled.save-my-design{
+  background-color: $color-lightGray;
+}
+
+// Min 
+.uk-min-height-medium {
+  min-height: 400px !important;
+}
+
+// Loading Richardson Image
+.loading-border-image {
+  padding: 20px !important;
+  border-radius: 15% !important;
+
+  img {
+    width: 90% !important;
+  }
+}
+
+.uk-disabled.add-to-uniform{
+  background-color: $color-lightGray;
+}
+
+.uk-list-inline > li {
+    list-style: none;
+    display: inline-block;
+}
+
+.uk-list-inline > li:not(:last-child):after {
+  content: " / ";
+}
+
+
+.fs-24px {
+  font-size: 24px !important;
+}
+
+.fs-18px {
+  font-size: 18px !important;
+}
+
+.fs-16px {
+  font-size: 16px !important;
+}
+
+.fs-14px {
+  font-size: 14px !important;
+}
+
+
+.uk-notification {
+  & .uk-notification-message {
+    &.uk-notification-message-primary {
+      font-size: 14px;
+      color: $color-white;
+      background-color: $color-blue-primary;
+      border-radius: 5px;
+      & .uk-close {
+        color: $color-light;
+        & svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    &.uk-notification-message-success {
+      font-size: 14px;
+      color: $color-white;
+      background-color: $color-green-success;
+      border-radius: 5px;
+      & .uk-close {
+        color: $color-light;
+        & svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    &.uk-notification-message-warning {
+      font-size: 14px;
+      color: $color-white;
+      background-color: $color-yellow-warning;
+      border-radius: 5px;
+      & .uk-close {
+        color: $color-light;
+        & svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    &.uk-notification-message-danger {
+      font-size: 14px;
+      color: $color-white;
+      background-color: $color-red-danger;
+      border-radius: 5px;
+      & .uk-close {
+        color: $color-light;
+        & svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+}
+
+.uk-alert-danger.uk-alert {
+  background-color: $color-red-danger;
+  color: $color-light;
+}
+
+.uk-width-xsmall {
+  width: 65px !important;
+}
+
+.palette-circle {
+  width: 30px !important;
+  display: block;
+  border-radius: 50%;
+  margin-right: 5px !important;
+  border: .5px solid black;
+}
+
+.team-name-helper-message {
+  padding: 0px !important;
+  color: #e32139 !important;
+  background-color: transparent !important;
+
+  p {
+    font-size: 12px !important;
+    color: #e32139 !important;
+  }
+}
+
+.uk-form-warning {
+  border-color: #e32139 !important;
+}
+
+.select2-container {
+  width: 80% !important;
+}
+
+.select2-container--default .select2-selection--single {
+  border-radius: 0px !important;
+  border-color: #e5e5e5 !important;
+}
+
+.roster-player-list-table {
+  .select2-container {
+    width: 100% !important;
+  }
+
+  .select2-container--default .select2-selection--single {
+    height: 33px !important;
+  }
+}
+
+#text-shape-container-player-name, #text-shape-container-team-name, #text-shape-container, .textShapeCanvas {
+  position: fixed !important;
+  top: 100vh !important;
+}
+
+// Text Configurator css
+.text-config-height {
+  max-height: 95vh !important;
+}
+
+.margin-top-xsmall {
+  margin-top: 6px !important;
+}

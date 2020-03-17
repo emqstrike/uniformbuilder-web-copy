@@ -14,9 +14,9 @@
 
     <br />
 
-    <em class="dragMessage">Drag the layers to adjust which Application is below or above another Application
-        <br />
-    </em>
+    <p class="dragMessage uk-margin-remove">
+        Drag the layers to adjust which Application is below or above another Application
+    </p>
 
     <div class="layers-container" id="layersContainer">
 

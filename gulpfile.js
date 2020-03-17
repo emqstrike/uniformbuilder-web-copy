@@ -106,7 +106,10 @@ const files = {
         'resources/assets/js/uniform-builder-shortcuts.js',
         'resources/assets/js/uniform-builder-generators.js',
         'resources/assets/js/TeamStoreAPI.js',
-        'resources/assets/js/TeamStoreToolBox.js'
+        'resources/assets/js/TeamStoreToolBox.js',
+
+        // PROLOOK 2.5 Update
+        'resources/assets/js/prolook/InksoftMascot.js',
     ]
 };
 

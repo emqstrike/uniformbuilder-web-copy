@@ -144,5 +144,8 @@
 
     @include('partials.live-chat')
 
+    <!-- Include Modal -->
+    @include('prolook-v2.modals.inksoft-mascots')
+
 </body>
 </html>

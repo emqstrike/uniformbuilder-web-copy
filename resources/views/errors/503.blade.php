@@ -55,7 +55,9 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header btn-group" id="navbar-header">
-            <a class="navbar-brand btn dropdown-toggle" data-toggle="dropdown" href="/"><img src="/images/branding/pl-logo-black-1e1e1e.png" height="50em"></a>
+            <a class="navbar-brand btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
+                <img src="/images/branding/pl-logo-black-1e1e1e.png" class="uk-width-small pl-brand">
+            </a>
         </div>
         <div>
             <h1 class="text-center" id="header_text">PROLOOK CUSTOMIZER</h1>
