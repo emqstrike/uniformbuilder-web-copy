@@ -415,7 +415,10 @@
         }
 
         // end #load_order
-
+        
+        $('#message-paging').paging({
+            limit:2,
+        });
     });
 
 </script>
