@@ -13,7 +13,7 @@
         
         <hr />
 
-        <div class='mascot_drop btn' data-id='@{{application_id}}'>
+        <div class='mascot_drop btn' data-id='@{{application_id}}'> 
             Choose a Mascot: <i class='fa fa-caret-down'></i>
         </div>
         
@@ -1687,21 +1687,19 @@
 
         <br />
 
-        <table>
-
-            <tr class="header">
-
-                <td></td>
-                <td>Type</td>
-                <td>Date</td>
-                <td>From</td>
-                <td>To</td>
-                <td>Subject</td>
-                <td>Message</td>
-                <td>Action</td>
-
-            </tr>
-
+        <table class="message-paging">
+            <thead>
+                <tr class="header">
+                    <td></td>
+                    <td>Type</td>
+                    <td>Date</td>
+                    <td>From</td>
+                    <td>To</td>
+                    <td>Subject</td>
+                    <td>Message</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
             @{{#messages}}
 
                 <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                

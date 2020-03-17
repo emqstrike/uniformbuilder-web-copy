@@ -15,7 +15,7 @@
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js?v={{$asset_version}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
-<script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js?v={{$asset_version}}"></script> 
 <script src="{{$asset_storage}}/jspdf/jspdf.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/addimage.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png.js?v={{$asset_version}}"></script>
@@ -36,6 +36,8 @@
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/table-paging/paging.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>

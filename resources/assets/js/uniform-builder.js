@@ -134,7 +134,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
         };
 
 
@@ -9622,6 +9621,14 @@ $(document).ready(function () {
 
             });
 
+            if(_.size(_items) == 0) {
+                $('table').removeClass('message-paging');
+                $('span.message-count').css('margin-top', '10px');
+            } else {
+                $('.message-paging').paging({
+                    limit:20,
+                });
+            }
         }
 
         ub.funcs.filterMessages = function (type) {
@@ -11298,5 +11305,4 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
-
 });
