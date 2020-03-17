@@ -108,8 +108,8 @@ const files = {
         'resources/assets/js/TeamStoreAPI.js',
         'resources/assets/js/TeamStoreToolBox.js',
 
-        // PROLOOK 2.5 Update
         'resources/assets/js/prolook/InksoftMascot.js',
+        'resources/assets/js/prolook/Inksoft.js'
     ]
 };
 
