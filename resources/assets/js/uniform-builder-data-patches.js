@@ -167,9 +167,34 @@ $(document).ready(function () {
 
 	}
 
+	ub.dataPatches.patchForMaterialOptionPanel = function() {
+		var _materialsOptions = ub.current_material.settings.upper;
+
+		if (typeof ub.config.savedDesignInfo !== 'undefined') {
+			if (ub.config.savedDesignInfo['savedDesignID'] == '71333') {
+				console.log("%c A patch is detected for this uniform.... ", "background: #222; color: #bada55");
+				_materialsOptions['Left Shoulders'] = _materialsOptions['Left Shoulder Panel'];
+				_materialsOptions['Right Shoulders'] = _materialsOptions['Right Shoulder Panel'];
+				_materialsOptions['Left Side Panel'] = _materialsOptions['Left Under Arm Vent'];
+				_materialsOptions['Right Side Panel'] = _materialsOptions['Right Under Arm Vent'];
+
+				delete _materialsOptions['Left Shoulder Panel'];
+				delete _materialsOptions['Right Shoulder Panel'];
+				delete _materialsOptions['Left Under Arm Vent'];
+				delete _materialsOptions['Right Under Arm Vent'];
+
+				_materialsOptions['Left Shoulders'].code = 'left_shoulders'
+				_materialsOptions['Right Shoulders'].code = 'right_shoulders'
+				_materialsOptions['Left Side Panel'].code = 'left_side_panel'
+				_materialsOptions['Right Side Panel'].code = 'right_side_panel'
+			}
+		}
+	}
+
 	ub.dataPatches.run = function () {
 		ub.dataPatches.patch4874to5728();
 		ub.dataPatches.patchForPerspectiveIssues();
+		ub.dataPatches.patchForMaterialOptionPanel();
 	};
 
 	ub.dataPatches.runAfterAssetsLoaded = function() {

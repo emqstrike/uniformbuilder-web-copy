@@ -723,7 +723,7 @@ $(document).ready(function () {
         }
 
         var $svgPath = $('svg#svg_cw_' + (_index) + ' > path[data-color-id="' + colorObj.id +'"]');
-        
+
         $svgPath.trigger('click');
 
         var _widthOfCW  = $('div.color-wheel').first().width();
