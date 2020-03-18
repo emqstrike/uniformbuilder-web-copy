@@ -312,9 +312,7 @@ $(document).ready(function () {
                     $('span.message-count').fadeIn();
 
                 }
-                
             });
-
         };
 
         ub.funcs.isCustomizerAvailable = function () {
@@ -356,7 +354,7 @@ $(document).ready(function () {
 
             ub.data.rosterInitialized = false;
 
-            $('div#right-pane-column').fadeIn();        
+            $('div#right-pane-column').fadeIn();
             $('div#left-pane-column').fadeIn();
             $('div#roster-input').fadeOut();
 
