@@ -309,9 +309,7 @@ $(document).ready(function () {
                     _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
 
                 }
-                
             });
-
         };
 
         ub.funcs.isCustomizerAvailable = function () {
@@ -353,7 +351,7 @@ $(document).ready(function () {
 
             ub.data.rosterInitialized = false;
 
-            $('div#right-pane-column').fadeIn();        
+            $('div#right-pane-column').fadeIn();
             $('div#left-pane-column').fadeIn();
             $('div#roster-input').fadeOut();
 
@@ -9615,7 +9613,6 @@ $(document).ready(function () {
                 ub.funcs.filterMessages(_type);
 
             });
-
         }
 
         ub.funcs.filterMessages = function (type) {
