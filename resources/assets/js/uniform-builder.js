@@ -134,7 +134,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
         };
 
 
@@ -307,6 +306,10 @@ $(document).ready(function () {
                     $('a#messages > span.message-badge').fadeIn();
 
                     _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
+
+                    $('span.message-count').hide();
+                    $('span.message-count').html('Messages: ' + _count);
+                    $('span.message-count').fadeIn();
 
                 }
             });
@@ -9585,13 +9588,15 @@ $(document).ready(function () {
                     ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
                     $('#primaryMessagePopup').remove();
 
+                    location.reload();
+
                 });
 
                 $('div.close-popup').unbind('click');
                 $('div.close-popup').on('click', function () {
 
                     $('#primaryMessagePopup').remove();
-
+                    $(".message-row").filter('[data-id="'+ _id +'"]').fadeOut();
                 });
 
             });
@@ -9613,6 +9618,15 @@ $(document).ready(function () {
                 ub.funcs.filterMessages(_type);
 
             });
+
+            var msgEl = $('#message');
+            if (_.size(_items) == 0) {
+                $(msgEl, 'table').removeClass('msgDataTables');
+            } else {
+                $('.msgDataTables').DataTable({
+                    "ordering": false
+                });
+            }
         }
 
         ub.funcs.filterMessages = function (type) {
@@ -11289,5 +11303,4 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
-
 });
