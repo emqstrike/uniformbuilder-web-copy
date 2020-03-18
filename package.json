@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.8.6",
-    "@babel/preset-env": "^7.8.6",
+    "@babel/core": "7.8.7",
+    "@babel/preset-env": "7.8.7",
     "autoprefixer": "^9.7.4",
     "bootstrap-sass": "^3.4.1",
     "browserlist": "^1.0.1",
@@ -11,7 +11,7 @@
     "dotenv": "^8.2.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.2.0",
+    "gulp-clean-css": "4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^4.0.1",
     "gulp-minify": "^3.1.0",
