@@ -13,20 +13,46 @@ InksoftMascot.events = {
         if (that.isInit) {
             $("body").on("click", '.show-stock-mascot', that.onShowStockMascot);
 
-            $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem)
+            $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem);
+            $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
             that.isInit = false;
         }
     },
 
     onShowStockMascot: function() {
+        InksoftMascot.uiHandler.showLoader();
         InksoftMascot.funcs.loadDesignIdeaCategories();
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
     onClickCategoryItem: function() {
         var category_id = $(this).data("category-id");
-        InksoftMascot.funcs.loadDesignIdeasPerCategories(category_id);
-        console.log(category_id)
+        
+        InksoftMascot.uiHandler.showLoader();
+        InksoftMascot.funcs.loadDesignIdeasPerCategories(category_id, function(data) {
+            InksoftMascot.uiHandler.renderMascots(data);
+
+            // Select First Item
+            $("#select-mascot-inksoft-modal .stock-mascot-container .mascot-item").first().find("a.mascot-btn").trigger("click");
+
+            InksoftMascot.uiHandler.hideLoader();
+        });
+
+        $("ul.mascot-categories").find("li.uk-active").removeClass("uk-active");
+        $(this).parent().addClass("uk-active");
+    },
+
+    onClickMascotItem: function() {
+        var data = {
+            id: $(this).data('stock-mascot-id'),
+            image: $(this).data('image'),
+            name: $(this).data("name"),
+        }
+
+        $("#select-mascot-inksoft-modal .stock-mascot-container .mascot-item").find(".activation-container").addClass("uk-hidden");
+        $(this).find("div.activation-container").removeClass("uk-hidden");
+
+        InksoftMascot.uiHandler.renderMascotPreivew(data);
     }
 }
 
@@ -58,7 +84,7 @@ InksoftMascot.funcs = {
         }
     },
 
-    loadDesignIdeasPerCategories: function(category_id) {
+    loadDesignIdeasPerCategories: function(category_id, callback) {
         Inksoft.funcs.getDesignIdeasByCategory(category_id, function(response) {
             if (response.OK) {
                 var data = [];
@@ -71,7 +97,7 @@ InksoftMascot.funcs = {
                     });
                 })
 
-                InksoftMascot.uiHandler.renderMascots(data);
+                callback(data);
             } else {
                 console.log("Empty")
             }
@@ -91,6 +117,8 @@ InksoftMascot.uiHandler = {
 
         $("#select-mascot-inksoft-modal ul.mascot-categories").html("");
         $("#select-mascot-inksoft-modal ul.mascot-categories").html(markup);
+
+        $("ul.mascot-categories li").first().find("a").trigger("click");
     },
 
     renderMascots: function(data) {
@@ -101,5 +129,28 @@ InksoftMascot.uiHandler = {
 
         $("#select-mascot-inksoft-modal div.stock-mascot-container").html("");
         $("#select-mascot-inksoft-modal div.stock-mascot-container").html(markup);
+    },
+
+    renderMascotPreivew: function(data) {
+        var template = document.getElementById("inksoft-stock-mascot-preview").innerHTML;
+        var markup = Mustache.render(template, {
+            id: data.id,
+            name: data.name,
+            image: data.image,
+            type: "design-idea"
+        });
+
+        $("#select-mascot-inksoft-modal div.stock-mascot-preview").html("");
+        $("#select-mascot-inksoft-modal div.stock-mascot-preview").html(markup);
+    },
+
+    showLoader: function() {
+        $("#select-mascot-inksoft-modal div.stock-mascot-container").addClass("uk-hidden");
+        $("#select-mascot-inksoft-modal div.stock-mascot-loading-screen-content").removeClass("uk-hidden");
+    },
+
+    hideLoader: function() {
+        $("#select-mascot-inksoft-modal div.stock-mascot-loading-screen-content").addClass("uk-hidden");
+        $("#select-mascot-inksoft-modal div.stock-mascot-container").removeClass("uk-hidden");
     }
 }

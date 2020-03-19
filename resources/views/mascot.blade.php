@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/uniform-builder/css/uniform-builder.min.css">
     <script src="/jquery/jquery-2.1.4.min.js"></script>
     <script src="/node_modules/uikit/dist/js/uikit.min.js"></script>
+    <script src="/node_modules/uikit/dist/js/uikit-icons.min.js"></script>
     <script src="/underscore/underscore.js"></script>
     <script src="/js/libs/mustache/mustache-2.2.3.min.js"></script>
 </head>
@@ -78,14 +79,38 @@
                 <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium">
                     <img class="" src="https://images.inksoft.com@{{ ImageUrl }}" alt="img" loading="lazy">
                 </div>
+                
                 <div class="uk-position-cover uk-overlay uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-hidden activation-container">
-                    <span class="feather" data-feather="check-circle"></span>
                 </div>
             </a>
+
             <div class="uk-margin-small-top uk-text-center">
                 <h6 class="uk-margin-remove uk-text-small text-mini">@{{ Name }}</h6>
             </div>
         </div>
     @{{ /mascots }}
+</script>
+
+
+<script type="text/mustache" id="inksoft-stock-mascot-preview">
+    <div class="uk-inline-clip pointer bgc-white mascot-btn">
+        <div class="uk-padding-small">
+            <img class="" src="@{{ image }}" alt="img" loading="lazy">
+        </div>
+
+        <div class="uk-margin-small-top">
+            <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">@{{ name }}</h6>
+        </div>
+    </div>
+    <hr>
+    <div class="">
+        <a href="javascript:void(0)" 
+            class="uk-button uk-button-small uk-button-secondary uk-width-1-1 uk-text-capitalize edit-current-mascot"
+            data-stock-mascot-id="@{{ id }}"
+            data-type="@{{ type }}"
+        >
+            Edit mascots
+        </a>
+    </div>
 </script>
 </html>

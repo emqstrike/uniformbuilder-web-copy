@@ -1,5 +1,5 @@
 <div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; esc-close: false;">
-    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top">
+    <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top uk-padding-remove-bottom">
         <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
         <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Mascot</h3>
         <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark uk-margin-small uk-margin-bottom" uk-switcher>
@@ -41,42 +41,41 @@
                 <ul class="uk-switcher">
                     <li>
                         <div class="uk-grid-small" uk-grid>
+                            <!-- Mascot Category List -->
                             <div class="uk-width-1-5">
-                                <!-- Navigation List -->
                                 <div class="uk-padding-small uk-padding-remove-horizontal uk-height-large uk-overflow-auto">
                                     <ul class="uk-nav-default uk-nav-parent-icon mascot-categories" uk-nav>
                                         
                                     </ul>
                                 </div>
                             </div>
-
+                            <!-- List of Mascot -->
                             <div class="uk-width-expand">
                                 <div class="uk-padding-small uk-height-large uk-overflow-auto">
-                                    <div class="uk-grid-small uk-child-width-1-5 stock-mascot-container" uk-grid>
+                                    <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-5@xl uk-text-center uk-padding-small stock-mascot-container" uk-height-match="target: > div > a > div" uk-grid>
+                                    </div>
+
+                                    <div class="stock-mascot-loading-screen-content uk-hidden">
+                                        <div class="uk-width-1-1 uk-margin-xlarge-top">
+                                            <div class="uk-flex uk-flex-middle uk-flex-center">
+                                                <div uk-spinner="ratio: 5"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+
+                            </div>
+                            <!-- Mascot Preview -->
                             <div class="uk-width-1-5">
-                                <div class="uk-padding-small uk-padding-remove-horizontal">
-                                    <div class="uk-inline-clip pointer bgc-white mascot-btn">
-                                        <div class="uk-padding-small">
-                                            <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                        </div>
-
-                                        <div class="uk-margin-small-top">
-                                            <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="">
-                                        <a href="#" class="uk-button uk-button-small uk-button-secondary uk-width-1-1 uk-text-capitalize">
-                                            Edit mascots
-                                        </a>
-                                    </div>
-
+                                <div class="uk-padding-small uk-padding-remove-horizontal stock-mascot-preview">
+                                    
                                 </div>
                             </div>
+                        </div>
+
+                        <div>
+                            
                         </div>
                     </li>
                     <li>
@@ -214,7 +213,6 @@
                         
                     </li>
                 </ul>
-                
             </li>
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">
