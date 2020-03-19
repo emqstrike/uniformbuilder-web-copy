@@ -17,7 +17,7 @@
     </div>
     @include('prolook-v2.modals.inksoft-mascots')
 </body>
-
+<script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
 <!-- INIT -->
 <script type="text/javascript">
     function getJSON(url, successHandler, errorHandler) {
@@ -57,7 +57,7 @@
                 <ul class="uk-nav-sub">
                     @{{ #Children }}
                         <li>
-                            <a href="javascript:void(0)" class="category-item" data-category-id="@{{ ID }}">@{{ Name }}</a>
+                            <a href="javascript:void(0)" class="category-item uk-text-break" data-category-id="@{{ ID }}">@{{ Name }}</a>
                         </li>
                     @{{ /Children }}
                 </ul>

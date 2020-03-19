@@ -15,6 +15,7 @@ InksoftMascot.events = {
 
             $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem);
             $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
+            $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
             that.isInit = false;
         }
     },
@@ -53,6 +54,20 @@ InksoftMascot.events = {
         $(this).find("div.activation-container").removeClass("uk-hidden");
 
         InksoftMascot.uiHandler.renderMascotPreivew(data);
+    },
+
+    onChangeTab: function() {
+        var type = $(this).data("type");
+
+        if (type === "upload") {
+            $("#embed-inksoft-upload").html("");
+            var element = document.getElementById("embed-inksoft-upload");
+            Inksoft.funcs.loadInksoftUploader(element);
+        } else if (type === "create") {
+            $("#embed-inksoft-create").html("");
+            var element = document.getElementById("embed-inksoft-create");
+            Inksoft.funcs.loadInksoftDesigner(element);
+        }
     }
 }
 

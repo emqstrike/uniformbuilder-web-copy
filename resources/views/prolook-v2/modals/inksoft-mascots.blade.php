@@ -1,10 +1,10 @@
 <div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; esc-close: false;">
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top uk-padding-remove-bottom">
-        <a href="#" class="uk-icon-link uk-flex uk-flex-right cancel-add-uniform" uk-icon="close"></a>
+        <button class="uk-modal-close-default" type="button" uk-close></button>
         <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Mascot</h3>
         <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark uk-margin-small uk-margin-bottom" uk-switcher>
             <li>
-                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="existing">
+                <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="mascots">
                     <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span>Select <span class="uk-visible@s"> mascots</span>
                 </a>
             </li>
@@ -30,41 +30,39 @@
                             <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> Design Ideas
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="create">
-                            <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> My Mascots
-                        </a>
-                    </li>
                 </ul>
-                <hr class="uk-margin-small uk-margin-remove-bottom">
 
-                <ul class="uk-switcher">
+                <ul class="uk-switcher uk-padding-small uk-padding-remove-horizontal">
                     <li>
                         <div class="uk-grid-small" uk-grid>
-                            <!-- Mascot Category List -->
-                            <div class="uk-width-1-5">
-                                <div class="uk-padding-small uk-padding-remove-horizontal uk-height-large uk-overflow-auto">
-                                    <ul class="uk-nav-default uk-nav-parent-icon mascot-categories" uk-nav>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- List of Mascot -->
                             <div class="uk-width-expand">
-                                <div class="uk-padding-small uk-height-large uk-overflow-auto">
-                                    <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-5@xl uk-text-center uk-padding-small stock-mascot-container" uk-height-match="target: > div > a > div" uk-grid>
-                                    </div>
+                                <div class="bdr-thin bdr-light">
+                                    <div class="uk-grid-small" uk-grid>
+                                        <!-- Mascot Category List -->
+                                        <div class="uk-width-medium">
+                                            <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top uk-height-large uk-overflow-auto">
+                                                <ul class="uk-nav-default uk-nav-parent-icon mascot-categories" uk-nav>
+                                                    
+                                                </ul>   
+                                            </div>
+                                        </div>
+                                        <!-- List of Mascot -->
+                                        <div class="uk-width-expand">
+                                            <div class="uk-padding-small uk-height-large uk-overflow-auto">
+                                                <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-5@xl uk-text-center stock-mascot-container" uk-height-match="target: > div > a > div" uk-grid>
+                                                </div>
 
-                                    <div class="stock-mascot-loading-screen-content uk-hidden">
-                                        <div class="uk-width-1-1 uk-margin-xlarge-top">
-                                            <div class="uk-flex uk-flex-middle uk-flex-center">
-                                                <div uk-spinner="ratio: 5"></div>
+                                                <div class="stock-mascot-loading-screen-content uk-hidden">
+                                                    <div class="uk-width-1-1 uk-margin-xlarge-top">
+                                                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                                                            <div uk-spinner="ratio: 5"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                             <!-- Mascot Preview -->
                             <div class="uk-width-1-5">
@@ -217,12 +215,14 @@
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">
                     <div id="embed-inksoft-create">
-                        <h1>INKSOFT DESIGNER</h1>
                     </div>
                 </div>
             </li>
             <li class="inksoft-loader upload">
-                INKSOFT UPLOAD
+                <div class="uk-flex uk-flex-center">
+                    <div id="embed-inksoft-upload">
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
