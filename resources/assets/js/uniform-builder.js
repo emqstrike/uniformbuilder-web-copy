@@ -299,6 +299,7 @@ $(document).ready(function () {
 
                     var _items = response.messages;
                     var _count = _.size(_items);
+                    var msgVisibleList = $('.msgDataTables tr:visible').not(':first').length;
 
                     ub.data.unreadMessages = response.messages;
 
@@ -307,11 +308,8 @@ $(document).ready(function () {
                     $('a#messages > span.message-badge').fadeIn();
 
                     _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
-
                 }
-                
             });
-
         };
 
         ub.funcs.isCustomizerAvailable = function () {
@@ -9594,8 +9592,9 @@ $(document).ready(function () {
 
                     $('#primaryMessagePopup').remove();
 
+                    $(".message-row").filter('[data-id="'+ _id +'"]').fadeOut();
+                    location.reload();
                 });
-
             });
 
             var $msgType = $('span.message-type');
@@ -9616,6 +9615,20 @@ $(document).ready(function () {
 
             });
 
+            var msgEl = $('#message');
+            if (_.size(_items) == 0) {
+                $(msgEl, 'table').removeClass('msgDataTables');
+            } else {
+                $('.msgDataTables').DataTable({
+                    "ordering": false,
+                    "responsive": true,
+                    "pageLength": 20,
+                    "lengthChange": false,
+                    "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        $('span.show-entries').html("Showing" + " " + iStart +" to "+ iEnd +" of "+ iMax);
+                    }
+                });
+            }
         }
 
         ub.funcs.filterMessages = function (type) {
