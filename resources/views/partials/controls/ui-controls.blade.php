@@ -1720,7 +1720,7 @@
             @{{/messages}}
 
         </table>
-
+        
         <span class="message-count">Messages: n</span>
         <span class="show-entries">Messages: n</span>
 
