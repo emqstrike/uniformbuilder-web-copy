@@ -1687,20 +1687,21 @@
 
         <br />
 
-        <table>
+        <table class="msgDataTables">
+            <thead>
+                <tr class="header">
 
-            <tr class="header">
+                    <td></td>
+                    <td>Type</td>
+                    <td>Date</td>
+                    <td>From</td>
+                    <td>To</td>
+                    <td>Subject</td>
+                    <td>Message</td>
+                    <td>Action</td>
 
-                <td></td>
-                <td>Type</td>
-                <td>Date</td>
-                <td>From</td>
-                <td>To</td>
-                <td>Subject</td>
-                <td>Message</td>
-                <td>Action</td>
-
-            </tr>
+                </tr>
+            </thead>
 
             @{{#messages}}
 
@@ -1719,8 +1720,9 @@
             @{{/messages}}
 
         </table>
-
-        <span class="message-count"></span>
+        
+        <span class="message-count">Messages: n</span>
+        <span class="show-entries">Messages: n</span>
 
     </script>   
 
