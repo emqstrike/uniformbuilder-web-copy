@@ -153,7 +153,20 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.removeElements = function() {
+
+        if(ub.config.sport === 'Baseball' && ub.config.type === 'lower') {
+            $('th.thlastname, td.thlastname').hide();
+            $('th.sleevetype, td.sleevetype').hide();
+            $('th.lastnameapplication, td.lastnameapplication').hide();
+            $('td.PlayerLastNameInput').hide();
+        }
+    }
+
     ub.funcs.hideColumns = function () {
+
+        //remove elements on roster select sizes
+        ub.funcs.removeElements();
 
         // Hide lastname, sleevetype and lastname application on everything except football
         // !ub.funcs.isFootball() ||
