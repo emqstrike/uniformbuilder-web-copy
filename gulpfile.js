@@ -17,6 +17,16 @@ const path = require('path');
 const _ = require('lodash');
 const babel = require('gulp-babel');
 const plumber = require('gulp-plumber');
+const tap = require('gulp-tap');
+
+const noop = () => {};
+
+// get env
+require('dotenv').config();
+let appEnv = process.env.APP_ENV;
+console.log('###=======GULP4 BUILD STARTED=======###');
+console.log('[APP ENV]:', process.env.APP_ENV);
+
 
 // File paths
 const files = {
@@ -114,12 +124,13 @@ const files = {
 };
 
 // Less task: compiles less files into uniform-builder.min.css
-function stylesTask() {
+const stylesTask = () => {
     return src(files.lessPath)
-        .pipe(sourceMaps.init())
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.init() : tap(noop))
+        .pipe(plumber())
         .pipe(less({paths: [ path.join(__dirname, 'less', 'includes') ]}))
         .pipe(concat('uniform-builder.css'))
-        .pipe(cleanCSS({
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? cleanCSS({
             debug: true,
             compatibility: 'ie8',
             level: {
@@ -127,17 +138,17 @@ function stylesTask() {
                     specialComments: 0,
                 },
             },
-        }))
-        .pipe(postCss([autoPrefixer(), cssNano()]))
+        }): tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? postCss([autoPrefixer(), cssNano()]) : tap(noop))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(sourceMaps.write('.'))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.write('.') : tap(noop))
         .pipe(dest('./public/uniform-builder/css'));
-}
+};
 
 // JS task: concatenates and uglifies JS files to ub.min.js
-function scriptsTask() {
+const scriptsTask = () => {
     return src(files.jsPath)
-        .pipe(sourceMaps.init())
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.init() : tap(noop))
         .pipe(plumber())
         .pipe(babel({
             presets: [
@@ -147,27 +158,23 @@ function scriptsTask() {
             ]
         }))
         .pipe(concat('ub.js'))
-        .pipe(uglify())
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? uglify() : tap(noop))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(sourceMaps.write('.'))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.write('.') : tap(noop))
         .pipe(dest('./public/uniform-builder/js'));
-}
+};
 
-// Watch task: watch Less and JS files for changes
-// If any change, run less and js tasks simultaneously
-function watchTask() {
-    console.info('💬 NOW WATCHING LESS & JS FILES FOR CHANGES 👁👁')
-    // console.table(_.concat(files.lessPath, files.jsPath));
-    watch(files.lessPath, series(stylesTask));
-    watch(files.jsPath, series(scriptsTask));
-    // watch(_.concat(files.lessPath, files.jsPath), parallel(stylesTask, scriptsTask));
-    // console.log('[===WATCHING FILES===]', _.concat(files.lessPath, files.jsPath));
-}
+// Watch files
+const watchFiles = () => {
+    watch(files.lessPath, { usePolling: true }, stylesTask);
+    watch(files.jsPath, { usePolling: true }, scriptsTask);
+};
 
-// Export the default Gulp task so it can be run
-// Runs the less and js tasks simultaneously
-// then watch task
-exports.default = series(
-    parallel(stylesTask, scriptsTask),
-    watchTask
-);
+// Define tasks
+const _build = parallel(stylesTask, scriptsTask);
+const _watch = watchFiles;
+
+// Export tasks
+exports.build = _build;
+exports.watch = _watch;
+exports.default = _build;
