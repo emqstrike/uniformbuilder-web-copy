@@ -50,6 +50,7 @@ UserStockMascot.funcs = {
     loadMyStockMascotActive: function() {
         var self = this;
 
+        UserStockMascot.uiHandler.showLoader();
         self.getActiveStockMascot(87, function(response) {
             if (response.success) {
                 UserStockMascot.uiHandler.renderStockMascot(response.inksoft_designs);
@@ -63,7 +64,7 @@ UserStockMascot.funcs = {
     
     loadMyStockMascotArchive: function() {
         var self = this;
-
+        UserStockMascot.uiHandler.showLoader();
         self.getArchiveStockMascot(87, function(response) {
             if (response.success) {
                 UserStockMascot.uiHandler.renderStockMascot(response.inksoft_designs);
@@ -104,6 +105,10 @@ UserStockMascot.uiHandler = {
 
         $("#select-mascot-inksoft-modal .my-designs-container").html("");
         $("#select-mascot-inksoft-modal .my-designs-container").html(markup);
+
+        $(".my-designs-container .mascot-item a.mascot-btn").first().trigger("click");
+
+        UserStockMascot.uiHandler.hideLoader();
     },
 
     renderPreview: function(data) {
@@ -117,5 +122,15 @@ UserStockMascot.uiHandler = {
 
         $("#select-mascot-inksoft-modal div.my-mascot-preview").html("");
         $("#select-mascot-inksoft-modal div.my-mascot-preview").html(markup);
+    },
+
+    showLoader: function() {
+        $("#select-mascot-inksoft-modal div.my-designs-container").addClass("uk-hidden");
+        $("#select-mascot-inksoft-modal div.stock-mascot-loading-screen-content").removeClass("uk-hidden");
+    },
+
+    hideLoader: function() {
+        $("#select-mascot-inksoft-modal div.stock-mascot-loading-screen-content").addClass("uk-hidden");
+        $("#select-mascot-inksoft-modal div.my-designs-container").removeClass("uk-hidden");
     }
 }

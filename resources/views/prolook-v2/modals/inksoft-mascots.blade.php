@@ -43,23 +43,27 @@
                             <div class="uk-width-expand">
                                 <div class="bdr-thin bdr-light">
                                     <div class="uk-grid-small" uk-grid>
-                                        <!-- Mascot Category List -->
-                                        <div class="uk-width-1-4">
-                                            <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top uk-height-large uk-overflow-auto">
-                                                <ul class="uk-nav-default uk-nav-parent-icon my-design-category" uk-nav>
-                                                    <li class="uk-active">
-                                                        <a href="javascript:void(0)" class="filter-my-design" data-type="active">Active</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:void(0)" class="filter-my-design" data-type="archive">Archive</a>
-                                                    </li>
-                                                </ul>   
-                                            </div>
-                                        </div>
                                         <!-- List of Mascot -->
                                         <div class="uk-width-expand">
+                                            <div class="uk-padding-small uk-padding-remove-bottom uk-padding-remove-right">
+                                                <ul class="my-design-category uk-subnav uk-subnav-pill active-bgc-dark" uk-switcher>
+                                                    <li>
+                                                        <a href="#" class="uk-button uk-button-default uk-text-capitalize filter-my-design" data-type="active">
+                                                            <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> Active
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="uk-button uk-button-default uk-text-capitalize filter-my-design" data-type="archive">
+                                                            <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> Archived
+                                                        </a>
+                                                    </li>
+                                                </ul>  
+                                            </div>
+
+                                            <hr class="uk-margin-remove">
+                                            
                                             <div class="uk-padding-small uk-height-large uk-overflow-auto">
-                                                <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-5@xl uk-text-center my-designs-container" uk-height-match="target: > div > a > div" uk-grid>
+                                                <div class="uk-grid-small uk-child-width-1-4@m uk-child-width-1-5@xl uk-text-center my-designs-container" uk-height-match="target: > div > a > div" uk-grid>
                                                 </div>
 
                                                 <div class="stock-mascot-loading-screen-content uk-hidden">
