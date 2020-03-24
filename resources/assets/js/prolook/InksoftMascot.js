@@ -13,6 +13,8 @@ InksoftMascot.events = {
         if (that.isInit) {
             $("body").on("click", '.show-stock-mascot', that.onShowStockMascot);
 
+            $("#select-mascot-inksoft-modal").on("click", ".existing-mascot-category a.mascot-type", that.onSelectMascotCategory);
+
             $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem);
             $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
@@ -22,9 +24,24 @@ InksoftMascot.events = {
         }
     },
 
+    onSelectMascotCategory: function() {
+        var type = $(this).data("type");
+
+        if (type === "inksoft") {
+            InksoftMascot.uiHandler.showLoader();
+            InksoftMascot.funcs.loadDesignIdeaCategories();
+        } else {
+            var type = $("#select-mascot-inksoft-modal .my-design-category li.uk-active a").data("type");
+            if (type === "archive") {
+                UserStockMascot.funcs.loadMyStockMascotArchive();
+            } else {
+                UserStockMascot.funcs.loadMyStockMascotActive();
+            }
+        }
+    },
+
     onShowStockMascot: function() {
-        InksoftMascot.uiHandler.showLoader();
-        InksoftMascot.funcs.loadDesignIdeaCategories();
+        $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().trigger("click");
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -113,7 +130,7 @@ InksoftMascot.funcs = {
 
                 _.map(response.Data, function(mascot) {
                     data.push({
-                        ImageUrl: mascot.Canvases[0].PngRelativeUrl,
+                        ImageUrl: 'https://images.inksoft.com' + mascot.Canvases[0].PngRelativeUrl,
                         Name: mascot.Name,
                         ID: mascot.DesignID
                     });

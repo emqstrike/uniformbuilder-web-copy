@@ -24,15 +24,68 @@
 
         <ul class="uk-switcher uk-margin menu-mascot-content uk-margin-small">
             <li class="inksoft-existing-design">
-                <ul class="select-inksoft-mascot uk-subnav uk-subnav-pill active-bgc-dark" uk-switcher>
+                <ul class="existing-mascot-category uk-subnav uk-subnav-pill active-bgc-dark" uk-switcher>
                     <li>
-                        <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-menu-button" data-type="existing">
+                        <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-type" data-type="my-designs">
+                            <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> My Design
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="uk-button uk-button-small uk-button-default uk-text-capitalize mascot-type" data-type="inksoft">
                             <span class="uk-margin-small-right uk-hidden@s" uk-icon="icon: list"></span> Design Ideas
                         </a>
                     </li>
                 </ul>
 
                 <ul class="uk-switcher uk-padding-small uk-padding-remove-horizontal">
+                    <li>
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-expand">
+                                <div class="bdr-thin bdr-light">
+                                    <div class="uk-grid-small" uk-grid>
+                                        <!-- Mascot Category List -->
+                                        <div class="uk-width-1-4">
+                                            <div class="uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top uk-height-large uk-overflow-auto">
+                                                <ul class="uk-nav-default uk-nav-parent-icon my-design-category" uk-nav>
+                                                    <li class="uk-active">
+                                                        <a href="javascript:void(0)" class="filter-my-design" data-type="active">Active</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="filter-my-design" data-type="archive">Archive</a>
+                                                    </li>
+                                                </ul>   
+                                            </div>
+                                        </div>
+                                        <!-- List of Mascot -->
+                                        <div class="uk-width-expand">
+                                            <div class="uk-padding-small uk-height-large uk-overflow-auto">
+                                                <div class="uk-grid-small uk-child-width-1-4 uk-child-width-1-5@xl uk-text-center my-designs-container" uk-height-match="target: > div > a > div" uk-grid>
+                                                </div>
+
+                                                <div class="stock-mascot-loading-screen-content uk-hidden">
+                                                    <div class="uk-width-1-1 uk-margin-xlarge-top">
+                                                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                                                            <div uk-spinner="ratio: 5"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Mascot Preview -->
+                            <div class="uk-width-1-5">
+                                <div class="uk-padding-small uk-padding-remove-horizontal my-mascot-preview">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            
+                        </div>
+                    </li>
                     <li>
                         <div class="uk-grid-small" uk-grid>
                             <div class="uk-width-expand">
@@ -75,140 +128,6 @@
                         <div>
                             
                         </div>
-                    </li>
-                    <li>
-                        <div class="uk-grid-small uk-grid-divider" uk-grid>
-                            <div class="uk-width-1-5">
-                                <!-- Navigation List -->
-                                <div class="uk-padding-small uk-padding-remove-horizontal">
-                                    <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
-                                        <li class="">
-                                            <a href="#">Active</a>
-                                        </li>
-
-                                        <li class="">
-                                            <a href="#">Archive</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="uk-width-expand">
-                                <div class="uk-padding-small uk-padding-remove-horizontal">
-                                    <div class="uk-grid-small uk-child-width-1-5" uk-grid>
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="mascot-item">
-                                            <a class="uk-inline-clip pointer bgc-white mascot-btn">
-                                                <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium" style="min-height: 80.6719px;">
-                                                    <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                                </div>
-                                            </a>
-                                            <div class="uk-margin-small-top">
-                                                <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="uk-width-1-5">
-                                <div class="uk-padding-small uk-padding-remove-horizontal">
-                                    <div class="uk-inline-clip pointer bgc-white mascot-btn">
-                                        <div class="uk-padding-small">
-                                            <img class="" src="https://images.inksoft.com/images/publishers/1664/designs/1002490.front.480.png" alt="img" loading="lazy">
-                                        </div>
-
-                                        <div class="uk-margin-small-top">
-                                            <h6 class="uk-margin-remove uk-text-small text-mini uk-text-truncate uk-text-center">Rescue League</h6>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="">
-                                        <a href="#" class="uk-button uk-button-small uk-button-secondary uk-width-1-1 uk-text-capitalize">
-                                            Edit mascots
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        
                     </li>
                 </ul>
             </li>

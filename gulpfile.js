@@ -119,7 +119,8 @@ const files = {
         'resources/assets/js/TeamStoreToolBox.js',
 
         'resources/assets/js/prolook/InksoftMascot.js',
-        'resources/assets/js/prolook/Inksoft.js'
+        'resources/assets/js/prolook/Inksoft.js',
+        'resources/assets/js/prolook/UserStockMascot.js'
     ]
 };
 

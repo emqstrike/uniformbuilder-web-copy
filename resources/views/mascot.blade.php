@@ -21,6 +21,7 @@
 <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
 <!-- INIT -->
 <script type="text/javascript">
+    window.api_host = "https://{{ env('API_HOST') }}";
     function getJSON(url, successHandler, errorHandler) {
         var xhr = typeof XMLHttpRequest != 'undefined'
             ? new XMLHttpRequest()
@@ -45,6 +46,7 @@
     
     $(document).ready(function() {
         InksoftMascot.events.init();
+        UserStockMascot.events.init();
     });
 </script>
 <script src="/uniform-builder/js/ub.min.js"></script>
@@ -76,9 +78,9 @@
 <script type="text/mustache" id="inksoft-stock-mascot-items">
     @{{ #mascots }}
         <div class="mascot-item" data-stock-mascot-id="@{{ ID }}">
-            <a class="uk-inline-clip pointer bgc-white mascot-btn" tabindex="0" data-type="@{{ type }}" data-name="@{{ Name }}" data-stock-mascot-id="@{{ ID }}" data-image="https://images.inksoft.com@{{ ImageUrl }}">
+            <a class="uk-inline-clip pointer bgc-white mascot-btn" tabindex="0" data-type="@{{ type }}" data-name="@{{ Name }}" data-stock-mascot-id="@{{ ID }}" data-image="@{{ ImageUrl }}">
                 <div class="uk-padding-small uk-button-default uk-box-shadow-hover-medium">
-                    <img class="" src="https://images.inksoft.com@{{ ImageUrl }}" alt="img" loading="lazy">
+                    <img class="" src="@{{ ImageUrl }}" alt="img" loading="lazy">
                 </div>
                 
                 <div class="uk-position-cover uk-overlay uk-overlay-primary uk-flex uk-flex-center uk-flex-middle uk-hidden activation-container">
