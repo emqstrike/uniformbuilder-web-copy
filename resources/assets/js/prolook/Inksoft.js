@@ -108,7 +108,7 @@ Inksoft.funcs = {
         Inksoft.funcs.launchInksoft(flashvars, element);  
     },
 
-    loadInksoftDesigner: function(element, applicationID, designID) {
+    loadInksoftDesigner: function(element, applicationID, designID, callback) {
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -200,9 +200,13 @@ Inksoft.funcs = {
         };
 
         Inksoft.funcs.launchInksoft(flashvars, element);
+
+        if (_.isFunction(callback)) {
+            callback();
+        }
     },
 
     launchInksoft: function(flashvars, element) {
         launchDesigner('HTML5DS', flashvars, element);
-    }
+    },
 }

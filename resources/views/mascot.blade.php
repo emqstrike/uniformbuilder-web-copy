@@ -16,6 +16,7 @@
         <button class="show-stock-mascot uk-button uk-button-primary" type="button">SELECT MODAL</button>
     </div>
     @include('prolook-v2.modals.inksoft-mascots')
+    @include('prolook-v2.modals.inksoft-design-editor')
 </body>
 <script type="text/javascript" language="javascript" src="https://stores.inksoft.com/designer/html5/common/js/launcher.js"></script>
 <!-- INIT -->

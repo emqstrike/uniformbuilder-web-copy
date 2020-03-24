@@ -16,6 +16,8 @@ InksoftMascot.events = {
             $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem);
             $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
             $("#select-mascot-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", that.onChangeTab);
+
+            $("#select-mascot-inksoft-modal").on("click", ".edit-current-mascot", that.onEditMascot);
             that.isInit = false;
         }
     },
@@ -68,6 +70,11 @@ InksoftMascot.events = {
             var element = document.getElementById("embed-inksoft-create");
             Inksoft.funcs.loadInksoftDesigner(element);
         }
+    },
+
+    onEditMascot: function() {
+        var design_id = $(this).data("stock-mascot-id");
+        InksoftMascot.funcs.onShowEditDesignModal(design_id);
     }
 }
 
@@ -119,6 +126,16 @@ InksoftMascot.funcs = {
         }, function(error) {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
             console.log("Failed to fetch design ideas categories");
+        });
+    },
+
+    onShowEditDesignModal: function(design_id) {
+        
+        $("#inksoft-design-editor-modal #InksoftDesignEditor").html("");
+        var element = document.getElementById("InksoftDesignEditor");
+        Inksoft.funcs.loadInksoftDesigner(element, undefined, design_id, function() {
+            UIkit.modal("#select-mascot-inksoft-modal").hide();
+            UIkit.modal("#inksoft-design-editor-modal").show();
         });
     }
 }
