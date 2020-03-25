@@ -171,10 +171,12 @@ $(document).ready(function() {
         }
 
         if(ub.config.type === 'upper') { $('th.thinseam, select.tdinseam').hide(); }
+        }
     }
 
     ub.funcs.hideColumns = function () {
 
+        //remove elements on roster select sizes
         ub.funcs.removeElements();
 
         // Hide lastname, sleevetype and lastname application on everything except football
