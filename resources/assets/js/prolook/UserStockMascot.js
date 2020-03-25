@@ -14,7 +14,7 @@ UserStockMascot.events = {
         if (self.isInit) {
             $("#select-mascot-inksoft-modal").on("click", ".my-design-category .filter-my-design", self.onFilterDesign);
             $("#select-mascot-inksoft-modal").on("click", ".my-designs-container .mascot-btn", self.onSelectMascotItem);
-            
+            $("#select-mascot-inksoft-modal").on("click", ".mascot-item .update-design-status", self.onUpdateDesignStatus);
             self.isInit = false;
         }
     },
@@ -43,6 +43,38 @@ UserStockMascot.events = {
         $(this).find("div.activation-container").removeClass("uk-hidden");
 
         UserStockMascot.uiHandler.renderPreview(data);
+    },
+
+    onUpdateDesignStatus: function() {
+        var self = this;
+        var data = {
+            type: $(this).data("status"),
+            id: $(this).data("id"),
+            design_id: $(this).data("design-id")
+        }
+
+        UserStockMascot.uiHandler.showLoader();
+        
+        UserStockMascot.funcs.updateDesignStatus(data, function(response) {
+            console.log(response);
+            if (response.success) {
+                UserStockMascot.uiHandler.hideLoader();
+                _.delay(function() {
+                    $(self).closest(".mascot-item").fadeOut(function() {
+                        $(this).remove();
+                    });
+                }, 1000)
+            } else {
+                UIkit.notification({
+                    message: response.message,
+                    status: 'danger',
+                    pos: 'top-right',
+                    timeout: 5000
+                });
+            }
+        }, function(error) {
+            console.log(error)
+        })
     }
 }
 
@@ -84,6 +116,30 @@ UserStockMascot.funcs = {
     getArchiveStockMascot: function(user_id, successHandler, errorHandler) {
         var url = api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/'+ user_id +'/archived';
         getJSON(url, successHandler, errorHandler);
+    },
+
+    updateDesignStatus: function(data, successHandler, errorHandler) {
+        var _postData = {
+            "archived": data.type === "active" ? '1' : '0',
+            "id": data.id,
+            "design_id": data.designID,
+        }
+
+        var url = api_host + '/api/v1-0/inksoft_design/update'
+
+        $.ajax({
+            url: url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {
+                "accessToken": atob("YzcxMTU2NTUwNDBjMjliOTdkMGIxYTc1MmExMDZhMzcyNjUxMDkyZmUyMTE0MTIzMTRiNWE3MzNmYjQ0Mjc1NA==")
+            },
+            success: successHandler,
+            error: errorHandler
+        });
     }
 }
 
@@ -94,11 +150,13 @@ UserStockMascot.uiHandler = {
             data.push({
                 ImageUrl: mascot.png_filename,
                 Name: mascot.design_name,
-                ID: mascot.design_id
+                ID: mascot.design_id,
+                status: mascot.archived,
+                item_id: mascot.id
             });
         })
 
-        var template = document.getElementById("inksoft-stock-mascot-items").innerHTML;
+        var template = document.getElementById("user-stock-mascot-items").innerHTML;
         var markup = Mustache.render(template, {
             mascots: data
         });
