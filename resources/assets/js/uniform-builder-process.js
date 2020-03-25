@@ -153,7 +153,29 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.removeElements = function() {
+
+        if(ub.config.sport === 'Baseball' && ub.config.type === 'lower') {
+            $('th.thlastname, td.thlastname').hide();
+            $('th.sleevetype, td.sleevetype').hide();
+            $('th.lastnameapplication, td.lastnameapplication').hide();
+            $('td.PlayerLastNameInput').hide();
+
+            $('td > .tdinseam').html(
+                '<option selected="true" disabled="disabled"> Select Inseam </option>' +
+                '<option> +1 (plus one) </option>' +
+                '<option> +2 (plus two) </option>' +
+                '<option> -1 (minus one) </option>' +
+                '<option> -2 (minus two) </option>' 
+            );
+        }
+
+        if(ub.config.type === 'upper') { $('th.thinseam, select.tdinseam').hide(); }
+    }
+
     ub.funcs.hideColumns = function () {
+
+        ub.funcs.removeElements();
 
         // Hide lastname, sleevetype and lastname application on everything except football
         // !ub.funcs.isFootball() ||
@@ -1398,6 +1420,8 @@ $(document).ready(function() {
         var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
+        var _inseam                  = $('select.tdinseam').val();
+
         var _sortedModifierLabels   = _.indexBy(_.sortBy(ub.data.modifierLabels, 'intGroupID'), 'group_id');
 
         // console.log('_sortedModifierLabels====>', _sortedModifierLabels);
@@ -1427,6 +1451,7 @@ $(document).ready(function() {
                 LastNameApplication: _lastnameApplication,
                 SleeveCut: _sleeveCut,
                 Quantity: _roster.quantity,
+                Inseam: _inseam,
             }
 
             _transformedRoster.push(_obj);
