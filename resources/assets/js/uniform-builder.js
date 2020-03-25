@@ -134,7 +134,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
         };
 
 
@@ -355,7 +354,7 @@ $(document).ready(function () {
 
             ub.data.rosterInitialized = false;
 
-            $('div#right-pane-column').fadeIn();        
+            $('div#right-pane-column').fadeIn();
             $('div#left-pane-column').fadeIn();
             $('div#roster-input').fadeOut();
 
@@ -9588,6 +9587,8 @@ $(document).ready(function () {
                     ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
                     $('#primaryMessagePopup').remove();
 
+                    location.reload();
+
                 });
 
                 $('div.close-popup').unbind('click');
@@ -11308,5 +11309,4 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
-
 });
