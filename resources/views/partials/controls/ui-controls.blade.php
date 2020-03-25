@@ -13,7 +13,7 @@
         
         <hr />
 
-        <div class='mascot_drop btn' data-id='@{{application_id}}'>
+        <div class='mascot_drop btn' data-id='@{{application_id}}'> 
             Choose a Mascot: <i class='fa fa-caret-down'></i>
         </div>
         
@@ -419,7 +419,7 @@
 
 <!-- Sports Picker -->
 
-    <script type="text/mustache" id="m-picker-items-sport">
+    <script type="text/mustache" id="m-picker-items-sport"> 
         {{-- Quickturn Header --}}
         @{{#isQuickturnCategory}}
         <div id="quickturn-header">
@@ -1691,7 +1691,6 @@
         <table class="msgDataTables">
             <thead>
                 <tr class="header">
-
                     <td></td>
                     <td>Type</td>
                     <td>Date</td>
@@ -1700,7 +1699,6 @@
                     <td>Subject</td>
                     <td>Message</td>
                     <td>Action</td>
-
                 </tr>
             </thead>
 
