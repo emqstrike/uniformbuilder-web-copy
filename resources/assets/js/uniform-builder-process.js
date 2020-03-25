@@ -1455,6 +1455,7 @@ $(document).ready(function() {
             }
 
             _transformedRoster.push(_obj);
+            console.log('------------>', _transformedRoster);
 
         });
 
