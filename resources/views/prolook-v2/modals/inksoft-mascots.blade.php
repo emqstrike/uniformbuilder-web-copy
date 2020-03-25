@@ -45,7 +45,7 @@
                                     <div class="uk-grid-small" uk-grid>
                                         <!-- List of Mascot -->
                                         <div class="uk-width-expand">
-                                            <div class="uk-padding-small uk-padding-remove-bottom uk-padding-remove-right">
+                                            <div class="uk-padding-small uk-padding-remove-bottom uk-flex uk-flex-right">
                                                 <ul class="my-design-category uk-subnav uk-subnav-pill active-bgc-dark" uk-switcher>
                                                     <li>
                                                         <a href="#" class="uk-button uk-button-default uk-text-capitalize filter-my-design" data-type="active">
@@ -63,7 +63,7 @@
                                             <hr class="uk-margin-remove">
                                             
                                             <div class="uk-padding-small uk-height-large uk-overflow-auto">
-                                                <div class="uk-grid-small uk-child-width-1-4@m uk-child-width-1-5@xl uk-text-center my-designs-container" uk-height-match="target: > div > a > div" uk-grid>
+                                                <div class="uk-grid-small uk-child-width-1-4@m uk-child-width-1-5@l uk-child-width-1-6@xl uk-text-center my-designs-container" uk-height-match="target: > div > a > div" uk-grid>
                                                 </div>
 
                                                 <div class="stock-mascot-loading-screen-content uk-hidden">
