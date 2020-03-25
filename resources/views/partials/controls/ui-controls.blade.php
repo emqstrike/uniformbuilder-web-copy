@@ -1700,6 +1700,7 @@
                     <td>Action</td>
                 </tr>
             </thead>
+
             @{{#messages}}
 
                 <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
@@ -1717,8 +1718,9 @@
             @{{/messages}}
 
         </table>
-
-        <span class="message-count"></span>
+        
+        <span class="message-count">Messages: n</span>
+        <span class="show-entries">Messages: n</span>
 
     </script>   
 

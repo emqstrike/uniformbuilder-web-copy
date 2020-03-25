@@ -123,11 +123,11 @@ const files = {
 // Less task: compiles less files into uniform-builder.min.css
 const stylesTask = () => {
     return src(files.lessPath)
-        .pipe(appEnv === 'staging' ? sourceMaps.init() : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.init() : tap(noop))
         .pipe(plumber())
         .pipe(less({paths: [ path.join(__dirname, 'less', 'includes') ]}))
         .pipe(concat('uniform-builder.css'))
-        .pipe(appEnv === 'staging' ? cleanCSS({
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? cleanCSS({
             debug: true,
             compatibility: 'ie8',
             level: {
@@ -136,16 +136,16 @@ const stylesTask = () => {
                 },
             },
         }): tap(noop))
-        .pipe(appEnv === 'staging' ? postCss([autoPrefixer(), cssNano()]) : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? postCss([autoPrefixer(), cssNano()]) : tap(noop))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(appEnv === 'staging' ? sourceMaps.write('.') : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.write('.') : tap(noop))
         .pipe(dest('./public/uniform-builder/css'));
 };
 
 // JS task: concatenates and uglifies JS files to ub.min.js
 const scriptsTask = () => {
     return src(files.jsPath)
-        .pipe(appEnv === 'staging' ? sourceMaps.init() : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.init() : tap(noop))
         .pipe(plumber())
         .pipe(babel({
             presets: [
@@ -155,9 +155,9 @@ const scriptsTask = () => {
             ]
         }))
         .pipe(concat('ub.js'))
-        .pipe(appEnv === 'staging' ? uglify() : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? uglify() : tap(noop))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(appEnv === 'staging' ? sourceMaps.write('.') : tap(noop))
+        .pipe(appEnv === 'staging' || appEnv === 'production' ? sourceMaps.write('.') : tap(noop))
         .pipe(dest('./public/uniform-builder/js'));
 };
 

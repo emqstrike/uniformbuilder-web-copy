@@ -57,7 +57,7 @@ $(document).ready(function () {
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
-                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
@@ -298,6 +298,7 @@ $(document).ready(function () {
 
                     var _items = response.messages;
                     var _count = _.size(_items);
+                    var msgVisibleList = $('.msgDataTables tr:visible').not(':first').length;
 
                     ub.data.unreadMessages = response.messages;
 
@@ -310,7 +311,6 @@ $(document).ready(function () {
                     $('span.message-count').hide();
                     $('span.message-count').html('Messages: ' + _count);
                     $('span.message-count').fadeIn();
-
                 }
             });
         };
@@ -6730,7 +6730,6 @@ $(document).ready(function () {
 
         var $backLink = $('div.back-link');
         $backLink.hide();
-
     }
 
     ub.funcs.scrollize = function (containerSelector, groupSelector, itemSelector, widthOfItems) {
@@ -9596,9 +9595,10 @@ $(document).ready(function () {
                 $('div.close-popup').on('click', function () {
 
                     $('#primaryMessagePopup').remove();
-                    $(".message-row").filter('[data-id="'+ _id +'"]').fadeOut();
-                });
 
+                    $(".message-row").filter('[data-id="'+ _id +'"]').fadeOut();
+                    location.reload();
+                });
             });
 
             var $msgType = $('span.message-type');
@@ -9624,7 +9624,13 @@ $(document).ready(function () {
                 $(msgEl, 'table').removeClass('msgDataTables');
             } else {
                 $('.msgDataTables').DataTable({
-                    "ordering": false
+                    "ordering": false,
+                    "responsive": true,
+                    "pageLength": 20,
+                    "lengthChange": false,
+                    "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        $('span.show-entries').html("Showing" + " " + iStart +" to "+ iEnd +" of "+ iMax);
+                    }
                 });
             }
         }

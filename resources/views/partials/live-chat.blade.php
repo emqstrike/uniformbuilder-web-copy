@@ -1,7 +1,7 @@
 <script>
     try {
         var origin = location.origin;
-        var onMessagesUrl = origin + '/messages';
+        var onMessageUrl = origin + "/messages";
 
         var $zoho = $zoho || {};
         var onPicker = {{ $material_id }}  === -1 ? true: false;
@@ -15,7 +15,7 @@
                     $zoho.salesiq.floatbutton.position("bottomleft");
                 }
 
-                if (location.href == onMessagesUrl) {
+                if (location.href == onMessageUrl) {
                     $zoho.salesiq.floatbutton.position("bottomleft");
                 }
             }
