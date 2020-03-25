@@ -57,7 +57,7 @@ $(document).ready(function () {
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
-                ub.current_material.block_patterns_url = ub.config.api_host + '/api/https://api.prolook.com/api/patterns/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
