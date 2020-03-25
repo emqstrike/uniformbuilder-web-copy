@@ -120,7 +120,8 @@ const files = {
 
         'resources/assets/js/prolook/InksoftMascot.js',
         'resources/assets/js/prolook/Inksoft.js',
-        'resources/assets/js/prolook/UserStockMascot.js'
+        'resources/assets/js/prolook/UserStockMascot.js',
+        'resources/assets/js/prolook/CreateUploadInksoft.js'
     ]
 };
 

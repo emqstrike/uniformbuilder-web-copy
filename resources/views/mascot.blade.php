@@ -13,8 +13,10 @@
 
 <body class="uk-section">
     <div class="uk-container">
-        <button class="show-stock-mascot uk-button uk-button-primary" type="button">SELECT MODAL</button>
+        <button class="show-stock-mascot uk-button uk-button-primary" type="button">Mascot</button>
+        <button class="upload-create uk-button uk-button-primary" type="button">MODAL</button>
     </div>
+    @include('prolook-v2.modals.create-upload-design')
     @include('prolook-v2.modals.inksoft-mascots')
     @include('prolook-v2.modals.inksoft-design-editor')
 </body>
@@ -47,10 +49,12 @@
     $(document).ready(function() {
         InksoftMascot.events.init();
         UserStockMascot.events.init();
+        CreateUploadInksoft.events.init();
     });
 </script>
 <script src="/uniform-builder/js/ub.min.js"></script>
 
+<!-- Categories -->
 <script type="text/mustache" id="inksoft-design-categories">
     @{{ #categories }}
         @{{ #isParent }}
@@ -75,6 +79,7 @@
     @{{ /categories }}
 </script>
 
+<!-- List of mascots -->
 <script type="text/mustache" id="inksoft-stock-mascot-items">
     @{{ #mascots }}
         <div class="mascot-item" data-stock-mascot-id="@{{ ID }}">
@@ -87,14 +92,24 @@
                 </div>
             </a>
 
-            <div class="uk-margin-small-top uk-text-center">
-                <h6 class="uk-margin-remove uk-text-small text-mini">@{{ Name }}</h6>
+            <div class="uk-grid-small uk-margin-small-top" uk-grid>
+                <div class="uk-width-expand">
+                    <div>
+                        <h6 class="uk-text-small text-mini uk-margin-small uk-margin-small-right uk-text-break">@{{ Name }}</h6>
+                    </div>
+                </div>
+
+                <div class="uk-width-auto uk-padding-remove">
+                    <button class="uk-icon-link" uk-icon="icon: trash; ratio: .8" uk-tooltip="title: Move to archive; pos: bottom-right"></button>
+                </div>
             </div>
+
+            
         </div>
     @{{ /mascots }}
 </script>
 
-
+<!-- Preview Mascot -->
 <script type="text/mustache" id="inksoft-stock-mascot-preview">
     <div class="uk-inline-clip pointer bgc-white mascot-btn">
         <div class="uk-padding-small">
