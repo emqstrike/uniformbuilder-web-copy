@@ -171,7 +171,6 @@ $(document).ready(function() {
         }
 
         if(ub.config.type === 'upper') { $('th.thinseam, select.tdinseam').hide(); }
-        }
     }
 
     ub.funcs.hideColumns = function () {
