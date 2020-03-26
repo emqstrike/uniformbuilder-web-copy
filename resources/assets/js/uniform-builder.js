@@ -529,7 +529,8 @@ $(document).ready(function () {
             });
             $('.price-item').css({
                 'text-transform': 'capitalize',
-                'font-weight': 'bold'
+                'font-weight': 'bold',
+                'color': '#fff'
             });
 
             if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
