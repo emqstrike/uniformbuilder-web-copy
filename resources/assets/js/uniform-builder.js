@@ -5932,6 +5932,8 @@ $(document).ready(function () {
 
     ub.funcs.initOrderProcess = function () {
 
+        $ub.funcs.turnOffOrderButton();
+
         var isDisabled = $('a[data-view="team-info"]').hasClass('disabled');
         if (isDisabled) { return; } // exit if `order now` button is disabled
 
