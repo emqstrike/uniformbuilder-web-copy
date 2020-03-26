@@ -1473,6 +1473,7 @@
                     <th class="thnumber">Quantity</th>
                     <th  class="wide sleevetype">Sleeve Type</th>
                     <th class="wide lastnameapplication">Last Name Application</th>
+                    <th class="thinseam">Inseam</th>
                     <th class="action"></th>
                 </tr>
 
@@ -1531,6 +1532,7 @@
                             <option value="Nameplate">Nameplate</option>
                         </select>
                     </td>
+                    <td class="tdinseam"><select class="select-inseam"></select></td>
                     <td>
                         <span class="clear-row" data-index="@{{index}}" data-size="@{{size}}">
                             <i class="fa fa-times-circle" aria-hidden="true"></i>
