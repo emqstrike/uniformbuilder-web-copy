@@ -525,12 +525,13 @@ $(document).ready(function () {
             $('#uniform-price-call-for-team-pricing').html('<span class="price-item-title"> PRICE ITEM </span>: ' + '<p class="price-item">' + _priceItem + '</p>');
             $('.price-item-title').css({
                 'text-transform': 'uppercase',
-                'font-weight': 'bold'
+                'font-weight': 'bold',
+                'color': '#000'
             });
             $('.price-item').css({
-                'text-transform': 'capitalize',
+                'text-transform': 'uppercase',
                 'font-weight': 'bold',
-                'color': '#fff'
+                'color': '#fff',
             });
 
             if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
