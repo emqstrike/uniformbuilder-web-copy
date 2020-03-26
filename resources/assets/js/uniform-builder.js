@@ -512,6 +512,7 @@ $(document).ready(function () {
             var _option = ub.config.option;
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
+            var _priceItem = ub.current_material.material.price_item_template_name;
 
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div#uniform_properties #application_type').html('Type: <span>' + _type+ '<span>');
@@ -521,6 +522,16 @@ $(document).ready(function () {
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+            $('#uniform-price-call-for-team-pricing').html('<span class="price-item-title"> PRICE ITEM </span>: ' + '<p class="price-item">' + _priceItem + '</p>');
+            $('.price-item-title').css({
+                'text-transform': 'uppercase',
+                'font-weight': 'bold'
+            });
+            $('.price-item').css({
+                'text-transform': 'capitalize',
+                'font-weight': 'bold',
+                'color': '#fff'
+            });
 
             if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
             if (typeof _getPrice.adult_min_msrp == "undefined") { $('div#uniform-price-adult').hide(); }
