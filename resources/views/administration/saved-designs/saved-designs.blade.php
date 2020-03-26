@@ -137,10 +137,6 @@ $(document).ready(function(){
     win.focus();
 }
 
-    $('#message-paging').paging({
-        limit:2,
-    });
-
 });
 </script>
 @endsection
