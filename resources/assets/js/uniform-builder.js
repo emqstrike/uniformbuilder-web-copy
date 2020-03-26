@@ -10616,6 +10616,7 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
                 success: function (response) {
+
                     ub.funcs.displayOrderDetails(response.order[0]);
                     ub.data.orderInfo = response.order[0];
 
