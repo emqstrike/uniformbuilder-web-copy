@@ -57,7 +57,7 @@ $(document).ready(function () {
                 ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
-                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
@@ -134,7 +134,6 @@ $(document).ready(function () {
             }
 
             ub.zoom_off();
-
         };
 
 
@@ -355,7 +354,7 @@ $(document).ready(function () {
 
             ub.data.rosterInitialized = false;
 
-            $('div#right-pane-column').fadeIn();        
+            $('div#right-pane-column').fadeIn();
             $('div#left-pane-column').fadeIn();
             $('div#roster-input').fadeOut();
 
@@ -6731,7 +6730,6 @@ $(document).ready(function () {
 
         var $backLink = $('div.back-link');
         $backLink.hide();
-
     }
 
     ub.funcs.scrollize = function (containerSelector, groupSelector, itemSelector, widthOfItems) {
@@ -9589,6 +9587,8 @@ $(document).ready(function () {
                     ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
                     $('#primaryMessagePopup').remove();
 
+                    location.reload();
+
                 });
 
                 $('div.close-popup').unbind('click');
@@ -11309,5 +11309,4 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
-
 });

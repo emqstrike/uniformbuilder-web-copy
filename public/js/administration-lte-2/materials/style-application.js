@@ -1804,17 +1804,17 @@ $(document).ready(function() {
         $('.app-pattern-properties').trigger('change');
     }
 
-    function flashApplicationRow(e){
-        var obj_id = e.target.get('id');
-        var ctr = 0;
-        $('.application-row').each(function(i, obj) {
-            if( ctr == obj_id ){
-                $(this).fadeOut();
-                setTimeout(fadeInRow($(this)), 1000)
-            }
-            ctr++;
-        });
-    }
+    // function flashApplicationRow(e){
+    //     var obj_id = e.target.get('id');
+    //     var ctr = 0;
+    //     $('.application-row').each(function(i, obj) {
+    //         if( ctr == obj_id ){
+    //             $(this).fadeOut();
+    //             setTimeout(fadeInRow($(this)), 1000)
+    //         }
+    //         ctr++;
+    //     });
+    // }
 
     function fadeInRow(row){
         row.fadeIn();
