@@ -241,7 +241,6 @@
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-
     $("tr").each(function(i) {
         if( $(this).hasClass( "inactive" ) ){
             $(this).css('background-color', '#e8e8e8');
@@ -257,13 +256,11 @@ $(document).ready(function(){
         "autoWidth": false
     });
 
-
     $('.filter-select').change(function(){
         table.column( $(this).data('column'))
         .search( $(this).val() )
         .draw();
     });
-
 });
 
 
