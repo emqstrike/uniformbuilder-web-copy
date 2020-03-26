@@ -9,13 +9,12 @@ CreateUploadInksoft.events = {
         var self = this;
 
         if (self.isInit) {
-            $("body").on("click", ".upload-create", function() {
-                CreateUploadInksoft.funcs.loadCreateDesign();
-                UIkit.modal("#create-upload-inksoft-modal").show();
-            })
             $("#create-upload-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", self.onChangeTab);
             self.isInit = false;
         }
+
+        CreateUploadInksoft.funcs.loadCreateDesign();
+        UIkit.modal("#create-upload-inksoft-modal").show();
     },
 
     onChangeTab: function() {

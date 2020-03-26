@@ -3,7 +3,7 @@
         <button class="uk-modal-close-default" type="button" uk-close></button>
     
         <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Inksoft</h3>
-        <hr class="uk-margin-small" />
+        <hr class="uk-margin-small uk-margin-remove-top" />
 
         <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark uk-margin-small" uk-switcher>
             <li>
@@ -18,9 +18,9 @@
             </li>
         </ul>
 
-         <hr class="uk-margin-small" />
+         <hr class="uk-margin-remove" />
 
-        <ul class="uk-switcher menu-mascot-content uk-margin-small">
+        <ul class="uk-switcher menu-mascot-content uk-margin-remove">
             <li class="inksoft-loader create">
                 <div class="uk-flex uk-flex-center">
                     <div id="embed-inksoft-create">

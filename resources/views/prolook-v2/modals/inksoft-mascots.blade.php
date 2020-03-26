@@ -27,7 +27,7 @@
                                     <div class="uk-grid-small" uk-grid>
                                         <!-- List of Mascot -->
                                         <div class="uk-width-expand">
-                                            <div class="uk-padding-small uk-padding-remove-bottom uk-flex uk-flex-right">
+                                            <div class="uk-padding-small uk-flex uk-flex-right">
                                                 <ul class="my-design-category uk-subnav uk-subnav-pill active-bgc-dark" uk-switcher>
                                                     <li>
                                                         <a href="#" class="uk-button uk-button-default uk-text-capitalize filter-my-design" data-type="active">

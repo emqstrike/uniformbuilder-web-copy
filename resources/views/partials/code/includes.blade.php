@@ -54,3 +54,4 @@
 <script src="{{$asset_storage}}/parsley/dist/parsley.min.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/node_modules/uikit/dist/js/uikit-icons.min.js?v={{$asset_version}}"></script>

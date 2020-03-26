@@ -63,7 +63,7 @@ UserStockMascot.events = {
                     $(self).closest(".mascot-item").fadeOut(function() {
                         $(this).remove();
                     });
-                }, 1000)
+                }, 200)
             } else {
                 UIkit.notification({
                     message: response.message,
@@ -83,7 +83,7 @@ UserStockMascot.funcs = {
         var self = this;
 
         UserStockMascot.uiHandler.showLoader();
-        self.getActiveStockMascot(87, function(response) {
+        self.getActiveStockMascot(ub.user.id, function(response) {
             if (response.success) {
                 UserStockMascot.uiHandler.renderStockMascot(response.inksoft_designs);
             } else {
@@ -97,7 +97,7 @@ UserStockMascot.funcs = {
     loadMyStockMascotArchive: function() {
         var self = this;
         UserStockMascot.uiHandler.showLoader();
-        self.getArchiveStockMascot(87, function(response) {
+        self.getArchiveStockMascot(ub.user.id, function(response) {
             if (response.success) {
                 UserStockMascot.uiHandler.renderStockMascot(response.inksoft_designs);
             } else {
@@ -109,13 +109,13 @@ UserStockMascot.funcs = {
     },
 
     getActiveStockMascot: function(user_id, successHandler, errorHandler) {
-        var url = api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/'+ user_id +'/active';
-        getJSON(url, successHandler, errorHandler);
+        var url = ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/'+ user_id +'/active';
+        ub.utilities.getJSON(url, successHandler, errorHandler);
     },
 
     getArchiveStockMascot: function(user_id, successHandler, errorHandler) {
-        var url = api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/'+ user_id +'/archived';
-        getJSON(url, successHandler, errorHandler);
+        var url = ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/'+ user_id +'/archived';
+        ub.utilities.getJSON(url, successHandler, errorHandler);
     },
 
     updateDesignStatus: function(data, successHandler, errorHandler) {
@@ -125,7 +125,8 @@ UserStockMascot.funcs = {
             "design_id": data.designID,
         }
 
-        var url = api_host + '/api/v1-0/inksoft_design/update'
+        var url = ub.config.api_host + '/api/v1-0/inksoft_design/update';
+        var token = ub.user ? atob(ub.user.headerValue) : null;
 
         $.ajax({
             url: url,
@@ -135,7 +136,7 @@ UserStockMascot.funcs = {
             crossDomain: true,
             contentType: 'application/json',
             headers: {
-                "accessToken": atob("YzcxMTU2NTUwNDBjMjliOTdkMGIxYTc1MmExMDZhMzcyNjUxMDkyZmUyMTE0MTIzMTRiNWE3MzNmYjQ0Mjc1NA==")
+                "accessToken": token
             },
             success: successHandler,
             error: errorHandler

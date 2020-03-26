@@ -11,7 +11,6 @@ InksoftMascot.events = {
         var that = this;
 
         if (that.isInit) {
-            $("body").on("click", '.show-stock-mascot', that.onShowStockMascot);
             $("#select-mascot-inksoft-modal").on("click", ".existing-mascot-category a.mascot-type", that.onSelectMascotCategory);
             $("#select-mascot-inksoft-modal").on("click", ".mascot-categories a.category-item", that.onClickCategoryItem);
             $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
@@ -37,7 +36,16 @@ InksoftMascot.events = {
     },
 
     onShowStockMascot: function() {
-        $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().trigger("click");
+        UserStockMascot.events.init();
+        InksoftMascot.events.init();
+        if (ub.user) {
+            $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().parent().removeClass("uk-hidden");
+            $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().trigger("click");
+        } else {
+            $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().parent().addClass("uk-hidden");
+            UIkit.switcher(".existing-mascot-category").show(1);
+            $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").last().trigger("click");
+        }
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 

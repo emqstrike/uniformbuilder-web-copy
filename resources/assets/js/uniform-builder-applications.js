@@ -10733,7 +10733,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type, side) {
+    ub.funcs.newApplication = function (perspective, part, type, side, artOnly) {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings    = ub.utilities.cloneObject(ub.data.placeholderApplicationSettings[_pha.id]);
@@ -11017,6 +11017,7 @@ $(document).ready(function() {
         ub.funcs.renderLocations(_newIDStr);
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
         ub.funcs.updateLayerTool();
+        ub.data.newApplication = _newApplication;
 
         $('div.optionButton[data-type="' + type + '"]').trigger('click');
 
@@ -11024,19 +11025,18 @@ $(document).ready(function() {
 
         // Initialize New Embellishment Popup
         if (type === "embellishments") {
-
+            // if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+            //     is.loadDesigner(undefined, _newIDStr);
+            // } else {
+            //     ub.funcs.createEmbellishmentSelectionPopup(_newApplication); 
+            // }
             _newApplication.font_size = _newApplication.size;
-
-            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
-
-                is.loadDesigner(undefined, _newIDStr);
-
+            
+            if (typeof artOnly !== "undefined") {
+                CreateUploadInksoft.events.init();
             } else {
-
-                ub.funcs.createEmbellishmentSelectionPopup(_newApplication); 
-
+                InksoftMascot.events.onShowStockMascot();
             }
-
         }
 
     }
@@ -11400,7 +11400,7 @@ $(document).ready(function() {
                 var _type = $('span.optionButton.active').data('type');
                 var _side = $('span.side.active').data('id');
 
-                ub.funcs.newApplication(_perspective, _part, _type, _side);
+                ub.funcs.newApplication(_perspective, _part, _type, _side, artOnly);
 
                 dialog.modal('hide');
 

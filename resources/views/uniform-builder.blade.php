@@ -144,8 +144,12 @@
 
     @include('partials.live-chat')
 
+    <!-- Include Mustache -->
+    @include('prolook-v2.partials.inksoft-mascot-mustache')
+
     <!-- Include Modal -->
     @include('prolook-v2.modals.inksoft-mascots')
-
+    @include('prolook-v2.modals.create-upload-design')
+    @include('prolook-v2.modals.inksoft-design-editor')
 </body>
 </html>
