@@ -85,7 +85,10 @@ InksoftMascot.events = {
     onEditMascot: function() {
         var design_id = $(this).data("stock-mascot-id");
         var application = ub.data.newApplication;
-        InksoftMascot.funcs.onShowEditDesignModal(design_id, application.code);
+        InksoftMascot.funcs.onShowEditDesignModal(design_id, application.code, function() {
+            UIkit.modal("#select-mascot-inksoft-modal").hide();
+            UIkit.modal("#inksoft-design-editor-modal").show();
+        });
     },
 
     onApplyMascot: function() {
@@ -176,14 +179,11 @@ InksoftMascot.funcs = {
         });
     },
 
-    onShowEditDesignModal: function(design_id, application_id) {
+    onShowEditDesignModal: function(design_id, application_id, callback) {
         $("#inksoft-design-editor-modal #InksoftDesignEditor").html("");
         var element = document.getElementById("InksoftDesignEditor");
         
-        Inksoft.funcs.loadInksoftDesigner(element, application_id, design_id, function() {
-            UIkit.modal("#select-mascot-inksoft-modal").hide();
-            UIkit.modal("#inksoft-design-editor-modal").show();
-        });
+        Inksoft.funcs.loadInksoftDesigner(element, application_id, design_id, callback);
     }
 }
 

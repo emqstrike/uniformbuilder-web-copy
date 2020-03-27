@@ -466,7 +466,6 @@ $(document).ready(function() {
     }
 
     window.is.isMessage = function (designID, applicationID, skipCreate) {
-        console.log(applicationID)
         if (ub.isMessageIsCalled) {
             
             ub.data.embellismentDetails = {
@@ -634,8 +633,7 @@ $(document).ready(function() {
                         class: _class
                     }
                     var _html = ub.utilities.buildTemplateString('#m-embellishment-sidebar-conflict-colors', _data);
-                    console.log("There are conflict colors in created design"); 
-                    // ub.funcs.showConflictColorsInfo(_html);
+                    ub.funcs.showConflictColorsInfo(_html);
                 } else {
                     window.is.closeDesignStudio();
                 }
