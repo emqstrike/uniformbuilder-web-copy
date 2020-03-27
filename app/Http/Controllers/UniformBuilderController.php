@@ -1222,6 +1222,14 @@ class UniformBuilderController extends Controller
 
         }
 
+        if ($sport === "Baseball" && $type === "lower") {
+
+            $html .=   '<td align="center">';
+            $html .=   '<strong>INSEAM</strong>';
+            $html .=   '</td>';
+
+        }
+
         $html .= '</tr>';
 
         $ctrRoster = 0;
@@ -1265,6 +1273,16 @@ class UniformBuilderController extends Controller
                 $html .=   '</td>';
 
             }
+
+            if ($sport === "Baseball" && $type === "lower") {
+
+                $html .=   '<td align="center">';
+                $html .=   $roster['inseam'];
+                $html .=   '</td>';
+
+            }
+
+
 
             $html .= '</tr>';
 
