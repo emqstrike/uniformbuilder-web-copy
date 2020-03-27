@@ -399,6 +399,7 @@ $(document).ready(function() {
         var _quantity            = row.find('input.quantity').val();
         var _sleeveType          = row.find('select.sleeve-type').val();
         var _lastNameApplication = row.find('select.lastname-application').val();
+        var _inseam              = row.find('select.select-inseam').val();
 
         if (!ub.funcs.isFootball()) {
 
@@ -416,7 +417,7 @@ $(document).ready(function() {
             sleeveType: _sleeveType,
             lastNameApplication: _lastNameApplication,
             sample: 0,
-
+            inseam: _inseam
         }
 
     }
