@@ -10,6 +10,7 @@ CreateUploadInksoft.events = {
 
         if (self.isInit) {
             $("#create-upload-inksoft-modal").on("click", ".modal-menu-mascot-header .mascot-menu-button", self.onChangeTab);
+            $("#create-upload-inksoft-modal").on("click", ".cancel-mascot", self.onCancelCustomMascot)
             self.isInit = false;
         }
 
@@ -26,6 +27,13 @@ CreateUploadInksoft.events = {
             CreateUploadInksoft.funcs.loadCreateDesign();
         }
     },
+
+    onCancelCustomMascot: function() {
+        var application = ub.data.newApplication;
+        if (typeof application !== "undefined") {
+            ub.funcs.deleteLocation(application.code);
+        }
+    }
 }
 
 CreateUploadInksoft.funcs = {
@@ -33,8 +41,6 @@ CreateUploadInksoft.funcs = {
         $("#embed-inksoft-upload").html("");
         var element = document.getElementById("embed-inksoft-upload");
         var application = ub.data.newApplication;
-
-        console.log(application);
 
         if (typeof application !== "undefined") {
             Inksoft.funcs.loadInksoftUploader(element, application.code);
@@ -47,8 +53,6 @@ CreateUploadInksoft.funcs = {
         $("#embed-inksoft-create").html("");
         var element = document.getElementById("embed-inksoft-create");
         var application = ub.data.newApplication;
-
-        console.log(application);
 
         if (typeof application !== "undefined") {
             Inksoft.funcs.loadInksoftDesigner(element, application.code);

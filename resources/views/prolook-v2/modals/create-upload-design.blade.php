@@ -1,6 +1,6 @@
 <div id="create-upload-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; esc-close: false;">
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top uk-padding-remove-bottom">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <button class="uk-modal-close-default cancel-mascot" type="button" uk-close></button>
     
         <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Inksoft</h3>
         <hr class="uk-margin-small uk-margin-remove-top" />

@@ -466,6 +466,7 @@ $(document).ready(function() {
     }
 
     window.is.isMessage = function (designID, applicationID, skipCreate) {
+        console.log(applicationID)
         if (ub.isMessageIsCalled) {
             
             ub.data.embellismentDetails = {
