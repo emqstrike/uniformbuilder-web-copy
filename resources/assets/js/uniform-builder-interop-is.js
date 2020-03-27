@@ -488,13 +488,22 @@ $(document).ready(function() {
             }
 
             ub.funcs.getDesignSummary(designID, applicationID);
-            ub.funcs.getDesignDetails(designID, applicationID, function() {
+            ub.funcs.getDesignDetails(designID, applicationID, function(data) {
                 if (!skipCreate) {
                     var _hasConflict = true;
                     var _embeddedDesignerHTML = $('#embeddedDesigner');
                         _embeddedDesignerHTML.html("");
 
-                    is.loadDesigner(designID, applicationID, _hasConflict);    
+
+                    InksoftMascot.funcs.onShowEditDesignConflict(designID, applicationID, function() {
+                        if (_hasConflict) {
+                            console.log("Design has conflict", data)
+                        }
+
+                        UIkit.modal("#select-mascot-inksoft-modal").hide();
+                        UIkit.modal("#inksoft-design-editor-modal-with-conflict").show();
+                    })
+                    // is.loadDesigner(designID, applicationID, _hasConflict);
                 }
             });
 
@@ -620,8 +629,6 @@ $(document).ready(function() {
                 var response = ub.funcs.hasConflict(response);
 
                 if (response._hasConflict) {
-                    cb();
-                    
                     var _header = 'ERROR! Conflict in colors used!';
                     var _notes = 'Note: The following colors used are not available in Prolook color palette. Please edit the colors used.'
                     var _class = 'text-center';
@@ -632,8 +639,15 @@ $(document).ready(function() {
                         notes: _notes,
                         class: _class
                     }
+
                     var _html = ub.utilities.buildTemplateString('#m-embellishment-sidebar-conflict-colors', _data);
-                    ub.funcs.showConflictColorsInfo(_html);
+                    // Callback for conflicting colors
+                    if (true) {
+                        cb(_data);
+                    } else {
+                        cb();
+                        ub.funcs.showConflictColorsInfo(_html);
+                    }
                 } else {
                     window.is.closeDesignStudio();
                 }

@@ -182,7 +182,12 @@ InksoftMascot.funcs = {
     onShowEditDesignModal: function(design_id, application_id, callback) {
         $("#inksoft-design-editor-modal #InksoftDesignEditor").html("");
         var element = document.getElementById("InksoftDesignEditor");
-        
+        Inksoft.funcs.loadInksoftDesigner(element, application_id, design_id, callback);
+    },
+
+    onShowEditDesignConflict: function(design_id, application_id, callback) {
+        $("#inksoft-design-editor-modal-with-conflict #InksoftDesignEditorConflict").html("");
+        var element = document.getElementById("InksoftDesignEditorConflict");
         Inksoft.funcs.loadInksoftDesigner(element, application_id, design_id, callback);
     }
 }

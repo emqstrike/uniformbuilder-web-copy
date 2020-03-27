@@ -15,7 +15,6 @@ Inksoft.funcs = {
     },
 
     loadInksoftUploader: function(element, applicationID, designID) {
-        console.log(applicationID)
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -111,7 +110,6 @@ Inksoft.funcs = {
     },
 
     loadInksoftDesigner: function(element, applicationID, designID, callback) {
-        console.log(applicationID)
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
