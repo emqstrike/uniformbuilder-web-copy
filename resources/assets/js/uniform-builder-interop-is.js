@@ -488,7 +488,7 @@ $(document).ready(function() {
             }
 
             ub.funcs.getDesignSummary(designID, applicationID);
-            ub.funcs.getDesignDetails(designID, applicationID, function(data) {
+            ub.funcs.getDesignDetails(designID, applicationID, function(conflict_colors) {
                 if (!skipCreate) {
                     var _hasConflict = true;
                     var _embeddedDesignerHTML = $('#embeddedDesigner');
@@ -497,11 +497,10 @@ $(document).ready(function() {
 
                     InksoftMascot.funcs.onShowEditDesignConflict(designID, applicationID, function() {
                         if (_hasConflict) {
-                            console.log("Design has conflict", data)
+                            InksoftMascot.uiHandler.renderConflictColors(conflict_colors);
+                            UIkit.modal("#select-mascot-inksoft-modal").hide();
+                            UIkit.modal("#inksoft-design-editor-modal-with-conflict").show();
                         }
-
-                        UIkit.modal("#select-mascot-inksoft-modal").hide();
-                        UIkit.modal("#inksoft-design-editor-modal-with-conflict").show();
                     })
                     // is.loadDesigner(designID, applicationID, _hasConflict);
                 }

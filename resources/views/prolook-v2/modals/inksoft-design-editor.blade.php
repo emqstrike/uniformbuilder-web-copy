@@ -31,20 +31,15 @@
 
         <div class="uk-padding-small uk-padding-remove-top">
             <div class="uk-grid-small" uk-grid>
-                <div class="uk-width-1-1@m uk-width-expand@xl uk-padding-remove">
+                <div class="uk-width-1-1@s uk-width-expand@m uk-width-expand@l uk-width-expand@xl uk-padding-remove">
                     <div id="InksoftDesignEditorConflict">
                         
                     </div>
                 </div>
 
-                <div class="uk-width-1-1@m uk-width-1-4@xl">
+                <div class="uk-width-1-1@s uk-width-1-4@m uk-width-1-4@l uk-width-1-4@xl">
                     <div class="conflictingColors">
-                        <h6 class="modal-title fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Conflicting Colors</h6>
-                        <ul class="uk-list uk-list-large uk-list-divider uk-text-center">
-                            <li>#fff </li>
-                            <li>#ffasfs</li>
-                            <li>#dasd</li>
-                        </ul>
+
                     </div>
                 </div>
             </div>

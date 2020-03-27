@@ -228,6 +228,14 @@ InksoftMascot.uiHandler = {
         $("#select-mascot-inksoft-modal div.stock-mascot-preview").html(markup);
     },
 
+    renderConflictColors: function(data) {
+        var template = document.getElementById("m-conflicting-colors-uikit").innerHTML;
+        var markup = Mustache.render(template, data);
+
+        $("#inksoft-design-editor-modal-with-conflict .conflictingColors").html("");
+        $("#inksoft-design-editor-modal-with-conflict .conflictingColors").html(markup);
+    },
+
     showLoader: function() {
         $("#select-mascot-inksoft-modal div.stock-mascot-container").addClass("uk-hidden");
         $("#select-mascot-inksoft-modal div.stock-mascot-loading-screen-content").removeClass("uk-hidden");

@@ -113,3 +113,15 @@
         </div>
     @{{ /mascots }}
 </script>
+
+<script type="text/mustache" id="m-conflicting-colors-uikit">
+    <h6 class="modal-title fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">@{{ header }}</h6>
+    <p class="uk-margin-remove uk-text-center">@{{ notes }}</p>
+    <ul class="uk-list uk-list-large uk-list-divider uk-text-center">
+        @{{ #colors }}
+            <li class="contrast-bgc bdr-thin bdr-light uk-padding-small uk-padding-remove-horizontal" style="background-color: @{{ color_code }}">
+                <span class="contrast-text">@{{ color_code }}</span>
+            </li>
+        @{{ /colors }}
+    </ul>
+</script>
