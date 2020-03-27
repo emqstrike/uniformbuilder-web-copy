@@ -392,6 +392,8 @@ $(document).ready(function() {
         ub.status.render.resumeRendering();
         window.ub.render_frames();
 
+        UIkit.modal("#create-upload-inksoft-modal").hide();
+        UIkit.modal("#select-mascot-inksoft-modal").hide();
     }
 
     window.is.openDesignEdit = function (storeId, userId, designId, artId, storeAdmin) {
@@ -631,8 +633,8 @@ $(document).ready(function() {
                         class: _class
                     }
                     var _html = ub.utilities.buildTemplateString('#m-embellishment-sidebar-conflict-colors', _data);
-
-                    ub.funcs.showConflictColorsInfo(_html);
+                    console.log("There are conflict colors in created design"); 
+                    // ub.funcs.showConflictColorsInfo(_html);
                 } else {
                     window.is.closeDesignStudio();
                 }

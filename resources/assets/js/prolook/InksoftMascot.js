@@ -137,10 +137,10 @@ InksoftMascot.funcs = {
     },
 
     onShowEditDesignModal: function(design_id) {
-        
         $("#inksoft-design-editor-modal #InksoftDesignEditor").html("");
         var element = document.getElementById("InksoftDesignEditor");
-        Inksoft.funcs.loadInksoftDesigner(element, undefined, design_id, function() {
+        var application = ub.data.newApplication;
+        Inksoft.funcs.loadInksoftDesigner(element, application.code, design_id, function() {
             UIkit.modal("#select-mascot-inksoft-modal").hide();
             UIkit.modal("#inksoft-design-editor-modal").show();
         });

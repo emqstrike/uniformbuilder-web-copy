@@ -32,12 +32,28 @@ CreateUploadInksoft.funcs = {
     loadUploadDesign: function() {
         $("#embed-inksoft-upload").html("");
         var element = document.getElementById("embed-inksoft-upload");
-        Inksoft.funcs.loadInksoftUploader(element);
+        var application = ub.data.newApplication;
+
+        console.log(application);
+
+        if (typeof application !== "undefined") {
+            Inksoft.funcs.loadInksoftUploader(element, application.code);
+        } else {
+            console.log("Cannot find application");
+        }
     },
 
     loadCreateDesign: function() {
         $("#embed-inksoft-create").html("");
         var element = document.getElementById("embed-inksoft-create");
-        Inksoft.funcs.loadInksoftDesigner(element);
+        var application = ub.data.newApplication;
+
+        console.log(application);
+
+        if (typeof application !== "undefined") {
+            Inksoft.funcs.loadInksoftDesigner(element, application.code);
+        } else {
+            console.log("Cannot find application");
+        }
     }
 }

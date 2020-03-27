@@ -27,11 +27,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css"/>
 
 <link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/node_modules/uikit/dist/css/uikit.min.css?v={{$asset_version}}">
 
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/rangeSlider.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
 
-<link rel="stylesheet" href="{{$asset_storage}}/node_modules/uikit/dist/css/uikit.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.min.css?v={{$asset_version}}">
 

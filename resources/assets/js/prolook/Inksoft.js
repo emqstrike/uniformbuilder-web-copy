@@ -15,6 +15,7 @@ Inksoft.funcs = {
     },
 
     loadInksoftUploader: function(element, applicationID, designID) {
+        console.log(applicationID)
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -105,10 +106,12 @@ Inksoft.funcs = {
             DesignCategoryID: "1000004"
         };
 
+        ub.isMessageIsCalled = true;
         Inksoft.funcs.launchInksoft(flashvars, element);  
     },
 
     loadInksoftDesigner: function(element, applicationID, designID, callback) {
+        console.log(applicationID)
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
         var flashvars = {
             DesignerLocation: "https://images.inksoft.com/designer/html5",
@@ -199,6 +202,7 @@ Inksoft.funcs = {
             DesignCategoryID: "1000004"
         };
 
+        ub.isMessageIsCalled = true;
         Inksoft.funcs.launchInksoft(flashvars, element);
 
         if (_.isFunction(callback)) {
