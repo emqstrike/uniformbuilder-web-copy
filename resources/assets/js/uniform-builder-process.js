@@ -1461,6 +1461,21 @@ $(document).ready(function() {
 
         var _type = ub.config.uniform_application_type.toTitleCase();
 
+        //get price item code
+        var _adultPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
+        var _youthPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+
+        var _adult_price_itemCode = _.uniq(_adultPriceItemCode);
+        var _youth_price_itemCode = _.uniq(_youthPriceItemCode);
+
+        var adult = _adult_price_itemCode.toString().replace(/[\[\]']+/g,"");
+        var youth = _youth_price_itemCode.toString().replace(/[\[\]']+/g,"");
+
+        var itemCode = {
+            "adult": adult,
+            "youth": youth
+        }
+
         // add modifier labels to settings
         ub.current_material.settings.sorted_modifier_labels = _sortedModifierLabels;
 
@@ -1468,6 +1483,7 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,
+                PriceItemCode: itemCode,
                 submitted: '1',
                 sku: "B-M-FBIJ-INF14-01-F01-17",
                 material_id: ub.current_material.material.id,
@@ -1569,6 +1585,21 @@ $(document).ready(function() {
         var order_items = _input.order_items[0];
         var stamp = moment(Date.now()).format();
 
+        //get price item code
+        var _adultPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
+        var _youthPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+
+        var _adult_price_itemCode = _.uniq(_adultPriceItemCode);
+        var _youth_price_itemCode = _.uniq(_youthPriceItemCode);
+        
+        var adult = _adult_price_itemCode.toString().replace(/[\[\]']+/g,"");
+        var youth = _youth_price_itemCode.toString().replace(/[\[\]']+/g,"");
+
+        var itemCode = {
+            "adult": adult,
+            "youth": youth
+        }
+        
         var _data = {
             selectedSource:"Prolook Customizer",
             selectedTemplate:"Prolook",
@@ -1596,8 +1627,11 @@ $(document).ready(function() {
             legacyPDF:"", // display link if old pdf is generated
             applicationType: order_items.application_type,
             sml: bc.sorted_modifier_labels,
-            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku
+            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku,
+            priceItemCode: itemCode
         };
+
+        console.log('------------->data', _data);
 
         ub.funcs.betaFeaturesChecker('New PDF', function() {
             console.log('RUNNING REQUEST TO PDF SERVICE');
