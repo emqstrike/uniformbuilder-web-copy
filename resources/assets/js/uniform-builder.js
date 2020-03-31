@@ -513,11 +513,21 @@ $(document).ready(function () {
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
-            var _adultPriceItem = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
-            var _youthPriceItem = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+            var _adult_price_item = 0;
+            var _youth_price_item = 0;
 
-            var _adult_price_item = _.uniq(_adultPriceItem);
-            var _youth_price_item = _.uniq(_youthPriceItem);
+            var propPricing = ub.current_material.material.parsedPricingTable.properties;
+
+            if (typeof(propPricing) !== 'undefined') {
+                var _adultPriceItem = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
+                var _youthPriceItem = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+
+                _adult_price_item = _.uniq(_adultPriceItem);
+                _youth_price_item = _.uniq(_youthPriceItem);
+            } else {
+                $('div#uniform-price-adult').hide();
+                $('div#uniform-price-call-for-team-pricing').html('No pricing table set');
+            }
 
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div#uniform_properties #application_type').html('Type: <span>' + _type+ '<span>');
