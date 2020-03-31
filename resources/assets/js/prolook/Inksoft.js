@@ -211,4 +211,11 @@ Inksoft.funcs = {
     launchInksoft: function(flashvars, element) {
         launchDesigner('HTML5DS', flashvars, element);
     },
+
+    closeInksoftModal: function() {
+        UIkit.modal("#create-upload-inksoft-modal").hide();
+        UIkit.modal("#select-mascot-inksoft-modal").hide();
+        UIkit.modal("#inksoft-design-editor-modal").hide();
+        UIkit.modal("#inksoft-design-editor-modal-with-conflict").hide();
+    }
 }

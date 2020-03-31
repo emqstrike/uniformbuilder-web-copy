@@ -8225,6 +8225,10 @@ $(document).ready(function() {
             // - ub.funcs.activateEmbellishments => from ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
             // - ub plugins - $.ub.create_embellishment
 
+            ub.data.isEditing = true;
+            ub.data.newApplication = _settingsObject;
+            InksoftMascot.events.onShowStockMascot();
+
         }
 
         ub.funcs.runAfterUpdate(_id);

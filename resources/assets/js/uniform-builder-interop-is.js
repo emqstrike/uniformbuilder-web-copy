@@ -392,8 +392,7 @@ $(document).ready(function() {
         ub.status.render.resumeRendering();
         window.ub.render_frames();
 
-        UIkit.modal("#create-upload-inksoft-modal").hide();
-        UIkit.modal("#select-mascot-inksoft-modal").hide();
+        Inksoft.funcs.closeInksoftModal();
     }
 
     window.is.openDesignEdit = function (storeId, userId, designId, artId, storeAdmin) {
@@ -497,6 +496,7 @@ $(document).ready(function() {
 
                     InksoftMascot.funcs.onShowEditDesignConflict(designID, applicationID, function() {
                         if (_hasConflict) {
+                            ub.data.isEditing = true;
                             InksoftMascot.uiHandler.renderConflictColors(conflict_colors);
                             UIkit.modal("#select-mascot-inksoft-modal").hide();
                             UIkit.modal("#inksoft-design-editor-modal-with-conflict").show();
@@ -1220,17 +1220,29 @@ $(document).ready(function() {
 
                 $('span.edit-embellishment').unbind('click');
                 $('span.edit-embellishment').on('click', function () {
-
+                    ub.data.isEditing = true;
                     var _hasConflict = _settingsObject.embellishment.design_details.hasColorConflict;
                         _hasConflict = (typeof _hasConflict !== 'undefined') ? true: false;
 
                     if (_hasConflict) {
-                        var _isCalledRecursively = true;
-                        is.loadDesigner(_settingsObject.embellishment.design_id, _id, _hasConflict, _isCalledRecursively);
+                        // var _isCalledRecursively = true;
+                        // is.loadDesigner(_settingsObject.embellishment.design_id, _id, _hasConflict, _isCalledRecursively);
+                        var designID = _settingsObject.embellishment.design_id;
+                        var applicationID = _id;
+                        ub.funcs.getDesignDetails(designID, applicationID, function(conflict_colors) {
+                            InksoftMascot.funcs.onShowEditDesignConflict(designID, applicationID, function() {
+                                InksoftMascot.uiHandler.renderConflictColors(conflict_colors);
+                                UIkit.modal("#select-mascot-inksoft-modal").hide();
+                                UIkit.modal("#inksoft-design-editor-modal-with-conflict").show();
+                            });
+                        });
                     } else {
-                        is.loadDesigner(_settingsObject.embellishment.design_id, _id);
+                        // is.loadDesigner(_settingsObject.embellishment.design_id, _id);
+                        var design_id = _settingsObject.embellishment.design_id;
+                        InksoftMascot.funcs.onShowEditDesignModal(design_id, _id, function() {
+                            UIkit.modal("#inksoft-design-editor-modal").show();
+                        });
                     }
-
                 });
 
                 $('span.new-embellishment').unbind('click');
@@ -1264,7 +1276,10 @@ $(document).ready(function() {
 
                     }
 
-                    ub.funcs.createEmbellishmentSelectionPopup(_settingsObject);
+                    // ub.funcs.createEmbellishmentSelectionPopup(_settingsObject);
+                    ub.data.isEditing = true;
+                    ub.data.newApplication = _settingsObject;
+                    InksoftMascot.events.onShowStockMascot();
 
                 });
 
@@ -1272,7 +1287,8 @@ $(document).ready(function() {
                 $('a.create-new').unbind('click');
                 $('a.create-new').on('click', function () {
 
-                    is.loadDesigner(undefined, _id);
+                    // is.loadDesigner(undefined, _id);
+                    CreateUploadInksoft.events.init(_settingsObject);
 
                 });
 
@@ -1563,10 +1579,12 @@ $(document).ready(function() {
             });
 
             $('span.accentThumb, span.accent').on('click', function () {
-
-                is.loadDesigner(_settingsObject.embellishment.design_id, _id);
+                // is.loadDesigner(_settingsObject.embellishment.design_id, _id);
                 //ub.funcs.createEmbellishmentPopup(_title, _embellishmentObj, _settingsObject);
 
+                // Open Mascot List
+                ub.data.isEditing = true;
+                InksoftMascot.events.onShowStockMascot();
             });
 
             $('span.colorItem').on('click', function () {

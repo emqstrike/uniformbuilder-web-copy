@@ -16,7 +16,7 @@ InksoftMascot.events = {
             $("#select-mascot-inksoft-modal").on("click", ".stock-mascot-container a.mascot-btn", that.onClickMascotItem);
             $("#select-mascot-inksoft-modal").on("click", ".edit-current-mascot", that.onEditMascot);
             $("#select-mascot-inksoft-modal").on("click", ".apply-mascot", that.onApplyMascot);
-            $("#select-mascot-inksoft-modal, #inksoft-design-editor-modal").on("click", ".cancel-mascot", that.onCancelCustomMascot);
+            $("#select-mascot-inksoft-modal, #inksoft-design-editor-modal, #inksoft-design-editor-modal-with-conflict").on("click", ".cancel-mascot", that.onCancelCustomMascot);
             that.isInit = false;
         }
     },
@@ -40,14 +40,17 @@ InksoftMascot.events = {
     onShowStockMascot: function() {
         UserStockMascot.events.init();
         InksoftMascot.events.init();
+
         if (ub.user) {
             $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().parent().removeClass("uk-hidden");
+            UIkit.switcher(".existing-mascot-category").show(0);
             $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().trigger("click");
         } else {
             $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").first().parent().addClass("uk-hidden");
             UIkit.switcher(".existing-mascot-category").show(1);
             $("#select-mascot-inksoft-modal .existing-mascot-category a.mascot-type").last().trigger("click");
         }
+
         UIkit.modal("#select-mascot-inksoft-modal").show();
     },
 
@@ -69,7 +72,7 @@ InksoftMascot.events = {
     },
 
     onClickMascotItem: function() {
-        ub.data.currentStockMascotID = $(this).data('stock-mascot-id')
+        ub.data.currentStockMascotID = $(this).data('stock-mascot-id');
         var data = {
             id: ub.data.currentStockMascotID,
             image: $(this).data('image'),
@@ -99,7 +102,6 @@ InksoftMascot.events = {
         if (typeof stockID !== "undefined") {
             var _matchingID = undefined;
             ub.isMessageIsCalled = true;
-            console.log(application.code)
             is.isMessage(stockID, application.code, undefined);
             _matchingID = ub.data.matchingIDs.getMatchingID(application.code);
 
@@ -117,14 +119,20 @@ InksoftMascot.events = {
 
     onCancelCustomMascot: function() {
         var application = ub.data.newApplication;
-        if (typeof application !== "undefined") {
-            ub.funcs.deleteLocation(application.code);
+        if (!ub.data.isEditing) {
+            if (typeof application !== "undefined") {
+                ub.funcs.deleteLocation(application.code);
+                ub.data.newApplication = undefined;
+            }
         }
-        // Note
-        console.log("When updating the design, the application must not delete.")
-        
-        UIkit.modal("#inksoft-design-editor-modal").hide();
-        UIkit.modal("#select-mascot-inksoft-modal").hide();
+
+        ub.data.isEditing = false;
+
+        if (typeof ub.data.newApplication !== "undefined") {
+            ub.funcs.activateEmbellishments(application.code);
+        }
+
+        Inksoft.funcs.closeInksoftModal();
     }
 }
 

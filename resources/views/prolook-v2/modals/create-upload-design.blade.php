@@ -2,8 +2,8 @@
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top uk-padding-remove-bottom">
         <button class="uk-modal-close-default cancel-mascot" type="button" uk-close></button>
     
-        <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Inksoft</h3>
-        <hr class="uk-margin-small uk-margin-remove-top" />
+       <!--  <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Inksoft</h3>
+        <hr class="uk-margin-small uk-margin-remove-top" /> -->
 
         <ul class="modal-menu-mascot-header uk-subnav uk-subnav-pill uk-flex-center active-bgc-dark uk-margin-small" uk-switcher>
             <li>

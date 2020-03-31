@@ -3237,28 +3237,21 @@
 
                 <!-- Split button -->
                 <div class="btn-group dropup other-options">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select from previous, etc... <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select from previous, etc... <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" class="select-existing"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Select from previous Art</a>
+                        </li>
 
-                    <li>
-                        <a href="#" class="select-existing"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Select from previous Art</a>
-                    </li>
-
-                    <li role="separator" class="divider"></li>
-                    
-                    <li>
-                        <a href="#" class="create-new"><i class="fa fa-plus" aria-hidden="true"></i> Create New</a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="upload-file"><i class="fa fa-upload" aria-hidden="true"></i> Upload File</a>
-                    </li>
-
-                  </ul>
+                        <li role="separator" class="divider"></li>
+                        
+                        <li>
+                            <a href="#" class="create-new"><i class="fa fa-plus" aria-hidden="true"></i> Create Art or Upload File</a>
+                        </li>
+                    </ul>
                 </div>
-
             </div>
          </div>
 

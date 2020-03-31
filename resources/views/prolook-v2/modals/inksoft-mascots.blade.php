@@ -1,7 +1,7 @@
 <div id="select-mascot-inksoft-modal" class="uk-modal-container bootbox modal" uk-modal="bg-close: false; esc-close: false;">
     <div class="uk-modal-dialog uk-modal-body uk-padding-small uk-margin-medium-top uk-padding-remove-bottom">
         <button class="uk-modal-close-default cancel-mascot" type="button" uk-close></button>
-        <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Mascot</h3>
+        <!-- <h3 class="modal-title uk-padding-small fc-darkGray bgc-light uk-text-bold uk-text-center uk-text-uppercase uk-margin-remove">Prolook Mascot</h3> -->
         <hr class="uk-margin-small">
 
         <div class="uk-margin menu-mascot-content uk-margin-small">

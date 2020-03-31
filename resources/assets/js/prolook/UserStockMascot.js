@@ -15,6 +15,7 @@ UserStockMascot.events = {
             $("#select-mascot-inksoft-modal").on("click", ".my-design-category .filter-my-design", self.onFilterDesign);
             $("#select-mascot-inksoft-modal").on("click", ".my-designs-container .mascot-btn", self.onSelectMascotItem);
             $("#select-mascot-inksoft-modal").on("click", ".mascot-item .update-design-status", self.onUpdateDesignStatus);
+            $("#select-mascot-inksoft-modal").on("click", ".apply-mascot", self.onApplyDesign);
             self.isInit = false;
         }
     },
@@ -33,8 +34,10 @@ UserStockMascot.events = {
     },
 
     onSelectMascotItem: function() {
+        ub.data.currentStockMascotID = $(this).data('stock-mascot-id')
+
         var data = {
-            id: $(this).data('stock-mascot-id'),
+            id: ub.data.currentStockMascotID,
             image: $(this).data('image'),
             name: $(this).data("name"),
         }
@@ -75,6 +78,28 @@ UserStockMascot.events = {
         }, function(error) {
             console.log(error)
         })
+    },
+
+    onApplyDesign: function() {
+        var application = ub.data.newApplication;
+        var stockID = ub.data.currentStockMascotID;
+
+        if (typeof stockID !== "undefined") {
+            var _matchingID = undefined;
+            ub.isMessageIsCalled = true;
+            is.isMessage(stockID, application.code, undefined);
+            _matchingID = ub.data.matchingIDs.getMatchingID(application.code);
+
+            if (typeof _matchingID !== "undefined") {
+                ub.isMessageIsCalled = true;
+                var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                is.isMessage(stockID, _matchingSettingsObject.code, undefined);
+            }
+        } else {
+            ub.utilities.warn("Missing design id")
+        }
+
+        UIkit.modal("#select-mascot-inksoft-modal").hide();
     }
 }
 
