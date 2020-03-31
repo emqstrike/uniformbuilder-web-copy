@@ -11035,7 +11035,7 @@ $(document).ready(function() {
             //     ub.funcs.createEmbellishmentSelectionPopup(_newApplication); 
             // }
             _newApplication.font_size = _newApplication.size;
-            
+            ub.data.isEditing  = false;
             if (typeof artOnly !== "undefined") {
                 CreateUploadInksoft.events.init();
             } else {

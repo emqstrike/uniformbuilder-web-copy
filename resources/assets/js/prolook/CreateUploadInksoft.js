@@ -39,7 +39,7 @@ CreateUploadInksoft.events = {
 
     onCancelCustomMascot: function() {
         var application = ub.data.newApplication;
-        if (!ub.data.isEditing) {
+        if (typeof ub.data.isEditing === "undefined" || !ub.data.isEditing) {
             if (typeof application !== "undefined") {
                 ub.funcs.deleteLocation(application.code);
                 ub.data.newApplication = undefined;
