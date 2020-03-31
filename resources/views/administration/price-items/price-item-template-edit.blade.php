@@ -150,7 +150,7 @@ $(document).ready(function(){
         _.each(window.price_items, function(i){
             var j = i.price_item;
             var pc = i.category_name;
-            var elem = '<option value="' + j + '">' + j + '</option>';
+            var elem = '<option value="' + j + '">' + j  + ' - ' + pc + '</option>';
             if(price_item == j){
                 elem = '<option value="' + j + '" selected>' + j  +' - ' + pc + '</option>';
             }
