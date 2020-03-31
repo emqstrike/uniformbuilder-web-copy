@@ -1073,7 +1073,6 @@ $(document).ready(function () {
         };
  
         ub.callback = function (obj, object_name) {
-
             var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
 
             ub.displayDoneAt(_alias + ' loaded.');
@@ -2978,8 +2977,10 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.afterLoadFunctionList.push(function() {
+            $("#right-pane-column").removeClass("uk-hidden");
+        });
         // use all color if config value is set
-
     };
 
     ub.funcs.processMascots = function (application_obj) {

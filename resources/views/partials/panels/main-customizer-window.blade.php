@@ -9,7 +9,7 @@
 
 <div id="main-row" class="row">
 
-    <div id="right-pane-column" class="offset-md-6 col-md-6">
+    <div id="right-pane-column" class="offset-md-6 col-md-6 uk-hidden">
         <!-- Customizer Sidebar editor -->
         @yield('right-pane')
     </div>
