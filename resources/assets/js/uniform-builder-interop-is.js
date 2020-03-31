@@ -2266,6 +2266,7 @@ $(document).ready(function() {
 
                     var _settingsObject = ub.is.settingsObj;
                     var _matchingID = undefined;
+                    ub.isMessageIsCalled = true;
 
                     is.isMessage(_designID, _settingsObject.code, true);
                     _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);

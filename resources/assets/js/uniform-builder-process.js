@@ -153,7 +153,29 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.baseballLowerInseam = function () {
+        if (ub.config.sport === "Baseball" && ub.config.type === "lower") {
+            $('th.thlastname, td.PlayerLastNameInput').hide();
+            $('th.sleevetype, td.sleevetype').hide();
+            $('th.lastnameapplication, td.lastnameapplication').hide();
+
+            $('select.select-inseam').html(
+                '<option selected="true" disabled="disabled">Select Inseam</option>' +
+                '<option> +1 (plus one) </option>' +
+                '<option> +2 (plus two) </option>' +
+                '<option> -1 (minus one) </option>' +
+                '<option> -2 (minus two) </option>'
+            );
+        }
+
+        if (ub.config.type === "upper") {
+            $('th.thinseam, td.tdinseam').hide();
+        }
+    }
+
     ub.funcs.hideColumns = function () {
+
+        ub.funcs.baseballLowerInseam();
 
         // Hide lastname, sleevetype and lastname application on everything except football
         // !ub.funcs.isFootball() ||
@@ -1398,6 +1420,8 @@ $(document).ready(function() {
         var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
+        var _inseam                  = $('select.select-inseam').val();
+
         var _sortedModifierLabels   = _.indexBy(_.sortBy(ub.data.modifierLabels, 'intGroupID'), 'group_id');
 
         // console.log('_sortedModifierLabels====>', _sortedModifierLabels);
@@ -1427,13 +1451,30 @@ $(document).ready(function() {
                 LastNameApplication: _lastnameApplication,
                 SleeveCut: _sleeveCut,
                 Quantity: _roster.quantity,
+                Inseam: _inseam,
             }
 
             _transformedRoster.push(_obj);
+            console.log('---------->', _transformedRoster);
 
         });
 
         var _type = ub.config.uniform_application_type.toTitleCase();
+
+        //get price item code
+        var _adultPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
+        var _youthPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+
+        var _adult_price_itemCode = _.uniq(_adultPriceItemCode);
+        var _youth_price_itemCode = _.uniq(_youthPriceItemCode);
+
+        var adult = _adult_price_itemCode.toString().replace(/[\[\]']+/g,"");
+        var youth = _youth_price_itemCode.toString().replace(/[\[\]']+/g,"");
+
+        var itemCode = {
+            "adult": adult,
+            "youth": youth
+        }
 
         // add modifier labels to settings
         ub.current_material.settings.sorted_modifier_labels = _sortedModifierLabels;
@@ -1442,6 +1483,7 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,
+                PriceItemCode: itemCode,
                 submitted: '1',
                 sku: "B-M-FBIJ-INF14-01-F01-17",
                 material_id: ub.current_material.material.id,
@@ -1543,6 +1585,21 @@ $(document).ready(function() {
         var order_items = _input.order_items[0];
         var stamp = moment(Date.now()).format();
 
+        //get price item code
+        var _adultPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.adult, 'price_item');
+        var _youthPriceItemCode = _.pluck(ub.current_material.material.parsedPricingTable.properties.youth, 'price_item');
+
+        var _adult_price_itemCode = _.uniq(_adultPriceItemCode);
+        var _youth_price_itemCode = _.uniq(_youthPriceItemCode);
+        
+        var adult = _adult_price_itemCode.toString().replace(/[\[\]']+/g,"");
+        var youth = _youth_price_itemCode.toString().replace(/[\[\]']+/g,"");
+
+        var itemCode = {
+            "adult": adult,
+            "youth": youth
+        }
+        
         var _data = {
             selectedSource:"Prolook Customizer",
             selectedTemplate:"Prolook",
@@ -1570,8 +1627,11 @@ $(document).ready(function() {
             legacyPDF:"", // display link if old pdf is generated
             applicationType: order_items.application_type,
             sml: bc.sorted_modifier_labels,
-            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku
+            sku: _.isEmpty(ub.current_material.material.sku) ? '-' : ub.current_material.material.sku,
+            priceItemCode: itemCode
         };
+
+        console.log('------------->data', _data);
 
         ub.funcs.betaFeaturesChecker('New PDF', function() {
             console.log('RUNNING REQUEST TO PDF SERVICE');
